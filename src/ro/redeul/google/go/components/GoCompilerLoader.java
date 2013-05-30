@@ -3,20 +3,20 @@ package ro.redeul.google.go.components;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.compiler.CompilerWorkspaceConfiguration;
 import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
-import com.intellij.openapi.module.ModuleType;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.GoFileType;
 import ro.redeul.google.go.compilation.GoCompiler;
 import ro.redeul.google.go.compilation.GoMakefileCompiler;
-import ro.redeul.google.go.ide.GoModuleType;
 import ro.redeul.google.go.ide.GoProjectSettings;
+import ro.redeul.google.go.module.extension.GoModuleExtension;
 
 /**
  * @author Mihai Claudiu Toader <mtoader@gmail.com>
@@ -44,7 +44,7 @@ public class GoCompilerLoader extends AbstractProjectComponent {
 
         ModuleManager moduleManager = ModuleManager.getInstance(myProject);
         for (Module module : moduleManager.getModules()) {
-            if (ModuleType.get(module) == GoModuleType.getInstance())
+            if (ModuleUtilCore.getExtension(module, GoModuleExtension.class) != null)
                 myProjectUsesGo = true;
         }
 

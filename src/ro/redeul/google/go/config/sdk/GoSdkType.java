@@ -1,8 +1,10 @@
 package ro.redeul.google.go.config.sdk;
 
-import javax.swing.*;
 import static java.lang.String.format;
 
+import javax.swing.Icon;
+
+import org.jdom.Element;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.project.ProjectBundle;
@@ -15,7 +17,6 @@ import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.xmlb.XmlSerializer;
-import org.jdom.Element;
 import ro.redeul.google.go.GoBundle;
 import ro.redeul.google.go.GoIcons;
 import ro.redeul.google.go.config.ui.GoSdkConfigurable;
@@ -81,12 +82,7 @@ public class GoSdkType extends SdkType {
         return GoIcons.GO_ICON_16x16;
     }
 
-    @Override
-    public Icon getIconForAddAction() {
-        return GoIcons.GO_ICON_16x16;
-    }
-
-    public Icon getIconForExpandedTreeNode() {
+    public Icon getGroupIcon() {
         return GoIcons.GO_ICON_16x16;
     }
 
@@ -115,7 +111,7 @@ public class GoSdkType extends SdkType {
     @Override
     public String getVersionString(String sdkHome) {
         if (!isValidSdkHome(sdkHome))
-            return super.getVersionString(sdkHome);
+            return null;
 
         return sdkData.VERSION_MINOR;
     }

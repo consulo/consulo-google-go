@@ -1,5 +1,7 @@
 package ro.redeul.google.go.sdk;
 
+import static java.lang.String.format;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -11,8 +13,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.lang.String.format;
-
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.CapturingProcessHandler;
@@ -20,6 +20,7 @@ import com.intellij.execution.process.ProcessOutput;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.ProjectJdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
@@ -38,6 +39,7 @@ import ro.redeul.google.go.config.sdk.GoSdkData;
 import ro.redeul.google.go.config.sdk.GoSdkType;
 import ro.redeul.google.go.config.sdk.GoTargetArch;
 import ro.redeul.google.go.config.sdk.GoTargetOs;
+import ro.redeul.google.go.module.extension.GoModuleExtension;
 import ro.redeul.google.go.util.GoUtil;
 
 public class GoSdkUtil {
@@ -387,13 +389,7 @@ public class GoSdkUtil {
 
         ModuleRootModel moduleRootModel = ModuleRootManager.getInstance(module);
 
-        Sdk sdk = null;
-        if (!moduleRootModel.isSdkInherited()) {
-            sdk = moduleRootModel.getSdk();
-        } else {
-            sdk = ProjectRootManager.getInstance(module.getProject())
-                                    .getProjectSdk();
-        }
+        Sdk sdk = ModuleUtilCore.getSdk(module, GoModuleExtension.class);
 
         if (GoSdkType.isInstance(sdk)) {
             return sdk;

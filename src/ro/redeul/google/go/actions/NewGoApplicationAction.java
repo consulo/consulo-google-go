@@ -1,13 +1,17 @@
 package ro.redeul.google.go.actions;
 
-import com.intellij.facet.FacetManager;
+import static ro.redeul.google.go.actions.GoTemplatesFactory.Template;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.ide.IdeView;
 import com.intellij.ide.actions.CreateFileFromTemplateDialog;
 import com.intellij.ide.actions.CreateTemplateInPackageAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectFileIndex;
@@ -17,14 +21,11 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.GoBundle;
 import ro.redeul.google.go.GoFileType;
 import ro.redeul.google.go.GoIcons;
-import ro.redeul.google.go.config.facet.GoFacetType;
 import ro.redeul.google.go.lang.psi.GoFile;
-
-import static ro.redeul.google.go.actions.GoTemplatesFactory.Template;
+import ro.redeul.google.go.module.extension.GoModuleExtension;
 
 public class NewGoApplicationAction extends CreateTemplateInPackageAction<GoFile>
     implements DumbAware {
@@ -57,14 +58,6 @@ public class NewGoApplicationAction extends CreateTemplateInPackageAction<GoFile
         return "Go application creation";
     }
 
-    @Override
-    protected boolean isAvailable(DataContext dataContext) {
-        return
-                super.isAvailable(dataContext)
-                        // && hasGoFacet(DataKeys.MODULE.getData(dataContext))
-                        && isNotIsSourceRoot(dataContext);
-    }
-
     private boolean isNotIsSourceRoot(DataContext dataContext) {
 
         final Project project = PlatformDataKeys.PROJECT.getData(dataContext);
@@ -91,9 +84,15 @@ public class NewGoApplicationAction extends CreateTemplateInPackageAction<GoFile
         return false;
     }
 
-    private boolean hasGoFacet(Module module) {
-        return FacetManager.getInstance(module).getFacetByType(GoFacetType.GO_FACET_TYPE_ID) != null;
-    }
+	@Override
+	public void update(AnActionEvent e)
+	{
+		super.update(e);
+		final Module data = e.getData(LangDataKeys.MODULE);
+		if(data == null || ModuleUtilCore.getExtension(data, GoModuleExtension.class) == null) {
+			e.getPresentation().setEnabledAndVisible(false);
+		}
+	}
 
     protected void doCheckCreate(PsiDirectory dir, String className, String templateName) throws IncorrectOperationException {
         // check to see if a file with the same name already exists

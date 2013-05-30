@@ -1,5 +1,12 @@
 package ro.redeul.google.go.imports;
 
+import static com.intellij.psi.util.PsiTreeUtil.findElementOfClassAtRange;
+import static ro.redeul.google.go.lang.psi.utils.GoFileUtils.isPackageNameImported;
+import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.findParentOfType;
+import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.getPrevSiblingIfItsWhiteSpaceOrComment;
+import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.isNodeOfType;
+import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.isWhiteSpaceNode;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -33,13 +40,6 @@ import ro.redeul.google.go.lang.psi.toplevel.GoImportDeclarations;
 import ro.redeul.google.go.lang.psi.types.GoPsiTypeName;
 import ro.redeul.google.go.lang.stubs.GoNamesCache;
 import ro.redeul.google.go.options.GoSettings;
-
-import static com.intellij.psi.util.PsiTreeUtil.findElementOfClassAtRange;
-import static ro.redeul.google.go.lang.psi.utils.GoFileUtils.isPackageNameImported;
-import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.findParentOfType;
-import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.getPrevSiblingIfItsWhiteSpaceOrComment;
-import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.isNodeOfType;
-import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.isWhiteSpaceNode;
 
 /**
  * This class search for all "Unresolved symbols" highlights, try to prompt user to import
@@ -101,7 +101,7 @@ public class AutoImportHighlightingPass extends TextEditorHighlightingPass {
             // if this a "Unresolved symbol" error
             HighlightInfo info = (HighlightInfo) errorStripeTooltip;
             if (info.getSeverity() != HighlightSeverity.ERROR ||
-                !info.description.contains("Unresolved symbol")) {
+                !info.getDescription().contains("Unresolved symbol")) {
                 continue;
             }
 

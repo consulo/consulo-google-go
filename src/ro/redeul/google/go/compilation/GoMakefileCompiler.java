@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
+import org.consulo.compiler.CompilerPathsManager;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompileScope;
@@ -16,13 +19,10 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.CompilerProjectExtension;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.Chunk;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.GoBundle;
 import ro.redeul.google.go.GoFileType;
 import ro.redeul.google.go.config.sdk.GoSdkData;
@@ -120,7 +120,7 @@ public class GoMakefileCompiler implements TranslatingCompiler {
         if (moduleChunk.getNodes().isEmpty()) {
             context.addMessage(CompilerMessageCategory.WARNING, "No module defined, running application might not function properly.",
                     null, -1, -1);
-            return CompilerProjectExtension.getInstance(project).getCompilerOutput().getPath() + "/go-bins";
+            return CompilerPathsManager.getInstance(project).getCompilerOutput().getPath() + "/go-bins";
         }
         else {
             // TODO This is a hack to keep GoMakefileCompiler compatible with the way Runner expects binaries, we

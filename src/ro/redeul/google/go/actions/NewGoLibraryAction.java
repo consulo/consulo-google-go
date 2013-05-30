@@ -1,11 +1,15 @@
 package ro.redeul.google.go.actions;
 
-import com.intellij.facet.FacetManager;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.ide.actions.CreateFileFromTemplateDialog;
 import com.intellij.ide.actions.CreateTemplateInPackageAction;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -13,14 +17,10 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.GoBundle;
 import ro.redeul.google.go.GoIcons;
-import ro.redeul.google.go.config.facet.GoFacetType;
 import ro.redeul.google.go.lang.psi.GoFile;
-
-import java.util.HashSet;
-import java.util.Set;
+import ro.redeul.google.go.module.extension.GoModuleExtension;
 
 /**
  * Author: Toader Mihai Claudiu <mtoader@gmail.com>
@@ -49,18 +49,17 @@ public class NewGoLibraryAction extends CreateTemplateInPackageAction<GoFile> im
         return true;
     }
 
-    @Override
-    protected boolean isAvailable(DataContext dataContext) {
-//        return super.isAvailable(dataContext)
-//                && hasGoFacet(DataKeys.MODULE.getData(dataContext));
-        return super.isAvailable(dataContext);
-    }
+	@Override
+	public void update(AnActionEvent e)
+	{
+		super.update(e);
+		final Module data = e.getData(LangDataKeys.MODULE);
+		if(data == null || ModuleUtilCore.getExtension(data, GoModuleExtension.class) == null) {
+			e.getPresentation().setEnabledAndVisible(false);
+		}
+	}
 
-    private boolean hasGoFacet(Module module) {
-        return FacetManager.getInstance(module).getFacetByType(GoFacetType.GO_FACET_TYPE_ID) != null;
-    }
-
-    protected void doCheckCreate(PsiDirectory dir, String parameterName, String typeName) throws IncorrectOperationException {
+	protected void doCheckCreate(PsiDirectory dir, String parameterName, String typeName) throws IncorrectOperationException {
         // check to see if a file with the same name already exists
 
         String fileName = fileNameFromTypeName(typeName, parameterName);

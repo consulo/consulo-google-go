@@ -3,11 +3,13 @@ package ro.redeul.google.go.actions;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.intellij.facet.FacetManager;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.ide.actions.CreateFileFromTemplateDialog;
 import com.intellij.ide.actions.CreateTemplateInPackageAction;
-import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -15,11 +17,10 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.GoBundle;
 import ro.redeul.google.go.GoIcons;
-import ro.redeul.google.go.config.facet.GoFacetType;
 import ro.redeul.google.go.lang.psi.GoFile;
+import ro.redeul.google.go.module.extension.GoModuleExtension;
 
 /**
  * @author Mihai Claudiu Toader <mtoader@gmail.com>
@@ -49,18 +50,15 @@ public class NewGoFileAction extends CreateTemplateInPackageAction<GoFile>
         return true;
     }
 
-    @Override
-    protected boolean isAvailable(DataContext dataContext) {
-//        return super.isAvailable(dataContext)
-//                && hasGoFacet(DataKeys.MODULE.getData(dataContext));
-        return super.isAvailable(dataContext);
-    }
-
-    private boolean hasGoFacet(Module module) {
-        return FacetManager.getInstance(module)
-                           .getFacetByType(
-                               GoFacetType.GO_FACET_TYPE_ID) != null;
-    }
+	@Override
+	public void update(AnActionEvent e)
+	{
+		super.update(e);
+		final Module data = e.getData(LangDataKeys.MODULE);
+		if(data == null || ModuleUtilCore.getExtension(data, GoModuleExtension.class) == null) {
+			e.getPresentation().setEnabledAndVisible(false);
+		}
+	}
 
     protected void doCheckCreate(PsiDirectory dir, String parameterName,
                                  String typeName)
