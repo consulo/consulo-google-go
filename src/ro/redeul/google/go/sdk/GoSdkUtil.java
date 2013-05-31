@@ -22,7 +22,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.projectRoots.ProjectJdkTable;
+import com.intellij.openapi.projectRoots.ProjectSdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.openapi.roots.ModuleRootManager;
@@ -544,11 +544,11 @@ public class GoSdkUtil {
 
 
     public static List<Sdk> getSdkOfType(SdkType sdkType) {
-        return getSdkOfType(sdkType, ProjectJdkTable.getInstance());
+        return getSdkOfType(sdkType, ProjectSdkTable.getInstance());
     }
 
-    public static List<Sdk> getSdkOfType(SdkType sdkType, ProjectJdkTable table) {
-        Sdk[] sdks = table.getAllJdks();
+    public static List<Sdk> getSdkOfType(SdkType sdkType, ProjectSdkTable table) {
+        Sdk[] sdks = table.getAllSdks();
 
         List<Sdk> goSdks = new LinkedList<Sdk>();
         for (Sdk sdk : sdks) {

@@ -4,16 +4,16 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.projectRoots.ProjectJdkTable;
+import com.intellij.openapi.projectRoots.ProjectSdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
 import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl;
 import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.config.sdk.GoSdkData;
 import ro.redeul.google.go.config.sdk.GoSdkType;
 import ro.redeul.google.go.sdk.GoSdkUtil;
@@ -30,7 +30,7 @@ public class GoBundledSdkDetector implements ApplicationComponent {
 
     @Override
     public void initComponent() {
-        final ProjectJdkTable jdkTable = ProjectJdkTable.getInstance();
+        final ProjectSdkTable jdkTable = ProjectSdkTable.getInstance();
 
         List<Sdk> goSdks = GoSdkUtil.getSdkOfType(GoSdkType.getInstance());
 
@@ -64,7 +64,7 @@ public class GoBundledSdkDetector implements ApplicationComponent {
             final GoSdkType goSdkType = GoSdkType.getInstance();
 
             goSdkType.setSdkData(sdkData);
-            String newSdkName = SdkConfigurationUtil.createUniqueSdkName(goSdkType, sdkData.GO_HOME_PATH, Arrays.asList(jdkTable.getAllJdks()));
+            String newSdkName = SdkConfigurationUtil.createUniqueSdkName(goSdkType, sdkData.GO_HOME_PATH, Arrays.asList(jdkTable.getAllSdks()));
             bundledGoSdk = new ProjectJdkImpl(newSdkName, goSdkType);
             bundledGoSdk.setHomePath(homePath);
             ApplicationManager.getApplication().runWriteAction(new Runnable() {
@@ -72,7 +72,7 @@ public class GoBundledSdkDetector implements ApplicationComponent {
                 public void run() {
                     final SdkModificator sdkModificator = bundledGoSdk.getSdkModificator();
                     goSdkType.setupSdkPaths(bundledGoSdk);
-                    jdkTable.addJdk(bundledGoSdk);
+                    jdkTable.addSdk(bundledGoSdk);
                 }
             });
 

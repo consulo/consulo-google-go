@@ -9,7 +9,7 @@ import com.intellij.notification.Notifications;
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.projectRoots.ProjectJdkTable;
+import com.intellij.openapi.projectRoots.ProjectSdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
 import ro.redeul.google.go.config.sdk.GoAppEngineSdkData;
@@ -25,7 +25,7 @@ public class ProjectSdkValidator extends AbstractProjectComponent {
 
     @Override
     public void initComponent() {
-        ProjectJdkTable jdkTable = ProjectJdkTable.getInstance();
+		ProjectSdkTable jdkTable = ProjectSdkTable.getInstance();
         List<Sdk> sdkList = new ArrayList<Sdk>();
 
         sdkList.addAll(GoSdkUtil.getSdkOfType(GoSdkType.getInstance(), jdkTable));
