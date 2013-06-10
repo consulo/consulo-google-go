@@ -1,21 +1,13 @@
 package ro.redeul.google.go.components;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import org.jetbrains.annotations.NotNull;
 import com.intellij.compiler.CompilerWorkspaceConfiguration;
 import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.components.AbstractProjectComponent;
-import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
-import ro.redeul.google.go.GoFileType;
-import ro.redeul.google.go.compilation.GoCompiler;
-import ro.redeul.google.go.compilation.GoMakefileCompiler;
-import ro.redeul.google.go.ide.GoProjectSettings;
 import ro.redeul.google.go.module.extension.GoModuleExtension;
 
 /**
@@ -53,7 +45,7 @@ public class GoCompilerLoader extends AbstractProjectComponent {
             myConfiguration.USE_COMPILE_SERVER = false;
         }
 
-        CompilerManager compilerManager =
+       /* CompilerManager compilerManager =
             CompilerManager.getInstance(myProject);
 
         for (GoCompiler compiler : getCompilerManager().getCompilers(
@@ -79,7 +71,7 @@ public class GoCompilerLoader extends AbstractProjectComponent {
                     new HashSet<FileType>(Arrays.asList(GoFileType.INSTANCE)),
                     new HashSet<FileType>(Arrays.asList(FileType.EMPTY_ARRAY)));
                 break;
-        }
+        } */
     }
 
     private CompilerManager getCompilerManager() {

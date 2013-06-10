@@ -4,11 +4,12 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
+import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiParser;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.lang.lexer.GoTokenTypes;
 import ro.redeul.google.go.lang.parser.parsing.declarations.Declaration;
 import ro.redeul.google.go.lang.parser.parsing.declarations.FunctionOrMethodDeclaration;
@@ -63,7 +64,7 @@ public class GoParser extends ParserUtils implements PsiParser {
     }
 
     @NotNull
-    public ASTNode parse(IElementType root, PsiBuilder builder) {
+    public ASTNode parse(IElementType root, PsiBuilder builder, LanguageVersion languageVersion) {
 
         boolean debugging = false;
         builder.setDebugMode(debugging);

@@ -1,21 +1,14 @@
 package ro.redeul.google.go.ide;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JComponent;
 
-import com.intellij.openapi.compiler.Compiler;
-import com.intellij.openapi.compiler.CompilerManager;
-import com.intellij.openapi.fileTypes.FileType;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-import ro.redeul.google.go.GoFileType;
 import ro.redeul.google.go.GoIcons;
-import ro.redeul.google.go.compilation.GoCompiler;
-import ro.redeul.google.go.compilation.GoMakefileCompiler;
 import ro.redeul.google.go.options.GoSettings;
 
 public class GoConfigurable implements SearchableConfigurable {
@@ -84,7 +77,7 @@ public class GoConfigurable implements SearchableConfigurable {
 
     private void applyCompilerSettings(GoProjectSettings.GoProjectSettingsBean bean) {
         // Remove current GoCompilers and add the currently configured
-        CompilerManager compilerManager = CompilerManager.getInstance(project);
+      /*  CompilerManager compilerManager = CompilerManager.getInstance(project);
         Compiler[] compilers = compilerManager.getCompilers(GoCompiler.class);
         for (Compiler compiler : compilers) {
             compilerManager.removeCompiler(compiler);
@@ -108,7 +101,7 @@ public class GoConfigurable implements SearchableConfigurable {
                     new HashSet<FileType>(Arrays.asList(GoFileType.INSTANCE)),
                     new HashSet<FileType>(Arrays.asList(FileType.EMPTY_ARRAY)));
             break;
-        }
+        }  */
     }
 
     private GoProjectSettings getProjectSettings() {

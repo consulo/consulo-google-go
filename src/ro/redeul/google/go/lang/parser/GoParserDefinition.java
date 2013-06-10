@@ -2,10 +2,10 @@ package ro.redeul.google.go.lang.parser;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
+import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
 import com.intellij.lexer.Lexer;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
@@ -25,11 +25,11 @@ public class GoParserDefinition implements ParserDefinition {
         new GoStubFileElementType(GoFileType.INSTANCE.getLanguage());
 
     @NotNull
-    public Lexer createLexer(Project project, Module module) {
+    public Lexer createLexer(Project project, LanguageVersion languageVersion) {
         return new GoLexer();
     }
 
-    public PsiParser createParser(Project project) {
+    public PsiParser createParser(Project project, LanguageVersion languageVersion) {
         return new GoParser();
     }
 
