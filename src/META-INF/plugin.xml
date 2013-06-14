@@ -444,11 +444,11 @@
 	</project-components>
 
 	<actions>
-		<group id="Go.ActionGroup" popup="true" text="Go" description="ads" icon="/icons/go_16x16.png">
+		<group id="Go.ActionGroup" popup="true" text="Go" description="ads" icon="/icons/go_16x16.png" class="ro.redeul.google.go.actions.NewGoGroup">
 
-			<action id="Go.NewApplication" text="Go application" description="Create new application in the GO language" class="ro.redeul.google.go.actions.NewGoApplicationAction"></action>
+			<action id="Go.NewApplication" text="Go application" description="Create new application in the GO language" class="ro.redeul.google.go.actions.NewGoApplicationAction"/>
 
-			<action id="Go.NewLibrary" text="Go library" description="Create new library in the GO language" class="ro.redeul.google.go.actions.NewGoLibraryAction"></action>
+			<action id="Go.NewLibrary" text="Go library" description="Create new library in the GO language" class="ro.redeul.google.go.actions.NewGoLibraryAction"/>
 
 
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
