@@ -38,17 +38,17 @@ public class GoParserDefinition implements ParserDefinition {
     }
 
     @NotNull
-    public TokenSet getWhitespaceTokens() {
+    public TokenSet getWhitespaceTokens(LanguageVersion languageVersion) {
         return GoTokenTypeSets.WHITESPACES;
     }
 
     @NotNull
-    public TokenSet getCommentTokens() {
+    public TokenSet getCommentTokens(LanguageVersion languageVersion) {
         return GoTokenTypeSets.COMMENTS;
     }
 
     @NotNull
-    public TokenSet getStringLiteralElements() {
+    public TokenSet getStringLiteralElements(LanguageVersion languageVersion) {
         return GoTokenTypeSets.STRINGS;
     }
 
