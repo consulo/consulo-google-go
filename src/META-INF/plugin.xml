@@ -481,6 +481,7 @@
 		<applicationConfigurable instance="ro.redeul.google.go.ide.GoAppEngineSettingsConfigurable"/>
 
 		<moduleExtensionProvider key="google-go" implementationClass="ro.redeul.google.go.module.extension.GoModuleExtensionProvider"/>
+		<moduleExtensionProvider key="google-appengine-go" parent-key="google-go" implementationClass="org.consulo.googe.appengine.go.module.GoAppEngineModuleExtensionProvider"/>
 		<fileTypeFactory implementation="ro.redeul.google.go.GoFileTypeLoader"/>
 
 		<projectService serviceInterface="ro.redeul.google.go.ide.GoProjectSettings" serviceImplementation="ro.redeul.google.go.ide.GoProjectSettings"/>
