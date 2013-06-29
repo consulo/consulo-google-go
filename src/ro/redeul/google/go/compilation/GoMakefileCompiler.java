@@ -13,9 +13,11 @@ import org.jetbrains.annotations.NotNull;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompileScope;
+import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
 import com.intellij.openapi.compiler.TranslatingCompiler;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
@@ -75,7 +77,12 @@ public class GoMakefileCompiler implements TranslatingCompiler {
         return true;
     }
 
-    public boolean isCompilableFile(VirtualFile file, CompileContext context) {
+	@Override
+	public void init(@NotNull CompilerManager compilerManager)
+	{
+	}
+
+	public boolean isCompilableFile(VirtualFile file, CompileContext context) {
         return file.getFileType() == GoFileType.INSTANCE;
     }
 
@@ -83,7 +90,21 @@ public class GoMakefileCompiler implements TranslatingCompiler {
         make(context, moduleChunk, files, sink);
     }
 
-    private void make(final CompileContext context, final Chunk<Module> moduleChunk, VirtualFile[] files, OutputSink sink) {
+	@NotNull
+	@Override
+	public FileType[] getInputFileTypes()
+	{
+		return FileType.EMPTY_ARRAY;
+	}
+
+	@NotNull
+	@Override
+	public FileType[] getOutputFileTypes()
+	{
+		return FileType.EMPTY_ARRAY;
+	}
+
+	private void make(final CompileContext context, final Chunk<Module> moduleChunk, VirtualFile[] files, OutputSink sink) {
         String basePath = project.getBaseDir().getPath();
         File makeFile = new File(basePath, "/Makefile");
         if (!makeFile.exists()) {

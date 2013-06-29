@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.compiler.impl.CompilerUtil;
 import com.intellij.compiler.make.MakeUtil;
 import com.intellij.execution.configurations.GeneralCommandLine;
@@ -19,8 +20,10 @@ import com.intellij.openapi.application.Result;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompileScope;
+import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.compiler.TranslatingCompiler;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
@@ -41,7 +44,6 @@ import com.intellij.psi.PsiManager;
 import com.intellij.util.Chunk;
 import com.intellij.util.CommonProcessors;
 import com.intellij.util.FilteringProcessor;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.GoBundle;
 import ro.redeul.google.go.GoFileType;
 import ro.redeul.google.go.config.sdk.GoSdkData;
@@ -111,7 +113,12 @@ public class GoCompiler implements TranslatingCompiler {
         return true;
     }
 
-    public boolean isCompilableFile(VirtualFile file, CompileContext context) {
+	@Override
+	public void init(@NotNull CompilerManager compilerManager)
+	{
+	}
+
+	public boolean isCompilableFile(VirtualFile file, CompileContext context) {
         return file.getFileType() == GoFileType.INSTANCE;
     }
 
@@ -129,7 +136,21 @@ public class GoCompiler implements TranslatingCompiler {
         }
     }
 
-    private VirtualFile[] findAllFiles(Chunk<Module> moduleChunk) {
+	@NotNull
+	@Override
+	public FileType[] getInputFileTypes()
+	{
+		return FileType.EMPTY_ARRAY;
+	}
+
+	@NotNull
+	@Override
+	public FileType[] getOutputFileTypes()
+	{
+		return FileType.EMPTY_ARRAY;
+	}
+
+	private VirtualFile[] findAllFiles(Chunk<Module> moduleChunk) {
 
         final CommonProcessors.CollectUniquesProcessor<VirtualFile> collector = new CommonProcessors.CollectUniquesProcessor<VirtualFile>();
 
