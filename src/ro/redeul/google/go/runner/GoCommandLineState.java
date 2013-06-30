@@ -1,8 +1,12 @@
 package ro.redeul.google.go.runner;
 
+import static com.intellij.execution.testframework.sm.SMTestRunnerConnectionUtil.createAndAttachConsole;
+import static ro.redeul.google.go.sdk.GoSdkUtil.prependToGoPath;
+
 import java.io.File;
 import java.util.HashMap;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.execution.CantRunException;
 import com.intellij.execution.DefaultExecutionResult;
 import com.intellij.execution.ExecutionException;
@@ -18,12 +22,9 @@ import com.intellij.execution.ui.ConsoleView;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.config.sdk.GoSdkData;
 import ro.redeul.google.go.runner.ui.properties.GoTestConsoleProperties;
 import ro.redeul.google.go.sdk.GoSdkUtil;
-import static com.intellij.execution.testframework.sm.SMTestRunnerConnectionUtil.createAndAttachConsole;
-import static ro.redeul.google.go.sdk.GoSdkUtil.prependToGoPath;
 
 class GoCommandLineState extends CommandLineState {
     private GoTestConsoleProperties consoleProperties;
@@ -49,13 +50,13 @@ class GoCommandLineState extends CommandLineState {
             throw new CantRunException("No Go Sdk defined for this project");
         }
 
-        if ( cfg.getModule() == null || cfg.getModule().getModuleFile() == null ) {
+        if ( cfg.getModule() == null ) {
             throw new CantRunException("No module selected for this test configuration");
         }
 
-        final VirtualFile moduleFile = cfg.getModule().getModuleFile();
-        if ( moduleFile == null || moduleFile.getParent() == null) {
-            throw new CantRunException("The module does not have a valid parent folder");
+        final VirtualFile moduleDir = cfg.getModule().getModuleDir();
+        if (moduleDir == null) {
+            throw new CantRunException("The module does not have a valid folder");
         }
 
         commandLine.setExePath(sdkData.GO_BIN_PATH);
@@ -83,7 +84,7 @@ class GoCommandLineState extends CommandLineState {
 
         commandLine.addParameter(cfg.packageName);
         commandLine.setEnvParams(new HashMap<String, String>() {{
-            put("GOPATH", prependToGoPath(moduleFile.getParent().getCanonicalPath()));
+            put("GOPATH", prependToGoPath(moduleDir.getCanonicalPath()));
             put("GOROOT", getSdkHomePath(sdkData));
         }});
 
