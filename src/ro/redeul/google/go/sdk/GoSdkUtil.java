@@ -8,7 +8,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,8 +21,8 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.projectRoots.ProjectSdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.projectRoots.SdkTable;
 import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.ModuleRootModel;
@@ -544,20 +543,11 @@ public class GoSdkUtil {
 
 
     public static List<Sdk> getSdkOfType(SdkType sdkType) {
-        return getSdkOfType(sdkType, ProjectSdkTable.getInstance());
+        return SdkTable.getInstance().getSdksOfType(sdkType);
     }
 
-    public static List<Sdk> getSdkOfType(SdkType sdkType, ProjectSdkTable table) {
-        Sdk[] sdks = table.getAllSdks();
-
-        List<Sdk> goSdks = new LinkedList<Sdk>();
-        for (Sdk sdk : sdks) {
-            if (sdk.getSdkType() == sdkType) {
-                goSdks.add(sdk);
-            }
-        }
-
-        return goSdks;
+    public static List<Sdk> getSdkOfType(SdkType sdkType, SdkTable table) {
+        return table.getSdksOfType(sdkType);
     }
 
     public static String prependToGoPath(String prependedPath) {

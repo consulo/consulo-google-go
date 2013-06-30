@@ -13,8 +13,8 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.projectRoots.ProjectSdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.projectRoots.SdkTable;
 import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.roots.ProjectRootManager;
@@ -78,7 +78,7 @@ public class GoSdkParsingHelper implements ApplicationComponent {
         ProjectFileIndex projectFileIndex =
             ProjectRootManager.getInstance(project).getFileIndex();
 
-		ProjectSdkTable jdkTable = ProjectSdkTable.getInstance();
+		SdkTable jdkTable = SdkTable.getInstance();
         List<Sdk> sdkList = new ArrayList<Sdk>();
 
 

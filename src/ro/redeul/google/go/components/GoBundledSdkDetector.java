@@ -9,11 +9,11 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.projectRoots.ProjectSdkTable;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
-import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl;
+import com.intellij.openapi.projectRoots.SdkTable;
 import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil;
+import com.intellij.openapi.projectRoots.impl.SdkImpl;
 import ro.redeul.google.go.config.sdk.GoSdkData;
 import ro.redeul.google.go.config.sdk.GoSdkType;
 import ro.redeul.google.go.sdk.GoSdkUtil;
@@ -24,13 +24,14 @@ import ro.redeul.google.go.sdk.GoSdkUtil;
  * Date: 7/26/11
  * Time: 1:17 PM
  */
+@Deprecated //TODO [VISTALL] use BundledSdkProvider
 public class GoBundledSdkDetector implements ApplicationComponent {
 
     private static final Logger LOG = Logger.getInstance("#ro.redeul.google.go.components.GoBundledSdkDetector");
 
     @Override
     public void initComponent() {
-        final ProjectSdkTable jdkTable = ProjectSdkTable.getInstance();
+        final SdkTable jdkTable = SdkTable.getInstance();
 
         List<Sdk> goSdks = GoSdkUtil.getSdkOfType(GoSdkType.getInstance());
 
@@ -60,13 +61,14 @@ public class GoBundledSdkDetector implements ApplicationComponent {
 
         LOG.info("We have a bundled go sdk (at " + homePath + ") that is not in the jdk table. Attempting to add");
         try {
-            final ProjectJdkImpl bundledGoSdk;
+            final SdkImpl bundledGoSdk;
             final GoSdkType goSdkType = GoSdkType.getInstance();
 
             goSdkType.setSdkData(sdkData);
             String newSdkName = SdkConfigurationUtil.createUniqueSdkName(goSdkType, sdkData.GO_HOME_PATH, Arrays.asList(jdkTable.getAllSdks()));
-            bundledGoSdk = new ProjectJdkImpl(newSdkName, goSdkType);
+            bundledGoSdk = new SdkImpl(newSdkName, goSdkType);
             bundledGoSdk.setHomePath(homePath);
+			bundledGoSdk.setBundled();
             ApplicationManager.getApplication().runWriteAction(new Runnable() {
                 @Override
                 public void run() {
