@@ -27,6 +27,7 @@ public class GoAppEngineMutableModuleExtension extends GoAppEngineModuleExtensio
 	{
 		super(id, module);
 		myOriginalModuleExtension = originalModuleExtension;
+		commit(originalModuleExtension);
 	}
 
 	@NotNull
