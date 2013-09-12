@@ -17,7 +17,7 @@ import ro.redeul.google.go.lang.psi.toplevel.GoFunctionParameter;
 import ro.redeul.google.go.lang.psi.toplevel.GoMethodDeclaration;
 import ro.redeul.google.go.lang.psi.toplevel.GoTypeDeclaration;
 import ro.redeul.google.go.lang.psi.types.struct.GoTypeStructField;
-import static com.intellij.patterns.PsiJavaPatterns.psiElement;
+import static com.intellij.patterns.StandardPatterns.psiElement;
 import static com.intellij.patterns.StandardPatterns.or;
 
 public class GoElementPatterns {

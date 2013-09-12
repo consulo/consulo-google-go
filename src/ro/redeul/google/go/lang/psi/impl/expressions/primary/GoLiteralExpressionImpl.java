@@ -5,7 +5,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
-import com.intellij.psi.scope.util.PsiScopesUtil;
+import ro.redeul.google.go.lang.psi.scope.util.GoPsiScopesUtil;
 import com.intellij.util.Function;
 import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.lang.psi.declarations.GoConstDeclaration;
@@ -229,9 +229,9 @@ public class GoLiteralExpressionImpl extends GoExpressionBase
                                        PsiElement lastParent,
                                        @NotNull PsiElement place) {
         return
-            PsiScopesUtil.walkChildrenScopes(this,
-                                             processor, state,
-                                             lastParent, place);
+            GoPsiScopesUtil.walkChildrenScopes(this,
+					processor, state,
+					lastParent, place);
     }
 
     @NotNull

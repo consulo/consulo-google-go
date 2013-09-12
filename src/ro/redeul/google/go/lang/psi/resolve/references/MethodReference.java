@@ -11,7 +11,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.resolve.ResolveCache;
-import com.intellij.psi.scope.util.PsiScopesUtil;
+import ro.redeul.google.go.lang.psi.scope.util.GoPsiScopesUtil;
 import com.intellij.psi.util.PsiUtilCore;
 import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.lang.psi.GoPsiElement;
@@ -20,9 +20,7 @@ import ro.redeul.google.go.lang.psi.expressions.primary.GoSelectorExpression;
 import ro.redeul.google.go.lang.psi.processors.GoResolveStates;
 import ro.redeul.google.go.lang.psi.resolve.GoResolveResult;
 import ro.redeul.google.go.lang.psi.resolve.MethodResolver;
-import ro.redeul.google.go.lang.psi.toplevel.GoMethodDeclaration;
 import ro.redeul.google.go.lang.psi.types.GoPsiType;
-import ro.redeul.google.go.lang.psi.types.GoPsiTypeName;
 import ro.redeul.google.go.lang.psi.types.GoPsiTypePointer;
 import ro.redeul.google.go.lang.psi.types.struct.GoTypeStructAnonymousField;
 import ro.redeul.google.go.lang.psi.typing.GoType;
@@ -31,7 +29,6 @@ import ro.redeul.google.go.lang.psi.typing.GoTypePointer;
 import ro.redeul.google.go.lang.psi.typing.GoTypeStruct;
 import ro.redeul.google.go.lang.psi.typing.GoTypes;
 import ro.redeul.google.go.util.LookupElementUtil;
-import static ro.redeul.google.go.lang.completion.GoCompletionContributor.DUMMY_IDENTIFIER;
 
 public class MethodReference
     extends GoPsiReference.Single<GoSelectorExpression, MethodReference> {
@@ -48,11 +45,11 @@ public class MethodReference
 
                 GoSelectorExpression element = methodReference.getElement();
 
-                PsiScopesUtil.treeWalkUp(
-                    processor,
-                    element.getContainingFile().getLastChild(),
-                    element.getContainingFile(),
-                    GoResolveStates.initial());
+                GoPsiScopesUtil.treeWalkUp(
+						processor,
+						element.getContainingFile().getLastChild(),
+						element.getContainingFile(),
+						GoResolveStates.initial());
 
                 PsiElement declaration = processor.getChildDeclaration();
 
@@ -114,11 +111,11 @@ public class MethodReference
             }
         };
 
-        PsiScopesUtil.treeWalkUp(
-            processor,
-            getElement().getContainingFile().getLastChild(),
-            getElement().getContainingFile(),
-            GoResolveStates.initial());
+        GoPsiScopesUtil.treeWalkUp(
+				processor,
+				getElement().getContainingFile().getLastChild(),
+				getElement().getContainingFile(),
+				GoResolveStates.initial());
 
         return variants.toArray(new LookupElementBuilder[variants.size()]);
     }

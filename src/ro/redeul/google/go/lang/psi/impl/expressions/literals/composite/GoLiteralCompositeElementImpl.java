@@ -22,7 +22,7 @@ import ro.redeul.google.go.lang.psi.typing.GoTypeSlice;
 import ro.redeul.google.go.lang.psi.typing.GoTypes;
 import ro.redeul.google.go.lang.psi.utils.GoPsiUtils;
 import ro.redeul.google.go.lang.psi.visitors.GoElementVisitor;
-import static com.intellij.patterns.PsiJavaPatterns.psiElement;
+import static com.intellij.patterns.StandardPatterns.psiElement;
 import static ro.redeul.google.go.lang.parser.GoElementTypes.COMPOSITE_LITERAL_ELEMENT_KEY;
 import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.resolveSafely;
 import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.resolveTypeSpec;

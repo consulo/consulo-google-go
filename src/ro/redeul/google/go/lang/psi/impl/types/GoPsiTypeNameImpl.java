@@ -20,7 +20,7 @@ import ro.redeul.google.go.lang.psi.types.underlying.GoUnderlyingType;
 import ro.redeul.google.go.lang.psi.types.underlying.GoUnderlyingTypePredeclared;
 import ro.redeul.google.go.lang.psi.typing.GoTypes;
 import ro.redeul.google.go.lang.psi.visitors.GoElementVisitor;
-import static com.intellij.patterns.PsiJavaPatterns.psiElement;
+import static com.intellij.patterns.StandardPatterns.psiElement;
 import static com.intellij.patterns.StandardPatterns.string;
 
 /**

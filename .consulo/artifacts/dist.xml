@@ -1,10 +1,10 @@
 <component name="ArtifactManager">
-  <artifact name="dist">
+  <artifact build-on-make="true" name="dist">
     <output-path>$PROJECT_DIR$/out/artifacts/dist</output-path>
     <root id="root">
       <element id="directory" name="google-go">
         <element id="directory" name="lib">
-          <element id="archive" name="google-go.jar">
+          <element id="zip-archive" name="google-go.jar">
             <element id="module-output" name="consulo-google-go" />
           </element>
         </element>

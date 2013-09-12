@@ -1,14 +1,10 @@
 package ro.redeul.google.go.lang.psi.resolve.references;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.patterns.ElementPattern;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.resolve.ResolveCache;
-import com.intellij.psi.scope.util.PsiScopesUtil;
+import ro.redeul.google.go.lang.psi.scope.util.GoPsiScopesUtil;
 import com.intellij.psi.util.PsiUtilCore;
 import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.lang.psi.GoPsiElement;
@@ -23,8 +19,12 @@ import ro.redeul.google.go.lang.psi.types.GoPsiTypeInterface;
 import ro.redeul.google.go.lang.psi.types.GoPsiTypeName;
 import ro.redeul.google.go.lang.psi.types.GoPsiTypePointer;
 
-import static com.intellij.patterns.PsiJavaPatterns.psiElement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static com.intellij.patterns.StandardPatterns.or;
+import static com.intellij.patterns.StandardPatterns.psiElement;
 import static ro.redeul.google.go.lang.completion.GoCompletionUtil.getImportedPackagesNames;
 import static ro.redeul.google.go.lang.psi.utils.GoTypeUtils.resolveToFinalType;
 import static ro.redeul.google.go.util.LookupElementUtil.createLookupElement;
@@ -48,11 +48,11 @@ public class TypeNameReference
             public GoResolveResult resolve(TypeNameReference reference, boolean incompleteCode) {
                 TypeNameResolver processor = new TypeNameResolver(reference);
 
-                PsiScopesUtil.treeWalkUp(
-                    processor,
-                    reference.getElement(),
-                    reference.getElement().getContainingFile(),
-                    GoResolveStates.initial());
+                GoPsiScopesUtil.treeWalkUp(
+						processor,
+						reference.getElement(),
+						reference.getElement().getContainingFile(),
+						GoResolveStates.initial());
 
                 PsiElement declaration = processor.getDeclaration();
 
@@ -126,10 +126,10 @@ public class TypeNameReference
                 }
             };
 
-        PsiScopesUtil.treeWalkUp(
-            processor,
-            getElement(), getElement().getContainingFile(),
-            GoResolveStates.initial());
+        GoPsiScopesUtil.treeWalkUp(
+				processor,
+				getElement(), getElement().getContainingFile(),
+				GoResolveStates.initial());
 
         return variants.toArray();
     }

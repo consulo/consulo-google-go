@@ -7,7 +7,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.patterns.ElementPattern;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.resolve.ResolveCache;
-import com.intellij.psi.scope.util.PsiScopesUtil;
+import ro.redeul.google.go.lang.psi.scope.util.GoPsiScopesUtil;
 import com.intellij.psi.util.PsiUtilCore;
 import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.lang.psi.GoPsiElement;
@@ -17,7 +17,7 @@ import ro.redeul.google.go.lang.psi.processors.GoResolveStates;
 import ro.redeul.google.go.lang.psi.resolve.GoResolveResult;
 import ro.redeul.google.go.lang.psi.resolve.VarOrConstResolver;
 
-import static com.intellij.patterns.PsiJavaPatterns.psiElement;
+import static com.intellij.patterns.StandardPatterns.psiElement;
 import static ro.redeul.google.go.util.LookupElementUtil.createLookupElement;
 
 public class VarOrConstReference
@@ -35,11 +35,11 @@ public class VarOrConstReference
                 VarOrConstResolver processor =
                     new VarOrConstResolver(reference);
 
-                PsiScopesUtil.treeWalkUp(
-                    processor,
-                    reference.getElement().getParent().getParent(),
-                    reference.getElement().getContainingFile(),
-                    GoResolveStates.initial());
+                GoPsiScopesUtil.treeWalkUp(
+						processor,
+						reference.getElement().getParent().getParent(),
+						reference.getElement().getContainingFile(),
+						GoResolveStates.initial());
 
                 PsiElement declaration = processor.getChildDeclaration();
 
@@ -97,11 +97,11 @@ public class VarOrConstReference
             }
         };
 
-        PsiScopesUtil.treeWalkUp(
-            processor,
-            getElement().getParent().getParent(),
-            getElement().getContainingFile(),
-            GoResolveStates.initial());
+        GoPsiScopesUtil.treeWalkUp(
+				processor,
+				getElement().getParent().getParent(),
+				getElement().getContainingFile(),
+				GoResolveStates.initial());
 
         return variants.toArray();
     }

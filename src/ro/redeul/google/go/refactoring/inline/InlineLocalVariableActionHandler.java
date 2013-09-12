@@ -21,11 +21,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.SmartPsiElementPointer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import com.intellij.refactoring.HelpID;
 import com.intellij.refactoring.RefactoringBundle;
 import com.intellij.refactoring.util.CommonRefactoringUtil;
 import com.intellij.refactoring.util.RefactoringMessageDialog;
 import ro.redeul.google.go.GoBundle;
+import ro.redeul.google.go.GoHelpID;
 import ro.redeul.google.go.GoLanguage;
 import ro.redeul.google.go.highlight.GoReadWriteAccessDetector;
 import ro.redeul.google.go.inspection.fix.RemoveVariableFix;
@@ -54,8 +54,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.intellij.patterns.PsiJavaPatterns.psiElement;
 import static com.intellij.patterns.StandardPatterns.or;
+import static com.intellij.patterns.StandardPatterns.psiElement;
 import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.*;
 import static ro.redeul.google.go.util.EditorUtil.reformatPositions;
 
@@ -395,7 +395,7 @@ public class InlineLocalVariableActionHandler extends InlineActionHandler {
         RefactoringMessageDialog dialog = new RefactoringMessageDialog(
             RefactoringBundle.message("inline.variable.title"),
             question,
-            HelpID.INLINE_VARIABLE,
+			GoHelpID.INLINE_VARIABLE,
             "OptionPane.questionIcon",
             true,
             ctx.project);
