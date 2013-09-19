@@ -1,7 +1,6 @@
 package ro.redeul.google.go.lang.psi.impl;
 
 import com.intellij.lang.Language;
-import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.file.PsiPackageBase;
 import com.intellij.util.ArrayFactory;
@@ -12,9 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.GoLanguage;
 import ro.redeul.google.go.lang.psi.GoNamespace;
 
-import java.util.Collection;
-import java.util.Collections;
-
 /**
  * @author VISTALL
  * @since 12.09.13.
@@ -22,11 +18,6 @@ import java.util.Collections;
 public class GoNamespaceImpl extends PsiPackageBase implements GoNamespace {
 	public GoNamespaceImpl(PsiManager manager, PsiPackageManager packageManager, Class<? extends ModuleExtension> extensionClass, String qualifiedName) {
 		super(manager, packageManager, extensionClass, qualifiedName);
-	}
-
-	@Override
-	protected Collection<PsiDirectory> getAllDirectories() {
-		return Collections.emptyList();
 	}
 
 	@Override
