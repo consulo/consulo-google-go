@@ -116,18 +116,14 @@
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="Go.ActionGroup"/>
 		</action>
 
-		<group id="Go.Tools" popup="true" text="Go Tools" description="Go tools support" icon="/icons/go_16x16.png">
+		<!--<group id="Go.Tools" popup="true" text="Go Tools" description="Go tools support" icon="/icons/go_16x16.png"> -->
 			<!--<action id="Go.Tools.AddGoSdk" text="Add Go Sdk Support"-->
 			<!--description="Add Go Sdk to current module"-->
 			<!--class="ro.redeul.google.go.tools.actions.AddGoSdkSupport">-->
 			<!--</action>-->
 
-			<action id="Go.AppEngine.Upload" class="ro.redeul.google.go.ide.actions.GoAppEngineUpload" text="App Engine Upload" description="Upload to App Engine" icon="/icons/gae_16x16.png">
-				<keyboard-shortcut first-keystroke="ctrl alt U" keymap="$default"/>
-			</action>
-
-			<add-to-group group-id="ToolsMenu" anchor="last"/>
-		</group>
+	<!--		<add-to-group group-id="ToolsMenu" anchor="last"/>
+		</group> -->
 
 	</actions>
 
@@ -135,11 +131,9 @@
 
 		<applicationService serviceInterface="ro.redeul.google.go.ide.GoAppEngineSettings" serviceImplementation="ro.redeul.google.go.ide.GoAppEngineSettings"/>
 
-		<applicationConfigurable instance="ro.redeul.google.go.ide.GoAppEngineSettingsConfigurable"/>
-
 		<moduleExtensionProvider key="google-go" implementationClass="ro.redeul.google.go.module.extension.GoModuleExtensionProvider"/>
 		<psi.packageSupportProvider implementation="org.consulo.googe.go.module.packageSupport.GoPsiPackageSupportProvider" />
-		<moduleExtensionProvider key="google-appengine-go" parent-key="google-go" implementationClass="org.consulo.googe.appengine.go.module.GoAppEngineModuleExtensionProvider"/>
+
 		<fileTypeFactory implementation="ro.redeul.google.go.GoFileTypeLoader"/>
 
 		<projectService serviceInterface="ro.redeul.google.go.ide.GoProjectSettings" serviceImplementation="ro.redeul.google.go.ide.GoProjectSettings"/>
@@ -188,9 +182,7 @@
 		<gotoClassContributor implementation="ro.redeul.google.go.ide.contributor.GoGoToClassContributor"/>
 		<gotoSymbolContributor implementation="ro.redeul.google.go.ide.contributor.GoGoToSymbolContributor"/>
 		<!--<frameworkSupport implementation="ro.redeul.google.go.config.framework.GoFrameworkSupportProvider"/>-->
-		<!--<facetType implementation="ro.redeul.google.go.config.facet.GoFacetType"/>-->
 		<sdkType implementation="ro.redeul.google.go.config.sdk.GoSdkType"/>
-		<sdkType implementation="ro.redeul.google.go.config.sdk.GoAppEngineSdkType"/>
 
 		<!--<compiler.makeDependencyProcessor implementation="ro.redeul.google.go.compilation.GoDependencyProvider"/>-->
 		<compiler implementation="ro.redeul.google.go.compilation.GoCompiler" />
@@ -198,7 +190,6 @@
 
 		<configurationType implementation="ro.redeul.google.go.runner.GoRunConfigurationType"/>
 		<configurationType implementation="ro.redeul.google.go.runner.GoTestConfigurationType"/>
-		<configurationType implementation="ro.redeul.google.go.runner.GoAppEngineRunConfigurationType"/>
 		<configurationProducer implementation="ro.redeul.google.go.runner.GoRunConfigurationProducer"/>
 		<configurationProducer implementation="ro.redeul.google.go.runner.GoTestConfigurationProducer"/>
 
@@ -235,7 +226,6 @@
 						 implementationClass="ro.redeul.google.go.inspection.ConstantExpressionsInConstDeclarationsInspection"/>
 
 		<programRunner implementation="ro.redeul.google.go.runner.GoApplicationRunner"/>
-		<programRunner implementation="ro.redeul.google.go.runner.GoAppEngineApplicationRunner"/>
 
 		<testFinder implementation="ro.redeul.google.go.testIntegration.GoTestFinder"/>
 		<testCreator language="Google Go" implementationClass="ro.redeul.google.go.testIntegration.GoTestCreator"/>

@@ -1,9 +1,14 @@
 package ro.redeul.google.go.editor.highlighting;
 
+import static ro.redeul.google.go.GoBundle.message;
+import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.*;
+
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.*;
 
+import javax.swing.Icon;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.editor.colors.CodeInsightColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
@@ -11,35 +16,9 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.GoFileType;
 import ro.redeul.google.go.GoIcons;
 import ro.redeul.google.go.highlight.GoSyntaxHighlighter;
-import static ro.redeul.google.go.GoBundle.message;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.BLOCK_COMMENT;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.BLOCK_COMMENT_ID;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.BRACKET;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.BRACKETS_ID;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.CONST;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.CONST_ID;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.GLOBAL_VARIABLE;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.GLOBAL_VARIABLE_ID;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.IDENTIFIER;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.IDENTIFIER_ID;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.KEYWORD;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.KEYWORD_ID;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.LINE_COMMENT;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.LINE_COMMENT_ID;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.NUMBER;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.NUMBER_ID;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.OPERATOR;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.OPERATOR_ID;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.STRING;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.STRING_ID;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.TYPE_NAME;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.TYPE_NAME_ID;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.VARIABLE;
-import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.VARIABLE_ID;
 
 /**
  * @author Mihai Claudiu Toader <mtoader@gmail.com>
@@ -72,7 +51,7 @@ public class GoColorsAndFontsPage implements ColorSettingsPage {
     }
 
     public Icon getIcon() {
-        return GoIcons.GO_ICON_16x16;
+        return GoIcons.Go;
     }
 
     @NotNull

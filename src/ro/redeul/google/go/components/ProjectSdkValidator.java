@@ -1,8 +1,5 @@
 package ro.redeul.google.go.components;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
@@ -12,8 +9,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
 import com.intellij.openapi.projectRoots.SdkTable;
-import ro.redeul.google.go.config.sdk.GoAppEngineSdkData;
-import ro.redeul.google.go.config.sdk.GoAppEngineSdkType;
 import ro.redeul.google.go.config.sdk.GoSdkData;
 import ro.redeul.google.go.config.sdk.GoSdkType;
 import ro.redeul.google.go.sdk.GoSdkUtil;
@@ -25,12 +20,7 @@ public class ProjectSdkValidator extends AbstractProjectComponent {
 
     @Override
     public void initComponent() {
-		SdkTable jdkTable = SdkTable.getInstance();
-        List<Sdk> sdkList = new ArrayList<Sdk>();
-
-        sdkList.addAll(GoSdkUtil.getSdkOfType(GoSdkType.getInstance(), jdkTable));
-
-        for (Sdk sdk : sdkList) {
+        for (Sdk sdk : SdkTable.getInstance().getSdksOfType(GoSdkType.getInstance())) {
             GoSdkData sdkData = (GoSdkData) sdk.getSdkAdditionalData();
 
             boolean needsUpgrade = sdkData == null;
@@ -71,19 +61,6 @@ public class ProjectSdkValidator extends AbstractProjectComponent {
             sdkModificator.commitChanges();
         }
 
-        sdkList.clear();
-        sdkList.addAll(GoSdkUtil.getSdkOfType(GoAppEngineSdkType.getInstance(), jdkTable));
-
-        for (Sdk sdk : sdkList) {
-            GoAppEngineSdkData sdkData = (GoAppEngineSdkData) sdk.getSdkAdditionalData();
-
-            if (sdkData == null || sdkData.TARGET_ARCH == null || sdkData.TARGET_OS == null) {
-                Notifications.Bus.notify(
-                    new Notification("GoLang SDK validator", "Corrupt Go SDK",
-                                     getContent("Go App Engine", sdk.getName()),
-                                     NotificationType.WARNING), myProject);
-            }
-        }
 
         super.initComponent();    //To change body of overridden methods use File | Settings | File Templates.
     }

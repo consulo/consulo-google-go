@@ -31,7 +31,7 @@ import ro.redeul.google.go.module.extension.GoModuleExtension;
 public class NewGoLibraryAction extends CreateTemplateInPackageAction<GoFile> implements DumbAware {
 
     public NewGoLibraryAction() {
-        super(GoBundle.message("new.go.lib"), GoBundle.message("new.go.lib.description"), GoIcons.GO_ICON_16x16, true);
+        super(GoBundle.message("new.go.lib"), GoBundle.message("new.go.lib.description"), GoIcons.Go, true);
     }
 
     @Override
@@ -130,11 +130,11 @@ public class NewGoLibraryAction extends CreateTemplateInPackageAction<GoFile> im
         }
 
         for (String packageName : packages) {
-            builder.addKind("New: " + packageName + " library file", GoIcons.GO_ICON_16x16, "lib." + packageName);
+            builder.addKind("New: " + packageName + " library file", GoIcons.Go, "lib." + packageName);
         }
 
-        builder.addKind("New library (child folder)", GoIcons.GO_ICON_16x16, "multiple");
-        builder.addKind("New library (this folder)", GoIcons.GO_ICON_16x16, "single");
+        builder.addKind("New library (child folder)", GoIcons.Go, "multiple");
+        builder.addKind("New library (this folder)", GoIcons.Go, "single");
     }
 
     private boolean isLibraryFolder(PsiDirectory directory) {

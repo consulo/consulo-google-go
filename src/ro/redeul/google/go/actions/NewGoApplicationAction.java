@@ -31,7 +31,7 @@ public class NewGoApplicationAction extends CreateTemplateInPackageAction<GoFile
     implements DumbAware {
 
     public NewGoApplicationAction() {
-        super(GoBundle.message("new.go.app"), GoBundle.message("new.go.app.description"), GoIcons.GO_ICON_16x16, true);
+        super(GoBundle.message("new.go.app"), GoBundle.message("new.go.app.description"), GoIcons.Go, true);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class NewGoApplicationAction extends CreateTemplateInPackageAction<GoFile
 //        boolean isApplicationFolder = isApplicationFolder(directory);
 
 //        if (!isApplicationFolder) {
-        builder.addKind("Go Application file ", GoIcons.GO_ICON_16x16, "main");
+        builder.addKind("Go Application file ", GoIcons.Go, "main");
 //        }
 
 //        builder.addKind("Helper file", GoIcons.GO_ICON_16x16, "helper");

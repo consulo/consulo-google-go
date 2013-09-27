@@ -39,7 +39,7 @@ public class GoConfigurable implements SearchableConfigurable {
     }
 
     public Icon getIcon() {
-        return GoIcons.GO_ICON_16x16;
+        return GoIcons.Go;
     }
 
     @Override

@@ -32,7 +32,7 @@ public class NewGoFileAction extends CreateTemplateInPackageAction<GoFile>
     public NewGoFileAction() {
         super(GoBundle.message("new.go.file"),
               GoBundle.message("new.go.file.description"),
-              GoIcons.GO_ICON_16x16, true);
+              GoIcons.Go, true);
     }
 
     @Override
@@ -137,20 +137,12 @@ public class NewGoFileAction extends CreateTemplateInPackageAction<GoFile>
             }
         }
 
-        builder.addKind("New file", GoIcons.GO_ICON_16x16, "single");
+        builder.addKind("New file", GoIcons.Go, "single");
 
         for (String packageName : packages) {
             builder.addKind("New file in library: " + packageName,
-                            GoIcons.GO_ICON_16x16, "lib." + packageName);
+                            GoIcons.Go, "lib." + packageName);
         }
-    }
-
-    private boolean isLibraryFolder(PsiDirectory directory) {
-        return false;
-    }
-
-    private boolean isApplicationFolder(PsiDirectory directory) {
-        return false;
     }
 
     @Override

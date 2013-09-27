@@ -1,11 +1,15 @@
 package ro.redeul.google.go.ide.structureview;
 
+import static ro.redeul.google.go.lang.psi.processors.GoNamesUtil.isExportedName;
+import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.resolveSafely;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import javax.swing.*;
+
+import javax.swing.Icon;
 
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
@@ -38,9 +42,6 @@ import ro.redeul.google.go.lang.psi.types.struct.GoTypeStructAnonymousField;
 import ro.redeul.google.go.lang.psi.types.struct.GoTypeStructField;
 import ro.redeul.google.go.lang.psi.utils.GoFileUtils;
 import ro.redeul.google.go.lang.stubs.GoNamesCache;
-
-import static ro.redeul.google.go.lang.psi.processors.GoNamesUtil.isExportedName;
-import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.resolveSafely;
 
 /**
  * User: jhonny
@@ -162,7 +163,7 @@ public class GoStructureViewElement implements StructureViewTreeElement, ItemPre
 
         @Override
         Icon getBaseIcon() {
-            return GoIcons.GO_ICON_24x24;
+            return GoIcons.Go;
         }
 
         @Override
@@ -363,7 +364,7 @@ public class GoStructureViewElement implements StructureViewTreeElement, ItemPre
 
         @Override
         public Icon getBaseIcon() {
-            return GoIcons.CONST_ICON;
+            return GoIcons.Const;
         }
     }
 

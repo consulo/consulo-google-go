@@ -1,11 +1,10 @@
 package ro.redeul.google.go.lang.psi.impl.types.struct;
 
-import javax.swing.*;
+import javax.swing.Icon;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.GoIcons;
 import ro.redeul.google.go.lang.psi.GoFile;
 import ro.redeul.google.go.lang.psi.expressions.literals.GoLiteralIdentifier;
@@ -50,16 +49,12 @@ public class GoTypeStructFieldImpl extends GoPsiElementBase implements GoTypeStr
                 return getName();
             }
 
-            public TextAttributesKey getTextAttributesKey() {
-                return null;
-            }
-
             public String getLocationString() {
                 return String.format(" %s (%s)", ((GoFile) getContainingFile()).getPackage().getPackageName(), getContainingFile().getVirtualFile().getPath());
             }
 
             public Icon getIcon(boolean open) {
-                return GoIcons.GO_ICON_16x16;
+                return GoIcons.Go;
             }
         };
     }

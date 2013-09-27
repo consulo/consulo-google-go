@@ -1,15 +1,15 @@
 package ro.redeul.google.go.runner;
 
-import javax.swing.*;
+import javax.swing.Icon;
 
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationType;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.GoIcons;
 
 public class GoTestConfigurationType implements ConfigurationType {
@@ -29,7 +29,7 @@ public class GoTestConfigurationType implements ConfigurationType {
     }
 
     public Icon getIcon() {
-        return GoIcons.GO_ICON_16x16;
+        return GoIcons.Go;
     }
 
     @NonNls

@@ -81,7 +81,7 @@ public class IdentifierVariantsCollector extends BaseScopeProcessor{
 
         for (GoLiteralIdentifier identifier : identifiers) {
             if ( ! isImported || GoNamesUtil.isPublicType(identifier.getName()) ) {
-                addVariant(identifier, identifier.getName(), state, GoIcons.CONST_ICON);
+                addVariant(identifier, identifier.getName(), state, GoIcons.Const);
             }
         }
     }

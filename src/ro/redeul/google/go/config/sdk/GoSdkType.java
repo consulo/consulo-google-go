@@ -79,11 +79,11 @@ public class GoSdkType extends SdkType {
 
     @Override
     public Icon getIcon() {
-        return GoIcons.GO_ICON_16x16;
+        return GoIcons.Go;
     }
 
     public Icon getGroupIcon() {
-        return GoIcons.GO_ICON_16x16;
+        return GoIcons.Go;
     }
 
     @Override

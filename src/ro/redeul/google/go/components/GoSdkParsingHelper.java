@@ -25,8 +25,6 @@ import com.intellij.util.AdapterProcessor;
 import com.intellij.util.CommonProcessors;
 import com.intellij.util.FilteringProcessor;
 import com.intellij.util.Function;
-import ro.redeul.google.go.config.sdk.GoAppEngineSdkData;
-import ro.redeul.google.go.config.sdk.GoAppEngineSdkType;
 import ro.redeul.google.go.config.sdk.GoSdkData;
 import ro.redeul.google.go.config.sdk.GoSdkType;
 import ro.redeul.google.go.lang.psi.GoFile;
@@ -83,7 +81,6 @@ public class GoSdkParsingHelper implements ApplicationComponent {
 
 
         sdkList.addAll(GoSdkUtil.getSdkOfType(GoSdkType.getInstance(), jdkTable));
-        sdkList.addAll(GoSdkUtil.getSdkOfType(GoAppEngineSdkType.getInstance(), jdkTable));
 
         Sdk ownerSdk = null;
 
@@ -148,7 +145,7 @@ public class GoSdkParsingHelper implements ApplicationComponent {
     private Map<String, String> findPackageMappings(Sdk ownerSdk) {
         Map<String, String> result = new HashMap<String, String>();
 
-        if (ownerSdk.getSdkType() != GoSdkType.getInstance() && ownerSdk.getSdkType() != GoAppEngineSdkType.getInstance())
+        if (ownerSdk.getSdkType() != GoSdkType.getInstance())
             return result;
 
         VirtualFile home = ownerSdk.getHomeDirectory();
@@ -159,19 +156,10 @@ public class GoSdkParsingHelper implements ApplicationComponent {
         String activeTarget = "";
         VirtualFile goRoot = home;
 
-        if ( ownerSdk.getSdkType() == GoAppEngineSdkType.getInstance() ) {
-            goRoot = home.findFileByRelativePath("goroot");
-
-            GoAppEngineSdkData sdkData = (GoAppEngineSdkData) ownerSdk.getSdkAdditionalData();
-            if ( sdkData != null && sdkData.TARGET_OS != null && sdkData.TARGET_ARCH != null ) {
-                activeTarget = String.format("%s_%s", sdkData.TARGET_OS.getName(), sdkData.TARGET_ARCH.getName());
-            }
-        } else {
-            GoSdkData sdkData = (GoSdkData) ownerSdk.getSdkAdditionalData();
-            if ( sdkData != null && sdkData.TARGET_OS != null && sdkData.TARGET_ARCH != null ) {
-                activeTarget = String.format("%s_%s", sdkData.TARGET_OS.getName(), sdkData.TARGET_ARCH.getName());
-            }
-        }
+		GoSdkData sdkData = (GoSdkData) ownerSdk.getSdkAdditionalData();
+		if ( sdkData != null && sdkData.TARGET_OS != null && sdkData.TARGET_ARCH != null ) {
+			activeTarget = String.format("%s_%s", sdkData.TARGET_OS.getName(), sdkData.TARGET_ARCH.getName());
+		}
 
         if ( goRoot == null ) {
             return result;

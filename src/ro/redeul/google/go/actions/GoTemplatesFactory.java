@@ -33,10 +33,10 @@ public class GoTemplatesFactory implements FileTemplateGroupDescriptorFactory {
     public FileTemplateGroupDescriptor getFileTemplatesDescriptor() {
         String title = GoBundle.message("file.template.group.title.go");
         final FileTemplateGroupDescriptor group =
-                new FileTemplateGroupDescriptor(title, GoIcons.GO_ICON_16x16);
+                new FileTemplateGroupDescriptor(title, GoIcons.Go);
 
         for (Template template : Template.values()) {
-            group.addTemplate(new FileTemplateDescriptor(template.getFile(), GoIcons.GO_ICON_16x16));
+            group.addTemplate(new FileTemplateDescriptor(template.getFile(), GoIcons.Go));
         }
 
         return group;

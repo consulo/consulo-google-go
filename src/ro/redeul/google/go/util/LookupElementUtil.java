@@ -130,7 +130,7 @@ public class LookupElementUtil extends GoElementVisitor {
 
     @Override
     public void visitConstDeclaration(GoConstDeclaration declaration) {
-        lookupElement = lookupElement.withIcon(GoIcons.CONST_ICON);
+        lookupElement = lookupElement.withIcon(GoIcons.Const);
     }
 
     @Override
