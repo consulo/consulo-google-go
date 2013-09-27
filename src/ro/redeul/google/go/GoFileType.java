@@ -1,16 +1,16 @@
 package ro.redeul.google.go;
 
-import javax.swing.*;
+import javax.swing.Icon;
 
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.editor.highlighter.EditorHighlighter;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import ro.redeul.google.go.highlight.GoEditorHighlighter;
 
 public class GoFileType extends LanguageFileType {
@@ -44,10 +44,6 @@ public class GoFileType extends LanguageFileType {
 
     public Icon getIcon() {
         return GoIcons.GO_ICON_16x16;
-    }
-
-    public boolean isJVMDebuggingSupported() {
-        return false;
     }
 
     @Override
