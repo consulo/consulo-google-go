@@ -6,6 +6,7 @@
         <element id="directory" name="lib">
           <element id="zip-archive" name="google-go.jar">
             <element id="module-output" name="consulo-google-go" />
+            <element id="module-production-resource-output" name="consulo-google-go" />
           </element>
         </element>
       </element>

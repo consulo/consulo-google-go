@@ -1,4 +1,4 @@
-#parse("File Header.java")
+#parse("Go File Header.go")
 package ${PACKAGE_NAME}
 
 import (

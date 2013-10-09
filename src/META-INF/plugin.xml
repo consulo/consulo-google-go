@@ -56,7 +56,7 @@
 	<resource-bundle>ro.redeul.google.go.GoBundle</resource-bundle>
 
 	<depends>com.intellij</depends>
-	<depends config-file="com.intellij.spellchecker.xml">com.intellij.spellchecker</depends>
+	<depends config-file="com.intellij.spellchecker.xml" optional="true">com.intellij.spellchecker</depends>
 
 	<application-components>
 		<component>
@@ -128,9 +128,6 @@
 	</actions>
 
 	<extensions defaultExtensionNs="com.intellij">
-
-		<applicationService serviceInterface="ro.redeul.google.go.ide.GoAppEngineSettings" serviceImplementation="ro.redeul.google.go.ide.GoAppEngineSettings"/>
-
 		<moduleExtensionProvider key="google-go" implementationClass="ro.redeul.google.go.module.extension.GoModuleExtensionProvider"/>
 		<psi.packageSupportProvider implementation="org.consulo.googe.go.module.packageSupport.GoPsiPackageSupportProvider" />
 
@@ -230,6 +227,7 @@
 		<testFinder implementation="ro.redeul.google.go.testIntegration.GoTestFinder"/>
 		<testCreator language="Google Go" implementationClass="ro.redeul.google.go.testIntegration.GoTestCreator"/>
 
+		<projectService serviceInterface="ro.redeul.google.go.lang.stubs.GoNamesCache" serviceImplementation="ro.redeul.google.go.lang.stubs.GoNamesCache" />
 		<stubElementTypeHolder class="ro.redeul.google.go.lang.parser.GoElementTypes"/>
 
 		<stubIndex implementation="ro.redeul.google.go.lang.psi.stubs.index.GoPackageName"/>
@@ -249,7 +247,7 @@
 
 		<todoIndexer filetype="Google Go" implementationClass="ro.redeul.google.go.highlight.GoToDoIndexer"/>
 
-		<!--<exceptionFilter implementation="ro.redeul.google.go.ide.exception.GoExceptionFilterFactory"/>-->
+		<consoleFilterProvider implementation="ro.redeul.google.go.ide.exception.GoExceptionFilterFactory"/>
 
 		<intentionAction>
 			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>

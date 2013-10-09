@@ -1,7 +1,7 @@
 # Google Go language plugin for IntelliJ Idea
 
 Google go language plugin is an attempt to build an outstanding IDE for
-[Google Go language](http://golang.org) using Intellij IDEA.
+[Google Go language](http://golang.org) using Consulo
 
 + Project pages on github:
     + <http://github.com/mtoader/google-go-lang-idea-plugin>
@@ -34,7 +34,7 @@ Google go language plugin is an attempt to build an outstanding IDE for
 
 ## How to use it
 
-* Download and install Intellij IDEA (Ultimate or Community edition).
+* Download and install Intellij Consulo
 * Open the Plugins installation page: File -> Settings -> Plugins -> Available Plugins
 * Search for google go
 * Right click on the proper plugin and install

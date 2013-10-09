@@ -19,14 +19,9 @@ import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkTable;
 import com.intellij.openapi.projectRoots.SdkType;
-import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.openapi.roots.ModuleRootModel;
-import com.intellij.openapi.roots.ProjectFileIndex;
-import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
@@ -301,35 +296,16 @@ public class GoSdkUtil {
 
     public static Sdk getGoogleGoSdkForModule(Module module) {
 
-        ModuleRootModel moduleRootModel = ModuleRootManager.getInstance(module);
-
-        Sdk sdk = ModuleUtilCore.getSdk(module, GoModuleExtension.class);
-
-        if (GoSdkType.isInstance(sdk)) {
-            return sdk;
-        }
-
-        return null;
-    }
-
-    public static Sdk getGoogleGoSdkForProject(Project project) {
-
-        Sdk sdk = ProjectRootManager.getInstance(project).getProjectSdk();
-
-        if (GoSdkType.isInstance(sdk)) {
-            return sdk;
-        }
-
-        return null;
+		return ModuleUtilCore.getSdk(module, GoModuleExtension.class);
     }
 
     public static Sdk getGoogleGoSdkForFile(PsiFile file) {
-        ProjectFileIndex projectFileIndex = ProjectRootManager.getInstance(
-            file.getProject()).getFileIndex();
-        Module module = projectFileIndex.getModuleForFile(
-            file.getVirtualFile());
+		Module moduleForPsiElement = ModuleUtilCore.findModuleForPsiElement(file);
+		if(moduleForPsiElement == null) {
+			return null;
+		}
 
-        return getGoogleGoSdkForModule(module);
+		return getGoogleGoSdkForModule(moduleForPsiElement);
     }
 
     public static String getToolName(GoTargetOs os, GoTargetArch arch, GoSdkTool tool) {

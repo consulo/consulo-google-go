@@ -1,6 +1,17 @@
 package ro.redeul.google.go.runner;
 
-import com.intellij.execution.*;
+import static com.intellij.execution.testframework.sm.SMTestRunnerConnectionUtil.createAndAttachConsole;
+import static ro.redeul.google.go.sdk.GoSdkUtil.prependToGoPath;
+
+import java.io.File;
+import java.util.HashMap;
+
+import org.jetbrains.annotations.NotNull;
+import com.intellij.execution.CantRunException;
+import com.intellij.execution.DefaultExecutionResult;
+import com.intellij.execution.ExecutionException;
+import com.intellij.execution.ExecutionResult;
+import com.intellij.execution.Executor;
 import com.intellij.execution.configurations.CommandLineState;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.OSProcessHandler;
@@ -8,102 +19,120 @@ import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.runners.ProgramRunner;
 import com.intellij.execution.ui.ConsoleView;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.config.sdk.GoSdkData;
+import ro.redeul.google.go.module.extension.GoModuleExtension;
 import ro.redeul.google.go.runner.ui.properties.GoTestConsoleProperties;
-import ro.redeul.google.go.sdk.GoSdkUtil;
 
-import java.io.File;
-import java.util.HashMap;
+class GoCommandLineState extends CommandLineState
+{
+	private GoTestConsoleProperties consoleProperties;
 
-import static com.intellij.execution.testframework.sm.SMTestRunnerConnectionUtil.createAndAttachConsole;
-import static ro.redeul.google.go.sdk.GoSdkUtil.prependToGoPath;
+	public GoCommandLineState(GoTestConsoleProperties consoleProperties, ExecutionEnvironment env)
+	{
+		super(env);
+		this.consoleProperties = consoleProperties;
+	}
 
-class GoCommandLineState extends CommandLineState {
-    private GoTestConsoleProperties consoleProperties;
+	@NotNull
+	@Override
+	protected OSProcessHandler startProcess() throws ExecutionException
+	{
+		GeneralCommandLine commandLine = new GeneralCommandLine();
+		Module module = consoleProperties.getConfiguration().getModule();
+		if(module == null)
+		{
+			throw new CantRunException("No module");
+		}
 
-    public GoCommandLineState(GoTestConsoleProperties consoleProperties, ExecutionEnvironment env) {
-        super(env);
-        this.consoleProperties = consoleProperties;
-    }
+		Sdk sdk = ModuleUtilCore.getSdk(module, GoModuleExtension.class);
+		if(sdk == null)
+		{
+			throw new CantRunException("No Go Sdk defined for this project");
+		}
+		GoTestConfiguration cfg = consoleProperties.getConfiguration();
 
-    @NotNull
-    @Override
-    protected OSProcessHandler startProcess() throws ExecutionException {
-        GeneralCommandLine commandLine = new GeneralCommandLine();
+		final GoSdkData sdkData = (GoSdkData) sdk.getSdkAdditionalData();
+		if(sdkData == null)
+		{
+			throw new CantRunException("No Go Sdk defined for this project");
+		}
 
-        GoTestConfiguration cfg = consoleProperties.getConfiguration();
-        Sdk sdk = GoSdkUtil.getGoogleGoSdkForProject(cfg.getProject());
-        if ( sdk == null ) {
-            throw new CantRunException("No Go Sdk defined for this project");
-        }
+		if(cfg.getModule() == null)
+		{
+			throw new CantRunException("No module selected for this test configuration");
+		}
 
-        final GoSdkData sdkData = (GoSdkData)sdk.getSdkAdditionalData();
-        if ( sdkData == null ) {
-            throw new CantRunException("No Go Sdk defined for this project");
-        }
+		final VirtualFile moduleDir = cfg.getModule().getModuleDir();
+		if(moduleDir == null)
+		{
+			throw new CantRunException("The module does not have a valid folder");
+		}
 
-        if ( cfg.getModule() == null ) {
-            throw new CantRunException("No module selected for this test configuration");
-        }
+		commandLine.setExePath(sdkData.GO_BIN_PATH);
+		commandLine.addParameter("test");
+		commandLine.addParameter("-v");
+		if(cfg.useShortRun)
+		{
+			commandLine.addParameter("-short");
+		}
 
-        final VirtualFile moduleDir = cfg.getModule().getModuleDir();
-        if (moduleDir == null) {
-            throw new CantRunException("The module does not have a valid folder");
-        }
+		switch(cfg.executeWhat)
+		{
+			case Test:
+				if(cfg.filter != null && !cfg.filter.isEmpty())
+				{
+					commandLine.addParameter("-run=" + cfg.filter.trim());
+				}
+				break;
+			case Benchmark:
+				String benchmarkName = ".*";
 
-        commandLine.setExePath(sdkData.GO_BIN_PATH);
-        commandLine.addParameter("test");
-        commandLine.addParameter("-v");
-        if (cfg.useShortRun)
-            commandLine.addParameter("-short");
+				if(cfg.filter != null && !cfg.filter.isEmpty())
+				{
+					benchmarkName = cfg.filter.trim();
+				}
+				if(!cfg.testBeforeBenchmark)
+				{
+					commandLine.addParameter("-run=NONE");
+				}
+				commandLine.addParameter("-bench=" + benchmarkName);
+				break;
+		}
 
-        switch (cfg.executeWhat) {
-            case Test:
-                if (cfg.filter != null && !cfg.filter.isEmpty())
-                    commandLine.addParameter("-run=" + cfg.filter.trim());
-                break;
-            case Benchmark:
-                String benchmarkName = ".*";
+		commandLine.addParameter(cfg.packageName);
+		commandLine.getEnvironment().putAll(new HashMap<String, String>()
+		{{
+				put("GOPATH", prependToGoPath(moduleDir.getCanonicalPath()));
+				put("GOROOT", getSdkHomePath(sdkData));
+			}});
 
-                if (cfg.filter != null && !cfg.filter.isEmpty())
-                    benchmarkName = cfg.filter.trim();
-                if (!cfg.testBeforeBenchmark) {
-                    commandLine.addParameter("-run=NONE");
-                }
-                commandLine.addParameter("-bench=" + benchmarkName);
-                break;
-        }
+		return GoApplicationProcessHandler.runCommandLine(commandLine);
+	}
 
-        commandLine.addParameter(cfg.packageName);
-        commandLine.setEnvParams(new HashMap<String, String>() {{
-            put("GOPATH", prependToGoPath(moduleDir.getCanonicalPath()));
-            put("GOROOT", getSdkHomePath(sdkData));
-        }});
+	private String getSdkHomePath(GoSdkData sdkData)
+	{
+		if(sdkData.GO_HOME_PATH.isEmpty())
+		{
+			return new File(sdkData.GO_BIN_PATH).getParent();
+		}
+		return sdkData.GO_HOME_PATH;
+	}
 
-        return GoApplicationProcessHandler.runCommandLine(commandLine);
-    }
+	@Override
+	public ExecutionResult execute(@NotNull Executor executor, @NotNull ProgramRunner runner) throws ExecutionException
+	{
+		ProcessHandler processHandler = startProcess();
+		String packageDir = consoleProperties.getConfiguration().packageDir;
+		processHandler.addProcessListener(new GoTestProcessListener(processHandler, packageDir));
 
-    private String getSdkHomePath(GoSdkData sdkData) {
-        if (sdkData.GO_HOME_PATH.isEmpty()) {
-            return new File(sdkData.GO_BIN_PATH).getParent();
-        }
-        return sdkData.GO_HOME_PATH;
-    }
-
-    @Override
-    public ExecutionResult execute(@NotNull Executor executor, @NotNull ProgramRunner runner) throws ExecutionException {
-        ProcessHandler processHandler = startProcess();
-        String packageDir = consoleProperties.getConfiguration().packageDir;
-        processHandler.addProcessListener(new GoTestProcessListener(processHandler, packageDir));
-
-        ConsoleView console = createAndAttachConsole("GoTest", processHandler, consoleProperties,
-                getEnvironment());
-        Project project = consoleProperties.getProject();
-        console.addMessageFilter(new GoTestConsoleFilter(project, packageDir));
-        return new DefaultExecutionResult(console, processHandler, createActions(console, processHandler, executor));
-    }
+		ConsoleView console = createAndAttachConsole("GoTest", processHandler, consoleProperties, getEnvironment());
+		Project project = consoleProperties.getProject();
+		console.addMessageFilter(new GoTestConsoleFilter(project, packageDir));
+		return new DefaultExecutionResult(console, processHandler, createActions(console, processHandler, executor));
+	}
 }
