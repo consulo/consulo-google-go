@@ -28,20 +28,20 @@ public class GoColorsAndFontsPage implements ColorSettingsPage {
 
     private static final AttributesDescriptor[] ATTRIBUTES_DESCRIPTORS =
         new AttributesDescriptor[]{
-            new AttributesDescriptor(message("color." + LINE_COMMENT_ID), LINE_COMMENT),
-            new AttributesDescriptor(message("color." + BLOCK_COMMENT_ID), BLOCK_COMMENT),
-            new AttributesDescriptor(message("color." + KEYWORD_ID), KEYWORD),
-            new AttributesDescriptor(message("color." + BRACKETS_ID), BRACKET),
-            new AttributesDescriptor(message("color." + OPERATOR_ID), OPERATOR),
-            new AttributesDescriptor(message("color." + NUMBER_ID), NUMBER),
-            new AttributesDescriptor(message("color." + STRING_ID), STRING),
-            new AttributesDescriptor(message("color." + IDENTIFIER_ID), IDENTIFIER),
+            new AttributesDescriptor(message("color.go.line.comment"), LINE_COMMENT),
+            new AttributesDescriptor(message("color.go.block.comment"), BLOCK_COMMENT),
+            new AttributesDescriptor(message("color.go.keyword"), KEYWORD),
+            new AttributesDescriptor(message("color.go.brackets"), BRACKET),
+            new AttributesDescriptor(message("color.go.operators"), OPERATOR),
+            new AttributesDescriptor(message("color.go.number"), NUMBER),
+            new AttributesDescriptor(message("color.go.string"), STRING),
+            new AttributesDescriptor(message("color.go.identifier"), IDENTIFIER),
 
             // psi
-            new AttributesDescriptor(message("color." + TYPE_NAME_ID), TYPE_NAME),
-            new AttributesDescriptor(message("color." + CONST_ID), CONST),
-            new AttributesDescriptor(message("color." + VARIABLE_ID), VARIABLE),
-            new AttributesDescriptor(message("color." + GLOBAL_VARIABLE_ID), GLOBAL_VARIABLE),
+            new AttributesDescriptor(message("color.go.type.name"), TYPE_NAME),
+            new AttributesDescriptor(message("color.go.const"), CONST),
+            new AttributesDescriptor(message("color.go.variable"), VARIABLE),
+            new AttributesDescriptor(message("color.go.global.variable"), GLOBAL_VARIABLE),
         };
 
 
