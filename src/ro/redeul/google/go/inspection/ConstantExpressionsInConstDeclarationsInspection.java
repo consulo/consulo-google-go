@@ -1,12 +1,12 @@
 package ro.redeul.google.go.inspection;
 
-import com.intellij.codeInspection.ProblemHighlightType;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.codeInspection.ProblemHighlightType;
+import ro.redeul.google.go.GoBundle;
 import ro.redeul.google.go.lang.psi.GoFile;
 import ro.redeul.google.go.lang.psi.declarations.GoConstDeclaration;
 import ro.redeul.google.go.lang.psi.expressions.GoExpr;
 import ro.redeul.google.go.lang.psi.visitors.GoRecursiveElementVisitor;
-import static ro.redeul.google.go.GoBundle.message;
 
 public class ConstantExpressionsInConstDeclarationsInspection
     extends AbstractWholeGoFileInspection{
@@ -26,7 +26,7 @@ public class ConstantExpressionsInConstDeclarationsInspection
         for (GoExpr expression : expressions) {
             if (!expression.isConstantExpression()) {
                 result.addProblem(expression,
-                                  message("error.non.constant.expression"),
+						GoBundle.message("error.non.constant.expression"),
                                   ProblemHighlightType.WEAK_WARNING);
 
             }

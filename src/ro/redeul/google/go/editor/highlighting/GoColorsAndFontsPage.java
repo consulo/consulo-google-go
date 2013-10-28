@@ -1,6 +1,5 @@
 package ro.redeul.google.go.editor.highlighting;
 
-import static ro.redeul.google.go.GoBundle.message;
 import static ro.redeul.google.go.highlight.GoSyntaxHighlighter.*;
 
 import java.util.HashMap;
@@ -16,6 +15,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
+import ro.redeul.google.go.GoBundle;
 import ro.redeul.google.go.GoFileType;
 import ro.redeul.google.go.GoIcons;
 import ro.redeul.google.go.highlight.GoSyntaxHighlighter;
@@ -28,20 +28,20 @@ public class GoColorsAndFontsPage implements ColorSettingsPage {
 
     private static final AttributesDescriptor[] ATTRIBUTES_DESCRIPTORS =
         new AttributesDescriptor[]{
-            new AttributesDescriptor(message("color.go.line.comment"), LINE_COMMENT),
-            new AttributesDescriptor(message("color.go.block.comment"), BLOCK_COMMENT),
-            new AttributesDescriptor(message("color.go.keyword"), KEYWORD),
-            new AttributesDescriptor(message("color.go.brackets"), BRACKET),
-            new AttributesDescriptor(message("color.go.operators"), OPERATOR),
-            new AttributesDescriptor(message("color.go.number"), NUMBER),
-            new AttributesDescriptor(message("color.go.string"), STRING),
-            new AttributesDescriptor(message("color.go.identifier"), IDENTIFIER),
+            new AttributesDescriptor(GoBundle.message("color.go.line.comment"), LINE_COMMENT),
+            new AttributesDescriptor(GoBundle.message("color.go.block.comment"), BLOCK_COMMENT),
+            new AttributesDescriptor(GoBundle.message("color.go.keyword"), KEYWORD),
+            new AttributesDescriptor(GoBundle.message("color.go.brackets"), BRACKET),
+            new AttributesDescriptor(GoBundle.message("color.go.operators"), OPERATOR),
+            new AttributesDescriptor(GoBundle.message("color.go.number"), NUMBER),
+            new AttributesDescriptor(GoBundle.message("color.go.string"), STRING),
+            new AttributesDescriptor(GoBundle.message("color.go.identifier"), IDENTIFIER),
 
             // psi
-            new AttributesDescriptor(message("color.go.type.name"), TYPE_NAME),
-            new AttributesDescriptor(message("color.go.const"), CONST),
-            new AttributesDescriptor(message("color.go.variable"), VARIABLE),
-            new AttributesDescriptor(message("color.go.global.variable"), GLOBAL_VARIABLE),
+            new AttributesDescriptor(GoBundle.message("color.go.type.name"), TYPE_NAME),
+            new AttributesDescriptor(GoBundle.message("color.go.const"), CONST),
+            new AttributesDescriptor(GoBundle.message("color.go.variable"), VARIABLE),
+            new AttributesDescriptor(GoBundle.message("color.go.global.variable"), GLOBAL_VARIABLE),
         };
 
 

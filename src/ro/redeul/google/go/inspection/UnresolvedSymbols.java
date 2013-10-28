@@ -1,11 +1,16 @@
 package ro.redeul.google.go.inspection;
 
+import static ro.redeul.google.go.inspection.fix.CreateFunctionFix.isFunctionNameIdentifier;
+import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.findParentOfType;
+import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.resolveSafely;
+
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
+import ro.redeul.google.go.GoBundle;
 import ro.redeul.google.go.inspection.fix.CreateFunctionFix;
 import ro.redeul.google.go.inspection.fix.CreateGlobalVariableFix;
 import ro.redeul.google.go.inspection.fix.CreateLocalVariableFix;
@@ -25,10 +30,6 @@ import ro.redeul.google.go.lang.psi.types.GoPsiTypeName;
 import ro.redeul.google.go.lang.psi.utils.GoFileUtils;
 import ro.redeul.google.go.lang.psi.utils.GoPsiUtils;
 import ro.redeul.google.go.lang.psi.visitors.GoRecursiveElementVisitor;
-import static ro.redeul.google.go.GoBundle.message;
-import static ro.redeul.google.go.inspection.fix.CreateFunctionFix.isFunctionNameIdentifier;
-import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.findParentOfType;
-import static ro.redeul.google.go.lang.psi.utils.GoPsiUtils.resolveSafely;
 
 public class UnresolvedSymbols extends AbstractWholeGoFileInspection {
     @Nls
@@ -101,7 +102,7 @@ public class UnresolvedSymbols extends AbstractWholeGoFileInspection {
 
                     result.addProblem(
                         element,
-                        message("warning.unresolved.symbol", name),
+							GoBundle.message("warning.unresolved.symbol", name),
                         ProblemHighlightType.LIKE_UNKNOWN_SYMBOL, fixes);
                 }
             }

@@ -2,12 +2,12 @@ package ro.redeul.google.go.inspection;
 
 import java.util.Collection;
 
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDocumentManager;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.GoBundle;
 import ro.redeul.google.go.inspection.fix.RemoveImportFix;
 import ro.redeul.google.go.lang.psi.GoFile;
@@ -15,7 +15,6 @@ import ro.redeul.google.go.lang.psi.expressions.literals.GoLiteralString;
 import ro.redeul.google.go.lang.psi.toplevel.GoImportDeclaration;
 import ro.redeul.google.go.lang.psi.visitors.GoRecursiveElementVisitor;
 import ro.redeul.google.go.services.GoCodeManager;
-import static ro.redeul.google.go.GoBundle.message;
 
 public class ImportDeclarationInspection extends AbstractWholeGoFileInspection {
     @Nls
@@ -86,7 +85,7 @@ public class ImportDeclarationInspection extends AbstractWholeGoFileInspection {
 
             result.addProblem(
                 unused,
-                message("warning.unused.import", unused.getImportPath().getValue()),
+					GoBundle.message("warning.unused.import", unused.getImportPath().getValue()),
                 ProblemHighlightType.LIKE_UNUSED_SYMBOL,
                 new RemoveImportFix(unused));
         }
