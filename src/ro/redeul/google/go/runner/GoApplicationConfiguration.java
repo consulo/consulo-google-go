@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.jdom.Element;
+import org.jetbrains.annotations.NotNull;
+import org.mustbe.consulo.compiler.roots.CompilerPathsImpl;
 import com.intellij.execution.CantRunException;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.Executor;
@@ -16,7 +19,6 @@ import com.intellij.execution.configurations.RuntimeConfigurationException;
 import com.intellij.execution.filters.TextConsoleBuilderFactory;
 import com.intellij.execution.process.OSProcessHandler;
 import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.openapi.compiler.CompilerPaths;
 import com.intellij.openapi.components.PathMacroManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
@@ -32,8 +34,6 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.PathUtil;
 import com.intellij.util.xmlb.XmlSerializer;
 import com.intellij.util.xmlb.annotations.Transient;
-import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.runner.ui.GoRunConfigurationEditorForm;
 
 /**
@@ -152,7 +152,7 @@ public class GoApplicationConfiguration extends ModuleBasedConfiguration<GoAppli
                 if (VfsUtil.isAncestor(sourceRoot, file, true)) {
                     String relativePath = VfsUtil.getRelativePath(file.getParent(), sourceRoot, File.separatorChar);
 
-                    String compiledFileName = CompilerPaths.getModuleOutputPath(module, false)
+                    String compiledFileName = CompilerPathsImpl.getModuleOutputPath(module, false)
                                                 + "/go-bins/" + relativePath + "/" + file.getNameWithoutExtension();
                     if (SystemInfo.isWindows) {
                         compiledFileName += ".exe";
