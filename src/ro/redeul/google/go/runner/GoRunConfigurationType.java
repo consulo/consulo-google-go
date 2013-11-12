@@ -4,6 +4,7 @@ import javax.swing.Icon;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.mustbe.consulo.module.extension.ModuleExtensionHelper;
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationType;
 import com.intellij.execution.configurations.RunConfiguration;
@@ -11,6 +12,7 @@ import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.containers.ContainerUtil;
 import ro.redeul.google.go.GoIcons;
+import ro.redeul.google.go.module.extension.GoModuleExtension;
 
 /**
  * Author: Toader Mihai Claudiu <mtoader@gmail.com>
@@ -18,48 +20,69 @@ import ro.redeul.google.go.GoIcons;
  * Date: Aug 19, 2010
  * Time: 2:49:26 PM
  */
-public class GoRunConfigurationType implements ConfigurationType {
+public class GoRunConfigurationType implements ConfigurationType
+{
+	public static class GoFactory extends ConfigurationFactory
+	{
+		public GoFactory(ConfigurationType type)
+		{
+			super(type);
+		}
 
-    private final GoFactory myConfigurationFactory;
+		@Override
+		public RunConfiguration createTemplateConfiguration(Project project)
+		{
+			return new GoApplicationConfiguration("Go application", project, getInstance());
+		}
 
-    public GoRunConfigurationType() {
-        myConfigurationFactory = new GoFactory(this);
-    }
+		@Override
+		public boolean isApplicable(@NotNull Project project)
+		{
+			return ModuleExtensionHelper.getInstance(project).hasModuleExtension(GoModuleExtension.class);
+		}
+	}
 
-    public String getDisplayName() {
-        return "Go Application";
-    }
+	private final GoFactory myConfigurationFactory;
 
-    public String getConfigurationTypeDescription() {
-        return "Go Application";
-    }
+	public GoRunConfigurationType()
+	{
+		myConfigurationFactory = new GoFactory(this);
+	}
 
-    public Icon getIcon() {
-        return GoIcons.Go;
-    }
+	@Override
+	public String getDisplayName()
+	{
+		return "Go Application";
+	}
 
-    @NonNls
-    @NotNull
-    public String getId() {
-        return "GoApplicationRunConfiguration";
-    }
+	@Override
+	public String getConfigurationTypeDescription()
+	{
+		return "Go Application";
+	}
 
-    public ConfigurationFactory[] getConfigurationFactories() {
-        return new ConfigurationFactory[]{myConfigurationFactory};
-    }
+	@Override
+	public Icon getIcon()
+	{
+		return GoIcons.Go;
+	}
 
-    public static GoRunConfigurationType getInstance() {
-        return ContainerUtil.findInstance(Extensions.getExtensions(CONFIGURATION_TYPE_EP), GoRunConfigurationType.class);
-    }
+	@Override
+	@NonNls
+	@NotNull
+	public String getId()
+	{
+		return "GoApplicationRunConfiguration";
+	}
 
-    public static class GoFactory extends ConfigurationFactory {
+	@Override
+	public ConfigurationFactory[] getConfigurationFactories()
+	{
+		return new ConfigurationFactory[]{myConfigurationFactory};
+	}
 
-        public GoFactory(ConfigurationType type) {
-            super(type);
-        }
-
-        public RunConfiguration createTemplateConfiguration(Project project) {
-            return new GoApplicationConfiguration("Go application", project, getInstance());
-        }        
-    }
+	public static GoRunConfigurationType getInstance()
+	{
+		return ContainerUtil.findInstance(Extensions.getExtensions(CONFIGURATION_TYPE_EP), GoRunConfigurationType.class);
+	}
 }
