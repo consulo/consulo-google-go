@@ -4,6 +4,7 @@ import javax.swing.Icon;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.mustbe.consulo.module.extension.ModuleExtensionHelper;
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationType;
 import com.intellij.execution.configurations.RunConfiguration;
@@ -11,49 +12,73 @@ import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.containers.ContainerUtil;
 import ro.redeul.google.go.GoIcons;
+import ro.redeul.google.go.module.extension.GoModuleExtension;
 
-public class GoTestConfigurationType implements ConfigurationType {
+public class GoTestConfigurationType implements ConfigurationType
+{
 
-    private final GoFactory myConfigurationFactory;
+	private final GoFactory myConfigurationFactory;
 
-    public GoTestConfigurationType() {
-        myConfigurationFactory = new GoFactory(this);
-    }
+	public GoTestConfigurationType()
+	{
+		myConfigurationFactory = new GoFactory(this);
+	}
 
-    public String getDisplayName() {
-        return "Go Test";
-    }
+	@Override
+	public String getDisplayName()
+	{
+		return "Go Test";
+	}
 
-    public String getConfigurationTypeDescription() {
-        return "Go Test";
-    }
+	@Override
+	public String getConfigurationTypeDescription()
+	{
+		return "Go Test";
+	}
 
-    public Icon getIcon() {
-        return GoIcons.Go;
-    }
+	@Override
+	public Icon getIcon()
+	{
+		return GoIcons.Go;
+	}
 
-    @NonNls
-    @NotNull
-    public String getId() {
-        return "GoTestConfiguration";
-    }
+	@Override
+	@NonNls
+	@NotNull
+	public String getId()
+	{
+		return "GoTestConfiguration";
+	}
 
-    public ConfigurationFactory[] getConfigurationFactories() {
-        return new ConfigurationFactory[]{myConfigurationFactory};
-    }
+	@Override
+	public ConfigurationFactory[] getConfigurationFactories()
+	{
+		return new ConfigurationFactory[]{myConfigurationFactory};
+	}
 
-    public static GoTestConfigurationType getInstance() {
-        return ContainerUtil.findInstance(Extensions.getExtensions(CONFIGURATION_TYPE_EP), GoTestConfigurationType.class);
-    }
+	public static GoTestConfigurationType getInstance()
+	{
+		return ContainerUtil.findInstance(Extensions.getExtensions(CONFIGURATION_TYPE_EP), GoTestConfigurationType.class);
+	}
 
-    public static class GoFactory extends ConfigurationFactory {
+	public static class GoFactory extends ConfigurationFactory
+	{
 
-        public GoFactory(ConfigurationType type) {
-            super(type);
-        }
+		public GoFactory(ConfigurationType type)
+		{
+			super(type);
+		}
 
-        public RunConfiguration createTemplateConfiguration(Project project) {
-            return new GoTestConfiguration("Go Test", project, getInstance());
-        }
-    }
+		@Override
+		public boolean isApplicable(@NotNull Project project)
+		{
+			return ModuleExtensionHelper.getInstance(project).hasModuleExtension(GoModuleExtension.class);
+		}
+
+		@Override
+		public RunConfiguration createTemplateConfiguration(Project project)
+		{
+			return new GoTestConfiguration("Go Test", project, getInstance());
+		}
+	}
 }
