@@ -1,12 +1,12 @@
 package ro.redeul.google.go.lang.psi.impl;
 
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
-import ro.redeul.google.go.lang.psi.scope.util.GoPsiScopesUtil;
+import com.intellij.psi.scope.util.PsiScopesUtilCore;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.lang.psi.GoPackageReference;
 import ro.redeul.google.go.lang.psi.processors.ImportedPackagesCollectorProcessor;
 
@@ -68,7 +68,7 @@ public class GoPackageReferenceImpl extends GoPsiElementBase implements GoPackag
 
         ImportedPackagesCollectorProcessor processor = new ImportedPackagesCollectorProcessor();
 
-        GoPsiScopesUtil.treeWalkUp(processor, this, this.getContainingFile());
+        PsiScopesUtilCore.treeWalkUp(processor, this, this.getContainingFile());
 
         return processor.getPackageImports();
     }

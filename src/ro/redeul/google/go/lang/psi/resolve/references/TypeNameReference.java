@@ -1,12 +1,22 @@
 package ro.redeul.google.go.lang.psi.resolve.references;
 
+import static com.intellij.patterns.StandardPatterns.or;
+import static com.intellij.patterns.StandardPatterns.psiElement;
+import static ro.redeul.google.go.lang.completion.GoCompletionUtil.getImportedPackagesNames;
+import static ro.redeul.google.go.lang.psi.utils.GoTypeUtils.resolveToFinalType;
+import static ro.redeul.google.go.util.LookupElementUtil.createLookupElement;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.patterns.ElementPattern;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.resolve.ResolveCache;
-import ro.redeul.google.go.lang.psi.scope.util.GoPsiScopesUtil;
+import com.intellij.psi.scope.util.PsiScopesUtilCore;
 import com.intellij.psi.util.PsiUtilCore;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.lang.psi.GoPsiElement;
 import ro.redeul.google.go.lang.psi.processors.GoResolveStates;
 import ro.redeul.google.go.lang.psi.resolve.GoResolveResult;
@@ -18,16 +28,6 @@ import ro.redeul.google.go.lang.psi.types.GoPsiType;
 import ro.redeul.google.go.lang.psi.types.GoPsiTypeInterface;
 import ro.redeul.google.go.lang.psi.types.GoPsiTypeName;
 import ro.redeul.google.go.lang.psi.types.GoPsiTypePointer;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static com.intellij.patterns.StandardPatterns.or;
-import static com.intellij.patterns.StandardPatterns.psiElement;
-import static ro.redeul.google.go.lang.completion.GoCompletionUtil.getImportedPackagesNames;
-import static ro.redeul.google.go.lang.psi.utils.GoTypeUtils.resolveToFinalType;
-import static ro.redeul.google.go.util.LookupElementUtil.createLookupElement;
 
 public class TypeNameReference
     extends GoPsiReference.Single<GoPsiTypeName, TypeNameReference> {
@@ -48,10 +48,7 @@ public class TypeNameReference
             public GoResolveResult resolve(TypeNameReference reference, boolean incompleteCode) {
                 TypeNameResolver processor = new TypeNameResolver(reference);
 
-                GoPsiScopesUtil.treeWalkUp(
-						processor,
-						reference.getElement(),
-						reference.getElement().getContainingFile(),
+				PsiScopesUtilCore.treeWalkUp(processor, reference.getElement(), reference.getElement().getContainingFile(),
 						GoResolveStates.initial());
 
                 PsiElement declaration = processor.getDeclaration();
@@ -126,7 +123,7 @@ public class TypeNameReference
                 }
             };
 
-        GoPsiScopesUtil.treeWalkUp(
+		PsiScopesUtilCore.treeWalkUp(
 				processor,
 				getElement(), getElement().getContainingFile(),
 				GoResolveStates.initial());

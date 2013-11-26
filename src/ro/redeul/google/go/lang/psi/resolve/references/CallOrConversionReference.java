@@ -1,20 +1,21 @@
 package ro.redeul.google.go.lang.psi.resolve.references;
 
+import static ro.redeul.google.go.util.LookupElementUtil.createLookupElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.resolve.ResolveCache;
-import ro.redeul.google.go.lang.psi.scope.util.GoPsiScopesUtil;
+import com.intellij.psi.scope.util.PsiScopesUtilCore;
 import com.intellij.psi.util.PsiUtilCore;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.lang.psi.GoPsiElement;
 import ro.redeul.google.go.lang.psi.expressions.primary.GoLiteralExpression;
 import ro.redeul.google.go.lang.psi.processors.GoResolveStates;
 import ro.redeul.google.go.lang.psi.resolve.GoResolveResult;
 import ro.redeul.google.go.lang.psi.resolve.MethodOrTypeNameResolver;
-import static ro.redeul.google.go.util.LookupElementUtil.createLookupElement;
 
 public class CallOrConversionReference extends AbstractCallOrConversionReference<CallOrConversionReference> {
 
@@ -30,10 +31,7 @@ public class CallOrConversionReference extends AbstractCallOrConversionReference
                     new MethodOrTypeNameResolver(psiReference);
 
                 GoLiteralExpression expression = psiReference.getElement();
-                GoPsiScopesUtil.treeWalkUp(
-						processor,
-						expression, expression.getContainingFile(),
-						GoResolveStates.initial());
+				PsiScopesUtilCore.treeWalkUp(processor, expression, expression.getContainingFile(), GoResolveStates.initial());
 
                 PsiElement declaration = processor.getChildDeclaration();
                 return declaration != null ? new GoResolveResult(declaration) : GoResolveResult.NULL;
@@ -76,7 +74,7 @@ public class CallOrConversionReference extends AbstractCallOrConversionReference
                 }
             };
 
-        GoPsiScopesUtil.treeWalkUp(
+		PsiScopesUtilCore.treeWalkUp(
 				processor,
 				expression, expression.getContainingFile(),
 				GoResolveStates.initial());

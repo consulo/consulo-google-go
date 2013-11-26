@@ -1,16 +1,16 @@
 package ro.redeul.google.go.lang.psi.impl.toplevel;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
-import ro.redeul.google.go.lang.psi.scope.util.GoPsiScopesUtil;
-import org.jetbrains.annotations.NotNull;
-import ro.redeul.google.go.lang.psi.processors.GoResolveStates;
-import ro.redeul.google.go.lang.psi.visitors.GoElementVisitor;
+import com.intellij.psi.scope.util.PsiScopesUtilCore;
 import ro.redeul.google.go.lang.psi.impl.GoPsiElementBase;
-import ro.redeul.google.go.lang.psi.toplevel.GoImportDeclarations;
+import ro.redeul.google.go.lang.psi.processors.GoResolveStates;
 import ro.redeul.google.go.lang.psi.toplevel.GoImportDeclaration;
+import ro.redeul.google.go.lang.psi.toplevel.GoImportDeclarations;
+import ro.redeul.google.go.lang.psi.visitors.GoElementVisitor;
 
 /**
  * Author: Toader Mihai Claudiu <mtoader@gmail.com>
@@ -41,6 +41,6 @@ public class GoImportDeclarationsImpl extends GoPsiElementBase implements GoImpo
         if (!state.get(GoResolveStates.IsOriginalPackage) || !state.get(GoResolveStates.IsOriginalFile))
             return true;
 
-        return GoPsiScopesUtil.walkChildrenScopes(this, processor, state, lastParent, place);
+        return PsiScopesUtilCore.walkChildrenScopes(this, processor, state, lastParent, place);
     }
 }

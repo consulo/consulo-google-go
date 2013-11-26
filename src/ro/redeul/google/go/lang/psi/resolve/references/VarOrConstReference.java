@@ -1,24 +1,24 @@
 package ro.redeul.google.go.lang.psi.resolve.references;
 
+import static com.intellij.patterns.StandardPatterns.psiElement;
+import static ro.redeul.google.go.util.LookupElementUtil.createLookupElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.patterns.ElementPattern;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.resolve.ResolveCache;
-import ro.redeul.google.go.lang.psi.scope.util.GoPsiScopesUtil;
+import com.intellij.psi.scope.util.PsiScopesUtilCore;
 import com.intellij.psi.util.PsiUtilCore;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.lang.psi.GoPsiElement;
 import ro.redeul.google.go.lang.psi.expressions.literals.GoLiteralIdentifier;
 import ro.redeul.google.go.lang.psi.expressions.primary.GoLiteralExpression;
 import ro.redeul.google.go.lang.psi.processors.GoResolveStates;
 import ro.redeul.google.go.lang.psi.resolve.GoResolveResult;
 import ro.redeul.google.go.lang.psi.resolve.VarOrConstResolver;
-
-import static com.intellij.patterns.StandardPatterns.psiElement;
-import static ro.redeul.google.go.util.LookupElementUtil.createLookupElement;
 
 public class VarOrConstReference
     extends GoPsiReference.Single<GoLiteralIdentifier, VarOrConstReference> {
@@ -35,10 +35,7 @@ public class VarOrConstReference
                 VarOrConstResolver processor =
                     new VarOrConstResolver(reference);
 
-                GoPsiScopesUtil.treeWalkUp(
-						processor,
-						reference.getElement().getParent().getParent(),
-						reference.getElement().getContainingFile(),
+				PsiScopesUtilCore.treeWalkUp(processor, reference.getElement().getParent().getParent(), reference.getElement().getContainingFile(),
 						GoResolveStates.initial());
 
                 PsiElement declaration = processor.getChildDeclaration();
@@ -97,7 +94,7 @@ public class VarOrConstReference
             }
         };
 
-        GoPsiScopesUtil.treeWalkUp(
+		PsiScopesUtilCore.treeWalkUp(
 				processor,
 				getElement().getParent().getParent(),
 				getElement().getContainingFile(),

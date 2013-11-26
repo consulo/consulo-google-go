@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.resolve.ResolveCache;
-import ro.redeul.google.go.lang.psi.scope.util.GoPsiScopesUtil;
+import com.intellij.psi.scope.util.PsiScopesUtilCore;
 import com.intellij.psi.util.PsiUtilCore;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.lang.psi.GoPsiElement;
 import ro.redeul.google.go.lang.psi.expressions.literals.GoLiteralIdentifier;
 import ro.redeul.google.go.lang.psi.expressions.primary.GoSelectorExpression;
@@ -45,10 +45,7 @@ public class MethodReference
 
                 GoSelectorExpression element = methodReference.getElement();
 
-                GoPsiScopesUtil.treeWalkUp(
-						processor,
-						element.getContainingFile().getLastChild(),
-						element.getContainingFile(),
+				PsiScopesUtilCore.treeWalkUp(processor, element.getContainingFile().getLastChild(), element.getContainingFile(),
 						GoResolveStates.initial());
 
                 PsiElement declaration = processor.getChildDeclaration();
@@ -111,7 +108,7 @@ public class MethodReference
             }
         };
 
-        GoPsiScopesUtil.treeWalkUp(
+		PsiScopesUtilCore.treeWalkUp(
 				processor,
 				getElement().getContainingFile().getLastChild(),
 				getElement().getContainingFile(),

@@ -1,11 +1,11 @@
 package ro.redeul.google.go.lang.psi.impl.toplevel;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
-import ro.redeul.google.go.lang.psi.scope.util.GoPsiScopesUtil;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.psi.scope.util.PsiScopesUtilCore;
 import ro.redeul.google.go.lang.psi.impl.GoPsiElementBase;
 import ro.redeul.google.go.lang.psi.toplevel.GoTypeDeclaration;
 import ro.redeul.google.go.lang.psi.toplevel.GoTypeSpec;
@@ -38,7 +38,7 @@ public class GoTypeDeclarationImpl extends GoPsiElementBase implements GoTypeDec
                                        PsiElement lastParent,
                                        @NotNull PsiElement place)
     {
-        return GoPsiScopesUtil.walkChildrenScopes(this, processor, state, lastParent, place);
+        return PsiScopesUtilCore.walkChildrenScopes(this, processor, state, lastParent, place);
     }
 }
 

@@ -1,13 +1,15 @@
 package ro.redeul.google.go.lang.psi.impl.expressions.primary;
 
+import static ro.redeul.google.go.lang.psi.typing.GoTypes.Builtin;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
-import ro.redeul.google.go.lang.psi.scope.util.GoPsiScopesUtil;
+import com.intellij.psi.scope.util.PsiScopesUtilCore;
 import com.intellij.util.Function;
-import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.lang.psi.declarations.GoConstDeclaration;
 import ro.redeul.google.go.lang.psi.declarations.GoVarDeclaration;
 import ro.redeul.google.go.lang.psi.expressions.literals.GoLiteral;
@@ -31,7 +33,6 @@ import ro.redeul.google.go.lang.psi.utils.GoPsiUtils;
 import ro.redeul.google.go.lang.psi.visitors.GoElementVisitor;
 import ro.redeul.google.go.lang.stubs.GoNamesCache;
 import ro.redeul.google.go.services.GoPsiManager;
-import static ro.redeul.google.go.lang.psi.typing.GoTypes.Builtin;
 
 public class GoLiteralExpressionImpl extends GoExpressionBase
     implements GoLiteralExpression {
@@ -228,10 +229,7 @@ public class GoLiteralExpressionImpl extends GoExpressionBase
                                        @NotNull ResolveState state,
                                        PsiElement lastParent,
                                        @NotNull PsiElement place) {
-        return
-            GoPsiScopesUtil.walkChildrenScopes(this,
-					processor, state,
-					lastParent, place);
+        return PsiScopesUtilCore.walkChildrenScopes(this, processor, state, lastParent, place);
     }
 
     @NotNull
