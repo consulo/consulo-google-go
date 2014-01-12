@@ -30,13 +30,6 @@ public class GoModuleExtensionProvider implements ModuleExtensionProvider<GoModu
 
 	@NotNull
 	@Override
-	public Class<GoModuleExtension> getImmutableClass()
-	{
-		return GoModuleExtension.class;
-	}
-
-	@NotNull
-	@Override
 	public GoModuleExtension createImmutable(@NotNull String s, @NotNull Module module)
 	{
 		return new GoModuleExtension(s, module);
