@@ -1,9 +1,6 @@
 package ro.redeul.google.go.module.extension;
 
-import java.awt.BorderLayout;
-
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 import org.consulo.module.extension.MutableModuleExtensionWithSdk;
 import org.consulo.module.extension.MutableModuleInheritableNamedPointer;
@@ -20,14 +17,9 @@ import com.intellij.openapi.roots.ModifiableRootModel;
  */
 public class GoMutableModuleExtension extends GoModuleExtension implements MutableModuleExtensionWithSdk<GoModuleExtension>
 {
-	@NotNull
-	private final GoModuleExtension moduleExtension;
-
-	public GoMutableModuleExtension(@NotNull String id, @NotNull Module module, @NotNull GoModuleExtension moduleExtension)
+	public GoMutableModuleExtension(@NotNull String id, @NotNull Module module)
 	{
 		super(id, module);
-		this.moduleExtension = moduleExtension;
-		commit(moduleExtension);
 	}
 
 	@NotNull
@@ -41,9 +33,7 @@ public class GoMutableModuleExtension extends GoModuleExtension implements Mutab
 	@Override
 	public JComponent createConfigurablePanel(@NotNull ModifiableRootModel modifiableRootModel, @Nullable Runnable runnable)
 	{
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(new ModuleExtensionWithSdkPanel(this, runnable), BorderLayout.NORTH);
-		return panel;
+		return wrapToNorth(new ModuleExtensionWithSdkPanel(this, runnable));
 	}
 
 	@Override
@@ -53,14 +43,8 @@ public class GoMutableModuleExtension extends GoModuleExtension implements Mutab
 	}
 
 	@Override
-	public boolean isModified()
+	public boolean isModified(@NotNull GoModuleExtension extension)
 	{
-		return isModifiedImpl(moduleExtension);
-	}
-
-	@Override
-	public void commit()
-	{
-		moduleExtension.commit(this);
+		return isModifiedImpl(extension);
 	}
 }

@@ -37,8 +37,8 @@ public class GoModuleExtensionProvider implements ModuleExtensionProvider<GoModu
 
 	@NotNull
 	@Override
-	public GoMutableModuleExtension createMutable(@NotNull String s, @NotNull Module module, @NotNull GoModuleExtension moduleExtension)
+	public GoMutableModuleExtension createMutable(@NotNull String s, @NotNull Module module)
 	{
-		return new GoMutableModuleExtension(s, module, moduleExtension);
+		return new GoMutableModuleExtension(s, module);
 	}
 }
