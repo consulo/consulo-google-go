@@ -21,7 +21,6 @@ import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.Chunk;
@@ -58,7 +57,7 @@ public class GoMakefileCompiler implements TranslatingCompiler {
     public boolean validateConfiguration(CompileScope scope) {
 
         // Check for project sdk only if experimental make system is enabled (for now)
-        Sdk projectSdk = ProjectRootManager.getInstance(project).getProjectSdk();
+        Sdk projectSdk = null;
         if (projectSdk == null) {
             Messages.showErrorDialog(
                     project,
@@ -112,7 +111,7 @@ public class GoMakefileCompiler implements TranslatingCompiler {
             context.addMessage(CompilerMessageCategory.ERROR, "Makefile doesn't exist at " + makeFile.getPath(), null, -1, -1);
         } else {
             GeneralCommandLine command = new GeneralCommandLine();
-            final Sdk projectSdk = ProjectRootManager.getInstance(project).getProjectSdk();
+            final Sdk projectSdk =null;
             final GoSdkData goSdkData = goSdkData(projectSdk);
             command.setExePath(getMakeBinary(projectSdk));
             command.addParameter("-C");
