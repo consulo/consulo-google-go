@@ -128,7 +128,11 @@
 	</actions>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<moduleExtensionProvider key="google-go" implementationClass="ro.redeul.google.go.module.extension.GoModuleExtensionProvider"/>
+		<moduleExtensionProvider key="google-go"
+								 name="Google Go"
+								 icon="/icons/go.png"
+								 mutableClass="ro.redeul.google.go.module.extension.GoMutableModuleExtension"
+								 immutableClass="ro.redeul.google.go.module.extension.GoModuleExtension"/>
 		<psi.packageSupportProvider implementation="org.consulo.googe.go.module.packageSupport.GoPsiPackageSupportProvider" />
 
 		<fileTypeFactory implementation="ro.redeul.google.go.GoFileTypeLoader"/>
