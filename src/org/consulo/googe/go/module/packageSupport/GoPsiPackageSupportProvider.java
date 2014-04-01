@@ -1,11 +1,11 @@
 package org.consulo.googe.go.module.packageSupport;
 
-import com.intellij.psi.PsiManager;
 import org.consulo.module.extension.ModuleExtension;
 import org.consulo.psi.PsiPackage;
 import org.consulo.psi.PsiPackageManager;
 import org.consulo.psi.PsiPackageSupportProvider;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.psi.PsiManager;
 import ro.redeul.google.go.lang.psi.impl.GoNamespaceImpl;
 import ro.redeul.google.go.module.extension.GoModuleExtension;
 
@@ -14,10 +14,10 @@ import ro.redeul.google.go.module.extension.GoModuleExtension;
  * @since 12.09.13.
  */
 public class GoPsiPackageSupportProvider implements PsiPackageSupportProvider {
-	@NotNull
 	@Override
-	public Class<? extends ModuleExtension> getSupportedModuleExtensionClass() {
-		return GoModuleExtension.class;
+	public boolean isSupported(@NotNull ModuleExtension moduleExtension)
+	{
+		return moduleExtension instanceof GoModuleExtension;
 	}
 
 	@NotNull
