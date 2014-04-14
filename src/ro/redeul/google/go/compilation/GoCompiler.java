@@ -417,7 +417,7 @@ public class GoCompiler implements TranslatingCompiler {
         command.addParameter(baseOutputPath);
         command.addParameter("-o");
         command.addParameter(outputBinary);
-        command.setEnvParams(new HashMap<String, String>() {{
+        command.getEnvironment().putAll(new HashMap<String, String>() {{
             put("GOROOT", sdk.getHomePath());
         }});
 
@@ -467,7 +467,7 @@ public class GoCompiler implements TranslatingCompiler {
             fixApplicationExtension(outputApplication, sdk));
         linkCommand.addParameter(outputBinary);
         linkCommand.setWorkDirectory(sourceRoot.getPath());
-        linkCommand.setEnvParams(new HashMap<String, String>() {{
+        linkCommand.getEnvironment().putAll(new HashMap<String, String>() {{
             put("GOROOT", sdk.getHomePath());
         }});
 
@@ -517,7 +517,7 @@ public class GoCompiler implements TranslatingCompiler {
         command.addParameter("-o");
         command.addParameter(outputBinary);
         command.setWorkDirectory(sourceRoot.getPath());
-        command.setEnvParams(new HashMap<String, String>() {{
+        command.getEnvironment().putAll(new HashMap<String, String>() {{
             put("GOROOT", sdk.getHomePath());
         }});
 
@@ -560,7 +560,7 @@ public class GoCompiler implements TranslatingCompiler {
         libraryPackCommand.addParameter("grc");
         libraryPackCommand.addParameter(libraryFile.getPath());
         libraryPackCommand.addParameter(outputBinary);
-        libraryPackCommand.setEnvParams(new HashMap<String, String>() {{
+        libraryPackCommand.getEnvironment().putAll(new HashMap<String, String>() {{
             put("GOROOT", sdk.getHomePath());
         }});
 

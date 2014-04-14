@@ -1,5 +1,12 @@
 package ro.redeul.google.go.compilation;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Map;
+
+import org.jetbrains.annotations.NonNls;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.CapturingProcessHandler;
@@ -9,14 +16,7 @@ import com.intellij.openapi.compiler.CompilerMessageCategory;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.util.EnvironmentUtil;
 import com.intellij.util.StringBuilderSpinAllocator;
-import org.jetbrains.annotations.NonNls;
 import ro.redeul.google.go.util.ProcessUtil;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Go Makefile compiler implementation.
@@ -45,7 +45,7 @@ public class CompilationTaskWorker {
                     buf.append("\t").append(pair).append("\n");
                 }
 
-                Map<String, String> map = command.getEnvParams();
+                Map<String, String> map = command.getEnvironment();
                 if (map != null) {
                     buf.append("===== Custom environment:").append("\n");
                     for (String key : map.keySet()) {

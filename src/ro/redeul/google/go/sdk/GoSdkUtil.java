@@ -117,7 +117,7 @@ public class GoSdkUtil {
             command.setExePath(goCommand);
             command.addParameter("version");
             command.setWorkDirectory(path);
-            command.setEnvParams(new HashMap<String, String>() {{
+            command.getEnvironment().putAll(new HashMap<String, String>() {{
                 put("GOROOT", path);
             }});
 
@@ -150,7 +150,7 @@ public class GoSdkUtil {
             command.setExePath(goCommand);
             command.addParameter("env");
             command.setWorkDirectory(path);
-            command.setEnvParams(new HashMap<String, String>() {{
+            command.getEnvironment().putAll(new HashMap<String, String>() {{
                 put("GOROOT", path);
             }});
 
