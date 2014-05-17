@@ -194,7 +194,6 @@
 		<configurationProducer implementation="ro.redeul.google.go.runner.GoRunConfigurationProducer"/>
 		<configurationProducer implementation="ro.redeul.google.go.runner.GoTestConfigurationProducer"/>
 
-		<customLiveTemplate implementation="ro.redeul.google.go.editor.GoCustomLiveTemplate"/>
 
 		<liveTemplateContext implementation="ro.redeul.google.go.template.GoTemplateContextType$Generic"/>
 		<liveTemplateContext implementation="ro.redeul.google.go.template.GoTemplateContextType$Function"/>
