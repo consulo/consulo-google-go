@@ -13,11 +13,8 @@ import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.runners.ProgramRunner;
 import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.Disposable;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.actionSystem.impl.SimpleDataContext;
 import com.intellij.openapi.application.Result;
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.compiler.*;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.ProjectJdkTable;
@@ -37,14 +34,12 @@ import com.intellij.testFramework.fixtures.TempDirTestFixture;
 import com.intellij.testFramework.fixtures.impl.TempDirTestFixtureImpl;
 import com.intellij.util.concurrency.Semaphore;
 import com.intellij.util.ui.UIUtil;
-import ro.redeul.google.go.components.GoCompilerLoader;
 import ro.redeul.google.go.config.sdk.GoSdkData;
 import ro.redeul.google.go.config.sdk.GoSdkType;
 import ro.redeul.google.go.runner.GoApplicationConfiguration;
 import ro.redeul.google.go.runner.GoRunConfigurationType;
 import ro.redeul.google.go.sdk.GoSdkUtil;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -82,7 +77,6 @@ public abstract class GoCompilerTestCase extends JavaCodeInsightFixtureTestCase 
         myMainOutput = new TempDirTestFixtureImpl();
         myMainOutput.setUp();
         super.setUp();
-        getProject().getComponent(GoCompilerLoader.class).projectOpened();
 
         CompilerManagerImpl.testSetup();
 

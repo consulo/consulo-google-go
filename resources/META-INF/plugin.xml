@@ -80,14 +80,6 @@
 	</application-components>
 
 	<project-components>
-
-		<!-- Add your project components here -->
-		<component>
-			<implementation-class>
-				ro.redeul.google.go.components.GoCompilerLoader
-			</implementation-class>
-		</component>
-
 		<component>
 			<implementation-class>
 				ro.redeul.google.go.imports.AutoImportHighlightingPassFactory
