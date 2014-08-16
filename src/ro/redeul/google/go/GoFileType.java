@@ -4,56 +4,55 @@ import javax.swing.Icon;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import com.intellij.openapi.editor.colors.EditorColorsScheme;
-import com.intellij.openapi.editor.highlighter.EditorHighlighter;
 import com.intellij.openapi.fileTypes.LanguageFileType;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.openapi.vfs.VirtualFile;
-import ro.redeul.google.go.highlight.GoEditorHighlighter;
 
-public class GoFileType extends LanguageFileType {
+public class GoFileType extends LanguageFileType
+{
+	public static final GoFileType INSTANCE = new GoFileType();
 
-    public static final GoFileType INSTANCE = new GoFileType();
+	@NonNls
+	public static final String DEFAULT_EXTENSION = "go";
 
-    @NonNls
-    public static final String DEFAULT_EXTENSION = "go";
+	private GoFileType()
+	{
+		super(GoLanguage.INSTANCE);
+	}
 
-    private GoFileType() {
-        super(GoLanguage.INSTANCE);
-    }
+	@Override
+	@NotNull
+	@NonNls
+	public String getName()
+	{
+		return "Google Go";
+	}
 
-    @NotNull
-    @NonNls
-    public String getName() {
-        return "Google Go";
-    }
+	@Override
+	@NonNls
+	@NotNull
+	public String getDescription()
+	{
+		return "Google Go files";
+	}
 
-    @NonNls
-    @NotNull
-    public String getDescription() {
-        return "Google Go files";
-    }
+	@Override
+	@NotNull
+	@NonNls
+	public String getDefaultExtension()
+	{
+		return DEFAULT_EXTENSION;
+	}
 
-    @NotNull
-    @NonNls
-    public String getDefaultExtension() {
-        return DEFAULT_EXTENSION;
-    }
+	@Override
+	public Icon getIcon()
+	{
+		return GoIcons.Go;
+	}
 
-    public Icon getIcon() {
-        return GoIcons.Go;
-    }
-
-    @Override
-    public String getCharset(@NotNull VirtualFile file, byte[] content) {
-        return CharsetToolkit.UTF8;
-    }
-
-    public EditorHighlighter getEditorHighlighter(@Nullable Project project,
-                                                  @Nullable VirtualFile virtualFile,
-                                                  @NotNull EditorColorsScheme colors) {
-        return new GoEditorHighlighter(colors, project, virtualFile);
-    }
+	@Override
+	public String getCharset(@NotNull VirtualFile file, byte[] content)
+	{
+		return CharsetToolkit.UTF8;
+	}
 }

@@ -20,13 +20,6 @@
 				ro.redeul.google.go.components.GoSdkParsingHelper
 			</implementation-class>
 		</component>
-
-		<component>
-			<implementation-class>
-				ro.redeul.google.go.components.GoFileTypeRegistrationValidator
-			</implementation-class>
-		</component>
-
 	</application-components>
 
 	<project-components>
@@ -77,7 +70,7 @@
 								 immutableClass="ro.redeul.google.go.module.extension.GoModuleExtension"/>
 		<psi.packageSupportProvider implementation="org.consulo.googe.go.module.packageSupport.GoPsiPackageSupportProvider" />
 
-		<fileTypeFactory implementation="ro.redeul.google.go.GoFileTypeLoader"/>
+		<fileTypeFactory implementation="ro.redeul.google.go.GoFileTypeFactory"/>
 
 		<projectService serviceInterface="ro.redeul.google.go.ide.GoProjectSettings" serviceImplementation="ro.redeul.google.go.ide.GoProjectSettings"/>
 
