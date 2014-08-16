@@ -11,12 +11,6 @@
 	<application-components>
 		<component>
 			<implementation-class>
-				ro.redeul.google.go.components.GoBundledSdkDetector
-			</implementation-class>
-		</component>
-
-		<component>
-			<implementation-class>
 				ro.redeul.google.go.components.GoSdkParsingHelper
 			</implementation-class>
 		</component>
