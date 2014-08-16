@@ -9,7 +9,6 @@ import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.Project;
 import ro.redeul.google.go.GoIcons;
-import ro.redeul.google.go.options.GoSettings;
 
 public class GoConfigurable implements SearchableConfigurable {
 
@@ -58,18 +57,14 @@ public class GoConfigurable implements SearchableConfigurable {
     @Override
     public boolean isModified() {
         return form != null &&
-            form.isModified(getProjectSettings().getState(),
-                            GoSettings.getInstance().getState());
+            form.isModified(getProjectSettings().getState());
     }
 
     @Override
     public void apply() throws ConfigurationException {
         GoProjectSettings.GoProjectSettingsBean projectSettings = new GoProjectSettings.GoProjectSettingsBean();
-        GoSettings settings = GoSettings.getInstance().getState();
-
         if ( form != null ) {
-            form.apply(projectSettings, settings);
-            GoSettings.getInstance().loadState(settings);
+            form.apply(projectSettings);
             getProjectSettings().loadState(projectSettings);
             applyCompilerSettings(projectSettings);
         }
@@ -111,7 +106,7 @@ public class GoConfigurable implements SearchableConfigurable {
     @Override
     public void reset() {
         if ( form != null ) {
-            form.reset(getProjectSettings().getState(), GoSettings.getInstance().getState());
+            form.reset(getProjectSettings().getState());
         }
     }
 

@@ -1,11 +1,9 @@
 package ro.redeul.google.go.ide;
 
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import com.intellij.openapi.options.ConfigurationException;
-import ro.redeul.google.go.options.GoSettings;
 
 /**
  * Author: Toader Mihai Claudiu <mtoader@gmail.com>
@@ -19,38 +17,11 @@ public class GoConfigurableForm {
 
     private JRadioButton internalBuildSystemRadioButton;
     private JRadioButton makefileBasedRadioButton;
-    private JCheckBox enableImportsOptimizer;
-    private JCheckBox enableOnTheFlyImportOptimization;
 
     public void enableShowHide(){
-        componentPanel.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentMoved(ComponentEvent e) {
-                System.out.println("Moved " + e);
-            }
-
-            public void componentHidden(ComponentEvent ce) {
-                System.out.println("Component hidden!");
-            }
-
-            @Override
-            public void componentShown(ComponentEvent e) {
-                System.out.println("Component shown");
-            }
-        });
     }
 
-    public boolean isModified(GoProjectSettings.GoProjectSettingsBean settingsBean,
-                              GoSettings goSettings) {
-
-        if (goSettings.OPTIMIZE_IMPORTS_ON_THE_FLY != enableOnTheFlyImportOptimization.isSelected()) {
-            return true;
-        }
-
-        if ( settingsBean.enableOptimizeImports != enableImportsOptimizer.isSelected() ) {
-            return true;
-        }
-
+    public boolean isModified(GoProjectSettings.GoProjectSettingsBean settingsBean) {
         switch (settingsBean.BUILD_SYSTEM_TYPE) {
             case Internal:
                 return !internalBuildSystemRadioButton.isSelected();
@@ -61,18 +32,16 @@ public class GoConfigurableForm {
         return false;
     }
 
-    public void apply(GoProjectSettings.GoProjectSettingsBean settingsBean, GoSettings goSettings) throws ConfigurationException {
+    public void apply(GoProjectSettings.GoProjectSettingsBean settingsBean) throws ConfigurationException {
         if ( internalBuildSystemRadioButton.isSelected() ) {
             settingsBean.BUILD_SYSTEM_TYPE = GoProjectSettings.BuildSystemType.Internal;
         } else if ( makefileBasedRadioButton.isSelected() ) {
             settingsBean.BUILD_SYSTEM_TYPE = GoProjectSettings.BuildSystemType.Makefile;
         }
 
-        settingsBean.enableOptimizeImports = enableImportsOptimizer.isSelected();
-        goSettings.OPTIMIZE_IMPORTS_ON_THE_FLY = enableOnTheFlyImportOptimization.isSelected();
     }
 
-    public void reset(GoProjectSettings.GoProjectSettingsBean settingsBean, GoSettings goSettings) {
+    public void reset(GoProjectSettings.GoProjectSettingsBean settingsBean) {
         switch (settingsBean.BUILD_SYSTEM_TYPE) {
             case Internal:
                 internalBuildSystemRadioButton.setSelected(true);
@@ -81,9 +50,5 @@ public class GoConfigurableForm {
                 makefileBasedRadioButton.setSelected(true);
                 break;
         }
-
-        enableOnTheFlyImportOptimization.setSelected(goSettings.OPTIMIZE_IMPORTS_ON_THE_FLY);
-        enableImportsOptimizer.setSelected(settingsBean.enableOptimizeImports);
     }
-
 }

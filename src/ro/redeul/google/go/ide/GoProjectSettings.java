@@ -1,12 +1,12 @@
 package ro.redeul.google.go.ide;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.components.StorageScheme;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NotNull;
 
 @State(
         name = "GoProjectSettings",
@@ -23,8 +23,6 @@ public class GoProjectSettings implements PersistentStateComponent<GoProjectSett
 
     public static class GoProjectSettingsBean {
         public BuildSystemType BUILD_SYSTEM_TYPE = BuildSystemType.Internal;
-        public boolean enableVariablesCompletion = true;
-        public boolean enableOptimizeImports = false;
     }
 
     GoProjectSettingsBean bean;
