@@ -1,61 +1,11 @@
 <idea-plugin version="2" url="http://github.com/mtoader/google-go-lang-idea-plugin">
 	<id>org.consulo.google.go</id>
 	<name>Google Go</name>
-	<version>0.9.14</version>
+	<version>SNAPSHOT</version>
 	<vendor email="mtoader@gmail.com" url="http://redeul.ro">mtoader@gmail.com</vendor>
-	<description>
-		<![CDATA[
-        <p>Intellij IDEA support for Go language (see http://golang.org).</p>
-        <p>The plugin provides the following features:</p>
-
-        <ul>
-            <li>Basic language parsing and highlighting</li>
-            <li>Code folding and Brace matching</li>
-            <li>Comment/Uncomment (Single/Multiple line) support</li>
-            <li>Go application file and library generation.</li>
-            <li>Auto completion of sdk package names and/or local application packages.</li>
-            <li>Compilation of the go applications (supported semantics are similar to those of gobuild)</li>
-            <li>Native plugin code formatter</li>
-            <li>GoTo class (go types) implementation</li>
-            <li>ColorsAndSettings page with a new color scheme</li>
-            <li>Completion/Resolution of vars/types/functions/structs/methods (works across some expression chains).</li>
-            <li>Refactorings: Introduce variable/constant</li>
-            <li>Inspections: Unused imports/variables/constants/parameters/symbols</li>
-            <li>Inspections: Validate the format param for the fmt.Print suite of functions</li>
-            <li>Inspections: Detect non constant expression used in constant declarations</li>
-            <li>Intentions: Invert if condition/Merge nested 'if's/Split into 2 'if's/Convert switch statement to if chain.</li>
-            <li>Intentions: Convert between interpreted string and raw string.</li>
-            <li>Intention: Add/Remove parentheses.</li>
-            <li>Intention: Move simple statement out.</li>
-            <li>Inspection: Validate that the package names in files are correct with respect of the folder name.</li>
-            <li>Documentation for functions, methods, variable, constants and types.</li>
-            <li>Function parameter information.</li>
-            <li>Ctrl+Shift+T to jump between source file and test file.</li>
-            <li>Navigation from stack trace in output panel.</li>
-            <li>Ctrl+Shift+Enter to add curly brackets for "func", "if" and "for" statements.</li>
-            <li>Live templates: "sout", "souf", "soutm" and "soutp".</li>
-            <li>Go aware imports optimizer and auto import generator</li>
-            <li>Import usage highlighting (and detecting of wrong imports)</li>
-            <li>Better Structure view</li>
-            <li>Automatically add new line at end of file</li>
-            <li>Force UTF-8 encoding for go files</li>
-            <li>Detection of bundled Go Sdk packages (useful when deployed as GoIde)</li>
-            <li>Run configuration creator (right click on a program file and you can run it). </li>
-            <li>Go SDK (Go 1.0 on linux/mac/windows)</li>
-            <li>Go module type</li>
-            <li>Go App engine sdk type</li>
-            <li>Go App engine credentials safe storage</li>
-            <li>Added go application wizard</li>
-            <li>Makefile based build system (bring your own Makefile). Experimental. Configured in project settings.</li>
-            <li>Always use tabs instead of spaces (but configurable if desired).</li>
-        </ul>
-    ]]>
-	</description>
-
 	<category>Custom Languages</category>
 	<resource-bundle>ro.redeul.google.go.GoBundle</resource-bundle>
 
-	<depends>com.intellij</depends>
 	<depends config-file="com.intellij.spellchecker.xml" optional="true">com.intellij.spellchecker</depends>
 
 	<application-components>
@@ -135,7 +85,10 @@
 
 		<applicationService serviceInterface="ro.redeul.google.go.options.GoSettings" serviceImplementation="ro.redeul.google.go.options.GoSettings"/>
 		<exportable serviceInterface="ro.redeul.google.go.options.GoSettings"/>
-		<autoImportOptionsProvider instance="ro.redeul.google.go.imports.GoAutoImportOptionsProvider"/>
+		<applicationConfigurable id="editor.preferences.import.go"
+								 parentId="editor.preferences.import"
+								 displayName="Google Go"
+								 instance="ro.redeul.google.go.imports.GoAutoImportConfigurable"/>
 
 		<langCodeStyleSettingsProvider implementation="ro.redeul.google.go.ide.GoLanguageCodeStyleSettingsProvider"/>
 		<codeStyleSettingsProvider implementation="ro.redeul.google.go.ide.GoCodeStyleSettingsProvider"/>
@@ -194,7 +147,7 @@
 		<liveTemplateMacro implementation="ro.redeul.google.go.template.macro.ParameterListMacro"/>
 		<liveTemplateMacro implementation="ro.redeul.google.go.template.macro.ParameterFormatMacro"/>
 
-		<defaultLiveTemplatesProvider implementation="ro.redeul.google.go.template.GoTemplatesProvider"/>
+		<bundleLiveTemplateSet path="/liveTemplates/GoLiveTemplates" />
 
 		<fileTemplateGroup implementation="ro.redeul.google.go.actions.GoTemplatesFactory"/>
 
