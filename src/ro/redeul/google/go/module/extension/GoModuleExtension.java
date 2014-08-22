@@ -6,7 +6,7 @@ import org.mustbe.consulo.roots.ContentFoldersSupport;
 import org.mustbe.consulo.roots.impl.ProductionContentFolderTypeProvider;
 import org.mustbe.consulo.roots.impl.TestContentFolderTypeProvider;
 import com.intellij.openapi.projectRoots.SdkType;
-import com.intellij.openapi.roots.ModifiableRootModel;
+import com.intellij.openapi.roots.ModuleRootLayer;
 import ro.redeul.google.go.config.sdk.GoSdkType;
 
 /**
@@ -19,7 +19,7 @@ import ro.redeul.google.go.config.sdk.GoSdkType;
 })
 public class GoModuleExtension extends ModuleExtensionWithSdkImpl<GoModuleExtension>
 {
-	public GoModuleExtension(@NotNull String id, @NotNull ModifiableRootModel module)
+	public GoModuleExtension(@NotNull String id, @NotNull ModuleRootLayer module)
 	{
 		super(id, module);
 	}

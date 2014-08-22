@@ -17,11 +17,9 @@
           <orderEntry type="sourceFolder" forTests="false" />
           <orderEntry type="module-library">
             <library name="consulo:Spellchecker">
-              <CLASSES>
+              <binaries>
                 <root url="jar://$MODULE_DIR$/dep/spellchecker/lib/spellchecker.jar!/" />
-              </CLASSES>
-              <DOCUMENTATION />
-              <SOURCES />
+              </binaries>
             </library>
           </orderEntry>
         </module-layer>
