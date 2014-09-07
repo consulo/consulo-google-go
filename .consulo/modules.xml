@@ -14,7 +14,7 @@
           </content>
           <orderEntry type="module-extension-sdk" extension-id="java" />
           <orderEntry type="module-extension-sdk" extension-id="consulo-plugin" />
-          <orderEntry type="sourceFolder" forTests="false" />
+          <orderEntry type="sourceFolder" />
           <orderEntry type="module-library">
             <library name="consulo:Spellchecker">
               <binaries>

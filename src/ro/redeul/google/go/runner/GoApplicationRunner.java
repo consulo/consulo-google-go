@@ -1,5 +1,6 @@
 package ro.redeul.google.go.runner;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionResult;
 import com.intellij.execution.configurations.RunProfile;
@@ -11,7 +12,6 @@ import com.intellij.execution.runners.RunContentBuilder;
 import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Author: Toader Mihai Claudiu <mtoader@gmail.com>
@@ -39,10 +39,6 @@ public class GoApplicationRunner extends DefaultProgramRunner {
             return null;
         }
 
-        final RunContentBuilder contentBuilder = new RunContentBuilder(project, this, env.getExecutor());
-        contentBuilder.setExecutionResult(executionResult);
-        contentBuilder.setEnvironment(env);
-
-        return contentBuilder.showRunContent(contentToReuse);
+        return new RunContentBuilder(executionResult, env).showRunContent(contentToReuse);
     }
 }
