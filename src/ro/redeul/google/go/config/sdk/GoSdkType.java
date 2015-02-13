@@ -76,6 +76,7 @@ public class GoSdkType extends SdkType
 	{
 		final FileChooserDescriptor descriptor = new FileChooserDescriptor(true, true, false, false, false, false)
 		{
+			@Override
 			public void validateSelectedFiles(VirtualFile[] files) throws Exception
 			{
 				if(files.length != 0)
@@ -192,6 +193,7 @@ public class GoSdkType extends SdkType
 		final SdkModificator sdkModificator = sdk.getSdkModificator();
 		ApplicationManager.getApplication().runWriteAction(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				sdkModificator.addRoot(sourcesRoot, BinariesOrderRootType.getInstance());
