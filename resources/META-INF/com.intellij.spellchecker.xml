@@ -3,6 +3,6 @@
 		<bundledDictionaryProvider
 				implementation="ro.redeul.google.go.spellchecker.GoDictionaryProvider"/>
 		<support language="Google Go"
-							  implementationClass="org.consulo.googe.go.spellchecker.tokenizer.GoIdentifierTokenizerStrategy"/>
+							  implementationClass="org.mustbe.consulo.googe.go.spellchecker.tokenizer.GoIdentifierTokenizerStrategy"/>
 	</extensions>
 </idea-plugin>

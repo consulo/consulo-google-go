@@ -1,4 +1,4 @@
-package org.consulo.googe.go.module.packageSupport;
+package org.mustbe.consulo.googe.go.module.packageSupport;
 
 import org.consulo.module.extension.ModuleExtension;
 import org.consulo.psi.PsiPackage;

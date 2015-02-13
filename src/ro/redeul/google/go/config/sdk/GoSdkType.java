@@ -2,9 +2,13 @@ package ro.redeul.google.go.config.sdk;
 
 import static java.lang.String.format;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import javax.swing.Icon;
 
 import org.jdom.Element;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.project.ProjectBundle;
@@ -22,171 +26,208 @@ import ro.redeul.google.go.GoIcons;
 import ro.redeul.google.go.config.ui.GoSdkConfigurable;
 import ro.redeul.google.go.sdk.GoSdkUtil;
 
-public class GoSdkType extends SdkType {
+public class GoSdkType extends SdkType
+{
 
-    GoSdkData sdkData;
+	GoSdkData sdkData;
 
-    public GoSdkType() {
-        super("Google Go SDK");
-    }
+	public GoSdkType()
+	{
+		super("Google Go SDK");
+	}
 
-    public static GoSdkType getInstance() {
-        return SdkType.findInstance(GoSdkType.class);
-    }
+	public static GoSdkType getInstance()
+	{
+		return EP_NAME.findExtension(GoSdkType.class);
+	}
 
-    public GoSdkData getSdkData() {
-        return sdkData;
-    }
+	public GoSdkData getSdkData()
+	{
+		return sdkData;
+	}
 
-    public void setSdkData(GoSdkData sdkData) {
-        this.sdkData = sdkData;
-    }
+	public void setSdkData(GoSdkData sdkData)
+	{
+		this.sdkData = sdkData;
+	}
 
-    @Override
-    public String suggestHomePath() {
-        return GoSdkUtil.resolvePotentialGoogleGoHomePath();
-    }
+	@NotNull
+	@Override
+	public Collection<String> suggestHomePaths()
+	{
+		String path = GoSdkUtil.resolvePotentialGoogleGoHomePath();
+		if(path != null)
+		{
+			return Collections.singletonList(path);
+		}
+		return super.suggestHomePaths();
+	}
 
-    @Override
-    public FileChooserDescriptor getHomeChooserDescriptor() {
-        final FileChooserDescriptor descriptor = new FileChooserDescriptor(true, true, false, false, false, false) {
-          public void validateSelectedFiles(VirtualFile[] files) throws Exception {
-            if (files.length != 0){
-              final String selectedPath = files[0].getPath();
-              boolean valid = isValidSdkHome(selectedPath);
-              if (!valid){
-                valid = isValidSdkHome(adjustSelectedSdkHome(selectedPath));
-                if (!valid) {
-                  String message = files[0].isDirectory()
-                                   ? ProjectBundle.message("sdk.configure.home.invalid.error", getPresentableName())
-                                   : ProjectBundle.message("sdk.configure.home.file.invalid.error", getPresentableName());
-                  throw new Exception(message);
-                }
-              }
-            }
-          }
-        };
+	@Override
+	public boolean canCreatePredefinedSdks()
+	{
+		return true;
+	}
 
-        descriptor.setTitle(GoBundle.message("go.sdk.configure.title", getPresentableName()));
-        return descriptor;
-    }
+	@Override
+	public FileChooserDescriptor getHomeChooserDescriptor()
+	{
+		final FileChooserDescriptor descriptor = new FileChooserDescriptor(true, true, false, false, false, false)
+		{
+			public void validateSelectedFiles(VirtualFile[] files) throws Exception
+			{
+				if(files.length != 0)
+				{
+					final String selectedPath = files[0].getPath();
+					boolean valid = isValidSdkHome(selectedPath);
+					if(!valid)
+					{
+						valid = isValidSdkHome(adjustSelectedSdkHome(selectedPath));
+						if(!valid)
+						{
+							String message = files[0].isDirectory() ? ProjectBundle.message("sdk.configure.home.invalid.error",
+									getPresentableName()) : ProjectBundle.message("sdk.configure.home.file.invalid.error", getPresentableName());
+							throw new Exception(message);
+						}
+					}
+				}
+			}
+		};
 
-    @Override
-    public boolean isValidSdkHome(String path) {
-        sdkData = GoSdkUtil.testGoogleGoSdk(path);
-        return sdkData != null;
-    }
+		descriptor.setTitle(GoBundle.message("go.sdk.configure.title", getPresentableName()));
+		return descriptor;
+	}
 
-    @Override
-    public Icon getIcon() {
-        return GoIcons.Go;
-    }
+	@Override
+	public boolean isValidSdkHome(String path)
+	{
+		sdkData = GoSdkUtil.testGoogleGoSdk(path);
+		return sdkData != null;
+	}
 
-    public Icon getGroupIcon() {
-        return GoIcons.Go;
-    }
+	@Override
+	public Icon getIcon()
+	{
+		return GoIcons.Go;
+	}
 
-    @Override
-    public String suggestSdkName(String currentSdkName, String sdkHome) {
+	@Override
+	public String suggestSdkName(String currentSdkName, String sdkHome)
+	{
 
-        StringBuilder builder = new StringBuilder();
+		StringBuilder builder = new StringBuilder();
 
-        builder.append("Go sdk");
-        if ( getSdkData() != null ) {
-            builder.append(" ").append(getSdkData().VERSION_MAJOR);
-        }
+		builder.append("Go sdk");
+		if(getSdkData() != null)
+		{
+			builder.append(" ").append(getSdkData().VERSION_MAJOR);
+		}
 
-        if ( sdkHome.matches(".*bundled/go-sdk/?$") ) {
-            builder.append(" (bundled)");
-        }
+		if(sdkHome.matches(".*bundled/go-sdk/?$"))
+		{
+			builder.append(" (bundled)");
+		}
 
-        return builder.toString();
-    }
+		return builder.toString();
+	}
 
-    @Override
-    public String getVersionString(Sdk sdk) {
-        return getVersionString(sdk.getHomePath());
-    }
+	@Override
+	public String getVersionString(Sdk sdk)
+	{
+		return getVersionString(sdk.getHomePath());
+	}
 
-    @Override
-    public String getVersionString(String sdkHome) {
-        if (!isValidSdkHome(sdkHome))
-            return null;
+	@Override
+	public String getVersionString(String sdkHome)
+	{
+		if(!isValidSdkHome(sdkHome))
+		{
+			return null;
+		}
 
-        return sdkData.VERSION_MINOR;
-    }
+		return sdkData.VERSION_MINOR;
+	}
 
-    @Override
-    public AdditionalDataConfigurable createAdditionalDataConfigurable(SdkModel sdkModel, SdkModificator sdkModificator) {
-        return new GoSdkConfigurable(sdkModel, sdkModificator);
-    }
+	@Override
+	public AdditionalDataConfigurable createAdditionalDataConfigurable(SdkModel sdkModel, SdkModificator sdkModificator)
+	{
+		return new GoSdkConfigurable(sdkModel, sdkModificator);
+	}
 
-    @Override
-    public void setupSdkPaths(Sdk sdk) {
-        VirtualFile homeDirectory = sdk.getHomeDirectory();
+	@Override
+	public void setupSdkPaths(Sdk sdk)
+	{
+		VirtualFile homeDirectory = sdk.getHomeDirectory();
 
-        if (sdk.getSdkType() != this || homeDirectory == null) {
-            return;
-        }
+		if(sdk.getSdkType() != this || homeDirectory == null)
+		{
+			return;
+		}
 
-        String path = homeDirectory.getPath();
+		String path = homeDirectory.getPath();
 
-        GoSdkData sdkData = GoSdkUtil.testGoogleGoSdk(path);
+		GoSdkData sdkData = GoSdkUtil.testGoogleGoSdk(path);
 
-        if ( sdkData == null )
-            return;
+		if(sdkData == null)
+		{
+			return;
+		}
 
-        final VirtualFile librariesRoot =
-                homeDirectory.findFileByRelativePath(
-                    format("pkg/%s_%s/", sdkData.TARGET_OS.getName(),
-                           sdkData.TARGET_ARCH.getName()));
+		final VirtualFile librariesRoot = homeDirectory.findFileByRelativePath(format("pkg/%s_%s/", sdkData.TARGET_OS.getName(),
+				sdkData.TARGET_ARCH.getName()));
 
-        final VirtualFile sourcesRoot = homeDirectory.findFileByRelativePath("src/pkg/");
+		final VirtualFile sourcesRoot = homeDirectory.findFileByRelativePath("src/pkg/");
 
-        if (librariesRoot != null) {
-            librariesRoot.refresh(false, false);
-        }
-        if (sourcesRoot != null) {
-            sourcesRoot.refresh(false, false);
-        }
+		if(librariesRoot != null)
+		{
+			librariesRoot.refresh(false, false);
+		}
+		if(sourcesRoot != null)
+		{
+			sourcesRoot.refresh(false, false);
+		}
 
-        final SdkModificator sdkModificator = sdk.getSdkModificator();
-        ApplicationManager.getApplication().runWriteAction(new Runnable() {
-            public void run() {
-                sdkModificator.addRoot(sourcesRoot, OrderRootType.CLASSES);
-                sdkModificator.addRoot(librariesRoot, OrderRootType.CLASSES);
-                sdkModificator.addRoot(sourcesRoot, OrderRootType.SOURCES);
-            }
-        });
+		final SdkModificator sdkModificator = sdk.getSdkModificator();
+		ApplicationManager.getApplication().runWriteAction(new Runnable()
+		{
+			public void run()
+			{
+				sdkModificator.addRoot(sourcesRoot, OrderRootType.CLASSES);
+				sdkModificator.addRoot(librariesRoot, OrderRootType.CLASSES);
+				sdkModificator.addRoot(sourcesRoot, OrderRootType.SOURCES);
+			}
+		});
 
-        sdkModificator.setVersionString(sdkData.VERSION_MAJOR);
-        sdkModificator.setSdkAdditionalData(sdkData);
-        sdkModificator.commitChanges();
-    }
+		sdkModificator.setVersionString(sdkData.VERSION_MAJOR);
+		sdkModificator.setSdkAdditionalData(sdkData);
+		sdkModificator.commitChanges();
+	}
 
-    @Override
-    public SdkAdditionalData loadAdditionalData(Element additional) {
-        return XmlSerializer.deserialize(additional, GoSdkData.class);
-    }
+	@Override
+	public SdkAdditionalData loadAdditionalData(Sdk sdk, Element additional)
+	{
+		return XmlSerializer.deserialize(additional, GoSdkData.class);
+	}
 
-    @Override
-    public void saveAdditionalData(SdkAdditionalData additionalData, Element additional) {
-        if (additionalData instanceof GoSdkData) {
-            XmlSerializer.serializeInto(additionalData, additional);
-        }
-    }
+	@Override
+	public void saveAdditionalData(SdkAdditionalData additionalData, Element additional)
+	{
+		if(additionalData instanceof GoSdkData)
+		{
+			XmlSerializer.serializeInto(additionalData, additional);
+		}
+	}
 
-    @Override
-    public String getPresentableName() {
-        return "Go Sdk";
-    }
+	@NotNull
+	@Override
+	public String getPresentableName()
+	{
+		return "Go Sdk";
+	}
 
-    @Override
-    public boolean isRootTypeApplicable(OrderRootType type) {
-        return type == OrderRootType.CLASSES || type == OrderRootType.SOURCES;
-    }
-
-    public static boolean isInstance(Sdk sdk) {
-        return sdk != null && sdk.getSdkType() == GoSdkType.getInstance();
-    }
+	@Override
+	public boolean isRootTypeApplicable(OrderRootType type)
+	{
+		return type == OrderRootType.CLASSES || type == OrderRootType.SOURCES;
+	}
 }

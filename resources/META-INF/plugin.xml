@@ -52,7 +52,8 @@
 								 icon="/icons/go.png"
 								 mutableClass="ro.redeul.google.go.module.extension.GoMutableModuleExtension"
 								 immutableClass="ro.redeul.google.go.module.extension.GoModuleExtension"/>
-		<psi.packageSupportProvider implementation="org.consulo.googe.go.module.packageSupport.GoPsiPackageSupportProvider" />
+		<contentFolderSupportPatcher implementation="org.mustbe.consulo.googe.go.module.extension.GoContentFolderSupportPatcher" />
+		<psi.packageSupportProvider implementation="org.mustbe.consulo.googe.go.module.packageSupport.GoPsiPackageSupportProvider" />
 
 		<fileTypeFactory implementation="ro.redeul.google.go.GoFileTypeFactory"/>
 

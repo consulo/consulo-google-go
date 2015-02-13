@@ -2,6 +2,8 @@
   <configuration default="false" name="Unnamed" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Consulo In Sandbox" singleton="true">
     <option name="VM_PARAMETERS" value="-Xms2G&#13; -Xmx2G&#13; -XX:MaxPermSize=1G&#13; -XX:ReservedCodeCacheSize=64m&#13; -XX:+UseCodeCacheFlushing&#13; -ea&#13; -XX:+HeapDumpOnOutOfMemoryError" />
     <option name="PROGRAM_PARAMETERS" value="" />
+    <option name="USE_ALT_CONSULO_SDK" value="false" />
+    <option name="ALT_CONSULO_SDK_PATH" />
     <java-sdk name="1.6" />
     <consulo-sdk name="Consulo 1.SNAPSHOT" />
     <artifact name="plugin" />
