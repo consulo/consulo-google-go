@@ -19,6 +19,8 @@ import com.intellij.openapi.projectRoots.SdkModel;
 import com.intellij.openapi.projectRoots.SdkModificator;
 import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.openapi.roots.OrderRootType;
+import com.intellij.openapi.roots.types.BinariesOrderRootType;
+import com.intellij.openapi.roots.types.SourcesOrderRootType;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.xmlb.XmlSerializer;
 import ro.redeul.google.go.GoBundle;
@@ -192,9 +194,9 @@ public class GoSdkType extends SdkType
 		{
 			public void run()
 			{
-				sdkModificator.addRoot(sourcesRoot, OrderRootType.CLASSES);
-				sdkModificator.addRoot(librariesRoot, OrderRootType.CLASSES);
-				sdkModificator.addRoot(sourcesRoot, OrderRootType.SOURCES);
+				sdkModificator.addRoot(sourcesRoot, BinariesOrderRootType.getInstance());
+				sdkModificator.addRoot(librariesRoot, BinariesOrderRootType.getInstance());
+				sdkModificator.addRoot(sourcesRoot, SourcesOrderRootType.getInstance());
 			}
 		});
 
@@ -228,6 +230,6 @@ public class GoSdkType extends SdkType
 	@Override
 	public boolean isRootTypeApplicable(OrderRootType type)
 	{
-		return type == OrderRootType.CLASSES || type == OrderRootType.SOURCES;
+		return type == BinariesOrderRootType.getInstance() || type == SourcesOrderRootType.getInstance();
 	}
 }
