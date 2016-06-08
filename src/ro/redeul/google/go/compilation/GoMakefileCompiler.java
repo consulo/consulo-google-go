@@ -1,21 +1,8 @@
 package ro.redeul.google.go.compilation;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.commons.lang.StringUtils;
-import org.consulo.compiler.CompilerPathsManager;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.compiler.CompilerConfiguration;
 import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.openapi.compiler.CompileContext;
-import com.intellij.openapi.compiler.CompileScope;
-import com.intellij.openapi.compiler.CompilerManager;
-import com.intellij.openapi.compiler.CompilerMessageCategory;
-import com.intellij.openapi.compiler.TranslatingCompiler;
+import com.intellij.openapi.compiler.*;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.module.Module;
@@ -24,12 +11,21 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.Chunk;
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import ro.redeul.google.go.GoBundle;
 import ro.redeul.google.go.GoFileType;
 import ro.redeul.google.go.config.sdk.GoSdkData;
 import ro.redeul.google.go.sdk.GoSdkTool;
 import ro.redeul.google.go.sdk.GoSdkUtil;
 import ro.redeul.google.go.util.ProcessUtil;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Go Makefile compiler implementation.
@@ -140,7 +136,7 @@ public class GoMakefileCompiler implements TranslatingCompiler {
         if (moduleChunk.getNodes().isEmpty()) {
             context.addMessage(CompilerMessageCategory.WARNING, "No module defined, running application might not function properly.",
                     null, -1, -1);
-            return CompilerPathsManager.getInstance(project).getCompilerOutput().getPath() + "/go-bins";
+            return CompilerConfiguration.getInstance(project).getCompilerOutput().getPath() + "/go-bins";
         }
         else {
             // TODO This is a hack to keep GoMakefileCompiler compatible with the way Runner expects binaries, we
