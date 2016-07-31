@@ -1,14 +1,17 @@
 package ro.redeul.google.go.module.extension;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import org.consulo.module.extension.MutableModuleExtensionWithSdk;
 import org.consulo.module.extension.MutableModuleInheritableNamedPointer;
-import org.consulo.module.extension.ui.ModuleExtensionWithSdkPanel;
+import org.consulo.module.extension.ui.ModuleExtensionSdkBoxBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.mustbe.consulo.RequiredDispatchThread;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ModuleRootLayer;
+import com.intellij.openapi.ui.VerticalFlowLayout;
 
 /**
  * @author VISTALL
@@ -28,11 +31,14 @@ public class GoMutableModuleExtension extends GoModuleExtension implements Mutab
 		return (MutableModuleInheritableNamedPointer<Sdk>) super.getInheritableSdk();
 	}
 
+	@RequiredDispatchThread
 	@Nullable
 	@Override
 	public JComponent createConfigurablePanel(@Nullable Runnable runnable)
 	{
-		return wrapToNorth(new ModuleExtensionWithSdkPanel(this, runnable));
+		JPanel panel = new JPanel(new VerticalFlowLayout(true, false));
+		panel.add(ModuleExtensionSdkBoxBuilder.createAndDefine(this, runnable).build());
+		return panel;
 	}
 
 	@Override

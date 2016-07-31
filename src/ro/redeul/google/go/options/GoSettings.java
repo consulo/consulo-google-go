@@ -2,7 +2,6 @@ package ro.redeul.google.go.options;
 
 import java.io.File;
 
-import org.consulo.lombok.annotations.ApplicationService;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.components.ExportableComponent;
@@ -10,6 +9,7 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import consulo.lombok.annotations.ApplicationService;
 import ro.redeul.google.go.GoBundle;
 
 @State(
