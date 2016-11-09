@@ -6,7 +6,6 @@ import java.util.Collection;
 
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
-import org.mustbe.consulo.compiler.roots.CompilerPathsImpl;
 import com.intellij.execution.CantRunException;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.Executor;
@@ -34,6 +33,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.PathUtil;
 import com.intellij.util.xmlb.XmlSerializer;
 import com.intellij.util.xmlb.annotations.Transient;
+import consulo.compiler.roots.CompilerPathsImpl;
 import ro.redeul.google.go.runner.ui.GoRunConfigurationEditorForm;
 
 /**

@@ -1,4 +1,4 @@
-package org.mustbe.consulo.googe.go.spellchecker.tokenizer;
+package consulo.googe.go.spellchecker.tokenizer;
 
 import java.util.ArrayList;
 import java.util.List;

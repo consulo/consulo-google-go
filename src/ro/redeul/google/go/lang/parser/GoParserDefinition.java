@@ -2,17 +2,16 @@ package ro.redeul.google.go.lang.parser;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.lang.ASTNode;
-import com.intellij.lang.LanguageVersion;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
 import com.intellij.lexer.Lexer;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.IStubFileElementType;
 import com.intellij.psi.tree.TokenSet;
+import consulo.lang.LanguageVersion;
 import ro.redeul.google.go.GoFileType;
 import ro.redeul.google.go.lang.lexer.GoLexer;
 import ro.redeul.google.go.lang.lexer.GoTokenTypeSets;
@@ -25,11 +24,11 @@ public class GoParserDefinition implements ParserDefinition {
         new GoStubFileElementType(GoFileType.INSTANCE.getLanguage());
 
     @NotNull
-    public Lexer createLexer(Project project, LanguageVersion languageVersion) {
+    public Lexer createLexer(LanguageVersion languageVersion) {
         return new GoLexer();
     }
 
-    public PsiParser createParser(Project project, LanguageVersion languageVersion) {
+    public PsiParser createParser(LanguageVersion languageVersion) {
         return new GoParser();
     }
 

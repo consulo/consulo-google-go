@@ -1,12 +1,12 @@
-package org.mustbe.consulo.googe.go.module.packageSupport;
+package consulo.googe.go.module.packageSupport;
 
-import org.consulo.module.extension.ModuleExtension;
-import org.consulo.psi.PsiPackage;
-import org.consulo.psi.PsiPackageManager;
-import org.consulo.psi.PsiPackageSupportProvider;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiManager;
+import consulo.module.extension.ModuleExtension;
+import consulo.psi.PsiPackage;
+import consulo.psi.PsiPackageManager;
+import consulo.psi.PsiPackageSupportProvider;
 import ro.redeul.google.go.lang.psi.impl.GoNamespaceImpl;
 import ro.redeul.google.go.module.extension.GoModuleExtension;
 

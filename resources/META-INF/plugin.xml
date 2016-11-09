@@ -1,5 +1,5 @@
-<idea-plugin version="2" url="http://github.com/mtoader/google-go-lang-idea-plugin">
-	<id>org.consulo.google.go</id>
+<idea-plugin>
+	<id>consulo.google.go</id>
 	<name>Google Go</name>
 	<version>SNAPSHOT</version>
 	<vendor email="mtoader@gmail.com" url="http://redeul.ro">mtoader@gmail.com</vendor>
@@ -52,8 +52,8 @@
 								 icon="/icons/go.png"
 								 mutableClass="ro.redeul.google.go.module.extension.GoMutableModuleExtension"
 								 immutableClass="ro.redeul.google.go.module.extension.GoModuleExtension"/>
-		<contentFolderSupportPatcher implementation="org.mustbe.consulo.googe.go.module.extension.GoContentFolderSupportPatcher" />
-		<psi.packageSupportProvider implementation="org.mustbe.consulo.googe.go.module.packageSupport.GoPsiPackageSupportProvider" />
+		<contentFolderSupportPatcher implementation="consulo.googe.go.module.extension.GoContentFolderSupportPatcher" />
+		<psi.packageSupportProvider implementation="consulo.googe.go.module.packageSupport.GoPsiPackageSupportProvider" />
 
 		<fileTypeFactory implementation="ro.redeul.google.go.GoFileTypeFactory"/>
 

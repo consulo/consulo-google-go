@@ -1,8 +1,8 @@
-<idea-plugin version="2">
+<idea-plugin>
 	<extensions defaultExtensionNs="com.intellij.spellchecker">
 		<bundledDictionaryProvider
 				implementation="ro.redeul.google.go.spellchecker.GoDictionaryProvider"/>
 		<support language="Google Go"
-							  implementationClass="org.mustbe.consulo.googe.go.spellchecker.tokenizer.GoIdentifierTokenizerStrategy"/>
+							  implementationClass="consulo.googe.go.spellchecker.tokenizer.GoIdentifierTokenizerStrategy"/>
 	</extensions>
 </idea-plugin>
