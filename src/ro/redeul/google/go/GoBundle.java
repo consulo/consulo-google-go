@@ -1,7 +1,26 @@
 package ro.redeul.google.go;
 
-import consulo.lombok.annotations.Bundle;
+import org.jetbrains.annotations.PropertyKey;
+import com.intellij.AbstractBundle;
 
-@Bundle("ro.redeul.google.go.GoBundle")
-public class GoBundle {
+public class GoBundle extends AbstractBundle
+{
+	private static final String BUNDLE = "ro.redeul.google.go.GoBundle";
+
+	private static final GoBundle ourInstance = new GoBundle();
+
+	private GoBundle()
+	{
+		super(BUNDLE);
+	}
+
+	public static String message(@PropertyKey(resourceBundle = BUNDLE) String key)
+	{
+		return ourInstance.getMessage(key);
+	}
+
+	public static String message(@PropertyKey(resourceBundle = BUNDLE) String key, Object... params)
+	{
+		return ourInstance.getMessage(key, params);
+	}
 }

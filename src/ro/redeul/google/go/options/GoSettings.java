@@ -6,43 +6,49 @@ import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.components.ExportableComponent;
 import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
-import consulo.lombok.annotations.ApplicationService;
 import ro.redeul.google.go.GoBundle;
 
-@State(
-    name="GoogleGoSettings",
-    storages= {
-        @Storage(
-            file = "$APP_CONFIG$/editor.codeinsight.xml"
-        )}
-)
-@ApplicationService
-public class GoSettings implements PersistentStateComponent<GoSettings>, ExportableComponent {
-    public boolean SHOW_IMPORT_POPUP = true;
-    public boolean OPTIMIZE_IMPORTS_ON_THE_FLY = true;
+@State(name = "GoogleGoSettings", storages = {
+		@Storage(file = "$APP_CONFIG$/editor.codeinsight.xml")
+})
+public class GoSettings implements PersistentStateComponent<GoSettings>, ExportableComponent
+{
+	@NotNull
+	public static GoSettings getInstance()
+	{
+		return ServiceManager.getService(GoSettings.class);
+	}
 
-    @NotNull
-    @Override
-    public File[] getExportFiles() {
-        return new File[]{PathManager.getOptionsFile("editor.codeinsight")};
-    }
+	public boolean SHOW_IMPORT_POPUP = true;
+	public boolean OPTIMIZE_IMPORTS_ON_THE_FLY = true;
 
-    @NotNull
-    @Override
-    public String getPresentableName() {
-        return GoBundle.message("go.settings");
-    }
+	@NotNull
+	@Override
+	public File[] getExportFiles()
+	{
+		return new File[]{PathManager.getOptionsFile("editor.codeinsight")};
+	}
 
-    @Override
-    public GoSettings getState() {
-        return this;
-    }
+	@NotNull
+	@Override
+	public String getPresentableName()
+	{
+		return GoBundle.message("go.settings");
+	}
 
-    @Override
-    public void loadState(GoSettings state) {
-        XmlSerializerUtil.copyBean(state, this);
-    }
+	@Override
+	public GoSettings getState()
+	{
+		return this;
+	}
+
+	@Override
+	public void loadState(GoSettings state)
+	{
+		XmlSerializerUtil.copyBean(state, this);
+	}
 }
