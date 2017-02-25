@@ -1,20 +1,10 @@
 package ro.redeul.google.go.ide;
 
-import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
-import com.intellij.openapi.components.StorageScheme;
+import com.intellij.openapi.components.*;
 import com.intellij.openapi.project.Project;
+import org.jetbrains.annotations.NotNull;
 
-@State(
-        name = "GoProjectSettings",
-        storages = {
-                @Storage(id = "default", file = "$PROJECT_FILE$"),
-                @Storage(id = "dir", file = "$PROJECT_CONFIG_DIR$/go_settings.xml", scheme = StorageScheme.DIRECTORY_BASED)
-        }
-)
+@State(name = "GoProjectSettings", storages = @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/go.xml"))
 public class GoProjectSettings implements PersistentStateComponent<GoProjectSettings.GoProjectSettingsBean> {
 
     public enum BuildSystemType {
