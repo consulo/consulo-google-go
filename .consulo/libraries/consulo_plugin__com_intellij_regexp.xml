@@ -1,0 +1,7 @@
+<component name="libraryTable">
+  <library name="consulo-plugin: com.intellij.regexp" type="consulo-plugin">
+    <binaries>
+      <root url="jar://$PROJECT_DIR$/dep/com.intellij.regexp/lib/regexp.jar!/" />
+    </binaries>
+  </library>
+</component>

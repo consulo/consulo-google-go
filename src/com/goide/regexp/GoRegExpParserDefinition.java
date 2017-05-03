@@ -18,10 +18,10 @@ package com.goide.regexp;
 
 import com.intellij.lang.PsiParser;
 import com.intellij.lexer.Lexer;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
+import consulo.lang.LanguageVersion;
 import org.intellij.lang.regexp.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,15 +37,16 @@ public class GoRegExpParserDefinition extends RegExpParserDefinition {
 
   @Override
   @NotNull
-  public Lexer createLexer(Project project) {
+  public Lexer createLexer(LanguageVersion languageVersion) {
     return new RegExpLexer(CAPABILITIES);
   }
 
   @Override
-  public PsiParser createParser(Project project) {
+  public PsiParser createParser(LanguageVersion languageVersion) {
     return new RegExpParser(CAPABILITIES);
   }
 
+  @NotNull
   @Override
   public IFileElementType getFileNodeType() {
     return GO_REGEXP_FILE;

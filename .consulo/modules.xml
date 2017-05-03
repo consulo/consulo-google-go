@@ -20,6 +20,7 @@
           <orderEntry type="sourceFolder" />
           <orderEntry type="library" name="consulo-plugin: com.intellij.spellchecker" level="project" />
           <orderEntry type="module" module-name="utils" />
+          <orderEntry type="library" name="consulo-plugin: com.intellij.regexp" level="project" />
         </module-layer>
       </module>
       <module name="utils" dirurl="file://$PROJECT_DIR$/utils" current-layer="Default">
