@@ -16,7 +16,6 @@
 
 package com.goide.psi.impl;
 
-import com.goide.GoIcons;
 import com.goide.project.GoVendoringUtil;
 import com.goide.psi.*;
 import com.goide.sdk.GoPackageUtil;
@@ -29,7 +28,6 @@ import com.intellij.openapi.util.Iconable;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
-import com.intellij.psi.impl.ElementBase;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.LocalSearchScope;
@@ -39,11 +37,10 @@ import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
 import com.intellij.psi.util.PsiModificationTracker;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.ui.RowIcon;
 import com.intellij.usageView.UsageViewUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.ObjectUtils;
-import com.intellij.util.PlatformIcons;
+import consulo.ide.IconDescriptorUpdaters;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -83,7 +80,7 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
     PsiElement identifier = getIdentifier();
     return identifier != null ? identifier.getText() : null;
   }
-  
+
   @Nullable
   @Override
   public String getQualifiedName() {
@@ -113,10 +110,8 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
   @Override
   public GoType getGoType(@Nullable ResolveState context) {
     if (context != null) return getGoTypeInner(context);
-    return CachedValuesManager.getCachedValue(this,
-                                              () -> CachedValueProvider.Result
-                                                .create(getGoTypeInner(GoPsiImplUtil.createContextOnElement(this)),
-                                                        PsiModificationTracker.MODIFICATION_COUNT));
+    return CachedValuesManager.getCachedValue(this, () -> CachedValueProvider.Result
+            .create(getGoTypeInner(GoPsiImplUtil.createContextOnElement(this)), PsiModificationTracker.MODIFICATION_COUNT));
   }
 
   @Nullable
@@ -135,10 +130,7 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
   }
 
   @Override
-  public boolean processDeclarations(@NotNull PsiScopeProcessor processor,
-                                     @NotNull ResolveState state,
-                                     PsiElement lastParent,
-                                     @NotNull PsiElement place) {
+  public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement place) {
     return GoCompositeElementImpl.processDeclarationsDefault(this, processor, state, lastParent, place);
   }
 
@@ -160,42 +152,17 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
           GoFile file = getContainingFile();
           String fileName = file.getName();
           String importPath = ObjectUtils.chooseNotNull(file.getImportPath(vendoringEnabled), file.getPackageName());
-          return "in " + (importPath != null ? importPath  + "/" + fileName : fileName);
+          return "in " + (importPath != null ? importPath + "/" + fileName : fileName);
         }
 
         @Nullable
         @Override
         public Icon getIcon(boolean b) {
-          return GoNamedElementImpl.this.getIcon(Iconable.ICON_FLAG_VISIBILITY);
+          return IconDescriptorUpdaters.getIcon(GoNamedElementImpl.this, Iconable.ICON_FLAG_VISIBILITY);
         }
       };
     }
     return super.getPresentation();
-  }
-
-  @Nullable
-  @Override
-  public Icon getIcon(int flags) {
-    Icon icon = null;
-    if (this instanceof GoMethodDeclaration) icon = GoIcons.METHOD;
-    else if (this instanceof GoFunctionDeclaration) icon = GoIcons.FUNCTION;
-    else if (this instanceof GoTypeSpec) icon = GoIcons.TYPE;
-    else if (this instanceof GoVarDefinition) icon = GoIcons.VARIABLE;
-    else if (this instanceof GoConstDefinition) icon = GoIcons.CONSTANT;
-    else if (this instanceof GoFieldDefinition) icon = GoIcons.FIELD;
-    else if (this instanceof GoMethodSpec) icon = GoIcons.METHOD;
-    else if (this instanceof GoAnonymousFieldDefinition) icon = GoIcons.FIELD;
-    else if (this instanceof GoParamDefinition) icon = GoIcons.PARAMETER;
-    else if (this instanceof GoLabelDefinition) icon = GoIcons.LABEL;
-    if (icon != null) {
-      if ((flags & Iconable.ICON_FLAG_VISIBILITY) != 0) {
-        RowIcon rowIcon = ElementBase.createLayeredIcon(this, icon, flags);
-        rowIcon.setIcon(isPublic() ? PlatformIcons.PUBLIC_ICON : PlatformIcons.PRIVATE_ICON, 1);
-        return rowIcon;
-      }
-      return icon;
-    }
-    return super.getIcon(flags);
   }
 
   @NotNull

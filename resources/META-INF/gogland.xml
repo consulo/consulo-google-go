@@ -68,7 +68,6 @@
     <lang.elementManipulator forClass="com.goide.psi.GoImportString"
                              implementationClass="com.goide.psi.impl.manipulator.GoImportStringManipulator"/>
 
-    <errorHandler implementation="com.intellij.diagnostic.ITNReporter"/>
     <extendWordSelectionHandler implementation="com.goide.editor.GoWordSelectioner"/>
     <annotator language="go" implementationClass="com.goide.highlighting.GoHighlightingAnnotator"/>
     <annotator language="go" implementationClass="com.goide.highlighting.GoAnnotator"/>
@@ -119,7 +118,7 @@
     <lang.implementationTextSelectioner language="go" implementationClass="com.goide.editor.GoImplementationTextSelectioner"/>
     <lang.surroundDescriptor language="go" implementationClass="com.goide.editor.surround.GoExpressionSurroundDescriptor"/>
     <lang.surroundDescriptor language="go" implementationClass="com.goide.editor.surround.GoStatementsSurroundDescriptor"/>
-    <iconProvider implementation="com.goide.GoIconProvider"/>
+    <iconDescriptorUpdater implementation="consulo.googe.go.GoIconDescriptorUpdater"/>
     <codeInsight.lineMarkerProvider language="go" implementationClass="com.goide.marker.GoRecursiveCallMarkerProvider"/>
     <statementUpDownMover implementation="com.goide.editor.GoStatementMover"/>
 
