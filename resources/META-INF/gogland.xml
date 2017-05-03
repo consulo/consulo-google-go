@@ -40,10 +40,6 @@
     <defaultTemplatePropertiesProvider implementation="com.goide.actions.file.GoTemplatePropertiesProvider"/>
     <createFromTemplateHandler implementation="com.goide.actions.file.GoCreateFromTemplateHandler"/>
 
-    <!-- project -->
-    <project.converterProvider implementation="com.goide.project.migration.GoProjectModelConverterProvider"/>
-    <project.converterProvider implementation="com.goide.project.migration.GoBuildTagsSettingsConverterProvider"/>
-
     <applicationService serviceImplementation="com.goide.project.GoApplicationLibrariesService"/>
     <projectService serviceImplementation="com.goide.project.GoProjectLibrariesService"/>
     <moduleService serviceImplementation="com.goide.project.GoModuleLibrariesService"/>
@@ -124,8 +120,6 @@
 
     <lang.unwrapDescriptor language="go" implementationClass="com.goide.codeInsight.unwrap.GoUnwrapDescriptor"/>
 
-    <directoryProjectGenerator implementation="com.goide.GoProjectGenerator"/> <!-- for small IDEs-->
-
     <renamePsiElementProcessor implementation="com.goide.refactor.GoRenameImportSpecProcessor"/>
 
     <!--formatter-->
@@ -141,8 +135,7 @@
     <!-- sdk -->
     <sdkType implementation="com.goide.sdk.GoSdkType"/>
     <applicationService serviceImplementation="com.goide.sdk.GoEnvironmentGoPathModificationTracker"/>
-    <projectService serviceInterface="com.goide.sdk.GoSdkService" serviceImplementation="com.goide.sdk.GoSmallIDEsSdkService"
-                    overrides="false"/>
+    <projectService serviceInterface="com.goide.sdk.GoSdkService" serviceImplementation="com.goide.sdk.GoIdeaSdkService"/>
     <library.presentationProvider implementation="com.goide.sdk.GoSdkLibraryPresentationProvider"/>
     <editorNotificationProvider implementation="com.goide.inspections.WrongSdkConfigurationNotificationProvider"/>
     <editorNotificationProvider implementation="com.goide.inspections.GoFileIgnoredByBuildToolNotificationProvider"/>

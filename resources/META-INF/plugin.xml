@@ -21,17 +21,10 @@
 	<vendor url="https://github.com/go-lang-plugin-org"/>
 	<category>Custom Languages</category>
 
-	<depends optional="true" config-file="java-deps.xml">com.intellij.modules.java</depends>
 	<depends optional="true" config-file="coverage.xml">com.intellij.modules.coverage</depends>
 	<xi:include href="gogland.xml" xpointer="xpointer(/idea-plugin/*)">
 		<xi:fallback>
 			<xi:include href="/META-INF/gogland.xml" xpointer="xpointer(/idea-plugin/*)"/>
 		</xi:fallback>
 	</xi:include>
-
-	<application-components>
-		<component>
-			<implementation-class>com.goide.UpdateComponent</implementation-class>
-		</component>
-	</application-components>
 </idea-plugin>
