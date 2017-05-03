@@ -5,8 +5,8 @@
     <option name="USE_ALT_CONSULO_SDK" value="false" />
     <option name="ALT_CONSULO_SDK_PATH" />
     <option name="INTERNAL_MODE" value="false" />
-    <java-sdk name="1.6" />
-    <consulo-sdk name="Consulo 1.SNAPSHOT" />
+    <java-sdk name="1.8" />
+    <consulo-sdk name="Consulo SNAPSHOT" />
     <artifact name="plugin" />
     <predefined_log_file id="IDEA_LOG" enabled="true" />
     <RunnerSettings RunnerId="Debug">
@@ -14,6 +14,7 @@
       <option name="TRANSPORT" value="0" />
       <option name="LOCAL" value="true" />
     </RunnerSettings>
+    <ConfigurationWrapper RunnerId="ConsuloDebuggerRunner" />
     <ConfigurationWrapper RunnerId="Debug" />
     <method>
       <option name="BuildArtifacts" enabled="true">

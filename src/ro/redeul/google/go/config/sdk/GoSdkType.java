@@ -9,7 +9,6 @@ import javax.swing.Icon;
 
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.project.ProjectBundle;
 import com.intellij.openapi.projectRoots.AdditionalDataConfigurable;
@@ -88,8 +87,8 @@ public class GoSdkType extends SdkType
 						valid = isValidSdkHome(adjustSelectedSdkHome(selectedPath));
 						if(!valid)
 						{
-							String message = files[0].isDirectory() ? ProjectBundle.message("sdk.configure.home.invalid.error",
-									getPresentableName()) : ProjectBundle.message("sdk.configure.home.file.invalid.error", getPresentableName());
+							String message = files[0].isDirectory() ? ProjectBundle.message("sdk.configure.home.invalid.error", getPresentableName()) : ProjectBundle.message("sdk.configure.home" +
+									".file" + ".invalid.error", getPresentableName());
 							throw new Exception(message);
 						}
 					}
@@ -176,10 +175,9 @@ public class GoSdkType extends SdkType
 			return;
 		}
 
-		final VirtualFile librariesRoot = homeDirectory.findFileByRelativePath(format("pkg/%s_%s/", sdkData.TARGET_OS.getName(),
-				sdkData.TARGET_ARCH.getName()));
+		final VirtualFile librariesRoot = homeDirectory.findFileByRelativePath(format("pkg/%s_%s/", sdkData.TARGET_OS.getName(), sdkData.TARGET_ARCH.getName()));
 
-		final VirtualFile sourcesRoot = homeDirectory.findFileByRelativePath("src/pkg/");
+		final VirtualFile sourcesRoot = homeDirectory.findFileByRelativePath("src");
 
 		if(librariesRoot != null)
 		{
@@ -191,16 +189,18 @@ public class GoSdkType extends SdkType
 		}
 
 		final SdkModificator sdkModificator = sdk.getSdkModificator();
-		ApplicationManager.getApplication().runWriteAction(new Runnable()
+		if(sourcesRoot != null)
 		{
-			@Override
-			public void run()
-			{
-				sdkModificator.addRoot(sourcesRoot, BinariesOrderRootType.getInstance());
-				sdkModificator.addRoot(librariesRoot, BinariesOrderRootType.getInstance());
-				sdkModificator.addRoot(sourcesRoot, SourcesOrderRootType.getInstance());
-			}
-		});
+			sdkModificator.addRoot(sourcesRoot, BinariesOrderRootType.getInstance());
+		}
+		if(librariesRoot != null)
+		{
+			sdkModificator.addRoot(librariesRoot, BinariesOrderRootType.getInstance());
+		}
+		if(sourcesRoot != null)
+		{
+			sdkModificator.addRoot(sourcesRoot, SourcesOrderRootType.getInstance());
+		}
 
 		sdkModificator.setVersionString(sdkData.VERSION_MAJOR);
 		sdkModificator.setSdkAdditionalData(sdkData);
