@@ -41,6 +41,7 @@ import com.intellij.util.ProcessingContext;
 import com.intellij.util.Processor;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.IdFilter;
+import consulo.codeInsight.completion.CompletionProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,9 +54,9 @@ import static com.intellij.patterns.PlatformPatterns.psiElement;
 
 public class GoAutoImportCompletionContributor extends CompletionContributor {
   public GoAutoImportCompletionContributor() {
-    extend(CompletionType.BASIC, inGoFile(), new CompletionProvider<CompletionParameters>() {
+    extend(CompletionType.BASIC, inGoFile(), new CompletionProvider() {
       @Override
-      protected void addCompletions(@NotNull CompletionParameters parameters,
+      public void addCompletions(@NotNull CompletionParameters parameters,
                                     ProcessingContext context,
                                     @NotNull CompletionResultSet result) {
         PsiElement position = parameters.getPosition();

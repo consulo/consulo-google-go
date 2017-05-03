@@ -20,7 +20,6 @@ import com.goide.project.GoVendoringUtil;
 import com.goide.psi.*;
 import com.goide.psi.impl.*;
 import com.intellij.codeInsight.completion.CompletionParameters;
-import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.module.ModuleUtilCore;
@@ -31,6 +30,7 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.ProcessingContext;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.codeInsight.completion.CompletionProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,9 +38,9 @@ import java.util.Set;
 
 import static com.goide.completion.GoCompletionUtil.createPrefixMatcher;
 
-public class GoReferenceCompletionProvider extends CompletionProvider<CompletionParameters> {
+public class GoReferenceCompletionProvider implements CompletionProvider {
   @Override
-  protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet set) {
+  public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet set) {
     GoReferenceExpressionBase expression = PsiTreeUtil.getParentOfType(parameters.getPosition(), GoReferenceExpressionBase.class);
     PsiFile originalFile = parameters.getOriginalFile();
     if (expression != null) {
@@ -52,9 +52,7 @@ public class GoReferenceCompletionProvider extends CompletionProvider<Completion
     }
   }
 
-  private static void fillVariantsByReference(@Nullable PsiReference reference,
-                                              @NotNull PsiFile file,
-                                              @NotNull CompletionResultSet result) {
+  private static void fillVariantsByReference(@Nullable PsiReference reference, @NotNull PsiFile file, @NotNull CompletionResultSet result) {
     if (reference == null) return;
     if (reference instanceof PsiMultiReference) {
       PsiReference[] references = ((PsiMultiReference)reference).getReferences();
@@ -78,8 +76,7 @@ public class GoReferenceCompletionProvider extends CompletionProvider<Completion
       ((GoTypeReference)reference).processResolveVariants(new MyGoScopeProcessor(result, file, true) {
         @Override
         protected boolean accept(@NotNull PsiElement e) {
-          return e != spec && !(insideParameter &&
-                                (e instanceof GoNamedSignatureOwner || e instanceof GoVarDefinition || e instanceof GoConstDefinition));
+          return e != spec && !(insideParameter && (e instanceof GoNamedSignatureOwner || e instanceof GoVarDefinition || e instanceof GoConstDefinition));
         }
       });
     }
@@ -92,9 +89,7 @@ public class GoReferenceCompletionProvider extends CompletionProvider<Completion
                                                   @NotNull CompletionResultSet result,
                                                   @NotNull GoStructLiteralCompletion.Variants variants,
                                                   @Nullable GoReferenceExpression refExpression) {
-    if (refExpression == null ||
-        variants != GoStructLiteralCompletion.Variants.FIELD_NAME_ONLY &&
-        variants != GoStructLiteralCompletion.Variants.BOTH) {
+    if (refExpression == null || variants != GoStructLiteralCompletion.Variants.FIELD_NAME_ONLY && variants != GoStructLiteralCompletion.Variants.BOTH) {
       return;
     }
 
@@ -104,8 +99,9 @@ public class GoReferenceCompletionProvider extends CompletionProvider<Completion
 
       @Override
       public boolean execute(@NotNull PsiElement o, @NotNull ResolveState state) {
-        String structFieldName = o instanceof GoFieldDefinition ? ((GoFieldDefinition)o).getName() :
-                                 o instanceof GoAnonymousFieldDefinition ? ((GoAnonymousFieldDefinition)o).getName() : null;
+        String structFieldName = o instanceof GoFieldDefinition
+                                 ? ((GoFieldDefinition)o).getName()
+                                 : o instanceof GoAnonymousFieldDefinition ? ((GoAnonymousFieldDefinition)o).getName() : null;
         if (structFieldName != null && alreadyAssignedFields.contains(structFieldName)) {
           return true;
         }
@@ -131,10 +127,7 @@ public class GoReferenceCompletionProvider extends CompletionProvider<Completion
   }
 
   @Nullable
-  private static LookupElement createLookupElement(@NotNull PsiElement o,
-                                                   @NotNull ResolveState state,
-                                                   boolean forTypes,
-                                                   boolean vendoringEnabled) {
+  private static LookupElement createLookupElement(@NotNull PsiElement o, @NotNull ResolveState state, boolean forTypes, boolean vendoringEnabled) {
     if (o instanceof GoNamedElement && !((GoNamedElement)o).isBlank() || o instanceof GoImportSpec && !((GoImportSpec)o).isDot()) {
       if (o instanceof GoImportSpec) {
         return GoCompletionUtil.createPackageLookupElement((GoImportSpec)o, state.get(GoReferenceBase.ACTUAL_NAME), vendoringEnabled);
@@ -142,14 +135,11 @@ public class GoReferenceCompletionProvider extends CompletionProvider<Completion
       else if (o instanceof GoNamedSignatureOwner && ((GoNamedSignatureOwner)o).getName() != null) {
         String name = ((GoNamedSignatureOwner)o).getName();
         if (name != null) {
-          return GoCompletionUtil.createFunctionOrMethodLookupElement((GoNamedSignatureOwner)o, name, null,
-                                                                      GoCompletionUtil.FUNCTION_PRIORITY);
+          return GoCompletionUtil.createFunctionOrMethodLookupElement((GoNamedSignatureOwner)o, name, null, GoCompletionUtil.FUNCTION_PRIORITY);
         }
       }
       else if (o instanceof GoTypeSpec) {
-        return forTypes
-               ? GoCompletionUtil.createTypeLookupElement((GoTypeSpec)o)
-               : GoCompletionUtil.createTypeConversionLookupElement((GoTypeSpec)o);
+        return forTypes ? GoCompletionUtil.createTypeLookupElement((GoTypeSpec)o) : GoCompletionUtil.createTypeConversionLookupElement((GoTypeSpec)o);
       }
       else if (o instanceof PsiDirectory) {
         return GoCompletionUtil.createPackageLookupElement(((PsiDirectory)o).getName(), (PsiDirectory)o, o, vendoringEnabled, true);
@@ -169,7 +159,8 @@ public class GoReferenceCompletionProvider extends CompletionProvider<Completion
   }
 
   private static class MyGoScopeProcessor extends GoScopeProcessor {
-    @NotNull private final CompletionResultSet myResult;
+    @NotNull
+    private final CompletionResultSet myResult;
     private final boolean myForTypes;
     private final boolean myVendoringEnabled;
     private final Set<String> myProcessedNames = ContainerUtil.newHashSet();

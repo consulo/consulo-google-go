@@ -47,14 +47,15 @@ import com.intellij.util.Processor;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.IdFilter;
 import com.intellij.util.text.UniqueNameGenerator;
+import consulo.codeInsight.completion.CompletionProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Set;
 
-public class GoTestFunctionCompletionProvider extends CompletionProvider<CompletionParameters> {
+public class GoTestFunctionCompletionProvider implements CompletionProvider {
   @Override
-  protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
+  public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
     Project project = parameters.getPosition().getProject();
     PsiFile file = parameters.getOriginalFile();
     PsiDirectory containingDirectory = file.getContainingDirectory();
