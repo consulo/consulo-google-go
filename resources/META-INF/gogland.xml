@@ -168,7 +168,7 @@
     <runLineMarkerContributor language="go" implementationClass="com.goide.runconfig.GoRunLineMarkerProvider"/>
 
     <!-- debugger -->
-    <xdebugger.breakpointType implementation="com.goide.dlv.breakpoint.DlvBreakpointType"/>
+    <!--<xdebugger.breakpointType implementation="com.goide.dlv.breakpoint.DlvBreakpointType"/>-->
 
     <checkinHandlerFactory implementation="com.goide.actions.tool.GoFmtCheckinFactory" order="last"/>
 
