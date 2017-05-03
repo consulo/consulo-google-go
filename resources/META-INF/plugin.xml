@@ -18,16 +18,32 @@
   <id>consulo.google.go</id>
   <name>Google Go</name>
   <version>SNAPSHOT</version>
-  <vendor url="https://github.com/go-lang-plugin-org"/>
+  <vendor>consulo.io &amp; github.com/go-lang-plugin-org</vendor>
   <category>Custom Languages</category>
 
-  <depends optional="true" config-file="coverage.xml">com.intellij.modules.coverage</depends>
+  <depends optional="true">com.intellij.regexp</depends>
+  <depends optional="true">com.intellij.spellchecker</depends>
 
   <module-components>
     <component>
       <implementation-class>com.goide.project.GoModuleLibrariesInitializer</implementation-class>
     </component>
   </module-components>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <programRunner implementation="com.goide.runconfig.testing.coverage.GoCoverageProgramRunner"/>
+    <coverageEngine implementation="com.goide.runconfig.testing.coverage.GoCoverageEngine"/>
+    <coverageRunner implementation="com.goide.runconfig.testing.coverage.GoCoverageRunner"/>
+    <projectService serviceImplementation="com.goide.runconfig.testing.coverage.GoCoverageAnnotator"/>
+  </extensions>
+
+  <extensions defaultExtensionNs="com.intellij.regexp">
+    <languageHost forClass="com.goide.psi.GoStringLiteral" implementationClass="com.goide.regexp.GoRegexHost"/>
+  </extensions>
+
+  <extensions defaultExtensionNs="com.intellij.spellchecker">
+    <support language="go" implementationClass="com.goide.inspections.GoSpellcheckingStrategy"/>
+  </extensions>
 
   <extensions defaultExtensionNs="com.intellij">
     <moduleExtensionProvider key="google-go"
@@ -54,7 +70,7 @@
     <applicationService serviceImplementation="com.goide.project.GoApplicationLibrariesService"/>
     <projectService serviceImplementation="com.goide.project.GoProjectLibrariesService"/>
     <moduleService serviceImplementation="com.goide.project.GoModuleLibrariesService"/>
-    <projectConfigurable id="go" groupId="language" provider="com.goide.configuration.GoConfigurableProvider"
+    <projectConfigurable id="go" provider="com.goide.configuration.GoConfigurableProvider"
                          dynamic="true" bundle="com.goide.GoBundle"/>
 
     <moduleService serviceImplementation="com.goide.project.GoModuleSettings"/>
@@ -95,7 +111,6 @@
                              implementationClass="com.goide.psi.impl.manipulator.GoStringManipulator"/>
 
     <languageInjector implementation="com.goide.regexp.GoRegexInjector"/>
-    <regExpLanguageHost forClass="com.goide.psi.GoStringLiteral" implementationClass="com.goide.regexp.GoRegexHost"/>
     <lang.parserDefinition language="GoRegExp" implementationClass="com.goide.regexp.GoRegExpParserDefinition"/>
 
     <completion.contributor language="go" implementationClass="com.goide.completion.GoCompletionContributor"/>
@@ -106,7 +121,6 @@
     <lookup.actionProvider implementation="com.goide.codeInsight.imports.GoExcludePathLookupActionProvider"/>
 
     <lang.refactoringSupport language="go" implementationClass="com.goide.refactor.GoRefactoringSupportProvider"/>
-    <spellchecker.support language="go" implementationClass="com.goide.inspections.GoSpellcheckingStrategy"/>
     <elementDescriptionProvider implementation="com.goide.refactor.GoDescriptionProvider"/>
     <lang.namesValidator language="go" implementationClass="com.goide.GoNamesValidator"/>
     <lang.findUsagesProvider language="go" implementationClass="com.goide.usages.GoFindUsagesProvider"/>
