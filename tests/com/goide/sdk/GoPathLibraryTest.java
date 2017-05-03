@@ -17,7 +17,6 @@
 package com.goide.sdk;
 
 import com.goide.GoCodeInsightFixtureTestCase;
-import com.goide.GoModuleType;
 import com.goide.project.GoApplicationLibrariesService;
 import com.goide.project.GoModuleLibrariesInitializer;
 import com.intellij.openapi.application.ApplicationManager;
@@ -45,11 +44,6 @@ public class GoPathLibraryTest extends GoCodeInsightFixtureTestCase {
   @Override
   protected LightProjectDescriptor getProjectDescriptor() {
     return new DefaultLightProjectDescriptor() {
-      @NotNull
-      @Override
-      public ModuleType getModuleType() {
-        return GoModuleType.getInstance();
-      }
     };
   }
   private final Collection<VirtualFile> contentRootsToClean = ContainerUtil.newHashSet();

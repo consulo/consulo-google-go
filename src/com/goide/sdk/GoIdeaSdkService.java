@@ -16,12 +16,11 @@
 
 package com.goide.sdk;
 
-import com.goide.GoModuleType;
 import com.intellij.ProjectTopics;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ComponentManager;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtil;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.*;
@@ -29,6 +28,7 @@ import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
 import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
 import com.intellij.util.ObjectUtils;
+import consulo.googe.go.module.extension.GoModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -81,7 +81,7 @@ public class GoIdeaSdkService extends GoSdkService {
 
   @Override
   public boolean isGoModule(@Nullable Module module) {
-    return super.isGoModule(module) && ModuleUtil.getModuleType(module) == GoModuleType.getInstance();
+    return super.isGoModule(module) && ModuleUtilCore.getExtension(module, GoModuleExtension.class) != null;
   }
 
   private Sdk getGoSdk(@Nullable Module module) {

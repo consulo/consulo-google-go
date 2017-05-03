@@ -30,6 +30,12 @@
   </module-components>
 
   <extensions defaultExtensionNs="com.intellij">
+    <moduleExtensionProvider key="google-go"
+                             name="Google Go"
+                             icon="/icons/go.png"
+                             mutableClass="consulo.googe.go.module.extension.GoMutableModuleExtension"
+                             immutableClass="consulo.googe.go.module.extension.GoModuleExtension"/>
+
     <stubIndex implementation="com.goide.stubs.index.GoAllPublicNamesIndex"/>
     <stubIndex implementation="com.goide.stubs.index.GoAllPrivateNamesIndex"/>
     <stubIndex implementation="com.goide.stubs.index.GoFunctionIndex"/>

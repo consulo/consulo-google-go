@@ -1,14 +1,13 @@
 package consulo.googe.go.module.packageSupport;
 
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiManager;
+import consulo.googe.go.module.extension.GoModuleExtension;
 import consulo.module.extension.ModuleExtension;
 import consulo.psi.PsiPackage;
 import consulo.psi.PsiPackageManager;
 import consulo.psi.PsiPackageSupportProvider;
-import ro.redeul.google.go.lang.psi.impl.GoNamespaceImpl;
-import ro.redeul.google.go.module.extension.GoModuleExtension;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author VISTALL

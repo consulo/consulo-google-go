@@ -131,11 +131,6 @@ abstract public class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsi
         return createMockSdk("1.1.2");
       }
 
-      @NotNull
-      @Override
-      public ModuleType getModuleType() {
-        return GoModuleType.getInstance();
-      }
     };
   }
 
