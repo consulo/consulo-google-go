@@ -1,0 +1,8 @@
+<configurations>
+  <configurations name="gobench fileWithBenchmarksOnly_test.go" class="GoTestRunConfiguration">
+    <module name="light_idea_test_case" />
+    <framework value="gobench" />
+    <kind value="FILE" />
+    <filePath value="/src/import/path/fileWithBenchmarksOnly_test.go" />
+  </configurations>
+</configurations>

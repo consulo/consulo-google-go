@@ -1,0 +1,8 @@
+<configurations>
+  <configurations name="fileWithTestsOnly_test.go" class="GoTestRunConfiguration">
+    <module name="light_idea_test_case" />
+    <framework value="gotest" />
+    <kind value="FILE" />
+    <filePath value="/src/import/path/fileWithTestsOnly_test.go" />
+  </configurations>
+</configurations>

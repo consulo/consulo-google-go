@@ -1,0 +1,23 @@
+<configurations>
+  <configurations name="All in 'src'" class="GoTestRunConfiguration">
+    <module name="light_idea_test_case" />
+    <working_directory value="/src" />
+    <framework value="gotest" />
+    <kind value="DIRECTORY" />
+    <directory value="/src" />
+  </configurations>
+  <configurations name="gocheck package 'src'" class="GoTestRunConfiguration">
+    <module name="light_idea_test_case" />
+    <working_directory value="/src" />
+    <framework value="gocheck" />
+    <kind value="DIRECTORY" />
+    <directory value="/src" />
+  </configurations>
+  <configurations name="gobench package 'src'" class="GoTestRunConfiguration">
+    <module name="light_idea_test_case" />
+    <working_directory value="/src" />
+    <framework value="gobench" />
+    <kind value="DIRECTORY" />
+    <directory value="/src" />
+  </configurations>
+</configurations>

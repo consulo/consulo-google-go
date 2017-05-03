@@ -1,0 +1,18 @@
+TestSuiteStarted
+    - locationHint=gosuite://SomeFailSuite
+    - name=SomeFailSuite
+  TestStarted
+      - locationHint=gotest://SomeFailSuite.TestA
+      - name=SomeFailSuite.TestA
+    TestFailed
+        - actual=string = "Foo"
+        - details=
+        - expected=
+        - message=
+        - name=SomeFailSuite.TestA
+        - type=comparisonFailure
+  TestFinished
+      - duration=42
+      - name=SomeFailSuite.TestA
+TestSuiteFinished
+    - name=SomeFailSuite

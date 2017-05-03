@@ -1,0 +1,48 @@
+TestStarted
+    - locationHint=gotest://TestEWMA1
+    - name=TestEWMA1
+  TestStdOut
+      - name=TestEWMA1
+      - out=hello\n
+  TestStdOut
+      - name=TestEWMA1
+      - out=hello\n
+  TestStdOut
+      - name=TestEWMA1
+      - out=\n
+TestFinished
+    - duration=42
+    - name=TestEWMA1
+TestStarted
+    - locationHint=gotest://TestEWMA5
+    - name=TestEWMA5
+  TestStdOut
+      - name=TestEWMA5
+      - out=hello2\n
+  TestStdOut
+      - name=TestEWMA5
+      - out=hello2\n
+  TestStdOut
+      - name=TestEWMA5
+      - out=\n
+  TestStdOut
+      - name=TestEWMA5
+      - out=	ewma_test.go:122: 6 minute a.Rate(): 0.18071652714732128 != 0.18071652714732128\n
+  TestFailed
+      - message=
+      - name=TestEWMA5
+TestFinished
+    - duration=42
+    - name=TestEWMA5
+TestStarted
+    - locationHint=gotest://TestEWMA15
+    - name=TestEWMA15
+  TestStdOut
+      - name=TestEWMA15
+      - out=hello3\n
+  TestStdOut
+      - name=TestEWMA15
+      - out=hello3\n
+TestFinished
+    - duration=42
+    - name=TestEWMA15

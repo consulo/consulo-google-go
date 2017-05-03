@@ -1,0 +1,9 @@
+<configurations>
+  <configurations name="TestName in testFunction_test.go" class="GoTestRunConfiguration">
+    <module name="light_idea_test_case" />
+    <framework value="gotest" />
+    <kind value="PACKAGE" />
+    <package value="import/path" />
+    <pattern value="^TestName$" />
+  </configurations>
+</configurations>

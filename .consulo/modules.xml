@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
+<project>
   <component name="ModuleManager">
     <modules>
       <module name="consulo-google-go" dirurl="file://$PROJECT_DIR$" current-layer="Default">
@@ -9,6 +9,9 @@
           <extension id="lombok" />
           <content url="file://$MODULE_DIR$">
             <content-folder type="EXCLUDED" url="file://$MODULE_DIR$/.consulo/sandbox" />
+            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/gen">
+              <property key="is-generated-root" value="true" />
+            </content-folder>
             <content-folder type="PRODUCTION_RESOURCE" url="file://$MODULE_DIR$/resources" />
             <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
           </content>
@@ -16,6 +19,19 @@
           <orderEntry type="module-extension-sdk" extension-id="consulo-plugin" />
           <orderEntry type="sourceFolder" />
           <orderEntry type="library" name="consulo-plugin: com.intellij.spellchecker" level="project" />
+          <orderEntry type="module" module-name="utils" />
+        </module-layer>
+      </module>
+      <module name="utils" dirurl="file://$PROJECT_DIR$/utils" current-layer="Default">
+        <module-layer name="Default">
+          <extension id="consulo-plugin" sdk-module-name="consulo-google-go" />
+          <extension id="java" sdk-module-name="consulo-google-go" />
+          <content url="file://$MODULE_DIR$">
+            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
+          </content>
+          <orderEntry type="module-extension-sdk" extension-id="java" />
+          <orderEntry type="module-extension-sdk" extension-id="consulo-plugin" />
+          <orderEntry type="sourceFolder" />
         </module-layer>
       </module>
     </modules>

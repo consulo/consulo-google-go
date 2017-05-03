@@ -1,0 +1,38 @@
+TestSuiteStarted
+    - locationHint=gosuite://AllPassSuite
+    - name=AllPassSuite
+  TestStarted
+      - locationHint=gotest://AllPassSuite.TestA
+      - name=AllPassSuite.TestA
+  TestFinished
+      - duration=42
+      - name=AllPassSuite.TestA
+  TestStarted
+      - locationHint=gotest://AllPassSuite.TestB
+      - name=AllPassSuite.TestB
+    TestStdOut
+        - name=AllPassSuite.TestB
+        - out=FooBar
+  TestFinished
+      - duration=42
+      - name=AllPassSuite.TestB
+  TestStarted
+      - locationHint=gotest://AllPassSuite.TestC
+      - name=AllPassSuite.TestC
+    TestStdOut
+        - name=AllPassSuite.TestC
+        - out=Blah\n
+  TestFinished
+      - duration=42
+      - name=AllPassSuite.TestC
+  TestStarted
+      - locationHint=gotest://AllPassSuite.TestD
+      - name=AllPassSuite.TestD
+    TestStdOut
+        - name=AllPassSuite.TestD
+        - out=Превед\nМедвед
+  TestFinished
+      - duration=42
+      - name=AllPassSuite.TestD
+TestSuiteFinished
+    - name=AllPassSuite

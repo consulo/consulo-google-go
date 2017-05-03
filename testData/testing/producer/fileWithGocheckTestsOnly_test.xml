@@ -1,0 +1,8 @@
+<configurations>
+  <configurations name="gocheck fileWithGocheckTestsOnly_test.go" class="GoTestRunConfiguration">
+    <module name="light_idea_test_case" />
+    <framework value="gocheck" />
+    <kind value="FILE" />
+    <filePath value="/src/import/path/fileWithGocheckTestsOnly_test.go" />
+  </configurations>
+</configurations>

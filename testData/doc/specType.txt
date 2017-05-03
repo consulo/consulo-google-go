@@ -1,0 +1,8 @@
+<b>var client <a href="psi_element://#main.MyType">MyType</a> = &MyType{}</b>
+
+=====
+var client <a href="psi_element://#main.MyType">MyType</a> = &MyType{}
+=====
+No urls
+=====
+No local urls

@@ -1,0 +1,15 @@
+TestSuiteStarted
+    - locationHint=gosuite://SomePanicSuite
+    - name=SomePanicSuite
+  TestStarted
+      - locationHint=gotest://SomePanicSuite.TestD
+      - name=SomePanicSuite.TestD
+    TestFailed
+        - details=  in SomePanicSuite.TestD\n/usr/local/go/src/reflect/value.go:296\n  in Value.Call\n/usr/local/go/src/runtime/asm_amd64.s:2232\n  in goexit\n
+        - message=
+        - name=SomePanicSuite.TestD
+  TestFinished
+      - duration=42
+      - name=SomePanicSuite.TestD
+TestSuiteFinished
+    - name=SomePanicSuite

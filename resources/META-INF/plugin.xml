@@ -1,263 +1,37 @@
-<idea-plugin>
+<!--
+  ~ Copyright 2013-2016 Sergey Ignatov, Alexander Zolotov, Florin Patan
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<idea-plugin xmlns:xi="http://www.w3.org/2001/XInclude">
 	<id>consulo.google.go</id>
 	<name>Google Go</name>
 	<version>SNAPSHOT</version>
-	<vendor email="mtoader@gmail.com" url="http://redeul.ro">mtoader@gmail.com</vendor>
+	<vendor url="https://github.com/go-lang-plugin-org"/>
 	<category>Custom Languages</category>
-	<resource-bundle>ro.redeul.google.go.GoBundle</resource-bundle>
 
-	<depends config-file="com.intellij.spellchecker.xml" optional="true">com.intellij.spellchecker</depends>
+	<depends optional="true" config-file="java-deps.xml">com.intellij.modules.java</depends>
+	<depends optional="true" config-file="coverage.xml">com.intellij.modules.coverage</depends>
+	<xi:include href="gogland.xml" xpointer="xpointer(/idea-plugin/*)">
+		<xi:fallback>
+			<xi:include href="/META-INF/gogland.xml" xpointer="xpointer(/idea-plugin/*)"/>
+		</xi:fallback>
+	</xi:include>
 
 	<application-components>
 		<component>
-			<implementation-class>
-				ro.redeul.google.go.components.GoSdkParsingHelper
-			</implementation-class>
+			<implementation-class>com.goide.UpdateComponent</implementation-class>
 		</component>
 	</application-components>
-
-	<project-components>
-		<component>
-			<implementation-class>
-				ro.redeul.google.go.imports.AutoImportHighlightingPassFactory
-			</implementation-class>
-		</component>
-		<component>
-			<implementation-class>
-				ro.redeul.google.go.components.ProjectSdkValidator
-			</implementation-class>
-		</component>
-	</project-components>
-
-	<actions>
-		<group id="Go.ActionGroup" popup="true" text="Go" description="ads" icon="/icons/go.png" class="ro.redeul.google.go.actions.NewGoGroup">
-
-			<action id="Go.NewApplication" text="Go application" description="Create new application in the GO language" class="ro.redeul.google.go.actions.NewGoApplicationAction"/>
-
-			<action id="Go.NewLibrary" text="Go library" description="Create new library in the GO language" class="ro.redeul.google.go.actions.NewGoLibraryAction"/>
-
-
-			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
-		</group>
-
-		<action id="Go.NewFile" text="Go file" description="Create a new Go in the current project" class="ro.redeul.google.go.actions.NewGoFileAction">
-
-			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="Go.ActionGroup"/>
-		</action>
-	</actions>
-
-	<extensions defaultExtensionNs="com.intellij">
-		<moduleExtensionProvider key="google-go"
-								 name="Google Go"
-								 icon="/icons/go.png"
-								 mutableClass="ro.redeul.google.go.module.extension.GoMutableModuleExtension"
-								 immutableClass="ro.redeul.google.go.module.extension.GoModuleExtension"/>
-		<contentFolderSupportPatcher implementation="consulo.googe.go.module.extension.GoContentFolderSupportPatcher" />
-		<psi.packageSupportProvider implementation="consulo.googe.go.module.packageSupport.GoPsiPackageSupportProvider" />
-
-		<fileTypeFactory implementation="ro.redeul.google.go.GoFileTypeFactory"/>
-
-		<projectService serviceInterface="ro.redeul.google.go.ide.GoProjectSettings" serviceImplementation="ro.redeul.google.go.ide.GoProjectSettings"/>
-
-		<projectConfigurable instance="ro.redeul.google.go.ide.GoConfigurable"/>
-
-		<applicationService serviceInterface="ro.redeul.google.go.options.GoSettings" serviceImplementation="ro.redeul.google.go.options.GoSettings"/>
-		<exportable serviceInterface="ro.redeul.google.go.options.GoSettings"/>
-		<applicationConfigurable id="editor.preferences.import.go"
-								 parentId="editor.preferences.import"
-								 displayName="Google Go"
-								 instance="ro.redeul.google.go.imports.GoAutoImportConfigurable"/>
-
-		<langCodeStyleSettingsProvider implementation="ro.redeul.google.go.ide.GoLanguageCodeStyleSettingsProvider"/>
-		<codeStyleSettingsProvider implementation="ro.redeul.google.go.ide.GoCodeStyleSettingsProvider"/>
-
-
-		<quoteHandler fileType="Google Go" className="ro.redeul.google.go.codeInsight.editorActions.GoQuoteHandler"/>
-
-		<lang.syntaxHighlighterFactory key="Google Go" implementationClass="ro.redeul.google.go.highlight.GoSyntaxHighlighterFactory"/>
-
-		<highlightUsagesHandlerFactory implementation="ro.redeul.google.go.highlight.HighlightExitPointsHandlerFactory"/>
-		<readWriteAccessDetector implementation="ro.redeul.google.go.highlight.GoReadWriteAccessDetector"/>
-
-		<lang.parserDefinition language="Google Go" implementationClass="ro.redeul.google.go.lang.parser.GoParserDefinition"/>
-		<lang.braceMatcher language="Google Go" implementationClass="ro.redeul.google.go.highlight.GoBraceMatcher"/>
-		<lang.foldingBuilder language="Google Go" implementationClass="ro.redeul.google.go.lang.folding.GoFoldingBuilder"/>
-		<lang.commenter language="Google Go" implementationClass="ro.redeul.google.go.highlight.GoCommenter"/>
-		<lang.findUsagesProvider language="Google Go" implementationClass="ro.redeul.google.go.findUsages.GoFindUsagesProvider"/>
-		<lang.refactoringSupport language="Google Go" implementationClass="ro.redeul.google.go.refactoring.GoRefactoringSupportProvider"/>
-
-		<inlineActionHandler implementation="ro.redeul.google.go.refactoring.inline.InlineLocalVariableActionHandler"/>
-
-		<lang.formatter language="Google Go" implementationClass="ro.redeul.google.go.formatter.GoFormattingModelBuilder"/>
-		<lang.psiStructureViewFactory language="Google Go" implementationClass="ro.redeul.google.go.ide.structureview.GoStructureView"/>
-		<lang.importOptimizer language="Google Go" implementationClass="ro.redeul.google.go.imports.GoImportOptimizer"/>
-		<lang.documentationProvider language="Google Go" implementationClass="ro.redeul.google.go.lang.documentation.GoDocumentationProvider"/>
-		<lang.smartEnterProcessor language="Google Go" implementationClass="ro.redeul.google.go.lang.completion.smartEnter.GoSmartEnterProcessor"/>
-		<codeInsight.parameterInfo language="Google Go" implementationClass="ro.redeul.google.go.lang.parameterInfo.GoParameterInfoHandler"/>
-
-		<!-- SM Test runner tests locations -->
-		<testSrcLocator implementation="ro.redeul.google.go.runner.GoTestLocationProvider"/>
-
-		<annotator language="Google Go" implementationClass="ro.redeul.google.go.annotator.GoAnnotator"/>
-
-		<completion.contributor language="Google Go" implementationClass="ro.redeul.google.go.lang.completion.GoCompletionContributor" id="goBasicCompletion"/>
-		<completion.contributor language="Google Go" implementationClass="ro.redeul.google.go.lang.completion.GoNoVariantsDelegator" id="goNoVariantsDelegator" order="before goBasicCompletion"/>
-
-		<gotoClassContributor implementation="ro.redeul.google.go.ide.contributor.GoGoToClassContributor"/>
-		<gotoSymbolContributor implementation="ro.redeul.google.go.ide.contributor.GoGoToSymbolContributor"/>
-		<!--<frameworkSupport implementation="ro.redeul.google.go.config.framework.GoFrameworkSupportProvider"/>-->
-		<sdkType implementation="ro.redeul.google.go.config.sdk.GoSdkType"/>
-
-		<!--<compiler.makeDependencyProcessor implementation="ro.redeul.google.go.compilation.GoDependencyProvider"/>-->
-		<compiler implementation="ro.redeul.google.go.compilation.GoCompiler" />
-		<!--<compiler implementation="ro.redeul.google.go.compilation.GoMakefileCompiler" />  -->
-
-		<configurationType implementation="ro.redeul.google.go.runner.GoRunConfigurationType"/>
-		<configurationType implementation="ro.redeul.google.go.runner.GoTestConfigurationType"/>
-		<configurationProducer implementation="ro.redeul.google.go.runner.GoRunConfigurationProducer"/>
-		<configurationProducer implementation="ro.redeul.google.go.runner.GoTestConfigurationProducer"/>
-
-
-		<liveTemplateContext implementation="ro.redeul.google.go.template.GoTemplateContextType$Generic"/>
-		<liveTemplateContext implementation="ro.redeul.google.go.template.GoTemplateContextType$Function"/>
-
-		<liveTemplateMacro implementation="ro.redeul.google.go.template.macro.FunctionNameMacro"/>
-		<liveTemplateMacro implementation="ro.redeul.google.go.template.macro.ParameterListMacro"/>
-		<liveTemplateMacro implementation="ro.redeul.google.go.template.macro.ParameterFormatMacro"/>
-
-		<bundleLiveTemplateSet path="/liveTemplates/GoLiveTemplates" />
-
-		<fileTemplateGroup implementation="ro.redeul.google.go.actions.GoTemplatesFactory"/>
-
-		<colorSettingsPage implementation="ro.redeul.google.go.editor.highlighting.GoColorsAndFontsPage"/>
-
-		<localInspection groupName="Google Go" language="Google Go" enabledByDefault="true" shortName="UnresolvedSymbols" displayName="Highlights unresolved symbols" level="ERROR"
-						 implementationClass="ro.redeul.google.go.inspection.UnresolvedSymbols"/>
-		<localInspection groupName="Google Go" language="Google Go" enabledByDefault="true" shortName="ImportDeclaration" displayName="Highlights incorrect import declarations" level="ERROR"
-						 implementationClass="ro.redeul.google.go.inspection.ImportDeclarationInspection"/>
-		<localInspection groupName="Google Go" language="Google Go" enabledByDefault="true" shortName="InvalidPackageName" displayName="Highlights invalid package name" level="ERROR"
-						 implementationClass="ro.redeul.google.go.inspection.InvalidPackageNameInspection"/>
-		<localInspection groupName="Google Go" language="Google Go" enabledByDefault="true" shortName="FmtUsage" displayName="Highlights incorrect fmt parameters" level="WARNING"
-						 implementationClass="ro.redeul.google.go.inspection.FmtUsageInspection"/>
-		<localInspection groupName="Google Go" language="Google Go" enabledByDefault="true" shortName="FunctionCall" displayName="Highlights incorrect function calls" level="ERROR"
-						 implementationClass="ro.redeul.google.go.inspection.FunctionCallInspection"/>
-		<localInspection groupName="Google Go" language="Google Go" enabledByDefault="true" shortName="TypeStructDeclaration" displayName="Highlights incorrect struct declaration" level="ERROR"
-						 implementationClass="ro.redeul.google.go.inspection.TypeStructDeclarationInspection"/>
-		<localInspection groupName="Google Go" language="Google Go" enabledByDefault="true" shortName="LabelUsage" displayName="Highlights incorrect label usage" level="ERROR"
-						 implementationClass="ro.redeul.google.go.inspection.LabelUsageInspection"/>
-		<localInspection groupName="Google Go" language="Google Go" enabledByDefault="true" shortName="ConstantExpressionsInConstDeclarations" displayName="Highlights non constant expressions used in constant definitions" level="ERROR"
-						 implementationClass="ro.redeul.google.go.inspection.ConstantExpressionsInConstDeclarationsInspection"/>
-
-		<programRunner implementation="ro.redeul.google.go.runner.GoApplicationRunner"/>
-
-		<testFinder implementation="ro.redeul.google.go.testIntegration.GoTestFinder"/>
-		<testCreator language="Google Go" implementationClass="ro.redeul.google.go.testIntegration.GoTestCreator"/>
-
-		<projectService serviceInterface="ro.redeul.google.go.lang.stubs.GoNamesCache" serviceImplementation="ro.redeul.google.go.lang.stubs.GoNamesCache" />
-		<stubElementTypeHolder class="ro.redeul.google.go.lang.parser.GoElementTypes"/>
-
-		<stubIndex implementation="ro.redeul.google.go.lang.psi.stubs.index.GoPackageName"/>
-		<stubIndex implementation="ro.redeul.google.go.lang.psi.stubs.index.GoPackageImportPath"/>
-		<stubIndex implementation="ro.redeul.google.go.lang.psi.stubs.index.GoTypeName"/>
-		<stubIndex implementation="ro.redeul.google.go.lang.psi.stubs.index.GoQualifiedTypeName"/>
-
-		<enterHandlerDelegate implementation="ro.redeul.google.go.editor.actions.GoEnterHandler" order="after EnterBetweenBracesHandler"/>
-
-		<projectService serviceInterface="ro.redeul.google.go.services.GoCodeManager" serviceImplementation="ro.redeul.google.go.services.GoCodeManager"/>
-
-		<projectService serviceInterface="ro.redeul.google.go.services.GoPsiManager" serviceImplementation="ro.redeul.google.go.services.GoPsiManager"/>
-
-		<!-- wizards -->
-		<!-- Editor tweaks -->
-		<fileDocumentManagerListener implementation="ro.redeul.google.go.components.EditorTweakingComponent"/>
-
-		<todoIndexer filetype="Google Go" implementationClass="ro.redeul.google.go.highlight.GoToDoIndexer"/>
-
-		<consoleFilterProvider implementation="ro.redeul.google.go.ide.exception.GoExceptionFilterFactory"/>
-
-		<intentionAction>
-			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>
-			<categoryKey>intention.category.go/intention.category.control.flow
-			</categoryKey>
-			<className>ro.redeul.google.go.intentions.control.SplitIfIntention</className>
-		</intentionAction>
-
-		<intentionAction>
-			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>
-			<categoryKey>intention.category.go/intention.category.control.flow
-			</categoryKey>
-			<className>ro.redeul.google.go.intentions.control.InvertIfIntention</className>
-		</intentionAction>
-
-		<intentionAction>
-			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>
-			<categoryKey>intention.category.go/intention.category.control.flow
-			</categoryKey>
-			<className>ro.redeul.google.go.intentions.control.MergeIfAndIntention</className>
-		</intentionAction>
-
-		<intentionAction>
-			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>
-			<categoryKey>intention.category.go/intention.category.conversions
-			</categoryKey>
-			<className>ro.redeul.google.go.intentions.conversions.ConvertIntegerToHexIntention</className>
-		</intentionAction>
-
-		<intentionAction>
-			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>
-			<categoryKey>intention.category.go/intention.category.conversions
-			</categoryKey>
-			<className>ro.redeul.google.go.intentions.conversions.ConvertIntegerToOctalIntention</className>
-		</intentionAction>
-
-		<intentionAction>
-			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>
-			<categoryKey>intention.category.go/intention.category.conversions
-			</categoryKey>
-			<className>ro.redeul.google.go.intentions.conversions.ConvertIntegerToDecimalIntention</className>
-		</intentionAction>
-
-		<intentionAction>
-			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>
-			<categoryKey>intention.category.go/intention.category.conversions
-			</categoryKey>
-			<className>ro.redeul.google.go.intentions.conversions.ConvertToRawStringIntention</className>
-		</intentionAction>
-
-		<intentionAction>
-			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>
-			<categoryKey>intention.category.go/intention.category.conversions
-			</categoryKey>
-			<className>ro.redeul.google.go.intentions.conversions.ConvertSwitchToIfIntention</className>
-		</intentionAction>
-
-		<intentionAction>
-			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>
-			<categoryKey>intention.category.go/intention.category.statements
-			</categoryKey>
-			<className>ro.redeul.google.go.intentions.statements.MoveSimpleStatementOutIntention</className>
-		</intentionAction>
-
-		<intentionAction>
-			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>
-			<categoryKey>intention.category.go/intention.category.conversions
-			</categoryKey>
-			<className>ro.redeul.google.go.intentions.conversions.ConvertToInterpretedStringIntention</className>
-		</intentionAction>
-
-		<intentionAction>
-			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>
-			<categoryKey>intention.category.go/intention.category.parentheses
-			</categoryKey>
-			<className>ro.redeul.google.go.intentions.parenthesis.RemoveDeclarationParenthesesIntention</className>
-		</intentionAction>
-
-		<intentionAction>
-			<bundleName>ro.redeul.google.go.intentions.GoIntentionsBundle</bundleName>
-			<categoryKey>intention.category.go/intention.category.parentheses
-			</categoryKey>
-			<className>ro.redeul.google.go.intentions.parenthesis.AddDeclarationParenthesesIntention</className>
-		</intentionAction>
-	</extensions>
-
 </idea-plugin>

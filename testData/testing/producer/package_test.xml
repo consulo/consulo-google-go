@@ -1,0 +1,20 @@
+<configurations>
+  <configurations name="All in 'import/path'" class="GoTestRunConfiguration">
+    <module name="light_idea_test_case" />
+    <framework value="gotest" />
+    <kind value="PACKAGE" />
+    <package value="import/path" />
+  </configurations>
+  <configurations name="gocheck package 'import/path'" class="GoTestRunConfiguration">
+    <module name="light_idea_test_case" />
+    <framework value="gocheck" />
+    <kind value="PACKAGE" />
+    <package value="import/path" />
+  </configurations>
+  <configurations name="gobench package 'import/path'" class="GoTestRunConfiguration">
+    <module name="light_idea_test_case" />
+    <framework value="gobench" />
+    <kind value="PACKAGE" />
+    <package value="import/path" />
+  </configurations>
+</configurations>

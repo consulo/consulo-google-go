@@ -1,4 +1,0 @@
-
-if <spot>foo() > 3 && bar() > 5</spot> {
-    println("hi")
-}

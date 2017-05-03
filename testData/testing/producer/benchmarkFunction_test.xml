@@ -1,0 +1,9 @@
+<configurations>
+  <configurations name="BenchmarkName in benchmarkFunction_test.go" class="GoTestRunConfiguration">
+    <module name="light_idea_test_case" />
+    <framework value="gobench" />
+    <kind value="PACKAGE" />
+    <package value="import/path" />
+    <pattern value="^BenchmarkName$" />
+  </configurations>
+</configurations>
