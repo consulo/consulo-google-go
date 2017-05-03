@@ -29,7 +29,7 @@ public class GoIndexPatternBuilder implements IndexPatternBuilder {
   @Nullable
   @Override
   public Lexer getIndexingLexer(@NotNull PsiFile file) {
-    return file instanceof GoFile ? ((GoFile)file).getParserDefinition().createLexer(file.getProject()) : null;
+    return file instanceof GoFile ? ((GoFile)file).getParserDefinition().createLexer(file.getLanguageVersion()) : null;
   }
 
   @Nullable
