@@ -17,7 +17,6 @@
 package com.goide.util;
 
 import com.goide.GoConstants;
-import com.goide.project.GoModuleSettings;
 import com.goide.runconfig.GoConsoleFilter;
 import com.goide.runconfig.GoRunUtil;
 import com.goide.sdk.GoSdkService;
@@ -49,6 +48,7 @@ import com.intellij.util.EnvironmentUtil;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.ThreeState;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.googe.go.module.extension.GoModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -100,7 +100,7 @@ public class GoExecutor {
   @NotNull
   public static GoExecutor in(@NotNull Module module) {
     Project project = module.getProject();
-    ThreeState vendoringEnabled = GoModuleSettings.getInstance(module).getVendoringEnabled();
+    ThreeState vendoringEnabled = GoModuleExtension.getVendoringEnabled(module);
     return new GoExecutor(project, module)
       .withGoRoot(GoSdkService.getInstance(project).getSdkHomePath(module))
       .withGoPath(GoSdkUtil.retrieveGoPath(project, module))

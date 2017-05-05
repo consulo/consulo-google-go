@@ -18,12 +18,12 @@ package com.goide.sdk;
 
 import com.goide.GoConstants;
 import com.goide.project.GoBuildTargetSettings;
-import com.goide.project.GoModuleSettings;
 import com.goide.psi.GoFile;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.io.FileUtil;
@@ -38,6 +38,7 @@ import com.intellij.psi.util.CachedValue;
 import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.googe.go.module.extension.GoModuleExtension;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -105,10 +106,10 @@ public class GoPackageUtil {
     Key<CachedValue<Collection<String>>> key = trimTestSuffices ? PACKAGES_TEST_TRIMMED_CACHE : PACKAGES_CACHE;
     return CachedValuesManager.getManager(dir.getProject()).getCachedValue(dir, key, () -> {
       Module module = ModuleUtilCore.findModuleForPsiElement(dir);
-      GoBuildTargetSettings buildTargetSettings = module != null ? GoModuleSettings.getInstance(module).getBuildTargetSettings() : null;
+      GoBuildTargetSettings buildTargetSettings = module != null ? ModuleUtilCore.getExtension(module, GoModuleExtension.class).getBuildTargetSettings() : null;
       // todo[zolotov]: implement package modification tracker
       return buildTargetSettings != null
-             ? CachedValueProvider.Result.create(getAllPackagesInDirectoryInner(dir, module, trimTestSuffices), dir, buildTargetSettings)
+             ? CachedValueProvider.Result.create(getAllPackagesInDirectoryInner(dir, module, trimTestSuffices), dir, ProjectRootManager.getInstance(dir.getProject()))
              : CachedValueProvider.Result.create(getAllPackagesInDirectoryInner(dir, null, trimTestSuffices), dir); 
     }, false);
   }

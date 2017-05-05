@@ -16,7 +16,6 @@
 
 package com.goide.project;
 
-import com.intellij.openapi.util.SimpleModificationTracker;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.ThreeState;
 import com.intellij.util.xmlb.annotations.Tag;
@@ -25,16 +24,22 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 
 @Tag("buildTags")
-public class GoBuildTargetSettings extends SimpleModificationTracker {
+public class GoBuildTargetSettings {
   public static final String ANY_COMPILER = "Any";
   public static final String DEFAULT = "default";
 
-  @NotNull public String os = DEFAULT;
-  @NotNull public String arch = DEFAULT;
-  @NotNull public ThreeState cgo = ThreeState.UNSURE;
-  @NotNull public String compiler = ANY_COMPILER;
-  @NotNull public String goVersion = DEFAULT;
-  @NotNull public String[] customFlags = ArrayUtil.EMPTY_STRING_ARRAY;
+  @NotNull
+  public String os = DEFAULT;
+  @NotNull
+  public String arch = DEFAULT;
+  @NotNull
+  public ThreeState cgo = ThreeState.UNSURE;
+  @NotNull
+  public String compiler = ANY_COMPILER;
+  @NotNull
+  public String goVersion = DEFAULT;
+  @NotNull
+  public String[] customFlags = ArrayUtil.EMPTY_STRING_ARRAY;
 
   @Override
   public boolean equals(Object o) {

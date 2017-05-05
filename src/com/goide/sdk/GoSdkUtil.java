@@ -28,6 +28,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.UserDataHolder;
@@ -68,12 +69,12 @@ public class GoSdkUtil {
     if (module != null) {
       return CachedValuesManager.getManager(project).getCachedValue(module, () -> {
         GoSdkService sdkService = GoSdkService.getInstance(module.getProject());
-        return CachedValueProvider.Result.create(getInnerSdkSrcDir(sdkService, module), sdkService);
+        return CachedValueProvider.Result.create(getInnerSdkSrcDir(sdkService, module), ProjectRootManager.getInstance(project));
       });
     }
     return CachedValuesManager.getManager(project).getCachedValue(project, () -> {
       GoSdkService sdkService = GoSdkService.getInstance(project);
-      return CachedValueProvider.Result.create(getInnerSdkSrcDir(sdkService, null), sdkService);
+      return CachedValueProvider.Result.create(getInnerSdkSrcDir(sdkService, null), ProjectRootManager.getInstance(project));
     });
   }
 
@@ -437,7 +438,7 @@ public class GoSdkUtil {
                                                                         @Nullable Module module,
                                                                         Object... extra) {
     Collection<Object> dependencies = ContainerUtil.newArrayList((Object[])GoLibrariesService.getModificationTrackers(project, module));
-    ContainerUtil.addAllNotNull(dependencies, GoSdkService.getInstance(project));
+    ContainerUtil.addAllNotNull(dependencies, ProjectRootManager.getInstance(project));
     ContainerUtil.addAllNotNull(dependencies, extra);
     return dependencies;
   }

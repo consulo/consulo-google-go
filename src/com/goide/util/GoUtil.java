@@ -49,7 +49,8 @@ public class GoUtil {
   private GoUtil() {}
 
   public static boolean matchedForModuleBuildTarget(@NotNull PsiFile file, @Nullable Module module) {
-    return module == null || new GoBuildMatcher(GoTargetSystem.forModule(module)).matchFile(file);
+    GoTargetSystem target = module == null ? null : GoTargetSystem.forModule(module);
+    return target == null || new GoBuildMatcher(target).matchFile(file);
   }
 
   public static boolean isExcludedFile(@NotNull GoFile file) {

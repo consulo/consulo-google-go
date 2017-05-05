@@ -20,6 +20,7 @@ import com.goide.sdk.GoSdkService;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.ThreeState;
+import consulo.googe.go.module.extension.GoModuleExtension;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,7 +70,7 @@ public class GoVendoringUtil {
     if (!vendoringCanBeDisabled(version)) {
       return true;
     }
-    ThreeState vendorSupportEnabled = GoModuleSettings.getInstance(module).getVendoringEnabled();
+    ThreeState vendorSupportEnabled = GoModuleExtension.getVendoringEnabled(module);
     if (vendorSupportEnabled == ThreeState.UNSURE) {
       return supportsVendoring(version) && supportsVendoringByDefault(version);
     }

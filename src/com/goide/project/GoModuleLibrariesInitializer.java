@@ -39,6 +39,7 @@ import com.intellij.openapi.roots.impl.libraries.LibraryEx;
 import com.intellij.openapi.roots.libraries.Library;
 import com.intellij.openapi.roots.libraries.LibraryTable;
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar;
+import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
 import com.intellij.openapi.startup.StartupManager;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.vfs.*;
@@ -48,6 +49,7 @@ import com.intellij.util.Alarm;
 import com.intellij.util.ThreeState;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.messages.MessageBusConnection;
+import consulo.googe.go.module.extension.GoModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 
@@ -258,7 +260,7 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
     if (!GoVendoringUtil.supportsVendoring(version) || GoVendoringUtil.supportsVendoringByDefault(version)) {
       return;
     }
-    if (GoModuleSettings.getInstance(myModule).getVendoringEnabled() != ThreeState.UNSURE) {
+    if (GoModuleExtension.getVendoringEnabled(myModule) != ThreeState.UNSURE) {
       return;
     }
 
@@ -277,7 +279,7 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
         @Override
         protected void hyperlinkActivated(@NotNull Notification notification, @NotNull HyperlinkEvent event) {
           if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED && "configure".equals(event.getDescription())) {
-            GoModuleSettings.showModulesConfigurable(project);
+            ProjectSettingsService.getInstance(project).showModuleConfigurationDialog(null, null);
           }
         }
       };

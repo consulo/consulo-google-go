@@ -1,9 +1,9 @@
 package consulo.googe.go.module.extension;
 
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.ui.VerticalFlowLayout;
+import com.intellij.util.ThreeState;
 import consulo.annotations.RequiredDispatchThread;
-import consulo.extension.ui.ModuleExtensionSdkBoxBuilder;
+import consulo.googe.go.module.extension.ui.GoModuleExtensionPanel;
 import consulo.module.extension.MutableModuleExtensionWithSdk;
 import consulo.module.extension.MutableModuleInheritableNamedPointer;
 import consulo.roots.ModuleRootLayer;
@@ -21,6 +21,10 @@ public class GoMutableModuleExtension extends GoModuleExtension implements Mutab
     super(id, module);
   }
 
+  public void setVendoringEnabled(@NotNull ThreeState enabled) {
+    myVendoringEnabled = enabled;
+  }
+
   @NotNull
   @Override
   public MutableModuleInheritableNamedPointer<Sdk> getInheritableSdk() {
@@ -31,9 +35,7 @@ public class GoMutableModuleExtension extends GoModuleExtension implements Mutab
   @Nullable
   @Override
   public JComponent createConfigurablePanel(@Nullable Runnable runnable) {
-    JPanel panel = new JPanel(new VerticalFlowLayout(true, false));
-    panel.add(ModuleExtensionSdkBoxBuilder.createAndDefine(this, runnable).build());
-    return panel;
+    return new GoModuleExtensionPanel(this, runnable);
   }
 
   @Override
@@ -43,6 +45,8 @@ public class GoMutableModuleExtension extends GoModuleExtension implements Mutab
 
   @Override
   public boolean isModified(@NotNull GoModuleExtension extension) {
-    return isModifiedImpl(extension);
+    return isModifiedImpl(extension) ||
+           myVendoringEnabled != extension.myVendoringEnabled ||
+           !myBuildTargetSettings.equals(extension.myBuildTargetSettings);
   }
 }

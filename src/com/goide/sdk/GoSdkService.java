@@ -25,7 +25,6 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
-import com.intellij.openapi.util.SimpleModificationTracker;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
@@ -41,7 +40,7 @@ import org.jetbrains.annotations.TestOnly;
 import java.io.File;
 import java.util.Set;
 
-public abstract class GoSdkService extends SimpleModificationTracker {
+public abstract class GoSdkService {
   public static final String LIBRARY_NAME = "Go SDK";
 
   public static final Logger LOG = Logger.getInstance(GoSdkService.class);

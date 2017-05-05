@@ -33,7 +33,6 @@ public class GoModuleSettingsUI implements ConfigurableUi<GoModuleSettings>, Dis
   private JPanel myBuildTagsPanel;
   private JPanel myVendoringPanel;
   private GoVendoringUI myVendoringUI;
-  private GoBuildTagsUI myBuildTagsUI;
 
   public GoModuleSettingsUI(@NotNull Module module, boolean dialogMode) {
     if (dialogMode) {
@@ -41,18 +40,17 @@ public class GoModuleSettingsUI implements ConfigurableUi<GoModuleSettings>, Dis
     }
     
     myVendoringUI.initPanel(module);
-    myBuildTagsUI.initPanel(module);
+    //myBuildTagsUI.initPanel(module);
   }
 
   @Override
   public void reset(@NotNull GoModuleSettings settings) {
-    myBuildTagsUI.reset(settings.getBuildTargetSettings());
     myVendoringUI.reset(settings);
   }
 
   @Override
   public boolean isModified(@NotNull GoModuleSettings settings) {
-    return myVendoringUI.isModified(settings) || myBuildTagsUI.isModified(settings.getBuildTargetSettings());
+    return myVendoringUI.isModified(settings);
   }
 
   @Override
@@ -60,8 +58,6 @@ public class GoModuleSettingsUI implements ConfigurableUi<GoModuleSettings>, Dis
     myVendoringUI.apply(settings);
 
     GoBuildTargetSettings newBuildTargetSettings = new GoBuildTargetSettings();
-    myBuildTagsUI.apply(newBuildTargetSettings);
-    settings.setBuildTargetSettings(newBuildTargetSettings);
   }
 
   @NotNull
@@ -72,16 +68,13 @@ public class GoModuleSettingsUI implements ConfigurableUi<GoModuleSettings>, Dis
 
   private void createUIComponents() {
     myVendoringUI = new GoVendoringUI();
-    myBuildTagsUI = new GoBuildTagsUI();
-    
+
     myVendoringPanel = myVendoringUI.getPanel();
-    myBuildTagsPanel = myBuildTagsUI.getPanel();
   }
 
   @Override
   public void dispose() {
     Disposer.dispose(myVendoringUI);
-    Disposer.dispose(myBuildTagsUI);
     UIUtil.dispose(myPanel);
   }
 }

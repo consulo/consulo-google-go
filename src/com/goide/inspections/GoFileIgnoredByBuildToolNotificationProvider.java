@@ -17,7 +17,6 @@
 package com.goide.inspections;
 
 import com.goide.GoFileType;
-import com.goide.project.GoModuleSettings;
 import com.goide.util.GoUtil;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.fileEditor.FileEditor;
@@ -56,7 +55,6 @@ public class GoFileIgnoredByBuildToolNotificationProvider extends EditorNotifica
                                                       @NotNull FileEditorManager fileEditorManager) {
     myProject = project;
     MessageBusConnection connection = myProject.getMessageBus().connect(myProject);
-    connection.subscribe(GoModuleSettings.TOPIC, module -> notifications.updateAllNotifications());
     connection.subscribe(VirtualFileManager.VFS_CHANGES, new BulkFileListener.Adapter() {
       @Override
       public void after(@NotNull List<? extends VFileEvent> events) {

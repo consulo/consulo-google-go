@@ -16,17 +16,10 @@
 
 package com.goide.sdk;
 
-import com.intellij.ProjectTopics;
-import com.intellij.openapi.components.ComponentManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.ModuleRootAdapter;
-import com.intellij.openapi.roots.ModuleRootEvent;
-import com.intellij.psi.util.CachedValueProvider;
-import com.intellij.psi.util.CachedValuesManager;
-import com.intellij.util.ObjectUtils;
 import consulo.googe.go.module.extension.GoModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,21 +27,16 @@ import org.jetbrains.annotations.Nullable;
 public class GoIdeaSdkService extends GoSdkService {
   public GoIdeaSdkService(@NotNull Project project) {
     super(project);
-    myProject.getMessageBus().connect(project).subscribe(ProjectTopics.PROJECT_ROOTS, new ModuleRootAdapter() {
-      @Override
-      public void rootsChanged(ModuleRootEvent event) {
-        incModificationCount();
-      }
-    });
   }
 
   @Override
   public String getSdkHomePath(@Nullable Module module) {
-    ComponentManager holder = ObjectUtils.notNull(module, myProject);
-    return CachedValuesManager.getManager(myProject).getCachedValue(holder, () -> {
-      Sdk sdk = getGoSdk(module);
-      return CachedValueProvider.Result.create(sdk != null ? sdk.getHomePath() : null, this);
-    });
+    if (module == null) {
+      return null;
+    }
+
+    Sdk goSdk = getGoSdk(module);
+    return goSdk == null ? null : goSdk.getHomePath();
   }
 
   @Nullable
@@ -59,11 +47,12 @@ public class GoIdeaSdkService extends GoSdkService {
       return parentVersion;
     }
 
-    ComponentManager holder = ObjectUtils.notNull(module, myProject);
-    return CachedValuesManager.getManager(myProject).getCachedValue(holder, () -> {
-      Sdk sdk = getGoSdk(module);
-      return CachedValueProvider.Result.create(sdk != null ? sdk.getVersionString() : null, this);
-    });
+    if (module == null) {
+      return null;
+    }
+
+    Sdk goSdk = getGoSdk(module);
+    return goSdk == null ? null : goSdk.getVersionString();
   }
 
   @Override

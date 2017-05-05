@@ -102,7 +102,7 @@ public class GoVendoringUI implements Disposable {
   }
 
   public void reset(@NotNull GoModuleSettings settings) {
-    switch (settings.getVendoringEnabled()) {
+   /* switch (settings.getVendoringEnabled()) {
       case YES:
         myVendoringEnabledComboModel.setSelectedItem(ENABLED);
         break;
@@ -112,11 +112,11 @@ public class GoVendoringUI implements Disposable {
       case UNSURE:
         myVendoringEnabledComboModel.setSelectedItem(myDefaultComboText);
         break;
-    }
+    }  */
   }
 
   public boolean isModified(@NotNull GoModuleSettings settings) {
-    Object item = myVendoringEnabledComboModel.getSelectedItem();
+   /* Object item = myVendoringEnabledComboModel.getSelectedItem();
     switch (settings.getVendoringEnabled()) {
       case YES:
         return !ENABLED.equals(item);
@@ -124,7 +124,7 @@ public class GoVendoringUI implements Disposable {
         return !DISABLED.equals(item);
       case UNSURE:
         return !myDefaultComboText.equals(item);
-    }
+    }       */
     return true;
   }
 

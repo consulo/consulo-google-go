@@ -75,7 +75,6 @@
     <projectConfigurable id="go.auto.impor" parentId="editor.preferences.import" displayName="Go"
                          instance="com.goide.codeInsight.imports.GoAutoImportConfigurable"/>
 
-    <moduleService serviceImplementation="com.goide.project.GoModuleSettings"/>
     <projectService serviceImplementation="com.goide.project.GoExcludedPathsSettings"/>
     <applicationService serviceImplementation="com.goide.codeInsight.imports.GoCodeInsightSettings"/>
 

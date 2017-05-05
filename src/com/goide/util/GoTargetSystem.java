@@ -17,14 +17,16 @@
 package com.goide.util;
 
 import com.goide.project.GoBuildTargetSettings;
-import com.goide.project.GoModuleSettings;
 import com.goide.sdk.GoSdkService;
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtilCore;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.ThreeState;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.googe.go.module.extension.GoModuleExtension;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,16 +37,25 @@ import java.util.Set;
 public class GoTargetSystem {
   private static final String GAE_BUILD_FLAG = "appengine";
 
-  @NotNull public final String os;
-  @NotNull public final String arch;
-  @Nullable public final String goVersion;
-  @Nullable public final String compiler;
+  @NotNull
+  public final String os;
+  @NotNull
+  public final String arch;
+  @Nullable
+  public final String goVersion;
+  @Nullable
+  public final String compiler;
 
-  @NotNull public final ThreeState cgoEnabled;
+  @NotNull
+  public final ThreeState cgoEnabled;
   private final Set<String> customFlags = ContainerUtil.newHashSet();
 
-  public GoTargetSystem(@NotNull String os, @NotNull String arch, @Nullable String goVersion, @Nullable String compiler,
-                        @NotNull ThreeState cgoEnabled, @NotNull String... customFlags) {
+  public GoTargetSystem(@NotNull String os,
+                        @NotNull String arch,
+                        @Nullable String goVersion,
+                        @Nullable String compiler,
+                        @NotNull ThreeState cgoEnabled,
+                        @NotNull String... customFlags) {
     this.os = os;
     this.arch = arch;
     this.goVersion = goVersion;
@@ -57,10 +68,14 @@ public class GoTargetSystem {
     return customFlags.contains(flag);
   }
 
-  @NotNull
+  @Nullable
   public static GoTargetSystem forModule(@NotNull Module module) {
     return CachedValuesManager.getManager(module.getProject()).getCachedValue(module, () -> {
-      GoBuildTargetSettings settings = GoModuleSettings.getInstance(module).getBuildTargetSettings();
+      GoModuleExtension goModuleExtension = ModuleUtilCore.getExtension(module, GoModuleExtension.class);
+      if (goModuleExtension == null) {
+        return CachedValueProvider.Result.create(null, ProjectRootManager.getInstance(module.getProject()));
+      }
+      GoBuildTargetSettings settings = goModuleExtension.getBuildTargetSettings();
       String os = realValue(settings.os, GoUtil.systemOS());
       String arch = realValue(settings.arch, GoUtil.systemArch());
       ThreeState cgo = settings.cgo == ThreeState.UNSURE ? GoUtil.systemCgo(os, arch) : settings.cgo;
@@ -70,7 +85,7 @@ public class GoTargetSystem {
                              : settings.customFlags;
       String compiler = GoBuildTargetSettings.ANY_COMPILER.equals(settings.compiler) ? null : settings.compiler;
       GoTargetSystem result = new GoTargetSystem(os, arch, realValue(settings.goVersion, moduleSdkVersion), compiler, cgo, customFlags);
-      return CachedValueProvider.Result.create(result, settings);
+      return CachedValueProvider.Result.create(result, ProjectRootManager.getInstance(module.getProject()));
     });
   }
 
