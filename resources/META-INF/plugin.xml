@@ -388,14 +388,13 @@
     <!-- /general -->
   </extensions>
   <actions>
-    <action id="Go.NewGoFile" class="com.goide.actions.file.GoCreateFileAction"
-            text="Go File" description="Create new Go file">
+    <action id="Go.NewGoFile" class="com.goide.actions.file.GoCreateFileAction" text="Go File" description="Create new Go file" require-module-extensions="google-go">
       <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
     </action>
     <group id="GoTestGenerateGroup" class="com.goide.generate.GoGenerateTestMethodActionGroup">
       <add-to-group group-id="GenerateGroup" anchor="first"/>
     </group>
-    <group id="GoTools" text="Go Tools" description="Go External Tools" icon="/icons/go.png" popup="true">
+    <group id="GoTools" text="Go Tools" description="Go External Tools" icon="/icons/go.png" popup="true" require-module-extensions="google-go">
       <action id="GoFmtFileAction" class="com.goide.actions.tool.GoFmtFileAction" text="Go fmt file"
               description="Format selected file with go fmt util">
         <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt F"/>
