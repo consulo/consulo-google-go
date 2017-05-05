@@ -18,34 +18,38 @@ package com.goide.runconfig.ui;
 
 import com.goide.runconfig.GoRunConfigurationBase;
 import com.goide.runconfig.GoRunUtil;
-import com.intellij.application.options.ModulesComboBox;
+import com.intellij.application.options.ModuleListCellRenderer;
 import com.intellij.execution.configuration.EnvironmentVariablesTextFieldWithBrowseButton;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import com.intellij.ui.MutableCollectionComboBoxModel;
 import com.intellij.ui.RawCommandLineEditor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class GoCommonSettingsPanel extends JPanel {
   private RawCommandLineEditor myGoToolParamsField;
   private RawCommandLineEditor myParamsField;
   private TextFieldWithBrowseButton myWorkingDirectoryField;
   private EnvironmentVariablesTextFieldWithBrowseButton myEnvironmentField;
-  private ModulesComboBox myModulesComboBox;
+  private ComboBox<Module> myModulesComboBox;
   @SuppressWarnings("unused") private JPanel myRoot;
 
   public void init(@NotNull Project project) {
     GoRunUtil.installFileChooser(project, myWorkingDirectoryField, true);
     myGoToolParamsField.setDialogCaption("Go tool arguments");
     myParamsField.setDialogCaption("Program arguments");
+    myModulesComboBox.setRenderer(new ModuleListCellRenderer());
   }
 
   public void resetEditorFrom(@NotNull GoRunConfigurationBase<?> configuration) {
-    myModulesComboBox.setModules(configuration.getValidModules());
-    myModulesComboBox.setSelectedModule(configuration.getConfigurationModule().getModule());
+    myModulesComboBox.setModel(new MutableCollectionComboBoxModel<>(new ArrayList<>(configuration.getValidModules())));
+    myModulesComboBox.setSelectedItem(configuration.getConfigurationModule().getModule());
     myGoToolParamsField.setText(configuration.getGoToolParams());
     myParamsField.setText(configuration.getParams());
     myWorkingDirectoryField.setText(configuration.getWorkingDirectory());
@@ -54,7 +58,7 @@ public class GoCommonSettingsPanel extends JPanel {
   }
 
   public void applyEditorTo(@NotNull GoRunConfigurationBase<?> configuration) {
-    configuration.setModule(myModulesComboBox.getSelectedModule());
+    configuration.setModule((Module)myModulesComboBox.getSelectedItem());
     configuration.setGoParams(myGoToolParamsField.getText());
     configuration.setParams(myParamsField.getText());
     configuration.setWorkingDirectory(myWorkingDirectoryField.getText());
@@ -64,6 +68,6 @@ public class GoCommonSettingsPanel extends JPanel {
 
   @Nullable
   public Module getSelectedModule() {
-    return myModulesComboBox.getSelectedModule();
+    return (Module)myModulesComboBox.getSelectedItem();
   }
 }

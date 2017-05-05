@@ -16,7 +16,6 @@
 
 package com.goide.sdk;
 
-import com.goide.GoConstants;
 import com.goide.GoIcons;
 import com.intellij.openapi.projectRoots.*;
 import com.intellij.openapi.roots.OrderRootType;
@@ -28,15 +27,17 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
 
 public class GoSdkType extends SdkType {
   public GoSdkType() {
-    super(GoConstants.SDK_TYPE_ID);
+    super("Google Go SDK");
   }
 
   @NotNull
   public static GoSdkType getInstance() {
-    return SdkType.findInstance(GoSdkType.class);
+    return SdkType.EP_NAME.findExtension(GoSdkType.class);
   }
 
   @NotNull
@@ -47,13 +48,16 @@ public class GoSdkType extends SdkType {
 
   @NotNull
   @Override
-  public Icon getIconForAddAction() {
-    return getIcon();
+  public Collection<String> suggestHomePaths() {
+    String path = suggestHomePath();
+    if (path != null) {
+      return Collections.singletonList(path);
+    }
+    return super.suggestHomePaths();
   }
 
   @Nullable
-  @Override
-  public String suggestHomePath() {
+  private String suggestHomePath() {
     VirtualFile suggestSdkDirectory = GoSdkUtil.suggestSdkDirectory();
     return suggestSdkDirectory != null ? suggestSdkDirectory.getPath() : null;
   }

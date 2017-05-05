@@ -18,12 +18,9 @@ package com.goide.configuration;
 
 import com.goide.GoConstants;
 import com.goide.codeInsight.imports.GoAutoImportConfigurable;
-import com.goide.sdk.GoSdkService;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurableProvider;
 import com.intellij.openapi.options.SearchableConfigurable;
-import com.intellij.openapi.options.UnnamedConfigurable;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -39,13 +36,9 @@ public class GoConfigurableProvider extends ConfigurableProvider {
   @Nullable
   @Override
   public Configurable createConfigurable() {
-    Configurable projectSettingsConfigurable = new GoProjectSettingsConfigurable(myProject);
     Configurable librariesConfigurable = new GoLibrariesConfigurableProvider(myProject).createConfigurable();
-    Configurable sdkConfigurable = GoSdkService.getInstance(myProject).createSdkConfigurable();
     Configurable autoImportConfigurable = new GoAutoImportConfigurable(myProject, false);
-    return sdkConfigurable != null
-           ? new GoCompositeConfigurable(sdkConfigurable, projectSettingsConfigurable, librariesConfigurable, autoImportConfigurable)
-           : new GoCompositeConfigurable(projectSettingsConfigurable, librariesConfigurable, autoImportConfigurable);
+    return new GoCompositeConfigurable(librariesConfigurable, autoImportConfigurable);
   }
 
   private static class GoCompositeConfigurable extends SearchableConfigurable.Parent.Abstract {
@@ -82,18 +75,6 @@ public class GoConfigurableProvider extends ConfigurableProvider {
     public void disposeUIResources() {
       super.disposeUIResources();
       myConfigurables = null;
-    }
-  }
-
-  public static class GoProjectSettingsConfigurable extends GoModuleAwareConfigurable {
-    public GoProjectSettingsConfigurable(@NotNull Project project) {
-      super(project, "Project Settings", null);
-    }
-
-    @NotNull
-    @Override
-    protected UnnamedConfigurable createModuleConfigurable(Module module) {
-      return new GoModuleSettingsConfigurable(module, false);
     }
   }
 }

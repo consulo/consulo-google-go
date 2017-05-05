@@ -17,14 +17,13 @@
 package com.goide.sdk;
 
 import com.intellij.ProjectTopics;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ComponentManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.*;
-import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
+import com.intellij.openapi.roots.ModuleRootAdapter;
+import com.intellij.openapi.roots.ModuleRootEvent;
 import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
 import com.intellij.util.ObjectUtils;
@@ -69,14 +68,7 @@ public class GoIdeaSdkService extends GoSdkService {
 
   @Override
   public void chooseAndSetSdk(@Nullable Module module) {
-    Sdk projectSdk = ProjectSettingsService.getInstance(myProject).chooseAndSetSdk();
-    if (projectSdk == null && module != null) {
-      ApplicationManager.getApplication().runWriteAction(() -> {
-        if (!module.isDisposed()) {
-          ModuleRootModificationUtil.setSdkInherited(module);
-        }
-      });
-    }
+    throw new IllegalArgumentException();
   }
 
   @Override
@@ -85,13 +77,6 @@ public class GoIdeaSdkService extends GoSdkService {
   }
 
   private Sdk getGoSdk(@Nullable Module module) {
-    if (module != null) {
-      Sdk sdk = ModuleRootManager.getInstance(module).getSdk();
-      if (sdk != null && sdk.getSdkType() instanceof GoSdkType) {
-        return sdk;
-      }
-    }
-    Sdk sdk = ProjectRootManager.getInstance(myProject).getProjectSdk();
-    return sdk != null && sdk.getSdkType() instanceof GoSdkType ? sdk : null;
+    return module == null ? null : ModuleUtilCore.getSdk(module, GoModuleExtension.class);
   }
 }

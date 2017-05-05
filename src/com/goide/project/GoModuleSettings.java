@@ -17,8 +17,6 @@
 package com.goide.project;
 
 import com.goide.GoConstants;
-import com.goide.configuration.GoConfigurableProvider;
-import com.goide.configuration.GoModuleSettingsConfigurable;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
@@ -27,8 +25,8 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleServiceManager;
-import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
 import com.intellij.psi.impl.source.resolve.ResolveCache;
 import com.intellij.util.ThreeState;
 import com.intellij.util.messages.Topic;
@@ -117,15 +115,6 @@ public class GoModuleSettings implements PersistentStateComponent<GoModuleSettin
 
   public static void showModulesConfigurable(@NotNull Project project) {
     ApplicationManager.getApplication().assertIsDispatchThread();
-    if (!project.isDisposed()) {
-      ShowSettingsUtil.getInstance().editConfigurable(project, new GoConfigurableProvider.GoProjectSettingsConfigurable(project));
-    }
-  }
-
-  public static void showModulesConfigurable(@NotNull Module module) {
-    ApplicationManager.getApplication().assertIsDispatchThread();
-    if (!module.isDisposed()) {
-      ShowSettingsUtil.getInstance().editConfigurable(module.getProject(), new GoModuleSettingsConfigurable(module, true));
-    }
+    ProjectSettingsService.getInstance(project).showModuleConfigurationDialog(null, null);
   }
 }

@@ -17,12 +17,9 @@
 package com.goide.configuration;
 
 import com.goide.project.GoApplicationLibrariesService;
-import com.goide.project.GoModuleLibrariesService;
-import com.goide.project.GoProjectLibrariesService;
 import com.goide.sdk.GoSdkUtil;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.options.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
@@ -104,7 +101,7 @@ public class GoLibrariesConfigurableProvider extends ConfigurableProvider {
         List<UnnamedConfigurable> result = ContainerUtil.newArrayList();
         String[] urlsFromEnv = ContainerUtil.map2Array(GoSdkUtil.getGoPathsRootsFromEnvironment(), String.class, VirtualFile::getUrl);
         result.add(new GoLibrariesConfigurable("Global libraries", GoApplicationLibrariesService.getInstance(), urlsFromEnv));
-        if (!myProject.isDefault()) {
+      /*  if (!myProject.isDefault()) {
           result.add(new GoLibrariesConfigurable("Project libraries", GoProjectLibrariesService.getInstance(myProject)));
           result.add(new GoModuleAwareConfigurable(myProject, "Module libraries", null) {
             @NotNull
@@ -113,7 +110,7 @@ public class GoLibrariesConfigurableProvider extends ConfigurableProvider {
               return new GoLibrariesConfigurable("Module libraries", GoModuleLibrariesService.getInstance(module));
             }
           });
-        }
+        }   */
         return result;
       }
 

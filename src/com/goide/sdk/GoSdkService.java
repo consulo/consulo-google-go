@@ -23,7 +23,6 @@ import com.intellij.openapi.Disposable;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.SimpleModificationTracker;
@@ -43,6 +42,8 @@ import java.io.File;
 import java.util.Set;
 
 public abstract class GoSdkService extends SimpleModificationTracker {
+  public static final String LIBRARY_NAME = "Go SDK";
+
   public static final Logger LOG = Logger.getInstance(GoSdkService.class);
   private static final Set<String> FEDORA_SUBDIRECTORIES = ContainerUtil.newHashSet("linux_amd64", "linux_386", "linux_arm");
   private static String ourTestSdkVersion;
@@ -92,12 +93,6 @@ public abstract class GoSdkService extends SimpleModificationTracker {
   public boolean isGoModule(@Nullable Module module) {
     return module != null && !module.isDisposed();
   }
-
-  @Nullable
-  public Configurable createSdkConfigurable() {
-    return null;
-  }
-
   @Nullable
   public String getGoExecutablePath(@Nullable Module module) {
     return getGoExecutablePath(getSdkHomePath(module));
@@ -163,5 +158,13 @@ public abstract class GoSdkService extends SimpleModificationTracker {
       //noinspection AssignmentToStaticFieldFromInstanceMethod
       ourTestSdkVersion = null;
     });
+  }
+
+  public static boolean isGoSdkLibRoot(@NotNull VirtualFile root) {
+    return root.isInLocalFileSystem() &&
+           root.isDirectory() &&
+           (VfsUtilCore.findRelativeFile(GoConstants.GO_VERSION_FILE_PATH, root) != null ||
+            VfsUtilCore.findRelativeFile(GoConstants.GO_VERSION_NEW_FILE_PATH, root) != null
+           );
   }
 }

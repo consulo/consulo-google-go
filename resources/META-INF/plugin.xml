@@ -186,7 +186,7 @@
     <runLineMarkerContributor language="go" implementationClass="com.goide.runconfig.GoRunLineMarkerProvider"/>
 
     <!-- debugger -->
-    <!--<xdebugger.breakpointType implementation="com.goide.dlv.breakpoint.DlvBreakpointType"/>-->
+    <!--TODO [VISTALL] dlv <xdebugger.breakpointType implementation="com.goide.dlv.breakpoint.DlvBreakpointType"/>-->
 
     <checkinHandlerFactory implementation="com.goide.actions.tool.GoFmtCheckinFactory" order="last"/>
 
@@ -380,10 +380,6 @@
                      groupName="General" enabledByDefault="true" level="ERROR"
                      implementationClass="com.goide.inspections.GoStringAndByteTypeMismatchInspection"/>
     <!-- /general -->
-
-    <!-- color schemes -->
-    <bundledColorScheme path="colorscheme/Darcula - dlsniper"/>
-    <!-- /color schemes -->
   </extensions>
   <actions>
     <action id="Go.NewGoFile" class="com.goide.actions.file.GoCreateFileAction"
@@ -416,10 +412,4 @@
       <add-to-group group-id="EditorLangPopupMenu" anchor="last"/>
     </group>
   </actions>
-
-  <application-components>
-    <component>
-      <implementation-class>com.goide.ui.ProjectTutorialNotification</implementation-class>
-    </component>
-  </application-components>
 </idea-plugin>

@@ -44,7 +44,7 @@ public class GoSdkLibraryPresentationProvider extends LibraryPresentationProvide
   @Nullable
   public DummyLibraryProperties detect(@NotNull List<VirtualFile> classesRoots) {
     for (VirtualFile root : classesRoots) {
-      if (GoSmallIDEsSdkService.isGoSdkLibRoot(root) && !GoSdkService.isAppEngineSdkPath(GoSdkService.libraryRootToSdkPath(root))) {
+      if (GoSdkService.isGoSdkLibRoot(root) && !GoSdkService.isAppEngineSdkPath(GoSdkService.libraryRootToSdkPath(root))) {
         return DummyLibraryProperties.INSTANCE;
       }
     }

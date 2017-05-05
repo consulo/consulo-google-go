@@ -7,6 +7,7 @@
           <element id="zip-archive" name="consulo.google.go.jar">
             <element id="module-output" name="consulo-google-go" />
             <element id="module-production-resource-output" name="consulo-google-go" />
+            <element id="module-output" name="utils" />
           </element>
         </element>
       </element>

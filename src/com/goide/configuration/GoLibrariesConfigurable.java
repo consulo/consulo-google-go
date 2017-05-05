@@ -33,9 +33,9 @@ import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBList;
-import com.intellij.util.IconUtil;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.ui.UIUtil;
+import consulo.fileTypes.impl.VfsIconUtil;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -73,7 +73,7 @@ public class GoLibrariesConfigurable implements SearchableConfigurable, Configur
         VirtualFile file = VirtualFileManager.getInstance().findFileByUrl(url);
         if (file != null) {
           append(file.getPresentableUrl(), item.readOnly ? SimpleTextAttributes.GRAY_ATTRIBUTES : SimpleTextAttributes.REGULAR_ATTRIBUTES);
-          setIcon(IconUtil.getIcon(file, Iconable.ICON_FLAG_READ_STATUS, null));
+          setIcon(VfsIconUtil.getIcon(file, Iconable.ICON_FLAG_READ_STATUS, null));
         }
         else {
           append(VfsUtilCore.urlToPath(url), SimpleTextAttributes.ERROR_ATTRIBUTES);

@@ -25,17 +25,17 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.TokenSet;
 import com.intellij.lang.PsiParser;
-import com.intellij.lang.LightPsiParser;
+import consulo.lang.LanguageVersion;
 
 @SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
-public class GoParser implements PsiParser, LightPsiParser {
+public class GoParser implements PsiParser {
 
-  public ASTNode parse(IElementType t, PsiBuilder b) {
-    parseLight(t, b);
+  public ASTNode parse(IElementType t, PsiBuilder b, LanguageVersion v) {
+    parseLight(t, b, v);
     return b.getTreeBuilt();
   }
 
-  public void parseLight(IElementType t, PsiBuilder b) {
+  public void parseLight(IElementType t, PsiBuilder b, LanguageVersion v) {
     boolean r;
     b = adapt_builder_(t, b, this, EXTENDS_SETS_);
     Marker m = enter_section_(b, 0, _COLLAPSE_, null);

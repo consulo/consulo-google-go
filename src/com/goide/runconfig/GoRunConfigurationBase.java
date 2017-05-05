@@ -34,7 +34,6 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.util.PathUtil;
 import com.intellij.util.containers.ContainerUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
@@ -44,8 +43,7 @@ import java.util.Collection;
 import java.util.Map;
 
 public abstract class GoRunConfigurationBase<RunningState extends GoRunningState>
-  extends ModuleBasedConfiguration<GoModuleBasedConfiguration> implements RunConfigurationWithSuppressedDefaultRunAction,
-                                                                          RunConfigurationWithSuppressedDefaultDebugAction {
+  extends ModuleBasedConfiguration<GoModuleBasedConfiguration> implements RunConfigurationWithSuppressedDefaultRunAction {
 
   private static final String WORKING_DIRECTORY_NAME = "working_directory";
   private static final String GO_PARAMETERS_NAME = "go_parameters";
@@ -71,9 +69,7 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
     }
 
     if (module != null) {
-      if (FileUtil.exists(module.getModuleFilePath())) {
-        myWorkingDirectory = StringUtil.trimEnd(PathUtil.getParentPath(module.getModuleFilePath()), ".idea");
-      }
+      myWorkingDirectory = StringUtil.notNullize(module.getModuleDirPath());
     }
     else {
       myWorkingDirectory = StringUtil.notNullize(configurationModule.getProject().getBasePath());

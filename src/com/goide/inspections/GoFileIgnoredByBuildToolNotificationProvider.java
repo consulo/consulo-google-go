@@ -26,6 +26,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
@@ -43,8 +44,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Set;
 
-public class GoFileIgnoredByBuildToolNotificationProvider extends EditorNotifications.Provider<EditorNotificationPanel>
-  implements DumbAware {
+public class GoFileIgnoredByBuildToolNotificationProvider extends EditorNotifications.Provider<EditorNotificationPanel> implements DumbAware {
 
   private static final Key<EditorNotificationPanel> KEY = Key.create("Go file ignored by build tool");
   private static final String DO_NOT_SHOW_NOTIFICATION_ABOUT_IGNORE_BY_BUILD_TOOL = "DO_NOT_SHOW_NOTIFICATION_ABOUT_IGNORE_BY_BUILD_TOOL";
@@ -114,7 +114,7 @@ public class GoFileIgnoredByBuildToolNotificationProvider extends EditorNotifica
   private static EditorNotificationPanel createMismatchedTargetPanel(@NotNull Module module, @NotNull VirtualFile file) {
     EditorNotificationPanel panel = new EditorNotificationPanel();
     panel.setText("'" + file.getName() + "' doesn't match to target system. File will be ignored by build tool");
-    panel.createActionLabel("Edit Go project settings", () -> GoModuleSettings.showModulesConfigurable(module));
+    panel.createActionLabel("Edit Go project settings", () -> ProjectSettingsService.getInstance(module.getProject()).openModuleSettings(module));
     return panel;
   }
 }
