@@ -18,7 +18,6 @@ package com.goide;
 
 import com.goide.project.GoApplicationLibrariesService;
 import com.goide.project.GoBuildTargetSettings;
-import com.goide.project.GoModuleSettings;
 import com.goide.sdk.GoSdkType;
 import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.openapi.application.ApplicationManager;

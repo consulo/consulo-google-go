@@ -17,7 +17,6 @@
 package com.goide.psi.legacy;
 
 import com.goide.project.GoBuildTargetSettings;
-import com.goide.project.GoModuleSettings;
 import org.jetbrains.annotations.NotNull;
 
 public class GoLegacyResolveCallsTest extends GoLegacyResolveTestBase {

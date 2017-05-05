@@ -21,7 +21,6 @@ import com.goide.completion.GoCompletionUtil;
 import com.goide.inspections.GoUnusedImportInspection;
 import com.goide.inspections.unresolved.*;
 import com.goide.project.GoBuildTargetSettings;
-import com.goide.project.GoModuleSettings;
 import com.intellij.analysis.AnalysisScope;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInspection.InspectionManager;

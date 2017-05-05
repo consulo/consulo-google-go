@@ -16,13 +16,17 @@
 
 package com.goide.quickfix;
 
-import com.goide.project.GoModuleSettings;
 import com.goide.sdk.GoSdkService;
 import com.intellij.codeInspection.LocalQuickFixBase;
 import com.intellij.codeInspection.ProblemDescriptor;
+import com.intellij.openapi.application.WriteAction;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ModifiableRootModel;
+import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.util.ThreeState;
+import consulo.annotations.RequiredReadAction;
+import consulo.googe.go.module.extension.GoMutableModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +34,8 @@ import static com.goide.project.GoVendoringUtil.isVendoringEnabled;
 import static com.goide.project.GoVendoringUtil.vendoringCanBeDisabled;
 
 public class GoDisableVendoringInModuleQuickFix extends LocalQuickFixBase {
-  @NotNull private final Module myModule;
+  @NotNull
+  private final Module myModule;
 
   private GoDisableVendoringInModuleQuickFix(@NotNull Module module) {
     super("Disable vendoring experiment support in module '" + module.getName() + "'", "Disable vendoring experiment support in module");
@@ -38,10 +43,18 @@ public class GoDisableVendoringInModuleQuickFix extends LocalQuickFixBase {
   }
 
   @Override
+  @RequiredReadAction
   public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
-    if (!myModule.isDisposed()) {
-      GoModuleSettings.getInstance(myModule).setVendoringEnabled(ThreeState.NO);
+    if (myModule.isDisposed()) {
+      return;
     }
+    ModifiableRootModel modifiableModel = ModuleRootManager.getInstance(myModule).getModifiableModel();
+    GoMutableModuleExtension extension = modifiableModel.getExtension(GoMutableModuleExtension.class);
+    if (extension != null) {
+      extension.setVendoringEnabled(ThreeState.NO);
+    }
+
+    WriteAction.run(modifiableModel::commit);
   }
 
   public static GoDisableVendoringInModuleQuickFix create(@Nullable Module module) {

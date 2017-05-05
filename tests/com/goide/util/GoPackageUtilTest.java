@@ -18,7 +18,6 @@ package com.goide.util;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.project.GoBuildTargetSettings;
-import com.goide.project.GoModuleSettings;
 import com.goide.sdk.GoPackageUtil;
 
 public class GoPackageUtilTest extends GoCodeInsightFixtureTestCase {
