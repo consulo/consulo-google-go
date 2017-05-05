@@ -17,7 +17,6 @@
 package com.goide.psi.legacy;
 
 import com.goide.GoCodeInsightFixtureTestCase;
-import com.goide.project.GoModuleLibrariesService;
 import com.goide.psi.GoFile;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;

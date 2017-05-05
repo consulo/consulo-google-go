@@ -17,7 +17,6 @@
 package com.goide.runconfig;
 
 import com.goide.GoCodeInsightFixtureTestCase;
-import com.goide.project.GoApplicationLibrariesService;
 import com.intellij.execution.filters.Filter;
 import com.intellij.execution.filters.HyperlinkInfo;
 import com.intellij.execution.filters.OpenFileHyperlinkInfo;

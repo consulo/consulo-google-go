@@ -75,10 +75,7 @@
     <createFromTemplateHandler implementation="com.goide.actions.file.GoCreateFromTemplateHandler"/>
 
     <applicationService serviceImplementation="com.goide.project.GoApplicationLibrariesService"/>
-    <projectService serviceImplementation="com.goide.project.GoProjectLibrariesService"/>
-    <moduleService serviceImplementation="com.goide.project.GoModuleLibrariesService"/>
-    <projectConfigurable id="go" provider="com.goide.configuration.GoConfigurableProvider"
-                         dynamic="true" bundle="com.goide.GoBundle"/>
+
     <projectConfigurable id="go.auto.impor" parentId="editor.preferences.import" displayName="Go"
                          instance="com.goide.codeInsight.imports.GoAutoImportConfigurable"/>
 

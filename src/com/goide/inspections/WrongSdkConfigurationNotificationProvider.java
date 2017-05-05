@@ -18,7 +18,6 @@ package com.goide.inspections;
 
 import com.goide.GoFileType;
 import com.goide.GoLanguage;
-import com.goide.project.GoLibrariesService;
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
 import com.intellij.ProjectTopics;

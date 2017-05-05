@@ -17,7 +17,6 @@
 package com.goide.sdk;
 
 import com.goide.GoCodeInsightFixtureTestCase;
-import com.goide.project.GoApplicationLibrariesService;
 import com.goide.project.GoModuleLibrariesInitializer;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.ModuleType;

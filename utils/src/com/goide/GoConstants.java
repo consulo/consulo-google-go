@@ -24,14 +24,10 @@ import org.jetbrains.annotations.NonNls;
 import java.util.Set;
 
 public class GoConstants {
-  public static final String MODULE_TYPE_ID = "GO_MODULE";
-  public static final String SDK_TYPE_ID = "Go SDK";
   public static final String PATH = "PATH";
   public static final String GO_PATH = "GOPATH";
   public static final String GO_ROOT = "GOROOT";
   public static final String GO_VENDORING_EXPERIMENT = "GO15VENDOREXPERIMENT";
-  public static final String GO_LIBRARIES_SERVICE_NAME = "GoLibraries";
-  public static final String GO_LIBRARIES_CONFIG_FILE = "goLibraries.xml";
 
   private static final String IDENTIFIER_REGEX = "[\\p{javaLetter}_][\\p{javaLetterOrDigit}_]*";
   public static final String TEST_NAME_REGEX = IDENTIFIER_REGEX + "(/\\S*)?";

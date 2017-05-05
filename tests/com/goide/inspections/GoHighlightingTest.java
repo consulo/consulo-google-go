@@ -20,7 +20,6 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.SdkAware;
 import com.goide.codeInsight.imports.GoImportOptimizerTest;
 import com.goide.inspections.unresolved.*;
-import com.goide.project.GoModuleLibrariesService;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
