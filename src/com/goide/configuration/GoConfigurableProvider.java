@@ -17,7 +17,6 @@
 package com.goide.configuration;
 
 import com.goide.GoConstants;
-import com.goide.codeInsight.imports.GoAutoImportConfigurable;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurableProvider;
 import com.intellij.openapi.options.SearchableConfigurable;
@@ -37,8 +36,7 @@ public class GoConfigurableProvider extends ConfigurableProvider {
   @Override
   public Configurable createConfigurable() {
     Configurable librariesConfigurable = new GoLibrariesConfigurableProvider(myProject).createConfigurable();
-    Configurable autoImportConfigurable = new GoAutoImportConfigurable(myProject, false);
-    return new GoCompositeConfigurable(librariesConfigurable, autoImportConfigurable);
+    return new GoCompositeConfigurable(librariesConfigurable);
   }
 
   private static class GoCompositeConfigurable extends SearchableConfigurable.Parent.Abstract {

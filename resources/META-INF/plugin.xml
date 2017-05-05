@@ -72,6 +72,8 @@
     <moduleService serviceImplementation="com.goide.project.GoModuleLibrariesService"/>
     <projectConfigurable id="go" provider="com.goide.configuration.GoConfigurableProvider"
                          dynamic="true" bundle="com.goide.GoBundle"/>
+    <projectConfigurable id="go.auto.impor" parentId="editor.preferences.import" displayName="Go"
+                         instance="com.goide.codeInsight.imports.GoAutoImportConfigurable"/>
 
     <moduleService serviceImplementation="com.goide.project.GoModuleSettings"/>
     <projectService serviceImplementation="com.goide.project.GoExcludedPathsSettings"/>

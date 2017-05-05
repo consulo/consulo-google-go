@@ -70,7 +70,7 @@ public class GoExcludePathLookupActionProvider implements LookupActionProvider {
     @Override
     public Result performLookupAction() {
       ApplicationManager.getApplication().invokeLater(() -> {
-        GoAutoImportConfigurable configurable = new GoAutoImportConfigurable(myProject, true);
+        GoAutoImportConfigurable configurable = new GoAutoImportConfigurable(myProject);
         ShowSettingsUtil.getInstance().editConfigurable(myProject, configurable, configurable::focusList);
       });
       return Result.HIDE_LOOKUP;

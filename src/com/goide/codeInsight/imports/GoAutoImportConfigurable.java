@@ -44,13 +44,11 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
   @NotNull private final GoCodeInsightSettings myCodeInsightSettings;
   @NotNull private final GoExcludedPathsSettings myExcludedSettings;
   private final boolean myIsDefaultProject;
-  private final boolean myIsDialog;
 
-  public GoAutoImportConfigurable(@NotNull Project project, boolean dialogMode) {
+  public GoAutoImportConfigurable(@NotNull Project project) {
     myCodeInsightSettings = GoCodeInsightSettings.getInstance();
     myExcludedSettings = GoExcludedPathsSettings.getInstance(project);
     myIsDefaultProject = project.isDefault();
-    myIsDialog = dialogMode;
   }
 
   @Nullable
@@ -73,7 +71,6 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
 
     JPanel result = new JPanel(new BorderLayout());
     result.add(builder.getPanel(), BorderLayout.NORTH);
-    if (myIsDialog) result.setPreferredSize(new Dimension(300, -1));
     return result;
   }
 
@@ -132,13 +129,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
   @Nls
   @Override
   public String getDisplayName() {
-    return "Auto Import";
-  }
-
-  @Nullable
-  @Override
-  public String getHelpTopic() {
-    return null;
+    return "Go";
   }
 
   @Override
