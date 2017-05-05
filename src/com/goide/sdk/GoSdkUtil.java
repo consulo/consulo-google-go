@@ -32,7 +32,10 @@ import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.UserDataHolder;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.*;
+import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VfsUtilCore;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -40,6 +43,7 @@ import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
 import com.intellij.util.Function;
 import com.intellij.util.ObjectUtils;
+import com.intellij.util.SmartList;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.text.VersionComparatorUtil;
 import consulo.googe.go.module.extension.GoModuleExtension;
@@ -306,28 +310,31 @@ public class GoSdkUtil {
     return null;
   }
 
-  @Nullable
-  public static VirtualFile suggestSdkDirectory() {
-    if (SystemInfo.isWindows) {
-      return ObjectUtils.chooseNotNull(LocalFileSystem.getInstance().findFileByPath("C:\\Go"), LocalFileSystem.getInstance().findFileByPath("C:\\cygwin"));
+  @NotNull
+  public static List<String> suggestSdkDirectory() {
+    List<String> list = new SmartList<>();
+    String goRoot = System.getenv(GoConstants.GO_ROOT);
+    if (goRoot != null) {
+      list.add(goRoot);
     }
+
+    if (SystemInfo.isWindows) {
+      list.add("C:\\Go");
+      list.add("C:\\cygwin");
+    }
+
     if (SystemInfo.isMac || SystemInfo.isLinux) {
       String fromEnv = suggestSdkDirectoryPathFromEnv();
       if (fromEnv != null) {
-        return LocalFileSystem.getInstance().findFileByPath(fromEnv);
+        list.add(fromEnv);
       }
-      VirtualFile usrLocal = LocalFileSystem.getInstance().findFileByPath("/usr/local/go");
-      if (usrLocal != null) return usrLocal;
+      list.add("/usr/local/go");
     }
     if (SystemInfo.isMac) {
-      String macPorts = "/opt/local/lib/go";
-      String homeBrew = "/usr/local/Cellar/go";
-      File file = FileUtil.findFirstThatExist(macPorts, homeBrew);
-      if (file != null) {
-        return LocalFileSystem.getInstance().findFileByIoFile(file);
-      }
+      list.add("/opt/local/lib/go");
+      list.add("/usr/local/Cellar/go");
     }
-    return null;
+    return list;
   }
 
   @Nullable

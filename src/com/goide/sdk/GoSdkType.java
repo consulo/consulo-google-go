@@ -31,16 +31,15 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.io.File;
 import java.util.Collection;
-import java.util.Collections;
 
 public class GoSdkType extends SdkType {
-  public GoSdkType() {
-    super("Google Go SDK");
-  }
-
   @NotNull
   public static GoSdkType getInstance() {
     return SdkType.EP_NAME.findExtension(GoSdkType.class);
+  }
+
+  public GoSdkType() {
+    super("Google Go SDK");
   }
 
   @NotNull
@@ -52,17 +51,12 @@ public class GoSdkType extends SdkType {
   @NotNull
   @Override
   public Collection<String> suggestHomePaths() {
-    String path = suggestHomePath();
-    if (path != null) {
-      return Collections.singletonList(path);
-    }
-    return super.suggestHomePaths();
+    return GoSdkUtil.suggestSdkDirectory();
   }
 
-  @Nullable
-  private String suggestHomePath() {
-    VirtualFile suggestSdkDirectory = GoSdkUtil.suggestSdkDirectory();
-    return suggestSdkDirectory != null ? suggestSdkDirectory.getPath() : null;
+  @Override
+  public boolean canCreatePredefinedSdks() {
+    return true;
   }
 
   @Override
