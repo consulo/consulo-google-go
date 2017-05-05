@@ -1,1 +1,1 @@
-![Build Status](http://must-be.org/vulcan/statusImage?name=consulo-google-go)
+[![Build Status](https://ci.consulo.io/job/consulo-google-go/badge/icon)](https://ci.consulo.io/job/consulo-google-go/)
