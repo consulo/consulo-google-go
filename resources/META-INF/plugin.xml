@@ -58,6 +58,7 @@
     <orderEntryType implementation="consulo.googe.go.module.orderEntry.GoPathOrderEntryType"/>
     <orderEntryTypeEditor key="gopath" implementationClass="consulo.googe.go.module.orderEntry.GoPathOrderEntryTypeEditor"/>
 
+    <newModuleBuilder implementation="consulo.googe.go.newProjectOrModule.GoNewModuleBuilder" />
 
     <stubIndex implementation="com.goide.stubs.index.GoAllPublicNamesIndex"/>
     <stubIndex implementation="com.goide.stubs.index.GoAllPrivateNamesIndex"/>
