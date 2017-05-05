@@ -17,6 +17,7 @@
 package com.goide.configuration;
 
 import com.goide.project.GoApplicationLibrariesService;
+import com.goide.project.GoProjectLibrariesService;
 import com.goide.sdk.GoSdkUtil;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.application.ApplicationManager;
@@ -99,18 +100,17 @@ public class GoLibrariesConfigurableProvider extends ConfigurableProvider {
       @Override
       protected List<UnnamedConfigurable> createConfigurables() {
         List<UnnamedConfigurable> result = ContainerUtil.newArrayList();
-        String[] urlsFromEnv = ContainerUtil.map2Array(GoSdkUtil.getGoPathsRootsFromEnvironment(), String.class, VirtualFile::getUrl);
-        result.add(new GoLibrariesConfigurable("Global libraries", GoApplicationLibrariesService.getInstance(), urlsFromEnv));
-      /*  if (!myProject.isDefault()) {
+        result.add(new GoLibrariesConfigurable("Global libraries", GoApplicationLibrariesService.getInstance(), new String[0]));
+        if (!myProject.isDefault()) {
           result.add(new GoLibrariesConfigurable("Project libraries", GoProjectLibrariesService.getInstance(myProject)));
-          result.add(new GoModuleAwareConfigurable(myProject, "Module libraries", null) {
+          /*result.add(new GoModuleAwareConfigurable(myProject, "Module libraries", null) {
             @NotNull
             @Override
             protected UnnamedConfigurable createModuleConfigurable(@NotNull Module module) {
               return new GoLibrariesConfigurable("Module libraries", GoModuleLibrariesService.getInstance(module));
             }
-          });
-        }   */
+          }); */
+        }
         return result;
       }
 

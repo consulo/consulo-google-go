@@ -28,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
     @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/" + GoConstants.GO_LIBRARIES_CONFIG_FILE)
   }
 )
+@Deprecated
 public class GoProjectLibrariesService extends GoLibrariesService<GoLibrariesState> {
   public static GoProjectLibrariesService getInstance(@NotNull Project project) {
     return ServiceManager.getService(project, GoProjectLibrariesService.class);

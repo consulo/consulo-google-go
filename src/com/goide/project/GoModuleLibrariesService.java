@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
   name = GoConstants.GO_LIBRARIES_SERVICE_NAME,
   storages = @Storage(file = StoragePathMacros.MODULE_FILE)
 )
+@Deprecated
 public class GoModuleLibrariesService extends GoLibrariesService<GoLibrariesState> {
   public static GoModuleLibrariesService getInstance(@NotNull Module module) {
     return ModuleServiceManager.getService(module, GoModuleLibrariesService.class);

@@ -18,8 +18,6 @@ package com.goide.project;
 
 import com.goide.GoConstants;
 import com.goide.GoLibrariesState;
-import com.goide.sdk.GoSdkUtil;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
@@ -30,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
   name = GoConstants.GO_LIBRARIES_SERVICE_NAME,
   storages = @Storage(file = StoragePathMacros.APP_CONFIG + "/" + GoConstants.GO_LIBRARIES_CONFIG_FILE)
 )
+@Deprecated
 public class GoApplicationLibrariesService extends GoLibrariesService<GoApplicationLibrariesService.GoApplicationLibrariesState> {
   @NotNull
   @Override
@@ -41,29 +40,9 @@ public class GoApplicationLibrariesService extends GoLibrariesService<GoApplicat
     return ServiceManager.getService(GoApplicationLibrariesService.class);
   }
 
-  public boolean isUseGoPathFromSystemEnvironment() {
-    return myState.isUseGoPathFromSystemEnvironment();
-  }
 
-  public void setUseGoPathFromSystemEnvironment(boolean useGoPathFromSystemEnvironment) {
-    if (myState.isUseGoPathFromSystemEnvironment() != useGoPathFromSystemEnvironment) {
-      myState.setUseGoPathFromSystemEnvironment(useGoPathFromSystemEnvironment);
-      if (!GoSdkUtil.getGoPathsRootsFromEnvironment().isEmpty()) {
-        incModificationCount();
-        ApplicationManager.getApplication().getMessageBus().syncPublisher(LIBRARIES_TOPIC).librariesChanged(getLibraryRootUrls());
-      }
-    }
-  }
 
   public static class GoApplicationLibrariesState extends GoLibrariesState {
-    private boolean myUseGoPathFromSystemEnvironment = true;
 
-    public boolean isUseGoPathFromSystemEnvironment() {
-      return myUseGoPathFromSystemEnvironment;
-    }
-
-    public void setUseGoPathFromSystemEnvironment(boolean useGoPathFromSystemEnvironment) {
-      myUseGoPathFromSystemEnvironment = useGoPathFromSystemEnvironment;
-    }
   } 
 }

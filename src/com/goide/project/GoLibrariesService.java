@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
+@Deprecated
 public abstract class GoLibrariesService<T extends GoLibrariesState> extends SimpleModificationTracker implements PersistentStateComponent<T> {
   public static final Topic<LibrariesListener> LIBRARIES_TOPIC = Topic.create("libraries changes", LibrariesListener.class);
   protected final T myState = createState();

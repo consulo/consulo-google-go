@@ -50,13 +50,14 @@ public class GoModuleExtension extends ModuleExtensionWithSdkImpl<GoModuleExtens
     super.commit(extension);
 
     myVendoringEnabled = extension.myVendoringEnabled;
-    myBuildTargetSettings = extension.myBuildTargetSettings;
+    myBuildTargetSettings = extension.myBuildTargetSettings.clone();
   }
 
   @RequiredReadAction
   @Override
   protected void loadStateImpl(@NotNull Element element) {
     super.loadStateImpl(element);
+    myVendoringEnabled = ThreeState.valueOf(element.getAttributeValue("vendoring-enabled", ThreeState.UNSURE.name()));
 
     Element buildTags = element.getChild("buildTags");
     if (buildTags != null) {
@@ -67,6 +68,9 @@ public class GoModuleExtension extends ModuleExtensionWithSdkImpl<GoModuleExtens
   @Override
   protected void getStateImpl(@NotNull Element element) {
     super.getStateImpl(element);
+    if (myVendoringEnabled != ThreeState.UNSURE) {
+      element.setAttribute("vendoring-enabled", myVendoringEnabled.name());
+    }
     Element buildElement = XmlSerializer.serialize(myBuildTargetSettings);
     if (buildElement != null) {
       element.addContent(buildElement);

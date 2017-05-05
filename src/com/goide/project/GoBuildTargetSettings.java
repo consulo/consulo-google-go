@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 
 @Tag("buildTags")
-public class GoBuildTargetSettings {
+public class GoBuildTargetSettings implements Cloneable {
   public static final String ANY_COMPILER = "Any";
   public static final String DEFAULT = "default";
 
@@ -40,6 +40,16 @@ public class GoBuildTargetSettings {
   public String goVersion = DEFAULT;
   @NotNull
   public String[] customFlags = ArrayUtil.EMPTY_STRING_ARRAY;
+
+  @Override
+  public GoBuildTargetSettings clone() {
+    try {
+      return (GoBuildTargetSettings)super.clone();
+    }
+    catch (CloneNotSupportedException e) {
+      throw new Error(e);
+    }
+  }
 
   @Override
   public boolean equals(Object o) {

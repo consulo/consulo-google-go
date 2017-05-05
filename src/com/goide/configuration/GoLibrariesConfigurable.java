@@ -16,7 +16,6 @@
 
 package com.goide.configuration;
 
-import com.goide.project.GoApplicationLibrariesService;
 import com.goide.project.GoLibrariesService;
 import com.intellij.openapi.fileChooser.FileChooserDialog;
 import com.intellij.openapi.fileChooser.FileChooserFactory;
@@ -31,7 +30,6 @@ import com.intellij.ui.CollectionListModel;
 import com.intellij.ui.ColoredListCellRenderer;
 import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.ToolbarDecorator;
-import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.ui.UIUtil;
@@ -43,8 +41,6 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.intellij.openapi.fileChooser.FileChooserDescriptorFactory.createMultipleFoldersDescriptor;
 
@@ -52,7 +48,6 @@ public class GoLibrariesConfigurable implements SearchableConfigurable, Configur
   @NotNull private final String myDisplayName;
   private final GoLibrariesService<?> myLibrariesService;
   private final String[] myReadOnlyPaths;
-  private final JBCheckBox myUseEnvGoPathCheckBox = new JBCheckBox("Use GOPATH that's defined in system environment");
   private final JPanel myPanel = new JPanel(new BorderLayout());
   private final CollectionListModel<ListItem> myListModel = new CollectionListModel<>();
 
@@ -126,17 +121,6 @@ public class GoLibrariesConfigurable implements SearchableConfigurable, Configur
         }
       });
     myPanel.add(decorator.createPanel(), BorderLayout.CENTER);
-    if (librariesService instanceof GoApplicationLibrariesService) {
-      myUseEnvGoPathCheckBox.addActionListener(event -> {
-        if (myUseEnvGoPathCheckBox.isSelected()) {
-          addReadOnlyPaths();
-        }
-        else {
-          removeReadOnlyPaths();
-        }
-      });
-      myPanel.add(myUseEnvGoPathCheckBox, BorderLayout.SOUTH);
-    }
   }
 
   private static void scrollToSelection(JList list) {
@@ -154,57 +138,23 @@ public class GoLibrariesConfigurable implements SearchableConfigurable, Configur
 
   @Override
   public boolean isModified() {
-    return !getUserDefinedUrls().equals(myLibrariesService.getLibraryRootUrls()) ||
-           myLibrariesService instanceof GoApplicationLibrariesService &&
-           ((GoApplicationLibrariesService)myLibrariesService).isUseGoPathFromSystemEnvironment() !=
-           myUseEnvGoPathCheckBox.isSelected();
+    return !getUserDefinedUrls().equals(myLibrariesService.getLibraryRootUrls()) ;
   }
 
   @Override
   public void apply() throws ConfigurationException {
     myLibrariesService.setLibraryRootUrls(getUserDefinedUrls());
-    if (myLibrariesService instanceof GoApplicationLibrariesService) {
-      ((GoApplicationLibrariesService)myLibrariesService).setUseGoPathFromSystemEnvironment(myUseEnvGoPathCheckBox.isSelected());
-    }
   }
 
   @Override
   public void reset() {
     myListModel.removeAll();
-    resetLibrariesFromEnvironment();
     for (String url : myLibrariesService.getLibraryRootUrls()) {
       myListModel.add(new ListItem(url, false));
     }
   }
-
-  private void resetLibrariesFromEnvironment() {
-    if (myLibrariesService instanceof GoApplicationLibrariesService) {
-      myUseEnvGoPathCheckBox.setSelected(((GoApplicationLibrariesService)myLibrariesService).isUseGoPathFromSystemEnvironment());
-      if (((GoApplicationLibrariesService)myLibrariesService).isUseGoPathFromSystemEnvironment()) {
-        addReadOnlyPaths();
-      }
-      else {
-        removeReadOnlyPaths();
-      }
-    }
-  }
-
-  private void addReadOnlyPaths() {
-    for (String url : myReadOnlyPaths) {
-      myListModel.add(new ListItem(url, true));
-    }
-  }
-
-  private void removeReadOnlyPaths() {
-    List<ListItem> toRemove = myListModel.getItems().stream().filter(item -> item.readOnly).collect(Collectors.toList());
-    for (ListItem item : toRemove) {
-      myListModel.remove(item);
-    }
-  }
-
   @Override
   public void disposeUIResources() {
-    UIUtil.dispose(myUseEnvGoPathCheckBox);
     UIUtil.dispose(myPanel);
     myListModel.removeAll();
   }
