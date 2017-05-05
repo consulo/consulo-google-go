@@ -83,8 +83,6 @@ public abstract class GoSdkService {
     return path != null && path.endsWith(GoConstants.APP_ENGINE_GO_ROOT_DIRECTORY_PATH);
   }
 
-  public abstract void chooseAndSetSdk(@Nullable Module module);
-
   /**
    * Use this method in order to check whether the method is appropriate for providing Go-specific code insight
    */

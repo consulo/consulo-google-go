@@ -19,8 +19,10 @@ package com.goide.configuration;
 import com.goide.project.GoApplicationLibrariesService;
 import com.goide.project.GoProjectLibrariesService;
 import com.intellij.ide.util.PropertiesComponent;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.options.*;
+import com.intellij.openapi.options.CompositeConfigurable;
+import com.intellij.openapi.options.Configurable;
+import com.intellij.openapi.options.ConfigurableProvider;
+import com.intellij.openapi.options.UnnamedConfigurable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.HideableDecorator;
@@ -204,13 +206,5 @@ public class GoLibrariesConfigurableProvider extends ConfigurableProvider {
         }
       }
     };
-  }
-
-  public static void showModulesConfigurable(@NotNull Project project) {
-    ApplicationManager.getApplication().assertIsDispatchThread();
-    if (!project.isDisposed()) {
-      Configurable configurable = new GoLibrariesConfigurableProvider(project).createConfigurable(true);
-      ShowSettingsUtil.getInstance().editConfigurable(project, configurable);
-    }
   }
 }

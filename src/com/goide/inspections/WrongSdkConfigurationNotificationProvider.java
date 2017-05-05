@@ -18,7 +18,6 @@ package com.goide.inspections;
 
 import com.goide.GoFileType;
 import com.goide.GoLanguage;
-import com.goide.configuration.GoLibrariesConfigurableProvider;
 import com.goide.project.GoLibrariesService;
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
@@ -32,6 +31,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectBundle;
 import com.intellij.openapi.roots.ModuleRootAdapter;
 import com.intellij.openapi.roots.ModuleRootEvent;
+import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -41,7 +41,6 @@ import com.intellij.ui.EditorNotificationPanel;
 import com.intellij.ui.EditorNotifications;
 import com.intellij.util.messages.MessageBusConnection;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class WrongSdkConfigurationNotificationProvider extends EditorNotifications.Provider<EditorNotificationPanel> implements DumbAware {
   private static final Key<EditorNotificationPanel> KEY = Key.create("Setup Go SDK");
@@ -58,7 +57,6 @@ public class WrongSdkConfigurationNotificationProvider extends EditorNotificatio
         notifications.updateAllNotifications();
       }
     });
-    connection.subscribe(GoLibrariesService.LIBRARIES_TOPIC, newRootUrls -> notifications.updateAllNotifications());
   }
 
   @NotNull
@@ -87,7 +85,7 @@ public class WrongSdkConfigurationNotificationProvider extends EditorNotificatio
     if (!PropertiesComponent.getInstance().getBoolean(DO_NOT_SHOW_NOTIFICATION_ABOUT_EMPTY_GOPATH, false)) {
       String goPath = GoSdkUtil.retrieveGoPath(myProject, module);
       if (StringUtil.isEmpty(goPath.trim())) {
-        return createEmptyGoPathPanel(myProject);
+        return createEmptyGoPathPanel(myProject, module);
       }
     }
 
@@ -95,18 +93,18 @@ public class WrongSdkConfigurationNotificationProvider extends EditorNotificatio
   }
 
   @NotNull
-  private static EditorNotificationPanel createMissingSdkPanel(@NotNull Project project, @Nullable Module module) {
+  private static EditorNotificationPanel createMissingSdkPanel(@NotNull Project project, @NotNull Module module) {
     EditorNotificationPanel panel = new EditorNotificationPanel();
-    panel.setText(ProjectBundle.message("project.sdk.not.defined"));
-    panel.createActionLabel(ProjectBundle.message("project.sdk.setup"), () -> GoSdkService.getInstance(project).chooseAndSetSdk(module));
+    panel.setText(ProjectBundle.message("module.sdk.not.defined"));
+    panel.createActionLabel(ProjectBundle.message("module.sdk.setup"), () -> ProjectSettingsService.getInstance(project).openModuleSettings(module));
     return panel;
   }
 
   @NotNull
-  private static EditorNotificationPanel createEmptyGoPathPanel(@NotNull Project project) {
+  private static EditorNotificationPanel createEmptyGoPathPanel(@NotNull Project project, Module module) {
     EditorNotificationPanel panel = new EditorNotificationPanel();
     panel.setText("GOPATH is empty");
-    panel.createActionLabel("Configure Go Libraries", () -> GoLibrariesConfigurableProvider.showModulesConfigurable(project));
+    panel.createActionLabel("Configure Go Libraries", () -> ProjectSettingsService.getInstance(project).openModuleSettings(module));
     panel.createActionLabel("Do not show again", () -> {
       PropertiesComponent.getInstance().setValue(DO_NOT_SHOW_NOTIFICATION_ABOUT_EMPTY_GOPATH, true);
       EditorNotifications.getInstance(project).updateAllNotifications();

@@ -17,7 +17,6 @@
 package com.goide.project;
 
 import com.goide.GoConstants;
-import com.goide.configuration.GoLibrariesConfigurableProvider;
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
 import com.goide.util.GoUtil;
@@ -107,7 +106,6 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
           scheduleUpdate();
         }
       });
-      myConnection.subscribe(GoLibrariesService.LIBRARIES_TOPIC, newRootUrls -> scheduleUpdate());
 
       Project project = myModule.getProject();
       StartupManager.getInstance(project).runWhenProjectIsInitialized(() -> {
@@ -239,7 +237,7 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
         @Override
         protected void hyperlinkActivated(@NotNull Notification notification, @NotNull HyperlinkEvent event) {
           if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED && "configure".equals(event.getDescription())) {
-            GoLibrariesConfigurableProvider.showModulesConfigurable(project);
+            ProjectSettingsService.getInstance(project).openProjectSettings();
           }
         }
       };

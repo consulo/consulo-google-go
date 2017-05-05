@@ -56,11 +56,6 @@ public class GoIdeaSdkService extends GoSdkService {
   }
 
   @Override
-  public void chooseAndSetSdk(@Nullable Module module) {
-    throw new IllegalArgumentException();
-  }
-
-  @Override
   public boolean isGoModule(@Nullable Module module) {
     return super.isGoModule(module) && ModuleUtilCore.getExtension(module, GoModuleExtension.class) != null;
   }
