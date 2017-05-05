@@ -1,20 +1,20 @@
 // This is a generated file. Not intended for manual editing.
 package com.plan9.intel.lang.core.parser;
 
+import com.intellij.lang.ASTNode;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
-import static com.plan9.intel.lang.core.psi.AsmIntelTypes.*;
-import static com.intellij.lang.parser.GeneratedParserUtilBase.*;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.tree.TokenSet;
 import com.intellij.lang.PsiParser;
-import com.intellij.lang.LightPsiParser;
+import com.intellij.psi.tree.IElementType;
+import consulo.lang.LanguageVersion;
+
+import static com.intellij.lang.parser.GeneratedParserUtilBase.*;
+import static com.plan9.intel.lang.core.psi.AsmIntelTypes.*;
 
 @SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
-public class AsmIntelParser implements PsiParser, LightPsiParser {
+public class AsmIntelParser implements PsiParser {
 
-  public ASTNode parse(IElementType t, PsiBuilder b) {
+  public ASTNode parse(IElementType t, PsiBuilder b, LanguageVersion languageVersion) {
     parseLight(t, b);
     return b.getTreeBuilt();
   }

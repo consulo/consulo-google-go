@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<idea-plugin>
+<idea-plugin xmlns:xi="http://www.w3.org/2001/XInclude">
   <id>consulo.google.go</id>
   <name>Google Go</name>
   <version>SNAPSHOT</version>
@@ -23,6 +23,9 @@
 
   <depends optional="true">com.intellij.regexp</depends>
   <depends optional="true">com.intellij.spellchecker</depends>
+
+  <!-- plan9 assembler -->
+  <xi:include href="plan9.xml" xpointer="xpointer(/idea-plugin/*)"/>
 
   <module-components>
     <component>

@@ -35,6 +35,22 @@
           <orderEntry type="sourceFolder" />
         </module-layer>
       </module>
+      <module name="plan9" dirurl="file://$PROJECT_DIR$/plan9" current-layer="Default">
+        <module-layer name="Default">
+          <extension id="consulo-plugin" sdk-module-name="consulo-google-go" />
+          <extension id="java" sdk-module-name="consulo-google-go" />
+          <content url="file://$MODULE_DIR$">
+            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/gen">
+              <property key="is-generated-root" value="true" />
+            </content-folder>
+            <content-folder type="PRODUCTION_RESOURCE" url="file://$MODULE_DIR$/resources" />
+            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
+          </content>
+          <orderEntry type="module-extension-sdk" extension-id="consulo-plugin" />
+          <orderEntry type="module-extension-sdk" extension-id="java" />
+          <orderEntry type="sourceFolder" />
+        </module-layer>
+      </module>
     </modules>
   </component>
 </project>

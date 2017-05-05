@@ -9,6 +9,10 @@
             <element id="module-production-resource-output" name="consulo-google-go" />
             <element id="module-output" name="utils" />
           </element>
+          <element id="zip-archive" name="plan9.jar">
+            <element id="module-production-resource-output" name="plan9" />
+            <element id="module-output" name="plan9" />
+          </element>
         </element>
       </element>
     </root>

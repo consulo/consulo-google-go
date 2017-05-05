@@ -21,7 +21,6 @@ import com.intellij.lang.Language;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
 import com.intellij.lexer.Lexer;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -34,6 +33,7 @@ import com.plan9.intel.lang.core.lexer.AsmIntelLexer;
 import com.plan9.intel.lang.core.lexer.AsmIntelTokenType;
 import com.plan9.intel.lang.core.parser.AsmIntelParser;
 import com.plan9.intel.lang.core.psi.AsmIntelFile;
+import consulo.lang.LanguageVersion;
 import org.jetbrains.annotations.NotNull;
 
 import static com.plan9.intel.lang.core.psi.AsmIntelTypes.*;
@@ -53,31 +53,31 @@ public class AsmIntelParserDefinition implements ParserDefinition {
 
   @NotNull
   @Override
-  public Lexer createLexer(Project project) {
+  public Lexer createLexer(LanguageVersion languageVersion) {
     return new AsmIntelLexer();
   }
 
   @Override
   @NotNull
-  public TokenSet getWhitespaceTokens() {
+  public TokenSet getWhitespaceTokens(LanguageVersion languageVersion) {
     return WHITE_SPACES;
   }
 
   @Override
   @NotNull
-  public TokenSet getCommentTokens() {
+  public TokenSet getCommentTokens(LanguageVersion languageVersion) {
     return COMMENTS;
   }
 
   @Override
   @NotNull
-  public TokenSet getStringLiteralElements() {
+  public TokenSet getStringLiteralElements(LanguageVersion languageVersion) {
     return TokenSet.EMPTY;
   }
 
   @Override
   @NotNull
-  public PsiParser createParser(Project project) {
+  public PsiParser createParser(LanguageVersion languageVersion) {
     return new AsmIntelParser();
   }
 
