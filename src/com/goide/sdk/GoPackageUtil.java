@@ -106,7 +106,8 @@ public class GoPackageUtil {
     Key<CachedValue<Collection<String>>> key = trimTestSuffices ? PACKAGES_TEST_TRIMMED_CACHE : PACKAGES_CACHE;
     return CachedValuesManager.getManager(dir.getProject()).getCachedValue(dir, key, () -> {
       Module module = ModuleUtilCore.findModuleForPsiElement(dir);
-      GoBuildTargetSettings buildTargetSettings = module != null ? ModuleUtilCore.getExtension(module, GoModuleExtension.class).getBuildTargetSettings() : null;
+      GoModuleExtension moduleExtension = module != null ? ModuleUtilCore.getExtension(module, GoModuleExtension.class) : null;
+      GoBuildTargetSettings buildTargetSettings = moduleExtension != null ? moduleExtension.getBuildTargetSettings() : null;
       // todo[zolotov]: implement package modification tracker
       return buildTargetSettings != null
              ? CachedValueProvider.Result.create(getAllPackagesInDirectoryInner(dir, module, trimTestSuffices), dir, ProjectRootManager.getInstance(dir.getProject()))
