@@ -47,14 +47,12 @@ import static com.intellij.openapi.fileChooser.FileChooserDescriptorFactory.crea
 public class GoLibrariesConfigurable implements SearchableConfigurable, Configurable.NoScroll {
   @NotNull private final String myDisplayName;
   private final GoLibrariesService<?> myLibrariesService;
-  private final String[] myReadOnlyPaths;
   private final JPanel myPanel = new JPanel(new BorderLayout());
   private final CollectionListModel<ListItem> myListModel = new CollectionListModel<>();
 
-  public GoLibrariesConfigurable(@NotNull String displayName, @NotNull GoLibrariesService librariesService, String... urls) {
+  public GoLibrariesConfigurable(@NotNull String displayName, @NotNull GoLibrariesService librariesService) {
     myDisplayName = displayName;
     myLibrariesService = librariesService;
-    myReadOnlyPaths = urls;
 
     JBList filesList = new JBList(myListModel);
     filesList.setCellRenderer(new ColoredListCellRenderer() {
