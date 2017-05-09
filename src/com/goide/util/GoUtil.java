@@ -22,9 +22,6 @@ import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.sdk.GoPackageUtil;
-import com.intellij.ide.plugins.IdeaPluginDescriptor;
-import com.intellij.ide.plugins.PluginManager;
-import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
@@ -44,8 +41,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class GoUtil {
-  private static final String PLUGIN_ID = "ro.redeul.google.go";
-
   private GoUtil() {}
 
   public static boolean matchedForModuleBuildTarget(@NotNull PsiFile file, @Nullable Module module) {
@@ -132,11 +127,6 @@ public class GoUtil {
                           : GlobalSearchScope.projectScope(project);
   }
 
-  @NotNull
-  @SuppressWarnings("ConstantConditions")
-  public static IdeaPluginDescriptor getPlugin() {
-    return PluginManager.getPlugin(PluginId.getId(PLUGIN_ID));
-  }
 
   /**
    * isReferenceTo optimization. Before complex checking via resolve we can say for sure that element

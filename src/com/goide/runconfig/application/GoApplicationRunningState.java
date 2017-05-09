@@ -20,13 +20,13 @@ import com.goide.GoConstants;
 import com.goide.runconfig.GoRunningState;
 import com.goide.util.GoExecutor;
 import com.goide.util.GoHistoryProcessListener;
-import com.goide.util.GoUtil;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.executors.DefaultDebugExecutor;
 import com.intellij.execution.process.ProcessAdapter;
 import com.intellij.execution.process.ProcessEvent;
 import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.runners.ExecutionEnvironment;
+import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.text.StringUtil;
@@ -107,8 +107,10 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
   private static File dlv() {
     String dlvPath = System.getProperty("dlv.path");
     if (StringUtil.isNotEmpty(dlvPath)) return new File(dlvPath);
-    return new File(GoUtil.getPlugin().getPath(),
-                    "lib/dlv/" + (SystemInfo.isMac ? "mac" : SystemInfo.isWindows ? "windows" : "linux") + "/"
+
+    File pluginPath = PluginManager.getPluginPath(GoApplicationRunningState.class);
+    return new File(pluginPath,
+                    "dlv/" + (SystemInfo.isMac ? "mac" : SystemInfo.isWindows ? "windows" : "linux") + "/"
                     + GoConstants.DELVE_EXECUTABLE_NAME + (SystemInfo.isWindows ? ".exe" : ""));
   }
 

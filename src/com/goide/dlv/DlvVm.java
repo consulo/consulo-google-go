@@ -18,14 +18,16 @@ package com.goide.dlv;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.vfs.CharsetToolkit;
+import com.intellij.util.io.NettyKt;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.json.JsonObjectDecoder;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.concurrency.Promise;
-import org.jetbrains.debugger.*;
-import org.jetbrains.io.ChannelBufferToString;
+import org.jetbrains.debugger.AttachStateManager;
+import org.jetbrains.debugger.DebugEventListener;
+import org.jetbrains.debugger.StandaloneVmHelper;
+import org.jetbrains.debugger.VmBase;
 import org.jetbrains.io.SimpleChannelInboundHandlerAdapter;
 import org.jetbrains.jsonProtocol.Request;
 
@@ -34,9 +36,11 @@ import java.io.IOException;
 public class DlvVm extends VmBase {
   private final static Logger LOG = Logger.getInstance(DlvVm.class);
 
-  @NotNull private final DlvCommandProcessor commandProcessor;
-  @NotNull private final StandaloneVmHelper vmHelper;
-  @NotNull private final DummyBreakpointManager breakpointManager = new DummyBreakpointManager();
+  @NotNull
+  private final DlvCommandProcessor commandProcessor;
+  @NotNull
+  private final StandaloneVmHelper vmHelper;
+  // @NotNull private final DummyBreakpointManager breakpointManager = new DummyBreakpointManager();
 
   public DlvVm(@NotNull DebugEventListener tabListener, @NotNull Channel channel) {
     super(tabListener);
@@ -56,7 +60,7 @@ public class DlvVm extends VmBase {
       protected void messageReceived(ChannelHandlerContext context, Object message) throws Exception {
         if (message instanceof ByteBuf) {
           LOG.info("IN: " + ((ByteBuf)message).toString(CharsetToolkit.UTF8_CHARSET));
-          CharSequence string = ChannelBufferToString.readChars((ByteBuf)message);
+          CharSequence string = NettyKt.readUtf8((ByteBuf)message);
           JsonReaderEx ex = new JsonReaderEx(string);
           getCommandProcessor().processIncomingJson(ex);
         }
@@ -75,7 +79,7 @@ public class DlvVm extends VmBase {
     return commandProcessor;
   }
 
-  @NotNull
+ /* @NotNull
   @Override
   public ScriptManagerBase<ScriptBase> getScriptManager() {
     throw new UnsupportedOperationException();
@@ -85,13 +89,13 @@ public class DlvVm extends VmBase {
   @Override
   public BreakpointManager getBreakpointManager() {
     return breakpointManager;
-  }
+  }   */
 
   /**
    * Changed API between minor versions, runtime is compatible
    * Todo: uncomment since 2016.2, when only the last build of 15.0 will be supported
    */
-  @SuppressWarnings("unchecked")
+  /*@SuppressWarnings("unchecked")
   @NotNull
   @Override
   public SuspendContextManagerBase getSuspendContextManager() {
@@ -114,5 +118,5 @@ public class DlvVm extends VmBase {
         return Promise.DONE;
       }
     };
-  }
+  } */
 }

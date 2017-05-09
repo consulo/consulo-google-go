@@ -16,9 +16,7 @@
 
 package com.goide.dlv.breakpoint;
 
-import com.goide.GoFileType;
 import com.goide.GoParserDefinition;
-import com.goide.dlv.DlvDebugProcess;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
@@ -28,15 +26,18 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.util.Processor;
 import com.intellij.xdebugger.XDebuggerUtil;
 import com.intellij.xdebugger.breakpoints.XLineBreakpointType;
+import consulo.annotations.RequiredReadAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class DlvBreakpointType extends XLineBreakpointType<DlvBreakpointProperties> {
-  public static final String ID = "DlvLineBreakpoint";
-  public static final String NAME = "Dlv breakpoint";
+  @NotNull
+  public static DlvBreakpointType getInstance() {
+    return EXTENSION_POINT_NAME.findExtension(DlvBreakpointType.class);
+  }
 
   protected DlvBreakpointType() {
-    super(ID, NAME);
+    super("DlvLineBreakpoint", "Dlv breakpoint");
   }
 
   @Nullable
@@ -45,13 +46,8 @@ public class DlvBreakpointType extends XLineBreakpointType<DlvBreakpointProperti
     return new DlvBreakpointProperties();
   }
 
-  @Override
-  public boolean canPutAt(@NotNull VirtualFile file, int line, @NotNull Project project) {
-    if (line < 0 || DlvDebugProcess.IS_DLV_DISABLED || file.getFileType() != GoFileType.INSTANCE) return false;
-    return isLineBreakpointAvailable(file, line, project);
-  }
-
-  private static boolean isLineBreakpointAvailable(@NotNull VirtualFile file, int line, @NotNull Project project) {
+  @RequiredReadAction
+  public static boolean isLineBreakpointAvailable(@NotNull VirtualFile file, int line, @NotNull Project project) {
     Document document = FileDocumentManager.getInstance().getDocument(file);
     if (document == null || document.getLineEndOffset(line) == document.getLineStartOffset(line)) return false;
     Checker canPutAtChecker = new Checker();

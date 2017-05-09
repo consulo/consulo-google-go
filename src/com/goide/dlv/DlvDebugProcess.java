@@ -52,13 +52,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.concurrency.Promise;
 import org.jetbrains.debugger.DebugProcessImpl;
-import org.jetbrains.debugger.Location;
 import org.jetbrains.debugger.StepAction;
 import org.jetbrains.debugger.Vm;
 import org.jetbrains.debugger.connection.VmConnection;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -209,11 +206,11 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     return null;
   }
 
-  @NotNull
+  /*@NotNull
   @Override
   public List<Location> getLocationsForBreakpoint(@NotNull XLineBreakpoint<?> breakpoint) {
     return Collections.emptyList();
-  }
+  }  */
 
   @Override
   public void runToPosition(@NotNull XSourcePosition position, @Nullable XSuspendContext context) {

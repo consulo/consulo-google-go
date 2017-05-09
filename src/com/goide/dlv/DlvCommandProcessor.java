@@ -20,13 +20,13 @@ import com.goide.dlv.protocol.DlvRequest;
 import com.goide.dlv.protocol.DlvResponse;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.concurrency.Promise;
 import org.jetbrains.rpc.CommandProcessor;
-import org.jetbrains.rpc.CommandProcessorKt;
 import org.jetbrains.rpc.RequestCallback;
 
 import java.lang.reflect.ParameterizedType;
@@ -34,6 +34,8 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public abstract class DlvCommandProcessor extends CommandProcessor<JsonReaderEx, DlvResponse, DlvResponse> {
+  private static final Logger LOG = Logger.getInstance(DlvCommandProcessor.class);
+
   @Nullable
   @Override
   public DlvResponse readIfHasSequence(@NotNull JsonReaderEx message) {
@@ -97,7 +99,7 @@ public abstract class DlvCommandProcessor extends CommandProcessor<JsonReaderEx,
         return arguments[0];
       }
     }
-    CommandProcessorKt.getLOG().error("Unknown response " + method + ", please register an appropriate request into com.goide.dlv.protocol.DlvRequest");
+    LOG.error("Unknown response " + method + ", please register an appropriate request into com.goide.dlv.protocol.DlvRequest");
     return Object.class;
   }
 }

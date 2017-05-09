@@ -16,6 +16,7 @@
 
 package com.goide.dlv;
 
+import com.intellij.util.io.NettyKt;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -23,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.concurrency.AsyncPromise;
 import org.jetbrains.debugger.Vm;
 import org.jetbrains.debugger.connection.RemoteVmConnection;
-import org.jetbrains.io.NettyKt;
 
 import java.net.InetSocketAddress;
 

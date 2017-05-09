@@ -75,7 +75,7 @@ class DlvSuspendContext extends XSuspendContext {
     }
 
     @Override
-    public void computeStackFrames(int firstFrameIndex, @NotNull XStackFrameContainer container) {
+    public void computeStackFrames(@NotNull XStackFrameContainer container) {
       container.addStackFrames(myStack, true);
     }
   }
