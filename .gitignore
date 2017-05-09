@@ -1,15 +1,8 @@
-META-INF/*
 docs/
-google-go-language.jar
-idea-home/
 mock-sdks/java/
 out/
-testdata.tar.gz
-dist/
 build/
 .DS_Store
-src/icons/go-logo-black.png
-src/icons/logo-153x55.png
 
 /.consulo/sandbox/
 /.consulo/workspace.xml
