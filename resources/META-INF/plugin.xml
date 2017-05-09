@@ -16,7 +16,7 @@
 
 <idea-plugin xmlns:xi="http://www.w3.org/2001/XInclude">
   <id>consulo.google.go</id>
-  <name>Google Go</name>
+  <name>Go (golang.org)</name>
   <version>SNAPSHOT</version>
   <vendor>consulo.io &amp; github.com/go-lang-plugin-org</vendor>
   <category>Custom Languages</category>
