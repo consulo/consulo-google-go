@@ -20,7 +20,6 @@ import com.goide.GoConstants;
 import com.goide.GoFileType;
 import com.goide.dlv.breakpoint.DlvBreakpointProperties;
 import com.goide.dlv.breakpoint.DlvBreakpointType;
-import com.goide.dlv.protocol.DlvApi;
 import com.goide.dlv.protocol.DlvRequest;
 import com.goide.util.GoUtil;
 import com.intellij.execution.ExecutionResult;
@@ -47,6 +46,7 @@ import com.intellij.xdebugger.breakpoints.XBreakpointHandler;
 import com.intellij.xdebugger.breakpoints.XLineBreakpoint;
 import com.intellij.xdebugger.evaluation.XDebuggerEditorsProviderBase;
 import com.intellij.xdebugger.frame.XSuspendContext;
+import consulo.google.go.run.dlv.DlvSuspendContext;
 import consulo.google.go.run.dlv.api.DlvRequests;
 import consulo.google.go.run.dlv.api.SimpleInOutMessage;
 import org.intellij.lang.annotations.MagicConstant;
@@ -58,7 +58,6 @@ import org.jetbrains.debugger.StepAction;
 import org.jetbrains.debugger.Vm;
 import org.jetbrains.debugger.connection.VmConnection;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -72,7 +71,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   private final static Logger LOG = Logger.getInstance(DlvDebugProcess.class);
   private final AtomicBoolean breakpointsInitiated = new AtomicBoolean();
   private final AtomicBoolean connectedListenerAdded = new AtomicBoolean();
-  private static final Consumer<Throwable> THROWABLE_CONSUMER = LOG::info;
+  private static final Consumer<Throwable> THROWABLE_CONSUMER = LOG::warn;
 
   @NotNull
   private final Consumer<CommandOut> myStateConsumer = new Consumer<CommandOut>() {
@@ -85,17 +84,14 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
       }
 
       final XBreakpoint<DlvBreakpointProperties> find = findBreak(o.currentThread.breakPoint);
-      send(new DlvRequest.Stacktrace()).done(stacktraceOut -> {
-        List<DlvApi.Location> locations = stacktraceOut.Locations;
-        DlvSuspendContext context = new DlvSuspendContext(DlvDebugProcess.this, o.currentThread.id, o.currentGoroutine.id, locations, getProcessor());
-        XDebugSession session = getSession();
-        if (find == null) {
-          session.positionReached(context);
-        }
-        else {
-          session.breakpointReached(find, null, context);
-        }
-      });
+      DlvSuspendContext context = new DlvSuspendContext(DlvDebugProcess.this, o.currentThread, o.threads, getProcessor());
+      XDebugSession session = getSession();
+      if (find == null) {
+        session.positionReached(context);
+      }
+      else {
+        session.breakpointReached(find, null, context);
+      }
     }
 
     @Nullable
@@ -114,22 +110,22 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   };
 
   @NotNull
-  private <T> Promise<T> send(@NotNull SimpleInOutMessage<?, T> request) {
+  public <T> Promise<T> send(@NotNull SimpleInOutMessage<?, T> request) {
     return send(request, getProcessor());
   }
 
   @NotNull
-  static <T> Promise<T> send(@NotNull SimpleInOutMessage<?, T> request, @NotNull DlvCommandProcessor processor) {
+  public static <T> Promise<T> send(@NotNull SimpleInOutMessage<?, T> request, @NotNull DlvCommandProcessor processor) {
     return processor.send(request).rejected(THROWABLE_CONSUMER);
   }
 
   @NotNull
-  private <T> Promise<T> send(@NotNull DlvRequest<T> request) {
+  public <T> Promise<T> send(@NotNull DlvRequest<T> request) {
     return send(request, getProcessor());
   }
 
   @NotNull
-  static <T> Promise<T> send(@NotNull DlvRequest<T> request, @NotNull DlvCommandProcessor processor) {
+  public static <T> Promise<T> send(@NotNull DlvRequest<T> request, @NotNull DlvCommandProcessor processor) {
     return processor.send(request).rejected(THROWABLE_CONSUMER);
   }
 
@@ -202,7 +198,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   }
 
   private void command(@NotNull @MagicConstant(stringValues = {NEXT, CONTINUE, HALT, SWITCH_THREAD, STEP, STEPOUT}) String name) {
-    send(new DlvRequest.Command(name)).done(myStateConsumer);
+    send(new DlvRequest.Command(name)).done(myStateConsumer).rejected(LOG::warn);
   }
 
   @Nullable
@@ -271,13 +267,6 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
       if (breakpointPosition == null) return;
       VirtualFile file = breakpointPosition.getFile();
       int line = breakpointPosition.getLine();
-      /*send(new DlvRequest.CreateBreakpoint(file.getPath(), line + 1)).done(b -> {
-        myBreakpoints.put(breakpoint, b.id);
-        getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_verified_breakpoint, null);
-      }).rejected(t -> {
-        String message = t == null ? null : t.getMessage();
-        getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_invalid_breakpoint, message);
-      });*/
 
       send(DlvRequests.CreateBreakpoint.build(new Breakpoint(line + 1, file.getPath()))).done(b -> {
         myBreakpoints.put(breakpoint, b.Breakpoint.id);

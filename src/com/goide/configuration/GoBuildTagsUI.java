@@ -29,7 +29,7 @@ import com.intellij.ui.RawCommandLineEditor;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.ThreeState;
 import com.intellij.util.containers.ContainerUtil;
-import consulo.googe.go.module.extension.GoMutableModuleExtension;
+import consulo.google.go.module.extension.GoMutableModuleExtension;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

@@ -101,6 +101,8 @@ public class DlvApi {
     public Breakpoint breakPoint;
     // Informations requested by the current breakpoint
     public BreakpointInfo breakPointInfo;
+    // ID of the goroutine running on this thread
+    public Integer goroutineID;
   }
 
   public static class Location {

@@ -66,10 +66,11 @@ public interface DlvResponse {
           myId = idElement.getAsInt();
         }
 
-        myResult = ((JsonObject)element).get("result");
+        JsonElement result = ((JsonObject)element).get("result");
+        myResult = result instanceof JsonNull ? null : result;
 
         JsonElement errorElement = ((JsonObject)element).get("error");
-        myErrorInfo = new ErrorInfoImpl(errorElement);
+        myErrorInfo = errorElement instanceof JsonNull ? null : new ErrorInfoImpl(errorElement);
       }
     }
 

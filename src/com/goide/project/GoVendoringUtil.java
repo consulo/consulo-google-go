@@ -20,7 +20,7 @@ import com.goide.sdk.GoSdkService;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.ThreeState;
-import consulo.googe.go.module.extension.GoModuleExtension;
+import consulo.google.go.module.extension.GoModuleExtension;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 

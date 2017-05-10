@@ -52,13 +52,13 @@
     <moduleExtensionProvider key="google-go"
                              name="Google Go"
                              icon="/icons/go.png"
-                             mutableClass="consulo.googe.go.module.extension.GoMutableModuleExtension"
-                             immutableClass="consulo.googe.go.module.extension.GoModuleExtension"/>
+                             mutableClass="consulo.google.go.module.extension.GoMutableModuleExtension"
+                             immutableClass="consulo.google.go.module.extension.GoModuleExtension"/>
 
-    <orderEntryType implementation="consulo.googe.go.module.orderEntry.GoPathOrderEntryType"/>
-    <orderEntryTypeEditor key="gopath" implementationClass="consulo.googe.go.module.orderEntry.GoPathOrderEntryTypeEditor"/>
+    <orderEntryType implementation="consulo.google.go.module.orderEntry.GoPathOrderEntryType"/>
+    <orderEntryTypeEditor key="gopath" implementationClass="consulo.google.go.module.orderEntry.GoPathOrderEntryTypeEditor"/>
 
-    <newModuleBuilder implementation="consulo.googe.go.newProjectOrModule.GoNewModuleBuilder" />
+    <newModuleBuilder implementation="consulo.google.go.newProjectOrModule.GoNewModuleBuilder" />
 
     <stubIndex implementation="com.goide.stubs.index.GoAllPublicNamesIndex"/>
     <stubIndex implementation="com.goide.stubs.index.GoAllPrivateNamesIndex"/>
@@ -145,7 +145,7 @@
     <lang.implementationTextSelectioner language="go" implementationClass="com.goide.editor.GoImplementationTextSelectioner"/>
     <lang.surroundDescriptor language="go" implementationClass="com.goide.editor.surround.GoExpressionSurroundDescriptor"/>
     <lang.surroundDescriptor language="go" implementationClass="com.goide.editor.surround.GoStatementsSurroundDescriptor"/>
-    <iconDescriptorUpdater implementation="consulo.googe.go.GoIconDescriptorUpdater"/>
+    <iconDescriptorUpdater implementation="consulo.google.go.GoIconDescriptorUpdater"/>
     <codeInsight.lineMarkerProvider language="go" implementationClass="com.goide.marker.GoRecursiveCallMarkerProvider"/>
     <statementUpDownMover implementation="com.goide.editor.GoStatementMover"/>
 
@@ -193,7 +193,7 @@
 
     <!-- debugger -->
     <xdebugger.breakpointType implementation="com.goide.dlv.breakpoint.DlvBreakpointType"/>
-    <xdebugger.lineBreakpointTypeResolver filetype="Go" implementationClass="consulo.googe.go.dlv.breakpoint.DlvBreakpointTypeResolver" />
+    <xdebugger.lineBreakpointTypeResolver filetype="Go" implementationClass="consulo.google.go.run.dlv.breakpoint.DlvBreakpointTypeResolver" />
 
     <checkinHandlerFactory implementation="com.goide.actions.tool.GoFmtCheckinFactory" order="last"/>
 

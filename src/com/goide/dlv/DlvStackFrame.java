@@ -54,7 +54,7 @@ import org.jetbrains.concurrency.Promise;
 import javax.swing.*;
 import java.util.List;
 
-class DlvStackFrame extends XStackFrame {
+public class DlvStackFrame extends XStackFrame {
   private final DlvDebugProcess myProcess;
   private final DlvApi.Location myLocation;
   private final DlvCommandProcessor myProcessor;

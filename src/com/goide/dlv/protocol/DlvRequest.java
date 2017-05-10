@@ -103,7 +103,7 @@ public abstract class DlvRequest<T> extends OutMessage implements Request<T> {
     }
   }
 
-  public final static class CreateBreakpoint extends DlvRequest<DlvApi.Breakpoint> {
+ /* public final static class CreateBreakpoint extends DlvRequest<DlvApi.Breakpoint> {
     public CreateBreakpoint(String path, int line) {
       try {
         beginArguments();
@@ -113,14 +113,14 @@ public abstract class DlvRequest<T> extends OutMessage implements Request<T> {
         throw new RuntimeException(e);
       }
     }
-  }
+  }*/
 
-  public final static class Stacktrace extends DlvRequest<DlvApi.StacktraceOut> {
+  /*public final static class Stacktrace extends DlvRequest<DlvApi.StacktraceOut> {
     public Stacktrace() {
       writeLong("Id", -1);
       writeLong("Depth", 100);
     }
-  }
+  }  */
 
   private abstract static class Locals<T> extends DlvRequest<T> {
     Locals(int frameId, int goroutineId) {

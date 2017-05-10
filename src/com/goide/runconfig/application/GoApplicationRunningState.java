@@ -98,7 +98,7 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
       String wd = executor.getWorkDirectory();
 
       return executor.withExePath(dlv.getAbsolutePath())
-              .withParameters("--listen=localhost:" + myDebugPort, "--headless=true", "--api-version=2", wd != null ? "--wd=" + wd : "", "exec",
+              .withParameters("--listen=localhost:" + myDebugPort, "--headless=true","--log", "--api-version=2", wd != null ? "--wd=" + wd : "", "exec",
                               myOutputFilePath, "--");
     }
     return executor.showGoEnvVariables(false).withExePath(myOutputFilePath);
