@@ -18,7 +18,6 @@ package com.goide.dlv;
 
 import com.goide.dlv.protocol.DlvRequest;
 import com.goide.dlv.protocol.DlvResponse;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.text.StringUtil;
@@ -82,7 +81,13 @@ public abstract class DlvCommandProcessor extends CommandProcessor<JsonElement, 
   public <RESULT> RESULT readResult(@NotNull String method, @NotNull DlvResponse successResponse) {
     JsonElement result = successResponse.result();
     assert result != null : "success result should be not null";
-    Object o = new Gson().fromJson(result, getResultType(method.replaceFirst("RPCServer\\.", "")));
+
+    Type resultType = consulo.google.go.run.dlv.api.DlvRequest.findOutTypeInRegistry(method);
+    if (resultType == null) {
+      resultType = getResultType(method.replaceFirst("RPCServer\\.", ""));
+    }
+
+    Object o = consulo.google.go.run.dlv.api.DlvRequest.ourGson.fromJson(result, resultType);
     //noinspection unchecked
     return (RESULT)o;
   }

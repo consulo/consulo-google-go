@@ -30,9 +30,11 @@ public class DlvApi {
   public static class DebuggerState {
     // CurrentThread is the currently selected debugger thread.
     public Thread currentThread;
+    // List of all the process threads
+    @SerializedName("Threads")
+    public Thread[] threads;
     // SelectedGoroutine is the currently selected goroutine
     public Goroutine currentGoroutine;
-
     // Exited indicates whether the debugged process has exited.
     public boolean exited;
     public int exitStatus;
@@ -48,29 +50,39 @@ public class DlvApi {
   // suspended.
   public static class Breakpoint {
     // ID is a unique identifier for the breakpoint.
-    public int id;
+    public Integer id;
     // Addr is the address of the breakpoint.
-    public int addr;
+    public Integer addr;
     // File is the source file for the breakpoint.
     public String file;
     // Line is a line in File for the breakpoint.
-    public int line;
+    public Integer line;
     // FunctionName is the name of the function at the current breakpoint, and
     // may not always be available.
     public String functionName;
     // tracepoint flag
     @SerializedName("continue")
-    public boolean tracepoint;
+    public Boolean tracepoint;
     // number of stack frames to retrieve
-    public int stacktrace;
+    public Integer stacktrace;
     // retrieve goroutine information
-    public boolean goroutine;
+    public Boolean goroutine;
     // variables to evaluate
     public List<String> variables;
     // number of times a breakpoint has been reached in a certain goroutine
     public Object hitCount; // todo: check type map[string]uint64
     // number of times a breakpoint has been reached
-    public long totalHitCount;
+    public Long totalHitCount;
+
+    // for serilization
+    public Breakpoint() {
+    }
+
+    // for creation by hand
+    public Breakpoint(int line, String file) {
+      this.line = line;
+      this.file = file;
+    }
   }
 
   // Thread is a thread within the debugged process.
@@ -85,6 +97,8 @@ public class DlvApi {
     public int line;
     // Function is function information at the program counter. May be nil.
     public Function function;
+    // Breakpoint this thread is stopped at
+    public Breakpoint breakPoint;
     // Informations requested by the current breakpoint
     public BreakpointInfo breakPointInfo;
   }

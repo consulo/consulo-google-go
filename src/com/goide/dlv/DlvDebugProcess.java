@@ -47,6 +47,8 @@ import com.intellij.xdebugger.breakpoints.XBreakpointHandler;
 import com.intellij.xdebugger.breakpoints.XLineBreakpoint;
 import com.intellij.xdebugger.evaluation.XDebuggerEditorsProviderBase;
 import com.intellij.xdebugger.frame.XSuspendContext;
+import consulo.google.go.run.dlv.api.DlvRequests;
+import consulo.google.go.run.dlv.api.SimpleInOutMessage;
 import org.intellij.lang.annotations.MagicConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -82,7 +84,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
         return;
       }
 
-      final XBreakpoint<DlvBreakpointProperties> find = findBreak(null);
+      final XBreakpoint<DlvBreakpointProperties> find = findBreak(o.currentThread.breakPoint);
       send(new DlvRequest.Stacktrace()).done(stacktraceOut -> {
         List<DlvApi.Location> locations = stacktraceOut.Locations;
         DlvSuspendContext context = new DlvSuspendContext(DlvDebugProcess.this, o.currentThread.id, o.currentGoroutine.id, locations, getProcessor());
@@ -110,6 +112,16 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
       return null;
     }
   };
+
+  @NotNull
+  private <T> Promise<T> send(@NotNull SimpleInOutMessage<?, T> request) {
+    return send(request, getProcessor());
+  }
+
+  @NotNull
+  static <T> Promise<T> send(@NotNull SimpleInOutMessage<?, T> request, @NotNull DlvCommandProcessor processor) {
+    return processor.send(request).rejected(THROWABLE_CONSUMER);
+  }
 
   @NotNull
   private <T> Promise<T> send(@NotNull DlvRequest<T> request) {
@@ -259,13 +271,22 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
       if (breakpointPosition == null) return;
       VirtualFile file = breakpointPosition.getFile();
       int line = breakpointPosition.getLine();
-      send(new DlvRequest.CreateBreakpoint(file.getPath(), line + 1)).done(b -> {
+      /*send(new DlvRequest.CreateBreakpoint(file.getPath(), line + 1)).done(b -> {
         myBreakpoints.put(breakpoint, b.id);
         getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_verified_breakpoint, null);
       }).rejected(t -> {
         String message = t == null ? null : t.getMessage();
         getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_invalid_breakpoint, message);
+      });*/
+
+      send(DlvRequests.CreateBreakpoint.build(new Breakpoint(line + 1, file.getPath()))).done(b -> {
+        myBreakpoints.put(breakpoint, b.Breakpoint.id);
+        getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_verified_breakpoint, null);
+      }).rejected(t -> {
+        String message = t == null ? null : t.getMessage();
+        getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_invalid_breakpoint, message);
       });
+
     }
 
     @Override
