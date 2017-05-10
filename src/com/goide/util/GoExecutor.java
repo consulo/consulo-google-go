@@ -59,24 +59,36 @@ import java.util.Map;
 
 public class GoExecutor {
   private static final Logger LOGGER = Logger.getInstance(GoExecutor.class);
-  @NotNull private final Map<String, String> myExtraEnvironment = ContainerUtil.newHashMap();
-  @NotNull private final ParametersList myParameterList = new ParametersList();
-  @NotNull private final ProcessOutput myProcessOutput = new ProcessOutput();
-  @NotNull private final Project myProject;
-  @Nullable private Boolean myVendoringEnabled;
-  @Nullable private final Module myModule;
-  @Nullable private String myGoRoot;
-  @Nullable private String myGoPath;
-  @Nullable private String myEnvPath;
-  @Nullable private String myWorkDirectory;
+  @NotNull
+  private final Map<String, String> myExtraEnvironment = ContainerUtil.newHashMap();
+  @NotNull
+  private final ParametersList myParameterList = new ParametersList();
+  @NotNull
+  private final ProcessOutput myProcessOutput = new ProcessOutput();
+  @NotNull
+  private final Project myProject;
+  @Nullable
+  private Boolean myVendoringEnabled;
+  @Nullable
+  private final Module myModule;
+  @Nullable
+  private String myGoRoot;
+  @Nullable
+  private String myGoPath;
+  @Nullable
+  private String myEnvPath;
+  @Nullable
+  private String myWorkDirectory;
   private boolean myShowOutputOnError;
   private boolean myShowNotificationsOnError;
   private boolean myShowNotificationsOnSuccess;
   private boolean myShowGoEnvVariables = true;
   private GeneralCommandLine.ParentEnvironmentType myParentEnvironmentType = GeneralCommandLine.ParentEnvironmentType.CONSOLE;
   private boolean myPtyDisabled;
-  @Nullable private String myExePath;
-  @Nullable private String myPresentableName;
+  @Nullable
+  private String myExePath;
+  @Nullable
+  private String myPresentableName;
   private OSProcessHandler myProcessHandler;
   private final Collection<ProcessListener> myProcessListeners = ContainerUtil.newArrayList();
 
@@ -91,21 +103,17 @@ public class GoExecutor {
 
   @NotNull
   private static GoExecutor in(@NotNull Project project) {
-    return new GoExecutor(project, null)
-      .withGoRoot(GoSdkService.getInstance(project).getSdkHomePath(null))
-      .withGoPath(GoSdkUtil.retrieveGoPath(project, null))
-      .withGoPath(GoSdkUtil.retrieveEnvironmentPathForGo(project, null));
+    return new GoExecutor(project, null).withGoRoot(GoSdkService.getInstance(project).getSdkHomePath(null)).withGoPath(GoSdkUtil.retrieveGoPath(project, null))
+            .withGoPath(GoSdkUtil.retrieveEnvironmentPathForGo(project, null));
   }
 
   @NotNull
   public static GoExecutor in(@NotNull Module module) {
     Project project = module.getProject();
     ThreeState vendoringEnabled = GoModuleExtension.getVendoringEnabled(module);
-    return new GoExecutor(project, module)
-      .withGoRoot(GoSdkService.getInstance(project).getSdkHomePath(module))
-      .withGoPath(GoSdkUtil.retrieveGoPath(project, module))
-      .withEnvPath(GoSdkUtil.retrieveEnvironmentPathForGo(project, module))
-      .withVendoring(vendoringEnabled != ThreeState.UNSURE ? vendoringEnabled.toBoolean() : null);
+    return new GoExecutor(project, module).withGoRoot(GoSdkService.getInstance(project).getSdkHomePath(module))
+            .withGoPath(GoSdkUtil.retrieveGoPath(project, module)).withEnvPath(GoSdkUtil.retrieveEnvironmentPathForGo(project, module))
+            .withVendoring(vendoringEnabled != ThreeState.UNSURE ? vendoringEnabled.toBoolean() : null);
   }
 
   @NotNull
@@ -163,8 +171,7 @@ public class GoExecutor {
 
   @NotNull
   public GoExecutor withPassParentEnvironment(boolean passParentEnvironment) {
-    myParentEnvironmentType = passParentEnvironment ? GeneralCommandLine.ParentEnvironmentType.CONSOLE
-                                                    : GeneralCommandLine.ParentEnvironmentType.NONE;
+    myParentEnvironmentType = passParentEnvironment ? GeneralCommandLine.ParentEnvironmentType.CONSOLE : GeneralCommandLine.ParentEnvironmentType.NONE;
     return this;
   }
 
@@ -183,7 +190,7 @@ public class GoExecutor {
   public GoExecutor showGoEnvVariables(boolean show) {
     myShowGoEnvVariables = show;
     return this;
-  } 
+  }
 
   @NotNull
   public GoExecutor showOutputOnError() {
@@ -205,8 +212,7 @@ public class GoExecutor {
   }
 
   public boolean execute() {
-    Logger.getInstance(getClass()).assertTrue(!ApplicationManager.getApplication().isDispatchThread(),
-                                              "It's bad idea to run external tool on EDT");
+    Logger.getInstance(getClass()).assertTrue(!ApplicationManager.getApplication().isDispatchThread(), "It's bad idea to run external tool on EDT");
     Logger.getInstance(getClass()).assertTrue(myProcessHandler == null, "Process has already run with this executor instance");
     Ref<Boolean> result = Ref.create(false);
     GeneralCommandLine commandLine = null;
@@ -327,10 +333,9 @@ public class GoExecutor {
   private void showOutput(@NotNull OSProcessHandler originalHandler, @NotNull GoHistoryProcessListener historyProcessListener) {
     if (myShowOutputOnError) {
       BaseOSProcessHandler outputHandler = new KillableColoredProcessHandler(originalHandler.getProcess(), null);
-      RunContentExecutor runContentExecutor = new RunContentExecutor(myProject, outputHandler)
-        .withTitle(getPresentableName())
-        .withActivateToolWindow(myShowOutputOnError)
-        .withFilter(new GoConsoleFilter(myProject, myModule, myWorkDirectory != null ? VfsUtilCore.pathToUrl(myWorkDirectory) : null));
+      RunContentExecutor runContentExecutor =
+              new RunContentExecutor(myProject, outputHandler).withTitle(getPresentableName()).withActivateToolWindow(myShowOutputOnError)
+                      .withFilter(new GoConsoleFilter(myProject, myModule, myWorkDirectory != null ? VfsUtilCore.pathToUrl(myWorkDirectory) : null));
       Disposer.register(myProject, runContentExecutor);
       runContentExecutor.run();
       historyProcessListener.apply(outputHandler);
@@ -371,5 +376,10 @@ public class GoExecutor {
   @NotNull
   private String getPresentableName() {
     return ObjectUtils.notNull(myPresentableName, "go");
+  }
+
+  @Nullable
+  public String getWorkDirectory() {
+    return myWorkDirectory;
   }
 }

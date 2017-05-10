@@ -31,9 +31,10 @@ class DlvSuspendContext extends XSuspendContext {
 
   public DlvSuspendContext(@NotNull DlvDebugProcess process,
                            int threadId,
+                           int goroutineId,
                            @NotNull List<DlvApi.Location> locations,
                            @NotNull DlvCommandProcessor processor) {
-    myStack = new DlvExecutionStack(process, threadId, locations, processor);
+    myStack = new DlvExecutionStack(process, threadId, goroutineId, locations, processor);
   }
 
   @Nullable
@@ -56,15 +57,16 @@ class DlvSuspendContext extends XSuspendContext {
 
     public DlvExecutionStack(@NotNull DlvDebugProcess process,
                              int threadId,
+                             int goroutineId,
                              @NotNull List<DlvApi.Location> locations,
                              @NotNull DlvCommandProcessor processor) {
-      super("Thread #" + threadId);
+      super("Goroutine # " + goroutineId + " Thread #" + threadId);
       myProcess = process;
       myLocations = locations;
       myProcessor = processor;
       myStack = ContainerUtil.newArrayListWithCapacity(locations.size());
       for (int i = 0; i < myLocations.size(); i++) {
-        myStack.add(new DlvStackFrame(myProcess, myLocations.get(i), myProcessor, i));
+        myStack.add(new DlvStackFrame(myProcess, myLocations.get(i), myProcessor, i, goroutineId));
       }
     }
 

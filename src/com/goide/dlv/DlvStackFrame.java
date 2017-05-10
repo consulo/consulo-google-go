@@ -52,21 +52,21 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.concurrency.Promise;
 
 import javax.swing.*;
+import java.util.List;
 
 class DlvStackFrame extends XStackFrame {
   private final DlvDebugProcess myProcess;
   private final DlvApi.Location myLocation;
   private final DlvCommandProcessor myProcessor;
   private final int myId;
+  private final int myGoroutineId;
 
-  public DlvStackFrame(@NotNull DlvDebugProcess process, 
-                       @NotNull DlvApi.Location location, 
-                       @NotNull DlvCommandProcessor processor, 
-                       int id) {
+  public DlvStackFrame(@NotNull DlvDebugProcess process, @NotNull DlvApi.Location location, @NotNull DlvCommandProcessor processor, int id, int goroutineId) {
     myProcess = process;
     myLocation = location;
     myProcessor = processor;
     myId = id;
+    myGoroutineId = goroutineId;
   }
 
   @Nullable
@@ -74,14 +74,12 @@ class DlvStackFrame extends XStackFrame {
   public XDebuggerEvaluator getEvaluator() {
     return new XDebuggerEvaluator() {
       @Override
-      public void evaluate(@NotNull String expression,
-                           @NotNull XEvaluationCallback callback,
-                           @Nullable XSourcePosition expressionPosition) {
-        myProcessor.send(new DlvRequest.EvalSymbol(expression, myId))
-          .done(variable -> callback.evaluated(createXValue(variable, AllIcons.Debugger.Watch)))
-          .rejected(throwable -> callback.errorOccurred(throwable.getMessage()));
+      public void evaluate(@NotNull String expression, @NotNull XEvaluationCallback callback, @Nullable XSourcePosition expressionPosition) {
+        myProcessor.send(new DlvRequest.Eval(expression, myId, myGoroutineId))
+                .done(variable -> callback.evaluated(createXValue(variable.Variable, AllIcons.Debugger.Watch)))
+                .rejected(throwable -> callback.errorOccurred(throwable.getMessage()));
       }
-      
+
       @Nullable
       private PsiElement findElementAt(@Nullable PsiFile file, int offset) {
         return file != null ? file.findElementAt(offset) : null;
@@ -89,19 +87,13 @@ class DlvStackFrame extends XStackFrame {
 
       @Nullable
       @Override
-      public TextRange getExpressionRangeAtOffset(@NotNull Project project,
-                                                  @NotNull Document document,
-                                                  int offset,
-                                                  boolean sideEffectsAllowed) {
+      public TextRange getExpressionRangeAtOffset(@NotNull Project project, @NotNull Document document, int offset, boolean sideEffectsAllowed) {
         Ref<TextRange> currentRange = Ref.create(null);
         PsiDocumentManager.getInstance(project).commitAndRunReadAction(() -> {
           try {
             PsiElement elementAtCursor = findElementAt(PsiDocumentManager.getInstance(project).getPsiFile(document), offset);
-            GoTypeOwner e = PsiTreeUtil.getParentOfType(elementAtCursor,
-                                                        GoExpression.class,
-                                                        GoVarDefinition.class,
-                                                        GoConstDefinition.class,
-                                                        GoParamDefinition.class);
+            GoTypeOwner e =
+                    PsiTreeUtil.getParentOfType(elementAtCursor, GoExpression.class, GoVarDefinition.class, GoConstDefinition.class, GoParamDefinition.class);
             if (e != null) {
               currentRange.set(e.getTextRange());
             }
@@ -116,7 +108,7 @@ class DlvStackFrame extends XStackFrame {
 
   @NotNull
   private XValue createXValue(@NotNull DlvApi.Variable variable, @Nullable Icon icon) {
-    return new DlvXValue(myProcess, variable, myProcessor, myId, icon);
+    return new DlvXValue(myProcess, variable, myProcessor, myId, myGoroutineId, icon);
   }
 
   @Nullable
@@ -156,10 +148,12 @@ class DlvStackFrame extends XStackFrame {
 
   @Override
   public void computeChildren(@NotNull XCompositeNode node) {
-    send(new DlvRequest.ListLocalVars(myId)).done(variables -> {
+    send(new DlvRequest.ListLocalVars(myId, myGoroutineId)).done(variablesOut -> {
+      List<DlvApi.Variable> variables = variablesOut.Variables;
       XValueChildrenList xVars = new XValueChildrenList(variables.size());
       for (DlvApi.Variable v : variables) xVars.add(v.name, createXValue(v, GoIcons.VARIABLE));
-      send(new DlvRequest.ListFunctionArgs(myId)).done(args -> {
+      send(new DlvRequest.ListFunctionArgs(myId, myGoroutineId)).done(vars -> {
+        List<DlvApi.Variable> args = vars.Args;
         for (DlvApi.Variable v : args) xVars.add(v.name, createXValue(v, GoIcons.PARAMETER));
         node.addChildren(xVars, true);
       });

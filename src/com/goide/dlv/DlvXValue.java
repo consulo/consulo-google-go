@@ -64,11 +64,13 @@ class DlvXValue extends XNamedValue {
   private final DlvDebugProcess myProcess;
   private final DlvCommandProcessor myProcessor;
   private final int myFrameId;
+  private final int myGoroutineId;
 
   public DlvXValue(@NotNull DlvDebugProcess process,
                    @NotNull DlvApi.Variable variable,
-                   @NotNull DlvCommandProcessor processor, 
-                   int frameId, 
+                   @NotNull DlvCommandProcessor processor,
+                   int frameId,
+                   int goroutineId,
                    @Nullable Icon icon) {
     super(variable.name);
     myProcess = process;
@@ -76,6 +78,7 @@ class DlvXValue extends XNamedValue {
     myIcon = icon;
     myProcessor = processor;
     myFrameId = frameId;
+    myGoroutineId = goroutineId;
   }
 
   @Override
@@ -94,7 +97,7 @@ class DlvXValue extends XNamedValue {
     else {
       XValueChildrenList list = new XValueChildrenList();
       for (DlvApi.Variable child : children) {
-        list.add(child.name, new DlvXValue(myProcess, child, myProcessor, myFrameId, AllIcons.Nodes.Field));
+        list.add(child.name, new DlvXValue(myProcess, child, myProcessor, myFrameId, myGoroutineId, AllIcons.Nodes.Field));
       }
       node.addChildren(list, true);
     }
@@ -105,14 +108,12 @@ class DlvXValue extends XNamedValue {
   public XValueModifier getModifier() {
     return new XValueModifier() {
       @Override
-      public void setValue(@NotNull String newValue, @NotNull XModificationCallback callback) {
-        myProcessor.send(new DlvRequest.SetSymbol(myVariable.name, newValue, myFrameId))
-          .processed(o -> {
-            if (o != null) {
-              callback.valueModified();
-            }
-          })
-          .rejected(throwable -> callback.errorOccurred(throwable.getMessage()));
+      public void setValue(@NotNull String newValue, @NotNull final XModificationCallback callback) {
+        myProcessor.send(new DlvRequest.Set(myVariable.name, newValue, myFrameId, myGoroutineId)).processed(o -> {
+          if (o != null) {
+            callback.valueModified();
+          }
+        }).rejected(throwable -> callback.errorOccurred(throwable.getMessage()));
       }
     };
   }
@@ -134,26 +135,21 @@ class DlvXValue extends XNamedValue {
     boolean isSlice = myVariable.isSlice();
     boolean isArray = myVariable.isArray();
     if (isSlice || isArray) {
-      return new XRegularValuePresentation("len:" + myVariable.len + (isSlice ? ", cap:" + myVariable.cap : ""),
-                                           type.replaceFirst("struct ", ""));
+      return new XRegularValuePresentation("len:" + myVariable.len + (isSlice ? ", cap:" + myVariable.cap : ""), type.replaceFirst("struct ", ""));
     }
     String prefix = myVariable.type + " ";
-    return new XRegularValuePresentation(StringUtil.startsWith(value, prefix) ? value.replaceFirst(Pattern.quote(prefix), "") : value,
-                                         type);
+    return new XRegularValuePresentation(StringUtil.startsWith(value, prefix) ? value.replaceFirst(Pattern.quote(prefix), "") : value, type);
   }
 
   @Nullable
-  private static PsiElement findTargetElement(@NotNull Project project,
-                                              @NotNull XSourcePosition position,
-                                              @NotNull Editor editor,
-                                              @NotNull String name) {
+  private static PsiElement findTargetElement(@NotNull Project project, @NotNull XSourcePosition position, @NotNull Editor editor, @NotNull String name) {
     PsiFile file = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
     if (file == null || !file.getVirtualFile().equals(position.getFile())) return null;
     ASTNode leafElement = file.getNode().findLeafElementAt(position.getOffset());
     if (leafElement == null) return null;
     GoTopLevelDeclaration topLevel = PsiTreeUtil.getTopmostParentOfType(leafElement.getPsi(), GoTopLevelDeclaration.class);
-    SyntaxTraverser<PsiElement> traverser = SyntaxTraverser.psiTraverser(topLevel)
-      .filter(e -> e instanceof GoNamedElement && Comparing.equal(name, ((GoNamedElement)e).getName()));
+    SyntaxTraverser<PsiElement> traverser =
+            SyntaxTraverser.psiTraverser(topLevel).filter(e -> e instanceof GoNamedElement && Comparing.equal(name, ((GoNamedElement)e).getName()));
     Iterator<PsiElement> iterator = traverser.iterator();
     return iterator.hasNext() ? iterator.next() : null;
   }
@@ -235,8 +231,7 @@ class DlvXValue extends XNamedValue {
         Collection<GoTypeSpec> types = GoTypesIndex.find(name, project, GlobalSearchScope.allScope(project), null);
         for (GoTypeSpec type : types) {
           if (noFqn || Comparing.equal(fqn, type.getQualifiedName())) {
-            navigatable.setSourcePosition(XDebuggerUtil.getInstance().createPositionByOffset(
-              type.getContainingFile().getVirtualFile(), type.getTextOffset()));
+            navigatable.setSourcePosition(XDebuggerUtil.getInstance().createPositionByOffset(type.getContainingFile().getVirtualFile(), type.getTextOffset()));
             return;
           }
         }

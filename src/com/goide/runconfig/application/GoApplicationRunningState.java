@@ -37,20 +37,18 @@ import java.io.File;
 
 public class GoApplicationRunningState extends GoRunningState<GoApplicationConfiguration> {
   private String myOutputFilePath;
-  @Nullable private GoHistoryProcessListener myHistoryProcessHandler;
+  @Nullable
+  private GoHistoryProcessListener myHistoryProcessHandler;
   private int myDebugPort = 59090;
   private boolean myCompilationFailed;
 
-  public GoApplicationRunningState(@NotNull ExecutionEnvironment env, @NotNull Module module,
-                                   @NotNull GoApplicationConfiguration configuration) {
+  public GoApplicationRunningState(@NotNull ExecutionEnvironment env, @NotNull Module module, @NotNull GoApplicationConfiguration configuration) {
     super(env, module, configuration);
   }
 
   @NotNull
   public String getTarget() {
-    return myConfiguration.getKind() == GoApplicationConfiguration.Kind.PACKAGE
-           ? myConfiguration.getPackage()
-           : myConfiguration.getFilePath();
+    return myConfiguration.getKind() == GoApplicationConfiguration.Kind.PACKAGE ? myConfiguration.getPackage() : myConfiguration.getFilePath();
   }
 
   @NotNull
@@ -97,8 +95,11 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
         //noinspection ResultOfMethodCallIgnored
         dlv.setExecutable(true, false);
       }
+      String wd = executor.getWorkDirectory();
+
       return executor.withExePath(dlv.getAbsolutePath())
-        .withParameters("--listen=localhost:" + myDebugPort, "--headless=true", "exec", myOutputFilePath, "--");
+              .withParameters("--listen=localhost:" + myDebugPort, "--headless=true", "--api-version=2", wd != null ? "--wd=" + wd : "", "exec",
+                              myOutputFilePath, "--");
     }
     return executor.showGoEnvVariables(false).withExePath(myOutputFilePath);
   }
@@ -109,9 +110,11 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
     if (StringUtil.isNotEmpty(dlvPath)) return new File(dlvPath);
 
     File pluginPath = PluginManager.getPluginPath(GoApplicationRunningState.class);
-    return new File(pluginPath,
-                    "dlv/" + (SystemInfo.isMac ? "mac" : SystemInfo.isWindows ? "windows" : "linux") + "/"
-                    + GoConstants.DELVE_EXECUTABLE_NAME + (SystemInfo.isWindows ? ".exe" : ""));
+    return new File(pluginPath, "dlv/" +
+                                (SystemInfo.isMac ? "mac" : SystemInfo.isWindows ? "windows" : "linux") +
+                                "/" +
+                                GoConstants.DELVE_EXECUTABLE_NAME +
+                                (SystemInfo.isWindows ? ".exe" : ""));
   }
 
   public void setOutputFilePath(@NotNull String outputFilePath) {

@@ -17,13 +17,13 @@
 package com.goide.dlv.protocol;
 
 import com.google.gson.stream.JsonWriter;
+import com.intellij.xdebugger.frame.XValueNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jsonProtocol.OutMessage;
 import org.jetbrains.jsonProtocol.Request;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Please add your requests as a subclasses, otherwise reflection won't work.
@@ -32,6 +32,8 @@ import java.util.List;
  * @see com.goide.dlv.DlvCommandProcessor#getResultType(String)
  */
 public abstract class DlvRequest<T> extends OutMessage implements Request<T> {
+  private static final String BREAKPOINT = "Breakpoint";
+  private static final String SCOPE = "Scope";
   private static final String PARAMS = "params";
   private static final String ID = "id";
   private boolean argumentsObjectStarted;
@@ -103,105 +105,95 @@ public abstract class DlvRequest<T> extends OutMessage implements Request<T> {
 
   public final static class CreateBreakpoint extends DlvRequest<DlvApi.Breakpoint> {
     public CreateBreakpoint(String path, int line) {
-      writeString("file", path);
-      writeLong("line", line);
+      try {
+        beginArguments();
+        getWriter().name(BREAKPOINT).beginObject().name("file").value(path).name("line").value(line).endObject();
+      }
+      catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 
-  public final static class StacktraceGoroutine extends DlvRequest<List<DlvApi.Location>> {
-    public StacktraceGoroutine() {
+  public final static class Stacktrace extends DlvRequest<DlvApi.StacktraceOut> {
+    public Stacktrace() {
       writeLong("Id", -1);
       writeLong("Depth", 100);
     }
   }
 
   private abstract static class Locals<T> extends DlvRequest<T> {
-    Locals(int frameId) {
-      writeLong("GoroutineID", -1);
-      writeLong("Frame", frameId);
+    Locals(int frameId, int goroutineId) {
+      try {
+        beginArguments();
+        writeScope(frameId, goroutineId, getWriter());
+      }
+      catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 
-  public final static class ListLocalVars extends Locals<List<DlvApi.Variable>> {
-    public ListLocalVars(int frameId) {
-      super(frameId);
+  public final static class ListLocalVars extends Locals<DlvApi.LocalVariablesOut> {
+    public ListLocalVars(int frameId, int goroutineId) {
+      super(frameId, goroutineId);
     }
   }
 
-  public final static class ListFunctionArgs extends Locals<List<DlvApi.Variable>> {
-    public ListFunctionArgs(int frameId) {
-      super(frameId);
+  public final static class ListFunctionArgs extends Locals<DlvApi.LocalFunctionArgsOut> {
+    public ListFunctionArgs(int frameId, int goroutineId) {
+      super(frameId, goroutineId);
     }
   }
 
-  public final static class Command extends DlvRequest<DlvApi.DebuggerState> {
+  public final static class Command extends DlvRequest<DlvApi.DebuggerStateOut> {
     public Command(@Nullable String command) {
       writeString("Name", command);
     }
   }
 
-  public final static class Detach extends DlvRequest<Integer> {
+  public final static class Detach extends DlvRequest<Object> {
     public Detach(boolean kill) {
       try {
         beginArguments();
-        getWriter().name(PARAMS).beginArray().value(kill).endArray();
+        getWriter().
+                name("DetachIn").beginObject().name("Kill").value(kill).endObject();
       }
       catch (IOException e) {
         throw new RuntimeException(e);
       }
-    }
-
-    @Override
-    protected boolean needObject() {
-      return false;
     }
   }
 
-  public final static class EvalSymbol extends DlvRequest<DlvApi.Variable> {
-    public EvalSymbol(@NotNull String symbol, int frameId) {
+  public final static class Eval extends DlvRequest<DlvApi.EvalVariableOut> {
+    public Eval(@NotNull String expr, int frameId, int goroutineId) {
       try {
-        getWriter().name(PARAMS).beginArray();
-        writeScope(frameId, getWriter())
-          .name("Symbol").value(symbol)
-          .endObject().endArray();
+        beginArguments();
+        writeScope(frameId, goroutineId, getWriter()).name("Expr").value(expr);
       }
       catch (IOException e) {
         throw new RuntimeException(e);
       }
-    }
-
-    @Override
-    protected boolean needObject() {
-      return false;
     }
   }
 
   @NotNull
-  private static JsonWriter writeScope(int frameId, @NotNull JsonWriter writer) throws IOException {
+  private static JsonWriter writeScope(int frameId, int goroutineId, @NotNull JsonWriter writer) throws IOException {
     // todo: ask vladimir how to simplify this
-    return writer.beginObject()
-      .name("Scope").beginObject()
-      .name("GoroutineID").value(-1)
-      .name("Frame").value(frameId).endObject();
+    return writer.name("Cfg").beginObject().name("FollowPointers").value(true).name("MaxStringLen").value(XValueNode.MAX_VALUE_LENGTH)
+            .name("MaxVariableRecurse").value(1).name("MaxArrayValues").value(64).name("MaxStructFields").value(-1).endObject().name("Scope").beginObject()
+            .name("GoroutineID").value(goroutineId).name("Frame").value(frameId).endObject();
   }
 
-  public final static class SetSymbol extends DlvRequest<Object> {
-    public SetSymbol(@NotNull String symbol, @NotNull String value, int frameId) {
+  public final static class Set extends DlvRequest<Object> {
+    public Set(@NotNull String symbol, @NotNull String value, int frameId, int goroutineId) {
       try {
-        getWriter().name(PARAMS).beginArray();
-        writeScope(frameId, getWriter())
-          .name("Symbol").value(symbol)
-          .name("Value").value(value)
-          .endObject().endArray();
+        beginArguments();
+        writeScope(frameId, goroutineId, getWriter()).name("Symbol").value(symbol).name("Value").value(value);
       }
       catch (IOException e) {
         throw new RuntimeException(e);
       }
-    }
-
-    @Override
-    protected boolean needObject() {
-      return false;
     }
   }
 }

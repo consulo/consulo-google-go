@@ -44,6 +44,10 @@ public class DlvApi {
     public String err;
   }
 
+  public static class DebuggerStateOut {
+    public DebuggerState State;
+  }
+
   // Breakpoint addresses a location at which process execution may be
   // suspended.
   public static class Breakpoint {
@@ -92,6 +96,10 @@ public class DlvApi {
     public String file;
     public int line;
     public Function function;
+  }
+
+  public static class StacktraceOut {
+    public List<DlvApi.Location> Locations;
   }
 
   // Function represents thread-scoped function information.
@@ -151,11 +159,30 @@ public class DlvApi {
     private enum Kind {
       Invalid,
       Bool,
-      Int, Int8, Int16, Int32, Int64, Uint, Uint8, Uint16, Uint32, Uint64,
+      Int,
+      Int8,
+      Int16,
+      Int32,
+      Int64,
+      Uint,
+      Uint8,
+      Uint16,
+      Uint32,
+      Uint64,
       Uintptr,
-      Float32, Float64,
-      Complex64, Complex128,
-      Array, Chan, Func, Interface, Map, Ptr, Slice, String, Struct,
+      Float32,
+      Float64,
+      Complex64,
+      Complex128,
+      Array,
+      Chan,
+      Func,
+      Interface,
+      Map,
+      Ptr,
+      Slice,
+      String,
+      Struct,
       UnsafePointer;
 
       private boolean isNumber() {
@@ -163,20 +190,26 @@ public class DlvApi {
       }
 
     }
-    
+
     public boolean isSlice() {
       return getKind() == Kind.Slice;
     }
-    
+
     public boolean isArray() {
       return getKind() == Kind.Array;
     }
 
-    public boolean isNumber() { return getKind().isNumber(); }
+    public boolean isNumber() {
+      return getKind().isNumber();
+    }
 
-    public boolean isString() { return getKind() == Kind.String; }
+    public boolean isString() {
+      return getKind() == Kind.String;
+    }
 
-    public boolean isBool() { return getKind() == Kind.Bool; }
+    public boolean isBool() {
+      return getKind() == Kind.Bool;
+    }
 
     public boolean isStructure() {
       return getKind() == Kind.Struct;
@@ -185,6 +218,18 @@ public class DlvApi {
     public boolean isPtr() {
       return getKind() == Kind.Ptr;
     }
+  }
+
+  public static class EvalVariableOut {
+    public Variable Variable;
+  }
+
+  public static class LocalVariablesOut {
+    public List<DlvApi.Variable> Variables;
+  }
+
+  public static class LocalFunctionArgsOut {
+    public List<DlvApi.Variable> Args;
   }
 
   // Goroutine represents the information relevant to Delve from the runtime's
@@ -234,6 +279,7 @@ public class DlvApi {
   public static final String CONTINUE = "continue";
   public static final String STEP = "step";
   public static final String NEXT = "next";
+  public static final String STEPOUT = "stepOut";
   public static final String SWITCH_THREAD = "switchThread";
   public static final String HALT = "halt";
   public static final String SWITCH_GOROUTINE = "switchGoroutine";
