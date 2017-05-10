@@ -2,7 +2,7 @@
  * Copyright 2013-2017 consulo.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use element file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
@@ -44,34 +44,34 @@ public class GoIconDescriptorUpdater implements IconDescriptorUpdater {
     }
 
     Icon icon = null;
-    if (this instanceof GoMethodDeclaration) {
+    if (element instanceof GoMethodDeclaration) {
       icon = GoIcons.METHOD;
     }
-    else if (this instanceof GoFunctionDeclaration) {
+    else if (element instanceof GoFunctionDeclaration) {
       icon = GoIcons.FUNCTION;
     }
-    else if (this instanceof GoTypeSpec) {
+    else if (element instanceof GoTypeSpec) {
       icon = GoIcons.TYPE;
     }
-    else if (this instanceof GoVarDefinition) {
+    else if (element instanceof GoVarDefinition) {
       icon = GoIcons.VARIABLE;
     }
-    else if (this instanceof GoConstDefinition) {
+    else if (element instanceof GoConstDefinition) {
       icon = GoIcons.CONSTANT;
     }
-    else if (this instanceof GoFieldDefinition) {
+    else if (element instanceof GoFieldDefinition) {
       icon = GoIcons.FIELD;
     }
-    else if (this instanceof GoMethodSpec) {
+    else if (element instanceof GoMethodSpec) {
       icon = GoIcons.METHOD;
     }
-    else if (this instanceof GoAnonymousFieldDefinition) {
+    else if (element instanceof GoAnonymousFieldDefinition) {
       icon = GoIcons.FIELD;
     }
-    else if (this instanceof GoParamDefinition) {
+    else if (element instanceof GoParamDefinition) {
       icon = GoIcons.PARAMETER;
     }
-    else if (this instanceof GoLabelDefinition) {
+    else if (element instanceof GoLabelDefinition) {
       icon = GoIcons.LABEL;
     }
 
