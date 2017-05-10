@@ -28,15 +28,11 @@ public class DlvApi {
 
   // DebuggerState represents the current context of the debugger.
   public static class DebuggerState {
-    // Breakpoint is the current breakpoint at which the debugged process is
-    // suspended, and may be empty if the process is not suspended.
-    public Breakpoint breakPoint;
     // CurrentThread is the currently selected debugger thread.
     public Thread currentThread;
     // SelectedGoroutine is the currently selected goroutine
     public Goroutine currentGoroutine;
-    // Information requested by the current breakpoint
-    public BreakpointInfo breakPointInfo;
+
     // Exited indicates whether the debugged process has exited.
     public boolean exited;
     public int exitStatus;
@@ -44,7 +40,7 @@ public class DlvApi {
     public String err;
   }
 
-  public static class DebuggerStateOut {
+  public static class CommandOut {
     public DebuggerState State;
   }
 
@@ -89,6 +85,8 @@ public class DlvApi {
     public int line;
     // Function is function information at the program counter. May be nil.
     public Function function;
+    // Informations requested by the current breakpoint
+    public BreakpointInfo breakPointInfo;
   }
 
   public static class Location {

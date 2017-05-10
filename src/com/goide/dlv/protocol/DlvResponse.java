@@ -16,8 +16,10 @@
 
 package com.goide.dlv.protocol;
 
-import com.goide.dlv.JsonReaderEx;
-import com.google.gson.stream.JsonToken;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jsonProtocol.JsonType;
@@ -32,7 +34,7 @@ public interface DlvResponse {
 
   @Nullable
   @Optional
-  JsonReaderEx result();
+  JsonElement result();
 
   @Nullable
   @Optional
@@ -51,70 +53,58 @@ public interface DlvResponse {
   }
 
   final class CommandResponseImpl implements DlvResponse {
-    @Nullable private DlvResponse.ErrorInfo _error;
-    private int _id = -1;
-    @Nullable private JsonReaderEx _result;
+    @Nullable
+    private DlvResponse.ErrorInfo myErrorInfo;
+    private int myId = -1;
+    @Nullable
+    private JsonElement myResult;
 
-    public CommandResponseImpl(@NotNull JsonReaderEx reader, @Nullable String name) {
-      if (name == null) {
-        if (reader.hasNext() && reader.beginObject().hasNext()) {
-          name = reader.nextName();
+    public CommandResponseImpl(@NotNull JsonElement element) {
+      if (element instanceof JsonObject) {
+        JsonPrimitive idElement = ((JsonObject)element).getAsJsonPrimitive("id");
+        if (idElement != null) {
+          myId = idElement.getAsInt();
         }
-        else {
-          return;
-        }
+
+        myResult = ((JsonObject)element).get("result");
+
+        JsonElement errorElement = ((JsonObject)element).get("error");
+        myErrorInfo = new ErrorInfoImpl(errorElement);
       }
-
-      do {
-        if ("error".equals(name)) {
-          _error = new M5m(reader);
-        }
-        else if ("id".equals(name)) {
-          _id = reader.nextInt();
-        }
-        else if ("result".equals(name)) {
-          _result = reader.subReader();
-          reader.skipValue();
-        }
-        else {
-          reader.skipValue();
-        }
-      }
-      while ((name = reader.nextNameOrNull()) != null);
-
-      reader.endObject();
     }
 
     @Nullable
     @Override
     public DlvResponse.ErrorInfo error() {
-      return _error;
+      return myErrorInfo;
     }
 
     @Override
     public int id() {
-      return _id;
+      return myId;
     }
 
     @Nullable
     @Override
-    public JsonReaderEx result() {
-      return _result;
+    public JsonElement result() {
+      return myResult;
     }
   }
 
-  final class M5m implements DlvResponse.ErrorInfo {
-    private static final int _code = -1;
-    @NotNull private final List<String> _data = Collections.emptyList();
-    @Nullable private final String _message;
+  final class ErrorInfoImpl implements DlvResponse.ErrorInfo {
+    private static final int ourId = -1;
+    @NotNull
+    private final List<String> _data = Collections.emptyList();
+    @Nullable
+    private final String _message;
 
-    M5m(@NotNull JsonReaderEx reader) {
-      _message = nextNullableString(reader);
+    ErrorInfoImpl(@NotNull JsonElement element) {
+      _message = element instanceof JsonNull ? null : element instanceof JsonPrimitive ? element.getAsString() : null;
     }
 
     @Override
     public int code() {
-      return _code;
+      return ourId;
     }
 
     @NotNull
@@ -127,16 +117,6 @@ public interface DlvResponse {
     @Override
     public String message() {
       return _message;
-    }
-
-    private static String nextNullableString(@NotNull JsonReaderEx reader) {
-      if (reader.peek() == JsonToken.NULL) {
-        reader.nextNull();
-        return null;
-      }
-      else {
-        return reader.nextString();
-      }
     }
   }
 }

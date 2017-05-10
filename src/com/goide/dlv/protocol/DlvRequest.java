@@ -146,7 +146,7 @@ public abstract class DlvRequest<T> extends OutMessage implements Request<T> {
     }
   }
 
-  public final static class Command extends DlvRequest<DlvApi.DebuggerStateOut> {
+  public final static class Command extends DlvRequest<DlvApi.CommandOut> {
     public Command(@Nullable String command) {
       writeString("Name", command);
     }

@@ -16,6 +16,8 @@
 
 package com.goide.dlv;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.util.io.NettyKt;
@@ -60,9 +62,10 @@ public class DlvVm extends VmBase {
       protected void messageReceived(ChannelHandlerContext context, Object message) throws Exception {
         if (message instanceof ByteBuf) {
           LOG.info("IN: " + ((ByteBuf)message).toString(CharsetToolkit.UTF8_CHARSET));
-          CharSequence string = NettyKt.readUtf8((ByteBuf)message);
-          JsonReaderEx ex = new JsonReaderEx(string);
-          getCommandProcessor().processIncomingJson(ex);
+          String json = NettyKt.readUtf8((ByteBuf)message);
+          JsonParser parser = new JsonParser();
+          JsonElement jsonElement = parser.parse(json);
+          getCommandProcessor().processIncomingJson(jsonElement);
         }
       }
     });

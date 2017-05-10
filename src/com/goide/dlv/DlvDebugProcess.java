@@ -33,7 +33,6 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.PlainTextLanguage;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -74,16 +73,16 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   private static final Consumer<Throwable> THROWABLE_CONSUMER = LOG::info;
 
   @NotNull
-  private final Consumer<DebuggerStateOut> myStateConsumer = new Consumer<DebuggerStateOut>() {
+  private final Consumer<CommandOut> myStateConsumer = new Consumer<CommandOut>() {
     @Override
-    public void consume(@NotNull final DebuggerStateOut so) {
+    public void consume(@NotNull final CommandOut so) {
       DebuggerState o = so.State;
       if (o.exited) {
         stop();
         return;
       }
 
-      final XBreakpoint<DlvBreakpointProperties> find = findBreak(o.breakPoint);
+      final XBreakpoint<DlvBreakpointProperties> find = findBreak(null);
       send(new DlvRequest.Stacktrace()).done(stacktraceOut -> {
         List<DlvApi.Location> locations = stacktraceOut.Locations;
         DlvSuspendContext context = new DlvSuspendContext(DlvDebugProcess.this, o.currentThread.id, o.currentGoroutine.id, locations, getProcessor());
@@ -99,7 +98,16 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
 
     @Nullable
     private XBreakpoint<DlvBreakpointProperties> findBreak(@Nullable Breakpoint point) {
-      return point == null ? null : breakpoints.get(point.id);
+      if (point == null) {
+        return null;
+      }
+
+      for (Map.Entry<XBreakpoint<DlvBreakpointProperties>, Integer> entry : myBreakpoints.entrySet()) {
+        if (entry.getValue().equals(point.id)) {
+          return entry.getKey();
+        }
+      }
+      return null;
     }
   };
 
@@ -237,8 +245,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     }
   }
 
-  private static final Key<Integer> ID = Key.create("DLV_BP_ID");
-  private final Map<Integer, XBreakpoint<DlvBreakpointProperties>> breakpoints = ContainerUtil.newConcurrentMap();
+  private final Map<XBreakpoint<DlvBreakpointProperties>, Integer> myBreakpoints = ContainerUtil.createConcurrentWeakMap();
 
   private class MyBreakpointHandler extends XBreakpointHandler<XLineBreakpoint<DlvBreakpointProperties>> {
 
@@ -253,8 +260,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
       VirtualFile file = breakpointPosition.getFile();
       int line = breakpointPosition.getLine();
       send(new DlvRequest.CreateBreakpoint(file.getPath(), line + 1)).done(b -> {
-        breakpoint.putUserData(ID, b.id);
-        breakpoints.put(b.id, breakpoint);
+        myBreakpoints.put(breakpoint, b.id);
         getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_verified_breakpoint, null);
       }).rejected(t -> {
         String message = t == null ? null : t.getMessage();
@@ -266,11 +272,9 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     public void unregisterBreakpoint(@NotNull XLineBreakpoint<DlvBreakpointProperties> breakpoint, boolean temporary) {
       XSourcePosition breakpointPosition = breakpoint.getSourcePosition();
       if (breakpointPosition == null) return;
-      Integer id = breakpoint.getUserData(ID);
-      if (id == null) return; // obsolete
-      breakpoint.putUserData(ID, null);
-      breakpoints.remove(id);
-      send(new DlvRequest.ClearBreakpoint(id));
+      Integer vmBreakpointId = myBreakpoints.remove(breakpoint);
+      if (vmBreakpointId == null) return;
+      send(new DlvRequest.ClearBreakpoint(vmBreakpointId));
     }
   }
 }

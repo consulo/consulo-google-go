@@ -18,8 +18,8 @@ package com.goide.dlv;
 
 import com.goide.dlv.protocol.DlvRequest;
 import com.goide.dlv.protocol.DlvResponse;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.containers.ContainerUtil;
@@ -33,13 +33,13 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public abstract class DlvCommandProcessor extends CommandProcessor<JsonReaderEx, DlvResponse, DlvResponse> {
+public abstract class DlvCommandProcessor extends CommandProcessor<JsonElement, DlvResponse, DlvResponse> {
   private static final Logger LOG = Logger.getInstance(DlvCommandProcessor.class);
 
   @Nullable
   @Override
-  public DlvResponse readIfHasSequence(@NotNull JsonReaderEx message) {
-    return new DlvResponse.CommandResponseImpl(message, null);
+  public DlvResponse readIfHasSequence(@NotNull JsonElement message) {
+    return new DlvResponse.CommandResponseImpl(message);
   }
 
   @Override
@@ -48,10 +48,10 @@ public abstract class DlvCommandProcessor extends CommandProcessor<JsonReaderEx,
   }
 
   @Override
-  public void acceptNonSequence(JsonReaderEx message) {
+  public void acceptNonSequence(JsonElement message) {
   }
 
-  public void processIncomingJson(@NotNull JsonReaderEx reader) {
+  public void processIncomingJson(@NotNull JsonElement reader) {
     getMessageManager().processIncoming(reader);
   }
 
@@ -80,10 +80,9 @@ public abstract class DlvCommandProcessor extends CommandProcessor<JsonReaderEx,
   @NotNull
   @Override
   public <RESULT> RESULT readResult(@NotNull String method, @NotNull DlvResponse successResponse) {
-    JsonReaderEx result = successResponse.result();
+    JsonElement result = successResponse.result();
     assert result != null : "success result should be not null";
-    JsonReader reader = result.asGson();
-    Object o = new GsonBuilder().create().fromJson(reader, getResultType(method.replaceFirst("RPCServer\\.", "")));
+    Object o = new Gson().fromJson(result, getResultType(method.replaceFirst("RPCServer\\.", "")));
     //noinspection unchecked
     return (RESULT)o;
   }
