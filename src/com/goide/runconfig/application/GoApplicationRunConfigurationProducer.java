@@ -30,6 +30,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import consulo.google.go.module.extension.GoModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,6 +47,12 @@ public class GoApplicationRunConfigurationProducer extends GoRunConfigurationPro
     if (contextElement != null && GoTestFinder.isTestFile(contextElement.getContainingFile())) {
       return false;
     }
+
+    Module module = context.getModule();
+    if (module == null || ModuleUtilCore.getExtension(module, GoModuleExtension.class) == null) {
+      return false;
+    }
+    
     String importPath = getImportPathFromContext(contextElement);
     if (StringUtil.isNotEmpty(importPath)) {
       configuration.setModule(context.getModule());
