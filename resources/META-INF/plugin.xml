@@ -21,7 +21,7 @@
   <vendor>consulo.io &amp; github.com/go-lang-plugin-org</vendor>
   <category>Custom Languages</category>
 
-  <depends optional="true">com.intellij.regexp</depends>
+  <depends>com.intellij.regexp</depends>
   <depends optional="true">com.intellij.spellchecker</depends>
 
   <!-- plan9 assembler -->
