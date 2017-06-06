@@ -36,6 +36,8 @@ import com.intellij.psi.PsiManager;
 import com.intellij.util.PairConsumer;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.ui.UIUtil;
+import consulo.google.go.module.extension.GoModuleExtension;
+import consulo.module.extension.ModuleExtensionHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,8 +50,11 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
   private static final String GO_FMT = "GO_FMT";
 
   @Override
-  @NotNull
+  @Nullable
   public CheckinHandler createHandler(@NotNull CheckinProjectPanel panel, @NotNull CommitContext commitContext) {
+    if(!ModuleExtensionHelper.getInstance(panel.getProject()).hasModuleExtension(GoModuleExtension.class)) {
+      return null;
+    }
     return new CheckinHandler() {
       @Override
       public RefreshableOnComponent getBeforeCheckinConfigurationPanel() {
