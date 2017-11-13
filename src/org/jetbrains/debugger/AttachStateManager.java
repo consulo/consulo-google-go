@@ -1,15 +1,14 @@
 package org.jetbrains.debugger;
 
-import consulo.concurrency.Promises;
-import org.jetbrains.concurrency.Promise;
+import com.intellij.openapi.util.AsyncResult;
 
 /**
  * @author VISTALL
  * @since 08-May-17
  */
 public interface AttachStateManager {
-  default Promise<?> detach() {
-    return Promises.resolvedPromise();
+  default AsyncResult<?> detach() {
+    return AsyncResult.done(null);
   }
 
   default boolean isAttached() {

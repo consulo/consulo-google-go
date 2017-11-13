@@ -1,6 +1,6 @@
 package org.jetbrains.rpc;
 
-import org.jetbrains.concurrency.Promise;
+import java.io.IOException;
 
 /**
  * @author VISTALL
@@ -12,6 +12,6 @@ public interface RequestCallback<SUCCESS_RESPONSE> {
   void onError(Throwable throwable);
 
   default void onError(String error) {
-    onError(Promise.createError(error));
+    onError(new IOException(error));
   }
 }

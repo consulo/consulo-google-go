@@ -1,6 +1,6 @@
 package org.jetbrains.rpc;
 
-import org.jetbrains.concurrency.Promise;
+import com.intellij.openapi.util.AsyncResult;
 import org.jetbrains.jsonProtocol.Request;
 
 /**
@@ -10,7 +10,7 @@ import org.jetbrains.jsonProtocol.Request;
 public abstract class CommandSenderBase<SUCCESS_RESPONSE> {
   protected abstract <RESULT> void doSend(Request<RESULT> message, RequestPromise<SUCCESS_RESPONSE, RESULT> callback);
 
-  public <RESULT> Promise<RESULT> send(Request<RESULT> message) {
+  public <RESULT> AsyncResult<RESULT> send(Request<RESULT> message) {
     RequestPromise<SUCCESS_RESPONSE, RESULT> callback = new RequestPromise<>(message.getMethodName());
     doSend(message, callback);
     return callback;

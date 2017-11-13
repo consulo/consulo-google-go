@@ -38,6 +38,7 @@ import com.intellij.execution.runners.RunContentBuilder;
 import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.internal.statistic.UsageTrigger;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.util.AsyncResult;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.ArrayUtil;
@@ -48,8 +49,6 @@ import com.intellij.xdebugger.XDebugSession;
 import com.intellij.xdebugger.XDebuggerManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.concurrency.AsyncPromise;
-import org.jetbrains.concurrency.Promise;
 import org.jetbrains.debugger.connection.RemoteVmConnection;
 
 import java.io.File;
@@ -75,11 +74,11 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
 
   @NotNull
   @Override
-  protected Promise<RunProfileStarter> prepare(@NotNull ExecutionEnvironment environment, @NotNull RunProfileState state) throws ExecutionException {
+  protected AsyncResult<RunProfileStarter> prepare(@NotNull ExecutionEnvironment environment, @NotNull RunProfileState state) throws ExecutionException {
     File outputFile = getOutputFile(environment, (GoApplicationRunningState)state);
     FileDocumentManager.getInstance().saveAllDocuments();
 
-    AsyncPromise<RunProfileStarter> buildingPromise = new AsyncPromise<>();
+    AsyncResult<RunProfileStarter> buildingPromise = new AsyncResult<>();
     GoHistoryProcessListener historyProcessListener = new GoHistoryProcessListener();
     ((GoApplicationRunningState)state).createCommonExecutor().withParameters("build").withParameterString(((GoApplicationRunningState)state).getGoBuildParams())
             .withParameters("-o", outputFile.getAbsolutePath())
@@ -92,10 +91,10 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
         super.processTerminated(event);
         boolean compilationFailed = event.getExitCode() != 0;
         if (((GoApplicationRunningState)state).isDebug()) {
-          buildingPromise.setResult(new MyDebugStarter(outputFile.getAbsolutePath(), historyProcessListener, compilationFailed));
+          buildingPromise.setDone(new MyDebugStarter(outputFile.getAbsolutePath(), historyProcessListener, compilationFailed));
         }
         else {
-          buildingPromise.setResult(new MyRunStarter(outputFile.getAbsolutePath(), historyProcessListener, compilationFailed));
+          buildingPromise.setDone(new MyRunStarter(outputFile.getAbsolutePath(), historyProcessListener, compilationFailed));
         }
       }
     }).executeWithProgress(false);

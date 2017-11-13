@@ -1,13 +1,13 @@
 package org.jetbrains.rpc;
 
+import com.intellij.openapi.util.AsyncResult;
 import com.intellij.openapi.util.ThrowableComputable;
-import org.jetbrains.concurrency.AsyncPromise;
 
 /**
  * @author VISTALL
  * @since 07-May-17
  */
-public class RequestPromise<SUCCESS_RESPONSE, RESULT> extends AsyncPromise<RESULT> implements RequestCallback<SUCCESS_RESPONSE> {
+public class RequestPromise<SUCCESS_RESPONSE, RESULT> extends AsyncResult<RESULT> implements RequestCallback<SUCCESS_RESPONSE> {
   private String methodName;
 
   public RequestPromise(String methodName) {
@@ -19,14 +19,14 @@ public class RequestPromise<SUCCESS_RESPONSE, RESULT> extends AsyncPromise<RESUL
     catchError(this, () -> {
       if (resultReader == null || response == null) {
         //noinspection unchecked
-        setResult((RESULT)response);
+        setDone((RESULT)response);
       }
       else {
         if (methodName == null) {
-          setResult(null);
+          setDone(null);
         }
         else {
-          setResult(resultReader.readResult(methodName, response));
+          setDone(resultReader.readResult(methodName, response));
         }
       }
 
@@ -36,15 +36,15 @@ public class RequestPromise<SUCCESS_RESPONSE, RESULT> extends AsyncPromise<RESUL
 
   @Override
   public void onError(Throwable throwable) {
-    setError(throwable);
+    rejectWithThrowable(throwable);
   }
 
-  static <T> T catchError(AsyncPromise<?> asyncPromise, ThrowableComputable<T, Throwable> func) {
+  static <T> T catchError(AsyncResult<?> asyncPromise, ThrowableComputable<T, Throwable> func) {
     try {
       return func.compute();
     }
     catch (Throwable e) {
-      asyncPromise.setError(e);
+      asyncPromise.rejectWithThrowable(e);
       return null;
     }
   }

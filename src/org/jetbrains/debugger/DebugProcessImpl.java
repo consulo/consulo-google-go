@@ -2,6 +2,7 @@ package org.jetbrains.debugger;
 
 import com.intellij.execution.ExecutionResult;
 import com.intellij.execution.process.ProcessHandler;
+import com.intellij.openapi.util.AsyncResult;
 import com.intellij.openapi.util.AtomicNotNullLazyValue;
 import com.intellij.xdebugger.DefaultDebugProcessHandler;
 import com.intellij.xdebugger.XDebugProcess;
@@ -11,10 +12,8 @@ import com.intellij.xdebugger.evaluation.XDebuggerEditorsProvider;
 import com.intellij.xdebugger.frame.XExecutionStack;
 import com.intellij.xdebugger.frame.XSuspendContext;
 import com.intellij.xdebugger.stepping.XSmartStepIntoHandler;
-import consulo.concurrency.Promises;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.concurrency.Promise;
 import org.jetbrains.debugger.connection.VmConnection;
 
 import javax.swing.event.HyperlinkListener;
@@ -128,8 +127,8 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
     return true;
   }
 
-  protected Promise<?> continueVm(Vm vm, StepAction stepAction) {
-    return Promises.resolvedPromise();
+  protected AsyncResult<?> continueVm(Vm vm, StepAction stepAction) {
+    return AsyncResult.done(null);
   }
 
   @NotNull

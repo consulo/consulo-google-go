@@ -28,6 +28,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.IndexNotReadyException;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.AsyncResult;
 import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.TextRange;
@@ -49,7 +50,6 @@ import com.intellij.xdebugger.frame.XValue;
 import com.intellij.xdebugger.frame.XValueChildrenList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.concurrency.Promise;
 
 import javax.swing.*;
 import java.util.List;
@@ -76,8 +76,8 @@ public class DlvStackFrame extends XStackFrame {
       @Override
       public void evaluate(@NotNull String expression, @NotNull XEvaluationCallback callback, @Nullable XSourcePosition expressionPosition) {
         myProcessor.send(new DlvRequest.Eval(expression, myId, myGoroutineId))
-                .done(variable -> callback.evaluated(createXValue(variable.Variable, AllIcons.Debugger.Watch)))
-                .rejected(throwable -> callback.errorOccurred(throwable.getMessage()));
+                .doWhenDone(variable -> callback.evaluated(createXValue(variable.Variable, AllIcons.Debugger.Watch)))
+                .doWhenRejectedWithThrowable(throwable -> callback.errorOccurred(throwable.getMessage()));
       }
 
       @Nullable
@@ -142,17 +142,17 @@ public class DlvStackFrame extends XStackFrame {
   }
 
   @NotNull
-  private <T> Promise<T> send(@NotNull DlvRequest<T> request) {
+  private <T> AsyncResult<T> send(@NotNull DlvRequest<T> request) {
     return DlvDebugProcess.send(request, myProcessor);
   }
 
   @Override
   public void computeChildren(@NotNull XCompositeNode node) {
-    send(new DlvRequest.ListLocalVars(myId, myGoroutineId)).done(variablesOut -> {
+    send(new DlvRequest.ListLocalVars(myId, myGoroutineId)).doWhenDone(variablesOut -> {
       List<DlvApi.Variable> variables = variablesOut.Variables;
       XValueChildrenList xVars = new XValueChildrenList(variables.size());
       for (DlvApi.Variable v : variables) xVars.add(v.name, createXValue(v, GoIcons.VARIABLE));
-      send(new DlvRequest.ListFunctionArgs(myId, myGoroutineId)).done(vars -> {
+      send(new DlvRequest.ListFunctionArgs(myId, myGoroutineId)).doWhenDone(vars -> {
         List<DlvApi.Variable> args = vars.Args;
         for (DlvApi.Variable v : args) xVars.add(v.name, createXValue(v, GoIcons.PARAMETER));
         node.addChildren(xVars, true);

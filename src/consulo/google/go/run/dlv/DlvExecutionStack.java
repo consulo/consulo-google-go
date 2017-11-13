@@ -52,7 +52,7 @@ public class DlvExecutionStack extends XExecutionStack {
 
   @Override
   public void computeStackFrames(@NotNull XStackFrameContainer container) {
-    myProcess.send(DlvRequests.Stacktrace.build(myGoroutineId, 100)).done(stacktraceOut -> {
+    myProcess.send(DlvRequests.Stacktrace.build(myGoroutineId, 100)).doWhenDone(stacktraceOut -> {
       List<DlvStackFrame> list = new ArrayList<>(stacktraceOut.Locations.size());
       for (DlvApi.Location location : stacktraceOut.Locations) {
         DlvStackFrame frame = new DlvStackFrame(myProcess, location, myProcessor, list.size(), myGoroutineId);

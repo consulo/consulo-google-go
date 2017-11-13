@@ -16,12 +16,12 @@
 
 package com.goide.dlv;
 
+import com.intellij.openapi.util.AsyncResult;
 import com.intellij.util.io.NettyKt;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.concurrency.AsyncPromise;
 import org.jetbrains.debugger.Vm;
 import org.jetbrains.debugger.connection.RemoteVmConnection;
 
@@ -30,11 +30,11 @@ import java.net.InetSocketAddress;
 public class DlvRemoteVmConnection extends RemoteVmConnection {
   @NotNull
   @Override
-  public Bootstrap createBootstrap(@NotNull InetSocketAddress address, @NotNull AsyncPromise<Vm> vmResult) {
+  public Bootstrap createBootstrap(@NotNull InetSocketAddress address, @NotNull AsyncResult<Vm> vmResult) {
     return NettyKt.oioClientBootstrap().handler(new ChannelInitializer() {
       @Override
       protected void initChannel(@NotNull Channel channel) throws Exception {
-        vmResult.setResult(new DlvVm(getDebugEventListener(), channel));
+        vmResult.setDone(new DlvVm(getDebugEventListener(), channel));
       }
     });
   }

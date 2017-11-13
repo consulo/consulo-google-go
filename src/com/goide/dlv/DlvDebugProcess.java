@@ -32,6 +32,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.PlainTextLanguage;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.AsyncResult;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -52,7 +53,6 @@ import consulo.google.go.run.dlv.api.SimpleInOutMessage;
 import org.intellij.lang.annotations.MagicConstant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.concurrency.Promise;
 import org.jetbrains.debugger.DebugProcessImpl;
 import org.jetbrains.debugger.StepAction;
 import org.jetbrains.debugger.Vm;
@@ -110,23 +110,27 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   };
 
   @NotNull
-  public <T> Promise<T> send(@NotNull SimpleInOutMessage<?, T> request) {
+  public <T> AsyncResult<T> send(@NotNull SimpleInOutMessage<?, T> request) {
     return send(request, getProcessor());
   }
 
   @NotNull
-  public static <T> Promise<T> send(@NotNull SimpleInOutMessage<?, T> request, @NotNull DlvCommandProcessor processor) {
-    return processor.send(request).rejected(THROWABLE_CONSUMER);
+  public static <T> AsyncResult<T> send(@NotNull SimpleInOutMessage<?, T> request, @NotNull DlvCommandProcessor processor) {
+    AsyncResult<T> send = processor.send(request);
+    send.doWhenRejectedWithThrowable(THROWABLE_CONSUMER);
+    return send;
   }
 
   @NotNull
-  public <T> Promise<T> send(@NotNull DlvRequest<T> request) {
+  public <T> AsyncResult<T> send(@NotNull DlvRequest<T> request) {
     return send(request, getProcessor());
   }
 
   @NotNull
-  public static <T> Promise<T> send(@NotNull DlvRequest<T> request, @NotNull DlvCommandProcessor processor) {
-    return processor.send(request).rejected(THROWABLE_CONSUMER);
+  public static <T> AsyncResult<T> send(@NotNull DlvRequest<T> request, @NotNull DlvCommandProcessor processor) {
+    AsyncResult<T> send = processor.send(request);
+    send.doWhenRejectedWithThrowable(THROWABLE_CONSUMER);
+    return send;
   }
 
   @NotNull
@@ -198,12 +202,12 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   }
 
   private void command(@NotNull @MagicConstant(stringValues = {NEXT, CONTINUE, HALT, SWITCH_THREAD, STEP, STEPOUT}) String name) {
-    send(new DlvRequest.Command(name)).done(myStateConsumer).rejected(LOG::warn);
+    send(new DlvRequest.Command(name)).doWhenDone(myStateConsumer).doWhenRejectedWithThrowable(LOG::warn);
   }
 
   @Nullable
   @Override
-  protected Promise<?> continueVm(@NotNull Vm vm, @NotNull StepAction stepAction) {
+  protected AsyncResult<?> continueVm(@NotNull Vm vm, @NotNull StepAction stepAction) {
     switch (stepAction) {
       case CONTINUE:
         command(CONTINUE);
@@ -268,10 +272,10 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
       VirtualFile file = breakpointPosition.getFile();
       int line = breakpointPosition.getLine();
 
-      send(DlvRequests.CreateBreakpoint.build(new Breakpoint(line + 1, file.getPath()))).done(b -> {
+      send(DlvRequests.CreateBreakpoint.build(new Breakpoint(line + 1, file.getPath()))).doWhenDone(b -> {
         myBreakpoints.put(breakpoint, b.Breakpoint.id);
         getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_verified_breakpoint, null);
-      }).rejected(t -> {
+      }).doWhenRejectedWithThrowable(t -> {
         String message = t == null ? null : t.getMessage();
         getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_invalid_breakpoint, message);
       });

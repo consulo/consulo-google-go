@@ -2,16 +2,14 @@ package org.jetbrains.debugger.connection;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.util.AsyncResult;
 import com.intellij.openapi.util.Condition;
 import com.intellij.util.io.NettyKt;
 import com.intellij.util.io.socketConnection.ConnectionStatus;
-import consulo.concurrency.Promises;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.concurrency.AsyncPromise;
-import org.jetbrains.concurrency.Promise;
 import org.jetbrains.debugger.Vm;
 import org.jetbrains.io.NettyUtil;
 
@@ -32,40 +30,40 @@ public abstract class RemoteVmConnection extends VmConnection<Vm> {
 
   private InetSocketAddress myAddress;
 
-  public abstract Bootstrap createBootstrap(@NotNull InetSocketAddress address, @NotNull AsyncPromise<Vm> vmResult);
+  public abstract Bootstrap createBootstrap(@NotNull InetSocketAddress address, @NotNull AsyncResult<Vm> vmResult);
 
   protected abstract String connectedAddressToPresentation(@NotNull InetSocketAddress address, @NotNull Vm vm);
 
-  public Promise<Vm> open(InetSocketAddress address) {
+  public AsyncResult<Vm> open(InetSocketAddress address) {
     return open(address, null);
   }
 
-  public Promise<Vm> open(InetSocketAddress address, Condition<Void> stopCondition) {
+  public AsyncResult<Vm> open(InetSocketAddress address, Condition<Void> stopCondition) {
     myAddress = address;
 
     setState(ConnectionStatus.WAITING_FOR_CONNECTION, "Connecting to " + address.getHostString() + ":" + address.getPort());
-    AsyncPromise<Vm> result = new AsyncPromise<>();
+    AsyncResult<Vm> result = new AsyncResult<>();
 
     AtomicInteger attemptNumber = new AtomicInteger();
 
     Runnable attempt = new Runnable() {
       @Override
       public void run() {
-        connectCancelHandler.set(() -> result.setError("Closed explicitly"));
-        AsyncPromise<?> connectionPromise = new AsyncPromise<>();
-        connectionPromise.rejected(result::setError);
+        connectCancelHandler.set(() -> result.reject("Closed explicitly"));
+        AsyncResult<?> connectionPromise = new AsyncResult<>();
+        connectionPromise.doWhenRejected(result::reject);
 
-        result.done(it -> {
+        result.doWhenDone(it -> {
           myVm = it;
           setState(ConnectionStatus.CONNECTED, "Connected to " + connectedAddressToPresentation(address, it));
           startProcessing();
-        }).rejected(it -> {
+        }).doWhenRejectedWithThrowable(it -> {
           if (!(it instanceof ConnectException)) {
-            Promises.errorIfNotMessage(LOG, it);
+            LOG.error(it);
           }
 
           setState(ConnectionStatus.CONNECTION_FAILED, it.getMessage());
-        }).processed(it -> connectionPromise.setResult(null));
+        }).doWhenProcessed(() -> connectionPromise.setDone(null));
 
         Bootstrap bootstrap = createBootstrap(address, result);
 
@@ -76,11 +74,11 @@ public abstract class RemoteVmConnection extends VmConnection<Vm> {
           ChannelFuture closeFuture = channel.closeFuture();
           if (closeFuture != null) {
             closeFuture.addListener(it -> {
-              if (Promises.isFulfilled(result)) {
+              if (result.isDone()) {
                 close("Process disconnected unexpectedly", ConnectionStatus.DISCONNECTED);
               }
               else if (attemptNumber.incrementAndGet() > 100 || (stopCondition != null && stopCondition.value(null))) {
-                result.setError("Cannot establish connection - promptly closed after open");
+                result.reject("Cannot establish connection - promptly closed after open");
               }
               else {
                 NettyKt.sleep(result, 500);
@@ -105,7 +103,7 @@ public abstract class RemoteVmConnection extends VmConnection<Vm> {
         future.cancel(true);
       }
       finally {
-        result.setError("Cancelled");
+        result.reject("Cancelled");
       }
     });
     return result;

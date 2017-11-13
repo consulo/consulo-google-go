@@ -1,6 +1,6 @@
 package org.jetbrains.rpc;
 
-import org.jetbrains.concurrency.Promise;
+import com.intellij.openapi.util.AsyncResult;
 import org.jetbrains.jsonProtocol.Request;
 
 /**
@@ -12,5 +12,5 @@ public interface MessageProcessor {
 
   void closed();
 
-  <RESULT> Promise<RESULT> send(Request<RESULT> message);
+  <RESULT> AsyncResult<RESULT> send(Request<RESULT> message);
 }

@@ -109,11 +109,11 @@ class DlvXValue extends XNamedValue {
     return new XValueModifier() {
       @Override
       public void setValue(@NotNull String newValue, @NotNull final XModificationCallback callback) {
-        myProcessor.send(new DlvRequest.Set(myVariable.name, newValue, myFrameId, myGoroutineId)).processed(o -> {
+        myProcessor.send(new DlvRequest.Set(myVariable.name, newValue, myFrameId, myGoroutineId)).doWhenDone(o -> {
           if (o != null) {
             callback.valueModified();
           }
-        }).rejected(throwable -> callback.errorOccurred(throwable.getMessage()));
+        }).doWhenRejectedWithThrowable(throwable -> callback.errorOccurred(throwable.getMessage()));
       }
     };
   }
