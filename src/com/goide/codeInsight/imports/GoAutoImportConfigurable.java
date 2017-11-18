@@ -27,6 +27,7 @@ import com.intellij.ui.*;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.UIUtil;
+import consulo.annotations.RequiredDispatchThread;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,8 +42,10 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
   private JBList myExcludePackagesList;
   private DefaultListModel myExcludePackagesModel;
 
-  @NotNull private final GoCodeInsightSettings myCodeInsightSettings;
-  @NotNull private final GoExcludedPathsSettings myExcludedSettings;
+  @NotNull
+  private final GoCodeInsightSettings myCodeInsightSettings;
+  @NotNull
+  private final GoExcludedPathsSettings myExcludedSettings;
   private final boolean myIsDefaultProject;
 
   public GoAutoImportConfigurable(@NotNull Project project) {
@@ -51,6 +54,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
     myIsDefaultProject = project.isDefault();
   }
 
+  @RequiredDispatchThread
   @Nullable
   @Override
   public JComponent createComponent() {
@@ -62,8 +66,8 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
 
     myExcludePackagesList = new JBList();
     JComponent excludedPanel = new JPanel(new BorderLayout());
-    excludedPanel.add(ToolbarDecorator.createDecorator(myExcludePackagesList)
-                        .setAddAction(new AddImportExclusionAction()).disableUpDownActions().createPanel(), BorderLayout.CENTER);
+    excludedPanel.add(ToolbarDecorator.createDecorator(myExcludePackagesList).setAddAction(new AddImportExclusionAction()).disableUpDownActions().createPanel(),
+                      BorderLayout.CENTER);
     excludedPanel.setBorder(IdeBorderFactory.createTitledBorder(ApplicationBundle.message("exclude.from.completion.group"), true));
     if (!myIsDefaultProject) {
       builder.addComponent(excludedPanel);
@@ -88,6 +92,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
     return excludedPackages;
   }
 
+  @RequiredDispatchThread
   @Override
   public boolean isModified() {
     return myCodeInsightSettings.isShowImportPopup() != myCbShowImportPopup.isSelected() ||
@@ -95,6 +100,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
            !Arrays.equals(getExcludedPackages(), myExcludedSettings.getExcludedPackages());
   }
 
+  @RequiredDispatchThread
   @Override
   public void apply() throws ConfigurationException {
     myCodeInsightSettings.setShowImportPopup(myCbShowImportPopup.isSelected());
@@ -102,6 +108,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
     myExcludedSettings.setExcludedPackages(getExcludedPackages());
   }
 
+  @RequiredDispatchThread
   @Override
   public void reset() {
     myCbShowImportPopup.setSelected(myCodeInsightSettings.isShowImportPopup());
@@ -132,6 +139,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
     return "Go";
   }
 
+  @RequiredDispatchThread
   @Override
   public void disposeUIResources() {
     UIUtil.dispose(myCbShowImportPopup);
@@ -140,7 +148,9 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
     myCbShowImportPopup = null;
     myCbAddUnambiguousImports = null;
     myExcludePackagesList = null;
-    myExcludePackagesModel.removeAllElements();
+    if (myExcludePackagesModel != null) {
+      myExcludePackagesModel.removeAllElements();
+    }
     myExcludePackagesModel = null;
   }
 
@@ -148,9 +158,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
     @Override
     public void run(AnActionButton button) {
       String packageName =
-        Messages.showInputDialog("Enter the import path to exclude from auto-import and completion:",
-                                 "Exclude Import Path",
-                                 Messages.getWarningIcon());
+              Messages.showInputDialog("Enter the import path to exclude from auto-import and completion:", "Exclude Import Path", Messages.getWarningIcon());
       addExcludedPackage(packageName);
     }
 
