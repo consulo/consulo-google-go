@@ -18,20 +18,7 @@
           <orderEntry type="module-extension-sdk" extension-id="consulo-plugin" />
           <orderEntry type="sourceFolder" />
           <orderEntry type="library" name="consulo-plugin: com.intellij.spellchecker" level="project" />
-          <orderEntry type="module" module-name="utils" />
           <orderEntry type="library" name="consulo-plugin: com.intellij.regexp" level="project" />
-        </module-layer>
-      </module>
-      <module name="utils" dirurl="file://$PROJECT_DIR$/utils" current-layer="Default">
-        <module-layer name="Default">
-          <extension id="consulo-plugin" sdk-module-name="consulo-google-go" />
-          <extension id="java" sdk-module-name="consulo-google-go" />
-          <content url="file://$MODULE_DIR$">
-            <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
-          </content>
-          <orderEntry type="module-extension-sdk" extension-id="java" />
-          <orderEntry type="module-extension-sdk" extension-id="consulo-plugin" />
-          <orderEntry type="sourceFolder" />
         </module-layer>
       </module>
       <module name="plan9" dirurl="file://$PROJECT_DIR$/plan9" current-layer="Default">
