@@ -1,9 +1,4 @@
-docs/
-mock-sdks/java/
-out/
-build/
-.DS_Store
-
-/.consulo/sandbox/
-/.consulo/workspace.xml
-/dep
+/.consulo
+!/.consulo/codeStyleSettings.xml
+/out
+/target
