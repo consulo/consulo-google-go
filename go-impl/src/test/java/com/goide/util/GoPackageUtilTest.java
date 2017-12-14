@@ -45,7 +45,7 @@ public class GoPackageUtilTest extends GoCodeInsightFixtureTestCase {
 
     GoBuildTargetSettings newSettings = new GoBuildTargetSettings();
     newSettings.customFlags = new String[]{"ignored"};
-    GoModuleSettings.getInstance(myFixture.getModule()).setBuildTargetSettings(newSettings);
+   //GoModuleSettings.getInstance(myFixture.getModule()).setBuildTargetSettings(newSettings);
     assertSameElements(GoPackageUtil.getAllPackagesInDirectory(myFixture.getFile().getContainingDirectory(), null, true),
                        "not_ignored", "ignored");
   }

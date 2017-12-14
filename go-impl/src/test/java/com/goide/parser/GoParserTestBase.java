@@ -16,42 +16,42 @@
 
 package com.goide.parser;
 
-import com.intellij.core.CoreApplicationEnvironment;
-import com.intellij.lang.LanguageExtensionPoint;
 import com.intellij.lang.ParserDefinition;
-import com.intellij.openapi.extensions.Extensions;
-import com.intellij.testFramework.ParsingTestCase;
-import org.jetbrains.annotations.NotNull;
 
-public abstract class GoParserTestBase extends ParsingTestCase {
-  public GoParserTestBase(String dataPath, String fileExt, ParserDefinition... definitions) {super(dataPath, fileExt, definitions);}
+public abstract class GoParserTestBase //extends ParsingTestCase
+{
+	public GoParserTestBase(String dataPath, String fileExt, ParserDefinition... definitions)
+	{
+		//super(dataPath, fileExt, definitions);
+	}
 
-  @NotNull
-  @Override
-  protected String getTestDataPath() {
-    return "testData";
-  }
+	/*@NotNull
+	@Override
+	protected String getTestDataPath()
+	{
+		return "testData";
+	}
 
-  @Override
-  protected boolean skipSpaces() {
-    return true;
-  }
+	@Override
+	protected boolean skipSpaces()
+	{
+		return true;
+	}*/
 
-  @Override
-  protected void doTest(boolean checkErrors) {
-    super.doTest(true);
-    if (checkErrors) {
-      assertFalse(
-        "PsiFile contains error elements",
-        toParseTreeText(myFile, skipSpaces(), includeRanges()).contains("PsiErrorElement")
-      );
-    }
-  }
+	//@Override
+	protected void doTest(boolean checkErrors)
+	{
+		/*super.doTest(true);
+		if(checkErrors)
+		{
+			assertFalse("PsiFile contains error elements", toParseTreeText(myFile, skipSpaces(), includeRanges()).contains("PsiErrorElement"));
+		} */
+	}
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-    CoreApplicationEnvironment.registerExtensionPoint(
-      Extensions.getRootArea(), "com.intellij.lang.braceMatcher", LanguageExtensionPoint.class);
-  }
+	/*@Override
+	protected void setUp() throws Exception
+	{
+		super.setUp();
+		CoreApplicationEnvironment.registerExtensionPoint(Extensions.getRootArea(), "com.intellij.lang.braceMatcher", LanguageExtensionPoint.class);
+	} */
 }

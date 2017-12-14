@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  - Copyright 2013-2017 must-be.org
+  - Copyright 2013-2017 consulo.io
   -
   - Licensed under the Apache License, Version 2.0 (the "License");
   - you may not use this file except in compliance with the License.
@@ -51,6 +51,7 @@
 					<repositoryChannel>nightly</repositoryChannel>
 					<dependencies>
 						<dependency>com.intellij.spellchecker</dependency>
+						<dependency>com.intellij.regexp</dependency>
 					</dependencies>
 					<packaging>
 						<skip>${dev.mode}</skip>
@@ -74,6 +75,22 @@
 			<groupId>consulo.plugin</groupId>
 			<artifactId>com.intellij.spellchecker</artifactId>
 			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>consulo.plugin</groupId>
+			<artifactId>com.intellij.regexp</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>consulo.plugin</groupId>
+			<artifactId>consulo.plan9</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

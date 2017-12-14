@@ -16,14 +16,8 @@
 
 package com.goide.marker;
 
-import com.goide.GoCodeInsightFixtureTestCase;
-import com.intellij.codeInsight.daemon.GutterMark;
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
+import com.goide.GoCodeInsightFixtureTestCase;
 
 public class GoRecursiveMethodCallMarkerInfoTest extends GoCodeInsightFixtureTestCase {
   public void testRecursive() { doTest(); }
@@ -37,12 +31,12 @@ public class GoRecursiveMethodCallMarkerInfoTest extends GoCodeInsightFixtureTes
 
   private void doTest() {
     myFixture.configureByFile(getTestName(false) + ".go");
-    List<String> textList = ContainerUtil.newArrayList();
+   /* List<String> textList = ContainerUtil.newArrayList();
     for (GutterMark gutter : myFixture.findGuttersAtCaret()) {
       String text = gutter.getTooltipText();
       textList.add(text);
       if ("Recursive call".equals(text) && AllIcons.Gutter.RecursiveMethod.equals(gutter.getIcon())) return;
     }
-    fail("Not found gutter mark: " + "Recursive call" + " " + AllIcons.Gutter.RecursiveMethod + "\nin\n" + StringUtil.join(textList, "\n"));
+    fail("Not found gutter mark: " + "Recursive call" + " " + AllIcons.Gutter.RecursiveMethod + "\nin\n" + StringUtil.join(textList, "\n"));  */
   }
 }

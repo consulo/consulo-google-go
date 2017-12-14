@@ -16,6 +16,10 @@
 
 package com.goide.psi.legacy;
 
+import java.io.File;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.psi.GoFile;
 import com.intellij.openapi.vfs.VfsUtilCore;
@@ -25,10 +29,6 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.FilteringProcessor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.File;
 
 public abstract class GoLegacyResolveTestBase extends GoCodeInsightFixtureTestCase {
   @NotNull private static final String REF_MARK = "/*ref*/";
@@ -67,7 +67,7 @@ public abstract class GoLegacyResolveTestBase extends GoCodeInsightFixtureTestCa
     }
     VirtualFile dirToTest = myFixture.getTempDirFixture().getFile(".");
     assertNotNull(dirToTest);
-    GoModuleLibrariesService.getInstance(myFixture.getModule()).setLibraryRootUrls(dirToTest.getUrl());
+    //GoModuleLibrariesService.getInstance(myFixture.getModule()).setLibraryRootUrls(dirToTest.getUrl());
     doDirectoryTest(dirToTest);
   }
 

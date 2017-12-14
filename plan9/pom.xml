@@ -17,14 +17,26 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>consulo</groupId>
+		<artifactId>arch.ide-provided</artifactId>
+		<version>2-SNAPSHOT</version>
+		<relativePath/>
+	</parent>
 
 	<groupId>consulo.plugin</groupId>
-	<artifactId>consulo.google.go.parent</artifactId>
+	<artifactId>consulo.plan9</artifactId>
 	<version>2-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 
-	<modules>
-		<module>plan9</module>
-		<module>go-impl</module>
-	</modules>
+	<repositories>
+		<repository>
+			<id>consulo</id>
+			<url>https://maven.consulo.io/repository/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>interval:60</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
 </project>

@@ -16,18 +16,25 @@
 
 package com.goide.inspections;
 
+import java.io.IOException;
+
+import org.jetbrains.annotations.NotNull;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.SdkAware;
 import com.goide.codeInsight.imports.GoImportOptimizerTest;
-import com.goide.inspections.unresolved.*;
+import com.goide.inspections.unresolved.GoAssignmentToConstantInspection;
+import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
+import com.goide.inspections.unresolved.GoUnusedConstInspection;
+import com.goide.inspections.unresolved.GoUnusedExportedFunctionInspection;
+import com.goide.inspections.unresolved.GoUnusedFunctionInspection;
+import com.goide.inspections.unresolved.GoUnusedGlobalVariableInspection;
+import com.goide.inspections.unresolved.GoUnusedParameterInspection;
+import com.goide.inspections.unresolved.GoUnusedVariableInspection;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 
 @SdkAware
 public class GoHighlightingTest extends GoCodeInsightFixtureTestCase {
@@ -223,8 +230,7 @@ public class GoHighlightingTest extends GoCodeInsightFixtureTestCase {
     myFixture.addFileToProject("root1/src/to_import/unique/foo.go", "package unique; func Foo() {}");
     myFixture.addFileToProject("root1/src/to_import/shared/a.go", "package shared");
     myFixture.addFileToProject("root2/src/to_import/shared/a.go", "package shared");
-    GoModuleLibrariesService.getInstance(myFixture.getModule()).setLibraryRootUrls(myFixture.findFileInTempDir("root1").getUrl(),
-                                                                                   myFixture.findFileInTempDir("root2").getUrl());
+   // GoModuleLibrariesService.getInstance(myFixture.getModule()).setLibraryRootUrls(myFixture.findFileInTempDir("root1").getUrl(), myFixture.findFileInTempDir("root2").getUrl());
     doTest();
 
     PsiReference reference = myFixture.getFile().findReferenceAt(myFixture.getCaretOffset());
@@ -232,8 +238,7 @@ public class GoHighlightingTest extends GoCodeInsightFixtureTestCase {
     assertInstanceOf(resolve, PsiDirectory.class);
     assertTrue(((PsiDirectory)resolve).getVirtualFile().getPath().endsWith("root1/src/to_import/shared"));
 
-    GoModuleLibrariesService.getInstance(myFixture.getModule()).setLibraryRootUrls(myFixture.findFileInTempDir("root2").getUrl(),
-                                                                                   myFixture.findFileInTempDir("root1").getUrl());
+    //GoModuleLibrariesService.getInstance(myFixture.getModule()).setLibraryRootUrls(myFixture.findFileInTempDir("root2").getUrl(), myFixture.findFileInTempDir("root1").getUrl());
     reference = myFixture.getFile().findReferenceAt(myFixture.getCaretOffset());
     resolve = reference.resolve();
     assertInstanceOf(resolve, PsiDirectory.class);

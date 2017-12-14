@@ -16,17 +16,14 @@
 
 package com.goide;
 
-import com.goide.project.GoBuildTargetSettings;
-import com.goide.sdk.GoSdkType;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.intention.IntentionAction;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.SelectionModel;
-import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.projectRoots.ProjectJdkTable;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl;
-import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
@@ -36,20 +33,12 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.impl.DebugUtil;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.testFramework.LightProjectDescriptor;
 import com.intellij.testFramework.UsefulTestCase;
-import com.intellij.testFramework.fixtures.DefaultLightProjectDescriptor;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import com.intellij.util.ObjectUtils;
-import com.intellij.util.ThreeState;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.FileContentImpl;
 import com.intellij.util.indexing.IndexingDataKeys;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 abstract public class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsightFixtureTestCase {
   protected static String buildStubTreeText(@NotNull Project project,
@@ -91,17 +80,17 @@ abstract public class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsi
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    GoApplicationLibrariesService.getInstance().setLibraryRootUrls("temp:///");
-    GoModuleSettings.getInstance(myFixture.getModule()).setVendoringEnabled(ThreeState.YES);
+    //GoApplicationLibrariesService.getInstance().setLibraryRootUrls("temp:///");
+    //GoModuleSettings.getInstance(myFixture.getModule()).setVendoringEnabled(ThreeState.YES);
     if (isSdkAware()) setUpProjectSdk();
   }
   
   @Override
   protected void tearDown() throws Exception {
     try {
-      GoApplicationLibrariesService.getInstance().setLibraryRootUrls();
-      GoModuleSettings.getInstance(myFixture.getModule()).setBuildTargetSettings(new GoBuildTargetSettings());
-      GoModuleSettings.getInstance(myFixture.getModule()).setVendoringEnabled(ThreeState.UNSURE);
+      //GoApplicationLibrariesService.getInstance().setLibraryRootUrls();
+      //GoModuleSettings.getInstance(myFixture.getModule()).setBuildTargetSettings(new GoBuildTargetSettings());
+      //GoModuleSettings.getInstance(myFixture.getModule()).setVendoringEnabled(ThreeState.UNSURE);
     }
     finally {
       //noinspection ThrowFromFinallyBlock
@@ -120,7 +109,7 @@ abstract public class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsi
     return new File("testData/" + getBasePath()).getAbsolutePath();
   }
 
-  @NotNull
+  /*@NotNull
   private static DefaultLightProjectDescriptor createMockProjectDescriptor() {
     return new DefaultLightProjectDescriptor() {
       @NotNull
@@ -130,17 +119,17 @@ abstract public class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsi
       }
 
     };
-  }
+  }*/
 
   private void setUpProjectSdk() {
-    ApplicationManager.getApplication().runWriteAction(() -> {
+    /*ApplicationManager.getApplication().runWriteAction(() -> {
       Sdk sdk = getProjectDescriptor().getSdk();
       ProjectJdkTable.getInstance().addJdk(sdk);
       ProjectRootManager.getInstance(myFixture.getProject()).setProjectSdk(sdk);
-    });
+    });*/
   }
 
-  @NotNull
+  /*@NotNull
   private static Sdk createMockSdk(@NotNull String version) {
     String homePath = new File("testData/mockSdk-" + version + "/").getAbsolutePath();
     GoSdkType sdkType = GoSdkType.getInstance();
@@ -148,7 +137,7 @@ abstract public class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsi
     sdkType.setupSdkPaths(sdk);
     sdk.setVersionString(version);
     return sdk;
-  }
+  }*/
 
   @NotNull
   protected static String loadText(@NotNull VirtualFile file) {
@@ -161,7 +150,7 @@ abstract public class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsi
   }
 
   protected void disableVendoring() {
-    GoModuleSettings.getInstance(myFixture.getModule()).setVendoringEnabled(ThreeState.NO);
+    //GoModuleSettings.getInstance(myFixture.getModule()).setVendoringEnabled(ThreeState.NO);
   }
 
   protected static String normalizeCode(@NotNull String codeBefore) {
@@ -176,10 +165,11 @@ abstract public class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsi
     return result.toString();
   }
 
+/*
   @Override
   protected LightProjectDescriptor getProjectDescriptor() {
     return isSdkAware() ? createMockProjectDescriptor() : null;
-  }
+  }*/
 
   private boolean isSdkAware() {return annotatedWith(SdkAware.class);}
 

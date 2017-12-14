@@ -16,16 +16,12 @@
 
 package com.plan9.intel.lang.core.parser;
 
-import com.intellij.testFramework.ParsingTestCase;
-import com.plan9.intel.lang.core.AsmIntelParserDefinition;
-import org.jetbrains.annotations.NotNull;
-
-public class AsmIntelParserTest extends ParsingTestCase {
+public class AsmIntelParserTest /*extends ParsingTestCase*/ {
   public AsmIntelParserTest() {
-    super("parser", "s", new AsmIntelParserDefinition());
+   // super("parser", "s", new AsmIntelParserDefinition());
   }
 
-  @NotNull
+ /* @NotNull
   @Override
   protected String getTestDataPath() {
     return "testData/intel";
@@ -47,5 +43,5 @@ public class AsmIntelParserTest extends ParsingTestCase {
     }
   }
 
-  public void testSingleFunction() { doTest(false); }
+  public void testSingleFunction() { doTest(false); }   */
 }

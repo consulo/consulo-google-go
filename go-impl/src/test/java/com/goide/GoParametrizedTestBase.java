@@ -16,15 +16,13 @@
 
 package com.goide;
 
-import com.intellij.testFramework.EdtTestUtil;
-import com.intellij.testFramework.TestRunnerUtil;
-import com.intellij.util.ThrowableRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import com.intellij.util.ThrowableRunnable;
 
 @RunWith(Parameterized.class)
 public abstract class GoParametrizedTestBase extends GoCodeInsightFixtureTestCase {
@@ -51,8 +49,8 @@ public abstract class GoParametrizedTestBase extends GoCodeInsightFixtureTestCas
 
   private void safeEdt(@NotNull ThrowableRunnable<Throwable> r) {
     if (runInDispatchThread()) {
-      TestRunnerUtil.replaceIdeEventQueueSafely();
-      EdtTestUtil.runInEdtAndWait(r);
+      //TestRunnerUtil.replaceIdeEventQueueSafely();
+      //EdtTestUtil.runInEdtAndWait(r);
     }
     else {
       try {

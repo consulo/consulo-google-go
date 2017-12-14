@@ -16,6 +16,10 @@
 
 package com.goide.runconfig;
 
+import java.util.List;
+
+import org.jdom.Element;
+import org.jetbrains.annotations.Nullable;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.SdkAware;
 import com.intellij.execution.actions.ConfigurationContext;
@@ -25,10 +29,6 @@ import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
-import org.jdom.Element;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 @SdkAware
 public abstract class GoRunConfigurationTestCase extends GoCodeInsightFixtureTestCase {
@@ -40,7 +40,7 @@ public abstract class GoRunConfigurationTestCase extends GoCodeInsightFixtureTes
 
   protected void doTestProducedConfigurations(@Nullable PsiElement context) {
     assertNotNull(context);
-    ConfigurationContext configurationContext = new ConfigurationContext(context);
+    ConfigurationContext configurationContext = null;// new ConfigurationContext(context);
     List<ConfigurationFromContext> configurationAndSettings = configurationContext.getConfigurationsFromContext();
     Element configurationsElement = new Element("configurations");
     if (configurationAndSettings != null) {
