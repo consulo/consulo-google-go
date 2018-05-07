@@ -16,16 +16,18 @@
 
 package com.goide.sdk;
 
+import java.util.List;
+
+import javax.swing.Icon;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.goide.GoIcons;
 import com.intellij.openapi.roots.libraries.DummyLibraryProperties;
 import com.intellij.openapi.roots.libraries.LibraryKind;
 import com.intellij.openapi.roots.libraries.LibraryPresentationProvider;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.util.List;
+import consulo.awt.TargetAWT;
 
 public class GoSdkLibraryPresentationProvider extends LibraryPresentationProvider<DummyLibraryProperties> {
   private static final LibraryKind KIND = LibraryKind.create("go");
@@ -37,7 +39,7 @@ public class GoSdkLibraryPresentationProvider extends LibraryPresentationProvide
   @Override
   @Nullable
   public Icon getIcon() {
-    return GoIcons.ICON;
+    return TargetAWT.to(GoIcons.ICON);
   }
 
   @Override

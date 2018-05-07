@@ -16,6 +16,11 @@
 
 package com.goide.highlighting;
 
+import static com.goide.highlighting.GoSyntaxHighlightingColors.*;
+
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
 import com.goide.GoFileType;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
@@ -23,12 +28,6 @@ import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
-import java.util.Map;
-
-import static com.goide.highlighting.GoSyntaxHighlightingColors.*;
 
 public class GoColorsAndFontsPage implements ColorSettingsPage {
   private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
@@ -101,11 +100,6 @@ public class GoColorsAndFontsPage implements ColorSettingsPage {
   @NotNull
   public String getDisplayName() {
     return GoFileType.INSTANCE.getName();
-  }
-
-  @Override
-  public Icon getIcon() {
-    return GoFileType.INSTANCE.getIcon();
   }
 
   @Override

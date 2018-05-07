@@ -16,12 +16,13 @@
 
 package consulo.google.go.module.orderEntry;
 
+import org.jetbrains.annotations.NotNull;
 import com.goide.GoIcons;
 import com.intellij.openapi.roots.ui.CellAppearanceEx;
 import com.intellij.openapi.roots.ui.util.SimpleTextCellAppearance;
 import com.intellij.ui.SimpleTextAttributes;
+import consulo.awt.TargetAWT;
 import consulo.roots.orderEntry.OrderEntryTypeEditor;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author VISTALL
@@ -30,6 +31,6 @@ import org.jetbrains.annotations.NotNull;
 public class GoPathOrderEntryTypeEditor implements OrderEntryTypeEditor<GoPathOrderEntry> {
   @NotNull
   public CellAppearanceEx getCellAppearance(@NotNull GoPathOrderEntry orderEntry) {
-    return new SimpleTextCellAppearance(orderEntry.getPresentableName(), GoIcons.ICON, SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
+    return new SimpleTextCellAppearance(orderEntry.getPresentableName(), TargetAWT.to(GoIcons.ICON), SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
   }
 }

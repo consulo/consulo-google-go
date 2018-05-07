@@ -17,11 +17,10 @@
 package com.plan9.intel;
 
 import com.intellij.openapi.util.IconLoader;
-
-import javax.swing.*;
+import consulo.ui.image.Image;
 
 public class Icons {
-  public static final Icon FILE = IconLoader.getIcon("/icons/CPU.png");
+  public static final Image FILE = IconLoader.getIcon("/icons/CPU.png");
 
   private Icons() {}
 }

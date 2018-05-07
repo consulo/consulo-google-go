@@ -16,22 +16,20 @@
 
 package com.plan9.intel.ide.highlighting;
 
+import static com.plan9.intel.ide.highlighting.AsmIntelSyntaxHighlightingColors.*;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
 import com.intellij.util.ResourceUtil;
-import com.plan9.intel.Icons;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Map;
-
-import static com.plan9.intel.ide.highlighting.AsmIntelSyntaxHighlightingColors.*;
 
 public class AsmIntelColorsAndFontsPage implements ColorSettingsPage {
   private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
@@ -47,12 +45,6 @@ public class AsmIntelColorsAndFontsPage implements ColorSettingsPage {
     new AttributesDescriptor("Operator", OPERATOR),
     new AttributesDescriptor("Identifier", IDENTIFIER),
   };
-
-  @Nullable
-  @Override
-  public Icon getIcon() {
-    return Icons.FILE;
-  }
 
   @NotNull
   @Override

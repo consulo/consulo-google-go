@@ -16,6 +16,12 @@
 
 package com.goide.sdk;
 
+import java.io.File;
+import java.util.Collection;
+
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.goide.GoIcons;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
@@ -24,13 +30,7 @@ import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.vfs.VirtualFile;
 import consulo.roots.types.BinariesOrderRootType;
 import consulo.roots.types.SourcesOrderRootType;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.io.File;
-import java.util.Collection;
+import consulo.ui.image.Image;
 
 public class GoSdkType extends SdkType {
   @NotNull
@@ -44,7 +44,7 @@ public class GoSdkType extends SdkType {
 
   @NotNull
   @Override
-  public Icon getIcon() {
+  public Image getIcon() {
     return GoIcons.ICON;
   }
 
