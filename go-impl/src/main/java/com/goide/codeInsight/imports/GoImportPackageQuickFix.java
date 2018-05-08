@@ -16,6 +16,21 @@
 
 package com.goide.codeInsight.imports;
 
+import static com.intellij.util.containers.ContainerUtil.getFirstItem;
+import static com.intellij.util.containers.ContainerUtil.map2Set;
+import static com.intellij.util.containers.ContainerUtil.skipNulls;
+import static com.intellij.util.containers.ContainerUtil.sorted;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+
+import javax.swing.SwingConstants;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.goide.GoIcons;
 import com.goide.completion.GoCompletionUtil;
 import com.goide.project.GoVendoringUtil;
@@ -58,13 +73,7 @@ import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.util.*;
-
-import static com.intellij.util.containers.ContainerUtil.*;
+import consulo.awt.TargetAWT;
 
 public class GoImportPackageQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement implements HintAction, HighPriorityAction {
   @NotNull private final String myPackageName;
@@ -235,7 +244,7 @@ public class GoImportPackageQuickFix extends LocalQuickFixAndIntentionActionOnPs
     if (packagesToImport.size() > 1 && editor != null) {
       JBList list = new JBList(packagesToImport);
       list.installCellRenderer(o -> {
-        JBLabel label = new JBLabel(o.toString(), GoIcons.PACKAGE, SwingConstants.LEFT);
+        JBLabel label = new JBLabel(o.toString(), TargetAWT.to(GoIcons.PACKAGE), SwingConstants.LEFT);
         label.setBorder(IdeBorderFactory.createEmptyBorder(2, 4, 2, 4));
         return label;
       });

@@ -16,6 +16,9 @@
 
 package com.goide.completion;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.TestOnly;
 import com.goide.GoIcons;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
@@ -41,11 +44,8 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.ui.UIUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.TestOnly;
-
-import javax.swing.*;
+import consulo.awt.TargetAWT;
+import consulo.ui.image.Image;
 
 public class GoCompletionUtil {
   public static final int KEYWORD_PRIORITY = 20;
@@ -125,7 +125,7 @@ public class GoCompletionUtil {
         PsiElement o = element.getPsiElement();
         if (!(o instanceof GoNamedSignatureOwner)) return;
         GoNamedSignatureOwner f = (GoNamedSignatureOwner)o;
-        Icon icon = f instanceof GoMethodDeclaration || f instanceof GoMethodSpec ? GoIcons.METHOD : GoIcons.FUNCTION;
+        Image icon = f instanceof GoMethodDeclaration || f instanceof GoMethodSpec ? GoIcons.METHOD : GoIcons.FUNCTION;
         String typeText = "";
         GoSignature signature = f.getSignature();
         String paramText = "";
@@ -135,7 +135,7 @@ public class GoCompletionUtil {
           if (result != null) typeText = result.getText();
         }
 
-        p.setIcon(icon);
+        p.setIcon(TargetAWT.to(icon));
         p.setTypeText(typeText);
         p.setTypeGrayed(true);
         p.setTailText(calcTailText(f), true);
@@ -150,7 +150,7 @@ public class GoCompletionUtil {
         GoNamedElement v = (GoNamedElement)o;
         GoType type = typesDisabled ? null : v.getGoType(null);
         String text = GoPsiImplUtil.getText(type);
-        Icon icon = v instanceof GoVarDefinition ? GoIcons.VARIABLE :
+        Image icon = v instanceof GoVarDefinition ? GoIcons.VARIABLE :
                     v instanceof GoParamDefinition ? GoIcons.PARAMETER :
                     v instanceof GoFieldDefinition ? GoIcons.FIELD :
                     v instanceof GoReceiver ? GoIcons.RECEIVER :
@@ -158,7 +158,7 @@ public class GoCompletionUtil {
                     v instanceof GoAnonymousFieldDefinition ? GoIcons.FIELD :
                     null;
 
-        p.setIcon(icon);
+        p.setIcon(TargetAWT.to(icon));
         p.setTailText(calcTailTextForFields(v), true);
         p.setTypeText(text);
         p.setTypeGrayed(true);

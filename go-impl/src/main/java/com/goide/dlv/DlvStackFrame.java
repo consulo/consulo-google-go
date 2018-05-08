@@ -16,10 +16,18 @@
 
 package com.goide.dlv;
 
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.goide.GoIcons;
 import com.goide.dlv.protocol.DlvApi;
 import com.goide.dlv.protocol.DlvRequest;
-import com.goide.psi.*;
+import com.goide.psi.GoConstDefinition;
+import com.goide.psi.GoExpression;
+import com.goide.psi.GoParamDefinition;
+import com.goide.psi.GoTypeOwner;
+import com.goide.psi.GoVarDefinition;
 import com.goide.sdk.GoSdkService;
 import com.intellij.execution.configurations.ModuleBasedConfiguration;
 import com.intellij.execution.configurations.RunProfile;
@@ -48,11 +56,8 @@ import com.intellij.xdebugger.frame.XCompositeNode;
 import com.intellij.xdebugger.frame.XStackFrame;
 import com.intellij.xdebugger.frame.XValue;
 import com.intellij.xdebugger.frame.XValueChildrenList;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.util.List;
+import consulo.awt.TargetAWT;
+import consulo.ui.image.Image;
 
 public class DlvStackFrame extends XStackFrame {
   private final DlvDebugProcess myProcess;
@@ -107,8 +112,8 @@ public class DlvStackFrame extends XStackFrame {
   }
 
   @NotNull
-  private XValue createXValue(@NotNull DlvApi.Variable variable, @Nullable Icon icon) {
-    return new DlvXValue(myProcess, variable, myProcessor, myId, myGoroutineId, icon);
+  private XValue createXValue(@NotNull DlvApi.Variable variable, @Nullable Image icon) {
+    return new DlvXValue(myProcess, variable, myProcessor, myId, myGoroutineId, TargetAWT.to(icon));
   }
 
   @Nullable
