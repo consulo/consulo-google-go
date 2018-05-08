@@ -19,7 +19,7 @@ package com.goide.project;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.ThreeState;
 import com.intellij.util.xmlb.annotations.Tag;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Arrays;
 
@@ -28,17 +28,17 @@ public class GoBuildTargetSettings implements Cloneable {
   public static final String ANY_COMPILER = "Any";
   public static final String DEFAULT = "default";
 
-  @NotNull
+  @Nonnull
   public String os = DEFAULT;
-  @NotNull
+  @Nonnull
   public String arch = DEFAULT;
-  @NotNull
+  @Nonnull
   public ThreeState cgo = ThreeState.UNSURE;
-  @NotNull
+  @Nonnull
   public String compiler = ANY_COMPILER;
-  @NotNull
+  @Nonnull
   public String goVersion = DEFAULT;
-  @NotNull
+  @Nonnull
   public String[] customFlags = ArrayUtil.EMPTY_STRING_ARRAY;
 
   @Override

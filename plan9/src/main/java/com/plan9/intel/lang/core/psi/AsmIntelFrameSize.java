@@ -2,12 +2,14 @@
 package com.plan9.intel.lang.core.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElement;
 
 public interface AsmIntelFrameSize extends PsiElement {
 
-  @NotNull
+  @Nonnull
   List<AsmIntelLiteral> getLiteralList();
 
 }

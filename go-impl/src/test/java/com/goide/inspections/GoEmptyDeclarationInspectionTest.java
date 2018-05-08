@@ -17,7 +17,7 @@
 package com.goide.inspections;
 
 import com.goide.quickfix.GoQuickFixTestBase;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoEmptyDeclarationInspectionTest extends GoQuickFixTestBase {
   @Override
@@ -58,7 +58,7 @@ public class GoEmptyDeclarationInspectionTest extends GoQuickFixTestBase {
     doTest(GoEmptyDeclarationInspection.QUICK_FIX_NAME, true);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "inspections/go-empty-declaration";

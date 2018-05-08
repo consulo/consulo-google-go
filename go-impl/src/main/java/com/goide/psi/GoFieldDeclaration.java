@@ -18,15 +18,15 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.*;
 
 public interface GoFieldDeclaration extends GoCompositeElement {
 
   @Nullable
   GoAnonymousFieldDefinition getAnonymousFieldDefinition();
 
-  @NotNull
+  @Nonnull
   List<GoFieldDefinition> getFieldDefinitionList();
 
   @Nullable

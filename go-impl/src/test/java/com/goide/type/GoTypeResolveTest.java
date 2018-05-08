@@ -16,13 +16,14 @@
 
 package com.goide.type;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.SdkAware;
 import com.goide.psi.GoType;
 import com.goide.psi.GoTypeOwner;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
 
 @SdkAware
 public class GoTypeResolveTest extends GoCodeInsightFixtureTestCase {
@@ -98,7 +99,7 @@ public class GoTypeResolveTest extends GoCodeInsightFixtureTestCase {
     doTopLevelTest("func voidFunction() () {} func _() { <selection>voidFunction()</selection> }", "<unknown>");
   }
 
-  private void doTopLevelTest(@NotNull String text, @NotNull String expectedTypeText) {
+  private void doTopLevelTest(@Nonnull String text, @Nonnull String expectedTypeText) {
     myFixture.configureByText("a.go", "package a;" + text);
     PsiElement elementAt = findElementAtCaretOrInSelection();
 
@@ -109,11 +110,11 @@ public class GoTypeResolveTest extends GoCodeInsightFixtureTestCase {
     assertEquals(expectedTypeText, type == null ? "<unknown>" : type.getText());
   }
 
-  private void doStatementTest(@NotNull String text, @NotNull String expectedTypeText) {
+  private void doStatementTest(@Nonnull String text, @Nonnull String expectedTypeText) {
     doTopLevelTest("func _() {\n" + text + "\n}", expectedTypeText);
   }
 
-  private void doExpressionTest(@NotNull String text, @NotNull String expectedTypeText) {
+  private void doExpressionTest(@Nonnull String text, @Nonnull String expectedTypeText) {
     doStatementTest("a := " + text, expectedTypeText);
   }
 }

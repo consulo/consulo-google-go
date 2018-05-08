@@ -23,13 +23,13 @@ import com.goide.psi.GoVarDefinition;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoVarReference extends GoCachedReference<GoVarDefinition> {
   private final GoBlock myPotentialStopBlock;
 
-  public GoVarReference(@NotNull GoVarDefinition element) {
+  public GoVarReference(@Nonnull GoVarDefinition element) {
     super(element);
     myPotentialStopBlock = PsiTreeUtil.getParentOfType(element, GoBlock.class);
   }
@@ -39,7 +39,7 @@ public class GoVarReference extends GoCachedReference<GoVarDefinition> {
   public PsiElement resolveInner() {
     GoVarProcessor p = new GoVarProcessor(myElement, false) {
       @Override
-      protected boolean crossOff(@NotNull PsiElement e) {
+      protected boolean crossOff(@Nonnull PsiElement e) {
         return e instanceof GoFieldDefinition || super.crossOff(e);
       }
     };
@@ -48,12 +48,12 @@ public class GoVarReference extends GoCachedReference<GoVarDefinition> {
   }
 
   @Override
-  public boolean processResolveVariants(@NotNull GoScopeProcessor processor) {
+  public boolean processResolveVariants(@Nonnull GoScopeProcessor processor) {
     GoVarProcessor p = processor instanceof GoVarProcessor
                        ? (GoVarProcessor)processor
                        : new GoVarProcessor(myElement, processor.isCompletion()) {
                          @Override
-                         public boolean execute(@NotNull PsiElement e, @NotNull ResolveState state) {
+                         public boolean execute(@Nonnull PsiElement e, @Nonnull ResolveState state) {
                            return super.execute(e, state) && processor.execute(e, state);
                          }
                        };

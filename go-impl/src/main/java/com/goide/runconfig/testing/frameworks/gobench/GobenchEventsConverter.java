@@ -22,8 +22,8 @@ import com.intellij.execution.testframework.TestConsoleProperties;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.text.StringUtil;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.text.ParseException;
 import java.util.regex.Matcher;
@@ -33,12 +33,12 @@ public class GobenchEventsConverter extends GoTestEventsConverterBaseImpl {
   private static final Pattern RUN = Pattern.compile("^(Benchmark(" + GoConstants.TEST_NAME_REGEX + ")?)");
   private static final Pattern FAIL = Pattern.compile("^--- FAIL: (Benchmark(" + GoConstants.TEST_NAME_REGEX + ")?).*");
 
-  public GobenchEventsConverter(@NotNull TestConsoleProperties properties) {
+  public GobenchEventsConverter(@Nonnull TestConsoleProperties properties) {
     super(GobenchFramework.NAME, properties);
   }
 
   @Override
-  protected int processLine(@NotNull String line, int start, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  protected int processLine(@Nonnull String line, int start, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     Matcher matcher;
     if ((matcher = RUN.matcher(line)).find(start)) {
       startTest(matcher.group(1), visitor);
@@ -54,7 +54,7 @@ public class GobenchEventsConverter extends GoTestEventsConverterBaseImpl {
   }
 
   @Override
-  protected void startTest(@NotNull String testName, @Nullable ServiceMessageVisitor visitor) throws ParseException {
+  protected void startTest(@Nonnull String testName, @Nullable ServiceMessageVisitor visitor) throws ParseException {
     String currentTestName = getCurrentTestName();
     if (currentTestName != null && !currentTestName.equals(testName)) {
       // previous test didn't fail, finish it as passed
@@ -63,7 +63,7 @@ public class GobenchEventsConverter extends GoTestEventsConverterBaseImpl {
     super.startTest(testName, visitor);
   }
 
-  private static int findFirstNonWSIndex(@NotNull String text, int startOffset) {
+  private static int findFirstNonWSIndex(@Nonnull String text, int startOffset) {
     int whitespaceIndex = StringUtil.indexOfAny(text, " \t", startOffset, text.length());
     if (whitespaceIndex != -1) {
       int newStartOffset = whitespaceIndex;

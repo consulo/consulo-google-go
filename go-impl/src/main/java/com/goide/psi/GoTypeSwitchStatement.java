@@ -18,7 +18,9 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoTypeSwitchStatement extends GoSwitchStatement {
@@ -26,13 +28,13 @@ public interface GoTypeSwitchStatement extends GoSwitchStatement {
   @Nullable
   GoStatement getStatement();
 
-  @NotNull
+  @Nonnull
   GoSwitchStart getSwitchStart();
 
-  @NotNull
+  @Nonnull
   List<GoTypeCaseClause> getTypeCaseClauseList();
 
-  @NotNull
+  @Nonnull
   GoTypeSwitchGuard getTypeSwitchGuard();
 
   @Nullable

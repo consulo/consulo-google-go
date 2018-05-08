@@ -27,23 +27,23 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.util.Query;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
 public class GoUnusedParameterInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitMethodDeclaration(@NotNull GoMethodDeclaration o) {
+      public void visitMethodDeclaration(@Nonnull GoMethodDeclaration o) {
         super.visitMethodDeclaration(o);
         visitDeclaration(o, false);
       }
 
       @Override
-      public void visitFunctionDeclaration(@NotNull GoFunctionDeclaration o) {
+      public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration o) {
         super.visitFunctionDeclaration(o);
         if (GoTestFinder.isTestFile(o.getContainingFile()) && GoTestFunctionType.fromName(o.getName()) != null) {
           return;
@@ -51,7 +51,7 @@ public class GoUnusedParameterInspection extends GoInspectionBase {
         visitDeclaration(o, true);
       }
 
-      private void visitDeclaration(@NotNull GoFunctionOrMethodDeclaration o, boolean checkParameters) {
+      private void visitDeclaration(@Nonnull GoFunctionOrMethodDeclaration o, boolean checkParameters) {
         GoSignature signature = o.getSignature();
         if (signature == null) return;
         if (checkParameters) {

@@ -32,18 +32,18 @@ import com.intellij.openapi.util.Comparing;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.indexing.IdFilter;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import static com.goide.GoConstants.INIT;
 import static com.goide.GoConstants.MAIN;
 
 public class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitMethodDeclaration(@NotNull GoMethodDeclaration method) {
+      public void visitMethodDeclaration(@Nonnull GoMethodDeclaration method) {
         if (method.isBlank()) return;
 
         String methodName = method.getName();
@@ -72,7 +72,7 @@ public class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitFunctionDeclaration(@NotNull GoFunctionDeclaration func) {
+      public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration func) {
         if (func.isBlank()) return;
 
         String funcName = func.getName();
@@ -99,7 +99,7 @@ public class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
     };
   }
 
-  private static boolean zeroArity(@NotNull GoFunctionDeclaration o) {
+  private static boolean zeroArity(@Nonnull GoFunctionDeclaration o) {
     GoSignature signature = o.getSignature();
     return signature == null || signature.getParameters().getParameterDeclarationList().isEmpty();
   }

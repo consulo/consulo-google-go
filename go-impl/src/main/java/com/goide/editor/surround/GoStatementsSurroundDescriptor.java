@@ -16,6 +16,8 @@
 
 package com.goide.editor.surround;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoFile;
 import com.goide.psi.GoPsiTreeUtil;
 import com.goide.psi.GoStatement;
@@ -23,7 +25,6 @@ import com.intellij.lang.surroundWith.SurroundDescriptor;
 import com.intellij.lang.surroundWith.Surrounder;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
 
 public class GoStatementsSurroundDescriptor implements SurroundDescriptor {
   private static final Surrounder[] SURROUNDERS = new Surrounder[]{
@@ -33,13 +34,13 @@ public class GoStatementsSurroundDescriptor implements SurroundDescriptor {
     new GoWithBlockSurrounder()
   };
 
-  @NotNull
+  @Nonnull
   @Override
   public Surrounder[] getSurrounders() {
     return SURROUNDERS;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public PsiElement[] getElementsToSurround(PsiFile file, int startOffset, int endOffset) {
     return file instanceof GoFile

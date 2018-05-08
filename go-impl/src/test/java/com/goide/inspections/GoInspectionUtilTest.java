@@ -16,6 +16,8 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.psi.GoBuiltinCallExpr;
 import com.goide.psi.GoCallExpr;
@@ -23,11 +25,10 @@ import com.goide.psi.GoExpression;
 import com.goide.psi.GoStringLiteral;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
 
 public class GoInspectionUtilTest extends GoCodeInsightFixtureTestCase {
 
-  private <T extends GoExpression> void doTest(@NotNull String text, @NotNull Class<T> aClass, int expected) {
+  private <T extends GoExpression> void doTest(@Nonnull String text, @Nonnull Class<T> aClass, int expected) {
     myFixture.configureByText("a.go", text);
     PsiElement element = myFixture.getFile().findElementAt(myFixture.getEditor().getCaretModel().getOffset());
     T callExpr = PsiTreeUtil.getParentOfType(element, aClass);

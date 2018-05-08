@@ -22,8 +22,8 @@ import com.intellij.lang.BracePair;
 import com.intellij.lang.PairedBraceMatcher;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoBraceMatcher implements PairedBraceMatcher {
   private static final BracePair[] PAIRS = new BracePair[]{
@@ -32,14 +32,14 @@ public class GoBraceMatcher implements PairedBraceMatcher {
     new BracePair(GoTypes.LBRACK, GoTypes.RBRACK, false),
   };
 
-  @NotNull
+  @Nonnull
   @Override
   public BracePair[] getPairs() {
     return PAIRS;
   }
 
   @Override
-  public boolean isPairedBracesAllowedBeforeType(@NotNull IElementType lbraceType, @Nullable IElementType type) {
+  public boolean isPairedBracesAllowedBeforeType(@Nonnull IElementType lbraceType, @Nullable IElementType type) {
     return GoParserDefinition.COMMENTS.contains(type)
            || GoParserDefinition.WHITESPACES.contains(type)
            || type == GoTypes.SEMICOLON

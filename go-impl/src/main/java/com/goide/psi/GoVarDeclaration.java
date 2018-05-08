@@ -18,12 +18,14 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoVarDeclaration extends GoTopLevelDeclaration {
 
-  @NotNull
+  @Nonnull
   List<GoVarSpec> getVarSpecList();
 
   @Nullable
@@ -32,10 +34,10 @@ public interface GoVarDeclaration extends GoTopLevelDeclaration {
   @Nullable
   PsiElement getRparen();
 
-  @NotNull
+  @Nonnull
   PsiElement getVar();
 
-  @NotNull
+  @Nonnull
   GoVarSpec addSpec(String name, String type, String value, GoVarSpec specAnchor);
 
   void deleteSpec(GoVarSpec specToDelete);

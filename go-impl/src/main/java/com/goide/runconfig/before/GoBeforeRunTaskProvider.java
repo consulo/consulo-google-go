@@ -16,9 +16,9 @@
 
 package com.goide.runconfig.before;
 
+import javax.annotation.Nullable;
 import javax.swing.Icon;
 
-import org.jetbrains.annotations.Nullable;
 import com.goide.GoIcons;
 import com.goide.runconfig.GoRunConfigurationBase;
 import com.goide.sdk.GoSdkService;

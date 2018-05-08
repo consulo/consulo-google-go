@@ -19,7 +19,7 @@ package com.goide.configuration;
 import com.intellij.ui.BrowserHyperlinkListener;
 import com.intellij.ui.ColorUtil;
 import com.intellij.util.ui.UIUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.swing.*;
 import javax.swing.text.html.HTMLEditorKit;
@@ -28,7 +28,7 @@ import java.awt.*;
 public class GoUIUtil {
   private GoUIUtil() {}
 
-  @NotNull
+  @Nonnull
   public static JTextPane createDescriptionPane() {
     JTextPane result = new JTextPane();
     result.addHyperlinkListener(new BrowserHyperlinkListener());

@@ -24,8 +24,8 @@ import org.intellij.lang.regexp.psi.RegExpChar;
 import org.intellij.lang.regexp.psi.RegExpGroup;
 import org.intellij.lang.regexp.psi.RegExpNamedGroupRef;
 import org.intellij.lang.regexp.psi.RegExpSimpleClass;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Set;
 
@@ -67,11 +67,11 @@ public class GoRegexHost implements RegExpLanguageHost {
   }
 
   @Override
-  public boolean isValidCategory(@NotNull String category) {
+  public boolean isValidCategory(@Nonnull String category) {
     return Lazy.KNOWN_PROPERTIES.contains(category);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String[][] getAllKnownProperties() {
     return Lazy.KNOWN_PROPERTIES_ARRAY;
@@ -83,7 +83,7 @@ public class GoRegexHost implements RegExpLanguageHost {
     return name;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String[][] getKnownCharacterClasses() {
     return Lazy.CHARACTER_CLASSES;

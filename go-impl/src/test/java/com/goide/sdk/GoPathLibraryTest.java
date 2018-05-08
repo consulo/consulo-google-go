@@ -21,7 +21,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.project.GoModuleLibrariesInitializer;
 import com.intellij.openapi.application.ApplicationManager;
@@ -161,7 +162,7 @@ public class GoPathLibraryTest extends GoCodeInsightFixtureTestCase {
     assertLibrary(Collections.singletonList(goPathContent.getUrl()), "temp:///src", contentRoot.getUrl());
   }
 
-  private void addContentRoot(@NotNull VirtualFile contentRoot) {
+  private void addContentRoot(@Nonnull VirtualFile contentRoot) {
     ModifiableRootModel model = ModuleRootManager.getInstance(myModule).getModifiableModel();
       try {
       model.addContentEntry(contentRoot);
@@ -173,7 +174,7 @@ public class GoPathLibraryTest extends GoCodeInsightFixtureTestCase {
     }
   }
 
-  private void assertLibrary(@NotNull Collection<String> libUrls, String... exclusionUrls) {
+  private void assertLibrary(@Nonnull Collection<String> libUrls, String... exclusionUrls) {
     UIUtil.dispatchAllInvocationEvents();
 
     GoModuleLibrariesInitializer initializer = myModule.getComponent(GoModuleLibrariesInitializer.class);

@@ -16,6 +16,8 @@
 
 package com.goide.editor;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.template.impl.editorActions.TypedActionHandlerBase;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.application.ApplicationManager;
@@ -27,7 +29,6 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.util.PsiUtilBase;
-import org.jetbrains.annotations.NotNull;
 
 public class GoTypedHandler extends TypedActionHandlerBase {
   public GoTypedHandler(TypedActionHandler originalHandler) {
@@ -35,7 +36,7 @@ public class GoTypedHandler extends TypedActionHandlerBase {
   }
 
   @Override
-  public void execute(@NotNull Editor editor, char c, @NotNull DataContext dataContext) {
+  public void execute(@Nonnull Editor editor, char c, @Nonnull DataContext dataContext) {
     if (myOriginalHandler != null) myOriginalHandler.execute(editor, c, dataContext);
     if (c != 'e') return;
     Project project = editor.getProject();

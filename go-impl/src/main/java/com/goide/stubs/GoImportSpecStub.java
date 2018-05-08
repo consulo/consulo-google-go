@@ -16,21 +16,23 @@
 
 package com.goide.stubs;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoImportSpec;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.util.io.StringRef;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoImportSpecStub extends GoNamedStub<GoImportSpec> {
   @Nullable
   private final StringRef myAliasRef;
-  @NotNull
+  @Nonnull
   private final StringRef myPathRef;
   private final boolean myIsDot;
 
-  public GoImportSpecStub(StubElement parent, IStubElementType elementType, @Nullable String alias, @NotNull String path, boolean isDot) {
+  public GoImportSpecStub(StubElement parent, IStubElementType elementType, @Nullable String alias, @Nonnull String path, boolean isDot) {
     super(parent, elementType, (String)null, false);
     myAliasRef = StringRef.fromString(alias);
     myPathRef = StringRef.fromString(path);
@@ -42,7 +44,7 @@ public class GoImportSpecStub extends GoNamedStub<GoImportSpec> {
     return myAliasRef != null ? myAliasRef.getString() : null;
   }
 
-  @NotNull
+  @Nonnull
   public String getPath() {
     return myPathRef.getString();
   }

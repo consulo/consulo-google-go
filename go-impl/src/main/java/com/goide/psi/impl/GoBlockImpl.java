@@ -18,12 +18,15 @@
 package com.goide.psi.impl;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.goide.psi.GoPsiTreeUtil;
 import static com.goide.GoTypes.*;
+
+import javax.annotation.*;
+
 import com.goide.psi.*;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
@@ -34,23 +37,23 @@ public class GoBlockImpl extends GoCompositeElementImpl implements GoBlock {
     super(node);
   }
 
-  public void accept(@NotNull GoVisitor visitor) {
+  public void accept(@Nonnull GoVisitor visitor) {
     visitor.visitBlock(this);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof GoVisitor) accept((GoVisitor)visitor);
     else super.accept(visitor);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<GoStatement> getStatementList() {
     return GoPsiTreeUtil.getChildrenOfTypeAsList(this, GoStatement.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public PsiElement getLbrace() {
     return notNullChild(findChildByType(LBRACE));
   }

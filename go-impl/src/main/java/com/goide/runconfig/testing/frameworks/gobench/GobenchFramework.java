@@ -16,6 +16,8 @@
 
 package com.goide.runconfig.testing.frameworks.gobench;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoFunctionDeclaration;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.runconfig.testing.GoTestFinder;
@@ -27,14 +29,14 @@ import com.intellij.execution.testframework.TestConsoleProperties;
 import com.intellij.execution.testframework.sm.runner.OutputToGeneralTestEventsConverter;
 import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GobenchFramework extends GoTestFramework {
   public static final String NAME = "gobench";
   public static final GobenchFramework INSTANCE = new GobenchFramework();
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return NAME;
@@ -55,17 +57,17 @@ public class GobenchFramework extends GoTestFramework {
     return functionOrMethodDeclaration instanceof GoFunctionDeclaration && GoTestFinder.isBenchmarkFunction(functionOrMethodDeclaration);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoTestRunningState newRunningState(@NotNull ExecutionEnvironment env,
-                                               @NotNull Module module,
-                                               @NotNull GoTestRunConfiguration runConfiguration) {
+  protected GoTestRunningState newRunningState(@Nonnull ExecutionEnvironment env,
+                                               @Nonnull Module module,
+                                               @Nonnull GoTestRunConfiguration runConfiguration) {
     return new GobenchRunningState(env, module, runConfiguration);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public OutputToGeneralTestEventsConverter createTestEventsConverter(@NotNull TestConsoleProperties consoleProperties) {
+  public OutputToGeneralTestEventsConverter createTestEventsConverter(@Nonnull TestConsoleProperties consoleProperties) {
     return new GobenchEventsConverter(consoleProperties);
   }
 }

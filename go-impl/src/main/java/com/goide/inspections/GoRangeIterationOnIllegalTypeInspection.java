@@ -16,6 +16,8 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoExpression;
 import com.goide.psi.GoRangeClause;
 import com.goide.psi.GoType;
@@ -25,15 +27,14 @@ import com.goide.psi.impl.GoTypeUtil;
 import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
-import org.jetbrains.annotations.NotNull;
 
 public class GoRangeIterationOnIllegalTypeInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitRangeClause(@NotNull GoRangeClause o) {
+      public void visitRangeClause(@Nonnull GoRangeClause o) {
         super.visitRangeClause(o);
         GoExpression expression = o.getRangeExpression();
         GoType type = expression != null ? expression.getGoType(null) : null;

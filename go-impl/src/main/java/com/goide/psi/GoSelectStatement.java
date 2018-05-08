@@ -18,12 +18,14 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoSelectStatement extends GoStatement {
 
-  @NotNull
+  @Nonnull
   List<GoCommClause> getCommClauseList();
 
   @Nullable
@@ -32,7 +34,7 @@ public interface GoSelectStatement extends GoStatement {
   @Nullable
   PsiElement getRbrace();
 
-  @NotNull
+  @Nonnull
   PsiElement getSelect();
 
 }

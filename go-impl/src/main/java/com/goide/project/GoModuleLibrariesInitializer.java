@@ -49,7 +49,7 @@ import com.intellij.util.ThreeState;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.messages.MessageBusConnection;
 import consulo.google.go.module.extension.GoModuleExtension;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.jetbrains.annotations.TestOnly;
 
 import javax.swing.event.HyperlinkEvent;
@@ -68,14 +68,19 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
   private final MessageBusConnection myConnection;
   private boolean myModuleInitialized;
 
-  @NotNull private final Set<VirtualFile> myLastHandledGoPathSourcesRoots = ContainerUtil.newHashSet();
-  @NotNull private final Set<VirtualFile> myLastHandledExclusions = ContainerUtil.newHashSet();
-  @NotNull private final Set<LocalFileSystem.WatchRequest> myWatchedRequests = ContainerUtil.newHashSet();
+  @Nonnull
+  private final Set<VirtualFile> myLastHandledGoPathSourcesRoots = ContainerUtil.newHashSet();
+  @Nonnull
+  private final Set<VirtualFile> myLastHandledExclusions = ContainerUtil.newHashSet();
+  @Nonnull
+  private final Set<LocalFileSystem.WatchRequest> myWatchedRequests = ContainerUtil.newHashSet();
 
-  @NotNull private final Module myModule;
-  @NotNull private final VirtualFileAdapter myFilesListener = new VirtualFileAdapter() {
+  @Nonnull
+  private final Module myModule;
+  @Nonnull
+  private final VirtualFileAdapter myFilesListener = new VirtualFileAdapter() {
     @Override
-    public void fileCreated(@NotNull VirtualFileEvent event) {
+    public void fileCreated(@Nonnull VirtualFileEvent event) {
       if (GoConstants.VENDOR.equals(event.getFileName()) && event.getFile().isDirectory()) {
         showVendoringNotification();
       }
@@ -83,7 +88,7 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
   };
 
   @TestOnly
-  public static void setTestingMode(@NotNull Disposable disposable) {
+  public static void setTestingMode(@Nonnull Disposable disposable) {
     isTestingMode = true;
     Disposer.register(disposable, () -> {
       //noinspection AssignmentToStaticFieldFromInstanceMethod
@@ -91,7 +96,7 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
     });
   }
 
-  public GoModuleLibrariesInitializer(@NotNull Module module) {
+  public GoModuleLibrariesInitializer(@Nonnull Module module) {
     myModule = module;
     myAlarm = ApplicationManager.getApplication().isUnitTestMode() ? new Alarm() : new Alarm(Alarm.ThreadToUse.POOLED_THREAD, myModule);
     myConnection = myModule.getMessageBus().connect();
@@ -140,7 +145,7 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
     }
   }
 
-  private void attachLibraries(@NotNull Collection<VirtualFile> libraryRoots, Set<VirtualFile> exclusions) {
+  private void attachLibraries(@Nonnull Collection<VirtualFile> libraryRoots, Set<VirtualFile> exclusions) {
     ApplicationManager.getApplication().assertIsDispatchThread();
 
     if (!libraryRoots.isEmpty()) {
@@ -172,7 +177,7 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
     return GO_LIB_NAME + " <" + myModule.getName() + ">";
   }
 
-  private static void fillLibrary(@NotNull Library library, @NotNull Collection<VirtualFile> libraryRoots, Set<VirtualFile> exclusions) {
+  private static void fillLibrary(@Nonnull Library library, @Nonnull Collection<VirtualFile> libraryRoots, Set<VirtualFile> exclusions) {
     ApplicationManager.getApplication().assertWriteAccessAllowed();
 
     Library.ModifiableModel libraryModel = library.getModifiableModel();
@@ -219,7 +224,7 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
     }
   }
 
-  private static void showNotification(@NotNull Project project) {
+  private static void showNotification(@Nonnull Project project) {
     PropertiesComponent propertiesComponent = PropertiesComponent.getInstance();
     PropertiesComponent projectPropertiesComponent = PropertiesComponent.getInstance(project);
     boolean shownAlready;
@@ -235,7 +240,7 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
     if (!shownAlready) {
       NotificationListener.Adapter notificationListener = new NotificationListener.Adapter() {
         @Override
-        protected void hyperlinkActivated(@NotNull Notification notification, @NotNull HyperlinkEvent event) {
+        protected void hyperlinkActivated(@Nonnull Notification notification, @Nonnull HyperlinkEvent event) {
           if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED && "configure".equals(event.getDescription())) {
             ProjectSettingsService.getInstance(project).openProjectSettings();
           }
@@ -275,7 +280,7 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
     if (!shownAlready) {
       NotificationListener.Adapter notificationListener = new NotificationListener.Adapter() {
         @Override
-        protected void hyperlinkActivated(@NotNull Notification notification, @NotNull HyperlinkEvent event) {
+        protected void hyperlinkActivated(@Nonnull Notification notification, @Nonnull HyperlinkEvent event) {
           if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED && "configure".equals(event.getDescription())) {
             ProjectSettingsService.getInstance(project).showModuleConfigurationDialog(null, null);
           }
@@ -316,7 +321,7 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
     disposeComponent();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getComponentName() {
     return getClass().getName();
@@ -366,7 +371,7 @@ public class GoModuleLibrariesInitializer implements ModuleComponent {
     }
   }
 
-  @NotNull
+  @Nonnull
   private static Collection<VirtualFile> gatherIncludeRoots(Collection<VirtualFile> goPathSourcesRoots, Set<VirtualFile> excludeRoots) {
     Collection<VirtualFile> includeRoots = ContainerUtil.newHashSet();
     for (VirtualFile goPathSourcesDirectory : goPathSourcesRoots) {

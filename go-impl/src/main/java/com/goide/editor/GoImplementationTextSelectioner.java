@@ -16,27 +16,28 @@
 
 package com.goide.editor;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoTopLevelDeclaration;
 import com.intellij.codeInsight.hint.ImplementationTextSelectioner;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ObjectUtils;
-import org.jetbrains.annotations.NotNull;
 
 public class GoImplementationTextSelectioner implements ImplementationTextSelectioner {
   @Override
-  public int getTextStartOffset(@NotNull PsiElement o) {
+  public int getTextStartOffset(@Nonnull PsiElement o) {
     return getTextRange(o).getStartOffset();
   }
 
   @Override
-  public int getTextEndOffset(@NotNull PsiElement o) {
+  public int getTextEndOffset(@Nonnull PsiElement o) {
     return getTextRange(o).getEndOffset();
   }
 
-  @NotNull
-  private static TextRange getTextRange(@NotNull PsiElement o) {
+  @Nonnull
+  private static TextRange getTextRange(@Nonnull PsiElement o) {
     return ObjectUtils.notNull(PsiTreeUtil.getParentOfType(o, GoTopLevelDeclaration.class), o).getTextRange();
   }
 }

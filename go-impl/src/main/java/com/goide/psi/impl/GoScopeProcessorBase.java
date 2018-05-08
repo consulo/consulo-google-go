@@ -23,29 +23,32 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.OrderedSet;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
 public abstract class GoScopeProcessorBase extends GoScopeProcessor {
-  @NotNull private final OrderedSet<GoNamedElement> myResult = new OrderedSet<>();
-  @NotNull protected final PsiElement myOrigin;
-  @NotNull private final PsiElement myRequestedNameElement;
+  @Nonnull
+  private final OrderedSet<GoNamedElement> myResult = new OrderedSet<>();
+  @Nonnull
+  protected final PsiElement myOrigin;
+  @Nonnull
+  private final PsiElement myRequestedNameElement;
   protected final boolean myIsCompletion;
 
-  public GoScopeProcessorBase(@NotNull PsiElement origin) {
+  public GoScopeProcessorBase(@Nonnull PsiElement origin) {
     this(origin, origin, false);
   }
 
-  public GoScopeProcessorBase(@NotNull PsiElement requestedNameElement, @NotNull PsiElement origin, boolean completion) {
+  public GoScopeProcessorBase(@Nonnull PsiElement requestedNameElement, @Nonnull PsiElement origin, boolean completion) {
     myRequestedNameElement = requestedNameElement;
     myOrigin = origin;
     myIsCompletion = completion;
   }
 
   @Override
-  public boolean execute(@NotNull PsiElement e, @NotNull ResolveState state) {
+  public boolean execute(@Nonnull PsiElement e, @Nonnull ResolveState state) {
     if (e instanceof GoFunctionOrMethodDeclaration) return false;
     if (!(e instanceof GoNamedElement)) return true;
     String name = ((GoNamedElement)e).getName();
@@ -55,7 +58,7 @@ public abstract class GoScopeProcessorBase extends GoScopeProcessor {
     return add((GoNamedElement)e) || myIsCompletion;
   }
 
-  protected boolean add(@NotNull GoNamedElement psiElement) {
+  protected boolean add(@Nonnull GoNamedElement psiElement) {
     return !myResult.add(psiElement);
   }
 
@@ -64,10 +67,10 @@ public abstract class GoScopeProcessorBase extends GoScopeProcessor {
     return ContainerUtil.getFirstItem(myResult);
   }
 
-  @NotNull
+  @Nonnull
   public List<GoNamedElement> getVariants() {
     return myResult;
   }
 
-  protected abstract boolean crossOff(@NotNull PsiElement e);
+  protected abstract boolean crossOff(@Nonnull PsiElement e);
 }

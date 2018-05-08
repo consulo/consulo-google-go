@@ -19,15 +19,15 @@ package com.goide.inspections;
 import com.goide.psi.*;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 import java.util.Set;
 
 public class GoDuplicateReturnArgumentInspection extends GoDuplicateArgumentInspection {
   @Override
-  public void check(@Nullable GoSignature o, @NotNull ProblemsHolder holder) {
+  public void check(@Nullable GoSignature o, @Nonnull ProblemsHolder holder) {
     if (o == null) return;
     Set<String> names = getParamNames(o);
     GoResult result = o.getResult();
@@ -38,8 +38,8 @@ public class GoDuplicateReturnArgumentInspection extends GoDuplicateArgumentInsp
     checkParameters(holder, parameters, names);
   }
 
-  @NotNull
-  private static Set<String> getParamNames(@NotNull GoSignature o) {
+  @Nonnull
+  private static Set<String> getParamNames(@Nonnull GoSignature o) {
     List<GoParameterDeclaration> params = o.getParameters().getParameterDeclarationList();
     Set<String> names = ContainerUtil.newLinkedHashSet();
     for (GoParameterDeclaration fp : params) {

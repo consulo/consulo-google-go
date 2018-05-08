@@ -22,8 +22,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -59,7 +59,7 @@ class GoStructLiteralCompletion {
     NONE
   }
 
-  @NotNull
+  @Nonnull
   static Variants allowedVariants(@Nullable GoReferenceExpression structFieldReference) {
     GoValue value = parent(structFieldReference, GoValue.class);
     GoElement element = parent(value, GoElement.class);
@@ -92,7 +92,7 @@ class GoStructLiteralCompletion {
            Variants.BOTH;
   }
 
-  @NotNull
+  @Nonnull
   static Set<String> alreadyAssignedFields(@Nullable GoLiteralValue literal) {
     if (literal == null) {
       return Collections.emptySet();
@@ -107,7 +107,7 @@ class GoStructLiteralCompletion {
   }
 
   @Contract("null,_->null")
-  private static <T> T parent(@Nullable PsiElement of, @NotNull Class<T> parentClass) {
+  private static <T> T parent(@Nullable PsiElement of, @Nonnull Class<T> parentClass) {
     return ObjectUtils.tryCast(of != null ? of.getParent() : null, parentClass);
   }
 }

@@ -34,7 +34,7 @@ import com.plan9.intel.lang.core.lexer.AsmIntelTokenType;
 import com.plan9.intel.lang.core.parser.AsmIntelParser;
 import com.plan9.intel.lang.core.psi.AsmIntelFile;
 import consulo.lang.LanguageVersion;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import static com.plan9.intel.lang.core.psi.AsmIntelTypes.*;
 
@@ -51,32 +51,32 @@ public class AsmIntelParserDefinition implements ParserDefinition {
 
   public static final IFileElementType FILE = new IFileElementType(Language.findInstance(AsmIntelLanguage.class));
 
-  @NotNull
+  @Nonnull
   @Override
   public Lexer createLexer(LanguageVersion languageVersion) {
     return new AsmIntelLexer();
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public TokenSet getWhitespaceTokens(LanguageVersion languageVersion) {
     return WHITE_SPACES;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public TokenSet getCommentTokens(LanguageVersion languageVersion) {
     return COMMENTS;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public TokenSet getStringLiteralElements(LanguageVersion languageVersion) {
     return TokenSet.EMPTY;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public PsiParser createParser(LanguageVersion languageVersion) {
     return new AsmIntelParser();
   }
@@ -97,7 +97,7 @@ public class AsmIntelParserDefinition implements ParserDefinition {
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public PsiElement createElement(ASTNode node) {
     return Factory.createElement(node);
   }

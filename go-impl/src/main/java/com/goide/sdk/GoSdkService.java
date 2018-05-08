@@ -33,8 +33,9 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.PathUtil;
 import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.TestOnly;
 
 import java.io.File;
@@ -47,22 +48,22 @@ public abstract class GoSdkService {
   private static final Set<String> FEDORA_SUBDIRECTORIES = ContainerUtil.newHashSet("linux_amd64", "linux_386", "linux_arm");
   private static String ourTestSdkVersion;
 
-  @NotNull
+  @Nonnull
   protected final Project myProject;
 
-  protected GoSdkService(@NotNull Project project) {
+  protected GoSdkService(@Nonnull Project project) {
     myProject = project;
   }
 
-  public static GoSdkService getInstance(@NotNull Project project) {
+  public static GoSdkService getInstance(@Nonnull Project project) {
     return ServiceManager.getService(project, GoSdkService.class);
   }
 
   @Nullable
   public abstract String getSdkHomePath(@Nullable Module module);
 
-  @NotNull
-  public static String libraryRootToSdkPath(@NotNull VirtualFile root) {
+  @Nonnull
+  public static String libraryRootToSdkPath(@Nonnull VirtualFile root) {
     return VfsUtilCore.urlToPath(StringUtil.trimEnd(StringUtil.trimEnd(StringUtil.trimEnd(root.getUrl(), "src/pkg"), "src"), "/"));
   }
 
@@ -135,7 +136,7 @@ public abstract class GoSdkService {
   }
 
   @Nullable
-  private static String getGaeExecutablePath(@NotNull String sdkHomePath) {
+  private static String getGaeExecutablePath(@Nonnull String sdkHomePath) {
     String goExecutablePath = PathUtil.toSystemIndependentName(sdkHomePath);
     goExecutablePath = StringUtil.trimEnd(goExecutablePath, GoConstants.APP_ENGINE_GO_ROOT_DIRECTORY_PATH);
 
@@ -149,7 +150,7 @@ public abstract class GoSdkService {
   }
 
   @TestOnly
-  public static void setTestingSdkVersion(@Nullable String version, @NotNull Disposable disposable) {
+  public static void setTestingSdkVersion(@Nullable String version, @Nonnull Disposable disposable) {
     ourTestSdkVersion = version;
     Disposer.register(disposable, () -> {
       //noinspection AssignmentToStaticFieldFromInstanceMethod
@@ -157,7 +158,7 @@ public abstract class GoSdkService {
     });
   }
 
-  public static boolean isGoSdkLibRoot(@NotNull VirtualFile root) {
+  public static boolean isGoSdkLibRoot(@Nonnull VirtualFile root) {
     return root.isInLocalFileSystem() &&
            root.isDirectory() &&
            (VfsUtilCore.findRelativeFile(GoConstants.GO_VERSION_FILE_PATH, root) != null ||

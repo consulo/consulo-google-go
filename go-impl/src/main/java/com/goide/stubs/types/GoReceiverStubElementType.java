@@ -24,41 +24,41 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
 public class GoReceiverStubElementType extends GoNamedStubElementType<GoReceiverStub, GoReceiver> {
-  public GoReceiverStubElementType(@NotNull String name) {
+  public GoReceiverStubElementType(@Nonnull String name) {
     super(name);
   }
 
   @Override
-  public boolean shouldCreateStub(@NotNull ASTNode node) {
+  public boolean shouldCreateStub(@Nonnull ASTNode node) {
     return true;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoReceiver createPsi(@NotNull GoReceiverStub stub) {
+  public GoReceiver createPsi(@Nonnull GoReceiverStub stub) {
     return new GoReceiverImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoReceiverStub createStub(@NotNull GoReceiver psi, StubElement parentStub) {
+  public GoReceiverStub createStub(@Nonnull GoReceiver psi, StubElement parentStub) {
     return new GoReceiverStub(parentStub, this, StringUtil.notNullize(psi.getName()), psi.isPublic());
   }
 
   @Override
-  public void serialize(@NotNull GoReceiverStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoReceiverStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoReceiverStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoReceiverStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoReceiverStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 

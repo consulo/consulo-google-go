@@ -18,17 +18,19 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 
 public interface GoBlock extends GoCompositeElement {
 
-  @NotNull
+  @Nonnull
   List<GoStatement> getStatementList();
 
-  @NotNull
+  @Nonnull
   PsiElement getLbrace();
 
   @Nullable

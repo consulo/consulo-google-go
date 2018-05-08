@@ -22,36 +22,36 @@ import com.goide.stubs.GoParameterDeclarationStub;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
 public class GoParameterDeclarationStubElementType extends GoStubElementType<GoParameterDeclarationStub, GoParameterDeclaration> {
-  public GoParameterDeclarationStubElementType(@NotNull String name) {
+  public GoParameterDeclarationStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoParameterDeclaration createPsi(@NotNull GoParameterDeclarationStub stub) {
+  public GoParameterDeclaration createPsi(@Nonnull GoParameterDeclarationStub stub) {
     return new GoParameterDeclarationImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoParameterDeclarationStub createStub(@NotNull GoParameterDeclaration psi, StubElement parentStub) {
+  public GoParameterDeclarationStub createStub(@Nonnull GoParameterDeclaration psi, StubElement parentStub) {
     return new GoParameterDeclarationStub(parentStub, this, psi.getText(), psi.isVariadic());
   }
 
   @Override
-  public void serialize(@NotNull GoParameterDeclarationStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoParameterDeclarationStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getText());
     dataStream.writeBoolean(stub.isVariadic());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoParameterDeclarationStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoParameterDeclarationStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoParameterDeclarationStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 }

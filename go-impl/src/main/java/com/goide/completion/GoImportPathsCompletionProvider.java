@@ -16,6 +16,8 @@
 
 package com.goide.completion;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoFileType;
 import com.goide.project.GoExcludedPathsSettings;
 import com.goide.project.GoVendoringUtil;
@@ -42,12 +44,12 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ProcessingContext;
 import consulo.codeInsight.completion.CompletionProvider;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoImportPathsCompletionProvider implements CompletionProvider {
   @Override
-  public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
+  public void addCompletions(@Nonnull CompletionParameters parameters, ProcessingContext context, @Nonnull CompletionResultSet result) {
     GoImportString importString = PsiTreeUtil.getParentOfType(parameters.getPosition(), GoImportString.class);
     if (importString == null) return;
     String path = importString.getPath();
@@ -63,10 +65,10 @@ public class GoImportPathsCompletionProvider implements CompletionProvider {
     }
   }
 
-  public static void addCompletions(@NotNull CompletionResultSet result,
-                                    @NotNull Module module,
+  public static void addCompletions(@Nonnull CompletionResultSet result,
+                                    @Nonnull Module module,
                                     @Nullable PsiElement context,
-                                    @NotNull GlobalSearchScope scope,
+                                    @Nonnull GlobalSearchScope scope,
                                     boolean allowMain) {
     Project project = module.getProject();
     boolean vendoringEnabled = GoVendoringUtil.isVendoringEnabled(module);

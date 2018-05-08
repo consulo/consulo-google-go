@@ -16,21 +16,22 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoFunctionDeclaration;
 import com.goide.psi.GoVisitor;
 import com.goide.quickfix.GoRenameQuickFix;
 import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.openapi.util.text.StringUtil;
-import org.jetbrains.annotations.NotNull;
 
 public class GoRedeclareImportAsFunctionInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitFunctionDeclaration(@NotNull GoFunctionDeclaration o) {
+      public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration o) {
         String functionName = o.getName();
         if (StringUtil.isNotEmpty(functionName) &&
             !"_".equals(functionName) &&

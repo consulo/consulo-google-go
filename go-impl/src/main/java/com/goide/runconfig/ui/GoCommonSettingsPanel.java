@@ -26,9 +26,9 @@ import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.ui.MutableCollectionComboBoxModel;
 import com.intellij.ui.RawCommandLineEditor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -40,14 +40,14 @@ public class GoCommonSettingsPanel extends JPanel {
   private ComboBox<Module> myModulesComboBox;
   @SuppressWarnings("unused") private JPanel myRoot;
 
-  public void init(@NotNull Project project) {
+  public void init(@Nonnull Project project) {
     GoRunUtil.installFileChooser(project, myWorkingDirectoryField, true);
     myGoToolParamsField.setDialogCaption("Go tool arguments");
     myParamsField.setDialogCaption("Program arguments");
     myModulesComboBox.setRenderer(new ModuleListCellRenderer());
   }
 
-  public void resetEditorFrom(@NotNull GoRunConfigurationBase<?> configuration) {
+  public void resetEditorFrom(@Nonnull GoRunConfigurationBase<?> configuration) {
     myModulesComboBox.setModel(new MutableCollectionComboBoxModel<>(new ArrayList<>(configuration.getValidModules())));
     myModulesComboBox.setSelectedItem(configuration.getConfigurationModule().getModule());
     myGoToolParamsField.setText(configuration.getGoToolParams());
@@ -57,7 +57,7 @@ public class GoCommonSettingsPanel extends JPanel {
     myEnvironmentField.setPassParentEnvs(configuration.isPassParentEnvironment());
   }
 
-  public void applyEditorTo(@NotNull GoRunConfigurationBase<?> configuration) {
+  public void applyEditorTo(@Nonnull GoRunConfigurationBase<?> configuration) {
     configuration.setModule((Module)myModulesComboBox.getSelectedItem());
     configuration.setGoParams(myGoToolParamsField.getText());
     configuration.setParams(myParamsField.getText());

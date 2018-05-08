@@ -16,13 +16,14 @@
 
 package com.goide.formatter.settings;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoLanguage;
 import com.intellij.application.options.IndentOptionsEditor;
 import com.intellij.application.options.SmartIndentOptionsEditor;
 import com.intellij.lang.Language;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider;
-import org.jetbrains.annotations.NotNull;
 
 public class GoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
   private static final String DEFAULT_CODE_SAMPLE =
@@ -34,15 +35,15 @@ public class GoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettin
     "\tfmt.Println(\"Hello\")\n" +
     "}";
 
-  @NotNull
+  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public String getCodeSample(@NotNull SettingsType settingsType) {
+  public String getCodeSample(@Nonnull SettingsType settingsType) {
     return DEFAULT_CODE_SAMPLE;
   }
 

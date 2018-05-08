@@ -31,7 +31,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import consulo.lang.LanguageVersion;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import static com.goide.GoTypes.*;
 
@@ -55,55 +55,55 @@ public class GoParserDefinition implements ParserDefinition {
     LESS, BIT_XOR_ASSIGN, BIT_XOR, MUL_ASSIGN, MUL, QUOTIENT_ASSIGN, QUOTIENT, REMAINDER_ASSIGN, REMAINDER, SHIFT_RIGHT_ASSIGN,
     SHIFT_RIGHT, GREATER_OR_EQUAL, GREATER, VAR_ASSIGN);
 
-  @NotNull
+  @Nonnull
   @Override
   public Lexer createLexer(LanguageVersion languageVersion) {
     return new GoLexer();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public PsiParser createParser(LanguageVersion languageVersion) {
     return new GoParser();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public IFileElementType getFileNodeType() {
     return GoFileElementType.INSTANCE;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public TokenSet getWhitespaceTokens(LanguageVersion languageVersion) {
     return WHITESPACES;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public TokenSet getCommentTokens(LanguageVersion languageVersion) {
     return COMMENTS;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public TokenSet getStringLiteralElements(LanguageVersion languageVersion) {
     return STRING_LITERALS;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public PsiElement createElement(ASTNode node) {
     return Factory.createElement(node);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public PsiFile createFile(@NotNull FileViewProvider viewProvider) {
+  public PsiFile createFile(@Nonnull FileViewProvider viewProvider) {
     return new GoFile(viewProvider);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right) {
     return SpaceRequirements.MAY;

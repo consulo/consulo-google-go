@@ -31,8 +31,8 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import consulo.google.go.module.extension.GoModuleExtension;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoApplicationRunConfigurationProducer extends GoRunConfigurationProducerBase<GoApplicationConfiguration> implements Cloneable {
   public GoApplicationRunConfigurationProducer() {
@@ -40,8 +40,8 @@ public class GoApplicationRunConfigurationProducer extends GoRunConfigurationPro
   }
 
   @Override
-  protected boolean setupConfigurationFromContext(@NotNull GoApplicationConfiguration configuration,
-                                                  @NotNull ConfigurationContext context,
+  protected boolean setupConfigurationFromContext(@Nonnull GoApplicationConfiguration configuration,
+                                                  @Nonnull ConfigurationContext context,
                                                   Ref<PsiElement> sourceElement) {
     PsiElement contextElement = GoRunUtil.getContextElement(context);
     if (contextElement != null && GoTestFinder.isTestFile(contextElement.getContainingFile())) {
@@ -83,7 +83,7 @@ public class GoApplicationRunConfigurationProducer extends GoRunConfigurationPro
   }
 
   @Override
-  public boolean isConfigurationFromContext(@NotNull GoApplicationConfiguration configuration, ConfigurationContext context) {
+  public boolean isConfigurationFromContext(@Nonnull GoApplicationConfiguration configuration, ConfigurationContext context) {
     PsiElement contextElement = GoRunUtil.getContextElement(context);
     if (contextElement == null) return false;
 
@@ -97,9 +97,9 @@ public class GoApplicationRunConfigurationProducer extends GoRunConfigurationPro
     return super.isConfigurationFromContext(configuration, context);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected String getConfigurationName(@NotNull PsiFile file) {
+  protected String getConfigurationName(@Nonnull PsiFile file) {
     return "Build " + file.getName() + " and run";
   }
 }

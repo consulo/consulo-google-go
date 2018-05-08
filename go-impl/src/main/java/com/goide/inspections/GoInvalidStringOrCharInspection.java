@@ -16,6 +16,8 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoLiteral;
 import com.goide.psi.GoStringLiteral;
 import com.goide.psi.GoVisitor;
@@ -23,17 +25,16 @@ import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
-import org.jetbrains.annotations.NotNull;
 
 public class GoInvalidStringOrCharInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder,
-                                     @SuppressWarnings({"UnusedParameters", "For future"}) @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
+                                     @SuppressWarnings({"UnusedParameters", "For future"}) @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
 
       @Override
-      public void visitStringLiteral(@NotNull GoStringLiteral o) {
+      public void visitStringLiteral(@Nonnull GoStringLiteral o) {
         PsiElement s = o.getString();
         if (s instanceof LeafPsiElement) {
           int length = ((LeafPsiElement)s).getCachedLength();
@@ -44,7 +45,7 @@ public class GoInvalidStringOrCharInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitLiteral(@NotNull GoLiteral o) {
+      public void visitLiteral(@Nonnull GoLiteral o) {
         PsiElement c = o.getChar();
         if (c instanceof LeafPsiElement) {
           int length = ((LeafPsiElement)c).getCachedLength();

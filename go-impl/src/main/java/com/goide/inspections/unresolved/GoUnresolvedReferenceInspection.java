@@ -34,8 +34,8 @@ import com.intellij.psi.formatter.FormatterUtil;
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -44,12 +44,12 @@ import static com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR_OR_
 import static com.intellij.codeInspection.ProblemHighlightType.LIKE_UNKNOWN_SYMBOL;
 
 public class GoUnresolvedReferenceInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitFieldName(@NotNull GoFieldName o) {
+      public void visitFieldName(@Nonnull GoFieldName o) {
         super.visitFieldName(o);
         PsiElement resolve = o.resolve();
         if (resolve == null) {
@@ -59,7 +59,7 @@ public class GoUnresolvedReferenceInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitReferenceExpression(@NotNull GoReferenceExpression o) {
+      public void visitReferenceExpression(@Nonnull GoReferenceExpression o) {
         super.visitReferenceExpression(o);
         GoReference reference = o.getReference();
         GoReferenceExpression qualifier = o.getQualifier();
@@ -110,7 +110,7 @@ public class GoUnresolvedReferenceInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitImportSpec(@NotNull GoImportSpec o) {
+      public void visitImportSpec(@Nonnull GoImportSpec o) {
         if (o.isCImport()) return;
         GoImportString string = o.getImportString();
         if (string.getTextLength() < 2) return;
@@ -127,7 +127,7 @@ public class GoUnresolvedReferenceInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitLabelRef(@NotNull GoLabelRef o) {
+      public void visitLabelRef(@Nonnull GoLabelRef o) {
         PsiReference reference = o.getReference();
         String name = o.getText();
         if (reference.resolve() == null) {
@@ -136,7 +136,7 @@ public class GoUnresolvedReferenceInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitTypeReferenceExpression(@NotNull GoTypeReferenceExpression o) {
+      public void visitTypeReferenceExpression(@Nonnull GoTypeReferenceExpression o) {
         super.visitTypeReferenceExpression(o);
         PsiReference reference = o.getReference();
         GoTypeReferenceExpression qualifier = o.getQualifier();
@@ -159,8 +159,8 @@ public class GoUnresolvedReferenceInspection extends GoInspectionBase {
     };
   }
 
-  @NotNull
-  private static LocalQuickFix[] createImportPackageFixes(@NotNull PsiElement target, @NotNull PsiReference reference, boolean onTheFly) {
+  @Nonnull
+  private static LocalQuickFix[] createImportPackageFixes(@Nonnull PsiElement target, @Nonnull PsiReference reference, boolean onTheFly) {
     if (onTheFly) {
       GoImportPackageQuickFix importFix = new GoImportPackageQuickFix(reference);
       if (importFix.isAvailable(target.getProject(), target.getContainingFile(), target, target)) {
@@ -183,7 +183,7 @@ public class GoUnresolvedReferenceInspection extends GoInspectionBase {
     return LocalQuickFix.EMPTY_ARRAY;
   }
 
-  private static boolean isProhibited(@NotNull GoCompositeElement o, @Nullable GoCompositeElement qualifier) {
+  private static boolean isProhibited(@Nonnull GoCompositeElement o, @Nullable GoCompositeElement qualifier) {
     ASTNode next = FormatterUtil.getNextNonWhitespaceSibling(o.getNode());
     boolean isDot = next != null && next.getElementType() == GoTypes.DOT;
     return isDot || qualifier != null;

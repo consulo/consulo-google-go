@@ -16,7 +16,7 @@
 
 package consulo.google.go;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.goide.GoIcons;
 import com.goide.psi.*;
 import com.goide.runconfig.testing.GoTestFinder;
@@ -36,7 +36,7 @@ import consulo.ui.image.Image;
 public class GoIconDescriptorUpdater implements IconDescriptorUpdater {
   @RequiredReadAction
   @Override
-  public void updateIcon(@NotNull IconDescriptor iconDescriptor, @NotNull PsiElement element, int flags) {
+  public void updateIcon(@Nonnull IconDescriptor iconDescriptor, @Nonnull PsiElement element, int flags) {
     if (element instanceof GoFile && element.isValid() && GoTestFinder.isTestFile((GoFile)element)) {
       iconDescriptor.setMainIcon(GoIcons.TEST_RUN);
       return;

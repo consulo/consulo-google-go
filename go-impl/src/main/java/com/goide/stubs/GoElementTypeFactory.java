@@ -23,7 +23,7 @@ import com.goide.stubs.types.*;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.util.ReflectionUtil;
 import com.intellij.util.containers.HashMap;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Map;
 
@@ -46,7 +46,7 @@ public class GoElementTypeFactory {
 
   private GoElementTypeFactory() {}
 
-  public static IStubElementType stubFactory(@NotNull String name) {
+  public static IStubElementType stubFactory(@Nonnull String name) {
     if ("CONST_DEFINITION".equals(name)) return new GoConstDefinitionStubElementType(name);
     if ("FIELD_DEFINITION".equals(name)) return new GoFieldDefinitionStubElementType(name);
     if ("ANONYMOUS_FIELD_DEFINITION".equals(name)) return new GoAnonymousFieldDefinitionStubElementType(name);
@@ -61,23 +61,23 @@ public class GoElementTypeFactory {
     if ("PACKAGE_CLAUSE".equals(name)) return GoPackageClauseStubElementType.INSTANCE;
     if ("VAR_SPEC".equals(name)) return new GoVarSpecStubElementType(name);
     if ("SHORT_VAR_DECLARATION".equals(name)) return new GoVarSpecStubElementType(name) {
-      @NotNull
+      @Nonnull
       @Override
-      public GoVarSpec createPsi(@NotNull GoVarSpecStub stub) {
+      public GoVarSpec createPsi(@Nonnull GoVarSpecStub stub) {
         return new GoShortVarDeclarationImpl(stub, this);
       }
     };
     if ("RECV_STATEMENT".equals(name)) return new GoVarSpecStubElementType(name) {
-      @NotNull
+      @Nonnull
       @Override
-      public GoVarSpec createPsi(@NotNull GoVarSpecStub stub) {
+      public GoVarSpec createPsi(@Nonnull GoVarSpecStub stub) {
         return new GoRecvStatementImpl(stub, this);
       }
     };
     if ("RANGE_CLAUSE".equals(name)) return new GoVarSpecStubElementType(name) {
-      @NotNull
+      @Nonnull
       @Override
-      public GoVarSpec createPsi(@NotNull GoVarSpecStub stub) {
+      public GoVarSpec createPsi(@Nonnull GoVarSpecStub stub) {
         return new GoRangeClauseImpl(stub, this);
       }
     };
@@ -91,9 +91,9 @@ public class GoElementTypeFactory {
     Class c = TYPES.get(name);
     if (c != null) {
       return new GoTypeStubElementType(name) {
-        @NotNull
+        @Nonnull
         @Override
-        public GoType createPsi(@NotNull GoTypeStub stub) {
+        public GoType createPsi(@Nonnull GoTypeStub stub) {
           try {
             //noinspection unchecked
             return (GoType)ReflectionUtil.createInstance(c.getConstructor(stub.getClass(), IStubElementType.class), stub, this);

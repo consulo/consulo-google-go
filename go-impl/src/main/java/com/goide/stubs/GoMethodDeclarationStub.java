@@ -16,11 +16,12 @@
 
 package com.goide.stubs;
 
+import javax.annotation.Nullable;
+
 import com.goide.psi.GoMethodDeclaration;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.util.io.StringRef;
-import org.jetbrains.annotations.Nullable;
 
 public class GoMethodDeclarationStub extends GoFunctionOrMethodDeclarationStub<GoMethodDeclaration> {
   private final StringRef myTypeName;

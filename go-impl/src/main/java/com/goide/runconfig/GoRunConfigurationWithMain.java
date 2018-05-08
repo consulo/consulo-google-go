@@ -16,6 +16,8 @@
 
 package com.goide.runconfig;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoFile;
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.RuntimeConfigurationError;
@@ -28,12 +30,12 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class GoRunConfigurationWithMain<T extends GoRunningState> extends GoRunConfigurationBase<T> {
   private static final String FILE_PATH_ATTRIBUTE_NAME = "filePath";
 
-  @NotNull private String myFilePath = "";
+  @Nonnull
+  private String myFilePath = "";
 
   public GoRunConfigurationWithMain(String name, GoModuleBasedConfiguration configurationModule, ConfigurationFactory factory) {
     super(name, configurationModule, factory);
@@ -41,7 +43,7 @@ public abstract class GoRunConfigurationWithMain<T extends GoRunningState> exten
   }
 
   @Override
-  public void readExternal(@NotNull Element element) throws InvalidDataException {
+  public void readExternal(@Nonnull Element element) throws InvalidDataException {
     super.readExternal(element);
     myFilePath = StringUtil.notNullize(JDOMExternalizerUtil.getFirstChildValueAttribute(element, FILE_PATH_ATTRIBUTE_NAME));
   }
@@ -70,12 +72,12 @@ public abstract class GoRunConfigurationWithMain<T extends GoRunningState> exten
     super.checkConfiguration();
   }
 
-  @NotNull
+  @Nonnull
   public String getFilePath() {
     return myFilePath;
   }
 
-  public void setFilePath(@NotNull String filePath) {
+  public void setFilePath(@Nonnull String filePath) {
     myFilePath = filePath;
   }
 }

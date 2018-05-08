@@ -16,6 +16,8 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.*;
 import com.goide.quickfix.GoRenameQuickFix;
 import com.intellij.codeInspection.LocalInspectionToolSession;
@@ -25,40 +27,39 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.ElementDescriptionUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.usageView.UsageViewTypeLocation;
-import org.jetbrains.annotations.NotNull;
 
 public class GoImportUsedAsNameInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitTypeSpec(@NotNull GoTypeSpec o) {
+      public void visitTypeSpec(@Nonnull GoTypeSpec o) {
         super.visitTypeSpec(o);
         check(o, holder);
       }
 
       @Override
-      public void visitConstDefinition(@NotNull GoConstDefinition o) {
+      public void visitConstDefinition(@Nonnull GoConstDefinition o) {
         super.visitConstDefinition(o);
         check(o, holder);
       }
 
       @Override
-      public void visitFunctionDeclaration(@NotNull GoFunctionDeclaration o) {
+      public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration o) {
         super.visitFunctionDeclaration(o);
         check(o, holder);
       }
 
       @Override
-      public void visitVarDefinition(@NotNull GoVarDefinition o) {
+      public void visitVarDefinition(@Nonnull GoVarDefinition o) {
         super.visitVarDefinition(o);
         check(o, holder);
       }
     };
   }
 
-  private static void check(@NotNull GoNamedElement element, @NotNull ProblemsHolder holder) {
+  private static void check(@Nonnull GoNamedElement element, @Nonnull ProblemsHolder holder) {
     String name = element.getName();
     if (StringUtil.isNotEmpty(name) &&
         !"_".equals(name) &&
@@ -67,7 +68,7 @@ public class GoImportUsedAsNameInspection extends GoInspectionBase {
     }
   }
 
-  private static void registerProblem(@NotNull ProblemsHolder holder, @NotNull GoNamedElement element) {
+  private static void registerProblem(@Nonnull ProblemsHolder holder, @Nonnull GoNamedElement element) {
     PsiElement identifier = element.getIdentifier();
     if (identifier != null) {
       String elementDescription = ElementDescriptionUtil.getElementDescription(element, UsageViewTypeLocation.INSTANCE);

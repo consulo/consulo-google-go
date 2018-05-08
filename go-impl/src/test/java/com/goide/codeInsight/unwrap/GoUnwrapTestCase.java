@@ -22,17 +22,17 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class GoUnwrapTestCase extends GoCodeInsightFixtureTestCase {
-  protected void assertUnwrapped(@NotNull String codeBefore, @NotNull String codeAfter) {
+  protected void assertUnwrapped(@Nonnull String codeBefore, @Nonnull String codeAfter) {
     assertUnwrapped(codeBefore, codeAfter, 0);
   }
 
-  protected void assertUnwrapped(@NotNull String codeBefore, @NotNull String codeAfter, int option) {
+  protected void assertUnwrapped(@Nonnull String codeBefore, @Nonnull String codeAfter, int option) {
     myFixture.configureByText("a.go", normalizeCode(codeBefore));
     UnwrapHandler h = new UnwrapHandler() {
       @Override
@@ -45,7 +45,7 @@ public abstract class GoUnwrapTestCase extends GoCodeInsightFixtureTestCase {
     myFixture.checkResult(normalizeCode(codeAfter));
   }
 
-  protected void assertOptions(@NotNull String code, String... expectedOptions) {
+  protected void assertOptions(@Nonnull String code, String... expectedOptions) {
     myFixture.configureByText("a.go", normalizeCode(code));
     List<String> actualOptions = ContainerUtil.newArrayList();
     UnwrapHandler h = new UnwrapHandler() {

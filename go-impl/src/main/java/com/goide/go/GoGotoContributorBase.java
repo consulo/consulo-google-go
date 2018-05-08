@@ -16,6 +16,9 @@
 
 package com.goide.go;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.psi.GoNamedElement;
 import com.intellij.navigation.ChooseByNameContributorEx;
 import com.intellij.navigation.GotoClassContributor;
@@ -29,33 +32,32 @@ import com.intellij.util.ArrayUtil;
 import com.intellij.util.Processor;
 import com.intellij.util.indexing.FindSymbolParameters;
 import com.intellij.util.indexing.IdFilter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoGotoContributorBase<T extends GoNamedElement> implements GotoClassContributor, ChooseByNameContributorEx {
   private final StubIndexKey<String, T>[] myIndexKeys;
-  @NotNull private final Class<T> myClazz;
+  @Nonnull
+  private final Class<T> myClazz;
 
   @SafeVarargs
-  public GoGotoContributorBase(@NotNull Class<T> clazz, @NotNull StubIndexKey<String, T>... key) {
+  public GoGotoContributorBase(@Nonnull Class<T> clazz, @Nonnull StubIndexKey<String, T>... key) {
     myIndexKeys = key;
     myClazz = clazz;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public String[] getNames(@NotNull Project project, boolean includeNonProjectItems) {
+  public String[] getNames(@Nonnull Project project, boolean includeNonProjectItems) {
     return ArrayUtil.EMPTY_STRING_ARRAY;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public NavigationItem[] getItemsByName(String name, String pattern, Project project, boolean includeNonProjectItems) {
     return NavigationItem.EMPTY_NAVIGATION_ITEM_ARRAY;
   }
 
   @Override
-  public void processNames(@NotNull Processor<String> processor, @NotNull GlobalSearchScope scope, IdFilter filter) {
+  public void processNames(@Nonnull Processor<String> processor, @Nonnull GlobalSearchScope scope, IdFilter filter) {
     for (StubIndexKey<String, T> key : myIndexKeys) {
       ProgressManager.checkCanceled();
       StubIndex.getInstance().processAllKeys(key, processor, scope, filter);
@@ -63,9 +65,9 @@ public class GoGotoContributorBase<T extends GoNamedElement> implements GotoClas
   }
 
   @Override
-  public void processElementsWithName(@NotNull String s,
-                                      @NotNull Processor<NavigationItem> processor,
-                                      @NotNull FindSymbolParameters parameters) {
+  public void processElementsWithName(@Nonnull String s,
+                                      @Nonnull Processor<NavigationItem> processor,
+                                      @Nonnull FindSymbolParameters parameters) {
     for (StubIndexKey<String, T> key : myIndexKeys) {
       ProgressManager.checkCanceled();
       StubIndex.getInstance().processElements(key, s, parameters.getProject(), parameters.getSearchScope(), parameters.getIdFilter(), 

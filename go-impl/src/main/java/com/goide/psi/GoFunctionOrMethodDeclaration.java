@@ -17,8 +17,8 @@
 package com.goide.psi;
 
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public interface GoFunctionOrMethodDeclaration extends GoTopLevelDeclaration, GoNamedSignatureOwner {
 
@@ -29,7 +29,7 @@ public interface GoFunctionOrMethodDeclaration extends GoTopLevelDeclaration, Go
   @Nullable
   GoSignature getSignature();
 
-  @NotNull
+  @Nonnull
   PsiElement getFunc();
 
   @Override

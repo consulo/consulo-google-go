@@ -16,23 +16,25 @@
 
 package com.goide.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.*;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoVarProcessor extends GoScopeProcessorBase {
   private final boolean myImShortVarDeclaration;
   private final PsiElement myParentGuard; 
   @Nullable private final GoCompositeElement myScope;
   
-  public GoVarProcessor(@NotNull PsiElement origin, boolean completion) {
+  public GoVarProcessor(@Nonnull PsiElement origin, boolean completion) {
     this(origin, origin, completion, false);
   }
 
-  public GoVarProcessor(@NotNull PsiElement requestedName, @NotNull PsiElement origin, boolean completion, boolean delegate) {
+  public GoVarProcessor(@Nonnull PsiElement requestedName, @Nonnull PsiElement origin, boolean completion, boolean delegate) {
     super(requestedName, origin, completion);
     myImShortVarDeclaration = PsiTreeUtil.getParentOfType(origin, GoShortVarDeclaration.class) != null && !delegate;
     myParentGuard = origin.getParent() instanceof GoTypeSwitchGuard ? origin.getParent() : null;
@@ -40,7 +42,7 @@ public class GoVarProcessor extends GoScopeProcessorBase {
   }
 
   @Override
-  protected boolean add(@NotNull GoNamedElement o) {
+  protected boolean add(@Nonnull GoNamedElement o) {
     PsiElement commonParent = PsiTreeUtil.findCommonParent(o, myOrigin);
     if (commonParent instanceof GoRangeClause || commonParent instanceof GoTypeSwitchGuard) return true;
     PsiElement p = o.getParent();
@@ -54,7 +56,7 @@ public class GoVarProcessor extends GoScopeProcessorBase {
     return super.add(o);
   }
 
-  private boolean fromNotAncestorBlock(@NotNull GoNamedElement o) {
+  private boolean fromNotAncestorBlock(@Nonnull GoNamedElement o) {
     return (myScope instanceof GoExprCaseClause || myScope instanceof GoCommClause) &&
            !PsiTreeUtil.isAncestor(getScope(o), myOrigin, false);
   }
@@ -79,7 +81,7 @@ public class GoVarProcessor extends GoScopeProcessorBase {
   }
 
   @Override
-  protected boolean crossOff(@NotNull PsiElement e) {
+  protected boolean crossOff(@Nonnull PsiElement e) {
     return !(e instanceof GoVarDefinition) &&
            !(e instanceof GoParamDefinition) &&
            !(e instanceof GoReceiver) &&

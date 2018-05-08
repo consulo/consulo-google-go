@@ -20,7 +20,8 @@ import static com.goide.highlighting.GoSyntaxHighlightingColors.*;
 
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.goide.GoFileType;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
@@ -97,31 +98,31 @@ public class GoColorsAndFontsPage implements ColorSettingsPage {
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public String getDisplayName() {
     return GoFileType.INSTANCE.getName();
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public AttributesDescriptor[] getAttributeDescriptors() {
     return DESCRIPTORS;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public ColorDescriptor[] getColorDescriptors() {
     return ColorDescriptor.EMPTY_ARRAY;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public SyntaxHighlighter getHighlighter() {
     return new GoSyntaxHighlighter();
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public String getDemoText() {
     return "/*\n" +
            " * Go highlight sample \n" +
@@ -241,7 +242,7 @@ public class GoColorsAndFontsPage implements ColorSettingsPage {
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
     return ATTRIBUTES_KEY_MAP;
   }

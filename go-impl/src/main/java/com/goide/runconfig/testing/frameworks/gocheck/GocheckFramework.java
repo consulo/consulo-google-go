@@ -29,8 +29,8 @@ import com.intellij.execution.testframework.sm.runner.OutputToGeneralTestEventsC
 import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.stubs.StubIndex;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.regex.Pattern;
 
@@ -44,7 +44,7 @@ public class GocheckFramework extends GoTestFramework {
   }
 
   @Nullable
-  public static String getGocheckTestName(@NotNull GoMethodDeclaration method) {
+  public static String getGocheckTestName(@Nonnull GoMethodDeclaration method) {
     String methodName = GoTestFunctionType.fromName(method.getName()) == GoTestFunctionType.TEST ? method.getName() : null;
     if (methodName != null) {
       String suiteName = GoPsiImplUtil.getText(method.getReceiverType());
@@ -55,7 +55,7 @@ public class GocheckFramework extends GoTestFramework {
     return null;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return NAME;
@@ -92,17 +92,17 @@ public class GocheckFramework extends GoTestFramework {
     return functionOrMethodDeclaration instanceof GoMethodDeclaration && GoTestFinder.isTestOrExampleFunction(functionOrMethodDeclaration);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoTestRunningState newRunningState(@NotNull ExecutionEnvironment env,
-                                               @NotNull Module module,
-                                               @NotNull GoTestRunConfiguration runConfiguration) {
+  protected GoTestRunningState newRunningState(@Nonnull ExecutionEnvironment env,
+                                               @Nonnull Module module,
+                                               @Nonnull GoTestRunConfiguration runConfiguration) {
     return new GocheckRunningState(env, module, runConfiguration);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public OutputToGeneralTestEventsConverter createTestEventsConverter(@NotNull TestConsoleProperties consoleProperties) {
+  public OutputToGeneralTestEventsConverter createTestEventsConverter(@Nonnull TestConsoleProperties consoleProperties) {
     return new GocheckEventsConverter(consoleProperties);
   }
 }

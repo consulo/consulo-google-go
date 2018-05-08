@@ -22,8 +22,8 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.io.URLUtil;
 import com.intellij.xml.util.XmlStringUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -37,18 +37,18 @@ import java.util.regex.Pattern;
 public class GoCommentsConverter {
   private static final Pattern LEADING_TAB = Pattern.compile("^\\t", Pattern.MULTILINE);
   
-  @NotNull
-  public String toText(@NotNull List<PsiComment> comments) {
+  @Nonnull
+  public String toText(@Nonnull List<PsiComment> comments) {
     return StringUtil.join(getStrings(comments), "\n");
   }
 
-  @NotNull
-  public String toHtml(@NotNull List<PsiComment> comments) {
+  @Nonnull
+  public String toHtml(@Nonnull List<PsiComment> comments) {
     return textToHtml(getStrings(comments));
   }
 
-  @NotNull
-  private static List<String> getStrings(@NotNull List<PsiComment> comments) {
+  @Nonnull
+  private static List<String> getStrings(@Nonnull List<PsiComment> comments) {
     List<String> strings = ContainerUtil.newArrayList();
     for (PsiComment comment : comments) {
       IElementType type = comment.getTokenType();
@@ -65,8 +65,8 @@ public class GoCommentsConverter {
     return strings;
   }
 
-  @NotNull
-  public String textToHtml(@NotNull List<String> strings) {
+  @Nonnull
+  public String textToHtml(@Nonnull List<String> strings) {
     State state = new State(strings.iterator());
     while (state.hasNext()) {
       state.next();
@@ -80,7 +80,7 @@ public class GoCommentsConverter {
     return state.result();
   }
 
-  private static void processSimpleBlock(@NotNull State state) {
+  private static void processSimpleBlock(@Nonnull State state) {
     if (state.isBlank()) {
       state.flushBlock("p");
     }
@@ -90,7 +90,7 @@ public class GoCommentsConverter {
     }
   }
 
-  private static void processIndentedBlock(@NotNull State state) {
+  private static void processIndentedBlock(@Nonnull State state) {
     state.append(state.text);
     int emptyLines = 1;
     String text;
@@ -110,12 +110,16 @@ public class GoCommentsConverter {
   }
 
   private static class State {
-    @NotNull private final StringBuilder currentBlock = new StringBuilder();
-    @NotNull private final StringBuilder result = new StringBuilder();
-    @NotNull private final Iterator<String> iterator;
-    @Nullable private String text;
+    @Nonnull
+	private final StringBuilder currentBlock = new StringBuilder();
+    @Nonnull
+	private final StringBuilder result = new StringBuilder();
+    @Nonnull
+	private final Iterator<String> iterator;
+    @Nullable
+	private String text;
 
-    public State(@NotNull Iterator<String> iterator) {
+    public State(@Nonnull Iterator<String> iterator) {
       this.iterator = iterator;
     }
 
@@ -149,7 +153,7 @@ public class GoCommentsConverter {
     /**
      * Escape comment text for HTML. If nice is set, also turn `` into &ldquo; and '' into &rdquo;.
      */
-    private static String emphasize(@NotNull String text, boolean nice) {
+    private static String emphasize(@Nonnull String text, boolean nice) {
       text = XmlStringUtil.escapeString(text);
       StringBuilder textWithLinks = null;
       Matcher matcher = URLUtil.URL_PATTERN.matcher(text);
@@ -167,7 +171,7 @@ public class GoCommentsConverter {
       return nice ? StringUtil.replace(text, new String[]{"``", "''"}, new String[]{"&ldquo;", "&rdquo;"}) : text;
     }
 
-    void flushBlock(@NotNull String wrapTag) {
+    void flushBlock(@Nonnull String wrapTag) {
       if (currentBlock.length() > 0) {
         result.append('<').append(wrapTag).append(">").append(currentBlock).append("</").append(wrapTag).append(">\n");
         currentBlock.setLength(0);

@@ -16,6 +16,9 @@
 
 package com.goide.util;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.sdk.GoSdkService;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
@@ -23,28 +26,28 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.ObjectUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoPathResolveScope extends GlobalSearchScope {
-  @Nullable private final VirtualFile myReferenceFile;
-  @NotNull private final GoPathScopeHelper myScopeHelper;
+  @Nullable
+  private final VirtualFile myReferenceFile;
+  @Nonnull
+  private final GoPathScopeHelper myScopeHelper;
 
-  public static GlobalSearchScope create(@NotNull Project project, @Nullable Module module, @Nullable PsiElement context) {
+  public static GlobalSearchScope create(@Nonnull Project project, @Nullable Module module, @Nullable PsiElement context) {
     VirtualFile referenceFile = context != null ? context.getContainingFile().getVirtualFile() : null;
     return new GoPathResolveScope(project, referenceFile, GoPathScopeHelper.fromReferenceFile(project, module, referenceFile));
   }
 
-  private GoPathResolveScope(@NotNull Project project,
+  private GoPathResolveScope(@Nonnull Project project,
                              @Nullable VirtualFile referenceFile,
-                             @NotNull GoPathScopeHelper scopeHelper) {
+                             @Nonnull GoPathScopeHelper scopeHelper) {
     super(project);
     myScopeHelper = scopeHelper;
     myReferenceFile = referenceFile;
   }
 
   @Override
-  public boolean contains(@NotNull VirtualFile declarationFile) {
+  public boolean contains(@Nonnull VirtualFile declarationFile) {
     VirtualFile declarationDirectory = declarationFile.isDirectory() ? declarationFile : declarationFile.getParent();
     if (declarationDirectory == null) {
       return false;
@@ -57,12 +60,12 @@ public class GoPathResolveScope extends GlobalSearchScope {
 
 
   @Override
-  public int compare(@NotNull VirtualFile file1, @NotNull VirtualFile file2) {
+  public int compare(@Nonnull VirtualFile file1, @Nonnull VirtualFile file2) {
     return 0;
   }
 
   @Override
-  public boolean isSearchInModuleContent(@NotNull Module aModule) {
+  public boolean isSearchInModuleContent(@Nonnull Module aModule) {
     return GoSdkService.getInstance(ObjectUtils.assertNotNull(getProject())).isGoModule(aModule);
   }
 

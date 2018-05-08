@@ -16,6 +16,8 @@
 
 package com.goide.completion;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -29,7 +31,6 @@ import com.intellij.openapi.editor.actionSystem.EditorActionManager;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
-import org.jetbrains.annotations.NotNull;
 
 public class BracesInsertHandler implements InsertHandler<LookupElement> {
   public static final BracesInsertHandler ONE_LINER = new BracesInsertHandler(true);
@@ -42,7 +43,7 @@ public class BracesInsertHandler implements InsertHandler<LookupElement> {
   }
 
   @Override
-  public void handleInsert(@NotNull InsertionContext context, LookupElement item) {
+  public void handleInsert(@Nonnull InsertionContext context, LookupElement item) {
     Editor editor = context.getEditor();
     CharSequence documentText = context.getDocument().getImmutableCharSequence();
     int offset = skipWhiteSpaces(editor.getCaretModel().getOffset(), documentText);
@@ -61,7 +62,7 @@ public class BracesInsertHandler implements InsertHandler<LookupElement> {
     }
   }
 
-  private static int skipWhiteSpaces(int offset, @NotNull CharSequence documentText) {
+  private static int skipWhiteSpaces(int offset, @Nonnull CharSequence documentText) {
     while (offset < documentText.length() && StringUtil.isWhiteSpace(documentText.charAt(offset))) {
       offset += 1;
     }

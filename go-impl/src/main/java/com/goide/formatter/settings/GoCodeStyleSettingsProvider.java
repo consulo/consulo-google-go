@@ -20,7 +20,7 @@ import com.goide.GoConstants;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.codeStyle.CodeStyleSettingsProvider;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
   @Override
@@ -28,9 +28,9 @@ public class GoCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
     return GoConstants.GO;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Configurable createSettingsPage(@NotNull CodeStyleSettings settings, CodeStyleSettings originalSettings) {
+  public Configurable createSettingsPage(@Nonnull CodeStyleSettings settings, CodeStyleSettings originalSettings) {
     return new GoCodeStyleConfigurable(settings, originalSettings);
   }
 }

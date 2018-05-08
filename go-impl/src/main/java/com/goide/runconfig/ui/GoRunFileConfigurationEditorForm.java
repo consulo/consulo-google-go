@@ -22,7 +22,7 @@ import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.swing.*;
 
@@ -31,7 +31,7 @@ public class GoRunFileConfigurationEditorForm extends SettingsEditor<GoRunFileCo
   private TextFieldWithBrowseButton myFileField;
   private GoCommonSettingsPanel myCommonSettingsPanel;
 
-  public GoRunFileConfigurationEditorForm(@NotNull Project project) {
+  public GoRunFileConfigurationEditorForm(@Nonnull Project project) {
     myCommonSettingsPanel.init(project);
     GoRunUtil.installGoWithMainFileChooser(project, myFileField);
   }
@@ -48,7 +48,7 @@ public class GoRunFileConfigurationEditorForm extends SettingsEditor<GoRunFileCo
     myCommonSettingsPanel.applyEditorTo(configuration);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected JComponent createEditor() {
     return myComponent;

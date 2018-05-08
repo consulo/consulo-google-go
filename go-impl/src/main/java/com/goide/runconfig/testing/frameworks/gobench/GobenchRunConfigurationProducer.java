@@ -16,23 +16,24 @@
 
 package com.goide.runconfig.testing.frameworks.gobench;
 
+import javax.annotation.Nonnull;
+
 import com.goide.runconfig.testing.GoTestRunConfigurationProducerBase;
-import org.jetbrains.annotations.NotNull;
 
 public class GobenchRunConfigurationProducer extends GoTestRunConfigurationProducerBase implements Cloneable {
   public GobenchRunConfigurationProducer() {
     super(GobenchFramework.INSTANCE);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected String getPackageConfigurationName(@NotNull String packageName) {
+  protected String getPackageConfigurationName(@Nonnull String packageName) {
     return "gobench package '" + packageName + "'";
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected String getFileConfigurationName(@NotNull String fileName) {
+  protected String getFileConfigurationName(@Nonnull String fileName) {
     return "gobench " + super.getFileConfigurationName(fileName);
   }
 }

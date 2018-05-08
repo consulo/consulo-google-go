@@ -9,7 +9,7 @@ import com.intellij.util.io.socketConnection.ConnectionStatus;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.jetbrains.debugger.Vm;
 import org.jetbrains.io.NettyUtil;
 
@@ -30,9 +30,9 @@ public abstract class RemoteVmConnection extends VmConnection<Vm> {
 
   private InetSocketAddress myAddress;
 
-  public abstract Bootstrap createBootstrap(@NotNull InetSocketAddress address, @NotNull AsyncResult<Vm> vmResult);
+  public abstract Bootstrap createBootstrap(@Nonnull InetSocketAddress address, @Nonnull AsyncResult<Vm> vmResult);
 
-  protected abstract String connectedAddressToPresentation(@NotNull InetSocketAddress address, @NotNull Vm vm);
+  protected abstract String connectedAddressToPresentation(@Nonnull InetSocketAddress address, @Nonnull Vm vm);
 
   public AsyncResult<Vm> open(InetSocketAddress address) {
     return open(address, null);

@@ -20,7 +20,7 @@ import com.intellij.icons.AllIcons;
 import com.intellij.ide.util.treeView.smartTree.ActionPresentation;
 import com.intellij.ide.util.treeView.smartTree.Sorter;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.swing.*;
 import java.util.Comparator;
@@ -31,7 +31,7 @@ public class ExportabilitySorter implements Sorter {
 
   private static final ActionPresentation PRESENTATION = new ActionPresentation() {
     @Override
-    @NotNull
+    @Nonnull
     public String getText() {
       return "Sort by Exportability";
     }
@@ -49,7 +49,7 @@ public class ExportabilitySorter implements Sorter {
   @NonNls private static final String ID = "EXPORTABILITY_SORTER";
 
   @Override
-  @NotNull
+  @Nonnull
   public Comparator getComparator() {
     return ExportabilityComparator.INSTANCE;
   }
@@ -60,13 +60,13 @@ public class ExportabilitySorter implements Sorter {
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public ActionPresentation getPresentation() {
     return PRESENTATION;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public String getName() {
     return ID;
   }

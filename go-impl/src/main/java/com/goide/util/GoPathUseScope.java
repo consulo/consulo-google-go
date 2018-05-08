@@ -32,13 +32,13 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.ObjectUtils;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Map;
 import java.util.Set;
 
 public class GoPathUseScope extends GlobalSearchScope {
-  public static GlobalSearchScope create(@NotNull PsiElement declarationContext, boolean filterByImportList) {
+  public static GlobalSearchScope create(@Nonnull PsiElement declarationContext, boolean filterByImportList) {
     if (declarationContext instanceof GoNamedElement && ((GoNamedElement)declarationContext).isBlank()) {
       return GlobalSearchScope.EMPTY_SCOPE;
     }
@@ -58,17 +58,18 @@ public class GoPathUseScope extends GlobalSearchScope {
     return new GoPathUseScope(declarationPsiFile.getProject(), declarationFile, filterByImportList);
   }
 
-  @NotNull private final VirtualFile myDeclarationFile;
+  @Nonnull
+  private final VirtualFile myDeclarationFile;
   private final boolean myFilterByImportList;
 
-  private GoPathUseScope(@NotNull Project project, @NotNull VirtualFile declarationFile, boolean filterByImportList) {
+  private GoPathUseScope(@Nonnull Project project, @Nonnull VirtualFile declarationFile, boolean filterByImportList) {
     super(project);
     myDeclarationFile = declarationFile;
     myFilterByImportList = filterByImportList;
   }
 
   @Override
-  public boolean contains(@NotNull VirtualFile referenceFile) {
+  public boolean contains(@Nonnull VirtualFile referenceFile) {
     VirtualFile referenceDirectory = referenceFile.isDirectory() ? referenceFile : referenceFile.getParent();
     if (referenceDirectory == null) {
       return false;
@@ -121,9 +122,9 @@ public class GoPathUseScope extends GlobalSearchScope {
     return false;
   }
 
-  private static boolean hasRelativeImportOfTargetPackage(@NotNull Set<String> paths,
-                                                          @NotNull VirtualFile referenceDirectory,
-                                                          @NotNull VirtualFile declarationDirectory) {
+  private static boolean hasRelativeImportOfTargetPackage(@Nonnull Set<String> paths,
+                                                          @Nonnull VirtualFile referenceDirectory,
+                                                          @Nonnull VirtualFile declarationDirectory) {
     for (String pathString : paths) {
       if (GoImportReferenceSet.isRelativeImport(pathString)) {
         VirtualFile file = referenceDirectory.findFileByRelativePath(pathString);
@@ -136,12 +137,12 @@ public class GoPathUseScope extends GlobalSearchScope {
   }
 
   @Override
-  public int compare(@NotNull VirtualFile file1, @NotNull VirtualFile file2) {
+  public int compare(@Nonnull VirtualFile file1, @Nonnull VirtualFile file2) {
     return 0;
   }
 
   @Override
-  public boolean isSearchInModuleContent(@NotNull Module aModule) {
+  public boolean isSearchInModuleContent(@Nonnull Module aModule) {
     return GoSdkService.getInstance(ObjectUtils.assertNotNull(getProject())).isGoModule(aModule);
   }
 

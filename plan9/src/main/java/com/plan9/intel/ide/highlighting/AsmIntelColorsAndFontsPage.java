@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
@@ -46,7 +46,7 @@ public class AsmIntelColorsAndFontsPage implements ColorSettingsPage {
     new AttributesDescriptor("Identifier", IDENTIFIER),
   };
 
-  @NotNull
+  @Nonnull
   @Override
   public SyntaxHighlighter getHighlighter() {
     return new AsmIntelSyntaxHighlighter();
@@ -54,7 +54,7 @@ public class AsmIntelColorsAndFontsPage implements ColorSettingsPage {
 
   private String DEMO_TEXT;
 
-  @NotNull
+  @Nonnull
   @Override
   public String getDemoText() {
     if (DEMO_TEXT == null) {
@@ -76,19 +76,19 @@ public class AsmIntelColorsAndFontsPage implements ColorSettingsPage {
     return null;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public AttributesDescriptor[] getAttributeDescriptors() {
     return DESCRIPTORS;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public ColorDescriptor[] getColorDescriptors() {
     return ColorDescriptor.EMPTY_ARRAY;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getDisplayName() {
     return "x86 Assembler";

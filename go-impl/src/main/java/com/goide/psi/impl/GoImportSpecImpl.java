@@ -17,13 +17,14 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi.impl;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.goide.psi.GoPsiTreeUtil;
 import static com.goide.GoTypes.*;
+
+import javax.annotation.*;
+
 import com.goide.stubs.GoImportSpecStub;
 import com.goide.psi.*;
 import com.intellij.psi.stubs.IStubElementType;
@@ -38,17 +39,17 @@ public class GoImportSpecImpl extends GoNamedElementImpl<GoImportSpecStub> imple
     super(node);
   }
 
-  public void accept(@NotNull GoVisitor visitor) {
+  public void accept(@Nonnull GoVisitor visitor) {
     visitor.visitImportSpec(this);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof GoVisitor) accept((GoVisitor)visitor);
     else super.accept(visitor);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public GoImportString getImportString() {
     return notNullChild(GoPsiTreeUtil.getChildOfType(this, GoImportString.class));
   }
@@ -85,7 +86,7 @@ public class GoImportSpecImpl extends GoNamedElementImpl<GoImportSpecStub> imple
     return GoPsiImplUtil.isDot(this);
   }
 
-  @NotNull
+  @Nonnull
   public String getPath() {
     return GoPsiImplUtil.getPath(this);
   }

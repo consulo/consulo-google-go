@@ -17,13 +17,14 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi.impl;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.goide.psi.GoPsiTreeUtil;
+
 import static com.goide.GoTypes.*;
+
+import javax.annotation.*;
+
 import com.goide.psi.*;
 import com.intellij.codeInsight.highlighting.ReadWriteAccessDetector.Access;
 
@@ -33,22 +34,22 @@ public class GoReferenceExpressionImpl extends GoExpressionImpl implements GoRef
     super(node);
   }
 
-  public void accept(@NotNull GoVisitor visitor) {
+  public void accept(@Nonnull GoVisitor visitor) {
     visitor.visitReferenceExpression(this);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof GoVisitor) accept((GoVisitor)visitor);
     else super.accept(visitor);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public PsiElement getIdentifier() {
     return notNullChild(findChildByType(IDENTIFIER));
   }
 
-  @NotNull
+  @Nonnull
   public GoReference getReference() {
     return GoPsiImplUtil.getReference(this);
   }
@@ -63,7 +64,7 @@ public class GoReferenceExpressionImpl extends GoExpressionImpl implements GoRef
     return GoPsiImplUtil.resolve(this);
   }
 
-  @NotNull
+  @Nonnull
   public Access getReadWriteAccess() {
     return GoPsiImplUtil.getReadWriteAccess(this);
   }

@@ -16,6 +16,8 @@
 
 package com.goide.refactor;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoImportSpec;
 import com.intellij.find.FindManager;
 import com.intellij.openapi.editor.Editor;
@@ -23,8 +25,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.refactoring.RefactoringBundle;
 import com.intellij.refactoring.rename.RenamePsiElementProcessor;
 import com.intellij.refactoring.util.CommonRefactoringUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoRenameImportSpecProcessor extends RenamePsiElementProcessor {
   @Nullable
@@ -40,7 +42,7 @@ public class GoRenameImportSpecProcessor extends RenamePsiElementProcessor {
   }
 
   @Override
-  public boolean canProcessElement(@NotNull PsiElement element) {
+  public boolean canProcessElement(@Nonnull PsiElement element) {
     return element instanceof GoImportSpec;
   }
 }

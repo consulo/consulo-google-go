@@ -32,9 +32,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.Function;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 
 public class GoTestRunLineMarkerProvider extends RunLineMarkerContributor {
@@ -70,13 +70,13 @@ public class GoTestRunLineMarkerProvider extends RunLineMarkerContributor {
     return null;
   }
 
-  @NotNull
+  @Nonnull
   private static Info getInfo(String url, Project project) {
     Icon icon = getTestStateIcon(url, project);
     return new Info(icon, TOOLTIP_PROVIDER, ExecutorAction.getActions(0));
   }
 
-  private static Icon getTestStateIcon(@NotNull String url, @NotNull Project project) {
+  private static Icon getTestStateIcon(@Nonnull String url, @Nonnull Project project) {
     TestStateStorage.Record state = TestStateStorage.getInstance(project).getState(url);
     if (state != null) {
       TestStateInfo.Magnitude magnitude = TestIconMapper.getMagnitude(state.magnitude);

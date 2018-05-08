@@ -26,7 +26,7 @@ import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ArrayFactory;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
@@ -35,36 +35,36 @@ public class GoVarDefinitionStubElementType extends GoNamedStubElementType<GoVar
 
   public static final ArrayFactory<GoVarDefinition> ARRAY_FACTORY = count -> count == 0 ? EMPTY_ARRAY : new GoVarDefinition[count];
   
-  public GoVarDefinitionStubElementType(@NotNull String name) {
+  public GoVarDefinitionStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoVarDefinition createPsi(@NotNull GoVarDefinitionStub stub) {
+  public GoVarDefinition createPsi(@Nonnull GoVarDefinitionStub stub) {
     return new GoVarDefinitionImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoVarDefinitionStub createStub(@NotNull GoVarDefinition psi, StubElement parentStub) {
+  public GoVarDefinitionStub createStub(@Nonnull GoVarDefinition psi, StubElement parentStub) {
     return new GoVarDefinitionStub(parentStub, this, psi.getName(), psi.isPublic());
   }
 
   @Override
-  public void serialize(@NotNull GoVarDefinitionStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoVarDefinitionStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoVarDefinitionStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoVarDefinitionStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoVarDefinitionStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 
   @Override
-  public boolean shouldCreateStub(@NotNull ASTNode node) {
+  public boolean shouldCreateStub(@Nonnull ASTNode node) {
     return super.shouldCreateStub(node) && PsiTreeUtil.getParentOfType(node.getPsi(), GoFunctionOrMethodDeclaration.class) == null;
   }
 }

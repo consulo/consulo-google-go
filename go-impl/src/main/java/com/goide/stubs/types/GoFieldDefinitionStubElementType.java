@@ -22,36 +22,36 @@ import com.goide.stubs.GoFieldDefinitionStub;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
 public class GoFieldDefinitionStubElementType extends GoNamedStubElementType<GoFieldDefinitionStub, GoFieldDefinition> {
-  public GoFieldDefinitionStubElementType(@NotNull String name) {
+  public GoFieldDefinitionStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoFieldDefinition createPsi(@NotNull GoFieldDefinitionStub stub) {
+  public GoFieldDefinition createPsi(@Nonnull GoFieldDefinitionStub stub) {
     return new GoFieldDefinitionImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoFieldDefinitionStub createStub(@NotNull GoFieldDefinition psi, StubElement parentStub) {
+  public GoFieldDefinitionStub createStub(@Nonnull GoFieldDefinition psi, StubElement parentStub) {
     return new GoFieldDefinitionStub(parentStub, this, psi.getName(), psi.isPublic());
   }
 
   @Override
-  public void serialize(@NotNull GoFieldDefinitionStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoFieldDefinitionStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoFieldDefinitionStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoFieldDefinitionStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoFieldDefinitionStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 }

@@ -16,17 +16,18 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoFile;
 import com.goide.psi.GoImportSpec;
 import com.goide.quickfix.GoDeleteImportQuickFix;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiDirectory;
-import org.jetbrains.annotations.NotNull;
 
 public class GoSelfImportInspection extends GoInspectionBase {
   @Override
-  protected void checkFile(@NotNull GoFile file, @NotNull ProblemsHolder problemsHolder) {
+  protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     if (GoTestFinder.isTestFileWithTestPackage(file)) return;
     PsiDirectory directory = file.getContainingDirectory();
     if (directory != null) {

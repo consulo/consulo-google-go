@@ -43,7 +43,7 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.ObjectUtils;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.Set;
@@ -52,7 +52,7 @@ public class GoInvalidPackageImportInspection extends GoInspectionBase {
   public static final String DELETE_ALIAS_QUICK_FIX_NAME = "Delete alias";
 
   @Override
-  protected void checkFile(@NotNull GoFile file, @NotNull ProblemsHolder problemsHolder) {
+  protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     Module module = ModuleUtilCore.findModuleForPsiElement(file);
     VirtualFile sdkHome = GoSdkUtil.getSdkSrcDir(file.getProject(), module);
     boolean supportsVendoring = GoVendoringUtil.isVendoringEnabled(module);
@@ -156,7 +156,7 @@ public class GoInvalidPackageImportInspection extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       GoImportSpec element = ObjectUtils.tryCast(descriptor.getPsiElement(), GoImportSpec.class);
       if (element != null) {
         WriteCommandAction.runWriteCommandAction(project, () -> {
@@ -176,15 +176,16 @@ public class GoInvalidPackageImportInspection extends GoInspectionBase {
   }
 
   private static class GoReplaceImportPath extends LocalQuickFixBase implements HighPriorityAction {
-    @NotNull private final String myNewImportPath;
+    @Nonnull
+	private final String myNewImportPath;
 
-    protected GoReplaceImportPath(@NotNull String newImportPath) {
+    protected GoReplaceImportPath(@Nonnull String newImportPath) {
       super("Replace with '" + newImportPath + "'");
       myNewImportPath = newImportPath;
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       GoImportSpec element = ObjectUtils.tryCast(descriptor.getPsiElement(), GoImportSpec.class);
       if (element != null) {
         ElementManipulators.handleContentChange(element.getImportString(), myNewImportPath);

@@ -16,6 +16,8 @@
 
 package com.goide.intentions;
 
+import javax.annotation.Nonnull;
+
 import com.goide.editor.smart.GoSmartEnterProcessor;
 import com.goide.psi.GoBlock;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
@@ -28,7 +30,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.ObjectUtils;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
 
 public class GoAddFunctionBlockIntention extends BaseElementAtCaretIntentionAction {
   public static final String NAME = "Add function body";
@@ -38,20 +39,20 @@ public class GoAddFunctionBlockIntention extends BaseElementAtCaretIntentionActi
   }
 
   @Nls
-  @NotNull
+  @Nonnull
   @Override
   public String getFamilyName() {
     return NAME;
   }
 
   @Override
-  public boolean isAvailable(@NotNull Project project, Editor editor, @NotNull PsiElement element) {
+  public boolean isAvailable(@Nonnull Project project, Editor editor, @Nonnull PsiElement element) {
     PsiElement parent = element.getParent();
     return parent instanceof GoFunctionOrMethodDeclaration && ((GoFunctionOrMethodDeclaration)parent).getBlock() == null;
   }
 
   @Override
-  public void invoke(@NotNull Project project, Editor editor, @NotNull PsiElement element) throws IncorrectOperationException {
+  public void invoke(@Nonnull Project project, Editor editor, @Nonnull PsiElement element) throws IncorrectOperationException {
     PsiElement parent = element.getParent();
     if (parent instanceof GoFunctionOrMethodDeclaration) {
       GoBlock block = ((GoFunctionOrMethodDeclaration)parent).getBlock();

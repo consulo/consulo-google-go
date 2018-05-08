@@ -16,6 +16,10 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.Nls;
 import com.goide.psi.GoFunctionDeclaration;
 import com.goide.psi.GoSignature;
 import com.goide.psi.impl.GoElementFactory;
@@ -25,36 +29,33 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.ObjectUtils;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoEmptySignatureQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
   public static final String QUICK_FIX_NAME = "Fix signature";
 
-  public GoEmptySignatureQuickFix(@NotNull GoFunctionDeclaration functionDeclaration) {
+  public GoEmptySignatureQuickFix(@Nonnull GoFunctionDeclaration functionDeclaration) {
     super(functionDeclaration);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getText() {
     return QUICK_FIX_NAME;
   }
 
   @Nls
-  @NotNull
+  @Nonnull
   @Override
   public String getFamilyName() {
     return QUICK_FIX_NAME;
   }
 
   @Override
-  public void invoke(@NotNull Project project,
-                     @NotNull PsiFile file,
-                     @Nullable("is null when called from inspection") Editor editor,
-                     @NotNull PsiElement startElement,
-                     @NotNull PsiElement endElement) {
+  public void invoke(@Nonnull Project project,
+                     @Nonnull PsiFile file,
+                     @Nullable Editor editor,
+                     @Nonnull PsiElement startElement,
+                     @Nonnull PsiElement endElement) {
     GoFunctionDeclaration function = ObjectUtils.tryCast(startElement, GoFunctionDeclaration.class);
     GoSignature signature = function != null ? function.getSignature() : null;
     if (signature == null) return;

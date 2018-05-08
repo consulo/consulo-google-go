@@ -23,8 +23,8 @@ import com.intellij.codeInsight.unwrap.AbstractUnwrapper;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiWhiteSpace;
 import com.intellij.psi.impl.source.codeStyle.CodeEditUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class GoUnwrapper extends AbstractUnwrapper<GoUnwrapper.Context> {
   protected GoUnwrapper(String description) {
@@ -47,7 +47,7 @@ public abstract class GoUnwrapper extends AbstractUnwrapper<GoUnwrapper.Context>
       }
     }
 
-    public void extractFromBlock(@Nullable GoBlock block, @NotNull PsiElement from) {
+    public void extractFromBlock(@Nullable GoBlock block, @Nonnull PsiElement from) {
       if (block != null) {
         for (GoStatement statement : block.getStatementList()) {
           extractElement(statement, from);

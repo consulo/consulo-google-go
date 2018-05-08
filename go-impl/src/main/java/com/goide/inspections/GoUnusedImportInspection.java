@@ -32,8 +32,8 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.MultiMap;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -41,9 +41,10 @@ import java.util.Map;
 import java.util.Set;
 
 public class GoUnusedImportInspection extends GoInspectionBase {
-  @Nullable private final static LocalQuickFix OPTIMIZE_QUICK_FIX = new LocalQuickFixBase("Optimize imports") {
+  @Nullable
+  private final static LocalQuickFix OPTIMIZE_QUICK_FIX = new LocalQuickFixBase("Optimize imports") {
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (element == null) {
         return;
@@ -55,7 +56,7 @@ public class GoUnusedImportInspection extends GoInspectionBase {
 
   @Nullable private final static LocalQuickFix IMPORT_FOR_SIDE_EFFECTS_QUICK_FIX = new LocalQuickFixBase("Import for side-effects") {
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (!(element instanceof GoImportSpec)) {
         return;
@@ -64,10 +65,10 @@ public class GoUnusedImportInspection extends GoInspectionBase {
     }
   };
 
-  private static void resolveAllReferences(@NotNull GoFile file) {
+  private static void resolveAllReferences(@Nonnull GoFile file) {
     file.accept(new GoRecursiveVisitor() {
       @Override
-      public void visitElement(@NotNull PsiElement o) {
+      public void visitElement(@Nonnull PsiElement o) {
         for (PsiReference reference : o.getReferences()) {
           reference.resolve();
         }
@@ -76,7 +77,7 @@ public class GoUnusedImportInspection extends GoInspectionBase {
   }
 
   @Override
-  protected void checkFile(@NotNull GoFile file, @NotNull ProblemsHolder problemsHolder) {
+  protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     MultiMap<String, GoImportSpec> importMap = file.getImportMap();
 
     for (PsiElement importIdentifier : GoImportOptimizer.findRedundantImportIdentifiers(importMap)) {

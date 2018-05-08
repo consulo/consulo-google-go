@@ -18,7 +18,9 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.StubBasedPsiElement;
 import com.goide.stubs.GoVarSpecStub;
@@ -27,13 +29,13 @@ import com.intellij.psi.scope.PsiScopeProcessor;
 
 public interface GoVarSpec extends GoCompositeElement, StubBasedPsiElement<GoVarSpecStub> {
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getExpressionList();
 
   @Nullable
   GoType getType();
 
-  @NotNull
+  @Nonnull
   List<GoVarDefinition> getVarDefinitionList();
 
   @Nullable
@@ -43,7 +45,7 @@ public interface GoVarSpec extends GoCompositeElement, StubBasedPsiElement<GoVar
 
   void deleteDefinition(GoVarDefinition definitionToDelete);
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getRightExpressionsList();
 
 }

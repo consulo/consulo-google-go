@@ -19,7 +19,7 @@ package com.goide.codeInsight.imports;
 import com.goide.GoConstants;
 import com.intellij.openapi.components.*;
 import com.intellij.util.xmlb.XmlSerializerUtil;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 @State(
   name = GoConstants.GO,

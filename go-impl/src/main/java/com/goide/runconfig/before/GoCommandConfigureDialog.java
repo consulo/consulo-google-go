@@ -20,8 +20,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.ui.TextFieldWithAutoCompletion;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +33,7 @@ public class GoCommandConfigureDialog extends DialogWrapper {
 
   private final TextFieldWithAutoCompletion<String> myCommandTextField;
 
-  public GoCommandConfigureDialog(@NotNull Project project) {
+  public GoCommandConfigureDialog(@Nonnull Project project) {
     super(project);
     setTitle("Edit Go Command Task");
     setModal(true);
@@ -68,7 +68,7 @@ public class GoCommandConfigureDialog extends DialogWrapper {
     return panel;
   }
 
-  @NotNull
+  @Nonnull
   public String getCommand() {
     return myCommandTextField.getText().trim();
   }

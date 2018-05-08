@@ -17,8 +17,8 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.StubBasedPsiElement;
 import com.goide.stubs.GoFunctionDeclarationStub;
@@ -31,10 +31,10 @@ public interface GoFunctionDeclaration extends GoFunctionOrMethodDeclaration, St
   @Nullable
   GoSignature getSignature();
 
-  @NotNull
+  @Nonnull
   PsiElement getFunc();
 
-  @NotNull
+  @Nonnull
   PsiElement getIdentifier();
 
 }

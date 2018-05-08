@@ -16,23 +16,25 @@
 
 package consulo.google.go.run.dlv;
 
+import javax.annotation.Nonnull;
+
 import com.goide.dlv.DlvCommandProcessor;
 import com.goide.dlv.DlvDebugProcess;
 import com.goide.dlv.protocol.DlvApi;
 import com.intellij.xdebugger.frame.XExecutionStack;
 import com.intellij.xdebugger.frame.XSuspendContext;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class DlvSuspendContext extends XSuspendContext {
-  @NotNull
+  @Nonnull
   private final DlvExecutionStack[] myStacks;
   private DlvExecutionStack myCurrentStack;
 
-  public DlvSuspendContext(@NotNull DlvDebugProcess process,
-                           @NotNull DlvApi.Thread currentThread,
-                           @NotNull DlvApi.Thread[] allThreads,
-                           @NotNull DlvCommandProcessor processor) {
+  public DlvSuspendContext(@Nonnull DlvDebugProcess process,
+                           @Nonnull DlvApi.Thread currentThread,
+                           @Nonnull DlvApi.Thread[] allThreads,
+                           @Nonnull DlvCommandProcessor processor) {
     myStacks = new DlvExecutionStack[allThreads.length];
     for (int i = 0; i < allThreads.length; i++) {
       DlvApi.Thread thread = allThreads[i];
@@ -50,7 +52,7 @@ public class DlvSuspendContext extends XSuspendContext {
     return myCurrentStack;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public XExecutionStack[] getExecutionStacks() {
     return myStacks;

@@ -21,7 +21,7 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.testFramework.LexerTestCase;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,11 +57,11 @@ public class GoLexerTest extends LexerTestCase {
     }
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected Lexer createLexer() { return new GoLexer(); }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getDirPath() { 
     return "../" + PATH; 

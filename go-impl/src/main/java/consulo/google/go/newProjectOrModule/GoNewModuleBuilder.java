@@ -16,6 +16,8 @@
 
 package consulo.google.go.newProjectOrModule;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ContentEntry;
@@ -27,7 +29,6 @@ import consulo.ide.newProject.NewModuleBuilder;
 import consulo.ide.newProject.NewModuleContext;
 import consulo.roots.ModifiableModuleRootLayer;
 import consulo.roots.impl.ModuleRootLayerImpl;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author VISTALL
@@ -35,21 +36,21 @@ import org.jetbrains.annotations.NotNull;
  */
 public class GoNewModuleBuilder implements NewModuleBuilder {
   @Override
-  public void setupContext(@NotNull NewModuleContext context) {
+  public void setupContext(@Nonnull NewModuleContext context) {
     NewModuleContext.Group group = context.createGroup("go", "Go");
 
     group.add("Console Application", AllIcons.RunConfigurations.Application,
               new UnzipNewModuleBuilderProcessor<GoNewModuleBuilderPanel>("/moduleTemplates/GoHelloWorld.zip") {
-                @NotNull
+                @Nonnull
                 @Override
                 public GoNewModuleBuilderPanel createConfigurationPanel() {
                   return new GoNewModuleBuilderPanel();
                 }
 
                 @Override
-                public void setupModule(@NotNull GoNewModuleBuilderPanel panel,
-                                        @NotNull ContentEntry contentEntry,
-                                        @NotNull ModifiableRootModel modifiableRootModel) {
+                public void setupModule(@Nonnull GoNewModuleBuilderPanel panel,
+                                        @Nonnull ContentEntry contentEntry,
+                                        @Nonnull ModifiableRootModel modifiableRootModel) {
                   unzip(modifiableRootModel);
 
                   GoMutableModuleExtension goModuleExtension = modifiableRootModel.getExtensionWithoutCheck(GoMutableModuleExtension.class);

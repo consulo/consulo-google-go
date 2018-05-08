@@ -26,24 +26,24 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 
 public class GoBoolExpressionsInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitAndExpr(@NotNull GoAndExpr o) {
+      public void visitAndExpr(@Nonnull GoAndExpr o) {
         visitExpr(o, true);
       }
 
       @Override
-      public void visitOrExpr(@NotNull GoOrExpr o) {
+      public void visitOrExpr(@Nonnull GoOrExpr o) {
         visitExpr(o, false);
       }
 
@@ -77,7 +77,7 @@ public class GoBoolExpressionsInspection extends GoInspectionBase {
     };
   }
 
-  private static void registerProblem(@NotNull GoBinaryExpr o, @NotNull ProblemsHolder holder) {
+  private static void registerProblem(@Nonnull GoBinaryExpr o, @Nonnull ProblemsHolder holder) {
     holder.registerProblem(o, "Simplify", new GoSimplifyBoolExprQuickFix(o));
   }
 
@@ -87,7 +87,7 @@ public class GoBoolExpressionsInspection extends GoInspectionBase {
            GoExpressionUtil.identical(((GoUnaryExpr)not).getExpression(), expr);
   }
 
-  @NotNull
+  @Nonnull
   public static List<GoExpression> collect(GoBinaryExpr o, boolean and) {
     List<GoExpression> result = ContainerUtil.newSmartList();
     result.addAll(processExpr(o.getLeft(), and));
@@ -95,7 +95,7 @@ public class GoBoolExpressionsInspection extends GoInspectionBase {
     return result;
   }
 
-  @NotNull
+  @Nonnull
   private static List<GoExpression> processExpr(@Nullable GoExpression e, boolean and) {
     if (e == null) return ContainerUtil.emptyList();
     if (isSameOp(e, and)) {

@@ -20,7 +20,7 @@ import com.goide.GoFileElementType;
 import com.goide.psi.GoNamedElement;
 import com.intellij.psi.stubs.StringStubIndexExtension;
 import com.intellij.psi.stubs.StubIndexKey;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoAllPrivateNamesIndex extends StringStubIndexExtension<GoNamedElement> {
   public static final StubIndexKey<String, GoNamedElement> ALL_PRIVATE_NAMES = StubIndexKey.createIndexKey("go.all.private.name");
@@ -30,7 +30,7 @@ public class GoAllPrivateNamesIndex extends StringStubIndexExtension<GoNamedElem
     return GoFileElementType.VERSION;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public StubIndexKey<String, GoNamedElement> getKey() {
     return ALL_PRIVATE_NAMES;

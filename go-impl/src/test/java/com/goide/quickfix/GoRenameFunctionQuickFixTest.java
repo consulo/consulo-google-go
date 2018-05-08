@@ -17,7 +17,7 @@
 package com.goide.quickfix;
 
 import com.goide.inspections.unresolved.GoUnusedFunctionInspection;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoRenameFunctionQuickFixTest extends GoQuickFixTestBase {
   @Override
@@ -26,7 +26,7 @@ public class GoRenameFunctionQuickFixTest extends GoQuickFixTestBase {
     myFixture.enableInspections(GoUnusedFunctionInspection.class);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/rename-function";

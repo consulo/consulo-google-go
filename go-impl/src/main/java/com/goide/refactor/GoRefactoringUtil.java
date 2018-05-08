@@ -40,8 +40,8 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.text.UniqueNameGenerator;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -51,18 +51,18 @@ import java.util.Set;
 public class GoRefactoringUtil {
   private GoRefactoringUtil() {}
 
-  @NotNull
-  public static List<PsiElement> getLocalOccurrences(@NotNull PsiElement element) {
+  @Nonnull
+  public static List<PsiElement> getLocalOccurrences(@Nonnull PsiElement element) {
     return getOccurrences(element, PsiTreeUtil.getTopmostParentOfType(element, GoBlock.class));
   }
 
-  @NotNull
-  public static List<PsiElement> getOccurrences(@NotNull PsiElement pattern, @Nullable PsiElement context) {
+  @Nonnull
+  public static List<PsiElement> getOccurrences(@Nonnull PsiElement pattern, @Nullable PsiElement context) {
     if (context == null) return Collections.emptyList();
     List<PsiElement> occurrences = ContainerUtil.newArrayList();
     PsiRecursiveElementVisitor visitor = new PsiRecursiveElementVisitor() {
       @Override
-      public void visitElement(@NotNull PsiElement element) {
+      public void visitElement(@Nonnull PsiElement element) {
         if (PsiEquivalenceUtil.areElementsEquivalent(element, pattern)) {
           occurrences.add(element);
           return;
@@ -75,12 +75,12 @@ public class GoRefactoringUtil {
   }
 
   @Nullable
-  public static PsiElement findLocalAnchor(@NotNull List<PsiElement> occurrences) {
+  public static PsiElement findLocalAnchor(@Nonnull List<PsiElement> occurrences) {
     return findAnchor(occurrences, PsiTreeUtil.getNonStrictParentOfType(PsiTreeUtil.findCommonParent(occurrences), GoBlock.class));
   }
 
   @Nullable
-  public static PsiElement findAnchor(@NotNull List<PsiElement> occurrences, @Nullable PsiElement context) {
+  public static PsiElement findAnchor(@Nonnull List<PsiElement> occurrences, @Nullable PsiElement context) {
     PsiElement first = ContainerUtil.getFirstItem(occurrences);
     PsiElement statement = PsiTreeUtil.getNonStrictParentOfType(first, GoStatement.class);
     while (statement != null && statement.getParent() != context) {
@@ -93,7 +93,7 @@ public class GoRefactoringUtil {
     return getSuggestedNames(expression, expression);
   }
 
-  @NotNull
+  @Nonnull
   public static Expression createParameterNameSuggestedExpression(GoExpression expression) {
     GoTopLevelDeclaration topLevelDecl = PsiTreeUtil.getParentOfType(expression, GoTopLevelDeclaration.class);
     return new ParameterNameExpression(getSuggestedNames(expression, topLevelDecl != null ? topLevelDecl.getNextSibling() : null));
@@ -102,7 +102,7 @@ public class GoRefactoringUtil {
   private static class ParameterNameExpression extends Expression {
     private final Set<String> myNames;
 
-    public ParameterNameExpression(@NotNull Set<String> names) {
+    public ParameterNameExpression(@Nonnull Set<String> names) {
       myNames = names;
     }
 
@@ -119,7 +119,7 @@ public class GoRefactoringUtil {
       return null;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public LookupElement[] calculateLookupItems(ExpressionContext context) {
       int offset = context.getStartOffset();
@@ -151,7 +151,7 @@ public class GoRefactoringUtil {
     }
   }
 
-  @NotNull
+  @Nonnull
   private static LinkedHashSet<String> getSuggestedNames(GoExpression expression, PsiElement context) {
     // todo rewrite with names resolve; check occurrences contexts
     if (expression.isEquivalentTo(context)) {
@@ -194,7 +194,7 @@ public class GoRefactoringUtil {
     return namesValidator != null && !namesValidator.isKeyword(candidate, null) && namesValidator.isIdentifier(candidate, null);
   }
 
-  @NotNull
+  @Nonnull
   private static LinkedHashSet<String> getNamesInContext(PsiElement context) {
     if (context == null) return ContainerUtil.newLinkedHashSet();
     LinkedHashSet<String> names = ContainerUtil.newLinkedHashSet();

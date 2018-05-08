@@ -21,11 +21,11 @@ import com.goide.psi.GoImportSpec;
 import com.goide.quickfix.GoDeleteImportQuickFix;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.intellij.codeInspection.ProblemsHolder;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoCgoInTestInspection extends GoInspectionBase {
   @Override
-  protected void checkFile(@NotNull GoFile file, @NotNull ProblemsHolder problemsHolder) {
+  protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     if (!GoTestFinder.isTestFile(file)) return;
     for (GoImportSpec importSpec : file.getImports()) {
       if (importSpec.isCImport()) {

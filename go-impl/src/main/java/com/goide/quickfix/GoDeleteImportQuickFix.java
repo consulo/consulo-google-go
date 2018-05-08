@@ -16,6 +16,8 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoFile;
 import com.goide.psi.GoImportSpec;
 import com.intellij.codeInspection.LocalQuickFixBase;
@@ -25,7 +27,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
 
 public class GoDeleteImportQuickFix extends LocalQuickFixBase {
   public static final String QUICK_FIX_NAME = "Delete import";
@@ -35,7 +36,7 @@ public class GoDeleteImportQuickFix extends LocalQuickFixBase {
   }
 
   @Override
-  public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     PsiElement element = PsiTreeUtil.getNonStrictParentOfType(descriptor.getPsiElement(), GoImportSpec.class);
     PsiFile file = element != null ? element.getContainingFile() : null;
     if (!(file instanceof GoFile)) return;

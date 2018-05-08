@@ -23,7 +23,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IFileElementType;
 import consulo.lang.LanguageVersion;
 import org.intellij.lang.regexp.*;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.EnumSet;
 
@@ -36,7 +36,7 @@ public class GoRegExpParserDefinition extends RegExpParserDefinition {
                                                                     RegExpCapability.POSIX_BRACKET_EXPRESSIONS);
 
   @Override
-  @NotNull
+  @Nonnull
   public Lexer createLexer(LanguageVersion languageVersion) {
     return new RegExpLexer(CAPABILITIES);
   }
@@ -46,7 +46,7 @@ public class GoRegExpParserDefinition extends RegExpParserDefinition {
     return new RegExpParser(CAPABILITIES);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public IFileElementType getFileNodeType() {
     return GO_REGEXP_FILE;

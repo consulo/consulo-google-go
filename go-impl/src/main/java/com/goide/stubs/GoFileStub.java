@@ -16,6 +16,9 @@
 
 package com.goide.stubs;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.GoFileElementType;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoPackageClause;
@@ -24,13 +27,11 @@ import com.intellij.psi.stubs.PsiFileStubImpl;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.tree.IStubFileElementType;
 import com.intellij.util.io.StringRef;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoFileStub extends PsiFileStubImpl<GoFile> {
   private final StringRef myBuildFlags;
 
-  public GoFileStub(@NotNull GoFile file) {
+  public GoFileStub(@Nonnull GoFile file) {
     this(file, StringRef.fromNullableString(file.getBuildFlags()));
   }
 
@@ -39,7 +40,7 @@ public class GoFileStub extends PsiFileStubImpl<GoFile> {
     myBuildFlags = buildFlags;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public IStubFileElementType getType() {
     return GoFileElementType.INSTANCE;

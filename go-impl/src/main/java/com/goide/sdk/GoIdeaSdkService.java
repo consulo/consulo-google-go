@@ -21,11 +21,11 @@ import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import consulo.google.go.module.extension.GoModuleExtension;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoIdeaSdkService extends GoSdkService {
-  public GoIdeaSdkService(@NotNull Project project) {
+  public GoIdeaSdkService(@Nonnull Project project) {
     super(project);
   }
 

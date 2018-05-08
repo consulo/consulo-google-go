@@ -48,8 +48,8 @@ import com.intellij.xdebugger.frame.presentation.XNumericValuePresentation;
 import com.intellij.xdebugger.frame.presentation.XRegularValuePresentation;
 import com.intellij.xdebugger.frame.presentation.XStringValuePresentation;
 import com.intellij.xdebugger.frame.presentation.XValuePresentation;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.swing.*;
 import java.util.Collection;
@@ -58,7 +58,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 class DlvXValue extends XNamedValue {
-  @NotNull
+  @Nonnull
   private final DlvApi.Variable myVariable;
   private final Icon myIcon;
   private final DlvDebugProcess myProcess;
@@ -66,9 +66,9 @@ class DlvXValue extends XNamedValue {
   private final int myFrameId;
   private final int myGoroutineId;
 
-  public DlvXValue(@NotNull DlvDebugProcess process,
-                   @NotNull DlvApi.Variable variable,
-                   @NotNull DlvCommandProcessor processor,
+  public DlvXValue(@Nonnull DlvDebugProcess process,
+                   @Nonnull DlvApi.Variable variable,
+                   @Nonnull DlvCommandProcessor processor,
                    int frameId,
                    int goroutineId,
                    @Nullable Icon icon) {
@@ -82,14 +82,14 @@ class DlvXValue extends XNamedValue {
   }
 
   @Override
-  public void computePresentation(@NotNull XValueNode node, @NotNull XValuePlace place) {
+  public void computePresentation(@Nonnull XValueNode node, @Nonnull XValuePlace place) {
     XValuePresentation presentation = getPresentation();
     boolean hasChildren = myVariable.children.length > 0;
     node.setPresentation(myIcon, presentation, hasChildren);
   }
 
   @Override
-  public void computeChildren(@NotNull XCompositeNode node) {
+  public void computeChildren(@Nonnull XCompositeNode node) {
     DlvApi.Variable[] children = myVariable.children;
     if (children.length == 0) {
       super.computeChildren(node);
@@ -108,7 +108,7 @@ class DlvXValue extends XNamedValue {
   public XValueModifier getModifier() {
     return new XValueModifier() {
       @Override
-      public void setValue(@NotNull String newValue, @NotNull final XModificationCallback callback) {
+      public void setValue(@Nonnull String newValue, @Nonnull final XModificationCallback callback) {
         myProcessor.send(new DlvRequest.Set(myVariable.name, newValue, myFrameId, myGoroutineId)).doWhenDone(o -> {
           if (o != null) {
             callback.valueModified();
@@ -118,7 +118,7 @@ class DlvXValue extends XNamedValue {
     };
   }
 
-  @NotNull
+  @Nonnull
   private XValuePresentation getPresentation() {
     String value = myVariable.value;
     if (myVariable.isNumber()) return new XNumericValuePresentation(value);
@@ -126,7 +126,7 @@ class DlvXValue extends XNamedValue {
     if (myVariable.isBool()) {
       return new XValuePresentation() {
         @Override
-        public void renderValue(@NotNull XValueTextRenderer renderer) {
+        public void renderValue(@Nonnull XValueTextRenderer renderer) {
           renderer.renderValue(value);
         }
       };
@@ -142,7 +142,7 @@ class DlvXValue extends XNamedValue {
   }
 
   @Nullable
-  private static PsiElement findTargetElement(@NotNull Project project, @NotNull XSourcePosition position, @NotNull Editor editor, @NotNull String name) {
+  private static PsiElement findTargetElement(@Nonnull Project project, @Nonnull XSourcePosition position, @Nonnull Editor editor, @Nonnull String name) {
     PsiFile file = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
     if (file == null || !file.getVirtualFile().equals(position.getFile())) return null;
     ASTNode leafElement = file.getNode().findLeafElementAt(position.getOffset());
@@ -155,7 +155,7 @@ class DlvXValue extends XNamedValue {
   }
 
   @Override
-  public void computeSourcePosition(@NotNull XNavigatable navigatable) {
+  public void computeSourcePosition(@Nonnull XNavigatable navigatable) {
     readActionInPooledThread(new Runnable() {
       @Override
       public void run() {
@@ -181,7 +181,7 @@ class DlvXValue extends XNamedValue {
     });
   }
 
-  private static void readActionInPooledThread(@NotNull Runnable runnable) {
+  private static void readActionInPooledThread(@Nonnull Runnable runnable) {
     ApplicationManager.getApplication().executeOnPooledThread(() -> ApplicationManager.getApplication().runReadAction(runnable));
   }
 
@@ -196,9 +196,9 @@ class DlvXValue extends XNamedValue {
     return myProcess.getSession();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public ThreeState computeInlineDebuggerData(@NotNull XInlineDebuggerDataCallback callback) {
+  public ThreeState computeInlineDebuggerData(@Nonnull XInlineDebuggerDataCallback callback) {
     computeSourcePosition(callback::computed);
     return ThreeState.YES;
   }
@@ -214,7 +214,7 @@ class DlvXValue extends XNamedValue {
   }
 
   @Override
-  public void computeTypeSourcePosition(@NotNull XNavigatable navigatable) {
+  public void computeTypeSourcePosition(@Nonnull XNavigatable navigatable) {
     readActionInPooledThread(() -> {
       boolean isStructure = myVariable.isStructure();
       boolean isPtr = myVariable.isPtr();

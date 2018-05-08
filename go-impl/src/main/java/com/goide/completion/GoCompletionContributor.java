@@ -40,7 +40,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.ProcessingContext;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collection;
 
@@ -65,7 +65,7 @@ public class GoCompletionContributor extends CompletionContributor {
   }
 
   @Override
-  public void fillCompletionVariants(@NotNull CompletionParameters parameters, @NotNull CompletionResultSet result) {
+  public void fillCompletionVariants(@Nonnull CompletionParameters parameters, @Nonnull CompletionResultSet result) {
     PsiElement position = parameters.getPosition();
     PsiFile file = parameters.getOriginalFile();
     ASTNode node = position.getNode();
@@ -94,8 +94,8 @@ public class GoCompletionContributor extends CompletionContributor {
     super.fillCompletionVariants(parameters, result);
   }
 
-  @NotNull
-  private static LookupElement packageLookup(@NotNull String packageName, int priority) {
+  @Nonnull
+  private static LookupElement packageLookup(@Nonnull String packageName, int priority) {
     LookupElement element = withPriority(LookupElementBuilder.create(packageName), priority);
     return AutoCompletionPolicy.NEVER_AUTOCOMPLETE.applyPolicy(element);
   }
@@ -115,7 +115,7 @@ public class GoCompletionContributor extends CompletionContributor {
     }
 
     @Override
-    public boolean accepts(@NotNull PsiElement element, ProcessingContext context) {
+    public boolean accepts(@Nonnull PsiElement element, ProcessingContext context) {
       return GoTestFinder.isTestFile(element.getContainingFile());
     }
   }

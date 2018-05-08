@@ -25,8 +25,8 @@ import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.containers.ContainerUtil;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.text.ParseException;
 import java.util.List;
@@ -89,33 +89,33 @@ public class GocheckEventsConverter extends OutputToGeneralTestEventsConverter i
     private final Status myStatus;
     private final Map<String, String> myAttributes = ContainerUtil.newHashMap();
 
-    TestResult(@NotNull Status status) {
+    TestResult(@Nonnull Status status) {
       this(status, null);
     }
 
-    TestResult(@NotNull Status status, @Nullable Map<String, String> attributes) {
+    TestResult(@Nonnull Status status, @Nullable Map<String, String> attributes) {
       myStatus = status;
       if (attributes != null) myAttributes.putAll(attributes);
     }
 
-    @NotNull
+    @Nonnull
     public Status getStatus() {
       return myStatus;
     }
 
-    public void addAttributesTo(@NotNull ServiceMessageBuilder serviceMessageBuilder) {
+    public void addAttributesTo(@Nonnull ServiceMessageBuilder serviceMessageBuilder) {
       for (Map.Entry<String, String> entry : myAttributes.entrySet()) {
         serviceMessageBuilder.addAttribute(entry.getKey(), entry.getValue());
       }
     }
   }
 
-  public GocheckEventsConverter(@NotNull TestConsoleProperties consoleProperties) {
+  public GocheckEventsConverter(@Nonnull TestConsoleProperties consoleProperties) {
     super(FRAMEWORK_NAME, consoleProperties);
   }
 
   @Override
-  public boolean processServiceMessages(@NotNull String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  public boolean processServiceMessages(@Nonnull String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     Matcher matcher;
 
     switch (myScope) {
@@ -265,13 +265,13 @@ public class GocheckEventsConverter extends OutputToGeneralTestEventsConverter i
     return null;
   }
 
-  private boolean processTestStarted(@NotNull String testName, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  private boolean processTestStarted(@Nonnull String testName, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     String testStartedMsg = ServiceMessageBuilder.testStarted(testName)
       .addAttribute("locationHint", testUrl(testName)).toString();
     return super.processServiceMessages(testStartedMsg, outputType, visitor);
   }
 
-  private void processTestResult(@NotNull TestResult testResult, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  private void processTestResult(@Nonnull TestResult testResult, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     processStdOut(myTestName, outputType, visitor);
 
     switch (testResult.getStatus()) {
@@ -304,7 +304,7 @@ public class GocheckEventsConverter extends OutputToGeneralTestEventsConverter i
     super.processServiceMessages(testFinishedMsg, outputType, visitor);
   }
 
-  private void processStdOut(@NotNull String testName, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  private void processStdOut(@Nonnull String testName, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     if (myStdOut == null) {
       return;
     }
@@ -316,7 +316,7 @@ public class GocheckEventsConverter extends OutputToGeneralTestEventsConverter i
     myStdOut = null;
   }
 
-  private void processTestSectionStart(@NotNull String testName, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  private void processTestSectionStart(@Nonnull String testName, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     String suiteName = testName.substring(0, testName.indexOf("."));
     myTestName = testName;
     myCurrentTestStart = System.currentTimeMillis();
@@ -492,21 +492,21 @@ public class GocheckEventsConverter extends OutputToGeneralTestEventsConverter i
     return ContainerUtil.newHashMap(pair("details", detailsMessage.toString()), pair("message", errorMessage));
   }
 
-  @NotNull
-  private static List<String> safeSublist(@NotNull List<String> list, int until) {
+  @Nonnull
+  private static List<String> safeSublist(@Nonnull List<String> list, int until) {
     if (0 < until && until <= list.size() - 1) {
       return list.subList(0, until);
     }
     return ContainerUtil.newArrayList();
   }
 
-  @NotNull
-  private static String suiteUrl(@NotNull String suiteName) {
+  @Nonnull
+  private static String suiteUrl(@Nonnull String suiteName) {
     return GoTestLocator.SUITE_PROTOCOL + "://" + suiteName;
   }
   
-  @NotNull
-  private static String testUrl(@NotNull String testName) {
+  @Nonnull
+  private static String testUrl(@Nonnull String testName) {
     return GoTestLocator.PROTOCOL + "://" + testName;
   }
 }

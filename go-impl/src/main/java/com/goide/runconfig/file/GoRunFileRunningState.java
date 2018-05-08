@@ -16,20 +16,21 @@
 
 package com.goide.runconfig.file;
 
+import javax.annotation.Nonnull;
+
 import com.goide.runconfig.GoRunningState;
 import com.goide.util.GoExecutor;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.module.Module;
-import org.jetbrains.annotations.NotNull;
 
 public class GoRunFileRunningState extends GoRunningState<GoRunFileConfiguration> {
-  public GoRunFileRunningState(@NotNull ExecutionEnvironment env, @NotNull Module module, GoRunFileConfiguration configuration) {
+  public GoRunFileRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module, GoRunFileConfiguration configuration) {
     super(env, module, configuration);
   }
 
   @Override
-  protected GoExecutor patchExecutor(@NotNull GoExecutor executor) throws ExecutionException {
+  protected GoExecutor patchExecutor(@Nonnull GoExecutor executor) throws ExecutionException {
     return executor
       .withParameters("run")
       .withParameterString(myConfiguration.getGoToolParams())

@@ -22,7 +22,7 @@ import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -31,12 +31,12 @@ import static com.goide.GoTypes.TRIPLE_DOT;
 public class GoFunctionVariadicParameterInspection extends GoInspectionBase {
   private static final GoDeleteQuickFix DELETE_QUICK_FIX = new GoDeleteQuickFix("Delete ...", TRIPLE_DOT);
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitCompositeElement(@NotNull GoCompositeElement o) {
+      public void visitCompositeElement(@Nonnull GoCompositeElement o) {
         if (o instanceof GoSignatureOwner) {
           GoSignature signature = ((GoSignatureOwner)o).getSignature();
           if (signature != null) {
@@ -48,7 +48,7 @@ public class GoFunctionVariadicParameterInspection extends GoInspectionBase {
     };
   }
 
-  private static void checkResult(@NotNull GoSignature o, @NotNull ProblemsHolder holder) {
+  private static void checkResult(@Nonnull GoSignature o, @Nonnull ProblemsHolder holder) {
     GoResult result = o.getResult();
     if (result == null) return;
     GoParameters parameters = result.getParameters();
@@ -62,7 +62,7 @@ public class GoFunctionVariadicParameterInspection extends GoInspectionBase {
     }
   }
 
-  private static void checkParameters(@NotNull GoSignature o, @NotNull ProblemsHolder holder) {
+  private static void checkParameters(@Nonnull GoSignature o, @Nonnull ProblemsHolder holder) {
     GoParameters parameters = o.getParameters();
     List<GoParameterDeclaration> list = parameters.getParameterDeclarationList();
     int size = list.size();

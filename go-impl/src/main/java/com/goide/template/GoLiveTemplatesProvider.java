@@ -16,12 +16,14 @@
 
 package com.goide.template;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.template.impl.DefaultLiveTemplatesProvider;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoLiveTemplatesProvider implements DefaultLiveTemplatesProvider {
-  @NotNull
+  @Nonnull
   @Override
   public String[] getDefaultLiveTemplateFiles() {
     return new String[]{"/liveTemplates/go", "/liveTemplates/goTags"};

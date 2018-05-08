@@ -43,8 +43,8 @@ import com.intellij.psi.PsiFileSystemItem;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Map;
 
@@ -58,7 +58,7 @@ public class GoRunUtil {
   }
 
   @Nullable
-  public static PsiFile findMainFileInDirectory(@NotNull VirtualFile packageDirectory, @NotNull Project project) {
+  public static PsiFile findMainFileInDirectory(@Nonnull VirtualFile packageDirectory, @Nonnull Project project) {
     for (VirtualFile file : packageDirectory.getChildren()) {
       if (file == null) {
         continue;
@@ -92,7 +92,7 @@ public class GoRunUtil {
     return psiElement;
   }
 
-  public static void installGoWithMainFileChooser(Project project, @NotNull TextFieldWithBrowseButton fileField) {
+  public static void installGoWithMainFileChooser(Project project, @Nonnull TextFieldWithBrowseButton fileField) {
     installFileChooser(project, fileField, false, false, file -> {
       if (file.getFileType() != GoFileType.INSTANCE) {
         return false;
@@ -109,19 +109,19 @@ public class GoRunUtil {
     return false;
   }
 
-  public static void installFileChooser(@NotNull Project project,
-                                        @NotNull ComponentWithBrowseButton field,
+  public static void installFileChooser(@Nonnull Project project,
+                                        @Nonnull ComponentWithBrowseButton field,
                                         boolean directory) {
     installFileChooser(project, field, directory, false);
   }
 
-  public static void installFileChooser(@NotNull Project project, @NotNull ComponentWithBrowseButton field, boolean directory,
+  public static void installFileChooser(@Nonnull Project project, @Nonnull ComponentWithBrowseButton field, boolean directory,
                                         boolean showFileSystemRoots) {
     installFileChooser(project, field, directory, showFileSystemRoots, null);
   }
 
-  public static void installFileChooser(@NotNull Project project,
-                                        @NotNull ComponentWithBrowseButton field,
+  public static void installFileChooser(@Nonnull Project project,
+                                        @Nonnull ComponentWithBrowseButton field,
                                         boolean directory,
                                         boolean showFileSystemRoots,
                                         @Nullable Condition<VirtualFile> fileFilter) {
@@ -142,7 +142,7 @@ public class GoRunUtil {
     }
   }
 
-  public static void printGoEnvVariables(@NotNull GeneralCommandLine commandLine, @NotNull ProcessHandler handler) {
+  public static void printGoEnvVariables(@Nonnull GeneralCommandLine commandLine, @Nonnull ProcessHandler handler) {
     Map<String, String> environment = commandLine.getEnvironment();
     handler.notifyTextAvailable("GOROOT=" + StringUtil.nullize(environment.get(GoConstants.GO_ROOT)) + '\n', ProcessOutputTypes.SYSTEM);
     handler.notifyTextAvailable("GOPATH=" + StringUtil.nullize(environment.get(GoConstants.GO_PATH)) + '\n', ProcessOutputTypes.SYSTEM);

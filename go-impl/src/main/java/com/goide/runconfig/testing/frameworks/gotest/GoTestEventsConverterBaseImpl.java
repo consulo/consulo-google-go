@@ -26,8 +26,8 @@ import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.text.StringUtil;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageTypes;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.text.ParseException;
 
@@ -42,11 +42,11 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
   private TestResult myCurrentTestResult;
   private long myCurrentTestStart;
 
-  public GoTestEventsConverterBaseImpl(@NotNull String testFrameworkName, @NotNull TestConsoleProperties consoleProperties) {
+  public GoTestEventsConverterBaseImpl(@Nonnull String testFrameworkName, @Nonnull TestConsoleProperties consoleProperties) {
     super(testFrameworkName, consoleProperties);
   }
 
-  protected abstract int processLine(@NotNull String line, int start, Key outputType, ServiceMessageVisitor visitor)
+  protected abstract int processLine(@Nonnull String line, int start, Key outputType, ServiceMessageVisitor visitor)
     throws ParseException;
   
   @Nullable
@@ -55,7 +55,7 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
   }
 
   @Override
-  public final boolean processServiceMessages(@NotNull String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  public final boolean processServiceMessages(@Nonnull String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     if (myVisitor == null && visitor != null) {
       myVisitor = visitor;
     }
@@ -75,7 +75,7 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
     return true;
   }
 
-  protected void processOutput(@NotNull String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  protected void processOutput(@Nonnull String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     if (text.isEmpty()) {
       return;
     }
@@ -103,7 +103,7 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
     super.dispose();
   }
 
-  protected void startTest(@NotNull String testName, @Nullable ServiceMessageVisitor visitor) throws ParseException {
+  protected void startTest(@Nonnull String testName, @Nullable ServiceMessageVisitor visitor) throws ParseException {
     if (isCurrentlyRunningTest(testName)) {
       return;
     }
@@ -131,7 +131,7 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
     super.flushBufferBeforeTerminating();
   }
 
-  protected void finishTest(@NotNull String name, @NotNull TestResult result, @Nullable ServiceMessageVisitor visitor)
+  protected void finishTest(@Nonnull String name, @Nonnull TestResult result, @Nullable ServiceMessageVisitor visitor)
     throws ParseException {
     if (isCurrentlyRunningTest(name)) {
       if (myCurrentTestResult == null) {
@@ -151,12 +151,12 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
     return false;
   }
 
-  private boolean isCurrentlyRunningTest(@NotNull String testName) {
+  private boolean isCurrentlyRunningTest(@Nonnull String testName) {
     return testName.equals(myCurrentTestName);
   }
 
-  private void finishTestInner(@NotNull String name,
-                               @NotNull TestResult result,
+  private void finishTestInner(@Nonnull String name,
+                               @Nonnull TestResult result,
                                @Nullable ServiceMessageVisitor visitor) throws ParseException {
     if (isCurrentlyRunningTest(name)) {
       myCurrentTestName = null;
@@ -179,8 +179,8 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
     super.processServiceMessages(finishedMessage, null, visitor);
   }
 
-  @NotNull
-  private static String testUrl(@NotNull String testName) {
+  @Nonnull
+  private static String testUrl(@Nonnull String testName) {
     return GoTestLocator.PROTOCOL + "://" + testName;
   }
 }

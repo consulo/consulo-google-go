@@ -12,8 +12,8 @@ import com.intellij.xdebugger.evaluation.XDebuggerEditorsProvider;
 import com.intellij.xdebugger.frame.XExecutionStack;
 import com.intellij.xdebugger.frame.XSuspendContext;
 import com.intellij.xdebugger.stepping.XSmartStepIntoHandler;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.jetbrains.debugger.connection.VmConnection;
 
 import javax.swing.event.HyperlinkListener;
@@ -31,14 +31,14 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
   private boolean isForceStep;
 
   private AtomicNotNullLazyValue<XBreakpointHandler<?>[]> myBreakpointHandlerValue = new AtomicNotNullLazyValue<XBreakpointHandler<?>[]>() {
-    @NotNull
+    @Nonnull
     @Override
     protected XBreakpointHandler<?>[] compute() {
       return createBreakpointHandlers();
     }
   };
 
-  protected DebugProcessImpl(@NotNull XDebugSession session,
+  protected DebugProcessImpl(@Nonnull XDebugSession session,
                              C connection,
                              XDebuggerEditorsProvider editorsProvider,
                              XSmartStepIntoHandler<?> smartStepIntoHandler,
@@ -131,7 +131,7 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
     return AsyncResult.done(null);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public XBreakpointHandler<?>[] getBreakpointHandlers() {
     switch (myConnection.getState().getStatus()) {
@@ -148,7 +148,7 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
     return true;
   }
 
-  @NotNull
+  @Nonnull
   protected abstract XBreakpointHandler<?>[] createBreakpointHandlers();
 
   public C getConnection() {
@@ -159,7 +159,7 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
     return myExecutionResult;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public XDebuggerEditorsProvider getEditorsProvider() {
     return myEditorsProvider;

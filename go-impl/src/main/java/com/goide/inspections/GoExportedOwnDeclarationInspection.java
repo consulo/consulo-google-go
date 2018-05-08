@@ -16,6 +16,8 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.*;
 import com.intellij.codeInspection.*;
 import com.intellij.diagnostic.AttachmentFactory;
@@ -24,7 +26,6 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Part of the golint tool
@@ -34,12 +35,12 @@ import org.jetbrains.annotations.NotNull;
 public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
   public static final String QUICK_FIX_NAME = "Extract to own declaration";
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitConstDeclaration(@NotNull GoConstDeclaration o) {
+      public void visitConstDeclaration(@Nonnull GoConstDeclaration o) {
         if (o.getParent() instanceof GoFile) {
           for (GoConstSpec spec : o.getConstSpecList()) {
             boolean first = true;
@@ -55,7 +56,7 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitVarDeclaration(@NotNull GoVarDeclaration o) {
+      public void visitVarDeclaration(@Nonnull GoVarDeclaration o) {
         if (o.getParent() instanceof GoFile) {
           for (GoVarSpec spec : o.getVarSpecList()) {
             boolean first = true;
@@ -80,7 +81,7 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (!element.isValid() || !(element instanceof GoConstDefinition)) {
         return;
@@ -119,7 +120,7 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (!element.isValid() || !(element instanceof GoVarDefinition)) {
         return;

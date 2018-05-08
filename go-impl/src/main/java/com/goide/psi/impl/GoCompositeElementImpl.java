@@ -16,6 +16,8 @@
 
 package com.goide.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
@@ -23,11 +25,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoCompositeElementImpl extends ASTWrapperPsiElement implements GoCompositeElement {
-  public GoCompositeElementImpl(@NotNull ASTNode node) {
+  public GoCompositeElementImpl(@Nonnull ASTNode node) {
     super(node);
   }
 
@@ -37,18 +39,18 @@ public class GoCompositeElementImpl extends ASTWrapperPsiElement implements GoCo
   }
 
   @Override
-  public boolean processDeclarations(@NotNull PsiScopeProcessor processor,
-                                     @NotNull ResolveState state,
+  public boolean processDeclarations(@Nonnull PsiScopeProcessor processor,
+                                     @Nonnull ResolveState state,
                                      @Nullable PsiElement lastParent,
-                                     @NotNull PsiElement place) {
+                                     @Nonnull PsiElement place) {
     return processDeclarationsDefault(this, processor, state, lastParent, place);
   }
 
-  public static boolean processDeclarationsDefault(@NotNull GoCompositeElement o,
-                                                   @NotNull PsiScopeProcessor processor,
-                                                   @NotNull ResolveState state,
+  public static boolean processDeclarationsDefault(@Nonnull GoCompositeElement o,
+                                                   @Nonnull PsiScopeProcessor processor,
+                                                   @Nonnull ResolveState state,
                                                    @Nullable PsiElement lastParent,
-                                                   @NotNull PsiElement place) {
+                                                   @Nonnull PsiElement place) {
     if (o instanceof GoLeftHandExprList || o instanceof GoExpression) return true;
 
     if (!o.shouldGoDeeper()) return processor.execute(o, state);
@@ -70,14 +72,14 @@ public class GoCompositeElementImpl extends ASTWrapperPsiElement implements GoCo
            : ResolveUtil.processChildren(o, processor, state, lastParent, place);
   }
 
-  private static boolean processBlock(@NotNull GoBlock o,
-                                      @NotNull PsiScopeProcessor processor,
-                                      @NotNull ResolveState state,
-                                      @Nullable PsiElement lastParent, @NotNull PsiElement place) {
+  private static boolean processBlock(@Nonnull GoBlock o,
+                                      @Nonnull PsiScopeProcessor processor,
+                                      @Nonnull ResolveState state,
+                                      @Nullable PsiElement lastParent, @Nonnull PsiElement place) {
     return ResolveUtil.processChildrenFromTop(o, processor, state, lastParent, place) && processParameters(o, processor);
   }
 
-  private static boolean processParameters(@NotNull GoBlock b, @NotNull PsiScopeProcessor processor) {
+  private static boolean processParameters(@Nonnull GoBlock b, @Nonnull PsiScopeProcessor processor) {
     if (processor instanceof GoScopeProcessorBase && b.getParent() instanceof GoSignatureOwner) {
       return GoPsiImplUtil.processSignatureOwner((GoSignatureOwner)b.getParent(), (GoScopeProcessorBase)processor);
     }

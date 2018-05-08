@@ -27,10 +27,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.swing.SwingConstants;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.goide.GoIcons;
 import com.goide.completion.GoCompletionUtil;
 import com.goide.project.GoVendoringUtil;
@@ -76,16 +76,18 @@ import com.intellij.util.IncorrectOperationException;
 import consulo.awt.TargetAWT;
 
 public class GoImportPackageQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement implements HintAction, HighPriorityAction {
-  @NotNull private final String myPackageName;
-  @Nullable private List<String> myPackagesToImport;
+  @Nonnull
+  private final String myPackageName;
+  @Nullable
+  private List<String> myPackagesToImport;
 
-  public GoImportPackageQuickFix(@NotNull PsiElement element, @NotNull String importPath) {
+  public GoImportPackageQuickFix(@Nonnull PsiElement element, @Nonnull String importPath) {
     super(element);
     myPackageName = "";
     myPackagesToImport = Collections.singletonList(importPath);
   }
 
-  public GoImportPackageQuickFix(@NotNull PsiReference reference) {
+  public GoImportPackageQuickFix(@Nonnull PsiReference reference) {
     super(reference.getElement());
     myPackageName = reference.getCanonicalText();
   }
@@ -107,11 +109,11 @@ public class GoImportPackageQuickFix extends LocalQuickFixAndIntentionActionOnPs
   }
 
   @Override
-  public boolean showHint(@NotNull Editor editor) {
+  public boolean showHint(@Nonnull Editor editor) {
     return doAutoImportOrShowHint(editor, true);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getText() {
     PsiElement element = getStartElement();
@@ -121,29 +123,29 @@ public class GoImportPackageQuickFix extends LocalQuickFixAndIntentionActionOnPs
     return "Import package";
   }
 
-  @NotNull
-  private static String getText(@NotNull Collection<String> packagesToImport) {
+  @Nonnull
+  private static String getText(@Nonnull Collection<String> packagesToImport) {
     return getFirstItem(packagesToImport, "") + "? " + (packagesToImport.size() > 1 ? "(multiple choices...) " : "");
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getFamilyName() {
     return "Import package";
   }
 
   @Override
-  public void invoke(@NotNull Project project, @NotNull PsiFile file, @Nullable("is null when called from inspection") Editor editor,
-                     @NotNull PsiElement startElement, @NotNull PsiElement endElement) {
+  public void invoke(@Nonnull Project project, @Nonnull PsiFile file, @Nullable Editor editor,
+                     @Nonnull PsiElement startElement, @Nonnull PsiElement endElement) {
     if (!FileModificationService.getInstance().prepareFileForWrite(file)) return;
     perform(getImportPathVariantsToImport(startElement), file, editor);
   }
 
   @Override
-  public boolean isAvailable(@NotNull Project project,
-                             @NotNull PsiFile file,
-                             @NotNull PsiElement startElement,
-                             @NotNull PsiElement endElement) {
+  public boolean isAvailable(@Nonnull Project project,
+                             @Nonnull PsiFile file,
+                             @Nonnull PsiElement startElement,
+                             @Nonnull PsiElement endElement) {
     PsiReference reference = getReference(startElement);
     return file instanceof GoFile && file.getManager().isInProject(file)
            && reference != null && reference.resolve() == null
@@ -155,16 +157,16 @@ public class GoImportPackageQuickFix extends LocalQuickFixAndIntentionActionOnPs
       startElement instanceof GoTypeReferenceExpression && ((GoTypeReferenceExpression)startElement).getQualifier() == null;
   }
 
-  @NotNull
-  private List<String> getImportPathVariantsToImport(@NotNull PsiElement element) {
+  @Nonnull
+  private List<String> getImportPathVariantsToImport(@Nonnull PsiElement element) {
     if (myPackagesToImport == null) {
       myPackagesToImport = getImportPathVariantsToImport(myPackageName, element);
     }
     return myPackagesToImport;
   }
 
-  @NotNull
-  public static List<String> getImportPathVariantsToImport(@NotNull String packageName, @NotNull PsiElement context) {
+  @Nonnull
+  public static List<String> getImportPathVariantsToImport(@Nonnull String packageName, @Nonnull PsiElement context) {
     PsiFile contextFile = context.getContainingFile();
     Set<String> imported = contextFile instanceof GoFile 
                            ? ((GoFile)contextFile).getImportedPackagesMap().keySet() : Collections.emptySet();
@@ -192,7 +194,7 @@ public class GoImportPackageQuickFix extends LocalQuickFixAndIntentionActionOnPs
     )), new MyImportsComparator(context, vendoringEnabled));
   }
 
-  public boolean doAutoImportOrShowHint(@NotNull Editor editor, boolean showHint) {
+  public boolean doAutoImportOrShowHint(@Nonnull Editor editor, boolean showHint) {
     PsiElement element = getStartElement();
     if (element == null || !element.isValid()) return false;
 
@@ -239,7 +241,7 @@ public class GoImportPackageQuickFix extends LocalQuickFixAndIntentionActionOnPs
     return false;
   }
 
-  private void perform(@NotNull List<String> packagesToImport, @NotNull PsiFile file, @Nullable Editor editor) {
+  private void perform(@Nonnull List<String> packagesToImport, @Nonnull PsiFile file, @Nullable Editor editor) {
     LOG.assertTrue(editor != null || packagesToImport.size() == 1, "Cannot invoke fix with ambiguous imports on null editor");
     if (packagesToImport.size() > 1 && editor != null) {
       JBList list = new JBList(packagesToImport);
@@ -271,7 +273,7 @@ public class GoImportPackageQuickFix extends LocalQuickFixAndIntentionActionOnPs
     }
   }
 
-  private void perform(@NotNull PsiFile file, @Nullable String pathToImport) {
+  private void perform(@Nonnull PsiFile file, @Nullable String pathToImport) {
     if (file instanceof GoFile && pathToImport != null) {
       Project project = file.getProject();
       CommandProcessor.getInstance().executeCommand(project, () -> ApplicationManager.getApplication().runWriteAction(() -> {
@@ -291,7 +293,7 @@ public class GoImportPackageQuickFix extends LocalQuickFixAndIntentionActionOnPs
     }
 
     @Override
-    public int compare(@NotNull String s1, @NotNull String s2) {
+    public int compare(@Nonnull String s1, @Nonnull String s2) {
       int result = Comparing.compare(GoCompletionUtil.calculatePackagePriority(s2, myContextImportPath),
                                      GoCompletionUtil.calculatePackagePriority(s1, myContextImportPath));
       return result != 0 ? result : Comparing.compare(s1, s2);

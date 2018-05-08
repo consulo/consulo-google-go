@@ -16,10 +16,11 @@
 
 package com.goide.completion;
 
+import javax.annotation.Nonnull;
+
 import com.goide.SdkAware;
 import com.goide.project.GoExcludedPathsSettings;
 import com.intellij.util.ArrayUtil;
-import org.jetbrains.annotations.NotNull;
 
 @SdkAware
 public class GoExcludedPackagesTest extends GoCompletionTestBase {
@@ -29,7 +30,7 @@ public class GoExcludedPackagesTest extends GoCompletionTestBase {
     super.tearDown();
   }
 
-  private void doTestExcluded(@NotNull String initial, @NotNull String after, String... excludedPaths) {
+  private void doTestExcluded(@Nonnull String initial, @Nonnull String after, String... excludedPaths) {
     GoExcludedPathsSettings.getInstance(getProject()).setExcludedPackages(excludedPaths);
     myFixture.configureByText("a.go", initial);
     myFixture.completeBasic();

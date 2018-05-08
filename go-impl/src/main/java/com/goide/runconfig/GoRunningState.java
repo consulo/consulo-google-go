@@ -16,6 +16,8 @@
 
 package com.goide.runconfig;
 
+import javax.annotation.Nonnull;
+
 import com.goide.util.GoExecutor;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.CommandLineState;
@@ -25,26 +27,27 @@ import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.process.ProcessTerminatedListener;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.module.Module;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class GoRunningState<T extends GoRunConfigurationBase<?>> extends CommandLineState {
-  @NotNull protected final Module myModule;
+  @Nonnull
+  protected final Module myModule;
 
-  @NotNull
+  @Nonnull
   public T getConfiguration() {
     return myConfiguration;
   }
 
-  @NotNull protected final T myConfiguration;
+  @Nonnull
+  protected final T myConfiguration;
 
-  public GoRunningState(@NotNull ExecutionEnvironment env, @NotNull Module module, @NotNull T configuration) {
+  public GoRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module, @Nonnull T configuration) {
     super(env);
     myModule = module;
     myConfiguration = configuration;
     addConsoleFilters(new GoConsoleFilter(myConfiguration.getProject(), myModule, myConfiguration.getWorkingDirectoryUrl()));
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected ProcessHandler startProcess() throws ExecutionException {
     GoExecutor executor = patchExecutor(createCommonExecutor());
@@ -54,14 +57,14 @@ public abstract class GoRunningState<T extends GoRunConfigurationBase<?>> extend
     return handler;
   }
 
-  @NotNull
+  @Nonnull
   public GoExecutor createCommonExecutor() {
     return GoExecutor.in(myModule).withWorkDirectory(myConfiguration.getWorkingDirectory())
       .withExtraEnvironment(myConfiguration.getCustomEnvironment())
       .withPassParentEnvironment(myConfiguration.isPassParentEnvironment());
   }
 
-  protected GoExecutor patchExecutor(@NotNull GoExecutor executor) throws ExecutionException {
+  protected GoExecutor patchExecutor(@Nonnull GoExecutor executor) throws ExecutionException {
     return executor;
   }
 }

@@ -18,12 +18,12 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.Nonnull;
 
 public interface GoLeftHandExprList extends GoCompositeElement {
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getExpressionList();
 
 }

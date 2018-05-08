@@ -16,8 +16,9 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+
 import com.goide.inspections.GoAddTrailingCommaInspection;
-import org.jetbrains.annotations.NotNull;
 
 public class GoAddTrailingCommaQuickFixTest extends GoQuickFixTestBase {
   @Override
@@ -26,7 +27,7 @@ public class GoAddTrailingCommaQuickFixTest extends GoQuickFixTestBase {
     myFixture.enableInspections(GoAddTrailingCommaInspection.class);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/add-comma";

@@ -33,23 +33,23 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.PathUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 import java.util.UUID;
 
 public class GoRunFileConfiguration extends GoRunConfigurationWithMain<GoRunFileRunningState> {
-  public GoRunFileConfiguration(Project project, String name, @NotNull ConfigurationType configurationType) {
+  public GoRunFileConfiguration(Project project, String name, @Nonnull ConfigurationType configurationType) {
     super(name, new GoModuleBasedConfiguration(project), configurationType.getConfigurationFactories()[0]);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected ModuleBasedConfiguration createInstance() {
     return new GoRunFileConfiguration(getProject(), getName(), GoRunFileConfigurationType.getInstance());
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
     return new GoRunFileConfigurationEditorForm(getProject());
@@ -61,9 +61,9 @@ public class GoRunFileConfiguration extends GoRunConfigurationWithMain<GoRunFile
     super.checkFileConfiguration();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoRunFileRunningState newRunningState(@NotNull ExecutionEnvironment env, @NotNull Module module) {
+  protected GoRunFileRunningState newRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module) {
     String path = getFilePath();
     if (!"go".equals(PathUtil.getFileExtension(path))) {
       VirtualFile f = LocalFileSystem.getInstance().refreshAndFindFileByPath(path);

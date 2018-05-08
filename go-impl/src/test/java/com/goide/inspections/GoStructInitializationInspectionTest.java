@@ -16,9 +16,10 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.SdkAware;
 import com.goide.quickfix.GoQuickFixTestBase;
-import org.jetbrains.annotations.NotNull;
 
 @SdkAware
 public class GoStructInitializationInspectionTest extends GoQuickFixTestBase {
@@ -55,7 +56,7 @@ public class GoStructInitializationInspectionTest extends GoQuickFixTestBase {
     return myFixture.testHighlighting(true, false, true, getTestName(true) + ".go");
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "inspections/go-struct-initialization";

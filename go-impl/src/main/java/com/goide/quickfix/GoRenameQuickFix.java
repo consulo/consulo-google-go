@@ -16,6 +16,8 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoNamedElement;
 import com.intellij.codeInsight.FileModificationService;
 import com.intellij.codeInspection.LocalQuickFixOnPsiElement;
@@ -33,21 +35,20 @@ import com.intellij.refactoring.rename.RenameHandler;
 import com.intellij.refactoring.rename.RenameHandlerRegistry;
 import com.intellij.usageView.UsageViewTypeLocation;
 import com.intellij.util.Consumer;
-import org.jetbrains.annotations.NotNull;
 
 public class GoRenameQuickFix extends LocalQuickFixOnPsiElement {
   private final String myText;
 
-  public GoRenameQuickFix(@NotNull GoNamedElement element) {
+  public GoRenameQuickFix(@Nonnull GoNamedElement element) {
     super(element);
     myText = "Rename " + ElementDescriptionUtil.getElementDescription(element, UsageViewTypeLocation.INSTANCE);
   }
 
   @Override
-  public void invoke(@NotNull Project project,
-                     @NotNull PsiFile file,
-                     @NotNull PsiElement startElement,
-                     @NotNull PsiElement endElement) {
+  public void invoke(@Nonnull Project project,
+                     @Nonnull PsiFile file,
+                     @Nonnull PsiElement startElement,
+                     @Nonnull PsiElement endElement) {
     if (!FileModificationService.getInstance().preparePsiElementsForWrite(startElement)) return;
 
     Runnable runnable = () -> {
@@ -75,12 +76,12 @@ public class GoRenameQuickFix extends LocalQuickFixOnPsiElement {
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public String getFamilyName() {
     return getName();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getText() {
     return myText;

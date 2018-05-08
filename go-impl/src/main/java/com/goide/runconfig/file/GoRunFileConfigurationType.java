@@ -23,21 +23,21 @@ import com.intellij.execution.configurations.ConfigurationTypeBase;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoRunFileConfigurationType extends ConfigurationTypeBase {
   public GoRunFileConfigurationType() {
     super("GoRunFileConfiguration", "Go Single File", "Go single run file configuration", GoIcons.APPLICATION_RUN);
     addFactory(new GoConfigurationFactoryBase(this) {
       @Override
-      @NotNull
-      public RunConfiguration createTemplateConfiguration(@NotNull Project project) {
+      @Nonnull
+      public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
         return new GoRunFileConfiguration(project, GoConstants.GO, getInstance());
       }
     });
   }
 
-  @NotNull
+  @Nonnull
   public static GoRunFileConfigurationType getInstance() {
     return Extensions.findExtension(CONFIGURATION_TYPE_EP, GoRunFileConfigurationType.class);
   }

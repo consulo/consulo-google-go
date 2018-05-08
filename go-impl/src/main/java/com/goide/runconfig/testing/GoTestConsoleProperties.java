@@ -48,18 +48,18 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.GlobalSearchScopesCore;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
 public class GoTestConsoleProperties extends SMTRunnerConsoleProperties implements SMCustomMessagesParsing {
-  public GoTestConsoleProperties(@NotNull GoTestRunConfiguration configuration, @NotNull Executor executor) {
+  public GoTestConsoleProperties(@Nonnull GoTestRunConfiguration configuration, @Nonnull Executor executor) {
     super(configuration, configuration.getTestFramework().getName(), executor);
     setPrintTestingStartedTime(false);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected GlobalSearchScope initScope() {
     RunProfile configuration = getConfiguration();
@@ -106,10 +106,10 @@ public class GoTestConsoleProperties extends SMTRunnerConsoleProperties implemen
     return GoTestLocator.INSTANCE;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public OutputToGeneralTestEventsConverter createTestEventsConverter(@NotNull String testFrameworkName,
-                                                                      @NotNull TestConsoleProperties consoleProperties) {
+  public OutputToGeneralTestEventsConverter createTestEventsConverter(@Nonnull String testFrameworkName,
+                                                                      @Nonnull TestConsoleProperties consoleProperties) {
     RunProfile configuration = getConfiguration();
     assert configuration instanceof GoTestRunConfiguration;
     return ((GoTestRunConfiguration)configuration).createTestEventsConverter(consoleProperties);
@@ -128,9 +128,9 @@ public class GoTestConsoleProperties extends SMTRunnerConsoleProperties implemen
       init(properties);
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    protected Filter getFilter(@NotNull Project project, @NotNull GlobalSearchScope searchScope) {
+    protected Filter getFilter(@Nonnull Project project, @Nonnull GlobalSearchScope searchScope) {
       return super.getFilter(project, searchScope).and(new Filter() {
         @Override
         public boolean shouldAccept(AbstractTestProxy test) {
@@ -142,9 +142,9 @@ public class GoTestConsoleProperties extends SMTRunnerConsoleProperties implemen
 
     @Nullable
     @Override
-    protected MyRunProfile getRunProfile(@NotNull ExecutionEnvironment environment) {
+    protected MyRunProfile getRunProfile(@Nonnull ExecutionEnvironment environment) {
       return new MyRunProfile((RunConfigurationBase)myConsoleProperties.getConfiguration()) {
-        @NotNull
+        @Nonnull
         @Override
         public Module[] getModules() {
           return Module.EMPTY_ARRAY;
@@ -152,7 +152,7 @@ public class GoTestConsoleProperties extends SMTRunnerConsoleProperties implemen
 
         @Nullable
         @Override
-        public RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment environment) throws ExecutionException {
+        public RunProfileState getState(@Nonnull Executor executor, @Nonnull ExecutionEnvironment environment) throws ExecutionException {
           RunConfigurationBase configurationBase = getPeer();
           if (configurationBase instanceof GoTestRunConfiguration) {
             List<AbstractTestProxy> failedTests = getFailedTests(configurationBase.getProject());

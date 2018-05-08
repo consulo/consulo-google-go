@@ -17,8 +17,8 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoPointerType extends GoType {
@@ -26,7 +26,7 @@ public interface GoPointerType extends GoType {
   @Nullable
   GoType getType();
 
-  @NotNull
+  @Nonnull
   PsiElement getMul();
 
 }

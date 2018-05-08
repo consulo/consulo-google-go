@@ -18,20 +18,22 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.StubBasedPsiElement;
 import com.goide.stubs.GoParametersStub;
 
 public interface GoParameters extends GoCompositeElement, StubBasedPsiElement<GoParametersStub> {
 
-  @NotNull
+  @Nonnull
   List<GoParameterDeclaration> getParameterDeclarationList();
 
   @Nullable
   GoType getType();
 
-  @NotNull
+  @Nonnull
   PsiElement getLparen();
 
   @Nullable

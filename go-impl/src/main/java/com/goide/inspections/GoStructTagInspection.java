@@ -16,6 +16,8 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoFieldDeclaration;
 import com.goide.psi.GoStructType;
 import com.goide.psi.GoTag;
@@ -23,20 +25,19 @@ import com.goide.psi.GoVisitor;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemsHolder;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Implements <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/issues/1983"/>, an
  * inspector that warns if a go StructTag is not well-formed according to Go language conventions.
  */
 public class GoStructTagInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder,
-                                     @SuppressWarnings({"UnusedParameters", "For future"}) @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
+                                     @SuppressWarnings({"UnusedParameters", "For future"}) @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitStructType(@NotNull GoStructType o) {
+      public void visitStructType(@Nonnull GoStructType o) {
         for (GoFieldDeclaration field : o.getFieldDeclarationList()) {
           GoTag tag = field.getTag();
           if (tag == null) continue;
@@ -50,7 +51,7 @@ public class GoStructTagInspection extends GoInspectionBase {
 
   // Implementation based on validateStructTag from the go vet tool:
   // https://github.com/golang/tools/blob/master/cmd/vet/structtag.go.
-  private static boolean isValidTag(@NotNull GoTag tag) {
+  private static boolean isValidTag(@Nonnull GoTag tag) {
     StringBuilder tagText = new StringBuilder(GoPsiImplUtil.unquote(tag.getText()));
     if (tagText.length() != tag.getText().length() - 2) {
       // We already have a parsing error in this case, so no need to add an additional warning.

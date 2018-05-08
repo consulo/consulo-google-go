@@ -22,14 +22,14 @@ import com.intellij.application.options.CodeStyleAbstractConfigurable;
 import com.intellij.application.options.CodeStyleAbstractPanel;
 import com.intellij.application.options.TabbedLanguageCodeStylePanel;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoCodeStyleConfigurable extends CodeStyleAbstractConfigurable {
-  public GoCodeStyleConfigurable(@NotNull CodeStyleSettings settings, CodeStyleSettings cloneSettings) {
+  public GoCodeStyleConfigurable(@Nonnull CodeStyleSettings settings, CodeStyleSettings cloneSettings) {
     super(settings, cloneSettings, GoConstants.GO);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected CodeStyleAbstractPanel createPanel(CodeStyleSettings settings) {
     return new GoCodeStyleMainPanel(getCurrentSettings(), settings);

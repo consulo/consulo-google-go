@@ -16,17 +16,18 @@
 
 package com.goide.completion;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoNamedElement;
 import com.intellij.codeInsight.completion.CompletionConfidence;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.ThreeState;
-import org.jetbrains.annotations.NotNull;
 
 public class GoCompletionConfidence extends CompletionConfidence {
-  @NotNull
+  @Nonnull
   @Override
-  public ThreeState shouldSkipAutopopup(@NotNull PsiElement context, @NotNull PsiFile psiFile, int offset) {
+  public ThreeState shouldSkipAutopopup(@Nonnull PsiElement context, @Nonnull PsiFile psiFile, int offset) {
     return context instanceof GoNamedElement && ((GoNamedElement)context).isBlank() ? ThreeState.YES : ThreeState.UNSURE;
   }
 }

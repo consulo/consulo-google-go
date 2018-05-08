@@ -18,18 +18,20 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoSendStatement extends GoStatement {
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getExpressionList();
 
   @Nullable
   GoLeftHandExprList getLeftHandExprList();
 
-  @NotNull
+  @Nonnull
   PsiElement getSendChannel();
 
   @Nullable

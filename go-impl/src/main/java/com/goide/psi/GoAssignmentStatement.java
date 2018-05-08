@@ -18,18 +18,18 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+
+import javax.annotation.Nonnull;
 
 public interface GoAssignmentStatement extends GoStatement {
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getExpressionList();
 
-  @NotNull
+  @Nonnull
   GoLeftHandExprList getLeftHandExprList();
 
-  @NotNull
+  @Nonnull
   GoAssignOp getAssignOp();
 
 }

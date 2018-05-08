@@ -28,7 +28,7 @@ import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.openapi.util.Trinity;
 import com.intellij.psi.tree.TokenSet;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Arrays;
 
@@ -36,13 +36,13 @@ public class GoStringAndByteTypeMismatchInspection extends GoInspectionBase {
   private static final String TEXT_HINT = "Mismatched types: byte and string";
   private static final GoConvertStringToByteQuickFix STRING_INDEX_IS_BYTE_QUICK_FIX = new GoConvertStringToByteQuickFix();
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
 
       @Override
-      public void visitConditionalExpr(@NotNull GoConditionalExpr o) {
+      public void visitConditionalExpr(@Nonnull GoConditionalExpr o) {
         GoExpression left = o.getLeft();
         GoExpression right = o.getRight();
 
@@ -62,7 +62,7 @@ public class GoStringAndByteTypeMismatchInspection extends GoInspectionBase {
     };
   }
 
-  private static boolean isStringIndexExpression(@NotNull GoIndexOrSliceExpr expr) {
+  private static boolean isStringIndexExpression(@Nonnull GoIndexOrSliceExpr expr) {
     GoExpression expression = expr.getExpression();
     if (expression == null || !GoTypeUtil.isString(expression.getGoType(null))) {
       return false;

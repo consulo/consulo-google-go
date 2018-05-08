@@ -26,14 +26,15 @@ import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.ListCellRendererWrapper;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.util.Locale;
 
 public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoApplicationConfiguration> {
-  @NotNull private final Project myProject;
+  @Nonnull
+  private final Project myProject;
   private JPanel myComponent;
   private TextFieldWithBrowseButton myFileField;
   private GoCommonSettingsPanel myCommonSettingsPanel;
@@ -44,7 +45,7 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
   private TextFieldWithBrowseButton myOutputFilePathField;
 
 
-  public GoApplicationConfigurationEditorForm(@NotNull Project project) {
+  public GoApplicationConfigurationEditorForm(@Nonnull Project project) {
     super(null);
     myProject = project;
     myCommonSettingsPanel.init(project);
@@ -69,7 +70,7 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
   }
 
   @Override
-  protected void resetEditorFrom(@NotNull GoApplicationConfiguration configuration) {
+  protected void resetEditorFrom(@Nonnull GoApplicationConfiguration configuration) {
     myFileField.setText(configuration.getFilePath());
     myPackageField.setText(configuration.getPackage());
     myRunKindComboBox.setSelectedItem(configuration.getKind());
@@ -78,7 +79,7 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
   }
 
   @Override
-  protected void applyEditorTo(@NotNull GoApplicationConfiguration configuration) throws ConfigurationException {
+  protected void applyEditorTo(@Nonnull GoApplicationConfiguration configuration) throws ConfigurationException {
     configuration.setFilePath(myFileField.getText());
     configuration.setPackage(myPackageField.getText());
     configuration.setKind((GoApplicationConfiguration.Kind)myRunKindComboBox.getSelectedItem());
@@ -113,7 +114,7 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
     myRunKindComboBox.addActionListener(e -> onRunKindChanged());
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected JComponent createEditor() {
     return myComponent;

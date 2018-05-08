@@ -16,6 +16,8 @@
 
 package com.goide.inspections.unresolved;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoAssignmentStatement;
 import com.goide.psi.GoExpression;
 import com.goide.psi.GoRangeClause;
@@ -27,23 +29,22 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
 
 public class GoReplaceAssignmentWithDeclarationQuickFix extends LocalQuickFixOnPsiElement {
   public static final String QUICK_FIX_NAME = "Replace with ':='";
 
-  public GoReplaceAssignmentWithDeclarationQuickFix(@NotNull PsiElement element) {
+  public GoReplaceAssignmentWithDeclarationQuickFix(@Nonnull PsiElement element) {
     super(element);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getText() {
     return QUICK_FIX_NAME;
   }
 
   @Override
-  public void invoke(@NotNull Project project, @NotNull PsiFile file, @NotNull PsiElement startElement, @NotNull PsiElement endElement) {
+  public void invoke(@Nonnull Project project, @Nonnull PsiFile file, @Nonnull PsiElement startElement, @Nonnull PsiElement endElement) {
     if (startElement instanceof GoAssignmentStatement) {
       GoAssignmentStatement statement = (GoAssignmentStatement)startElement;
       String leftSide = statement.getLeftHandExprList().getText();
@@ -67,7 +68,7 @@ public class GoReplaceAssignmentWithDeclarationQuickFix extends LocalQuickFixOnP
   }
 
   @Nls
-  @NotNull
+  @Nonnull
   @Override
   public String getFamilyName() {
     return QUICK_FIX_NAME;

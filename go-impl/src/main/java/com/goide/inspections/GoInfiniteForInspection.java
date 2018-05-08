@@ -16,21 +16,22 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.psi.*;
 import com.goide.quickfix.GoReplaceWithSelectStatementQuickFix;
 import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoInfiniteForInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitForStatement(@NotNull GoForStatement o) {
+      public void visitForStatement(@Nonnull GoForStatement o) {
         super.visitForStatement(o);
 
         if (o.getExpression() == null &&

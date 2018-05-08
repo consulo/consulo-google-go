@@ -26,23 +26,23 @@ import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collection;
 
 public class GocheckRunningState extends GoTestRunningState {
-  public GocheckRunningState(@NotNull ExecutionEnvironment env,
-                             @NotNull Module module,
-                             @NotNull GoTestRunConfiguration configuration) {
+  public GocheckRunningState(@Nonnull ExecutionEnvironment env,
+                             @Nonnull Module module,
+                             @Nonnull GoTestRunConfiguration configuration) {
     super(env, module, configuration);
   }
 
   @Override
-  protected GoExecutor patchExecutor(@NotNull GoExecutor executor) throws ExecutionException {
+  protected GoExecutor patchExecutor(@Nonnull GoExecutor executor) throws ExecutionException {
     return super.patchExecutor(executor).withParameters("-check.vv");
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String buildFilterPatternForFile(GoFile file) {
     Collection<String> testNames = ContainerUtil.newLinkedHashSet();
@@ -53,7 +53,7 @@ public class GocheckRunningState extends GoTestRunningState {
   }
 
   @Override
-  protected void addFilterParameter(@NotNull GoExecutor executor, String pattern) {
+  protected void addFilterParameter(@Nonnull GoExecutor executor, String pattern) {
     if (StringUtil.isNotEmpty(pattern)) {
       executor.withParameters("-check.f", pattern);
     }

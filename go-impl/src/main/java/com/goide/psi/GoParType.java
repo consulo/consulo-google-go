@@ -17,22 +17,22 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoParType extends GoType {
 
-  @NotNull
+  @Nonnull
   GoType getType();
 
-  @NotNull
+  @Nonnull
   PsiElement getLparen();
 
-  @NotNull
+  @Nonnull
   PsiElement getRparen();
 
-  @NotNull
+  @Nonnull
   GoType getActualType();
 
 }

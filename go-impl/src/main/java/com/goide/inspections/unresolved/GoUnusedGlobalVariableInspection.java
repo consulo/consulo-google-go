@@ -16,17 +16,19 @@
 
 package com.goide.inspections.unresolved;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoVarDeclaration;
 import com.goide.psi.GoVarDefinition;
 import com.goide.quickfix.GoDeleteVarDefinitionQuickFix;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoUnusedGlobalVariableInspection extends GoUnusedVariableInspection {
   @Override
-  protected void reportError(@NotNull GoVarDefinition varDefinition, @NotNull ProblemsHolder holder) {
+  protected void reportError(@Nonnull GoVarDefinition varDefinition, @Nonnull ProblemsHolder holder) {
     holder.registerProblem(varDefinition, "Unused variable <code>#ref</code> #loc", ProblemHighlightType.LIKE_UNUSED_SYMBOL,
                            new GoDeleteVarDefinitionQuickFix(varDefinition.getName()));
   }

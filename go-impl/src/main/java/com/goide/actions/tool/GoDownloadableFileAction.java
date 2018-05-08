@@ -27,23 +27,25 @@ import com.intellij.notification.Notifications;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.swing.event.HyperlinkEvent;
 
 public abstract class GoDownloadableFileAction extends GoExternalToolsAction {
   private static final String GO_GET_LINK = "goGetLink";
-  @NotNull private final String myGoGetImportPath;
-  @NotNull private final String myExecutableName;
+  @Nonnull
+  private final String myGoGetImportPath;
+  @Nonnull
+  private final String myExecutableName;
 
-  public GoDownloadableFileAction(@NotNull String executableName, @NotNull String goGetImportPath) {
+  public GoDownloadableFileAction(@Nonnull String executableName, @Nonnull String goGetImportPath) {
     myExecutableName = executableName;
     myGoGetImportPath = goGetImportPath;
   }
 
   @Override
-  protected boolean doSomething(@NotNull VirtualFile virtualFile, @Nullable Module module, @NotNull Project project, @NotNull String title)
+  protected boolean doSomething(@Nonnull VirtualFile virtualFile, @Nullable Module module, @Nonnull Project project, @Nonnull String title)
     throws ExecutionException {
     VirtualFile executable = getExecutable(project, module);
     if (executable == null) {
@@ -58,7 +60,7 @@ public abstract class GoDownloadableFileAction extends GoExternalToolsAction {
   }
 
   @Nullable
-  protected VirtualFile getExecutable(@NotNull Project project, @Nullable Module module) {
+  protected VirtualFile getExecutable(@Nonnull Project project, @Nullable Module module) {
     return GoSdkUtil.findExecutableInGoPath(myExecutableName, project, module);
   }
 
@@ -66,13 +68,13 @@ public abstract class GoDownloadableFileAction extends GoExternalToolsAction {
     private final Project myProject;
     private final Module myModule;
 
-    private MyNotificationListener(@NotNull Project project, @Nullable Module module) {
+    private MyNotificationListener(@Nonnull Project project, @Nullable Module module) {
       myProject = project;
       myModule = module;
     }
 
     @Override
-    public void hyperlinkUpdate(@NotNull Notification notification, @NotNull HyperlinkEvent event) {
+    public void hyperlinkUpdate(@Nonnull Notification notification, @Nonnull HyperlinkEvent event) {
       if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
         String description = event.getDescription();
         if (GO_GET_LINK.equals(description)) {

@@ -24,20 +24,20 @@ import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.refactoring.rename.RenamePsiElementProcessor;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.Query;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Map;
 
 public class GoAnonymousFieldProcessor extends RenamePsiElementProcessor {
   @Override
-  public boolean canProcessElement(@NotNull PsiElement element) {
+  public boolean canProcessElement(@Nonnull PsiElement element) {
     return
       element instanceof GoTypeSpec ||
       element instanceof GoAnonymousFieldDefinition;
   }
 
   @Override
-  public void prepareRenaming(PsiElement element, String newName, @NotNull Map<PsiElement, String> allRenames, @NotNull SearchScope scope) {
+  public void prepareRenaming(PsiElement element, String newName, @Nonnull Map<PsiElement, String> allRenames, @Nonnull SearchScope scope) {
     if (element instanceof GoTypeSpec) {
       Query<PsiReference> search = ReferencesSearch.search(element, scope);
       for (PsiReference ref : search) {

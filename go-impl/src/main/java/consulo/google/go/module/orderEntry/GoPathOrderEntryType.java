@@ -16,12 +16,13 @@
 
 package consulo.google.go.module.orderEntry;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.util.InvalidDataException;
 import consulo.roots.ModuleRootLayer;
 import consulo.roots.impl.ModuleRootLayerImpl;
 import consulo.roots.orderEntry.OrderEntryType;
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author VISTALL
@@ -33,16 +34,16 @@ public class GoPathOrderEntryType implements OrderEntryType<GoPathOrderEntry> {
   }
 
   @Override
-  public void storeOrderEntry(@NotNull Element element, @NotNull GoPathOrderEntry goPathOrderEntry) {
+  public void storeOrderEntry(@Nonnull Element element, @Nonnull GoPathOrderEntry goPathOrderEntry) {
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoPathOrderEntry loadOrderEntry(@NotNull Element element, @NotNull ModuleRootLayer moduleRootLayer) throws InvalidDataException {
+  public GoPathOrderEntry loadOrderEntry(@Nonnull Element element, @Nonnull ModuleRootLayer moduleRootLayer) throws InvalidDataException {
     return new GoPathOrderEntry((ModuleRootLayerImpl)moduleRootLayer);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getId() {
     return "gopath";

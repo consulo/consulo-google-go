@@ -16,8 +16,8 @@
 
 package com.goide.usages;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.goide.psi.GoConstDefinition;
 import com.goide.psi.GoFieldDefinition;
 import com.goide.psi.GoFieldName;
@@ -46,13 +46,13 @@ public class GoReadWriteAccessDetector extends ReadWriteAccessDetector {
     return e instanceof GoVarDefinition || e instanceof GoConstDefinition;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Access getReferenceAccess(@Nullable PsiElement referencedElement, @NotNull PsiReference reference) {
+  public Access getReferenceAccess(@Nullable PsiElement referencedElement, @Nonnull PsiReference reference) {
     return getExpressionAccess(reference.getElement());
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Access getExpressionAccess(@Nullable PsiElement e) {
     if (e instanceof GoFieldName) {

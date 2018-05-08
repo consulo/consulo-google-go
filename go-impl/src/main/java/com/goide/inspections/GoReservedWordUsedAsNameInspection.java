@@ -16,6 +16,8 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.*;
 import com.goide.psi.impl.GoTypeReference;
 import com.goide.quickfix.GoRenameQuickFix;
@@ -28,43 +30,42 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.ElementDescriptionUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.usageView.UsageViewTypeLocation;
-import org.jetbrains.annotations.NotNull;
 
 public class GoReservedWordUsedAsNameInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     GoFile builtinFile = GoSdkUtil.findBuiltinFile(session.getFile());
     if (builtinFile == null) return DUMMY_VISITOR;
 
     return new GoVisitor() {
       @Override
-      public void visitTypeSpec(@NotNull GoTypeSpec o) {
+      public void visitTypeSpec(@Nonnull GoTypeSpec o) {
         super.visitTypeSpec(o);
         check(o, builtinFile, holder);
       }
 
       @Override
-      public void visitConstDefinition(@NotNull GoConstDefinition o) {
+      public void visitConstDefinition(@Nonnull GoConstDefinition o) {
         super.visitConstDefinition(o);
         check(o, builtinFile, holder);
       }
 
       @Override
-      public void visitFunctionOrMethodDeclaration(@NotNull GoFunctionOrMethodDeclaration o) {
+      public void visitFunctionOrMethodDeclaration(@Nonnull GoFunctionOrMethodDeclaration o) {
         super.visitFunctionOrMethodDeclaration(o);
         check(o, builtinFile, holder);
       }
 
       @Override
-      public void visitVarDefinition(@NotNull GoVarDefinition o) {
+      public void visitVarDefinition(@Nonnull GoVarDefinition o) {
         super.visitVarDefinition(o);
         check(o, builtinFile, holder);
       }
     };
   }
 
-  private static void check(@NotNull GoNamedElement element, @NotNull GoFile builtinFile, @NotNull ProblemsHolder holder) {
+  private static void check(@Nonnull GoNamedElement element, @Nonnull GoFile builtinFile, @Nonnull ProblemsHolder holder) {
     String name = element.getName();
     if (name == null || GoTypeReference.DOC_ONLY_TYPES.contains(name)) return;
 
@@ -85,9 +86,9 @@ public class GoReservedWordUsedAsNameInspection extends GoInspectionBase {
     }
   }
 
-  private static void registerProblem(@NotNull ProblemsHolder holder,
-                                      @NotNull GoNamedElement element,
-                                      @NotNull GoNamedElement builtinElement) {
+  private static void registerProblem(@Nonnull ProblemsHolder holder,
+                                      @Nonnull GoNamedElement element,
+                                      @Nonnull GoNamedElement builtinElement) {
     PsiElement identifier = element.getIdentifier();
     if (identifier == null) return;
 

@@ -16,17 +16,18 @@
 
 package com.goide.psi.impl;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.psi.GoCompositeElement;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public final class ResolveUtil {
   private ResolveUtil() {}
 
-  public static boolean treeWalkUp(@Nullable PsiElement place, @NotNull PsiScopeProcessor processor) {
+  public static boolean treeWalkUp(@Nullable PsiElement place, @Nonnull PsiScopeProcessor processor) {
     PsiElement lastParent = null;
     PsiElement run = place;
     while (run != null) {
@@ -37,11 +38,11 @@ public final class ResolveUtil {
     return true;
   }
 
-  public static boolean processChildren(@NotNull PsiElement element,
-                                        @NotNull PsiScopeProcessor processor,
-                                        @NotNull ResolveState substitutor,
+  public static boolean processChildren(@Nonnull PsiElement element,
+                                        @Nonnull PsiScopeProcessor processor,
+                                        @Nonnull ResolveState substitutor,
                                         @Nullable PsiElement lastParent,
-                                        @NotNull PsiElement place) {
+                                        @Nonnull PsiElement place) {
     PsiElement run = lastParent == null ? element.getLastChild() : lastParent.getPrevSibling();
     while (run != null) {
       if (run instanceof GoCompositeElement && !run.processDeclarations(processor, substitutor, null, place)) return false;
@@ -50,11 +51,11 @@ public final class ResolveUtil {
     return true;
   }
 
-  public static boolean processChildrenFromTop(@NotNull PsiElement element,
-                                               @NotNull PsiScopeProcessor processor,
-                                               @NotNull ResolveState substitutor,
+  public static boolean processChildrenFromTop(@Nonnull PsiElement element,
+                                               @Nonnull PsiScopeProcessor processor,
+                                               @Nonnull ResolveState substitutor,
                                                @Nullable PsiElement lastParent,
-                                               @NotNull PsiElement place) {
+                                               @Nonnull PsiElement place) {
     PsiElement run = element.getFirstChild();
     while (run != null) {
       if (run instanceof GoCompositeElement) {

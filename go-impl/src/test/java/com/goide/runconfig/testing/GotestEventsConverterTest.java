@@ -17,7 +17,7 @@
 package com.goide.runconfig.testing;
 
 import com.goide.runconfig.testing.frameworks.gotest.GotestFramework;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GotestEventsConverterTest extends GoEventsConverterTestCase {
   public void testSingleTestFailed() {
@@ -60,13 +60,13 @@ public class GotestEventsConverterTest extends GoEventsConverterTestCase {
     doTest();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "testing/gotest";
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected GoTestFramework getTestFramework() {
     return GotestFramework.INSTANCE;

@@ -16,11 +16,12 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+
 import com.goide.intentions.GoMoveToStructInitializationIntention;
-import org.jetbrains.annotations.NotNull;
 
 public class GoMoveToStructInitializationIntentionTest extends GoQuickFixTestBase {
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "intentions/move-to-struct-initialization";

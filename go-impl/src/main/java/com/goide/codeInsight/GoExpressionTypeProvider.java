@@ -26,27 +26,27 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiWhiteSpace;
 import com.intellij.psi.SyntaxTraverser;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
 public class GoExpressionTypeProvider extends ExpressionTypeProvider<GoTypeOwner> {
-  @NotNull
+  @Nonnull
   @Override
-  public String getInformationHint(@NotNull GoTypeOwner element) {
+  public String getInformationHint(@Nonnull GoTypeOwner element) {
     GoType type = element.getGoType(null);
     return StringUtil.escapeXml(StringUtil.notNullize(type != null ? type.getText() : null, "<unknown>"));
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getErrorHint() {
     return "Selection doesn't contain a Go expression";
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public List<GoTypeOwner> getExpressionsAt(@NotNull PsiElement at) {
+  public List<GoTypeOwner> getExpressionsAt(@Nonnull PsiElement at) {
     if (at instanceof PsiWhiteSpace && at.textMatches("\n")) {
       at = PsiTreeUtil.prevLeaf(at);
     }

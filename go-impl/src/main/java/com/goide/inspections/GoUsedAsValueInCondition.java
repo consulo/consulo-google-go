@@ -28,19 +28,19 @@ import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import static com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
 
 public class GoUsedAsValueInCondition extends GoInspectionBase {
   public static final String QUICK_FIX_NAME = "Convert to '==''";
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitAssignmentStatement(@NotNull GoAssignmentStatement o) {
+      public void visitAssignmentStatement(@Nonnull GoAssignmentStatement o) {
         if (o.getParent() != null && o.getParent() instanceof GoIfStatement && ((GoIfStatement)o.getParent()).getExpression() == null) {
           String left = GoPsiImplUtil.joinPsiElementText(o.getLeftHandExprList().getExpressionList());
           String right = GoPsiImplUtil.joinPsiElementText(o.getExpressionList());
@@ -50,7 +50,7 @@ public class GoUsedAsValueInCondition extends GoInspectionBase {
       }
 
       @Override
-      public void visitShortVarDeclaration(@NotNull GoShortVarDeclaration o) {
+      public void visitShortVarDeclaration(@Nonnull GoShortVarDeclaration o) {
         PsiElement parent = o.getParent();
         if (parent != null) {
           PsiElement gradParent = parent.getParent();
@@ -71,7 +71,7 @@ public class GoUsedAsValueInCondition extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (element instanceof GoAssignmentStatement) {
         String left = GoPsiImplUtil.joinPsiElementText(((GoAssignmentStatement)element).getLeftHandExprList().getExpressionList());

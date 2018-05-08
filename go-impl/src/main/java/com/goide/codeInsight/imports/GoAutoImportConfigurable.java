@@ -29,9 +29,9 @@ import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.UIUtil;
 import consulo.annotations.RequiredDispatchThread;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
@@ -42,13 +42,13 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
   private JBList myExcludePackagesList;
   private DefaultListModel myExcludePackagesModel;
 
-  @NotNull
+  @Nonnull
   private final GoCodeInsightSettings myCodeInsightSettings;
-  @NotNull
+  @Nonnull
   private final GoExcludedPathsSettings myExcludedSettings;
   private final boolean myIsDefaultProject;
 
-  public GoAutoImportConfigurable(@NotNull Project project) {
+  public GoAutoImportConfigurable(@Nonnull Project project) {
     myCodeInsightSettings = GoCodeInsightSettings.getInstance();
     myExcludedSettings = GoExcludedPathsSettings.getInstance(project);
     myIsDefaultProject = project.isDefault();
@@ -121,7 +121,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
     myExcludePackagesList.setModel(myExcludePackagesModel);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getId() {
     return "go.autoimport";

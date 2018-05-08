@@ -22,17 +22,17 @@ import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
 public class GoFunctionCallInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitCallExpr(@NotNull GoCallExpr o) {
+      public void visitCallExpr(@Nonnull GoCallExpr o) {
         super.visitCallExpr(o);
         PsiElement resolve = GoPsiImplUtil.resolveCallRaw(o); 
         GoExpression expression = o.getExpression();

@@ -18,7 +18,7 @@ package com.goide.dlv.protocol;
 
 import com.google.gson.annotations.SerializedName;
 import com.intellij.openapi.diagnostic.Logger;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -159,7 +159,7 @@ public class DlvApi {
     // Unreadable addresses will have this field set
     public String unreadable;
 
-    @NotNull
+    @Nonnull
     private Kind getKind() {
       try {
         return Kind.values()[kind];

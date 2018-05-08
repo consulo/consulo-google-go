@@ -22,35 +22,35 @@ import com.goide.stubs.GoParametersStub;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
 public class GoParametersStubElementType extends GoStubElementType<GoParametersStub, GoParameters> {
-  public GoParametersStubElementType(@NotNull String name) {
+  public GoParametersStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoParameters createPsi(@NotNull GoParametersStub stub) {
+  public GoParameters createPsi(@Nonnull GoParametersStub stub) {
     return new GoParametersImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoParametersStub createStub(@NotNull GoParameters psi, StubElement parentStub) {
+  public GoParametersStub createStub(@Nonnull GoParameters psi, StubElement parentStub) {
     return new GoParametersStub(parentStub, this, psi.getText());
   }
 
   @Override
-  public void serialize(@NotNull GoParametersStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoParametersStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getText());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoParametersStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoParametersStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoParametersStub(parentStub, this, dataStream.readName());
   }
 }

@@ -16,22 +16,23 @@
 
 package com.goide.psi.impl;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.GoType;
 import com.goide.stubs.GoFunctionOrMethodDeclarationStub;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.ResolveState;
 import com.intellij.psi.stubs.IStubElementType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 abstract public class GoFunctionOrMethodDeclarationImpl<T extends GoFunctionOrMethodDeclarationStub<?>> extends GoNamedElementImpl<T>
   implements GoFunctionOrMethodDeclaration {
-  public GoFunctionOrMethodDeclarationImpl(@NotNull T stub, @NotNull IStubElementType nodeType) {
+  public GoFunctionOrMethodDeclarationImpl(@Nonnull T stub, @Nonnull IStubElementType nodeType) {
     super(stub, nodeType);
   }
 
-  public GoFunctionOrMethodDeclarationImpl(@NotNull ASTNode node) {
+  public GoFunctionOrMethodDeclarationImpl(@Nonnull ASTNode node) {
     super(node);
   }
 

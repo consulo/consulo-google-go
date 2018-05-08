@@ -16,8 +16,9 @@
 
 package com.goide.dlv.breakpoint;
 
+import javax.annotation.Nullable;
+
 import com.intellij.xdebugger.breakpoints.XBreakpointProperties;
-import org.jetbrains.annotations.Nullable;
 
 public class DlvBreakpointProperties extends XBreakpointProperties<DlvBreakpointProperties> {
   @Nullable

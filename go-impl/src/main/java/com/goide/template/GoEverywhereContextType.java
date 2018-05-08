@@ -16,13 +16,14 @@
 
 package com.goide.template;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoConstants;
 import com.goide.GoTypes;
 import com.intellij.codeInsight.template.EverywhereContextType;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
-import org.jetbrains.annotations.NotNull;
 
 public class GoEverywhereContextType extends GoLiveTemplateContextType {
   protected GoEverywhereContextType() {
@@ -30,7 +31,7 @@ public class GoEverywhereContextType extends GoLiveTemplateContextType {
   }
 
   @Override
-  protected boolean isInContext(@NotNull PsiElement element) {
+  protected boolean isInContext(@Nonnull PsiElement element) {
     return !(element instanceof PsiComment ||
              element instanceof LeafPsiElement && ((LeafPsiElement)element).getElementType() == GoTypes.STRING);
   }

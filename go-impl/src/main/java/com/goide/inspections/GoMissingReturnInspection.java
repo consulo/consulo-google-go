@@ -16,6 +16,12 @@
 
 package com.goide.inspections;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.highlighting.exitpoint.GoBreakStatementExitPointHandler;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
@@ -32,16 +38,11 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collections;
-import java.util.List;
 
 public class GoMissingReturnInspection extends GoInspectionBase {
   public static final String ADD_RETURN_STATEMENT_QUICK_FIX_NAME = "Add return statement";
 
-  private static void check(@Nullable GoSignature signature, @Nullable GoBlock block, @NotNull ProblemsHolder holder) {
+  private static void check(@Nullable GoSignature signature, @Nullable GoBlock block, @Nonnull ProblemsHolder holder) {
     if (block == null) return;
     GoResult result = signature != null ? signature.getResult() : null;
     if (result == null || result.isVoid() || isTerminating(block)) return;
@@ -108,7 +109,7 @@ public class GoMissingReturnInspection extends GoInspectionBase {
     return false;
   }
 
-  private static boolean isTerminating(@NotNull GoSwitchStatement switchStatement, @NotNull List<? extends GoCaseClause> clauses) {
+  private static boolean isTerminating(@Nonnull GoSwitchStatement switchStatement, @Nonnull List<? extends GoCaseClause> clauses) {
     boolean hasDefault = false;
     for (GoCaseClause clause : clauses) {
       hasDefault |= clause.getDefault() != null;
@@ -120,7 +121,7 @@ public class GoMissingReturnInspection extends GoInspectionBase {
     return hasDefault;
   }
 
-  private static boolean hasReferringBreakStatement(@NotNull PsiElement breakStatementOwner) {
+  private static boolean hasReferringBreakStatement(@Nonnull PsiElement breakStatementOwner) {
     return !GoPsiImplUtil.goTraverser().withRoot(breakStatementOwner).traverse().filter(GoBreakStatement.class).filter(statement -> {
       PsiElement owner = GoBreakStatementExitPointHandler.getBreakStatementOwnerOrResolve(statement);
       if (breakStatementOwner.equals(owner)) {
@@ -136,45 +137,45 @@ public class GoMissingReturnInspection extends GoInspectionBase {
     }).isEmpty();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitFunctionOrMethodDeclaration(@NotNull GoFunctionOrMethodDeclaration o) { // todo: extract common interface
+      public void visitFunctionOrMethodDeclaration(@Nonnull GoFunctionOrMethodDeclaration o) { // todo: extract common interface
         check(o.getSignature(), o.getBlock(), holder);
       }
 
       @Override
-      public void visitFunctionLit(@NotNull GoFunctionLit o) {
+      public void visitFunctionLit(@Nonnull GoFunctionLit o) {
         check(o.getSignature(), o.getBlock(), holder);
       }
     };
   }
 
   private static class AddReturnFix extends LocalQuickFixAndIntentionActionOnPsiElement {
-    public AddReturnFix(@NotNull GoBlock block) {
+    public AddReturnFix(@Nonnull GoBlock block) {
       super(block);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public String getText() {
       return ADD_RETURN_STATEMENT_QUICK_FIX_NAME;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public String getFamilyName() {
       return getName();
     }
 
     @Override
-    public void invoke(@NotNull Project project,
-                       @NotNull PsiFile file,
-                       @Nullable("is null when called from inspection") Editor editor,
-                       @NotNull PsiElement startElement,
-                       @NotNull PsiElement endElement) {
+    public void invoke(@Nonnull Project project,
+                       @Nonnull PsiFile file,
+                       @Nullable Editor editor,
+                       @Nonnull PsiElement startElement,
+                       @Nonnull PsiElement endElement) {
       if (!(file instanceof GoFile) || editor == null || !(startElement instanceof GoBlock)) return;
 
       PsiElement brace = ((GoBlock)startElement).getRbrace();

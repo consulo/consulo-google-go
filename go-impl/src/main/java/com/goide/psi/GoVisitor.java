@@ -17,453 +17,453 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi;
 
-import org.jetbrains.annotations.*;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiLanguageInjectionHost;
 
 public class GoVisitor extends PsiElementVisitor {
 
-  public void visitAddExpr(@NotNull GoAddExpr o) {
+  public void visitAddExpr(@Nonnull GoAddExpr o) {
     visitBinaryExpr(o);
   }
 
-  public void visitAndExpr(@NotNull GoAndExpr o) {
+  public void visitAndExpr(@Nonnull GoAndExpr o) {
     visitBinaryExpr(o);
   }
 
-  public void visitAnonymousFieldDefinition(@NotNull GoAnonymousFieldDefinition o) {
+  public void visitAnonymousFieldDefinition(@Nonnull GoAnonymousFieldDefinition o) {
     visitNamedElement(o);
   }
 
-  public void visitArgumentList(@NotNull GoArgumentList o) {
+  public void visitArgumentList(@Nonnull GoArgumentList o) {
     visitCompositeElement(o);
   }
 
-  public void visitArrayOrSliceType(@NotNull GoArrayOrSliceType o) {
+  public void visitArrayOrSliceType(@Nonnull GoArrayOrSliceType o) {
     visitType(o);
   }
 
-  public void visitAssignmentStatement(@NotNull GoAssignmentStatement o) {
+  public void visitAssignmentStatement(@Nonnull GoAssignmentStatement o) {
     visitStatement(o);
   }
 
-  public void visitBinaryExpr(@NotNull GoBinaryExpr o) {
+  public void visitBinaryExpr(@Nonnull GoBinaryExpr o) {
     visitExpression(o);
   }
 
-  public void visitBlock(@NotNull GoBlock o) {
+  public void visitBlock(@Nonnull GoBlock o) {
     visitCompositeElement(o);
   }
 
-  public void visitBreakStatement(@NotNull GoBreakStatement o) {
+  public void visitBreakStatement(@Nonnull GoBreakStatement o) {
     visitStatement(o);
   }
 
-  public void visitBuiltinArgumentList(@NotNull GoBuiltinArgumentList o) {
+  public void visitBuiltinArgumentList(@Nonnull GoBuiltinArgumentList o) {
     visitArgumentList(o);
   }
 
-  public void visitBuiltinCallExpr(@NotNull GoBuiltinCallExpr o) {
+  public void visitBuiltinCallExpr(@Nonnull GoBuiltinCallExpr o) {
     visitExpression(o);
   }
 
-  public void visitCallExpr(@NotNull GoCallExpr o) {
+  public void visitCallExpr(@Nonnull GoCallExpr o) {
     visitExpression(o);
   }
 
-  public void visitChannelType(@NotNull GoChannelType o) {
+  public void visitChannelType(@Nonnull GoChannelType o) {
     visitType(o);
   }
 
-  public void visitCommCase(@NotNull GoCommCase o) {
+  public void visitCommCase(@Nonnull GoCommCase o) {
     visitCompositeElement(o);
   }
 
-  public void visitCommClause(@NotNull GoCommClause o) {
+  public void visitCommClause(@Nonnull GoCommClause o) {
     visitCompositeElement(o);
   }
 
-  public void visitCompositeLit(@NotNull GoCompositeLit o) {
+  public void visitCompositeLit(@Nonnull GoCompositeLit o) {
     visitExpression(o);
   }
 
-  public void visitConditionalExpr(@NotNull GoConditionalExpr o) {
+  public void visitConditionalExpr(@Nonnull GoConditionalExpr o) {
     visitBinaryExpr(o);
   }
 
-  public void visitConstDeclaration(@NotNull GoConstDeclaration o) {
+  public void visitConstDeclaration(@Nonnull GoConstDeclaration o) {
     visitTopLevelDeclaration(o);
   }
 
-  public void visitConstDefinition(@NotNull GoConstDefinition o) {
+  public void visitConstDefinition(@Nonnull GoConstDefinition o) {
     visitNamedElement(o);
   }
 
-  public void visitConstSpec(@NotNull GoConstSpec o) {
+  public void visitConstSpec(@Nonnull GoConstSpec o) {
     visitCompositeElement(o);
   }
 
-  public void visitContinueStatement(@NotNull GoContinueStatement o) {
+  public void visitContinueStatement(@Nonnull GoContinueStatement o) {
     visitStatement(o);
   }
 
-  public void visitConversionExpr(@NotNull GoConversionExpr o) {
+  public void visitConversionExpr(@Nonnull GoConversionExpr o) {
     visitBinaryExpr(o);
   }
 
-  public void visitDeferStatement(@NotNull GoDeferStatement o) {
+  public void visitDeferStatement(@Nonnull GoDeferStatement o) {
     visitStatement(o);
   }
 
-  public void visitElement(@NotNull GoElement o) {
+  public void visitElement(@Nonnull GoElement o) {
     visitCompositeElement(o);
   }
 
-  public void visitElseStatement(@NotNull GoElseStatement o) {
+  public void visitElseStatement(@Nonnull GoElseStatement o) {
     visitStatement(o);
   }
 
-  public void visitExprCaseClause(@NotNull GoExprCaseClause o) {
+  public void visitExprCaseClause(@Nonnull GoExprCaseClause o) {
     visitCaseClause(o);
   }
 
-  public void visitExprSwitchStatement(@NotNull GoExprSwitchStatement o) {
+  public void visitExprSwitchStatement(@Nonnull GoExprSwitchStatement o) {
     visitSwitchStatement(o);
   }
 
-  public void visitExpression(@NotNull GoExpression o) {
+  public void visitExpression(@Nonnull GoExpression o) {
     visitTypeOwner(o);
   }
 
-  public void visitFallthroughStatement(@NotNull GoFallthroughStatement o) {
+  public void visitFallthroughStatement(@Nonnull GoFallthroughStatement o) {
     visitStatement(o);
   }
 
-  public void visitFieldDeclaration(@NotNull GoFieldDeclaration o) {
+  public void visitFieldDeclaration(@Nonnull GoFieldDeclaration o) {
     visitCompositeElement(o);
   }
 
-  public void visitFieldDefinition(@NotNull GoFieldDefinition o) {
+  public void visitFieldDefinition(@Nonnull GoFieldDefinition o) {
     visitNamedElement(o);
   }
 
-  public void visitFieldName(@NotNull GoFieldName o) {
+  public void visitFieldName(@Nonnull GoFieldName o) {
     visitReferenceExpressionBase(o);
   }
 
-  public void visitForClause(@NotNull GoForClause o) {
+  public void visitForClause(@Nonnull GoForClause o) {
     visitCompositeElement(o);
   }
 
-  public void visitForStatement(@NotNull GoForStatement o) {
+  public void visitForStatement(@Nonnull GoForStatement o) {
     visitStatement(o);
   }
 
-  public void visitFunctionDeclaration(@NotNull GoFunctionDeclaration o) {
+  public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration o) {
     visitFunctionOrMethodDeclaration(o);
   }
 
-  public void visitFunctionLit(@NotNull GoFunctionLit o) {
+  public void visitFunctionLit(@Nonnull GoFunctionLit o) {
     visitExpression(o);
     // visitSignatureOwner(o);
   }
 
-  public void visitFunctionType(@NotNull GoFunctionType o) {
+  public void visitFunctionType(@Nonnull GoFunctionType o) {
     visitType(o);
     // visitSignatureOwner(o);
   }
 
-  public void visitGoStatement(@NotNull GoGoStatement o) {
+  public void visitGoStatement(@Nonnull GoGoStatement o) {
     visitStatement(o);
   }
 
-  public void visitGotoStatement(@NotNull GoGotoStatement o) {
+  public void visitGotoStatement(@Nonnull GoGotoStatement o) {
     visitStatement(o);
   }
 
-  public void visitIfStatement(@NotNull GoIfStatement o) {
+  public void visitIfStatement(@Nonnull GoIfStatement o) {
     visitStatement(o);
   }
 
-  public void visitImportDeclaration(@NotNull GoImportDeclaration o) {
+  public void visitImportDeclaration(@Nonnull GoImportDeclaration o) {
     visitCompositeElement(o);
   }
 
-  public void visitImportList(@NotNull GoImportList o) {
+  public void visitImportList(@Nonnull GoImportList o) {
     visitCompositeElement(o);
   }
 
-  public void visitImportSpec(@NotNull GoImportSpec o) {
+  public void visitImportSpec(@Nonnull GoImportSpec o) {
     visitNamedElement(o);
   }
 
-  public void visitImportString(@NotNull GoImportString o) {
+  public void visitImportString(@Nonnull GoImportString o) {
     visitCompositeElement(o);
   }
 
-  public void visitIncDecStatement(@NotNull GoIncDecStatement o) {
+  public void visitIncDecStatement(@Nonnull GoIncDecStatement o) {
     visitStatement(o);
   }
 
-  public void visitIndexOrSliceExpr(@NotNull GoIndexOrSliceExpr o) {
+  public void visitIndexOrSliceExpr(@Nonnull GoIndexOrSliceExpr o) {
     visitExpression(o);
   }
 
-  public void visitInterfaceType(@NotNull GoInterfaceType o) {
+  public void visitInterfaceType(@Nonnull GoInterfaceType o) {
     visitType(o);
   }
 
-  public void visitKey(@NotNull GoKey o) {
+  public void visitKey(@Nonnull GoKey o) {
     visitCompositeElement(o);
   }
 
-  public void visitLabelDefinition(@NotNull GoLabelDefinition o) {
+  public void visitLabelDefinition(@Nonnull GoLabelDefinition o) {
     visitNamedElement(o);
   }
 
-  public void visitLabelRef(@NotNull GoLabelRef o) {
+  public void visitLabelRef(@Nonnull GoLabelRef o) {
     visitCompositeElement(o);
   }
 
-  public void visitLabeledStatement(@NotNull GoLabeledStatement o) {
+  public void visitLabeledStatement(@Nonnull GoLabeledStatement o) {
     visitStatement(o);
   }
 
-  public void visitLeftHandExprList(@NotNull GoLeftHandExprList o) {
+  public void visitLeftHandExprList(@Nonnull GoLeftHandExprList o) {
     visitCompositeElement(o);
   }
 
-  public void visitLiteral(@NotNull GoLiteral o) {
+  public void visitLiteral(@Nonnull GoLiteral o) {
     visitExpression(o);
   }
 
-  public void visitLiteralTypeExpr(@NotNull GoLiteralTypeExpr o) {
+  public void visitLiteralTypeExpr(@Nonnull GoLiteralTypeExpr o) {
     visitExpression(o);
   }
 
-  public void visitLiteralValue(@NotNull GoLiteralValue o) {
+  public void visitLiteralValue(@Nonnull GoLiteralValue o) {
     visitCompositeElement(o);
   }
 
-  public void visitMapType(@NotNull GoMapType o) {
+  public void visitMapType(@Nonnull GoMapType o) {
     visitType(o);
   }
 
-  public void visitMethodDeclaration(@NotNull GoMethodDeclaration o) {
+  public void visitMethodDeclaration(@Nonnull GoMethodDeclaration o) {
     visitFunctionOrMethodDeclaration(o);
   }
 
-  public void visitMethodSpec(@NotNull GoMethodSpec o) {
+  public void visitMethodSpec(@Nonnull GoMethodSpec o) {
     visitNamedSignatureOwner(o);
   }
 
-  public void visitMulExpr(@NotNull GoMulExpr o) {
+  public void visitMulExpr(@Nonnull GoMulExpr o) {
     visitBinaryExpr(o);
   }
 
-  public void visitOrExpr(@NotNull GoOrExpr o) {
+  public void visitOrExpr(@Nonnull GoOrExpr o) {
     visitBinaryExpr(o);
   }
 
-  public void visitPackageClause(@NotNull GoPackageClause o) {
+  public void visitPackageClause(@Nonnull GoPackageClause o) {
     visitCompositeElement(o);
   }
 
-  public void visitParType(@NotNull GoParType o) {
+  public void visitParType(@Nonnull GoParType o) {
     visitType(o);
   }
 
-  public void visitParamDefinition(@NotNull GoParamDefinition o) {
+  public void visitParamDefinition(@Nonnull GoParamDefinition o) {
     visitNamedElement(o);
   }
 
-  public void visitParameterDeclaration(@NotNull GoParameterDeclaration o) {
+  public void visitParameterDeclaration(@Nonnull GoParameterDeclaration o) {
     visitCompositeElement(o);
   }
 
-  public void visitParameters(@NotNull GoParameters o) {
+  public void visitParameters(@Nonnull GoParameters o) {
     visitCompositeElement(o);
   }
 
-  public void visitParenthesesExpr(@NotNull GoParenthesesExpr o) {
+  public void visitParenthesesExpr(@Nonnull GoParenthesesExpr o) {
     visitExpression(o);
   }
 
-  public void visitPointerType(@NotNull GoPointerType o) {
+  public void visitPointerType(@Nonnull GoPointerType o) {
     visitType(o);
   }
 
-  public void visitRangeClause(@NotNull GoRangeClause o) {
+  public void visitRangeClause(@Nonnull GoRangeClause o) {
     visitVarSpec(o);
   }
 
-  public void visitReceiver(@NotNull GoReceiver o) {
+  public void visitReceiver(@Nonnull GoReceiver o) {
     visitNamedElement(o);
   }
 
-  public void visitRecvStatement(@NotNull GoRecvStatement o) {
+  public void visitRecvStatement(@Nonnull GoRecvStatement o) {
     visitVarSpec(o);
   }
 
-  public void visitReferenceExpression(@NotNull GoReferenceExpression o) {
+  public void visitReferenceExpression(@Nonnull GoReferenceExpression o) {
     visitExpression(o);
     // visitReferenceExpressionBase(o);
   }
 
-  public void visitResult(@NotNull GoResult o) {
+  public void visitResult(@Nonnull GoResult o) {
     visitCompositeElement(o);
   }
 
-  public void visitReturnStatement(@NotNull GoReturnStatement o) {
+  public void visitReturnStatement(@Nonnull GoReturnStatement o) {
     visitStatement(o);
   }
 
-  public void visitSelectStatement(@NotNull GoSelectStatement o) {
+  public void visitSelectStatement(@Nonnull GoSelectStatement o) {
     visitStatement(o);
   }
 
-  public void visitSelectorExpr(@NotNull GoSelectorExpr o) {
+  public void visitSelectorExpr(@Nonnull GoSelectorExpr o) {
     visitBinaryExpr(o);
   }
 
-  public void visitSendStatement(@NotNull GoSendStatement o) {
+  public void visitSendStatement(@Nonnull GoSendStatement o) {
     visitStatement(o);
   }
 
-  public void visitShortVarDeclaration(@NotNull GoShortVarDeclaration o) {
+  public void visitShortVarDeclaration(@Nonnull GoShortVarDeclaration o) {
     visitVarSpec(o);
   }
 
-  public void visitSignature(@NotNull GoSignature o) {
+  public void visitSignature(@Nonnull GoSignature o) {
     visitCompositeElement(o);
   }
 
-  public void visitSimpleStatement(@NotNull GoSimpleStatement o) {
+  public void visitSimpleStatement(@Nonnull GoSimpleStatement o) {
     visitStatement(o);
   }
 
-  public void visitSpecType(@NotNull GoSpecType o) {
+  public void visitSpecType(@Nonnull GoSpecType o) {
     visitType(o);
   }
 
-  public void visitStatement(@NotNull GoStatement o) {
+  public void visitStatement(@Nonnull GoStatement o) {
     visitCompositeElement(o);
   }
 
-  public void visitStringLiteral(@NotNull GoStringLiteral o) {
+  public void visitStringLiteral(@Nonnull GoStringLiteral o) {
     visitExpression(o);
     // visitPsiLanguageInjectionHost(o);
   }
 
-  public void visitStructType(@NotNull GoStructType o) {
+  public void visitStructType(@Nonnull GoStructType o) {
     visitType(o);
   }
 
-  public void visitSwitchStart(@NotNull GoSwitchStart o) {
+  public void visitSwitchStart(@Nonnull GoSwitchStart o) {
     visitCompositeElement(o);
   }
 
-  public void visitSwitchStatement(@NotNull GoSwitchStatement o) {
+  public void visitSwitchStatement(@Nonnull GoSwitchStatement o) {
     visitStatement(o);
   }
 
-  public void visitTag(@NotNull GoTag o) {
+  public void visitTag(@Nonnull GoTag o) {
     visitCompositeElement(o);
   }
 
-  public void visitType(@NotNull GoType o) {
+  public void visitType(@Nonnull GoType o) {
     visitCompositeElement(o);
   }
 
-  public void visitTypeAssertionExpr(@NotNull GoTypeAssertionExpr o) {
+  public void visitTypeAssertionExpr(@Nonnull GoTypeAssertionExpr o) {
     visitExpression(o);
   }
 
-  public void visitTypeCaseClause(@NotNull GoTypeCaseClause o) {
+  public void visitTypeCaseClause(@Nonnull GoTypeCaseClause o) {
     visitCaseClause(o);
   }
 
-  public void visitTypeDeclaration(@NotNull GoTypeDeclaration o) {
+  public void visitTypeDeclaration(@Nonnull GoTypeDeclaration o) {
     visitTopLevelDeclaration(o);
   }
 
-  public void visitTypeGuard(@NotNull GoTypeGuard o) {
+  public void visitTypeGuard(@Nonnull GoTypeGuard o) {
     visitCompositeElement(o);
   }
 
-  public void visitTypeList(@NotNull GoTypeList o) {
+  public void visitTypeList(@Nonnull GoTypeList o) {
     visitType(o);
   }
 
-  public void visitTypeReferenceExpression(@NotNull GoTypeReferenceExpression o) {
+  public void visitTypeReferenceExpression(@Nonnull GoTypeReferenceExpression o) {
     visitReferenceExpressionBase(o);
   }
 
-  public void visitTypeSpec(@NotNull GoTypeSpec o) {
+  public void visitTypeSpec(@Nonnull GoTypeSpec o) {
     visitNamedElement(o);
   }
 
-  public void visitTypeSwitchGuard(@NotNull GoTypeSwitchGuard o) {
+  public void visitTypeSwitchGuard(@Nonnull GoTypeSwitchGuard o) {
     visitCompositeElement(o);
   }
 
-  public void visitTypeSwitchStatement(@NotNull GoTypeSwitchStatement o) {
+  public void visitTypeSwitchStatement(@Nonnull GoTypeSwitchStatement o) {
     visitSwitchStatement(o);
   }
 
-  public void visitUnaryExpr(@NotNull GoUnaryExpr o) {
+  public void visitUnaryExpr(@Nonnull GoUnaryExpr o) {
     visitExpression(o);
   }
 
-  public void visitValue(@NotNull GoValue o) {
+  public void visitValue(@Nonnull GoValue o) {
     visitCompositeElement(o);
   }
 
-  public void visitVarDeclaration(@NotNull GoVarDeclaration o) {
+  public void visitVarDeclaration(@Nonnull GoVarDeclaration o) {
     visitTopLevelDeclaration(o);
   }
 
-  public void visitVarDefinition(@NotNull GoVarDefinition o) {
+  public void visitVarDefinition(@Nonnull GoVarDefinition o) {
     visitNamedElement(o);
   }
 
-  public void visitVarSpec(@NotNull GoVarSpec o) {
+  public void visitVarSpec(@Nonnull GoVarSpec o) {
     visitCompositeElement(o);
   }
 
-  public void visitAssignOp(@NotNull GoAssignOp o) {
+  public void visitAssignOp(@Nonnull GoAssignOp o) {
     visitCompositeElement(o);
   }
 
-  public void visitCaseClause(@NotNull GoCaseClause o) {
+  public void visitCaseClause(@Nonnull GoCaseClause o) {
     visitCompositeElement(o);
   }
 
-  public void visitFunctionOrMethodDeclaration(@NotNull GoFunctionOrMethodDeclaration o) {
+  public void visitFunctionOrMethodDeclaration(@Nonnull GoFunctionOrMethodDeclaration o) {
     visitCompositeElement(o);
   }
 
-  public void visitNamedElement(@NotNull GoNamedElement o) {
+  public void visitNamedElement(@Nonnull GoNamedElement o) {
     visitCompositeElement(o);
   }
 
-  public void visitNamedSignatureOwner(@NotNull GoNamedSignatureOwner o) {
+  public void visitNamedSignatureOwner(@Nonnull GoNamedSignatureOwner o) {
     visitCompositeElement(o);
   }
 
-  public void visitReferenceExpressionBase(@NotNull GoReferenceExpressionBase o) {
+  public void visitReferenceExpressionBase(@Nonnull GoReferenceExpressionBase o) {
     visitCompositeElement(o);
   }
 
-  public void visitTopLevelDeclaration(@NotNull GoTopLevelDeclaration o) {
+  public void visitTopLevelDeclaration(@Nonnull GoTopLevelDeclaration o) {
     visitCompositeElement(o);
   }
 
-  public void visitTypeOwner(@NotNull GoTypeOwner o) {
+  public void visitTypeOwner(@Nonnull GoTypeOwner o) {
     visitCompositeElement(o);
   }
 
-  public void visitCompositeElement(@NotNull GoCompositeElement o) {
+  public void visitCompositeElement(@Nonnull GoCompositeElement o) {
     visitElement(o);
   }
 

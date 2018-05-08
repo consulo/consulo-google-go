@@ -24,7 +24,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.ElementManipulators;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Arrays;
 
@@ -40,7 +40,7 @@ public class GoConvertStringToByteQuickFix extends LocalQuickFixBase {
   }
 
   @Override
-  public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     PsiElement element = descriptor.getPsiElement();
     if (!(element instanceof GoConditionalExpr) || !element.isValid()) {
       return;
@@ -54,8 +54,8 @@ public class GoConvertStringToByteQuickFix extends LocalQuickFixBase {
     literal.replace(createExpression(project, extractSingleCharFromText(literal)));
   }
 
-  @NotNull
-  private static String extractSingleCharFromText(@NotNull GoStringLiteral element) {
+  @Nonnull
+  private static String extractSingleCharFromText(@Nonnull GoStringLiteral element) {
     return format("'%s'", ElementManipulators.getValueText(element));
   }
 }

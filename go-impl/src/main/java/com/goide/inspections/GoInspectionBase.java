@@ -16,6 +16,9 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.psi.GoFile;
 import com.goide.psi.GoVisitor;
 import com.goide.psi.impl.GoPsiImplUtil;
@@ -24,35 +27,33 @@ import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.ObjectUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 abstract public class GoInspectionBase extends LocalInspectionTool {
   protected static final GoVisitor DUMMY_VISITOR = new GoVisitor() { };
 
-  @NotNull
+  @Nonnull
   @Override
-  public final PsiElementVisitor buildVisitor(@NotNull ProblemsHolder holder, boolean isOnTheFly, @NotNull LocalInspectionToolSession session) {
+  public final PsiElementVisitor buildVisitor(@Nonnull ProblemsHolder holder, boolean isOnTheFly, @Nonnull LocalInspectionToolSession session) {
     GoFile file = ObjectUtils.tryCast(session.getFile(), GoFile.class);
     return file != null && GoPsiImplUtil.allowed(file, null, ModuleUtilCore.findModuleForPsiElement(file))
            ? buildGoVisitor(holder, session)
            : DUMMY_VISITOR;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public final PsiElementVisitor buildVisitor(@NotNull ProblemsHolder holder, boolean isOnTheFly) {
+  public final PsiElementVisitor buildVisitor(@Nonnull ProblemsHolder holder, boolean isOnTheFly) {
     throw new IllegalStateException();
   }
 
   @Nullable
   @Override
-  public final ProblemDescriptor[] checkFile(@NotNull PsiFile file, @NotNull InspectionManager manager, boolean isOnTheFly) {
+  public final ProblemDescriptor[] checkFile(@Nonnull PsiFile file, @Nonnull InspectionManager manager, boolean isOnTheFly) {
     throw new IllegalStateException();
   }
 
-  @NotNull
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  @Nonnull
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
       public void visitFile(PsiFile file) {
@@ -61,6 +62,6 @@ abstract public class GoInspectionBase extends LocalInspectionTool {
     };
   }
 
-  protected void checkFile(@NotNull GoFile file, @NotNull ProblemsHolder problemsHolder) {
+  protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
   }
 }

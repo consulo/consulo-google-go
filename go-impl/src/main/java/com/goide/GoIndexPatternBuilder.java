@@ -16,25 +16,26 @@
 
 package com.goide;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.psi.GoFile;
 import com.intellij.lexer.Lexer;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.search.IndexPatternBuilder;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoIndexPatternBuilder implements IndexPatternBuilder {
   @Nullable
   @Override
-  public Lexer getIndexingLexer(@NotNull PsiFile file) {
+  public Lexer getIndexingLexer(@Nonnull PsiFile file) {
     return file instanceof GoFile ? ((GoFile)file).getParserDefinition().createLexer(file.getLanguageVersion()) : null;
   }
 
   @Nullable
   @Override
-  public TokenSet getCommentTokenSet(@NotNull PsiFile file) {
+  public TokenSet getCommentTokenSet(@Nonnull PsiFile file) {
     return GoParserDefinition.COMMENTS;
   }
 

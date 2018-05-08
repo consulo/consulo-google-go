@@ -18,12 +18,15 @@
 package com.goide.psi.impl;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.goide.psi.GoPsiTreeUtil;
 import static com.goide.GoTypes.*;
+
+import javax.annotation.*;
+
 import com.goide.psi.*;
 
 public class GoSelectStatementImpl extends GoStatementImpl implements GoSelectStatement {
@@ -32,17 +35,17 @@ public class GoSelectStatementImpl extends GoStatementImpl implements GoSelectSt
     super(node);
   }
 
-  public void accept(@NotNull GoVisitor visitor) {
+  public void accept(@Nonnull GoVisitor visitor) {
     visitor.visitSelectStatement(this);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof GoVisitor) accept((GoVisitor)visitor);
     else super.accept(visitor);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<GoCommClause> getCommClauseList() {
     return GoPsiTreeUtil.getChildrenOfTypeAsList(this, GoCommClause.class);
   }
@@ -60,7 +63,7 @@ public class GoSelectStatementImpl extends GoStatementImpl implements GoSelectSt
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public PsiElement getSelect() {
     return notNullChild(findChildByType(SELECT));
   }

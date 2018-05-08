@@ -27,7 +27,7 @@ import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ArrayFactory;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
@@ -36,19 +36,19 @@ public class GoVarSpecStubElementType extends GoStubElementType<GoVarSpecStub, G
 
   public static final ArrayFactory<GoVarSpec> ARRAY_FACTORY = count -> count == 0 ? EMPTY_ARRAY : new GoVarSpec[count];
   
-  public GoVarSpecStubElementType(@NotNull String name) {
+  public GoVarSpecStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoVarSpec createPsi(@NotNull GoVarSpecStub stub) {
+  public GoVarSpec createPsi(@Nonnull GoVarSpecStub stub) {
     return new GoVarSpecImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoVarSpecStub createStub(@NotNull GoVarSpec psi, StubElement parentStub) {
+  public GoVarSpecStub createStub(@Nonnull GoVarSpec psi, StubElement parentStub) {
     return new GoVarSpecStub(parentStub, this);
   }
 
@@ -60,12 +60,12 @@ public class GoVarSpecStubElementType extends GoStubElementType<GoVarSpecStub, G
   }
 
   @Override
-  public void serialize(@NotNull GoVarSpecStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoVarSpecStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoVarSpecStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoVarSpecStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoVarSpecStub(parentStub, this);
   }
 }

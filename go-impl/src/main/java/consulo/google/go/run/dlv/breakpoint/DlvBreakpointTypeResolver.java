@@ -24,8 +24,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.xdebugger.breakpoints.XLineBreakpointType;
 import consulo.annotations.RequiredReadAction;
 import consulo.xdebugger.breakpoints.XLineBreakpointTypeResolver;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author VISTALL
@@ -35,7 +35,7 @@ public class DlvBreakpointTypeResolver implements XLineBreakpointTypeResolver {
   @RequiredReadAction
   @Nullable
   @Override
-  public XLineBreakpointType<?> resolveBreakpointType(@NotNull Project project, @NotNull VirtualFile file, int line) {
+  public XLineBreakpointType<?> resolveBreakpointType(@Nonnull Project project, @Nonnull VirtualFile file, int line) {
     if (line < 0 || DlvDebugProcess.IS_DLV_DISABLED || file.getFileType() != GoFileType.INSTANCE) {
       return null;
     }

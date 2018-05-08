@@ -24,7 +24,7 @@ import com.intellij.lang.surroundWith.SurroundDescriptor;
 import com.intellij.lang.surroundWith.Surrounder;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoExpressionSurroundDescriptor implements SurroundDescriptor {
   private static final Surrounder[] SURROUNDERS = new Surrounder[]{
@@ -34,13 +34,13 @@ public class GoExpressionSurroundDescriptor implements SurroundDescriptor {
     new GoWithNotExpressionSurrounder()
   };
 
-  @NotNull
+  @Nonnull
   @Override
   public Surrounder[] getSurrounders() {
     return SURROUNDERS;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public PsiElement[] getElementsToSurround(PsiFile file, int startOffset, int endOffset) {
     GoExpression expr = GoIntroduceVariableBase.findExpressionInSelection(file, startOffset, endOffset);

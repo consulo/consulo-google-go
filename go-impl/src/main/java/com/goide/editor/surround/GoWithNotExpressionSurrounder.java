@@ -16,13 +16,14 @@
 
 package com.goide.editor.surround;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoWithNotExpressionSurrounder extends GoBoolExpressionSurrounderBase {
   @Override
@@ -32,7 +33,7 @@ public class GoWithNotExpressionSurrounder extends GoBoolExpressionSurrounderBas
 
   @Nullable
   @Override
-  public TextRange surroundElements(@NotNull Project project, @NotNull Editor editor, @NotNull PsiElement[] elements)
+  public TextRange surroundElements(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiElement[] elements)
     throws IncorrectOperationException {
     return surroundWithParenthesis(elements, true);
   }

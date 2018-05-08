@@ -26,13 +26,13 @@ import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.ide.scratch.ScratchFileType;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collection;
 
 public class GoMultiplePackagesInspection extends GoInspectionBase {
   @Override
-  protected void checkFile(@NotNull GoFile file, @NotNull ProblemsHolder problemsHolder) {
+  protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     if (((ScratchFileType)ScratchFileType.INSTANCE).isMyFileType(file.getVirtualFile())) return;
     GoPackageClause packageClause = file.getPackage();
     if (packageClause != null) {

@@ -16,14 +16,15 @@
 
 package com.goide.psi;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.progress.ProgressIndicatorProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
 
 public class GoRecursiveVisitor extends GoVisitor {
   @Override
-  public void visitCompositeElement(@NotNull GoCompositeElement o) {
+  public void visitCompositeElement(@Nonnull GoCompositeElement o) {
     super.visitCompositeElement(o);
     for (PsiElement psiElement : o.getChildren()) {
       psiElement.accept(this);
@@ -32,7 +33,7 @@ public class GoRecursiveVisitor extends GoVisitor {
   }
 
   @Override
-  public void visitFile(@NotNull PsiFile file) {
+  public void visitFile(@Nonnull PsiFile file) {
     super.visitFile(file);
     for (PsiElement psiElement : file.getChildren()) {
       psiElement.accept(this);

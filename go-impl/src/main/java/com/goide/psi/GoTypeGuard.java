@@ -17,19 +17,19 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoTypeGuard extends GoCompositeElement {
 
-  @NotNull
+  @Nonnull
   PsiElement getLparen();
 
   @Nullable
   PsiElement getRparen();
 
-  @NotNull
+  @Nonnull
   PsiElement getType_();
 
 }

@@ -30,7 +30,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -38,24 +38,24 @@ public class GoSimplifyBoolExprQuickFix extends LocalQuickFixOnPsiElement {
 
   public static final String QUICK_FIX_NAME = "Simplify expression";
 
-  public GoSimplifyBoolExprQuickFix(@NotNull PsiElement element) {
+  public GoSimplifyBoolExprQuickFix(@Nonnull PsiElement element) {
     super(element);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public String getFamilyName() {
     return getName();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getText() {
     return "Simplify expression";
   }
 
   @Override
-  public void invoke(@NotNull Project project, @NotNull PsiFile file, @NotNull PsiElement startElement, @NotNull PsiElement endElement) {
+  public void invoke(@Nonnull Project project, @Nonnull PsiFile file, @Nonnull PsiElement startElement, @Nonnull PsiElement endElement) {
     if (!(startElement instanceof GoBinaryExpr)) return;
     GoBinaryExpr o = (GoBinaryExpr)startElement;
     boolean and = o instanceof GoAndExpr;
@@ -92,10 +92,10 @@ public class GoSimplifyBoolExprQuickFix extends LocalQuickFixOnPsiElement {
     }
   }
 
-  private static void removeRedundantExpressions(@NotNull GoBinaryExpr binaryExpr,
-                                          @NotNull Project project,
-                                          @NotNull List<GoExpression> expressions,
-                                          @NotNull List<GoExpression> toRemove,
+  private static void removeRedundantExpressions(@Nonnull GoBinaryExpr binaryExpr,
+                                          @Nonnull Project project,
+                                          @Nonnull List<GoExpression> expressions,
+                                          @Nonnull List<GoExpression> toRemove,
                                           boolean and) {
     for (GoExpression e : toRemove) {
       expressions.remove(e);
@@ -107,7 +107,7 @@ public class GoSimplifyBoolExprQuickFix extends LocalQuickFixOnPsiElement {
   }
 
 
-  private static void replaceExpressionByBoolConst(@NotNull GoBinaryExpr binaryExpr, @NotNull Project project, boolean value) {
+  private static void replaceExpressionByBoolConst(@Nonnull GoBinaryExpr binaryExpr, @Nonnull Project project, boolean value) {
     GoExpression expression = GoElementFactory.createExpression(project, value ? "true" : "false");
     binaryExpr.replace(expression);
   }

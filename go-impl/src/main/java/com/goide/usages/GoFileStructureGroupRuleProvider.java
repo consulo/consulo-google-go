@@ -28,14 +28,14 @@ import com.intellij.usages.UsageGroup;
 import com.intellij.usages.impl.FileStructureGroupRuleProvider;
 import com.intellij.usages.rules.PsiElementUsage;
 import com.intellij.usages.rules.UsageGroupingRule;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoFileStructureGroupRuleProvider implements FileStructureGroupRuleProvider {
   public static final UsageGroupingRule USAGE_GROUPING_RULE = new UsageGroupingRule() {
     @Nullable
     @Override
-    public UsageGroup groupUsage(@NotNull Usage usage) {
+    public UsageGroup groupUsage(@Nonnull Usage usage) {
       PsiElement psiElement = usage instanceof PsiElementUsage ? ((PsiElementUsage)usage).getElement() : null;
       GoNamedElement topmostElement = PsiTreeUtil.getParentOfType(psiElement, GoTypeSpec.class, GoFunctionOrMethodDeclaration.class);
       if (topmostElement != null) {

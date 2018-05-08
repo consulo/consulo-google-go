@@ -18,16 +18,18 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.openapi.util.Trinity;
 
 public interface GoIndexOrSliceExpr extends GoExpression {
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getExpressionList();
 
-  @NotNull
+  @Nonnull
   PsiElement getLbrack();
 
   @Nullable
@@ -36,7 +38,7 @@ public interface GoIndexOrSliceExpr extends GoExpression {
   @Nullable
   GoExpression getExpression();
 
-  @NotNull
+  @Nonnull
   Trinity<GoExpression, GoExpression, GoExpression> getIndices();
 
 }

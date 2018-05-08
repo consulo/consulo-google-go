@@ -18,12 +18,14 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoStructType extends GoType {
 
-  @NotNull
+  @Nonnull
   List<GoFieldDeclaration> getFieldDeclarationList();
 
   @Nullable
@@ -32,7 +34,7 @@ public interface GoStructType extends GoType {
   @Nullable
   PsiElement getRbrace();
 
-  @NotNull
+  @Nonnull
   PsiElement getStruct();
 
 }

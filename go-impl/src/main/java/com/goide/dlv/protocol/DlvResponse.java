@@ -20,8 +20,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.jetbrains.jsonProtocol.JsonType;
 import org.jetbrains.jsonProtocol.Optional;
 
@@ -45,7 +45,7 @@ public interface DlvResponse {
     @Nullable
     String message();
 
-    @NotNull
+    @Nonnull
     @Optional
     List<String> data();
 
@@ -59,7 +59,7 @@ public interface DlvResponse {
     @Nullable
     private JsonElement myResult;
 
-    public CommandResponseImpl(@NotNull JsonElement element) {
+    public CommandResponseImpl(@Nonnull JsonElement element) {
       if (element instanceof JsonObject) {
         JsonPrimitive idElement = ((JsonObject)element).getAsJsonPrimitive("id");
         if (idElement != null) {
@@ -94,12 +94,12 @@ public interface DlvResponse {
 
   final class ErrorInfoImpl implements DlvResponse.ErrorInfo {
     private static final int ourId = -1;
-    @NotNull
+    @Nonnull
     private final List<String> _data = Collections.emptyList();
     @Nullable
     private final String _message;
 
-    ErrorInfoImpl(@NotNull JsonElement element) {
+    ErrorInfoImpl(@Nonnull JsonElement element) {
       _message = element instanceof JsonNull ? null : element instanceof JsonPrimitive ? element.getAsString() : null;
     }
 
@@ -108,7 +108,7 @@ public interface DlvResponse {
       return ourId;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public List<String> data() {
       return _data;

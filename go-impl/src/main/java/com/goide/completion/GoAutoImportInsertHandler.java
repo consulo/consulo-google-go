@@ -16,6 +16,8 @@
 
 package com.goide.completion;
 
+import javax.annotation.Nonnull;
+
 import com.goide.codeInsight.imports.GoImportPackageQuickFix;
 import com.goide.project.GoVendoringUtil;
 import com.goide.psi.GoFunctionDeclaration;
@@ -30,8 +32,8 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoAutoImportInsertHandler<T extends GoNamedElement> implements InsertHandler<LookupElement> {
   public static final InsertHandler<LookupElement> SIMPLE_INSERT_HANDLER = new GoAutoImportInsertHandler<>();
@@ -53,7 +55,7 @@ public class GoAutoImportInsertHandler<T extends GoNamedElement> implements Inse
   }
 
   @Override
-  public void handleInsert(@NotNull InsertionContext context, @NotNull LookupElement item) {
+  public void handleInsert(@Nonnull InsertionContext context, @Nonnull LookupElement item) {
     PsiElement element = item.getPsiElement();
     if (element instanceof GoNamedElement) {
       if (myClass != null && myDelegate != null && myClass.isInstance(element)) {
@@ -63,7 +65,7 @@ public class GoAutoImportInsertHandler<T extends GoNamedElement> implements Inse
     }
   }
 
-  private static void autoImport(@NotNull InsertionContext context, @NotNull GoNamedElement element) {
+  private static void autoImport(@Nonnull InsertionContext context, @Nonnull GoNamedElement element) {
     PsiFile file = context.getFile();
     boolean vendoringEnabled = GoVendoringUtil.isVendoringEnabled(ModuleUtilCore.findModuleForPsiElement(file));
     String importPath = element.getContainingFile().getImportPath(vendoringEnabled);

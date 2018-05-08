@@ -19,7 +19,7 @@ package com.goide.util;
 import com.goide.psi.GoStringLiteral;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.LiteralTextEscaper;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Locale;
 
@@ -27,12 +27,12 @@ public class GoStringLiteralEscaper extends LiteralTextEscaper<GoStringLiteral> 
 
   private int[] outSourceOffsets;
 
-  public GoStringLiteralEscaper(@NotNull GoStringLiteral host) {
+  public GoStringLiteralEscaper(@Nonnull GoStringLiteral host) {
     super(host);
   }
 
   @Override
-  public boolean decode(@NotNull TextRange rangeInsideHost, @NotNull StringBuilder outChars) {
+  public boolean decode(@Nonnull TextRange rangeInsideHost, @Nonnull StringBuilder outChars) {
     TextRange.assertProperRange(rangeInsideHost);
 
     String subText = rangeInsideHost.substring(myHost.getText());
@@ -46,7 +46,7 @@ public class GoStringLiteralEscaper extends LiteralTextEscaper<GoStringLiteral> 
   }
 
   @Override
-  public int getOffsetInHost(int offsetInDecoded, @NotNull TextRange rangeInsideHost) {
+  public int getOffsetInHost(int offsetInDecoded, @Nonnull TextRange rangeInsideHost) {
     TextRange.assertProperRange(rangeInsideHost);
 
     if (myHost.getRawString() != null) {
@@ -66,7 +66,7 @@ public class GoStringLiteralEscaper extends LiteralTextEscaper<GoStringLiteral> 
    * @param chars
    * @param outChars
    */
-  public static void escapeString(@NotNull String chars, @NotNull StringBuilder outChars) {
+  public static void escapeString(@Nonnull String chars, @Nonnull StringBuilder outChars) {
     int index = 0;
 
     while (index < chars.length()) {

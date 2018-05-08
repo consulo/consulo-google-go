@@ -26,7 +26,7 @@ import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collection;
 
@@ -35,7 +35,7 @@ public class GobenchRunningState extends GoTestRunningState {
     super(env, module, configuration);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String buildFilterPatternForFile(GoFile file) {
     Collection<String> benchmarkNames = ContainerUtil.newLinkedHashSet();
@@ -46,7 +46,7 @@ public class GobenchRunningState extends GoTestRunningState {
   }
 
   @Override
-  protected void addFilterParameter(@NotNull GoExecutor executor, String pattern) {
+  protected void addFilterParameter(@Nonnull GoExecutor executor, String pattern) {
     executor.withParameters("-bench", StringUtil.isEmpty(pattern) ? "." : pattern);
     executor.withParameters("-run", "^$");
   }

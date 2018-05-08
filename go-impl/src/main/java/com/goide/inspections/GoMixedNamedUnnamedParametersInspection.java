@@ -16,40 +16,41 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.psi.*;
 import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.openapi.progress.ProgressManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoMixedNamedUnnamedParametersInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitMethodDeclaration(@NotNull GoMethodDeclaration o) {
+      public void visitMethodDeclaration(@Nonnull GoMethodDeclaration o) {
         super.visitMethodDeclaration(o);
         visitDeclaration(holder, o.getSignature(), "Method");
       }
 
       @Override
-      public void visitFunctionDeclaration(@NotNull GoFunctionDeclaration o) {
+      public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration o) {
         super.visitFunctionDeclaration(o);
         visitDeclaration(holder, o.getSignature(), "Function");
       }
 
       @Override
-      public void visitFunctionLit(@NotNull GoFunctionLit o) {
+      public void visitFunctionLit(@Nonnull GoFunctionLit o) {
         super.visitFunctionLit(o);
         visitDeclaration(holder, o.getSignature(), "Closure");
       }
     };
   }
 
-  private static void visitDeclaration(@NotNull ProblemsHolder holder, @Nullable GoSignature signature, @NotNull String ownerType) {
+  private static void visitDeclaration(@Nonnull ProblemsHolder holder, @Nullable GoSignature signature, @Nonnull String ownerType) {
     if (signature == null) return;
     GoParameters parameters = signature.getParameters();
     visitParameterList(holder, parameters, ownerType, "parameters");
@@ -59,8 +60,8 @@ public class GoMixedNamedUnnamedParametersInspection extends GoInspectionBase {
     visitParameterList(holder, parameters, ownerType, "return parameters");
   }
 
-  private static void visitParameterList(@NotNull ProblemsHolder holder, @Nullable GoParameters parameters,
-                                         @NotNull String ownerType, @NotNull String what) {
+  private static void visitParameterList(@Nonnull ProblemsHolder holder, @Nullable GoParameters parameters,
+                                         @Nonnull String ownerType, @Nonnull String what) {
 
     if (parameters == null || parameters.getParameterDeclarationList().isEmpty()) return;
     boolean hasNamed = false;

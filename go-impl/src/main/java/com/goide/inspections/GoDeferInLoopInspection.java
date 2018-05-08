@@ -16,6 +16,8 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoDeferStatement;
 import com.goide.psi.GoForStatement;
 import com.goide.psi.GoFunctionLit;
@@ -24,15 +26,14 @@ import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
 
 public class GoDeferInLoopInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitDeferStatement(@NotNull GoDeferStatement o) {
+      public void visitDeferStatement(@Nonnull GoDeferStatement o) {
         if (PsiTreeUtil.getParentOfType(o, GoForStatement.class, GoFunctionLit.class) instanceof GoForStatement) {
           holder.registerProblem(o.getDefer(), "Possible resource leak, 'defer' is called in a for loop.",
                                  ProblemHighlightType.GENERIC_ERROR_OR_WARNING);

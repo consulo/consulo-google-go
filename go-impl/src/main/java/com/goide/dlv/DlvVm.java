@@ -25,7 +25,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.json.JsonObjectDecoder;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.jetbrains.debugger.AttachStateManager;
 import org.jetbrains.debugger.DebugEventListener;
 import org.jetbrains.debugger.StandaloneVmHelper;
@@ -38,18 +38,18 @@ import java.io.IOException;
 public class DlvVm extends VmBase {
   private final static Logger LOG = Logger.getInstance(DlvVm.class);
 
-  @NotNull
+  @Nonnull
   private final DlvCommandProcessor commandProcessor;
-  @NotNull
+  @Nonnull
   private final StandaloneVmHelper vmHelper;
   // @NotNull private final DummyBreakpointManager breakpointManager = new DummyBreakpointManager();
 
-  public DlvVm(@NotNull DebugEventListener tabListener, @NotNull Channel channel) {
+  public DlvVm(@Nonnull DebugEventListener tabListener, @Nonnull Channel channel) {
     super(tabListener);
 
     commandProcessor = new DlvCommandProcessor() {
       @Override
-      public boolean write(@NotNull Request message) throws IOException {
+      public boolean write(@Nonnull Request message) throws IOException {
         ByteBuf content = message.getBuffer();
         LOG.info("OUT: " + content.toString(CharsetToolkit.UTF8_CHARSET));
         return vmHelper.write(content);
@@ -71,13 +71,13 @@ public class DlvVm extends VmBase {
     });
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public AttachStateManager getAttachStateManager() {
     return vmHelper;
   }
 
-  @NotNull
+  @Nonnull
   public final DlvCommandProcessor getCommandProcessor() {
     return commandProcessor;
   }

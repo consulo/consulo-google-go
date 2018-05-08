@@ -16,6 +16,9 @@
 
 package com.goide.dlv.breakpoint;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.GoParserDefinition;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -27,11 +30,9 @@ import com.intellij.util.Processor;
 import com.intellij.xdebugger.XDebuggerUtil;
 import com.intellij.xdebugger.breakpoints.XLineBreakpointType;
 import consulo.annotations.RequiredReadAction;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class DlvBreakpointType extends XLineBreakpointType<DlvBreakpointProperties> {
-  @NotNull
+  @Nonnull
   public static DlvBreakpointType getInstance() {
     return EXTENSION_POINT_NAME.findExtension(DlvBreakpointType.class);
   }
@@ -42,12 +43,12 @@ public class DlvBreakpointType extends XLineBreakpointType<DlvBreakpointProperti
 
   @Nullable
   @Override
-  public DlvBreakpointProperties createBreakpointProperties(@NotNull VirtualFile file, int line) {
+  public DlvBreakpointProperties createBreakpointProperties(@Nonnull VirtualFile file, int line) {
     return new DlvBreakpointProperties();
   }
 
   @RequiredReadAction
-  public static boolean isLineBreakpointAvailable(@NotNull VirtualFile file, int line, @NotNull Project project) {
+  public static boolean isLineBreakpointAvailable(@Nonnull VirtualFile file, int line, @Nonnull Project project) {
     Document document = FileDocumentManager.getInstance().getDocument(file);
     if (document == null || document.getLineEndOffset(line) == document.getLineStartOffset(line)) return false;
     Checker canPutAtChecker = new Checker();
@@ -59,7 +60,7 @@ public class DlvBreakpointType extends XLineBreakpointType<DlvBreakpointProperti
     private boolean myIsLineBreakpointAvailable;
 
     @Override
-    public boolean process(@NotNull PsiElement o) {
+    public boolean process(@Nonnull PsiElement o) {
       IElementType type = o.getNode().getElementType();
       if (GoParserDefinition.COMMENTS.contains(type) || GoParserDefinition.WHITESPACES.contains(type)) {
         return true;

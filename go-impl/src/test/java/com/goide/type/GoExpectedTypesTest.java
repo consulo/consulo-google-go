@@ -16,6 +16,8 @@
 
 package com.goide.type;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.SdkAware;
 import com.goide.psi.GoExpression;
@@ -23,7 +25,6 @@ import com.goide.psi.impl.GoTypeUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
 
 @SdkAware
 public class GoExpectedTypesTest extends GoCodeInsightFixtureTestCase {
@@ -155,7 +156,7 @@ public class GoExpectedTypesTest extends GoCodeInsightFixtureTestCase {
     doStatementTest("select { case i := <selection>asd()</selection> : }", "interface{}");
   }
 
-  private void doTopLevelTest(@NotNull String text, @NotNull String expectedTypeText) {
+  private void doTopLevelTest(@Nonnull String text, @Nonnull String expectedTypeText) {
     myFixture.configureByText("a.go", "package a;" + text);
     PsiElement elementAt = findElementAtCaretOrInSelection();
 
@@ -165,7 +166,7 @@ public class GoExpectedTypesTest extends GoCodeInsightFixtureTestCase {
     assertEquals(expectedTypeText, StringUtil.join(GoTypeUtil.getExpectedTypes(typeOwner), PsiElement::getText, "; "));
   }
 
-  private void doStatementTest(@NotNull String text, @NotNull String expectedTypeText) {
+  private void doStatementTest(@Nonnull String text, @Nonnull String expectedTypeText) {
     doTopLevelTest("func _() {\n" + text + "\n}", expectedTypeText);
   }
 }

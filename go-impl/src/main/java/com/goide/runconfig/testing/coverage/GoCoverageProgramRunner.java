@@ -16,6 +16,8 @@
 
 package com.goide.runconfig.testing.coverage;
 
+import javax.annotation.Nonnull;
+
 import com.goide.runconfig.testing.GoTestRunConfiguration;
 import com.goide.runconfig.testing.GoTestRunningState;
 import com.intellij.coverage.CoverageExecutor;
@@ -34,20 +36,20 @@ import com.intellij.execution.runners.RunContentBuilder;
 import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.util.ObjectUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoCoverageProgramRunner extends GenericProgramRunner {
   private static final String ID = "GoCoverageProgramRunner";
 
-  @NotNull
+  @Nonnull
   @Override
   public String getRunnerId() {
     return ID;
   }
 
   @Override
-  public boolean canRun(@NotNull String executorId, @NotNull RunProfile profile) {
+  public boolean canRun(@Nonnull String executorId, @Nonnull RunProfile profile) {
     return executorId.equals(CoverageExecutor.EXECUTOR_ID) && profile instanceof GoTestRunConfiguration;
   }
 
@@ -58,7 +60,7 @@ public class GoCoverageProgramRunner extends GenericProgramRunner {
 
   @Nullable
   @Override
-  protected RunContentDescriptor doExecute(@NotNull RunProfileState state, @NotNull ExecutionEnvironment environment)
+  protected RunContentDescriptor doExecute(@Nonnull RunProfileState state, @Nonnull ExecutionEnvironment environment)
     throws ExecutionException {
     assert state instanceof GoTestRunningState;
     GoTestRunningState runningState = (GoTestRunningState)state;

@@ -30,15 +30,15 @@ import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferen
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 public class GoImportReference extends FileReference {
-  public GoImportReference(@NotNull FileReferenceSet fileReferenceSet, TextRange range, int index, String text) {
+  public GoImportReference(@Nonnull FileReferenceSet fileReferenceSet, TextRange range, int index, String text) {
     super(fileReferenceSet, range, index, text);
   }
 
@@ -50,9 +50,9 @@ public class GoImportReference extends FileReference {
     return super.createLookupItem(candidate);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected ResolveResult[] innerResolve(boolean caseSensitive, @NotNull PsiFile file) {
+  protected ResolveResult[] innerResolve(boolean caseSensitive, @Nonnull PsiFile file) {
     if (isFirst()) {
       if (".".equals(getCanonicalText())) {
         PsiDirectory directory = getDirectory();
@@ -101,7 +101,7 @@ public class GoImportReference extends FileReference {
   }
 
   @Override
-  public PsiElement bindToElement(@NotNull PsiElement element, boolean absolute) throws IncorrectOperationException {
+  public PsiElement bindToElement(@Nonnull PsiElement element, boolean absolute) throws IncorrectOperationException {
     if (!absolute) {
       FileReference firstReference = ArrayUtil.getFirstElement(getFileReferenceSet().getAllReferences());
       if (firstReference != null) {
@@ -140,7 +140,7 @@ public class GoImportReference extends FileReference {
           ((PsiDirectory)context).checkCreateSubdirectory(fileNameToCreate);
           String targetPath = context.getVirtualFile().getPath();
           result.add(new CreateFileFix(true, fileNameToCreate, (PsiDirectory)context) {
-            @NotNull
+            @Nonnull
             @Override
             public String getText() {
               return "Create Directory " + fileNameToCreate + " at " + targetPath;

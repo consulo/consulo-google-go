@@ -18,12 +18,14 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoExprSwitchStatement extends GoSwitchStatement {
 
-  @NotNull
+  @Nonnull
   List<GoExprCaseClause> getExprCaseClauseList();
 
   @Nullable
@@ -32,10 +34,10 @@ public interface GoExprSwitchStatement extends GoSwitchStatement {
   @Nullable
   GoStatement getStatement();
 
-  @NotNull
+  @Nonnull
   GoSwitchStart getSwitchStart();
 
-  @NotNull
+  @Nonnull
   PsiElement getLbrace();
 
   @Nullable

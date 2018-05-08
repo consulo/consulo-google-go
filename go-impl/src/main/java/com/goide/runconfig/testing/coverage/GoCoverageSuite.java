@@ -16,13 +16,14 @@
 
 package com.goide.runconfig.testing.coverage;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.coverage.BaseCoverageSuite;
 import com.intellij.coverage.CoverageEngine;
 import com.intellij.coverage.CoverageFileProvider;
 import com.intellij.coverage.CoverageRunner;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoCoverageSuite extends BaseCoverageSuite {
   public GoCoverageSuite() {
@@ -36,7 +37,7 @@ public class GoCoverageSuite extends BaseCoverageSuite {
     super(name, fileProvider, lastCoverageTimeStamp, false, false, false, coverageRunner, project);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public CoverageEngine getCoverageEngine() {
     return GoCoverageEngine.INSTANCE;

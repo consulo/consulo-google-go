@@ -23,11 +23,11 @@ import com.intellij.psi.PsiReferenceBase;
 import com.intellij.psi.impl.source.resolve.ResolveCache;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class GoCachedReference<T extends PsiElement> extends PsiReferenceBase<T> {
-  protected GoCachedReference(@NotNull T element) {
+  protected GoCachedReference(@Nonnull T element) {
     super(element, TextRange.from(0, element.getTextLength()));
   }
 
@@ -45,7 +45,7 @@ public abstract class GoCachedReference<T extends PsiElement> extends PsiReferen
            : null;
   }
 
-  public abstract boolean processResolveVariants(@NotNull GoScopeProcessor processor);
+  public abstract boolean processResolveVariants(@Nonnull GoScopeProcessor processor);
 
   @Override
   public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException {
@@ -58,7 +58,7 @@ public abstract class GoCachedReference<T extends PsiElement> extends PsiReferen
     return GoUtil.couldBeReferenceTo(element, myElement) && super.isReferenceTo(element);
   }
   
-  @NotNull
+  @Nonnull
   @Override
   public Object[] getVariants() {
     return ArrayUtil.EMPTY_OBJECT_ARRAY;

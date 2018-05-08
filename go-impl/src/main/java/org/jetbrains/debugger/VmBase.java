@@ -1,7 +1,7 @@
 package org.jetbrains.debugger;
 
 import com.intellij.openapi.util.UserDataHolderBase;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -14,7 +14,7 @@ public class VmBase extends UserDataHolderBase implements Vm, AttachStateManager
     this.debugListener = debugListener;
   }
 
-  @NotNull
+  @Nonnull
   public AttachStateManager getAttachStateManager() {
     return this;
   }

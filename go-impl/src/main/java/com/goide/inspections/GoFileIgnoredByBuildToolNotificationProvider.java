@@ -38,7 +38,7 @@ import com.intellij.ui.EditorNotificationPanel;
 import com.intellij.ui.EditorNotifications;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.messages.MessageBusConnection;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 import java.util.Set;
@@ -50,14 +50,14 @@ public class GoFileIgnoredByBuildToolNotificationProvider extends EditorNotifica
 
   private final Project myProject;
 
-  public GoFileIgnoredByBuildToolNotificationProvider(@NotNull Project project,
-                                                      @NotNull EditorNotifications notifications,
-                                                      @NotNull FileEditorManager fileEditorManager) {
+  public GoFileIgnoredByBuildToolNotificationProvider(@Nonnull Project project,
+                                                      @Nonnull EditorNotifications notifications,
+                                                      @Nonnull FileEditorManager fileEditorManager) {
     myProject = project;
     MessageBusConnection connection = myProject.getMessageBus().connect(myProject);
     connection.subscribe(VirtualFileManager.VFS_CHANGES, new BulkFileListener.Adapter() {
       @Override
-      public void after(@NotNull List<? extends VFileEvent> events) {
+      public void after(@Nonnull List<? extends VFileEvent> events) {
         if (!myProject.isDisposed()) {
           Set<VirtualFile> openFiles = ContainerUtil.newHashSet(fileEditorManager.getSelectedFiles());
           for (VFileEvent event : events) {
@@ -71,14 +71,14 @@ public class GoFileIgnoredByBuildToolNotificationProvider extends EditorNotifica
     });
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Key<EditorNotificationPanel> getKey() {
     return KEY;
   }
 
   @Override
-  public EditorNotificationPanel createNotificationPanel(@NotNull VirtualFile file, @NotNull FileEditor fileEditor) {
+  public EditorNotificationPanel createNotificationPanel(@Nonnull VirtualFile file, @Nonnull FileEditor fileEditor) {
     if (file.getFileType() == GoFileType.INSTANCE) {
       PsiFile psiFile = PsiManager.getInstance(myProject).findFile(file);
       if (InjectedLanguageUtil.findInjectionHost(psiFile) != null) {
@@ -97,7 +97,7 @@ public class GoFileIgnoredByBuildToolNotificationProvider extends EditorNotifica
     return null;
   }
 
-  private static EditorNotificationPanel createIgnoredByBuildToolPanel(@NotNull Project project, @NotNull VirtualFile file) {
+  private static EditorNotificationPanel createIgnoredByBuildToolPanel(@Nonnull Project project, @Nonnull VirtualFile file) {
     EditorNotificationPanel panel = new EditorNotificationPanel();
     String fileName = file.getName();
     panel.setText("'" + fileName + "' will be ignored by build tool since its name starts with '" + fileName.charAt(0) + "'");
@@ -108,8 +108,8 @@ public class GoFileIgnoredByBuildToolNotificationProvider extends EditorNotifica
     return panel;
   }
 
-  @NotNull
-  private static EditorNotificationPanel createMismatchedTargetPanel(@NotNull Module module, @NotNull VirtualFile file) {
+  @Nonnull
+  private static EditorNotificationPanel createMismatchedTargetPanel(@Nonnull Module module, @Nonnull VirtualFile file) {
     EditorNotificationPanel panel = new EditorNotificationPanel();
     panel.setText("'" + file.getName() + "' doesn't match to target system. File will be ignored by build tool");
     panel.createActionLabel("Edit Go project settings", () -> ProjectSettingsService.getInstance(module.getProject()).openModuleSettings(module));

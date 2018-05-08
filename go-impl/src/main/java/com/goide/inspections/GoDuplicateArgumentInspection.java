@@ -21,18 +21,18 @@ import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Set;
 
 public class GoDuplicateArgumentInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitCompositeElement(@NotNull GoCompositeElement o) {
+      public void visitCompositeElement(@Nonnull GoCompositeElement o) {
         if (o instanceof GoSignatureOwner) {
           check(((GoSignatureOwner)o).getSignature(), holder);
         }
@@ -40,15 +40,15 @@ public class GoDuplicateArgumentInspection extends GoInspectionBase {
     };
   }
 
-  protected void check(@Nullable GoSignature o, @NotNull ProblemsHolder holder) {
+  protected void check(@Nullable GoSignature o, @Nonnull ProblemsHolder holder) {
     if (o != null) {
       checkParameters(holder, o.getParameters(), ContainerUtil.newLinkedHashSet());
     }
   }
 
-  protected static void checkParameters(@NotNull ProblemsHolder holder,
-                                        @NotNull GoParameters parameters,
-                                        @NotNull Set<String> parameterNames) {
+  protected static void checkParameters(@Nonnull ProblemsHolder holder,
+                                        @Nonnull GoParameters parameters,
+                                        @Nonnull Set<String> parameterNames) {
     for (GoParameterDeclaration fp : parameters.getParameterDeclarationList()) {
       for (GoParamDefinition parameter : fp.getParamDefinitionList()) {
         if (parameter.isBlank()) continue;

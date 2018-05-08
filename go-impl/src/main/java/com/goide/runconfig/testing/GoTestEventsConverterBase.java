@@ -18,10 +18,10 @@ package com.goide.runconfig.testing;
 
 import com.intellij.openapi.util.Key;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.text.ParseException;
 
 public interface GoTestEventsConverterBase {
-  boolean processServiceMessages(@NotNull String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException;
+  boolean processServiceMessages(@Nonnull String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException;
 }

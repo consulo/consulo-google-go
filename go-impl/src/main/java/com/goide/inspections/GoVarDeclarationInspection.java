@@ -25,7 +25,7 @@ import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.openapi.util.Pair;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -33,8 +33,8 @@ import static com.goide.inspections.GoInspectionUtil.UNKNOWN_COUNT;
 import static com.goide.inspections.GoInspectionUtil.getExpressionResultCount;
 
 public class GoVarDeclarationInspection extends GoInspectionBase {
-  @NotNull
-  private static Pair<List<? extends GoCompositeElement>, List<GoExpression>> getPair(@NotNull GoVarSpec varDeclaration) {
+  @Nonnull
+  private static Pair<List<? extends GoCompositeElement>, List<GoExpression>> getPair(@Nonnull GoVarSpec varDeclaration) {
     PsiElement assign = varDeclaration instanceof GoShortVarDeclaration ? ((GoShortVarDeclaration)varDeclaration).getVarAssign()
                                                                         : varDeclaration.getAssign();
     if (assign == null) {
@@ -49,21 +49,21 @@ public class GoVarDeclarationInspection extends GoInspectionBase {
     return Pair.create(varDeclaration.getVarDefinitionList(), varDeclaration.getRightExpressionsList());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitAssignmentStatement(@NotNull GoAssignmentStatement o) {
+      public void visitAssignmentStatement(@Nonnull GoAssignmentStatement o) {
         validatePair(o, Pair.create(o.getLeftHandExprList().getExpressionList(), o.getExpressionList()));
       }
 
       @Override
-      public void visitVarSpec(@NotNull GoVarSpec o) {
+      public void visitVarSpec(@Nonnull GoVarSpec o) {
         validatePair(o, getPair(o));
       }
 
-      private void validatePair(@NotNull GoCompositeElement o, Pair<? extends List<? extends GoCompositeElement>, List<GoExpression>> p) {
+      private void validatePair(@Nonnull GoCompositeElement o, Pair<? extends List<? extends GoCompositeElement>, List<GoExpression>> p) {
         List<GoExpression> list = p.second;
         int idCount = p.first.size();
         for (GoCompositeElement idElement : p.first) {
@@ -114,7 +114,7 @@ public class GoVarDeclarationInspection extends GoInspectionBase {
     };
   }
 
-  private static void checkExpressionShouldReturnOneResult(@NotNull List<GoExpression> expressions, @NotNull ProblemsHolder result) {
+  private static void checkExpressionShouldReturnOneResult(@Nonnull List<GoExpression> expressions, @Nonnull ProblemsHolder result) {
     for (GoExpression expr : expressions) {
       int count = getExpressionResultCount(expr);
       if (count != UNKNOWN_COUNT && count != 1) {

@@ -23,41 +23,41 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
 public class GoLabelDefinitionStubElementType extends GoNamedStubElementType<GoLabelDefinitionStub, GoLabelDefinition> {
-  public GoLabelDefinitionStubElementType(@NotNull String name) {
+  public GoLabelDefinitionStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoLabelDefinition createPsi(@NotNull GoLabelDefinitionStub stub) {
+  public GoLabelDefinition createPsi(@Nonnull GoLabelDefinitionStub stub) {
     return new GoLabelDefinitionImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoLabelDefinitionStub createStub(@NotNull GoLabelDefinition psi, StubElement parentStub) {
+  public GoLabelDefinitionStub createStub(@Nonnull GoLabelDefinition psi, StubElement parentStub) {
     return new GoLabelDefinitionStub(parentStub, this, psi.getName(), psi.isPublic());
   }
 
   @Override
-  public void serialize(@NotNull GoLabelDefinitionStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoLabelDefinitionStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
   @Override
-  public boolean shouldCreateStub(@NotNull ASTNode node) {
+  public boolean shouldCreateStub(@Nonnull ASTNode node) {
     return false; // todo
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoLabelDefinitionStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoLabelDefinitionStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoLabelDefinitionStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 }

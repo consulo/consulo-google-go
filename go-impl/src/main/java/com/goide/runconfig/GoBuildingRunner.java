@@ -47,8 +47,8 @@ import com.intellij.xdebugger.XDebugProcess;
 import com.intellij.xdebugger.XDebugProcessStarter;
 import com.intellij.xdebugger.XDebugSession;
 import com.intellij.xdebugger.XDebuggerManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.jetbrains.debugger.connection.RemoteVmConnection;
 
 import java.io.File;
@@ -58,23 +58,23 @@ import java.net.InetSocketAddress;
 public class GoBuildingRunner extends AsyncGenericProgramRunner {
   private static final String ID = "GoBuildingRunner";
 
-  @NotNull
+  @Nonnull
   @Override
   public String getRunnerId() {
     return ID;
   }
 
   @Override
-  public boolean canRun(@NotNull String executorId, @NotNull RunProfile profile) {
+  public boolean canRun(@Nonnull String executorId, @Nonnull RunProfile profile) {
     if (profile instanceof GoApplicationConfiguration) {
       return DefaultRunExecutor.EXECUTOR_ID.equals(executorId) || DefaultDebugExecutor.EXECUTOR_ID.equals(executorId) && !DlvDebugProcess.IS_DLV_DISABLED;
     }
     return false;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected AsyncResult<RunProfileStarter> prepare(@NotNull ExecutionEnvironment environment, @NotNull RunProfileState state) throws ExecutionException {
+  protected AsyncResult<RunProfileStarter> prepare(@Nonnull ExecutionEnvironment environment, @Nonnull RunProfileState state) throws ExecutionException {
     File outputFile = getOutputFile(environment, (GoApplicationRunningState)state);
     FileDocumentManager.getInstance().saveAllDocuments();
 
@@ -101,8 +101,8 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
     return buildingPromise;
   }
 
-  @NotNull
-  private static File getOutputFile(@NotNull ExecutionEnvironment environment, @NotNull GoApplicationRunningState state) throws ExecutionException {
+  @Nonnull
+  private static File getOutputFile(@Nonnull ExecutionEnvironment environment, @Nonnull GoApplicationRunningState state) throws ExecutionException {
     File outputFile;
     String outputDirectoryPath = state.getConfiguration().getOutputFilePath();
     RunnerAndConfigurationSettings settings = environment.getRunnerAndConfigurationSettings();
@@ -138,7 +138,7 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
     return outputFile;
   }
 
-  private static boolean prepareFile(@NotNull File file) {
+  private static boolean prepareFile(@Nonnull File file) {
     try {
       FileUtil.writeToFile(file, new byte[]{0x7F, 'E', 'L', 'F'});
     }
@@ -154,7 +154,7 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
     private final boolean myCompilationFailed;
 
 
-    private MyDebugStarter(@NotNull String outputFilePath, @NotNull GoHistoryProcessListener historyProcessListener, boolean compilationFailed) {
+    private MyDebugStarter(@Nonnull String outputFilePath, @Nonnull GoHistoryProcessListener historyProcessListener, boolean compilationFailed) {
       myOutputFilePath = outputFilePath;
       myHistoryProcessListener = historyProcessListener;
       myCompilationFailed = compilationFailed;
@@ -162,7 +162,7 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
 
     @Nullable
     @Override
-    public RunContentDescriptor execute(@NotNull RunProfileState state, @NotNull ExecutionEnvironment env) throws ExecutionException {
+    public RunContentDescriptor execute(@Nonnull RunProfileState state, @Nonnull ExecutionEnvironment env) throws ExecutionException {
       if (state instanceof GoApplicationRunningState) {
         final int port;
         try {
@@ -187,9 +187,9 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
         UsageTrigger.trigger("go.dlv.debugger");
 
         return XDebuggerManager.getInstance(env.getProject()).startSession(env, new XDebugProcessStarter() {
-          @NotNull
+          @Nonnull
           @Override
-          public XDebugProcess start(@NotNull XDebugSession session) throws ExecutionException {
+          public XDebugProcess start(@Nonnull XDebugSession session) throws ExecutionException {
             RemoteVmConnection connection = new DlvRemoteVmConnection();
             DlvDebugProcess process = new DlvDebugProcess(session, connection, executionResult);
             connection.open(new InetSocketAddress(NetUtils.getLoopbackAddress(), port));
@@ -207,7 +207,7 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
     private final boolean myCompilationFailed;
 
 
-    private MyRunStarter(@NotNull String outputFilePath, @NotNull GoHistoryProcessListener historyProcessListener, boolean compilationFailed) {
+    private MyRunStarter(@Nonnull String outputFilePath, @Nonnull GoHistoryProcessListener historyProcessListener, boolean compilationFailed) {
       myOutputFilePath = outputFilePath;
       myHistoryProcessListener = historyProcessListener;
       myCompilationFailed = compilationFailed;
@@ -215,7 +215,7 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
 
     @Nullable
     @Override
-    public RunContentDescriptor execute(@NotNull RunProfileState state, @NotNull ExecutionEnvironment env) throws ExecutionException {
+    public RunContentDescriptor execute(@Nonnull RunProfileState state, @Nonnull ExecutionEnvironment env) throws ExecutionException {
       if (state instanceof GoApplicationRunningState) {
         FileDocumentManager.getInstance().saveAllDocuments();
         ((GoApplicationRunningState)state).setHistoryProcessHandler(myHistoryProcessListener);

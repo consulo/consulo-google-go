@@ -28,33 +28,33 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
 public class GoNoNewVariablesInspection extends GoInspectionBase {
   public static final String QUICK_FIX_NAME = "Replace with '='";
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitShortVarDeclaration(@NotNull GoShortVarDeclaration o) {
+      public void visitShortVarDeclaration(@Nonnull GoShortVarDeclaration o) {
         visitVarDefinitionList(o, o.getVarDefinitionList());
       }
 
       @Override
-      public void visitRecvStatement(@NotNull GoRecvStatement o) {
+      public void visitRecvStatement(@Nonnull GoRecvStatement o) {
         visitVarDefinitionList(o, o.getVarDefinitionList());
       }
 
       @Override
-      public void visitRangeClause(@NotNull GoRangeClause o) {
+      public void visitRangeClause(@Nonnull GoRangeClause o) {
         visitVarDefinitionList(o, o.getVarDefinitionList());
       }
 
-      private void visitVarDefinitionList(@NotNull PsiElement o, @NotNull List<GoVarDefinition> list) {
+      private void visitVarDefinitionList(@Nonnull PsiElement o, @Nonnull List<GoVarDefinition> list) {
         GoVarDefinition first = ContainerUtil.getFirstItem(list);
         GoVarDefinition last = ContainerUtil.getLastItem(list);
         if (first == null || last == null) return;
@@ -66,7 +66,7 @@ public class GoNoNewVariablesInspection extends GoInspectionBase {
     };
   }
 
-  public static boolean hasNonNewVariables(@NotNull List<GoVarDefinition> list) {
+  public static boolean hasNonNewVariables(@Nonnull List<GoVarDefinition> list) {
     if (list.isEmpty()) return false;
     for (GoVarDefinition def : list) {
       if (def.isBlank()) continue;
@@ -76,7 +76,7 @@ public class GoNoNewVariablesInspection extends GoInspectionBase {
     return true;
   }
 
-  public static void replaceWithAssignment(@NotNull Project project, @NotNull PsiElement element) {
+  public static void replaceWithAssignment(@Nonnull Project project, @Nonnull PsiElement element) {
     if (element instanceof GoShortVarDeclaration) {
       PsiElement parent = element.getParent();
       if (parent instanceof GoSimpleStatement) {
@@ -105,7 +105,7 @@ public class GoNoNewVariablesInspection extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getStartElement();
       if (element.isValid()) {
         replaceWithAssignment(project, element);

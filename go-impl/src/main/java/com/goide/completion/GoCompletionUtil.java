@@ -16,8 +16,8 @@
 
 package com.goide.completion;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.jetbrains.annotations.TestOnly;
 import com.goide.GoIcons;
 import com.goide.psi.*;
@@ -68,7 +68,7 @@ public class GoCompletionUtil {
 
     public static final InsertHandler<LookupElement> VARIABLE_OR_FUNCTION_INSERT_HANDLER = new InsertHandler<LookupElement>() {
       @Override
-      public void handleInsert(InsertionContext context, @NotNull LookupElement item) {
+      public void handleInsert(InsertionContext context, @Nonnull LookupElement item) {
         PsiElement e = item.getPsiElement();
         if (e instanceof GoSignatureOwner) {
           doInsert(context, item, ((GoSignatureOwner)e).getSignature());
@@ -81,7 +81,7 @@ public class GoCompletionUtil {
         }
       }
 
-      private void doInsert(InsertionContext context, @NotNull LookupElement item, @Nullable GoSignature signature) {
+      private void doInsert(InsertionContext context, @Nonnull LookupElement item, @Nullable GoSignature signature) {
         int paramsCount = signature != null ? signature.getParameters().getParameterDeclarationList().size() : 0;
         InsertHandler<LookupElement> handler = paramsCount == 0 ? ParenthesesInsertHandler.NO_PARAMETERS : ParenthesesInsertHandler.WITH_PARAMETERS;
         handler.handleInsert(context, item);
@@ -104,7 +104,7 @@ public class GoCompletionUtil {
     };
     private static final SingleCharInsertHandler FIELD_DEFINITION_INSERT_HANDLER = new SingleCharInsertHandler(':') {
       @Override
-      public void handleInsert(@NotNull InsertionContext context, LookupElement item) {
+      public void handleInsert(@Nonnull InsertionContext context, LookupElement item) {
         PsiFile file = context.getFile();
         if (!(file instanceof GoFile)) return;
         context.commitDocument();
@@ -121,7 +121,7 @@ public class GoCompletionUtil {
     };
     private static final LookupElementRenderer<LookupElement> FUNCTION_RENDERER = new LookupElementRenderer<LookupElement>() {
       @Override
-      public void renderElement(@NotNull LookupElement element, @NotNull LookupElementPresentation p) {
+      public void renderElement(@Nonnull LookupElement element, @Nonnull LookupElementPresentation p) {
         PsiElement o = element.getPsiElement();
         if (!(o instanceof GoNamedSignatureOwner)) return;
         GoNamedSignatureOwner f = (GoNamedSignatureOwner)o;
@@ -144,7 +144,7 @@ public class GoCompletionUtil {
     };
     private static final LookupElementRenderer<LookupElement> VARIABLE_RENDERER = new LookupElementRenderer<LookupElement>() {
       @Override
-      public void renderElement(@NotNull LookupElement element, @NotNull LookupElementPresentation p) {
+      public void renderElement(@Nonnull LookupElement element, @Nonnull LookupElementPresentation p) {
         PsiElement o = element.getPsiElement();
         if (!(o instanceof GoNamedElement)) return;
         GoNamedElement v = (GoNamedElement)o;
@@ -170,7 +170,7 @@ public class GoCompletionUtil {
   private static boolean typesDisabled;
 
   @TestOnly
-  public static void disableTypeInfoInLookup(@NotNull Disposable disposable) {
+  public static void disableTypeInfoInLookup(@Nonnull Disposable disposable) {
     typesDisabled = true;
     Disposer.register(disposable, () -> {
       //noinspection AssignmentToStaticFieldFromInstanceMethod
@@ -182,19 +182,19 @@ public class GoCompletionUtil {
 
   }
 
-  @NotNull
-  public static CamelHumpMatcher createPrefixMatcher(@NotNull PrefixMatcher original) {
+  @Nonnull
+  public static CamelHumpMatcher createPrefixMatcher(@Nonnull PrefixMatcher original) {
     return createPrefixMatcher(original.getPrefix());
   }
 
-  @NotNull
-  public static CamelHumpMatcher createPrefixMatcher(@NotNull String prefix) {
+  @Nonnull
+  public static CamelHumpMatcher createPrefixMatcher(@Nonnull String prefix) {
     return new CamelHumpMatcher(prefix, false);
   }
 
-  @NotNull
-  public static LookupElement createFunctionOrMethodLookupElement(@NotNull GoNamedSignatureOwner f,
-                                                                  @NotNull String lookupString,
+  @Nonnull
+  public static LookupElement createFunctionOrMethodLookupElement(@Nonnull GoNamedSignatureOwner f,
+                                                                  @Nonnull String lookupString,
                                                                   @Nullable InsertHandler<LookupElement> h,
                                                                   double priority) {
     return PrioritizedLookupElement.withPriority(LookupElementBuilder
@@ -221,14 +221,14 @@ public class GoCompletionUtil {
     return StringUtil.isNotEmpty(text) ? " " + UIUtil.rightArrow() + " " + text : null;
   }
 
-  @NotNull
-  public static LookupElement createTypeLookupElement(@NotNull GoTypeSpec t) {
+  @Nonnull
+  public static LookupElement createTypeLookupElement(@Nonnull GoTypeSpec t) {
     return createTypeLookupElement(t, StringUtil.notNullize(t.getName()), null, null, TYPE_PRIORITY);
   }
 
-  @NotNull
-  public static LookupElement createTypeLookupElement(@NotNull GoTypeSpec t,
-                                                      @NotNull String lookupString,
+  @Nonnull
+  public static LookupElement createTypeLookupElement(@Nonnull GoTypeSpec t,
+                                                      @Nonnull String lookupString,
                                                       @Nullable InsertHandler<LookupElement> handler,
                                                       @Nullable String importPath,
                                                       double priority) {
@@ -238,20 +238,20 @@ public class GoCompletionUtil {
     return PrioritizedLookupElement.withPriority(builder, priority);
   }
 
-  @NotNull
-  public static LookupElement createLabelLookupElement(@NotNull GoLabelDefinition l, @NotNull String lookupString) {
+  @Nonnull
+  public static LookupElement createLabelLookupElement(@Nonnull GoLabelDefinition l, @Nonnull String lookupString) {
     return PrioritizedLookupElement.withPriority(LookupElementBuilder.createWithSmartPointer(lookupString, l).withIcon(GoIcons.LABEL),
                                                  LABEL_PRIORITY);
   }
 
-  @NotNull
-  public static LookupElement createTypeConversionLookupElement(@NotNull GoTypeSpec t) {
+  @Nonnull
+  public static LookupElement createTypeConversionLookupElement(@Nonnull GoTypeSpec t) {
     return createTypeConversionLookupElement(t, StringUtil.notNullize(t.getName()), null, null, TYPE_CONVERSION);
   }
 
-  @NotNull
-  public static LookupElement createTypeConversionLookupElement(@NotNull GoTypeSpec t,
-                                                                @NotNull String lookupString,
+  @Nonnull
+  public static LookupElement createTypeConversionLookupElement(@Nonnull GoTypeSpec t,
+                                                                @Nonnull String lookupString,
                                                                 @Nullable InsertHandler<LookupElement> insertHandler,
                                                                 @Nullable String importPath,
                                                                 double priority) {
@@ -261,21 +261,21 @@ public class GoCompletionUtil {
   }
 
   @Nullable
-  public static LookupElement createFieldLookupElement(@NotNull GoFieldDefinition v) {
+  public static LookupElement createFieldLookupElement(@Nonnull GoFieldDefinition v) {
     String name = v.getName();
     if (StringUtil.isEmpty(name)) return null;
     return createVariableLikeLookupElement(v, name, Lazy.FIELD_DEFINITION_INSERT_HANDLER, FIELD_PRIORITY);
   }
 
   @Nullable
-  public static LookupElement createVariableLikeLookupElement(@NotNull GoNamedElement v) {
+  public static LookupElement createVariableLikeLookupElement(@Nonnull GoNamedElement v) {
     String name = v.getName();
     if (StringUtil.isEmpty(name)) return null;
     return createVariableLikeLookupElement(v, name, Lazy.VARIABLE_OR_FUNCTION_INSERT_HANDLER, VAR_PRIORITY);
   }
 
-  @NotNull
-  public static LookupElement createVariableLikeLookupElement(@NotNull GoNamedElement v, @NotNull String lookupString,
+  @Nonnull
+  public static LookupElement createVariableLikeLookupElement(@Nonnull GoNamedElement v, @Nonnull String lookupString,
                                                               @Nullable InsertHandler<LookupElement> insertHandler,
                                                               double priority) {
     return PrioritizedLookupElement.withPriority(LookupElementBuilder.createWithSmartPointer(lookupString, v)
@@ -284,7 +284,7 @@ public class GoCompletionUtil {
   }
 
   @Nullable
-  private static String calcTailTextForFields(@NotNull GoNamedElement v) {
+  private static String calcTailTextForFields(@Nonnull GoNamedElement v) {
     String name = null;
     if (v instanceof GoFieldDefinition) {
       GoFieldDefinitionStub stub = ((GoFieldDefinition)v).getStub();
@@ -295,13 +295,13 @@ public class GoCompletionUtil {
   }
 
   @Nullable
-  public static LookupElement createPackageLookupElement(@NotNull GoImportSpec spec, @Nullable String name, boolean vendoringEnabled) {
+  public static LookupElement createPackageLookupElement(@Nonnull GoImportSpec spec, @Nullable String name, boolean vendoringEnabled) {
     name = name != null ? name : ObjectUtils.notNull(spec.getAlias(), spec.getLocalPackageName());
     return createPackageLookupElement(name, spec.getImportString().resolve(), spec, vendoringEnabled, true);
   }
 
-  @NotNull
-  public static LookupElement createPackageLookupElement(@NotNull String importPath,
+  @Nonnull
+  public static LookupElement createPackageLookupElement(@Nonnull String importPath,
                                                          @Nullable PsiDirectory directory,
                                                          @Nullable PsiElement context,
                                                          boolean vendoringEnabled,
@@ -309,8 +309,8 @@ public class GoCompletionUtil {
     return createPackageLookupElement(importPath, getContextImportPath(context, vendoringEnabled), directory, forType);
   }
 
-  @NotNull
-  public static LookupElement createPackageLookupElement(@NotNull String importPath, @Nullable String contextImportPath,
+  @Nonnull
+  public static LookupElement createPackageLookupElement(@Nonnull String importPath, @Nullable String contextImportPath,
                                                          @Nullable PsiDirectory directory, boolean forType) {
     LookupElementBuilder builder = directory != null
                                    ? LookupElementBuilder.create(directory, importPath)
@@ -321,7 +321,7 @@ public class GoCompletionUtil {
                                                  calculatePackagePriority(importPath, contextImportPath));
   }
 
-  public static int calculatePackagePriority(@NotNull String importPath, @Nullable String currentPath) {
+  public static int calculatePackagePriority(@Nonnull String importPath, @Nullable String currentPath) {
     int priority = PACKAGE_PRIORITY;
     if (StringUtil.isNotEmpty(currentPath)) {
       String[] givenSplit = importPath.split("/");
@@ -354,8 +354,8 @@ public class GoCompletionUtil {
     return currentPath;
   }
 
-  @NotNull
-  public static LookupElementBuilder createDirectoryLookupElement(@NotNull PsiDirectory dir) {
+  @Nonnull
+  public static LookupElementBuilder createDirectoryLookupElement(@Nonnull PsiDirectory dir) {
     return LookupElementBuilder.createWithSmartPointer(dir.getName(), dir).withIcon(GoIcons.DIRECTORY)
       .withInsertHandler(dir.getFiles().length == 0 ? Lazy.DIR_INSERT_HANDLER : null);
   }

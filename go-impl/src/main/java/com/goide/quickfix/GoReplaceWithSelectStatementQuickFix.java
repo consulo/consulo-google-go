@@ -16,6 +16,8 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoForStatement;
 import com.goide.psi.impl.GoElementFactory;
 import com.intellij.codeInspection.LocalQuickFixBase;
@@ -23,7 +25,6 @@ import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
 
 public class GoReplaceWithSelectStatementQuickFix extends LocalQuickFixBase {
   public static final String QUICK_FIX_NAME = "Replace with 'select'";
@@ -33,14 +34,14 @@ public class GoReplaceWithSelectStatementQuickFix extends LocalQuickFixBase {
   }
 
   @Nls
-  @NotNull
+  @Nonnull
   @Override
   public String getFamilyName() {
     return QUICK_FIX_NAME;
   }
 
   @Override
-  public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     PsiElement element = descriptor.getPsiElement();
     if (element instanceof GoForStatement) {
       element.replace(GoElementFactory.createSelectStatement(project));

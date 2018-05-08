@@ -22,7 +22,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.ThreeState;
 import consulo.google.go.module.extension.GoModuleExtension;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 public class GoVendoringUtil {
   public static boolean supportsVendoringByDefault(@Nullable String sdkVersion) {

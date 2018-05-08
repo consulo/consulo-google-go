@@ -22,35 +22,35 @@ import com.goide.stubs.GoSignatureStub;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
 public class GoSignatureStubElementType extends GoStubElementType<GoSignatureStub, GoSignature> {
-  public GoSignatureStubElementType(@NotNull String name) {
+  public GoSignatureStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoSignature createPsi(@NotNull GoSignatureStub stub) {
+  public GoSignature createPsi(@Nonnull GoSignatureStub stub) {
     return new GoSignatureImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoSignatureStub createStub(@NotNull GoSignature psi, StubElement parentStub) {
+  public GoSignatureStub createStub(@Nonnull GoSignature psi, StubElement parentStub) {
     return new GoSignatureStub(parentStub, this, psi.getText());
   }
 
   @Override
-  public void serialize(@NotNull GoSignatureStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoSignatureStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getText());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoSignatureStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoSignatureStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoSignatureStub(parentStub, this, dataStream.readName());
   }
 }

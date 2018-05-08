@@ -24,7 +24,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,12 +52,12 @@ public class GoSyntaxHighlighter extends SyntaxHighlighterBase {
     fillMap(ATTRIBUTES, GoParserDefinition.STRING_LITERALS, STRING);
   }
 
-  @NotNull
+  @Nonnull
   public Lexer getHighlightingLexer() {
     return new GoLexer();
   }
 
-  @NotNull
+  @Nonnull
   public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
     return pack(ATTRIBUTES.get(tokenType));
   }

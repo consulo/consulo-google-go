@@ -18,7 +18,7 @@ package com.goide.runconfig.file;
 
 import com.goide.runconfig.GoRunConfigurationProducerBase;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoRunFileConfigurationProducer extends GoRunConfigurationProducerBase<GoRunFileConfiguration> implements Cloneable {
   public GoRunFileConfigurationProducer() {
@@ -26,8 +26,8 @@ public class GoRunFileConfigurationProducer extends GoRunConfigurationProducerBa
   }
 
   @Override
-  @NotNull
-  protected String getConfigurationName(@NotNull PsiFile file) {
+  @Nonnull
+  protected String getConfigurationName(@Nonnull PsiFile file) {
     return "go run " + file.getName();
   }
 }

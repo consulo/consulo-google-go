@@ -16,6 +16,8 @@
 
 package com.goide.editor;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.*;
 import com.intellij.codeInsight.editorActions.moveUpDown.LineMover;
 import com.intellij.codeInsight.editorActions.moveUpDown.LineRange;
@@ -28,13 +30,13 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.tree.TreeUtil;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 
 public class GoStatementMover extends LineMover {
   @Override
-  public boolean checkAvailable(@NotNull Editor editor, @NotNull PsiFile file, @NotNull MoveInfo info, boolean down) {
+  public boolean checkAvailable(@Nonnull Editor editor, @Nonnull PsiFile file, @Nonnull MoveInfo info, boolean down) {
     if (!(file instanceof GoFile && super.checkAvailable(editor, file, info, down))) return false;
 
     Couple<PsiElement> primeElementRange = getElementRange(editor, file);
@@ -64,7 +66,7 @@ public class GoStatementMover extends LineMover {
     return setUpInfo(info, elementRange, commonParent, down);
   }
 
-  private static Couple<PsiElement> getElementRange(@NotNull Editor editor, @NotNull PsiFile file) {
+  private static Couple<PsiElement> getElementRange(@Nonnull Editor editor, @Nonnull PsiFile file) {
     Pair<PsiElement, PsiElement> primeElementRangePair = getElementRange(editor, file, getLineRangeFromSelection(editor));
     if (primeElementRangePair == null) return null;
     ASTNode firstNode = TreeUtil.findFirstLeaf(primeElementRangePair.first.getNode());
@@ -78,7 +80,7 @@ public class GoStatementMover extends LineMover {
    * common parent of elements is straight parent for each element
    */
   @Nullable
-  private static Couple<PsiElement> getTopmostElementRange(@NotNull Couple<PsiElement> elementRange, @NotNull PsiElement commonParent) {
+  private static Couple<PsiElement> getTopmostElementRange(@Nonnull Couple<PsiElement> elementRange, @Nonnull PsiElement commonParent) {
     if (elementRange.first == null || elementRange.second == null) return null;
     int start = elementRange.first.getTextOffset();
     int end = elementRange.second.getTextRange().getEndOffset();
@@ -107,9 +109,9 @@ public class GoStatementMover extends LineMover {
     return startElement.getParent().isEquivalentTo(endElement.getParent()) ? Couple.of(startElement, endElement) : null;
   }
 
-  private static boolean setUpInfo(@NotNull MoveInfo info,
-                                   @NotNull Couple<PsiElement> range,
-                                   @NotNull PsiElement commonParent,
+  private static boolean setUpInfo(@Nonnull MoveInfo info,
+                                   @Nonnull Couple<PsiElement> range,
+                                   @Nonnull PsiElement commonParent,
                                    boolean down) {
     info.toMove = new LineRange(range.first, range.second);
     info.toMove2 = null;
@@ -129,8 +131,8 @@ public class GoStatementMover extends LineMover {
   }
 
   @Nullable
-  private static PsiElement getNeighborOfType(@NotNull Couple<PsiElement> range,
-                                              @NotNull Class<? extends PsiElement> clazz,
+  private static PsiElement getNeighborOfType(@Nonnull Couple<PsiElement> range,
+                                              @Nonnull Class<? extends PsiElement> clazz,
                                               boolean rightNeighbor) {
     return rightNeighbor ? PsiTreeUtil.getNextSiblingOfType(range.second, clazz) : PsiTreeUtil.getPrevSiblingOfType(range.first, clazz);
   }

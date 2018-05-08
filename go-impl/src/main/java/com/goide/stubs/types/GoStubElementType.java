@@ -16,6 +16,8 @@
 
 package com.goide.stubs.types;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoLanguage;
 import com.goide.psi.GoBlock;
 import com.goide.psi.GoCompositeElement;
@@ -25,21 +27,20 @@ import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubBase;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class GoStubElementType<S extends StubBase<T>, T extends GoCompositeElement> extends IStubElementType<S, T> {
-  public GoStubElementType(@NonNls @NotNull String debugName) {
+  public GoStubElementType(@NonNls @Nonnull String debugName) {
     super(debugName, GoLanguage.INSTANCE);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public String getExternalId() {
     return "go." + super.toString();
   }
 
   @Override
-  public void indexStub(@NotNull S stub, @NotNull IndexSink sink) {
+  public void indexStub(@Nonnull S stub, @Nonnull IndexSink sink) {
   }
 
   @Override

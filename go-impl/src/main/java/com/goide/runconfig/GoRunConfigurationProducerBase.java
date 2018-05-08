@@ -16,6 +16,9 @@
 
 package com.goide.runconfig;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.psi.GoFile;
 import com.intellij.execution.actions.ConfigurationContext;
 import com.intellij.execution.actions.RunConfigurationProducer;
@@ -25,16 +28,14 @@ import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class GoRunConfigurationProducerBase<T extends GoRunConfigurationWithMain> extends RunConfigurationProducer<T> implements Cloneable {
-  protected GoRunConfigurationProducerBase(@NotNull ConfigurationType configurationType) {
+  protected GoRunConfigurationProducerBase(@Nonnull ConfigurationType configurationType) {
     super(configurationType);
   }
 
   @Override
-  protected boolean setupConfigurationFromContext(@NotNull T configuration, @NotNull ConfigurationContext context, Ref<PsiElement> sourceElement) {
+  protected boolean setupConfigurationFromContext(@Nonnull T configuration, @Nonnull ConfigurationContext context, Ref<PsiElement> sourceElement) {
     PsiFile file = getFileFromContext(context);
     if (GoRunUtil.isMainGoFile(file)) {
       configuration.setName(getConfigurationName(file));
@@ -48,11 +49,11 @@ public abstract class GoRunConfigurationProducerBase<T extends GoRunConfiguratio
     return false;
   }
 
-  @NotNull
-  protected abstract String getConfigurationName(@NotNull PsiFile file);
+  @Nonnull
+  protected abstract String getConfigurationName(@Nonnull PsiFile file);
 
   @Override
-  public boolean isConfigurationFromContext(@NotNull T configuration, ConfigurationContext context) {
+  public boolean isConfigurationFromContext(@Nonnull T configuration, ConfigurationContext context) {
     GoFile file = getFileFromContext(context);
     return file != null && FileUtil.pathsEqual(configuration.getFilePath(), file.getVirtualFile().getPath());
   }

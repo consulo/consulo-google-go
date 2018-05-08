@@ -16,9 +16,10 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.quickfix.GoCreateWrapperTypeQuickFix;
 import com.goide.quickfix.GoQuickFixTestBase;
-import org.jetbrains.annotations.NotNull;
 
 public class GoAnonymousFieldDefinitionTypeInspectionTest extends GoQuickFixTestBase{
   @Override
@@ -32,7 +33,7 @@ public class GoAnonymousFieldDefinitionTypeInspectionTest extends GoQuickFixTest
   private void doTest() {
     doTest(GoCreateWrapperTypeQuickFix.QUICKFIX_NAME, true);
   }
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "inspections/anon-field";

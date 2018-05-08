@@ -1,13 +1,11 @@
 // This is a generated file. Not intended for manual editing.
 package com.plan9.intel.lang.core.psi.impl;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.util.PsiTreeUtil;
-import static com.plan9.intel.lang.core.psi.AsmIntelTypes.*;
+
+import javax.annotation.Nonnull;
+
 import com.plan9.intel.lang.core.psi.*;
 
 public class AsmIntelOperandsImpl extends AsmIntelElementImpl implements AsmIntelOperands {
@@ -16,11 +14,11 @@ public class AsmIntelOperandsImpl extends AsmIntelElementImpl implements AsmInte
     super(node);
   }
 
-  public void accept(@NotNull AsmIntelVisitor visitor) {
+  public void accept(@Nonnull AsmIntelVisitor visitor) {
     visitor.visitOperands(this);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof AsmIntelVisitor) accept((AsmIntelVisitor)visitor);
     else super.accept(visitor);
   }

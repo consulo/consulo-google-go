@@ -19,11 +19,11 @@ package com.plan9.intel;
 import com.intellij.openapi.fileTypes.FileTypeConsumer;
 import com.intellij.openapi.fileTypes.FileTypeFactory;
 import com.intellij.openapi.fileTypes.WildcardFileNameMatcher;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class AsmIntelFileTypeFactory extends FileTypeFactory {
   @Override
-  public void createFileTypes(@NotNull FileTypeConsumer consumer) {
+  public void createFileTypes(@Nonnull FileTypeConsumer consumer) {
     consumer.consume(AsmIntelFileType.INSTANCE,
                      new WildcardFileNameMatcher("*_amd64.s"),
                      new WildcardFileNameMatcher("*_amd64p32.s"),

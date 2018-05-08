@@ -23,9 +23,9 @@ import consulo.google.go.module.extension.ui.GoModuleExtensionPanel;
 import consulo.module.extension.MutableModuleExtensionWithSdk;
 import consulo.module.extension.MutableModuleInheritableNamedPointer;
 import consulo.roots.ModuleRootLayer;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 
 /**
@@ -33,15 +33,15 @@ import javax.swing.*;
  * @since 12:44/30.05.13
  */
 public class GoMutableModuleExtension extends GoModuleExtension implements MutableModuleExtensionWithSdk<GoModuleExtension> {
-  public GoMutableModuleExtension(@NotNull String id, @NotNull ModuleRootLayer module) {
+  public GoMutableModuleExtension(@Nonnull String id, @Nonnull ModuleRootLayer module) {
     super(id, module);
   }
 
-  public void setVendoringEnabled(@NotNull ThreeState enabled) {
+  public void setVendoringEnabled(@Nonnull ThreeState enabled) {
     myVendoringEnabled = enabled;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public MutableModuleInheritableNamedPointer<Sdk> getInheritableSdk() {
     return (MutableModuleInheritableNamedPointer<Sdk>)super.getInheritableSdk();
@@ -60,7 +60,7 @@ public class GoMutableModuleExtension extends GoModuleExtension implements Mutab
   }
 
   @Override
-  public boolean isModified(@NotNull GoModuleExtension extension) {
+  public boolean isModified(@Nonnull GoModuleExtension extension) {
     return isModifiedImpl(extension) ||
            myVendoringEnabled != extension.myVendoringEnabled ||
            !myBuildTargetSettings.equals(extension.myBuildTargetSettings);

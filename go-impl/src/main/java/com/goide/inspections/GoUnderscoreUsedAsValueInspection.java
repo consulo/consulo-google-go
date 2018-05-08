@@ -16,21 +16,22 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoReferenceExpression;
 import com.goide.psi.GoVisitor;
 import com.intellij.codeInsight.highlighting.ReadWriteAccessDetector;
 import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
-import org.jetbrains.annotations.NotNull;
 
 public class GoUnderscoreUsedAsValueInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitReferenceExpression(@NotNull GoReferenceExpression o) {
+      public void visitReferenceExpression(@Nonnull GoReferenceExpression o) {
         super.visitReferenceExpression(o);
         if (o.getIdentifier().textMatches("_") && o.getReadWriteAccess() != ReadWriteAccessDetector.Access.Write) {
           holder.registerProblem(o, "Cannot use <code>#ref</code> as value #loc", ProblemHighlightType.ERROR);

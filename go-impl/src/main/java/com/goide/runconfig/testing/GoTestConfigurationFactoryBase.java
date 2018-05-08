@@ -16,16 +16,17 @@
 
 package com.goide.runconfig.testing;
 
+import javax.annotation.Nonnull;
+
 import com.goide.runconfig.GoConfigurationFactoryBase;
 import com.goide.runconfig.before.GoBeforeRunTaskProvider;
 import com.goide.runconfig.before.GoCommandBeforeRunTask;
 import com.intellij.execution.BeforeRunTask;
 import com.intellij.execution.configurations.ConfigurationTypeBase;
 import com.intellij.openapi.util.Key;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class GoTestConfigurationFactoryBase extends GoConfigurationFactoryBase {
-  public GoTestConfigurationFactoryBase(@NotNull ConfigurationTypeBase type) {
+  public GoTestConfigurationFactoryBase(@Nonnull ConfigurationTypeBase type) {
     super(type);
   }
 

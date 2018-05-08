@@ -9,7 +9,7 @@ import com.intellij.util.io.socketConnection.ConnectionState;
 import com.intellij.util.io.socketConnection.ConnectionStatus;
 import com.intellij.util.io.socketConnection.SocketConnectionListener;
 import consulo.concurrency.Promises;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.jetbrains.concurrency.AsyncPromise;
 import org.jetbrains.debugger.DebugEventListener;
 import org.jetbrains.debugger.Vm;
@@ -77,7 +77,7 @@ public abstract class VmConnection<T extends Vm> implements Disposable {
     myDispatcher.addListener(listener);
   }
 
-  @NotNull
+  @Nonnull
   public DebugEventListener getDebugEventListener() {
     return myDispatcher.getMulticaster();
   }

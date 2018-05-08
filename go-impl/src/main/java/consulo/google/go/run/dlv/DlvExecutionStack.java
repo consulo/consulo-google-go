@@ -23,20 +23,20 @@ import com.goide.dlv.protocol.DlvApi;
 import com.intellij.xdebugger.frame.XExecutionStack;
 import com.intellij.xdebugger.frame.XStackFrame;
 import consulo.google.go.run.dlv.api.DlvRequests;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DlvExecutionStack extends XExecutionStack {
-  @NotNull
+  @Nonnull
   private final DlvDebugProcess myProcess;
   private final int myThreadId;
   private final int myGoroutineId;
   private DlvCommandProcessor myProcessor;
 
-  public DlvExecutionStack(@NotNull DlvDebugProcess process, int threadId, int goroutineId, DlvCommandProcessor processor) {
+  public DlvExecutionStack(@Nonnull DlvDebugProcess process, int threadId, int goroutineId, DlvCommandProcessor processor) {
     super("Goroutine # " + goroutineId + " Thread #" + threadId);
     myProcess = process;
     myThreadId = threadId;
@@ -51,7 +51,7 @@ public class DlvExecutionStack extends XExecutionStack {
   }
 
   @Override
-  public void computeStackFrames(@NotNull XStackFrameContainer container) {
+  public void computeStackFrames(@Nonnull XStackFrameContainer container) {
     myProcess.send(DlvRequests.Stacktrace.build(myGoroutineId, 100)).doWhenDone(stacktraceOut -> {
       List<DlvStackFrame> list = new ArrayList<>(stacktraceOut.Locations.size());
       for (DlvApi.Location location : stacktraceOut.Locations) {

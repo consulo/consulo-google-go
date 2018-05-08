@@ -26,7 +26,7 @@ import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiComment;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -35,13 +35,13 @@ import java.util.List;
  * https://github.com/golang/lint/blob/32a87160691b3c96046c0c678fe57c5bef761456/lint.go#L744
  */
 public class GoCommentStartInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
 
       @Override
-      public void visitPackageClause(@NotNull GoPackageClause o) {
+      public void visitPackageClause(@Nonnull GoPackageClause o) {
         String packageName = o.getName();
         if (GoConstants.MAIN.equals(packageName)) {
           return;
@@ -54,7 +54,7 @@ public class GoCommentStartInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitCompositeElement(@NotNull GoCompositeElement o) {
+      public void visitCompositeElement(@Nonnull GoCompositeElement o) {
         if (!(o instanceof GoNamedElement) || !((GoNamedElement)o).isPublic()) {
           return;
         }
@@ -74,7 +74,7 @@ public class GoCommentStartInspection extends GoInspectionBase {
     };
   }
 
-  private static void registerProblem(List<PsiComment> comments, String description, @NotNull ProblemsHolder holder) {
+  private static void registerProblem(List<PsiComment> comments, String description, @Nonnull ProblemsHolder holder) {
     for (PsiComment comment : comments) {
       holder.registerProblem(comment, description, ProblemHighlightType.WEAK_WARNING);
     }

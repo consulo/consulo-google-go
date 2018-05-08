@@ -28,25 +28,25 @@ import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubIndexKey;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.Collections;
 
 public abstract class GoNamedStubElementType<S extends GoNamedStub<T>, T extends GoNamedElement> extends GoStubElementType<S, T> {
-  public GoNamedStubElementType(@NonNls @NotNull String debugName) {
+  public GoNamedStubElementType(@NonNls @Nonnull String debugName) {
     super(debugName);
   }
 
   @Override
-  public boolean shouldCreateStub(@NotNull ASTNode node) {
+  public boolean shouldCreateStub(@Nonnull ASTNode node) {
     if (!super.shouldCreateStub(node)) return false;
     PsiElement psi = node.getPsi();
     return psi instanceof GoNamedElement && StringUtil.isNotEmpty(((GoNamedElement)psi).getName());
   }
 
   @Override
-  public void indexStub(@NotNull S stub, @NotNull IndexSink sink) {
+  public void indexStub(@Nonnull S stub, @Nonnull IndexSink sink) {
     String name = stub.getName();
     if (shouldIndex() && StringUtil.isNotEmpty(name)) {
       String packageName = null;
@@ -76,7 +76,7 @@ public abstract class GoNamedStubElementType<S extends GoNamedStub<T>, T extends
     return true;
   }
 
-  @NotNull
+  @Nonnull
   protected Collection<StubIndexKey<String, ? extends GoNamedElement>> getExtraIndexKeys() {
     return Collections.emptyList();
   }

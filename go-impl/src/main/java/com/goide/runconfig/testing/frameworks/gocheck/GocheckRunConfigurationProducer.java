@@ -16,33 +16,34 @@
 
 package com.goide.runconfig.testing.frameworks.gocheck;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.GoMethodDeclaration;
 import com.goide.runconfig.testing.GoTestRunConfigurationProducerBase;
-import org.jetbrains.annotations.NotNull;
 
 public class GocheckRunConfigurationProducer extends GoTestRunConfigurationProducerBase implements Cloneable {
   public GocheckRunConfigurationProducer() {
     super(GocheckFramework.INSTANCE);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected String getPackageConfigurationName(@NotNull String packageName) {
+  protected String getPackageConfigurationName(@Nonnull String packageName) {
     return "gocheck package '" + packageName + "'";
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected String getFunctionConfigurationName(@NotNull GoFunctionOrMethodDeclaration function, @NotNull String fileName) {
+  protected String getFunctionConfigurationName(@Nonnull GoFunctionOrMethodDeclaration function, @Nonnull String fileName) {
     return function instanceof GoMethodDeclaration
            ? GocheckFramework.getGocheckTestName((GoMethodDeclaration)function) + " in " + fileName
            : super.getFunctionConfigurationName(function, fileName);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected String getFileConfigurationName(@NotNull String fileName) {
+  protected String getFileConfigurationName(@Nonnull String fileName) {
     return "gocheck " + super.getFileConfigurationName(fileName);
   }
 }

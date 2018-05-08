@@ -16,6 +16,14 @@
 
 package com.goide.psi;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.GoConstants;
 import com.goide.GoFileType;
 import com.goide.GoLanguage;
@@ -27,14 +35,25 @@ import com.goide.sdk.GoSdkUtil;
 import com.goide.stubs.GoConstSpecStub;
 import com.goide.stubs.GoFileStub;
 import com.goide.stubs.GoVarSpecStub;
-import com.goide.stubs.types.*;
+import com.goide.stubs.types.GoConstDefinitionStubElementType;
+import com.goide.stubs.types.GoConstSpecStubElementType;
+import com.goide.stubs.types.GoFunctionDeclarationStubElementType;
+import com.goide.stubs.types.GoImportSpecStubElementType;
+import com.goide.stubs.types.GoMethodDeclarationStubElementType;
+import com.goide.stubs.types.GoTypeSpecStubElementType;
+import com.goide.stubs.types.GoVarDefinitionStubElementType;
+import com.goide.stubs.types.GoVarSpecStubElementType;
 import com.goide.util.GoUtil;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
+import com.intellij.psi.FileViewProvider;
+import com.intellij.psi.PsiComment;
+import com.intellij.psi.PsiDirectory;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiWhiteSpace;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.SearchScope;
 import com.intellij.psi.stubs.StubElement;
@@ -46,17 +65,10 @@ import com.intellij.util.ArrayFactory;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.MultiMap;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 public class GoFile extends PsiFileBase {
 
-  public GoFile(@NotNull FileViewProvider viewProvider) {
+  public GoFile(@Nonnull FileViewProvider viewProvider) {
     super(viewProvider, GoLanguage.INSTANCE);
   }
 
@@ -65,13 +77,13 @@ public class GoFile extends PsiFileBase {
     return GoSdkUtil.getImportPath(getParent(), withVendoring);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public GlobalSearchScope getResolveScope() {
     return GoUtil.goPathResolveScope(this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public SearchScope getUseScope() {
     return GoUtil.goPathUseScope(this, true);
@@ -115,7 +127,7 @@ public class GoFile extends PsiFileBase {
   }
 
 
-  @NotNull
+  @Nonnull
   public List<GoFunctionDeclaration> getFunctions() {
     return CachedValuesManager.getCachedValue(this, () -> {
       GoFileStub stub = getStub();
@@ -126,7 +138,7 @@ public class GoFile extends PsiFileBase {
     });
   }
 
-  @NotNull
+  @Nonnull
   public List<GoMethodDeclaration> getMethods() {
     return CachedValuesManager.getCachedValue(this, () -> {
       StubElement<GoFile> stub = getStub();
@@ -137,7 +149,7 @@ public class GoFile extends PsiFileBase {
     });
   }
 
-  @NotNull
+  @Nonnull
   public List<GoTypeSpec> getTypes() {
     return CachedValuesManager.getCachedValue(this, () -> {
       StubElement<GoFile> stub = getStub();
@@ -147,7 +159,7 @@ public class GoFile extends PsiFileBase {
     });
   }
 
-  @NotNull
+  @Nonnull
   public List<GoImportSpec> getImports() {
     return CachedValuesManager.getCachedValue(this, () -> {
       StubElement<GoFile> stub = getStub();
@@ -168,7 +180,7 @@ public class GoFile extends PsiFileBase {
   /**
    * @return map like { import path -> import spec } for file
    */
-  @NotNull
+  @Nonnull
   public Map<String, GoImportSpec> getImportedPackagesMap() {
     return CachedValuesManager.getCachedValue(this, () -> {
       Map<String, GoImportSpec> map = ContainerUtil.newHashMap();
@@ -187,7 +199,7 @@ public class GoFile extends PsiFileBase {
   /**
    * @return map like { local package name, maybe alias -> import spec } for file
    */
-  @NotNull
+  @Nonnull
   public MultiMap<String, GoImportSpec> getImportMap() {
     return CachedValuesManager.getCachedValue(this, () -> {
       MultiMap<String, GoImportSpec> map = MultiMap.createLinked();
@@ -226,7 +238,7 @@ public class GoFile extends PsiFileBase {
     });
   }
 
-  @NotNull
+  @Nonnull
   public List<GoVarDefinition> getVars() {
     return CachedValuesManager.getCachedValue(this, () -> {
       List<GoVarDefinition> result;
@@ -247,7 +259,7 @@ public class GoFile extends PsiFileBase {
     });
   }
 
-  @NotNull
+  @Nonnull
   public List<GoConstDefinition> getConstants() {
     return CachedValuesManager.getCachedValue(this, () -> {
       StubElement<GoFile> stub = getStub();
@@ -268,12 +280,12 @@ public class GoFile extends PsiFileBase {
     });
   }
 
-  @NotNull
+  @Nonnull
   private List<GoTypeSpec> calcTypes() {
     return GoPsiImplUtil.goTraverser().children(this).filter(GoTypeDeclaration.class).flatten(GoTypeDeclaration::getTypeSpecList).toList();
   }
 
-  @NotNull
+  @Nonnull
   private List<GoImportSpec> calcImports() {
     GoImportList list = getImportList();
     if (list == null) return ContainerUtil.emptyList();
@@ -284,21 +296,21 @@ public class GoFile extends PsiFileBase {
     return result;
   }
 
-  @NotNull
+  @Nonnull
   private List<GoVarDefinition> calcVars() {
     return GoPsiImplUtil.goTraverser().children(this).filter(GoVarDeclaration.class)
       .flatten(GoVarDeclaration::getVarSpecList)
       .flatten(GoVarSpec::getVarDefinitionList).toList();
   }
 
-  @NotNull
+  @Nonnull
   private List<GoConstDefinition> calcConsts() {
     return GoPsiImplUtil.goTraverser().children(this).filter(GoConstDeclaration.class)
       .flatten(GoConstDeclaration::getConstSpecList)
       .flatten(GoConstSpec::getConstDefinitionList).toList();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public FileType getFileType() {
     return GoFileType.INSTANCE;
@@ -345,22 +357,22 @@ public class GoFile extends PsiFileBase {
     return getImportedPackagesMap().containsKey(GoConstants.C_PATH);
   }
 
-  public void deleteImport(@NotNull GoImportSpec importSpec) {
+  public void deleteImport(@Nonnull GoImportSpec importSpec) {
     GoImportDeclaration importDeclaration = PsiTreeUtil.getParentOfType(importSpec, GoImportDeclaration.class);
     assert importDeclaration != null;
     PsiElement elementToDelete = importDeclaration.getImportSpecList().size() == 1 ? importDeclaration : importSpec;
     elementToDelete.delete();
   }
 
-  @NotNull
-  private static <E extends PsiElement> List<E> getChildrenByType(@NotNull StubElement<? extends PsiElement> stub,
+  @Nonnull
+  private static <E extends PsiElement> List<E> getChildrenByType(@Nonnull StubElement<? extends PsiElement> stub,
                                                                   IElementType elementType,
                                                                   ArrayFactory<E> f) {
     return Arrays.asList(stub.getChildrenByType(elementType, f));
   }
 
-  @NotNull
-  private static Collection<PsiComment> getCommentsToConsider(@NotNull GoFile file) {
+  @Nonnull
+  private static Collection<PsiComment> getCommentsToConsider(@Nonnull GoFile file) {
     Collection<PsiComment> commentsToConsider = ContainerUtil.newArrayList();
     PsiElement child = file.getFirstChild();
     int lastEmptyLineOffset = 0;

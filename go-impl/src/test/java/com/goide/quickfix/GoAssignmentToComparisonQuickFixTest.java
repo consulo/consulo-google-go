@@ -17,7 +17,7 @@
 package com.goide.quickfix;
 
 import com.goide.inspections.GoUsedAsValueInCondition;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoAssignmentToComparisonQuickFixTest extends GoQuickFixTestBase {
   @Override
@@ -26,7 +26,7 @@ public class GoAssignmentToComparisonQuickFixTest extends GoQuickFixTestBase {
     myFixture.enableInspections(GoUsedAsValueInCondition.class);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/assignment-to-comparison";

@@ -25,7 +25,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoQuoteHandler extends SimpleTokenSetQuoteHandler implements JavaLikeQuoteHandler {
   private static final TokenSet SINGLE_LINE_LITERALS = TokenSet.create(GoTypes.STRING);
@@ -55,7 +55,7 @@ public class GoQuoteHandler extends SimpleTokenSetQuoteHandler implements JavaLi
   }
 
   @Override
-  public boolean isAppropriateElementTypeForLiteral(@NotNull IElementType tokenType) {
+  public boolean isAppropriateElementTypeForLiteral(@Nonnull IElementType tokenType) {
     return true;
   }
 

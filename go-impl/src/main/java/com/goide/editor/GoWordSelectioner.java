@@ -23,18 +23,18 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.ElementManipulators;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
 public class GoWordSelectioner extends AbstractWordSelectioner {
   @Override
-  public boolean canSelect(@NotNull PsiElement e) {
+  public boolean canSelect(@Nonnull PsiElement e) {
     return e.getContainingFile() instanceof GoFile;
   }
 
   @Override
-  public List<TextRange> select(@NotNull PsiElement e, CharSequence editorText, int cursorOffset, Editor editor) {
+  public List<TextRange> select(@Nonnull PsiElement e, CharSequence editorText, int cursorOffset, Editor editor) {
     PsiElement parent = e.getParent();
     List<TextRange> result = super.select(e, editorText, cursorOffset, editor);
     if (parent instanceof GoImportString || parent instanceof GoStringLiteral) {
@@ -65,8 +65,8 @@ public class GoWordSelectioner extends AbstractWordSelectioner {
     return result;
   }
 
-  @NotNull
-  private static List<TextRange> extend(@NotNull CharSequence editorText, @NotNull List<? extends PsiElement> list, boolean expand) {
+  @Nonnull
+  private static List<TextRange> extend(@Nonnull CharSequence editorText, @Nonnull List<? extends PsiElement> list, boolean expand) {
     PsiElement first = ContainerUtil.getFirstItem(list);
     PsiElement last = ContainerUtil.getLastItem(list);
     if (first != null && last != null) {

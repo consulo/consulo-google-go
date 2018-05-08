@@ -1,8 +1,8 @@
 // This is a generated file. Not intended for manual editing.
 package com.plan9.intel.lang.core.psi;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface AsmIntelFunctionHeader extends PsiElement {
@@ -10,7 +10,7 @@ public interface AsmIntelFunctionHeader extends PsiElement {
   @Nullable
   AsmIntelFrameSize getFrameSize();
 
-  @NotNull
+  @Nonnull
   AsmIntelFunctionFlags getFunctionFlags();
 
 }

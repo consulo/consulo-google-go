@@ -20,8 +20,8 @@ import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -119,7 +119,7 @@ public class GoPlaceholderChecker {
       return myVerb;
     }
 
-    @NotNull
+    @Nonnull
     public String getFlags() {
       return myFlags;
     }
@@ -197,8 +197,8 @@ public class GoPlaceholderChecker {
     }
   }
 
-  @NotNull
-  public static List<Placeholder> parsePrintf(@NotNull String placeholderText) {
+  @Nonnull
+  public static List<Placeholder> parsePrintf(@Nonnull String placeholderText) {
     List<Placeholder> placeholders = ContainerUtil.newArrayList();
     int argNum = 1;
     int w;
@@ -237,7 +237,7 @@ public class GoPlaceholderChecker {
     return placeholders;
   }
 
-  protected static int getPlaceholderPosition(@NotNull GoFunctionOrMethodDeclaration function) {
+  protected static int getPlaceholderPosition(@Nonnull GoFunctionOrMethodDeclaration function) {
     Integer position = FORMATTING_FUNCTIONS.get(StringUtil.toLowerCase(function.getName()));
     if (position != null) {
       String importPath = function.getContainingFile().getImportPath(false);
@@ -249,9 +249,11 @@ public class GoPlaceholderChecker {
   }
 
   private static class FormatState {
-    @Nullable private PrintVerb verb;   // the format verb: 'd' for "%d"
+    @Nullable
+	private PrintVerb verb;   // the format verb: 'd' for "%d"
     private String format;              // the full format directive from % through verb, "%.3d"
-    @NotNull private String flags = ""; // the list of # + etc
+    @Nonnull
+	private String flags = ""; // the list of # + etc
     private boolean indexed;            // whether an indexing expression appears: %[1]d
     private final int startPos;         // index of the first character of the placeholder in the formatting string
 
@@ -271,14 +273,14 @@ public class GoPlaceholderChecker {
       this.argNum = argNum;
     }
 
-    @NotNull
+    @Nonnull
     private Placeholder toPlaceholder() {
       return new Placeholder(state, startPos, format, flags, argNums, verb);
     }
   }
 
-  @NotNull
-  private static FormatState parsePrintfVerb(@NotNull String format, int startPos, int argNum) {
+  @Nonnull
+  private static FormatState parsePrintfVerb(@Nonnull String format, int startPos, int argNum) {
     FormatState state = new FormatState(format, startPos, argNum);
 
     parseFlags(state);
@@ -311,7 +313,7 @@ public class GoPlaceholderChecker {
     return formatString != null && StringUtil.containsChar(formatString, '%');
   }
 
-  private static void parseFlags(@NotNull FormatState state) {
+  private static void parseFlags(@Nonnull FormatState state) {
     String knownFlags = "#0+- ";
     StringBuilder flags = new StringBuilder(state.flags);
     while (state.nBytes < state.format.length()) {
@@ -327,7 +329,7 @@ public class GoPlaceholderChecker {
     state.flags = flags.toString();
   }
 
-  private static void scanNum(@NotNull FormatState state) {
+  private static void scanNum(@Nonnull FormatState state) {
     while (state.nBytes < state.format.length()) {
       if (!StringUtil.isDecimalDigit(state.format.charAt(state.nBytes))) {
         return;
@@ -336,7 +338,7 @@ public class GoPlaceholderChecker {
     }
   }
 
-  private static boolean parseIndex(@NotNull FormatState state) {
+  private static boolean parseIndex(@Nonnull FormatState state) {
     if (state.nBytes == state.format.length() || state.format.charAt(state.nBytes) != '[') return true;
 
     state.indexed = true;
@@ -363,7 +365,7 @@ public class GoPlaceholderChecker {
     return true;
   }
 
-  private static boolean parseNum(@NotNull FormatState state) {
+  private static boolean parseNum(@Nonnull FormatState state) {
     if (state.nBytes < state.format.length() && state.format.charAt(state.nBytes) == '*') {
       state.nBytes++;
       state.argNums.add(state.argNum);
@@ -376,7 +378,7 @@ public class GoPlaceholderChecker {
     return true;
   }
 
-  private static boolean parsePrecision(@NotNull FormatState state) {
+  private static boolean parsePrecision(@Nonnull FormatState state) {
     if (state.nBytes < state.format.length() && state.format.charAt(state.nBytes) == '.') {
       state.flags += '.';
       state.nBytes++;

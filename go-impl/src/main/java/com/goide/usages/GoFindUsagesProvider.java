@@ -16,6 +16,8 @@
 
 package com.goide.usages;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoParserDefinition;
 import com.goide.GoTypes;
 import com.goide.lexer.GoLexer;
@@ -29,8 +31,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.TokenSet;
 import com.intellij.usageView.UsageViewLongNameLocation;
 import com.intellij.usageView.UsageViewShortNameLocation;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoFindUsagesProvider implements FindUsagesProvider {
   @Nullable
@@ -41,7 +43,7 @@ public class GoFindUsagesProvider implements FindUsagesProvider {
   }
 
   @Override
-  public boolean canFindUsagesFor(@NotNull PsiElement element) {
+  public boolean canFindUsagesFor(@Nonnull PsiElement element) {
     if (element instanceof GoImportSpec) {
       GoImportSpec importSpec = (GoImportSpec)element;
       return importSpec.getAlias() != null && !importSpec.isDot() && !importSpec.isForSideEffects();
@@ -51,13 +53,13 @@ public class GoFindUsagesProvider implements FindUsagesProvider {
 
   @Nullable
   @Override
-  public String getHelpId(@NotNull PsiElement psiElement) {
+  public String getHelpId(@Nonnull PsiElement psiElement) {
     return HelpID.FIND_OTHER_USAGES;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public String getType(@NotNull PsiElement element) {
+  public String getType(@Nonnull PsiElement element) {
     if (element instanceof GoMethodDeclaration) return "method";
     if (element instanceof GoFunctionDeclaration) return "function";
     if (element instanceof GoConstDefinition || element instanceof GoConstDeclaration) return "constant";
@@ -80,15 +82,15 @@ public class GoFindUsagesProvider implements FindUsagesProvider {
     return "";
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public String getDescriptiveName(@NotNull PsiElement element) {
+  public String getDescriptiveName(@Nonnull PsiElement element) {
     return ElementDescriptionUtil.getElementDescription(element, UsageViewLongNameLocation.INSTANCE);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
+  public String getNodeText(@Nonnull PsiElement element, boolean useFullName) {
     return ElementDescriptionUtil.getElementDescription(element, UsageViewShortNameLocation.INSTANCE);
   }
 }

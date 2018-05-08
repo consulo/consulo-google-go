@@ -23,8 +23,8 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class AddBracketsInsertHandler extends ParenthesesInsertHandler<LookupElement> {
   @Override
@@ -33,7 +33,7 @@ public class AddBracketsInsertHandler extends ParenthesesInsertHandler<LookupEle
   }
 
   @Override
-  public void handleInsert(@NotNull InsertionContext context, LookupElement item) {
+  public void handleInsert(@Nonnull InsertionContext context, LookupElement item) {
     Editor editor = context.getEditor();
     Document document = editor.getDocument();
     context.commitDocument();
@@ -95,7 +95,7 @@ public class AddBracketsInsertHandler extends ParenthesesInsertHandler<LookupEle
     }
   }
 
-  private static boolean isToken(@Nullable PsiElement element, @NotNull String text) {
+  private static boolean isToken(@Nullable PsiElement element, @Nonnull String text) {
     return element != null && element.textMatches(text);
   }
 }

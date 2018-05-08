@@ -16,8 +16,9 @@
 
 package com.goide.runconfig.testing;
 
+import javax.annotation.Nonnull;
+
 import com.goide.runconfig.testing.frameworks.gobench.GobenchFramework;
-import org.jetbrains.annotations.NotNull;
 
 public class GobenchEventsConverterTest extends GoEventsConverterTestCase {
   public void testSuccessBenchmark() {
@@ -40,13 +41,13 @@ public class GobenchEventsConverterTest extends GoEventsConverterTestCase {
     doTest();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "testing/gobench";
   }
   
-  @NotNull
+  @Nonnull
   @Override
   protected GoTestFramework getTestFramework() {
     return GobenchFramework.INSTANCE;

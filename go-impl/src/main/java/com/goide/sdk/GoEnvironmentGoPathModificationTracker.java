@@ -22,7 +22,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.*;
 import com.intellij.util.SystemProperties;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.File;
 import java.util.Collection;
@@ -50,22 +50,22 @@ public class GoEnvironmentGoPathModificationTracker {
     
     VirtualFileManager.getInstance().addVirtualFileListener(new VirtualFileAdapter() {
       @Override
-      public void fileCreated(@NotNull VirtualFileEvent event) {
+      public void fileCreated(@Nonnull VirtualFileEvent event) {
         handleEvent(event);
       }
 
       @Override
-      public void fileDeleted(@NotNull VirtualFileEvent event) {
+      public void fileDeleted(@Nonnull VirtualFileEvent event) {
         handleEvent(event);
       }
 
       @Override
-      public void fileMoved(@NotNull VirtualFileMoveEvent event) {
+      public void fileMoved(@Nonnull VirtualFileMoveEvent event) {
         handleEvent(event);
       }
 
       @Override
-      public void fileCopied(@NotNull VirtualFileCopyEvent event) {
+      public void fileCopied(@Nonnull VirtualFileCopyEvent event) {
         handleEvent(event);
       }
 

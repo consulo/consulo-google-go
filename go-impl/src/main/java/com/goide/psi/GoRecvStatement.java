@@ -18,15 +18,17 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoRecvStatement extends GoVarSpec {
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getExpressionList();
 
-  @NotNull
+  @Nonnull
   List<GoVarDefinition> getVarDefinitionList();
 
   @Nullable
@@ -35,10 +37,10 @@ public interface GoRecvStatement extends GoVarSpec {
   @Nullable
   GoExpression getRecvExpression();
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getLeftExpressionsList();
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getRightExpressionsList();
 
 }

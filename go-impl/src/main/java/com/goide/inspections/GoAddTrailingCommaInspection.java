@@ -16,6 +16,8 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoElement;
 import com.goide.psi.GoVisitor;
 import com.goide.psi.impl.GoElementFactory;
@@ -28,14 +30,13 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiErrorElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
 
 public class GoAddTrailingCommaInspection extends GoInspectionBase {
   public static final String QUICK_FIX_NAME = "Add comma";
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
       public void visitErrorElement(PsiErrorElement o) {
@@ -51,7 +52,7 @@ public class GoAddTrailingCommaInspection extends GoInspectionBase {
     private MyAddCommaFix() {super(QUICK_FIX_NAME, QUICK_FIX_NAME);}
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement e = descriptor.getPsiElement();
       if (!(e instanceof GoElement)) return;
       PsiErrorElement error = PsiTreeUtil.getNextSiblingOfType(e, PsiErrorElement.class);

@@ -28,15 +28,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.util.SmartList;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 
 public class GoPsiTreeUtil extends PsiTreeUtil {
   @Nullable
-  public static <T extends PsiElement> T getStubChildOfType(@Nullable PsiElement element, @NotNull Class<T> aClass) {
+  public static <T extends PsiElement> T getStubChildOfType(@Nullable PsiElement element, @Nonnull Class<T> aClass) {
     if (element == null) return null;
     StubElement<?> stub = element instanceof StubBasedPsiElement ? ((StubBasedPsiElement)element).getStub() : null;
     if (stub == null) {
@@ -52,8 +52,8 @@ public class GoPsiTreeUtil extends PsiTreeUtil {
     return null;
   }
 
-  @NotNull
-  public static <T extends PsiElement> List<T> getStubChildrenOfTypeAsList(@Nullable PsiElement element, @NotNull Class<T> aClass) {
+  @Nonnull
+  public static <T extends PsiElement> List<T> getStubChildrenOfTypeAsList(@Nullable PsiElement element, @Nonnull Class<T> aClass) {
     if (element == null) return Collections.emptyList();
     StubElement<?> stub = element instanceof StubBasedPsiElement ? ((StubBasedPsiElement)element).getStub() : null;
     if (stub == null) {
@@ -72,7 +72,7 @@ public class GoPsiTreeUtil extends PsiTreeUtil {
   }
 
   @Nullable
-  private static Couple<PsiElement> getElementRange(@NotNull GoFile file, int startOffset, int endOffset) {
+  private static Couple<PsiElement> getElementRange(@Nonnull GoFile file, int startOffset, int endOffset) {
     PsiElement startElement = findNotWhiteSpaceElementAtOffset(file, startOffset, true);
     PsiElement endElement = findNotWhiteSpaceElementAtOffset(file, endOffset - 1, false);
     if (startElement == null || endElement == null) return null;
@@ -92,7 +92,7 @@ public class GoPsiTreeUtil extends PsiTreeUtil {
    * common parent of elements is straight parent for each element
    */
   @Nullable
-  private static Couple<PsiElement> getTopmostElementRange(@NotNull Couple<PsiElement> elementRange) {
+  private static Couple<PsiElement> getTopmostElementRange(@Nonnull Couple<PsiElement> elementRange) {
     if (elementRange.first == null || elementRange.second == null) return null;
     PsiElement commonParent = PsiTreeUtil.findCommonParent(elementRange.first, elementRange.second);
     if (commonParent == null) return null;
@@ -124,11 +124,11 @@ public class GoPsiTreeUtil extends PsiTreeUtil {
     return Couple.of(startElement, endElement);
   }
 
-  @NotNull
-  public static PsiElement[] getTopLevelElementsInRange(@NotNull GoFile file,
+  @Nonnull
+  public static PsiElement[] getTopLevelElementsInRange(@Nonnull GoFile file,
                                                         int startOffset,
                                                         int endOffset,
-                                                        @NotNull Class<? extends PsiElement> clazz) {
+                                                        @Nonnull Class<? extends PsiElement> clazz) {
     Couple<PsiElement> elementRange = getElementRange(file, startOffset, endOffset);
     if (elementRange == null) return PsiElement.EMPTY_ARRAY;
     Couple<PsiElement> topmostElementRange = getTopmostElementRange(elementRange);
@@ -148,7 +148,7 @@ public class GoPsiTreeUtil extends PsiTreeUtil {
   }
 
   @Nullable
-  private static PsiElement findNotWhiteSpaceElementAtOffset(@NotNull GoFile file, int offset, boolean forward) {
+  private static PsiElement findNotWhiteSpaceElementAtOffset(@Nonnull GoFile file, int offset, boolean forward) {
     PsiElement element = file.findElementAt(offset);
     while (element instanceof PsiWhiteSpace) {
       element = file.findElementAt(forward ? element.getTextRange().getEndOffset() : element.getTextRange().getStartOffset() - 1);

@@ -19,15 +19,15 @@ package com.goide.psi.impl;
 import com.goide.psi.GoTypeReferenceExpression;
 import com.goide.psi.GoTypeSpec;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoTypeProcessor extends GoScopeProcessorBase {
-  public GoTypeProcessor(@NotNull GoTypeReferenceExpression origin, boolean completion) {
+  public GoTypeProcessor(@Nonnull GoTypeReferenceExpression origin, boolean completion) {
     super(origin.getIdentifier(), origin, completion);
   }
 
   @Override
-  protected boolean crossOff(@NotNull PsiElement e) {
+  protected boolean crossOff(@Nonnull PsiElement e) {
     return !(e instanceof GoTypeSpec);
   }
 }

@@ -16,7 +16,8 @@
 
 package com.goide.editor;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.codeInsight.hint.ParameterInfoComponent;
 import com.intellij.lang.parameterInfo.ParameterInfoUIContextEx;
@@ -113,13 +114,13 @@ public class GoParameterInfoHandlerTest extends GoCodeInsightFixtureTestCase
 		doTest(1, "<html>param1 string, <b>param2 string</b></html>");
 	}
 
-	private void doTest(@NotNull String expectedPresentation)
+	private void doTest(@Nonnull String expectedPresentation)
 	{
 		doTest(0, expectedPresentation);
 	}
 	// @formatter:on
 
-	private void doTest(int expectedParamIdx, @NotNull String expectedPresentation)
+	private void doTest(int expectedParamIdx, @Nonnull String expectedPresentation)
 	{
 		// Given
 		myFixture.configureByFile(getTestName(true) + ".go");
@@ -159,7 +160,7 @@ public class GoParameterInfoHandlerTest extends GoCodeInsightFixtureTestCase
 		return GoParameterInfoHandler.updatePresentation(itemsToShow[0], uiCtx);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	protected String getBasePath()
 	{

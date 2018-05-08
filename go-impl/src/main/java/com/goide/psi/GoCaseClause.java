@@ -17,8 +17,8 @@
 package com.goide.psi;
 
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public interface GoCaseClause extends GoCompositeElement {
   @Nullable
   PsiElement getColon();
 
-  @NotNull
+  @Nonnull
   List<GoStatement> getStatementList();
 
   @Nullable

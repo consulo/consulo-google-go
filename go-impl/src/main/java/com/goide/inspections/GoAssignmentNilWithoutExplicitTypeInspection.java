@@ -23,47 +23,47 @@ import com.goide.psi.impl.GoReferenceExpressionImpl;
 import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
 import static com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
 
 public class GoAssignmentNilWithoutExplicitTypeInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitVarDeclaration(@NotNull GoVarDeclaration o) {
+      public void visitVarDeclaration(@Nonnull GoVarDeclaration o) {
         for (GoVarSpec spec : o.getVarSpecList()) {
           checkVar(spec);
         }
       }
 
       @Override
-      public void visitShortVarDeclaration(@NotNull GoShortVarDeclaration o) {
+      public void visitShortVarDeclaration(@Nonnull GoShortVarDeclaration o) {
         checkVar(o);
       }
 
       @Override
-      public void visitConstDeclaration(@NotNull GoConstDeclaration o) {
+      public void visitConstDeclaration(@Nonnull GoConstDeclaration o) {
         for (GoConstSpec spec : o.getConstSpecList()) {
           checkConst(spec);
         }
       }
 
-      private void checkVar(@NotNull GoVarSpec spec) {
+      private void checkVar(@Nonnull GoVarSpec spec) {
         if (spec.getType() != null) return;
         checkExpressions(spec.getRightExpressionsList());
       }
 
-      private void checkConst(@NotNull GoConstSpec spec) {
+      private void checkConst(@Nonnull GoConstSpec spec) {
         if (spec.getType() != null) return;
         checkExpressions(spec.getExpressionList());
       }
 
-      private void checkExpressions(@NotNull List<GoExpression> expressions) {
+      private void checkExpressions(@Nonnull List<GoExpression> expressions) {
         for (GoExpression expr : expressions) {
           if (expr instanceof GoReferenceExpressionImpl) {
             GoReferenceExpressionImpl ref = (GoReferenceExpressionImpl)expr;

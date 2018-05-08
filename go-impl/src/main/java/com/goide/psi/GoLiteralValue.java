@@ -18,15 +18,17 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoLiteralValue extends GoCompositeElement {
 
-  @NotNull
+  @Nonnull
   List<GoElement> getElementList();
 
-  @NotNull
+  @Nonnull
   PsiElement getLbrace();
 
   @Nullable

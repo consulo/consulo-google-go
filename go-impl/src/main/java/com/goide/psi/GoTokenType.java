@@ -18,10 +18,10 @@ package com.goide.psi;
 
 import com.goide.GoLanguage;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoTokenType extends IElementType {
-  public GoTokenType(@NotNull String debug) {
+  public GoTokenType(@Nonnull String debug) {
     super(debug, GoLanguage.INSTANCE);
   }
 }

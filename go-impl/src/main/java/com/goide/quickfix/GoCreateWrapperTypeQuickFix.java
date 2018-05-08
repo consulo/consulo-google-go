@@ -16,6 +16,10 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.Nls;
 import com.goide.psi.GoType;
 import com.goide.psi.GoTypeDeclaration;
 import com.goide.psi.GoTypeSpec;
@@ -33,9 +37,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoCreateWrapperTypeQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
 
@@ -44,16 +45,16 @@ public class GoCreateWrapperTypeQuickFix extends LocalQuickFixAndIntentionAction
 
   public static final String QUICKFIX_NAME = "Create type";
 
-  public GoCreateWrapperTypeQuickFix(@NotNull GoType type) {
+  public GoCreateWrapperTypeQuickFix(@Nonnull GoType type) {
     super(type);
   }
 
   @Override
-  public void invoke(@NotNull Project project,
-                     @NotNull PsiFile file,
-                     @Nullable("is null when called from inspection") Editor editor,
-                     @NotNull PsiElement startElement,
-                     @NotNull PsiElement endElement) {
+  public void invoke(@Nonnull Project project,
+                     @Nonnull PsiFile file,
+                     @Nullable Editor editor,
+                     @Nonnull PsiElement startElement,
+                     @Nonnull PsiElement endElement) {
     if (editor == null) {
       LOG.error("Cannot run quick fix without editor: " + getClass().getSimpleName(),
                 AttachmentFactory.createAttachment(file.getVirtualFile()));
@@ -82,14 +83,14 @@ public class GoCreateWrapperTypeQuickFix extends LocalQuickFixAndIntentionAction
     TemplateManager.getInstance(project).startTemplate(editor, template);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getText() {
     return QUICKFIX_NAME;
   }
 
   @Nls
-  @NotNull
+  @Nonnull
   @Override
   public String getFamilyName() {
     return QUICKFIX_NAME;

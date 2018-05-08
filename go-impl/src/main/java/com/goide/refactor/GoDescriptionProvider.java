@@ -23,13 +23,13 @@ import com.intellij.psi.ElementDescriptionProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.usageView.UsageViewLongNameLocation;
 import com.intellij.usageView.UsageViewShortNameLocation;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoDescriptionProvider implements ElementDescriptionProvider {
   @Nullable
   @Override
-  public String getElementDescription(@NotNull PsiElement o, @NotNull ElementDescriptionLocation location) {
+  public String getElementDescription(@Nonnull PsiElement o, @Nonnull ElementDescriptionLocation location) {
     if (location == UsageViewShortNameLocation.INSTANCE ||
         location == UsageViewLongNameLocation.INSTANCE ||
         location == HighlightUsagesDescriptionLocation.INSTANCE) {

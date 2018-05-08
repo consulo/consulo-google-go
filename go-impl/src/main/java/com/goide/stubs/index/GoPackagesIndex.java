@@ -20,7 +20,7 @@ import com.goide.GoFileElementType;
 import com.goide.psi.GoFile;
 import com.intellij.psi.stubs.StringStubIndexExtension;
 import com.intellij.psi.stubs.StubIndexKey;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoPackagesIndex extends StringStubIndexExtension<GoFile> {
   public static final StubIndexKey<String, GoFile> KEY = StubIndexKey.createIndexKey("go.packages");
@@ -30,7 +30,7 @@ public class GoPackagesIndex extends StringStubIndexExtension<GoFile> {
     return GoFileElementType.VERSION + 2;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public StubIndexKey<String, GoFile> getKey() {
     return KEY;

@@ -34,12 +34,12 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.text.UniqueNameGenerator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Locale;
 
 public class GotestGenerateAction extends GoGenerateTestActionBase {
-  public GotestGenerateAction(@NotNull GoTestFunctionType type) {
+  public GotestGenerateAction(@Nonnull GoTestFunctionType type) {
     super(GotestFramework.INSTANCE, new GenerateActionHandler(type));
     String presentationName = StringUtil.capitalize(type.toString().toLowerCase(Locale.US));
     Presentation presentation = getTemplatePresentation();
@@ -48,14 +48,14 @@ public class GotestGenerateAction extends GoGenerateTestActionBase {
   }
 
   @Override
-  protected boolean isValidForFile(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+  protected boolean isValidForFile(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
     GoLiveTemplateContextType.File fileContextType =
       TemplateContextType.EP_NAME.findExtension(GoLiveTemplateContextType.File.class);
     return fileContextType != null && fileContextType.isInContext(file, editor.getCaretModel().getOffset());
   }
 
-  @NotNull
-  public static String importTestingPackageIfNeeded(@NotNull GoFile file) {
+  @Nonnull
+  public static String importTestingPackageIfNeeded(@Nonnull GoFile file) {
     GoImportSpec alreadyImportedPackage = file.getImportedPackagesMap().get(GoConstants.TESTING_PATH);
     String qualifier = GoPsiImplUtil.getImportQualifierToUseInFile(alreadyImportedPackage, GoConstants.TESTING_PATH);
     if (qualifier != null) {
@@ -69,14 +69,15 @@ public class GotestGenerateAction extends GoGenerateTestActionBase {
 
   private static class GenerateActionHandler implements CodeInsightActionHandler {
 
-    @NotNull private final GoTestFunctionType myType;
+    @Nonnull
+	private final GoTestFunctionType myType;
 
-    public GenerateActionHandler(@NotNull GoTestFunctionType type) {
+    public GenerateActionHandler(@Nonnull GoTestFunctionType type) {
       myType = type;
     }
 
     @Override
-    public void invoke(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+    public void invoke(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
       if (!(file instanceof GoFile)) {
         return;
       }

@@ -31,8 +31,8 @@ import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,8 +41,8 @@ import static com.goide.GoParserDefinition.*;
 import static com.goide.GoTypes.*;
 
 public class GoFormattingModelBuilder implements FormattingModelBuilder {
-  @NotNull
-  private static SpacingBuilder createSpacingBuilder(@NotNull CodeStyleSettings settings) {
+  @Nonnull
+  private static SpacingBuilder createSpacingBuilder(@Nonnull CodeStyleSettings settings) {
     return new SpacingBuilder(settings, GoLanguage.INSTANCE)
       .before(COMMA).spaceIf(false)
       .after(COMMA).spaceIf(true)
@@ -138,9 +138,9 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
       ;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public FormattingModel createModel(@NotNull PsiElement element, @NotNull CodeStyleSettings settings) {
+  public FormattingModel createModel(@Nonnull PsiElement element, @Nonnull CodeStyleSettings settings) {
     Block block = new GoFormattingBlock(element.getNode(), null, Indent.getNoneIndent(), null, settings, createSpacingBuilder(settings));
     return FormattingModelProvider.createFormattingModelForPsiFile(element.getContainingFile(), block, settings);
   }
@@ -172,20 +172,27 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
     );
     private static final Key<Alignment> TYPE_ALIGNMENT_INSIDE_STRUCT = Key.create("TYPE_ALIGNMENT_INSIDE_STRUCT");
 
-    @NotNull private final ASTNode myNode;
-    @Nullable private final Alignment myAlignment;
-    @Nullable private final Indent myIndent;
-    @Nullable private final Wrap myWrap;
-    @NotNull private final CodeStyleSettings mySettings;
-    @NotNull private final SpacingBuilder mySpacingBuilder;
-    @Nullable private List<Block> mySubBlocks;
+    @Nonnull
+	private final ASTNode myNode;
+    @Nullable
+	private final Alignment myAlignment;
+    @Nullable
+	private final Indent myIndent;
+    @Nullable
+	private final Wrap myWrap;
+    @Nonnull
+	private final CodeStyleSettings mySettings;
+    @Nonnull
+	private final SpacingBuilder mySpacingBuilder;
+    @Nullable
+	private List<Block> mySubBlocks;
 
-    private GoFormattingBlock(@NotNull ASTNode node,
+    private GoFormattingBlock(@Nonnull ASTNode node,
                               @Nullable Alignment alignment,
                               @Nullable Indent indent,
                               @Nullable Wrap wrap,
-                              @NotNull CodeStyleSettings settings,
-                              @NotNull SpacingBuilder spacingBuilder) {
+                              @Nonnull CodeStyleSettings settings,
+                              @Nonnull SpacingBuilder spacingBuilder) {
       myNode = node;
       myAlignment = alignment;
       myIndent = indent;
@@ -194,12 +201,12 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
       mySpacingBuilder = spacingBuilder;
     }
 
-    @NotNull
-    private static Indent indentIfNotBrace(@NotNull ASTNode child) {
+    @Nonnull
+    private static Indent indentIfNotBrace(@Nonnull ASTNode child) {
       return BRACES_TOKEN_SET.contains(child.getElementType()) ? Indent.getNoneIndent() : Indent.getNormalIndent();
     }
 
-    private static boolean isTopLevelDeclaration(@NotNull PsiElement element) {
+    private static boolean isTopLevelDeclaration(@Nonnull PsiElement element) {
       return element instanceof GoPackageClause || element instanceof GoImportList 
              || element instanceof GoTopLevelDeclaration && element.getParent() instanceof GoFile; 
     }
@@ -224,13 +231,13 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
       return Spacing.createSpacing(1, 1, 0, false, 0);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public ASTNode getNode() {
       return myNode;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public TextRange getTextRange() {
       return myNode.getTextRange();
@@ -254,7 +261,7 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
       return myAlignment;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public List<Block> getSubBlocks() {
       if (mySubBlocks == null) {
@@ -263,7 +270,7 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
       return ContainerUtil.newArrayList(mySubBlocks);
     }
 
-    @NotNull
+    @Nonnull
     private List<Block> buildSubBlocks() {
       AlignmentStrategy.AlignmentPerTypeStrategy strategy = null;
       boolean isStruct = getNode().getElementType() == STRUCT_TYPE;
@@ -289,8 +296,8 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
       return Collections.unmodifiableList(blocks);
     }
     
-    @NotNull
-    private GoFormattingBlock buildSubBlock(@NotNull ASTNode child, @Nullable Alignment alignment) {
+    @Nonnull
+    private GoFormattingBlock buildSubBlock(@Nonnull ASTNode child, @Nullable Alignment alignment) {
       if (child.getPsi() instanceof GoType && child.getTreeParent().getElementType() == FIELD_DECLARATION) {
         alignment = getUserData(TYPE_ALIGNMENT_INSIDE_STRUCT);
       }
@@ -298,8 +305,8 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
       return new GoFormattingBlock(child, alignment, indent, null, mySettings, mySpacingBuilder);
     }
     
-    @NotNull
-    private Indent calcIndent(@NotNull ASTNode child) {
+    @Nonnull
+    private Indent calcIndent(@Nonnull ASTNode child) {
       IElementType parentType = myNode.getElementType();
       IElementType type = child.getElementType();
       if (type == SWITCH_START) return Indent.getNoneIndent();
@@ -317,7 +324,7 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
       return Indent.getNoneIndent();
     }
 
-    private Indent indentOfMultipleDeclarationChild(@NotNull IElementType childType, @NotNull IElementType specType) {
+    private Indent indentOfMultipleDeclarationChild(@Nonnull IElementType childType, @Nonnull IElementType specType) {
       if (childType == specType) {
         return Indent.getNormalIndent();
       }
@@ -325,7 +332,7 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
     }
 
     @Override
-    public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
+    public Spacing getSpacing(@Nullable Block child1, @Nonnull Block child2) {
       if (child1 instanceof GoFormattingBlock && child2 instanceof GoFormattingBlock) {
         ASTNode n1 = ((GoFormattingBlock)child1).getNode();
         ASTNode n2 = ((GoFormattingBlock)child2).getNode();
@@ -363,7 +370,7 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
       return mySpacingBuilder.getSpacing(this, child1, child2);
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public ChildAttributes getChildAttributes(int newChildIndex) {
       Indent childIndent = Indent.getNoneIndent();

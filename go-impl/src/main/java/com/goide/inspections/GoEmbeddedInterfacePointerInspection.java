@@ -16,19 +16,20 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.*;
 import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
-import org.jetbrains.annotations.NotNull;
 
 public class GoEmbeddedInterfacePointerInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitAnonymousFieldDefinition(@NotNull GoAnonymousFieldDefinition o) {
+      public void visitAnonymousFieldDefinition(@Nonnull GoAnonymousFieldDefinition o) {
         if (!(o.getType() instanceof GoPointerType)) return;
         GoTypeReferenceExpression reference = o.getTypeReferenceExpression();
         GoType goType = reference != null ? reference.resolveType() : null;

@@ -24,8 +24,8 @@ import com.intellij.psi.stubs.StringStubIndexExtension;
 import com.intellij.psi.stubs.StubIndex;
 import com.intellij.psi.stubs.StubIndexKey;
 import com.intellij.util.indexing.IdFilter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 
@@ -37,15 +37,15 @@ public class GoTypesIndex extends StringStubIndexExtension<GoTypeSpec> {
     return GoFileElementType.VERSION + 2;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public StubIndexKey<String, GoTypeSpec> getKey() {
     return KEY;
   }
 
-  @NotNull
-  public static Collection<GoTypeSpec> find(@NotNull String name,
-                                            @NotNull Project project,
+  @Nonnull
+  public static Collection<GoTypeSpec> find(@Nonnull String name,
+                                            @Nonnull Project project,
                                             @Nullable GlobalSearchScope scope,
                                             @Nullable IdFilter idFilter) {
     return StubIndex.getElements(KEY, name, project, scope, idFilter, GoTypeSpec.class);

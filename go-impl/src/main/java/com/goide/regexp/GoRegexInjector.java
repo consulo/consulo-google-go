@@ -21,7 +21,7 @@ import com.goide.psi.impl.GoPsiImplUtil;
 import com.intellij.psi.*;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Set;
 
@@ -31,7 +31,7 @@ public class GoRegexInjector implements LanguageInjector {
   );
 
   @Override
-  public void getLanguagesToInject(@NotNull PsiLanguageInjectionHost host, @NotNull InjectedLanguagePlaces injectionPlacesRegistrar) {
+  public void getLanguagesToInject(@Nonnull PsiLanguageInjectionHost host, @Nonnull InjectedLanguagePlaces injectionPlacesRegistrar) {
     if (!(host instanceof GoStringLiteral)) return;
     PsiElement topMostExpression = host;
     PsiElement argumentList = host.getParent();

@@ -30,8 +30,8 @@ import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.text.StringUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.io.File;
 
@@ -42,16 +42,16 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
   private int myDebugPort = 59090;
   private boolean myCompilationFailed;
 
-  public GoApplicationRunningState(@NotNull ExecutionEnvironment env, @NotNull Module module, @NotNull GoApplicationConfiguration configuration) {
+  public GoApplicationRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module, @Nonnull GoApplicationConfiguration configuration) {
     super(env, module, configuration);
   }
 
-  @NotNull
+  @Nonnull
   public String getTarget() {
     return myConfiguration.getKind() == GoApplicationConfiguration.Kind.PACKAGE ? myConfiguration.getPackage() : myConfiguration.getFilePath();
   }
 
-  @NotNull
+  @Nonnull
   public String getGoBuildParams() {
     return myConfiguration.getGoToolParams();
   }
@@ -60,7 +60,7 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
     return DefaultDebugExecutor.EXECUTOR_ID.equals(getEnvironment().getExecutor().getId());
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected ProcessHandler startProcess() throws ExecutionException {
     ProcessHandler processHandler = myCompilationFailed ? new GoNopProcessHandler() : super.startProcess();
@@ -88,7 +88,7 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
   }
 
   @Override
-  protected GoExecutor patchExecutor(@NotNull GoExecutor executor) throws ExecutionException {
+  protected GoExecutor patchExecutor(@Nonnull GoExecutor executor) throws ExecutionException {
     if (isDebug()) {
       File dlv = dlv();
       if (dlv.exists() && !dlv.canExecute()) {
@@ -104,7 +104,7 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
     return executor.showGoEnvVariables(false).withExePath(myOutputFilePath);
   }
 
-  @NotNull
+  @Nonnull
   private static File dlv() {
     String dlvPath = System.getProperty("dlv.path");
     if (StringUtil.isNotEmpty(dlvPath)) return new File(dlvPath);
@@ -117,7 +117,7 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
                                 (SystemInfo.isWindows ? ".exe" : ""));
   }
 
-  public void setOutputFilePath(@NotNull String outputFilePath) {
+  public void setOutputFilePath(@Nonnull String outputFilePath) {
     myOutputFilePath = outputFilePath;
   }
 

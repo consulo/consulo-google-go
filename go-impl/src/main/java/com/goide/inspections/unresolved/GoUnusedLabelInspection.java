@@ -26,17 +26,17 @@ import com.intellij.codeInspection.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.searches.ReferencesSearch;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoUnusedLabelInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
 
       @Override
-      public void visitLabelDefinition(@NotNull GoLabelDefinition o) {
+      public void visitLabelDefinition(@Nonnull GoLabelDefinition o) {
         super.visitLabelDefinition(o);
         if (o.isBlank()) return;
         if (ReferencesSearch.search(o, o.getUseScope()).findFirst() == null) {
@@ -54,7 +54,7 @@ public class GoUnusedLabelInspection extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (element.isValid() && element instanceof GoLabelDefinition) {
         PsiElement parent = element.getParent();

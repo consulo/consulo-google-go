@@ -30,7 +30,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.Consumer;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -60,9 +60,10 @@ public class GoExcludePathLookupActionProvider implements LookupActionProvider {
   }
 
   private static class EditExcludedAction extends LookupElementAction {
-    @NotNull Project myProject;
+    @Nonnull
+	Project myProject;
 
-    protected EditExcludedAction(@NotNull Project project) {
+    protected EditExcludedAction(@Nonnull Project project) {
       super(AllIcons.Actions.Edit, "Edit auto import settings");
       myProject = project;
     }
@@ -81,7 +82,7 @@ public class GoExcludePathLookupActionProvider implements LookupActionProvider {
     private Project myProject;
     private String myImportPath;
 
-    protected ExcludePathAction(@NotNull Project project, @NotNull String importPath) {
+    protected ExcludePathAction(@Nonnull Project project, @Nonnull String importPath) {
       super(AllIcons.Actions.Exclude, "Exclude '" + importPath + "'");
       myProject = project;
       myImportPath = importPath;

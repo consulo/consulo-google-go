@@ -47,8 +47,8 @@ import com.intellij.util.Function;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.IdFilter;
 import com.intellij.xml.util.XmlStringUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -57,12 +57,12 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
   private static final Logger LOG = Logger.getInstance(GoDocumentationProvider.class);
   private static final GoCommentsConverter COMMENTS_CONVERTER = new GoCommentsConverter();
 
-  @NotNull
-  public static String getCommentText(@NotNull List<PsiComment> comments, boolean withHtml) {
+  @Nonnull
+  public static String getCommentText(@Nonnull List<PsiComment> comments, boolean withHtml) {
     return withHtml ? COMMENTS_CONVERTER.toHtml(comments) : COMMENTS_CONVERTER.toText(comments);
   }
 
-  @NotNull
+  @Nonnull
   public static List<PsiComment> getCommentsForElement(@Nullable PsiElement element) {
     List<PsiComment> comments = getCommentsInner(element);
     if (comments.isEmpty()) {
@@ -80,7 +80,7 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
     return comments;
   }
 
-  @NotNull
+  @Nonnull
   private static List<PsiComment> getCommentsInner(@Nullable PsiElement element) {
     if (element == null) {
       return ContainerUtil.emptyList();
@@ -103,7 +103,7 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
   }
 
   @Nullable
-  private static GoFile findDocFileForDirectory(@NotNull PsiDirectory directory) {
+  private static GoFile findDocFileForDirectory(@Nonnull PsiDirectory directory) {
     PsiFile file = directory.findFile("doc.go");
     if (file instanceof GoFile) {
       return (GoFile)file;
@@ -130,7 +130,7 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
     return element instanceof GoImportSpec ? ((GoImportSpec)element).getImportString().resolve() : element;
   }
 
-  @NotNull
+  @Nonnull
   private static String getSignature(PsiElement element, PsiElement context) {
     if (element instanceof GoTypeSpec) {
       String name = ((GoTypeSpec)element).getName();
@@ -172,9 +172,9 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
     return element instanceof GoSignatureOwner ? getSignatureOwnerTypePresentation((GoSignatureOwner)element, presentationFunction) : "";
   }
 
-  @NotNull
-  private static String getSignatureOwnerTypePresentation(@NotNull GoSignatureOwner signatureOwner,
-                                                          @NotNull Function<PsiElement, String> presentationFunction) {
+  @Nonnull
+  private static String getSignatureOwnerTypePresentation(@Nonnull GoSignatureOwner signatureOwner,
+                                                          @Nonnull Function<PsiElement, String> presentationFunction) {
     PsiElement identifier = null;
     if (signatureOwner instanceof GoNamedSignatureOwner) {
       identifier = ((GoNamedSignatureOwner)signatureOwner).getIdentifier();
@@ -207,8 +207,8 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
     return builder.toString();
   }
 
-  @NotNull
-  private static String getParametersAsString(@NotNull GoParameters parameters) {
+  @Nonnull
+  private static String getParametersAsString(@Nonnull GoParameters parameters) {
     String contextImportPath = getImportPathForElement(parameters);
     return StringUtil.join(GoParameterInfoHandler.getParameterPresentations(parameters, element -> getTypePresentation(element, new GoDocumentationPresentationFunction(contextImportPath))), ", ");
   }
@@ -219,8 +219,8 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
     return file instanceof GoFile ? ((GoFile)file).getImportPath(false) : null;
   }
 
-  @NotNull
-  public static String getTypePresentation(@Nullable PsiElement element, @NotNull Function<PsiElement, String> presentationFunction) {
+  @Nonnull
+  public static String getTypePresentation(@Nullable PsiElement element, @Nonnull Function<PsiElement, String> presentationFunction) {
     if (element instanceof GoType) {
       GoType type = (GoType)element;
       if (type instanceof GoMapType) {
@@ -299,7 +299,7 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
   }
 
   @Nullable
-  public static String getLocalUrlToElement(@NotNull PsiElement element) {
+  public static String getLocalUrlToElement(@Nonnull PsiElement element) {
     if (element instanceof GoTypeSpec || element instanceof PsiDirectory) {
       return getReferenceText(element, true);
     }
@@ -346,8 +346,8 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
     return type.getText();
   }
 
-  @NotNull
-  private static String getElementFqn(@NotNull GoNamedElement element, @NotNull String name, boolean includePackageName) {
+  @Nonnull
+  private static String getElementFqn(@Nonnull GoNamedElement element, @Nonnull String name, boolean includePackageName) {
     if (includePackageName) {
       String packageName = element.getContainingFile().getPackageName();
       if (!StringUtil.isEmpty(packageName)) {

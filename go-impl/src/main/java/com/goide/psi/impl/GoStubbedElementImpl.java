@@ -26,20 +26,16 @@ import com.intellij.psi.ResolveState;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.StubBase;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.SmartList;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class GoStubbedElementImpl<T extends StubBase<?>> extends StubBasedPsiElementBase<T> implements GoCompositeElement {
-  public GoStubbedElementImpl(@NotNull T stub, @NotNull IStubElementType nodeType) {
+  public GoStubbedElementImpl(@Nonnull T stub, @Nonnull IStubElementType nodeType) {
     super(stub, nodeType);
   }
 
-  public GoStubbedElementImpl(@NotNull ASTNode node) {
+  public GoStubbedElementImpl(@Nonnull ASTNode node) {
     super(node);
   }
 
@@ -65,14 +61,14 @@ public abstract class GoStubbedElementImpl<T extends StubBase<?>> extends StubBa
   }
 
   @Override
-  public boolean processDeclarations(@NotNull PsiScopeProcessor processor,
-                                     @NotNull ResolveState state,
+  public boolean processDeclarations(@Nonnull PsiScopeProcessor processor,
+                                     @Nonnull ResolveState state,
                                      PsiElement lastParent,
-                                     @NotNull PsiElement place) {
+                                     @Nonnull PsiElement place) {
     return GoCompositeElementImpl.processDeclarationsDefault(this, processor, state, lastParent, place);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public GoFile getContainingFile() {
     return (GoFile)super.getContainingFile();

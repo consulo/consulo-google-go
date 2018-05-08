@@ -16,7 +16,8 @@
 
 package consulo.google.go.module.orderEntry;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.goide.GoIcons;
 import com.intellij.openapi.roots.ui.CellAppearanceEx;
 import com.intellij.openapi.roots.ui.util.SimpleTextCellAppearance;
@@ -29,8 +30,8 @@ import consulo.roots.orderEntry.OrderEntryTypeEditor;
  * @since 05-May-17
  */
 public class GoPathOrderEntryTypeEditor implements OrderEntryTypeEditor<GoPathOrderEntry> {
-  @NotNull
-  public CellAppearanceEx getCellAppearance(@NotNull GoPathOrderEntry orderEntry) {
+  @Nonnull
+  public CellAppearanceEx getCellAppearance(@Nonnull GoPathOrderEntry orderEntry) {
     return new SimpleTextCellAppearance(orderEntry.getPresentableName(), TargetAWT.to(GoIcons.ICON), SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
   }
 }

@@ -16,6 +16,8 @@
 
 package com.goide.runconfig.testing.ui;
 
+import javax.annotation.Nonnull;
+
 import com.goide.completion.GoImportPathsCompletionProvider;
 import com.goide.util.GoUtil;
 import com.intellij.codeInsight.completion.CompletionResultSet;
@@ -23,20 +25,20 @@ import com.intellij.openapi.module.Module;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.Producer;
 import com.intellij.util.TextFieldCompletionProvider;
-import org.jetbrains.annotations.NotNull;
 
 public class GoPackageFieldCompletionProvider extends TextFieldCompletionProvider {
-  @NotNull private final Producer<Module> myModuleProducer;
+  @Nonnull
+  private final Producer<Module> myModuleProducer;
 
-  public GoPackageFieldCompletionProvider(@NotNull Producer<Module> moduleProducer) {
+  public GoPackageFieldCompletionProvider(@Nonnull Producer<Module> moduleProducer) {
     myModuleProducer = moduleProducer;
   }
 
   @Override
-  protected void addCompletionVariants(@NotNull String text,
+  protected void addCompletionVariants(@Nonnull String text,
                                        int offset,
-                                       @NotNull String prefix,
-                                       @NotNull CompletionResultSet result) {
+                                       @Nonnull String prefix,
+                                       @Nonnull CompletionResultSet result) {
     Module module = myModuleProducer.produce();
     if (module != null) {
       GlobalSearchScope scope = GoUtil.moduleScopeWithoutLibraries(module.getProject(), module);

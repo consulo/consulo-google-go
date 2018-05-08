@@ -16,8 +16,9 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+
 import com.goide.inspections.GoInfiniteForInspection;
-import org.jetbrains.annotations.NotNull;
 
 public class GoReplaceWithSelectStatementQuickFixTest extends GoQuickFixTestBase {
   @Override
@@ -26,7 +27,7 @@ public class GoReplaceWithSelectStatementQuickFixTest extends GoQuickFixTestBase
     myFixture.enableInspections(GoInfiniteForInspection.class);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/replace-with-select";

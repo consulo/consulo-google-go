@@ -16,24 +16,26 @@
 
 package com.goide.editor.surround;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoExpression;
 import com.goide.psi.GoIfStatement;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.psi.impl.GoTypeUtil;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public abstract class GoBoolExpressionSurrounderBase extends GoExpressionSurrounder {
   @Override
-  public boolean isApplicable(@NotNull PsiElement[] elements) {
+  public boolean isApplicable(@Nonnull PsiElement[] elements) {
     GoExpression expression = getExpression(elements);
     return expression != null && GoTypeUtil.isBoolean(expression.getGoType(null));
   }
 
   @Nullable
-  protected TextRange surroundExpressionWithIfElse(@NotNull PsiElement[] elements, boolean withElse) {
+  protected TextRange surroundExpressionWithIfElse(@Nonnull PsiElement[] elements, boolean withElse) {
     GoExpression expression = getExpression(elements);
     if (expression == null) return null;
     String condition = expression.getText();

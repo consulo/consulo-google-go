@@ -17,8 +17,8 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.StubBasedPsiElement;
 import com.goide.stubs.GoVarDefinitionStub;
@@ -27,7 +27,7 @@ import com.intellij.psi.ResolveState;
 
 public interface GoVarDefinition extends GoNamedElement, StubBasedPsiElement<GoVarDefinitionStub> {
 
-  @NotNull
+  @Nonnull
   PsiElement getIdentifier();
 
   @Nullable

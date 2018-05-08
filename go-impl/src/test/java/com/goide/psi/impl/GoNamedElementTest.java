@@ -16,16 +16,17 @@
 
 package com.goide.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.psi.GoVarDefinition;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.LocalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
 
 public class GoNamedElementTest extends GoCodeInsightFixtureTestCase{
-  private <T> void doTestGetUseScope(@NotNull String text, @NotNull Class<T> scope) {
+  private <T> void doTestGetUseScope(@Nonnull String text, @Nonnull Class<T> scope) {
     myFixture.configureByText("a.go", text);
     PsiFile file = myFixture.getFile();
     GoVarDefinition var = PsiTreeUtil.findChildOfType(file, GoVarDefinition.class);

@@ -18,8 +18,8 @@ package com.goide.actions.file;
 
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.goide.GoIcons;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoPackageClause;
@@ -47,7 +47,7 @@ public class GoCreateFileAction extends CreateFileFromTemplateAction implements 
   }
 
   @Override
-  protected void buildDialog(Project project, PsiDirectory directory, @NotNull CreateFileFromTemplateDialog.Builder builder) {
+  protected void buildDialog(Project project, PsiDirectory directory, @Nonnull CreateFileFromTemplateDialog.Builder builder) {
     builder.setTitle(NEW_GO_FILE)
       .addKind("Empty file", TargetAWT.to(GoIcons.ICON), FILE_TEMPLATE)
       .addKind("Simple Application", TargetAWT.to(GoIcons.ICON), APPLICATION_TEMPLATE);
@@ -59,7 +59,7 @@ public class GoCreateFileAction extends CreateFileFromTemplateAction implements 
     return DEFAULT_GO_TEMPLATE_PROPERTY;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getActionName(PsiDirectory directory, String newName, String templateName) {
     return NEW_GO_FILE;

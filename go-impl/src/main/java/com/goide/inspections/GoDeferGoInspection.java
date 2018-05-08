@@ -23,21 +23,21 @@ import com.goide.quickfix.GoDeleteQuickFix;
 import com.intellij.codeInspection.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoDeferGoInspection extends GoInspectionBase {
   public static final String ADD_CALL_QUICK_FIX_NAME = "Add function call";
   public static final String UNWRAP_PARENTHESES_QUICK_FIX_NAME = "Unwrap parentheses";
   public static final String REPLACE_WITH_CORRECT_DEFER_RECOVER = "Replace with correct defer construct";
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @SuppressWarnings("DialogTitleCapitalization")
       @Override
-      public void visitDeferStatement(@NotNull GoDeferStatement o) {
+      public void visitDeferStatement(@Nonnull GoDeferStatement o) {
         super.visitDeferStatement(o);
         GoExpression expression = o.getExpression();
         if (expression instanceof GoCallExpr) {
@@ -58,7 +58,7 @@ public class GoDeferGoInspection extends GoInspectionBase {
 
       @SuppressWarnings("DialogTitleCapitalization")
       @Override
-      public void visitGoStatement(@NotNull GoGoStatement o) {
+      public void visitGoStatement(@Nonnull GoGoStatement o) {
         super.visitGoStatement(o);
         GoExpression expression = o.getExpression();
         if (expression instanceof GoCallExpr) {
@@ -77,7 +77,7 @@ public class GoDeferGoInspection extends GoInspectionBase {
         checkExpression(expression, "go");
       }
 
-      private void checkExpression(@Nullable GoExpression o, @NotNull String who) {
+      private void checkExpression(@Nullable GoExpression o, @Nonnull String who) {
         if (o == null) return;
         if (o instanceof GoCallExpr || o instanceof GoBuiltinCallExpr) {
           if (GoPsiImplUtil.isConversionExpression(o)) {
@@ -103,11 +103,11 @@ public class GoDeferGoInspection extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       addParensIfNeeded(project, descriptor.getStartElement());
     }
 
-    public static PsiElement addParensIfNeeded(@NotNull Project project, @Nullable PsiElement element) {
+    public static PsiElement addParensIfNeeded(@Nonnull Project project, @Nullable PsiElement element) {
       if (element instanceof GoExpression && !(element instanceof GoCallExpr || element instanceof GoBuiltinCallExpr)) {
         if (((GoExpression)element).getGoType(null) instanceof GoFunctionType) {
           return element.replace(GoElementFactory.createExpression(project, element.getText() + "()"));
@@ -123,7 +123,7 @@ public class GoDeferGoInspection extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getStartElement();
       if (element instanceof GoParenthesesExpr) {
         GoExpression innerExpression = ((GoParenthesesExpr)element).getExpression();
@@ -143,7 +143,7 @@ public class GoDeferGoInspection extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (element == null || !element.isValid()) return;
 

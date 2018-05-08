@@ -42,8 +42,8 @@ import com.intellij.util.Processor;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.IdFilter;
 import consulo.codeInsight.completion.CompletionProvider;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.*;
 
@@ -56,9 +56,9 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
   public GoAutoImportCompletionContributor() {
     extend(CompletionType.BASIC, inGoFile(), new CompletionProvider() {
       @Override
-      public void addCompletions(@NotNull CompletionParameters parameters,
+      public void addCompletions(@Nonnull CompletionParameters parameters,
                                     ProcessingContext context,
-                                    @NotNull CompletionResultSet result) {
+                                    @Nonnull CompletionResultSet result) {
         PsiElement position = parameters.getPosition();
         PsiElement parent = position.getParent();
         if (prevDot(parent)) return;
@@ -106,9 +106,9 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
         }
       }
 
-      private CompletionResultSet adjustMatcher(@NotNull CompletionParameters parameters,
-                                                @NotNull CompletionResultSet result,
-                                                @NotNull PsiElement parent) {
+      private CompletionResultSet adjustMatcher(@Nonnull CompletionParameters parameters,
+                                                @Nonnull CompletionResultSet result,
+                                                @Nonnull PsiElement parent) {
         int startOffset = parent.getTextRange().getStartOffset();
         String newPrefix = parameters.getEditor().getDocument().getText(TextRange.create(startOffset, parameters.getOffset()));
         return result.withPrefixMatcher(createPrefixMatcher(newPrefix));
@@ -116,11 +116,11 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
     });
   }
 
-  @NotNull
-  private static Set<String> collectAndSortAllPublicProductionNames(@NotNull PrefixMatcher matcher,
-                                                                    @NotNull GlobalSearchScope scope, 
+  @Nonnull
+  private static Set<String> collectAndSortAllPublicProductionNames(@Nonnull PrefixMatcher matcher,
+                                                                    @Nonnull GlobalSearchScope scope,
                                                                     @Nullable IdFilter idFilter,
-                                                                    @NotNull GoFile file) {
+                                                                    @Nonnull GoFile file) {
     String prefix = matcher.getPrefix();
     boolean emptyPrefix = prefix.isEmpty();
 
@@ -167,38 +167,38 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
     return psiElement().inFile(psiElement(GoFile.class));
   }
 
-  @NotNull
-  private static String substringBefore(@NotNull String s, char c) {
+  @Nonnull
+  private static String substringBefore(@Nonnull String s, char c) {
     int i = s.indexOf(c);
     if (i == -1) return s;
     return s.substring(0, i);
   }
 
-  private static String substringAfter(@NotNull String s, char c) {
+  private static String substringAfter(@Nonnull String s, char c) {
     int i = s.indexOf(c);
     if (i == -1) return "";
     return s.substring(i + 1);
   }
 
-  @NotNull
-  private static String replacePackageWithAlias(@NotNull String qualifiedName, @Nullable String alias) {
+  @Nonnull
+  private static String replacePackageWithAlias(@Nonnull String qualifiedName, @Nullable String alias) {
     return alias != null ? alias + "." + substringAfter(qualifiedName, '.') : qualifiedName;
   }
 
   private interface ElementProcessor {
-    boolean process(@NotNull String name,
-                    @NotNull GoNamedElement element,
-                    @NotNull ExistingImportData importData,
-                    @NotNull CompletionResultSet result);
-    boolean isMine(@NotNull String name, @NotNull GoNamedElement element);
+    boolean process(@Nonnull String name,
+                    @Nonnull GoNamedElement element,
+                    @Nonnull ExistingImportData importData,
+                    @Nonnull CompletionResultSet result);
+    boolean isMine(@Nonnull String name, @Nonnull GoNamedElement element);
   }
 
   private static class VariablesAndConstantsProcessor implements ElementProcessor {
     @Override
-    public boolean process(@NotNull String name,
-                           @NotNull GoNamedElement element,
-                           @NotNull ExistingImportData importData,
-                           @NotNull CompletionResultSet result) {
+    public boolean process(@Nonnull String name,
+                           @Nonnull GoNamedElement element,
+                           @Nonnull ExistingImportData importData,
+                           @Nonnull CompletionResultSet result) {
       double priority = importData.exists ? GoCompletionUtil.VAR_PRIORITY : GoCompletionUtil.NOT_IMPORTED_VAR_PRIORITY;
       result.addElement(GoCompletionUtil.createVariableLikeLookupElement(element, replacePackageWithAlias(name, importData.alias),
                                                                          GoAutoImportInsertHandler.SIMPLE_INSERT_HANDLER, priority));
@@ -206,17 +206,17 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
     }
 
     @Override
-    public boolean isMine(@NotNull String name, @NotNull GoNamedElement element) {
+    public boolean isMine(@Nonnull String name, @Nonnull GoNamedElement element) {
       return element instanceof GoVarDefinition || element instanceof GoConstDefinition;
     }
   }
 
   private static class FunctionsProcessor implements ElementProcessor {
     @Override
-    public boolean process(@NotNull String name,
-                           @NotNull GoNamedElement element,
-                           @NotNull ExistingImportData importData,
-                           @NotNull CompletionResultSet result) {
+    public boolean process(@Nonnull String name,
+                           @Nonnull GoNamedElement element,
+                           @Nonnull ExistingImportData importData,
+                           @Nonnull CompletionResultSet result) {
       GoFunctionDeclaration function = (GoFunctionDeclaration)element;
       double priority = importData.exists ? GoCompletionUtil.FUNCTION_PRIORITY : GoCompletionUtil.NOT_IMPORTED_FUNCTION_PRIORITY;
       result.addElement(GoCompletionUtil.createFunctionOrMethodLookupElement(function, replacePackageWithAlias(name, importData.alias),
@@ -225,23 +225,24 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
     }
 
     @Override
-    public boolean isMine(@NotNull String name, @NotNull GoNamedElement element) {
+    public boolean isMine(@Nonnull String name, @Nonnull GoNamedElement element) {
       return element instanceof GoFunctionDeclaration;
     }
   }
 
   private static class TypesProcessor implements ElementProcessor {
-    @Nullable private final PsiElement myParent;
+    @Nullable
+	private final PsiElement myParent;
 
     public TypesProcessor(@Nullable PsiElement parent) {
       myParent = parent;
     }
 
     @Override
-    public boolean process(@NotNull String name,
-                           @NotNull GoNamedElement element,
-                           @NotNull ExistingImportData importData,
-                           @NotNull CompletionResultSet result) {
+    public boolean process(@Nonnull String name,
+                           @Nonnull GoNamedElement element,
+                           @Nonnull ExistingImportData importData,
+                           @Nonnull CompletionResultSet result) {
       GoTypeSpec spec = (GoTypeSpec)element;
       boolean forTypes = myParent instanceof GoTypeReferenceExpression;
       double priority;
@@ -266,7 +267,7 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
     }
 
     @Override
-    public boolean isMine(@NotNull String name, @NotNull GoNamedElement element) {
+    public boolean isMine(@Nonnull String name, @Nonnull GoNamedElement element) {
       if (myParent != null && element instanceof GoTypeSpec) {
         PsiReference reference = myParent.getReference();
         return !(reference instanceof GoTypeReference) || ((GoTypeReference)reference).allowed((GoTypeSpec)element);
@@ -276,16 +277,20 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
   }
 
   private static class NamedElementProcessor implements Processor<GoNamedElement> {
-    @NotNull private final Collection<ElementProcessor> myProcessors;
-    @NotNull private final CompletionResultSet myResult;
-    @NotNull private String myName = "";
-    @NotNull private final Map<String, GoImportSpec> myImportedPackages;
+    @Nonnull
+	private final Collection<ElementProcessor> myProcessors;
+    @Nonnull
+	private final CompletionResultSet myResult;
+    @Nonnull
+	private String myName = "";
+    @Nonnull
+	private final Map<String, GoImportSpec> myImportedPackages;
     @Nullable private final Module myModule;
     private final boolean myVendoringEnabled;
 
-    public NamedElementProcessor(@NotNull Collection<ElementProcessor> processors,
-                                 @NotNull GoFile contextFile,
-                                 @NotNull CompletionResultSet result,
+    public NamedElementProcessor(@Nonnull Collection<ElementProcessor> processors,
+                                 @Nonnull GoFile contextFile,
+                                 @Nonnull CompletionResultSet result,
                                  @Nullable Module module) {
       myProcessors = processors;
       myVendoringEnabled = GoVendoringUtil.isVendoringEnabled(module);
@@ -294,12 +299,12 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
       myResult = result;
     }
 
-    public void setName(@NotNull String name) {
+    public void setName(@Nonnull String name) {
       myName = name;
     }
 
     @Override
-    public boolean process(@NotNull GoNamedElement element) {
+    public boolean process(@Nonnull GoNamedElement element) {
       ProgressManager.checkCanceled();
       Boolean allowed = null;
       ExistingImportData importData = null;
@@ -316,14 +321,14 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
       return true;
     }
 
-    @NotNull
-    private Boolean cachedAllowed(@NotNull GoNamedElement element, @Nullable Boolean existingValue) {
+    @Nonnull
+    private Boolean cachedAllowed(@Nonnull GoNamedElement element, @Nullable Boolean existingValue) {
       if (existingValue != null) return existingValue;
       return GoPsiImplUtil.canBeAutoImported(element.getContainingFile(), false, myModule);
     }
 
-    @NotNull
-    private ExistingImportData cachedImportData(@NotNull GoNamedElement element, @Nullable ExistingImportData existingValue) {
+    @Nonnull
+    private ExistingImportData cachedImportData(@Nonnull GoNamedElement element, @Nullable ExistingImportData existingValue) {
       if (existingValue != null) return existingValue;
 
       GoFile declarationFile = element.getContainingFile();

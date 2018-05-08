@@ -16,31 +16,34 @@
 
 package com.goide.generate;
 
+import javax.annotation.Nonnull;
+
 import com.goide.runconfig.testing.GoTestFramework;
 import com.intellij.codeInsight.CodeInsightActionHandler;
 import com.intellij.codeInsight.actions.CodeInsightAction;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
 
 abstract public class GoGenerateTestActionBase extends CodeInsightAction {
-  @NotNull private final GoTestFramework myFramework;
-  @NotNull private final CodeInsightActionHandler myHandler;
+  @Nonnull
+  private final GoTestFramework myFramework;
+  @Nonnull
+  private final CodeInsightActionHandler myHandler;
 
-  protected GoGenerateTestActionBase(@NotNull GoTestFramework framework, @NotNull CodeInsightActionHandler handler) {
+  protected GoGenerateTestActionBase(@Nonnull GoTestFramework framework, @Nonnull CodeInsightActionHandler handler) {
     myFramework = framework;
     myHandler = handler;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected CodeInsightActionHandler getHandler() {
     return myHandler;
   }
 
   @Override
-  protected boolean isValidForFile(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+  protected boolean isValidForFile(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
     return myFramework.isAvailableOnFile(file);
   }
 }

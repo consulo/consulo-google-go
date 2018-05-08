@@ -16,8 +16,9 @@
 
 package com.plan9.intel;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.plan9.intel.lang.AsmIntelLanguage;
 import consulo.ui.image.Image;
@@ -30,19 +31,19 @@ public class AsmIntelFileType extends LanguageFileType {
     super(AsmIntelLanguage.INSTANCE);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getId() {
     return "x86 Plan9 Assembly";
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getDescription() {
     return "x86 Plan9 Assembly file";
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getDefaultExtension() {
     return "s";

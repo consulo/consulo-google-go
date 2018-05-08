@@ -21,7 +21,7 @@ import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 import java.util.Set;
@@ -29,31 +29,31 @@ import java.util.Set;
 import static com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
 
 public class GoDuplicateFieldsOrMethodsInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder,
-                                     @SuppressWarnings({"UnusedParameters", "For future"}) @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
+                                     @SuppressWarnings({"UnusedParameters", "For future"}) @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitStructType(@NotNull GoStructType type) {
+      public void visitStructType(@Nonnull GoStructType type) {
         List<GoNamedElement> fields = ContainerUtil.newArrayList();
         type.accept(new GoRecursiveVisitor() {
           @Override
-          public void visitFieldDefinition(@NotNull GoFieldDefinition o) {
+          public void visitFieldDefinition(@Nonnull GoFieldDefinition o) {
             addField(o);
           }
 
           @Override
-          public void visitAnonymousFieldDefinition(@NotNull GoAnonymousFieldDefinition o) {
+          public void visitAnonymousFieldDefinition(@Nonnull GoAnonymousFieldDefinition o) {
             addField(o);
           }
 
-          private void addField(@NotNull GoNamedElement o) {
+          private void addField(@Nonnull GoNamedElement o) {
             if (!o.isBlank()) fields.add(o);
           }
 
           @Override
-          public void visitType(@NotNull GoType o) {
+          public void visitType(@Nonnull GoType o) {
             if (o == type) super.visitType(o);
           }
         });
@@ -62,14 +62,14 @@ public class GoDuplicateFieldsOrMethodsInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitInterfaceType(@NotNull GoInterfaceType o) {
+      public void visitInterfaceType(@Nonnull GoInterfaceType o) {
         check(o.getMethodSpecList(), holder, "method");
         super.visitInterfaceType(o);
       }
     };
   }
 
-  private static void check(@NotNull List<? extends GoNamedElement> fields, @NotNull ProblemsHolder problemsHolder, @NotNull String what) {
+  private static void check(@Nonnull List<? extends GoNamedElement> fields, @Nonnull ProblemsHolder problemsHolder, @Nonnull String what) {
     Set<String> names = ContainerUtil.newHashSet();
     for (GoCompositeElement field : fields) {
       if (field instanceof GoMethodSpec && ((GoMethodSpec) field).getSignature() == null) {

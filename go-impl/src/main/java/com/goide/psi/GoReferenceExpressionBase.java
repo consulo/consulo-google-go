@@ -17,11 +17,11 @@
 package com.goide.psi;
 
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public interface GoReferenceExpressionBase extends GoCompositeElement {
-  @NotNull
+  @Nonnull
   PsiElement getIdentifier();
 
   @Nullable

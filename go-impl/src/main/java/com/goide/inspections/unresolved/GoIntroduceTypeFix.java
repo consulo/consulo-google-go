@@ -16,11 +16,12 @@
 
 package com.goide.inspections.unresolved;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
 
 public class GoIntroduceTypeFix extends GoUnresolvedFixBase {
-  public GoIntroduceTypeFix(@NotNull PsiElement element, @NotNull String name) {
+  public GoIntroduceTypeFix(@Nonnull PsiElement element, @Nonnull String name) {
     super(element, name, "type", "go_lang_type_qf");
   }
 }

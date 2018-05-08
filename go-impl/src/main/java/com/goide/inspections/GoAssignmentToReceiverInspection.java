@@ -25,17 +25,17 @@ import com.intellij.codeInsight.highlighting.ReadWriteAccessDetector;
 import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import static com.intellij.codeInspection.ProblemHighlightType.WEAK_WARNING;
 
 public class GoAssignmentToReceiverInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitReferenceExpression(@NotNull GoReferenceExpression o) {
+      public void visitReferenceExpression(@Nonnull GoReferenceExpression o) {
         super.visitReferenceExpression(o);
         if (o.getReadWriteAccess() == ReadWriteAccessDetector.Access.Write) {
           PsiElement resolve = o.resolve();

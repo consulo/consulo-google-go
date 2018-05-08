@@ -20,7 +20,7 @@ import com.goide.GoConstants;
 import com.intellij.execution.testframework.TestConsoleProperties;
 import com.intellij.openapi.util.Key;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.text.ParseException;
 import java.util.regex.Matcher;
@@ -33,12 +33,12 @@ public class GotestEventsConverter extends GoTestEventsConverterBaseImpl {
   private static final Pattern FAILED = Pattern.compile("--- FAIL:\\s+(" + GoConstants.TEST_NAME_REGEX + ")");
   private static final Pattern FINISHED = Pattern.compile("^(PASS)|(FAIL)$");
 
-  public GotestEventsConverter(@NotNull TestConsoleProperties consoleProperties) {
+  public GotestEventsConverter(@Nonnull TestConsoleProperties consoleProperties) {
     super(GotestFramework.NAME, consoleProperties);
   }
 
   @Override
-  protected int processLine(@NotNull String line, int start, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  protected int processLine(@Nonnull String line, int start, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     Matcher matcher;
     if ((matcher = RUN.matcher(line)).find(start)) {
       startTest(matcher.group(1), visitor);

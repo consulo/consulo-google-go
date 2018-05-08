@@ -18,12 +18,14 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoConstDeclaration extends GoTopLevelDeclaration {
 
-  @NotNull
+  @Nonnull
   List<GoConstSpec> getConstSpecList();
 
   @Nullable
@@ -32,10 +34,10 @@ public interface GoConstDeclaration extends GoTopLevelDeclaration {
   @Nullable
   PsiElement getRparen();
 
-  @NotNull
+  @Nonnull
   PsiElement getConst();
 
-  @NotNull
+  @Nonnull
   GoConstSpec addSpec(String name, String type, String value, GoConstSpec specAnchor);
 
   void deleteSpec(GoConstSpec specToDelete);

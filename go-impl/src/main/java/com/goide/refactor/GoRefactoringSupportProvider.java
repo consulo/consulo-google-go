@@ -16,16 +16,18 @@
 
 package com.goide.refactor;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoNamedElement;
 import com.intellij.lang.refactoring.RefactoringSupportProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.refactoring.RefactoringActionHandler;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoRefactoringSupportProvider extends RefactoringSupportProvider {
   @Override
-  public boolean isMemberInplaceRenameAvailable(@NotNull PsiElement element, PsiElement context) {
+  public boolean isMemberInplaceRenameAvailable(@Nonnull PsiElement element, PsiElement context) {
     return element instanceof GoNamedElement;
   }
 

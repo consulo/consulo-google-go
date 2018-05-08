@@ -23,17 +23,17 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.ObjectUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class GoExpressionSurrounder implements Surrounder {
   @Override
-  public boolean isApplicable(@NotNull PsiElement[] elements) {
+  public boolean isApplicable(@Nonnull PsiElement[] elements) {
     return getExpression(elements) != null;
   }
 
   @Nullable
-  protected TextRange surroundWithParenthesis(@NotNull PsiElement[] elements, boolean withNot) {
+  protected TextRange surroundWithParenthesis(@Nonnull PsiElement[] elements, boolean withNot) {
     GoExpression expression = getExpression(elements);
     if (expression == null) return null;
 
@@ -45,7 +45,7 @@ public abstract class GoExpressionSurrounder implements Surrounder {
   }
 
   @Nullable
-  protected GoExpression getExpression(@NotNull PsiElement[] elements) {
+  protected GoExpression getExpression(@Nonnull PsiElement[] elements) {
     return ObjectUtils.tryCast(ArrayUtil.getFirstElement(elements), GoExpression.class);
   }
 }

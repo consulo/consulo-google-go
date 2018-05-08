@@ -17,10 +17,10 @@
 package com.goide.inspections.unresolved;
 
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoIntroduceGlobalVariableFix extends GoUnresolvedFixBase {
-  public GoIntroduceGlobalVariableFix(@NotNull PsiElement element, @NotNull String name) {
+  public GoIntroduceGlobalVariableFix(@Nonnull PsiElement element, @Nonnull String name) {
     super(element, name, "global variable", "go_lang_global_var_qf");
   }
 }

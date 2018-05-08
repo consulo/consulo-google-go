@@ -18,12 +18,15 @@
 package com.goide.psi.impl;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.goide.psi.GoPsiTreeUtil;
 import static com.goide.GoTypes.*;
+
+import javax.annotation.*;
+
 import com.goide.psi.*;
 import com.goide.stubs.GoVarSpecStub;
 import com.intellij.psi.stubs.IStubElementType;
@@ -38,23 +41,23 @@ public class GoRecvStatementImpl extends GoVarSpecImpl implements GoRecvStatemen
     super(node);
   }
 
-  public void accept(@NotNull GoVisitor visitor) {
+  public void accept(@Nonnull GoVisitor visitor) {
     visitor.visitRecvStatement(this);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof GoVisitor) accept((GoVisitor)visitor);
     else super.accept(visitor);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<GoExpression> getExpressionList() {
     return GoPsiTreeUtil.getChildrenOfTypeAsList(this, GoExpression.class);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public List<GoVarDefinition> getVarDefinitionList() {
     return GoPsiTreeUtil.getStubChildrenOfTypeAsList(this, GoVarDefinition.class);
   }
@@ -70,12 +73,12 @@ public class GoRecvStatementImpl extends GoVarSpecImpl implements GoRecvStatemen
     return GoPsiImplUtil.getRecvExpression(this);
   }
 
-  @NotNull
+  @Nonnull
   public List<GoExpression> getLeftExpressionsList() {
     return GoPsiImplUtil.getLeftExpressionsList(this);
   }
 
-  @NotNull
+  @Nonnull
   public List<GoExpression> getRightExpressionsList() {
     return GoPsiImplUtil.getRightExpressionsList(this);
   }

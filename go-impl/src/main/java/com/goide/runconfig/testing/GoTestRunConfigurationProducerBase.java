@@ -16,6 +16,9 @@
 
 package com.goide.runconfig.testing;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.psi.GoFile;
 import com.goide.psi.GoFunctionDeclaration;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
@@ -35,19 +38,18 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class GoTestRunConfigurationProducerBase extends RunConfigurationProducer<GoTestRunConfiguration> {
-  @NotNull private final GoTestFramework myFramework;
+  @Nonnull
+  private final GoTestFramework myFramework;
 
-  protected GoTestRunConfigurationProducerBase(@NotNull GoTestFramework framework) {
+  protected GoTestRunConfigurationProducerBase(@Nonnull GoTestFramework framework) {
     super(GoTestRunConfigurationType.getInstance());
     myFramework = framework;
   }
 
   @Override
-  protected boolean setupConfigurationFromContext(@NotNull GoTestRunConfiguration configuration,
+  protected boolean setupConfigurationFromContext(@Nonnull GoTestRunConfiguration configuration,
                                                   ConfigurationContext context,
                                                   Ref sourceElement) {
     PsiElement contextElement = GoRunUtil.getContextElement(context);
@@ -103,7 +105,7 @@ public abstract class GoTestRunConfigurationProducerBase extends RunConfiguratio
     return false;
   }
 
-  private boolean hasSupportedFunctions(@NotNull GoFile file) {
+  private boolean hasSupportedFunctions(@Nonnull GoFile file) {
     for (GoFunctionDeclaration declaration : file.getFunctions()) {
       if (myFramework.isAvailableOnFunction(declaration)) {
         return true;
@@ -117,23 +119,23 @@ public abstract class GoTestRunConfigurationProducerBase extends RunConfiguratio
     return false;
   }
 
-  @NotNull
-  protected String getFileConfigurationName(@NotNull String fileName) {
+  @Nonnull
+  protected String getFileConfigurationName(@Nonnull String fileName) {
     return fileName;
   }
 
-  @NotNull
-  protected String getFunctionConfigurationName(@NotNull GoFunctionOrMethodDeclaration function, @NotNull String fileName) {
+  @Nonnull
+  protected String getFunctionConfigurationName(@Nonnull GoFunctionOrMethodDeclaration function, @Nonnull String fileName) {
     return function.getName() + " in " + fileName;
   }
 
-  @NotNull
-  protected String getPackageConfigurationName(@NotNull String packageName) {
+  @Nonnull
+  protected String getPackageConfigurationName(@Nonnull String packageName) {
     return "All in '" + packageName + "'";
   }
 
   @Override
-  public boolean isConfigurationFromContext(@NotNull GoTestRunConfiguration configuration, ConfigurationContext context) {
+  public boolean isConfigurationFromContext(@Nonnull GoTestRunConfiguration configuration, ConfigurationContext context) {
     PsiElement contextElement = GoRunUtil.getContextElement(context);
     if (contextElement == null) return false;
 
@@ -167,7 +169,7 @@ public abstract class GoTestRunConfigurationProducerBase extends RunConfiguratio
   }
 
   @Nullable
-  private static GoFunctionOrMethodDeclaration findTestFunctionInContext(@NotNull PsiElement contextElement) {
+  private static GoFunctionOrMethodDeclaration findTestFunctionInContext(@Nonnull PsiElement contextElement) {
     GoFunctionOrMethodDeclaration function = PsiTreeUtil.getNonStrictParentOfType(contextElement, GoFunctionOrMethodDeclaration.class);
     return function != null && GoTestFunctionType.fromName(function.getName()) != null ? function : null;
   }

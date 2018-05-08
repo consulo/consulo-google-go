@@ -19,9 +19,11 @@ package com.goide.sdk;
 import java.io.File;
 import java.util.Collection;
 
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 import com.goide.GoIcons;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkModificator;
@@ -33,7 +35,7 @@ import consulo.roots.types.SourcesOrderRootType;
 import consulo.ui.image.Image;
 
 public class GoSdkType extends SdkType {
-  @NotNull
+  @Nonnull
   public static GoSdkType getInstance() {
     return SdkType.EP_NAME.findExtension(GoSdkType.class);
   }
@@ -42,13 +44,13 @@ public class GoSdkType extends SdkType {
     super("Google Go SDK");
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Image getIcon() {
     return GoIcons.ICON;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Collection<String> suggestHomePaths() {
     return GoSdkUtil.suggestSdkDirectory();
@@ -60,7 +62,7 @@ public class GoSdkType extends SdkType {
   }
 
   @Override
-  public boolean isValidSdkHome(@NotNull String path) {
+  public boolean isValidSdkHome(@Nonnull String path) {
     GoSdkService.LOG.debug("Validating sdk path: " + path);
     String executablePath = GoSdkService.getGoExecutablePath(path);
     if (executablePath == null) {
@@ -78,15 +80,15 @@ public class GoSdkType extends SdkType {
     return false;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public String adjustSelectedSdkHome(@NotNull String homePath) {
+  public String adjustSelectedSdkHome(@Nonnull String homePath) {
     return GoSdkUtil.adjustSdkPath(homePath);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public String suggestSdkName(@Nullable String currentSdkName, @NotNull String sdkHome) {
+  public String suggestSdkName(@Nullable String currentSdkName, @Nonnull String sdkHome) {
     String version = getVersionString(sdkHome);
     if (version == null) {
       return "Unknown Go version at " + sdkHome;
@@ -96,7 +98,7 @@ public class GoSdkType extends SdkType {
 
   @Nullable
   @Override
-  public String getVersionString(@NotNull String sdkHome) {
+  public String getVersionString(@Nonnull String sdkHome) {
     return GoSdkUtil.retrieveGoVersion(sdkHome);
   }
 
@@ -105,7 +107,7 @@ public class GoSdkType extends SdkType {
     return type == SourcesOrderRootType.getInstance() || type == BinariesOrderRootType.getInstance();
   }
 
-  @NotNull
+  @Nonnull
   @NonNls
   @Override
   public String getPresentableName() {
@@ -113,7 +115,7 @@ public class GoSdkType extends SdkType {
   }
 
   @Override
-  public void setupSdkPaths(@NotNull Sdk sdk) {
+  public void setupSdkPaths(@Nonnull Sdk sdk) {
     String versionString = sdk.getVersionString();
     if (versionString == null) throw new RuntimeException("SDK version is not defined");
     SdkModificator modificator = sdk.getSdkModificator();

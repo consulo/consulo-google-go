@@ -26,8 +26,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class GoSmartEnterProcessor extends SmartEnterProcessorWithFixers {
     addEnterProcessors(new PlainEnterProcessor());
   }
 
-  private static void addBlockIfNeeded(@NotNull GoStatement element) {
+  private static void addBlockIfNeeded(@Nonnull GoStatement element) {
     if (element.getBlock() == null) element.add(GoElementFactory.createBlock(element.getProject()));
   }
 
@@ -47,7 +47,7 @@ public class GoSmartEnterProcessor extends SmartEnterProcessorWithFixers {
   }
 
   @Override
-  protected void collectAdditionalElements(@NotNull PsiElement element, @NotNull List<PsiElement> result) {
+  protected void collectAdditionalElements(@Nonnull PsiElement element, @Nonnull List<PsiElement> result) {
     element = PsiTreeUtil.getParentOfType(element, GoStatement.class, GoFunctionOrMethodDeclaration.class, GoFunctionLit.class);
     if (element != null) {
       result.add(element);
@@ -60,7 +60,7 @@ public class GoSmartEnterProcessor extends SmartEnterProcessorWithFixers {
 
   private static class GoDeferExpressionFixer extends Fixer<SmartEnterProcessorWithFixers> {
     @Override
-    public void apply(@NotNull Editor editor, @NotNull SmartEnterProcessorWithFixers processor, @NotNull PsiElement element)
+    public void apply(@Nonnull Editor editor, @Nonnull SmartEnterProcessorWithFixers processor, @Nonnull PsiElement element)
       throws IncorrectOperationException {
       Project project = element.getProject();
       if (element instanceof GoGoStatement) {
@@ -80,7 +80,7 @@ public class GoSmartEnterProcessor extends SmartEnterProcessorWithFixers {
 
   private static class FuncFixer extends Fixer<SmartEnterProcessorWithFixers> {
     @Override
-    public void apply(@NotNull Editor editor, @NotNull SmartEnterProcessorWithFixers processor, @NotNull PsiElement element)
+    public void apply(@Nonnull Editor editor, @Nonnull SmartEnterProcessorWithFixers processor, @Nonnull PsiElement element)
       throws IncorrectOperationException {
       if (element instanceof GoFunctionOrMethodDeclaration && ((GoFunctionOrMethodDeclaration)element).getBlock() == null) {
         element.add(GoElementFactory.createBlock(element.getProject()));
@@ -93,7 +93,7 @@ public class GoSmartEnterProcessor extends SmartEnterProcessorWithFixers {
 
   private static class IfFixer extends Fixer<SmartEnterProcessorWithFixers> {
     @Override
-    public void apply(@NotNull Editor editor, @NotNull SmartEnterProcessorWithFixers processor, @NotNull PsiElement element)
+    public void apply(@Nonnull Editor editor, @Nonnull SmartEnterProcessorWithFixers processor, @Nonnull PsiElement element)
       throws IncorrectOperationException {
       if (element instanceof GoIfStatement) addBlockIfNeeded((GoIfStatement)element);
     }
@@ -101,7 +101,7 @@ public class GoSmartEnterProcessor extends SmartEnterProcessorWithFixers {
 
   private static class ForFixer extends Fixer<SmartEnterProcessorWithFixers> {
     @Override
-    public void apply(@NotNull Editor editor, @NotNull SmartEnterProcessorWithFixers processor, @NotNull PsiElement element)
+    public void apply(@Nonnull Editor editor, @Nonnull SmartEnterProcessorWithFixers processor, @Nonnull PsiElement element)
       throws IncorrectOperationException {
       if (element instanceof GoForStatement) addBlockIfNeeded((GoStatement)element);
     }
@@ -124,7 +124,7 @@ public class GoSmartEnterProcessor extends SmartEnterProcessorWithFixers {
     }
 
     @Override
-    public boolean doEnter(PsiElement psiElement, PsiFile file, @NotNull Editor editor, boolean modified) {
+    public boolean doEnter(PsiElement psiElement, PsiFile file, @Nonnull Editor editor, boolean modified) {
       GoBlock block = findBlock(psiElement);
       if (block != null) {
         editor.getCaretModel().moveToOffset(block.getLbrace().getTextRange().getEndOffset());

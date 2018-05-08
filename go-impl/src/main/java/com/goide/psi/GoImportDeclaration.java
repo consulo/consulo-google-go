@@ -18,12 +18,14 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoImportDeclaration extends GoCompositeElement {
 
-  @NotNull
+  @Nonnull
   List<GoImportSpec> getImportSpecList();
 
   @Nullable
@@ -32,10 +34,10 @@ public interface GoImportDeclaration extends GoCompositeElement {
   @Nullable
   PsiElement getRparen();
 
-  @NotNull
+  @Nonnull
   PsiElement getImport();
 
-  @NotNull
+  @Nonnull
   GoImportSpec addImportSpec(String packagePath, String alias);
 
 }

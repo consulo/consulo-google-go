@@ -27,7 +27,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiRecursiveElementVisitor;
 import com.intellij.psi.PsiReference;
 import com.intellij.testFramework.fixtures.impl.CodeInsightTestFixtureImpl;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 @SdkAware
 public class GoImportOptimizerTest extends GoQuickFixTestBase {
@@ -76,7 +76,7 @@ public class GoImportOptimizerTest extends GoQuickFixTestBase {
   public static void resolveAllReferences(PsiFile file) {
     file.accept(new PsiRecursiveElementVisitor() {
       @Override
-      public void visitElement(@NotNull PsiElement o) {
+      public void visitElement(@Nonnull PsiElement o) {
         for (PsiReference reference : o.getReferences()) {
           reference.resolve();
         }
@@ -92,7 +92,7 @@ public class GoImportOptimizerTest extends GoQuickFixTestBase {
     myFixture.enableInspections(GoUnusedImportInspection.class);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "imports/optimize";

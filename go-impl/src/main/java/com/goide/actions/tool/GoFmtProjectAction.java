@@ -16,6 +16,8 @@
 
 package com.goide.actions.tool;
 
+import javax.annotation.Nonnull;
+
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
 import com.goide.util.GoExecutor;
@@ -27,18 +29,18 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoFmtProjectAction extends DumbAwareAction {
   @Override
-  public void update(@NotNull AnActionEvent e) {
+  public void update(@Nonnull AnActionEvent e) {
     Project project = e.getProject();
     e.getPresentation().setEnabled(project != null && GoSdkService.getInstance(project).getSdkHomePath(null) != null);
   }
 
   @Override
-  public void actionPerformed(@NotNull AnActionEvent e) {
+  public void actionPerformed(@Nonnull AnActionEvent e) {
     Project project = e.getProject();
     assert project != null;
 
@@ -50,7 +52,7 @@ public class GoFmtProjectAction extends DumbAwareAction {
     }
   }
 
-  private static void fmt(@NotNull Project project, @Nullable Module module, @NotNull String presentation, @NotNull VirtualFile dir) {
+  private static void fmt(@Nonnull Project project, @Nullable Module module, @Nonnull String presentation, @Nonnull VirtualFile dir) {
     GoExecutor.in(project, module).withPresentableName(presentation).withWorkDirectory(dir.getPath())
       .withParameters("fmt", "./...").showOutputOnError().executeWithProgress(false,
                                                                               result -> VfsUtil.markDirtyAndRefresh(true, true, true, dir));

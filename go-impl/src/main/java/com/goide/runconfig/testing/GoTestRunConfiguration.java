@@ -16,6 +16,8 @@
 
 package com.goide.runconfig.testing;
 
+import javax.annotation.Nonnull;
+
 import com.goide.runconfig.GoModuleBasedConfiguration;
 import com.goide.runconfig.GoRunConfigurationBase;
 import com.goide.runconfig.testing.frameworks.gotest.GotestFramework;
@@ -38,7 +40,6 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
 
 public class GoTestRunConfiguration extends GoRunConfigurationBase<GoTestRunningState> {
   private static final String PATTERN_ATTRIBUTE_NAME = "pattern";
@@ -48,23 +49,28 @@ public class GoTestRunConfiguration extends GoRunConfigurationBase<GoTestRunning
   private static final String KIND_ATTRIBUTE_NAME = "kind";
   private static final String FRAMEWORK_ATTRIBUTE_NAME = "framework";
 
-  @NotNull private String myPackage = "";
-  @NotNull private String myFilePath = "";
-  @NotNull private String myDirectoryPath = "";
+  @Nonnull
+  private String myPackage = "";
+  @Nonnull
+  private String myFilePath = "";
+  @Nonnull
+  private String myDirectoryPath = "";
 
-  @NotNull private String myPattern = "";
-  @NotNull private Kind myKind = Kind.DIRECTORY;
+  @Nonnull
+  private String myPattern = "";
+  @Nonnull
+  private Kind myKind = Kind.DIRECTORY;
   private GoTestFramework myTestFramework = GotestFramework.INSTANCE;
 
-  public GoTestRunConfiguration(@NotNull Project project, String name, @NotNull ConfigurationType configurationType) {
+  public GoTestRunConfiguration(@Nonnull Project project, String name, @Nonnull ConfigurationType configurationType) {
     super(name, new GoModuleBasedConfiguration(project), configurationType.getConfigurationFactories()[0]);
   }
 
-  public OutputToGeneralTestEventsConverter createTestEventsConverter(@NotNull TestConsoleProperties consoleProperties) {
+  public OutputToGeneralTestEventsConverter createTestEventsConverter(@Nonnull TestConsoleProperties consoleProperties) {
     return myTestFramework.createTestEventsConverter(consoleProperties);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected GoTestRunningState newRunningState(ExecutionEnvironment env, Module module) {
     return myTestFramework.newRunningState(env, module, this);
@@ -75,7 +81,7 @@ public class GoTestRunConfiguration extends GoRunConfigurationBase<GoTestRunning
     return new GoTestRunConfiguration(getProject(), getName(), GoTestRunConfigurationType.getInstance());
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
     return new GoTestRunConfigurationEditorForm(getProject());
@@ -152,7 +158,7 @@ public class GoTestRunConfiguration extends GoRunConfigurationBase<GoTestRunning
   }
 
   @Override
-  public void readExternal(@NotNull Element element) throws InvalidDataException {
+  public void readExternal(@Nonnull Element element) throws InvalidDataException {
     super.readExternal(element);
     try {
       String kindName = JDOMExternalizerUtil.getFirstChildValueAttribute(element, KIND_ATTRIBUTE_NAME);
@@ -168,56 +174,56 @@ public class GoTestRunConfiguration extends GoRunConfigurationBase<GoTestRunning
     myTestFramework = GoTestFramework.fromName(JDOMExternalizerUtil.getFirstChildValueAttribute(element, FRAMEWORK_ATTRIBUTE_NAME));
   }
 
-  @NotNull
+  @Nonnull
   public String getPattern() {
     return myPattern;
   }
 
-  public void setPattern(@NotNull String pattern) {
+  public void setPattern(@Nonnull String pattern) {
     myPattern = pattern;
   }
 
-  @NotNull
+  @Nonnull
   public Kind getKind() {
     return myKind;
   }
 
-  public void setKind(@NotNull Kind kind) {
+  public void setKind(@Nonnull Kind kind) {
     myKind = kind;
   }
 
-  @NotNull
+  @Nonnull
   public String getPackage() {
     return myPackage;
   }
 
-  public void setPackage(@NotNull String aPackage) {
+  public void setPackage(@Nonnull String aPackage) {
     myPackage = aPackage;
   }
 
-  @NotNull
+  @Nonnull
   public String getFilePath() {
     return myFilePath;
   }
 
-  public void setFilePath(@NotNull String filePath) {
+  public void setFilePath(@Nonnull String filePath) {
     myFilePath = filePath;
   }
 
-  @NotNull
+  @Nonnull
   public String getDirectoryPath() {
     return myDirectoryPath;
   }
 
-  public void setDirectoryPath(@NotNull String directoryPath) {
+  public void setDirectoryPath(@Nonnull String directoryPath) {
     myDirectoryPath = directoryPath;
   }
 
-  public void setTestFramework(@NotNull GoTestFramework testFramework) {
+  public void setTestFramework(@Nonnull GoTestFramework testFramework) {
     myTestFramework = testFramework;
   }
 
-  @NotNull
+  @Nonnull
   public GoTestFramework getTestFramework() {
     return myTestFramework;
   }

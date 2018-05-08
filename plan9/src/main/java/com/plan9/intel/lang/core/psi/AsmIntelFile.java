@@ -21,14 +21,14 @@ import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
 import com.plan9.intel.AsmIntelFileType;
 import com.plan9.intel.lang.AsmIntelLanguage;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class AsmIntelFile extends PsiFileBase {
-  public AsmIntelFile(@NotNull FileViewProvider viewProvider) {
+  public AsmIntelFile(@Nonnull FileViewProvider viewProvider) {
     super(viewProvider, AsmIntelLanguage.INSTANCE);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public FileType getFileType() {
     return AsmIntelFileType.INSTANCE;

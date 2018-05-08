@@ -19,7 +19,7 @@ package com.goide.runconfig.testing;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.containers.ContainerUtil;
 import jetbrains.buildServer.messages.serviceMessages.*;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Map;
 
@@ -28,7 +28,7 @@ public class LoggingServiceMessageVisitor implements ServiceMessageVisitor {
   private final StringBuilder myLog = new StringBuilder();
   private String myIndent = "";
 
-  @NotNull
+  @Nonnull
   public String getLog() {
     return myLog.toString();
   }
@@ -41,7 +41,7 @@ public class LoggingServiceMessageVisitor implements ServiceMessageVisitor {
     myIndent = StringUtil.trimEnd(myIndent, MY_INDENT);
   }
 
-  private void append(@NotNull MessageWithAttributes message) {
+  private void append(@Nonnull MessageWithAttributes message) {
     myLog.append(myIndent).append(message.getClass().getSimpleName()).append('\n');
     increaseIndent();
     increaseIndent();
@@ -56,98 +56,98 @@ public class LoggingServiceMessageVisitor implements ServiceMessageVisitor {
   }
 
   @Override
-  public void visitTestSuiteStarted(@NotNull TestSuiteStarted testSuiteStarted) {
+  public void visitTestSuiteStarted(@Nonnull TestSuiteStarted testSuiteStarted) {
     append(testSuiteStarted);
     increaseIndent();
   }
 
   @Override
-  public void visitTestSuiteFinished(@NotNull TestSuiteFinished testSuiteFinished) {
+  public void visitTestSuiteFinished(@Nonnull TestSuiteFinished testSuiteFinished) {
     decreaseIndent();
     append(testSuiteFinished);
   }
 
   @Override
-  public void visitTestStarted(@NotNull TestStarted testStarted) {
+  public void visitTestStarted(@Nonnull TestStarted testStarted) {
     append(testStarted);
     increaseIndent();
   }
 
   @Override
-  public void visitTestFinished(@NotNull TestFinished testFinished) {
+  public void visitTestFinished(@Nonnull TestFinished testFinished) {
     decreaseIndent();
     append(testFinished);
   }
 
   @Override
-  public void visitTestIgnored(@NotNull TestIgnored testIgnored) {
+  public void visitTestIgnored(@Nonnull TestIgnored testIgnored) {
     append(testIgnored);
   }
 
   @Override
-  public void visitTestStdOut(@NotNull TestStdOut testStdOut) {
+  public void visitTestStdOut(@Nonnull TestStdOut testStdOut) {
     append(testStdOut);
   }
 
   @Override
-  public void visitTestStdErr(@NotNull TestStdErr testStdErr) {
+  public void visitTestStdErr(@Nonnull TestStdErr testStdErr) {
     append(testStdErr);
   }
 
   @Override
-  public void visitTestFailed(@NotNull TestFailed testFailed) {
+  public void visitTestFailed(@Nonnull TestFailed testFailed) {
     append(testFailed);
   }
 
   @Override
-  public void visitPublishArtifacts(@NotNull PublishArtifacts artifacts) {
+  public void visitPublishArtifacts(@Nonnull PublishArtifacts artifacts) {
   }
 
   @Override
-  public void visitProgressMessage(@NotNull ProgressMessage message) {
+  public void visitProgressMessage(@Nonnull ProgressMessage message) {
   }
 
   @Override
-  public void visitProgressStart(@NotNull ProgressStart start) {
+  public void visitProgressStart(@Nonnull ProgressStart start) {
   }
 
   @Override
-  public void visitProgressFinish(@NotNull ProgressFinish finish) {
+  public void visitProgressFinish(@Nonnull ProgressFinish finish) {
   }
 
   @Override
-  public void visitBuildStatus(@NotNull BuildStatus status) {
+  public void visitBuildStatus(@Nonnull BuildStatus status) {
   }
 
   @Override
-  public void visitBuildNumber(@NotNull BuildNumber number) {
+  public void visitBuildNumber(@Nonnull BuildNumber number) {
   }
 
   @Override
-  public void visitBuildStatisticValue(@NotNull BuildStatisticValue value) {
+  public void visitBuildStatisticValue(@Nonnull BuildStatisticValue value) {
   }
 
   @Override
-  public void visitMessageWithStatus(@NotNull Message message) {
+  public void visitMessageWithStatus(@Nonnull Message message) {
   }
 
   @Override
-  public void visitBlockOpened(@NotNull BlockOpened opened) {
+  public void visitBlockOpened(@Nonnull BlockOpened opened) {
   }
 
   @Override
-  public void visitBlockClosed(@NotNull BlockClosed closed) {
+  public void visitBlockClosed(@Nonnull BlockClosed closed) {
   }
 
   @Override
-  public void visitCompilationStarted(@NotNull CompilationStarted started) {
+  public void visitCompilationStarted(@Nonnull CompilationStarted started) {
   }
 
   @Override
-  public void visitCompilationFinished(@NotNull CompilationFinished finished) {
+  public void visitCompilationFinished(@Nonnull CompilationFinished finished) {
   }
 
   @Override
-  public void visitServiceMessage(@NotNull ServiceMessage message) {
+  public void visitServiceMessage(@Nonnull ServiceMessage message) {
   }
 }

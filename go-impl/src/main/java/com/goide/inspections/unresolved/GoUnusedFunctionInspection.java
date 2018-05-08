@@ -16,6 +16,8 @@
 
 package com.goide.inspections.unresolved;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoConstants;
 import com.goide.inspections.GoInspectionBase;
 import com.goide.psi.GoFile;
@@ -32,15 +34,14 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.searches.ReferencesSearch;
-import org.jetbrains.annotations.NotNull;
 
 public class GoUnusedFunctionInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitFunctionDeclaration(@NotNull GoFunctionDeclaration o) {
+      public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration o) {
         if (o.isBlank()) return;
         GoFile file = o.getContainingFile();
         String name = o.getName();

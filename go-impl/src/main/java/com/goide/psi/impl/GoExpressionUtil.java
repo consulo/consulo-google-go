@@ -16,14 +16,16 @@
 
 package com.goide.psi.impl;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.Comparing;
 import com.intellij.openapi.util.Trinity;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoExpressionUtil {
 
@@ -89,8 +91,8 @@ public class GoExpressionUtil {
     return lText != null && lText.equals(r.getText());
   }
 
-  private static boolean isIndicesIdentical(@NotNull Trinity<GoExpression, GoExpression, GoExpression> l,
-                                            @NotNull Trinity<GoExpression, GoExpression, GoExpression> r) {
+  private static boolean isIndicesIdentical(@Nonnull Trinity<GoExpression, GoExpression, GoExpression> l,
+                                            @Nonnull Trinity<GoExpression, GoExpression, GoExpression> r) {
     return identical(l.first, r.first) && identical(l.second, r.second) && identical(l.third, r.third);
   }
 
@@ -106,7 +108,7 @@ public class GoExpressionUtil {
     return lNode instanceof LeafElement && lNode.getElementType().equals(rNode.getElementType());
   }
 
-  private static boolean isOrderImportant(@NotNull GoBinaryExpr o) {
+  private static boolean isOrderImportant(@Nonnull GoBinaryExpr o) {
     if (o instanceof GoConversionExpr || o instanceof GoSelectorExpr) return true;
     if (o instanceof GoMulExpr) {
       GoMulExpr m = (GoMulExpr)o;
@@ -119,7 +121,7 @@ public class GoExpressionUtil {
     return false;
   }
 
-  private static boolean isChildrenExprEquals(@NotNull GoBinaryExpr left, @NotNull GoBinaryExpr right) {
+  private static boolean isChildrenExprEquals(@Nonnull GoBinaryExpr left, @Nonnull GoBinaryExpr right) {
     GoExpression l1 = left.getLeft();
     GoExpression l2 = left.getRight();
     GoExpression r1 = right.getLeft();

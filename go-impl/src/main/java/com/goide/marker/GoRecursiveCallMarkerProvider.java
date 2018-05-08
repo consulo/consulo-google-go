@@ -31,7 +31,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.FunctionUtil;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.List;
@@ -39,12 +39,12 @@ import java.util.Set;
 
 public class GoRecursiveCallMarkerProvider implements LineMarkerProvider {
   @Override
-  public LineMarkerInfo getLineMarkerInfo(@NotNull PsiElement element) {
+  public LineMarkerInfo getLineMarkerInfo(@Nonnull PsiElement element) {
     return null;
   }
 
   @Override
-  public void collectSlowLineMarkers(@NotNull List<PsiElement> elements, @NotNull Collection<LineMarkerInfo> result) {
+  public void collectSlowLineMarkers(@Nonnull List<PsiElement> elements, @Nonnull Collection<LineMarkerInfo> result) {
     Set<Integer> lines = ContainerUtil.newHashSet();
     for (PsiElement element : elements) {
       if (element instanceof GoCallExpr) {
@@ -71,7 +71,7 @@ public class GoRecursiveCallMarkerProvider implements LineMarkerProvider {
   }
 
   private static class RecursiveMethodCallMarkerInfo extends LineMarkerInfo<PsiElement> {
-    private RecursiveMethodCallMarkerInfo(@NotNull PsiElement methodCall) {
+    private RecursiveMethodCallMarkerInfo(@Nonnull PsiElement methodCall) {
       super(methodCall,
             methodCall.getTextRange(),
             AllIcons.Gutter.RecursiveMethod,

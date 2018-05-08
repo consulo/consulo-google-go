@@ -16,6 +16,8 @@
 
 package com.goide.util;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoConstants;
 import com.goide.project.GoExcludedPathsSettings;
 import com.goide.psi.*;
@@ -37,18 +39,18 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
 import com.intellij.util.ThreeState;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoUtil {
   private GoUtil() {}
 
-  public static boolean matchedForModuleBuildTarget(@NotNull PsiFile file, @Nullable Module module) {
+  public static boolean matchedForModuleBuildTarget(@Nonnull PsiFile file, @Nullable Module module) {
     GoTargetSystem target = module == null ? null : GoTargetSystem.forModule(module);
     return target == null || new GoBuildMatcher(target).matchFile(file);
   }
 
-  public static boolean isExcludedFile(@NotNull GoFile file) {
+  public static boolean isExcludedFile(@Nonnull GoFile file) {
     return CachedValuesManager.getCachedValue(file, () -> {
       String importPath = file.getImportPath(false);
       GoExcludedPathsSettings excludedSettings = GoExcludedPathsSettings.getInstance(file.getProject());
@@ -56,7 +58,7 @@ public class GoUtil {
     });
   }
 
-  @NotNull
+  @Nonnull
   public static String systemOS() {
     // TODO android? dragonfly nacl? netbsd openbsd plan9
     if (SystemInfo.isMac) {
@@ -77,7 +79,7 @@ public class GoUtil {
     return "unknown";
   }
 
-  @NotNull
+  @Nonnull
   public static String systemArch() {
     if (SystemInfo.is64Bit) {
       return GoConstants.AMD64;
@@ -93,36 +95,36 @@ public class GoUtil {
     return "unknown";
   }
 
-  @NotNull
-  public static ThreeState systemCgo(@NotNull String os, @NotNull String arch) {
+  @Nonnull
+  public static ThreeState systemCgo(@Nonnull String os, @Nonnull String arch) {
     return GoConstants.KNOWN_CGO.contains(os + "/" + arch) ? ThreeState.YES : ThreeState.NO;
   }
 
-  public static boolean fileToIgnore(@NotNull String fileName) {
+  public static boolean fileToIgnore(@Nonnull String fileName) {
     return StringUtil.startsWithChar(fileName, '_') || StringUtil.startsWithChar(fileName, '.');
   }
   
-  public static GlobalSearchScope goPathUseScope(@NotNull PsiElement context, boolean filterByImportList) {
+  public static GlobalSearchScope goPathUseScope(@Nonnull PsiElement context, boolean filterByImportList) {
     return GoPathUseScope.create(context, filterByImportList);
   }
 
-  public static GlobalSearchScope goPathResolveScope(@NotNull PsiElement context) {
+  public static GlobalSearchScope goPathResolveScope(@Nonnull PsiElement context) {
     // it's important to ask module on file, otherwise module won't be found for elements in libraries files [zolotov]
     Module module = ModuleUtilCore.findModuleForPsiElement(context.getContainingFile());
     return GoPathResolveScope.create(context.getProject(), module, context);
   }
 
-  public static GlobalSearchScope goPathResolveScope(@NotNull Module module, @Nullable PsiElement context) {
+  public static GlobalSearchScope goPathResolveScope(@Nonnull Module module, @Nullable PsiElement context) {
     return GoPathResolveScope.create(module.getProject(), module, context);
   }
 
-  @NotNull
-  public static GlobalSearchScope moduleScope(@NotNull Module module) {
+  @Nonnull
+  public static GlobalSearchScope moduleScope(@Nonnull Module module) {
     return GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module).uniteWith(module.getModuleContentWithDependenciesScope());
   }
 
-  @NotNull
-  public static GlobalSearchScope moduleScopeWithoutLibraries(@NotNull Project project, @Nullable Module module) {
+  @Nonnull
+  public static GlobalSearchScope moduleScopeWithoutLibraries(@Nonnull Project project, @Nullable Module module) {
     return module != null ? GlobalSearchScope.moduleWithDependenciesScope(module).uniteWith(module.getModuleContentWithDependenciesScope())
                           : GlobalSearchScope.projectScope(project);
   }
@@ -136,7 +138,7 @@ public class GoUtil {
    * – GoTypeReferenceExpression (not from receiver type) can't be resolved to anything but GoTypeSpec or GoImportSpec<br/>
    * – Definition is private and reference in different package<br/>
    */
-  public static boolean couldBeReferenceTo(@NotNull PsiElement definition, @NotNull PsiElement reference) {
+  public static boolean couldBeReferenceTo(@Nonnull PsiElement definition, @Nonnull PsiElement reference) {
     if (definition instanceof PsiDirectory && reference instanceof GoReferenceExpressionBase) return true;
     if (reference instanceof GoLabelRef && !(definition instanceof GoLabelDefinition)) return false;
     if (reference instanceof GoTypeReferenceExpression &&
@@ -156,7 +158,7 @@ public class GoUtil {
     return !(reference instanceof GoNamedElement && !((GoNamedElement)reference).isPublic());
   }
 
-  public static boolean inSamePackage(@NotNull PsiFile firstFile, @NotNull PsiFile secondFile) {
+  public static boolean inSamePackage(@Nonnull PsiFile firstFile, @Nonnull PsiFile secondFile) {
     PsiDirectory containingDirectory = firstFile.getContainingDirectory();
     if (containingDirectory == null || !containingDirectory.equals(secondFile.getContainingDirectory())) {
       return false;
@@ -169,7 +171,7 @@ public class GoUtil {
     return true;
   }
 
-  @NotNull
+  @Nonnull
   public static String suggestPackageForDirectory(@Nullable PsiDirectory directory) {
     String packageName = GoPsiImplUtil.getLocalPackageName(directory != null ? directory.getName() : "");
     for (String p : GoPackageUtil.getAllPackagesInDirectory(directory, null, true)) {
@@ -181,33 +183,34 @@ public class GoUtil {
   }
 
   public static class ExceptTestsScope extends DelegatingGlobalSearchScope {
-    public ExceptTestsScope(@NotNull GlobalSearchScope baseScope) {
+    public ExceptTestsScope(@Nonnull GlobalSearchScope baseScope) {
       super(baseScope);
     }
 
     @Override
-    public boolean contains(@NotNull VirtualFile file) {
+    public boolean contains(@Nonnull VirtualFile file) {
       return !GoTestFinder.isTestFile(file) && super.contains(file);
     }
   }
   
   public static class TestsScope extends DelegatingGlobalSearchScope {
-    public TestsScope(@NotNull GlobalSearchScope baseScope) {
+    public TestsScope(@Nonnull GlobalSearchScope baseScope) {
       super(baseScope);
     }
 
     @Override
-    public boolean contains(@NotNull VirtualFile file) {
+    public boolean contains(@Nonnull VirtualFile file) {
       return GoTestFinder.isTestFile(file) && super.contains(file);
     }
   }
 
   public static class ExceptChildOfDirectory extends DelegatingGlobalSearchScope {
-    @NotNull private final VirtualFile myParent;
+    @Nonnull
+	private final VirtualFile myParent;
     @Nullable private final String myAllowedPackageInExcludedDirectory;
 
-    public ExceptChildOfDirectory(@NotNull VirtualFile parent,
-                                  @NotNull GlobalSearchScope baseScope,
+    public ExceptChildOfDirectory(@Nonnull VirtualFile parent,
+                                  @Nonnull GlobalSearchScope baseScope,
                                   @Nullable String allowedPackageInExcludedDirectory) {
       super(baseScope);
       myParent = parent;
@@ -215,7 +218,7 @@ public class GoUtil {
     }
 
     @Override
-    public boolean contains(@NotNull VirtualFile file) {
+    public boolean contains(@Nonnull VirtualFile file) {
       if (myParent.equals(file.getParent())) {
         if (myAllowedPackageInExcludedDirectory == null) {
           return false;

@@ -16,6 +16,8 @@
 
 package com.goide.codeInsight.imports;
 
+import javax.annotation.Nonnull;
+
 import com.goide.sdk.GoSdkService;
 import com.goide.util.GoExecutor;
 import com.intellij.codeInsight.intention.HighPriorityAction;
@@ -29,20 +31,21 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.Consumer;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoGetPackageFix extends LocalQuickFixBase implements HighPriorityAction {
-  @NotNull private final String myPackage;
+  @Nonnull
+  private final String myPackage;
 
-  public GoGetPackageFix(@NotNull String packageName) {
+  public GoGetPackageFix(@Nonnull String packageName) {
     super("go get -t " + packageName + "/...", "go get");
     myPackage = packageName;
   }
 
-  public static void applyFix(@NotNull Project project,
+  public static void applyFix(@Nonnull Project project,
                               @Nullable Module module,
-                              @NotNull String packageName,
+                              @Nonnull String packageName,
                               boolean startInBackground) {
     String sdkPath = GoSdkService.getInstance(project).getSdkHomePath(module);
     if (StringUtil.isEmpty(sdkPath)) return;
@@ -55,7 +58,7 @@ public class GoGetPackageFix extends LocalQuickFixBase implements HighPriorityAc
   }
 
   @Override
-  public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     PsiElement element = descriptor.getPsiElement();
     if (element != null) {
       applyFix(project, ModuleUtilCore.findModuleForPsiElement(element.getContainingFile()), myPackage, true);

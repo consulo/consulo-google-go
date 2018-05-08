@@ -16,6 +16,10 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.Nls;
 import com.goide.psi.GoStatement;
 import com.goide.psi.impl.GoElementFactory;
 import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement;
@@ -24,9 +28,6 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoReplaceWithReturnStatementQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
   public static final String QUICK_FIX_NAME = "Replace with 'return'";
@@ -35,25 +36,25 @@ public class GoReplaceWithReturnStatementQuickFix extends LocalQuickFixAndIntent
     super(element);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getText() {
     return QUICK_FIX_NAME;
   }
 
   @Nls
-  @NotNull
+  @Nonnull
   @Override
   public String getFamilyName() {
     return QUICK_FIX_NAME;
   }
 
   @Override
-  public void invoke(@NotNull Project project,
-                     @NotNull PsiFile file,
-                     @Nullable("is null when called from inspection") Editor editor,
-                     @NotNull PsiElement startElement,
-                     @NotNull PsiElement endElement) {
+  public void invoke(@Nonnull Project project,
+                     @Nonnull PsiFile file,
+                     @Nullable Editor editor,
+                     @Nonnull PsiElement startElement,
+                     @Nonnull PsiElement endElement) {
     WriteCommandAction.runWriteCommandAction(project, () -> {
       if (startElement instanceof GoStatement) {
         startElement.replace(GoElementFactory.createReturnStatement(project));

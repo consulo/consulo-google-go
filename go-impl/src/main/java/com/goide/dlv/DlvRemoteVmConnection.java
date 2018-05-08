@@ -21,27 +21,27 @@ import com.intellij.util.io.NettyKt;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.jetbrains.debugger.Vm;
 import org.jetbrains.debugger.connection.RemoteVmConnection;
 
 import java.net.InetSocketAddress;
 
 public class DlvRemoteVmConnection extends RemoteVmConnection {
-  @NotNull
+  @Nonnull
   @Override
-  public Bootstrap createBootstrap(@NotNull InetSocketAddress address, @NotNull AsyncResult<Vm> vmResult) {
+  public Bootstrap createBootstrap(@Nonnull InetSocketAddress address, @Nonnull AsyncResult<Vm> vmResult) {
     return NettyKt.oioClientBootstrap().handler(new ChannelInitializer() {
       @Override
-      protected void initChannel(@NotNull Channel channel) throws Exception {
+      protected void initChannel(@Nonnull Channel channel) throws Exception {
         vmResult.setDone(new DlvVm(getDebugEventListener(), channel));
       }
     });
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected String connectedAddressToPresentation(@NotNull InetSocketAddress address, @NotNull Vm vm) {
+  protected String connectedAddressToPresentation(@Nonnull InetSocketAddress address, @Nonnull Vm vm) {
     return address.toString();
   }
 }

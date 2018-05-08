@@ -29,7 +29,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.IdFilter;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,12 +42,12 @@ public class GoTestLocator implements SMTestLocator {
 
   private GoTestLocator() {}
 
-  @NotNull
+  @Nonnull
   @Override
-  public List<Location> getLocation(@NotNull String protocolId,
-                                    @NotNull String path,
-                                    @NotNull Project project,
-                                    @NotNull GlobalSearchScope scope) {
+  public List<Location> getLocation(@Nonnull String protocolId,
+                                    @Nonnull String path,
+                                    @Nonnull Project project,
+                                    @Nonnull GlobalSearchScope scope) {
     if (PROTOCOL.equals(protocolId)) {
       IdFilter idFilter = GoIdFilter.getTestsFilter(project);
       List<String> locationDataItems = StringUtil.split(path, ".");

@@ -26,8 +26,8 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,7 +48,7 @@ public class GotestFramework extends GoTestFramework {
     return GENERATE_ACTIONS;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return NAME;
@@ -70,17 +70,17 @@ public class GotestFramework extends GoTestFramework {
            GoTestFinder.isTestOrExampleFunction(functionOrMethodDeclaration);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoTestRunningState newRunningState(@NotNull ExecutionEnvironment env,
-                                               @NotNull Module module,
-                                               @NotNull GoTestRunConfiguration runConfiguration) {
+  protected GoTestRunningState newRunningState(@Nonnull ExecutionEnvironment env,
+                                               @Nonnull Module module,
+                                               @Nonnull GoTestRunConfiguration runConfiguration) {
     return new GoTestRunningState(env, module, runConfiguration);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public OutputToGeneralTestEventsConverter createTestEventsConverter(@NotNull TestConsoleProperties consoleProperties) {
+  public OutputToGeneralTestEventsConverter createTestEventsConverter(@Nonnull TestConsoleProperties consoleProperties) {
     return new GotestEventsConverter(consoleProperties);
   }
 }

@@ -16,6 +16,8 @@
 
 package com.goide.runconfig.application;
 
+import javax.annotation.Nonnull;
+
 import com.goide.runconfig.GoModuleBasedConfiguration;
 import com.goide.runconfig.GoRunConfigurationWithMain;
 import com.goide.runconfig.GoRunUtil;
@@ -32,22 +34,23 @@ import com.intellij.openapi.util.WriteExternalException;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
 
 public class GoApplicationConfiguration extends GoRunConfigurationWithMain<GoApplicationRunningState> {
   private static final String PACKAGE_ATTRIBUTE_NAME = "package";
   private static final String KIND_ATTRIBUTE_NAME = "kind";
 
-  @NotNull private String myPackage = "";
+  @Nonnull
+  private String myPackage = "";
 
-  @NotNull private Kind myKind = Kind.FILE;
+  @Nonnull
+  private Kind myKind = Kind.FILE;
 
-  public GoApplicationConfiguration(Project project, String name, @NotNull ConfigurationType configurationType) {
+  public GoApplicationConfiguration(Project project, String name, @Nonnull ConfigurationType configurationType) {
     super(name, new GoModuleBasedConfiguration(project), configurationType.getConfigurationFactories()[0]);
   }
 
   @Override
-  public void readExternal(@NotNull Element element) throws InvalidDataException {
+  public void readExternal(@Nonnull Element element) throws InvalidDataException {
     super.readExternal(element);
     myPackage = StringUtil.notNullize(JDOMExternalizerUtil.getFirstChildValueAttribute(element, PACKAGE_ATTRIBUTE_NAME));
     try {
@@ -68,21 +71,21 @@ public class GoApplicationConfiguration extends GoRunConfigurationWithMain<GoApp
     }
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected ModuleBasedConfiguration createInstance() {
     return new GoApplicationConfiguration(getProject(), getName(), GoApplicationRunConfigurationType.getInstance());
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
     return new GoApplicationConfigurationEditorForm(getProject());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoApplicationRunningState newRunningState(@NotNull ExecutionEnvironment env, @NotNull Module module) {
+  protected GoApplicationRunningState newRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module) {
     return new GoApplicationRunningState(env, module, this);
   }
 
@@ -111,21 +114,21 @@ public class GoApplicationConfiguration extends GoRunConfigurationWithMain<GoApp
     }
   }
 
-  @NotNull
+  @Nonnull
   public String getPackage() {
     return myPackage;
   }
 
-  public void setPackage(@NotNull String aPackage) {
+  public void setPackage(@Nonnull String aPackage) {
     myPackage = aPackage;
   }
 
-  @NotNull
+  @Nonnull
   public Kind getKind() {
     return myKind;
   }
 
-  public void setKind(@NotNull Kind aKind) {
+  public void setKind(@Nonnull Kind aKind) {
     myKind = aKind;
   }
 

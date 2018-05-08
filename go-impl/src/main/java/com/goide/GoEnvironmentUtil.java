@@ -16,25 +16,27 @@
 
 package com.goide;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.PathMacros;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.util.EnvironmentUtil;
 import com.intellij.util.PathUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoEnvironmentUtil {
   private GoEnvironmentUtil() {}
 
-  @NotNull
-  public static String getBinaryFileNameForPath(@NotNull String path) {
+  @Nonnull
+  public static String getBinaryFileNameForPath(@Nonnull String path) {
     String resultBinaryName = FileUtil.getNameWithoutExtension(PathUtil.getFileName(path));
     return SystemInfo.isWindows ? resultBinaryName + ".exe" : resultBinaryName;
   }
 
-  @NotNull
+  @Nonnull
   public static String getGaeExecutableFileName(boolean gcloudInstallation) {
     if (SystemInfo.isWindows) {
       return gcloudInstallation ? GoConstants.GAE_CMD_EXECUTABLE_NAME : GoConstants.GAE_BAT_EXECUTABLE_NAME;

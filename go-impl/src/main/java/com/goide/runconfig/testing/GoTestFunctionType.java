@@ -19,8 +19,8 @@ package com.goide.runconfig.testing;
 import com.goide.GoConstants;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.intellij.openapi.util.text.StringUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Locale;
 
@@ -43,17 +43,17 @@ public enum GoTestFunctionType {
     return myParamType;
   }
 
-  @NotNull
+  @Nonnull
   public String getPrefix() {
     return myPrefix;
   }
 
-  @NotNull
+  @Nonnull
   public String getQualifiedParamType(@Nullable String testingQualifier) {
     return myParamType != null ? "*" + GoPsiImplUtil.getFqn(testingQualifier, myParamType) : "";
   }
   
-  @NotNull
+  @Nonnull
   public String getSignature(@Nullable String testingQualifier) {
     if (myParamType == null) {
       return "";
@@ -71,7 +71,7 @@ public enum GoTestFunctionType {
     return null;
   }
 
-  private static boolean checkPrefix(@Nullable String name, @NotNull String prefix) {
+  private static boolean checkPrefix(@Nullable String name, @Nonnull String prefix) {
     // https://github.com/golang/go/blob/master/src/cmd/go/test.go#L1161 – isTest()
     if (name == null || !name.startsWith(prefix)) return false;
     if (prefix.length() == name.length()) return true;

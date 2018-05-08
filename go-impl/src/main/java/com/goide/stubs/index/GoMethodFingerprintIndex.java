@@ -23,7 +23,7 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.stubs.StringStubIndexExtension;
 import com.intellij.psi.stubs.StubIndex;
 import com.intellij.psi.stubs.StubIndexKey;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collection;
 
@@ -35,13 +35,13 @@ public class GoMethodFingerprintIndex extends StringStubIndexExtension<GoMethodS
     return GoFileElementType.VERSION + 1;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public StubIndexKey<String, GoMethodSpec> getKey() {
     return KEY;
   }
 
-  public static Collection<GoMethodSpec> find(@NotNull String name, @NotNull Project project, GlobalSearchScope scope) {
+  public static Collection<GoMethodSpec> find(@Nonnull String name, @Nonnull Project project, GlobalSearchScope scope) {
     return StubIndex.getElements(KEY, name, project, scope, GoMethodSpec.class);
   }
 }

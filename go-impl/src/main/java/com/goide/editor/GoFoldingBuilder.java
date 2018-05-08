@@ -33,14 +33,14 @@ import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 import java.util.Set;
 
 public class GoFoldingBuilder extends CustomFoldingBuilder implements DumbAware {
-  private static void foldTypes(@Nullable PsiElement e, @NotNull List<FoldingDescriptor> result) {
+  private static void foldTypes(@Nullable PsiElement e, @Nonnull List<FoldingDescriptor> result) {
     if (e instanceof GoStructType) {
       if (((GoStructType)e).getFieldDeclarationList().isEmpty()) return;
       fold(e, ((GoStructType)e).getLbrace(), ((GoStructType)e).getRbrace(), "{...}", result);
@@ -51,20 +51,20 @@ public class GoFoldingBuilder extends CustomFoldingBuilder implements DumbAware 
     }
   }
 
-  private static void fold(@NotNull PsiElement e,
+  private static void fold(@Nonnull PsiElement e,
                            @Nullable PsiElement l,
                            @Nullable PsiElement r,
-                           @NotNull String placeholderText,
-                           @NotNull List<FoldingDescriptor> result) {
+                           @Nonnull String placeholderText,
+                           @Nonnull List<FoldingDescriptor> result) {
     if (l != null && r != null) {
       result.add(new NamedFoldingDescriptor(e, l.getTextRange().getStartOffset(), r.getTextRange().getEndOffset(), null, placeholderText));
     }
   }
 
   // com.intellij.codeInsight.folding.impl.JavaFoldingBuilderBase.addCodeBlockFolds()
-  private static void addCommentFolds(@NotNull PsiElement comment,
-                                      @NotNull Set<PsiElement> processedComments,
-                                      @NotNull List<FoldingDescriptor> result) {
+  private static void addCommentFolds(@Nonnull PsiElement comment,
+                                      @Nonnull Set<PsiElement> processedComments,
+                                      @Nonnull List<FoldingDescriptor> result) {
     if (processedComments.contains(comment)) return;
 
     PsiElement end = null;
@@ -89,9 +89,9 @@ public class GoFoldingBuilder extends CustomFoldingBuilder implements DumbAware 
   }
 
   @Override
-  protected void buildLanguageFoldRegions(@NotNull List<FoldingDescriptor> result,
-                                          @NotNull PsiElement root,
-                                          @NotNull Document document,
+  protected void buildLanguageFoldRegions(@Nonnull List<FoldingDescriptor> result,
+                                          @Nonnull PsiElement root,
+                                          @Nonnull Document document,
                                           boolean quick) {
     if (!(root instanceof GoFile)) return;
     GoFile file = (GoFile)root;
@@ -188,12 +188,12 @@ public class GoFoldingBuilder extends CustomFoldingBuilder implements DumbAware 
 
   @Nullable
   @Override
-  protected String getLanguagePlaceholderText(@NotNull ASTNode node, @NotNull TextRange range) {
+  protected String getLanguagePlaceholderText(@Nonnull ASTNode node, @Nonnull TextRange range) {
     return "...";
   }
 
   @Override
-  protected boolean isRegionCollapsedByDefault(@NotNull ASTNode node) {
+  protected boolean isRegionCollapsedByDefault(@Nonnull ASTNode node) {
     IElementType type = node.getElementType();
     if (type == GoParserDefinition.LINE_COMMENT || type == GoParserDefinition.MULTILINE_COMMENT) {
       return CodeFoldingSettings.getInstance().COLLAPSE_DOC_COMMENTS;

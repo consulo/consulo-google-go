@@ -30,13 +30,13 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
 public class GoTestSignaturesInspection extends GoInspectionBase {
   @Override
-  protected void checkFile(@NotNull GoFile file, @NotNull ProblemsHolder problemsHolder) {
+  protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     if (!GoTestFinder.isTestFile(file)) return;
     for (GoFunctionDeclaration function : file.getFunctions()) {
       GoTestFunctionType type = GoTestFunctionType.fromName(function.getName());
@@ -76,7 +76,7 @@ public class GoTestSignaturesInspection extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getStartElement();
       if (element == null) return;
       GoFunctionDeclaration function = ObjectUtils.tryCast(element.getParent(), GoFunctionDeclaration.class);

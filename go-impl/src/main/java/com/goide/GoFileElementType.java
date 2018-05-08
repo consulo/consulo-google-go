@@ -25,7 +25,7 @@ import com.intellij.psi.StubBuilder;
 import com.intellij.psi.stubs.*;
 import com.intellij.psi.tree.IStubFileElementType;
 import com.intellij.util.io.StringRef;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
@@ -42,13 +42,13 @@ public class GoFileElementType extends IStubFileElementType<GoFileStub> {
     return VERSION;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public StubBuilder getBuilder() {
     return new DefaultStubBuilder() {
-      @NotNull
+      @Nonnull
       @Override
-      protected StubElement createStubForFile(@NotNull PsiFile file) {
+      protected StubElement createStubForFile(@Nonnull PsiFile file) {
         if (file instanceof GoFile) {
           return new GoFileStub((GoFile)file);
         }
@@ -58,7 +58,7 @@ public class GoFileElementType extends IStubFileElementType<GoFileStub> {
   }
 
   @Override
-  public void indexStub(@NotNull GoFileStub stub, @NotNull IndexSink sink) {
+  public void indexStub(@Nonnull GoFileStub stub, @Nonnull IndexSink sink) {
     super.indexStub(stub, sink);
     String packageName = stub.getPackageName();
     if (StringUtil.isNotEmpty(packageName)) {
@@ -67,17 +67,17 @@ public class GoFileElementType extends IStubFileElementType<GoFileStub> {
   }
 
   @Override
-  public void serialize(@NotNull GoFileStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoFileStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeUTF(StringUtil.notNullize(stub.getBuildFlags()));
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoFileStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoFileStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoFileStub(null, StringRef.fromNullableString(StringUtil.nullize(dataStream.readUTF())));
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getExternalId() {
     return "go.FILE";

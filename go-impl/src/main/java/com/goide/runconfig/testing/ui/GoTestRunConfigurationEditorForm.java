@@ -30,14 +30,15 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.ListCellRendererWrapper;
 import org.intellij.lang.regexp.RegExpLanguage;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.swing.*;
 import java.util.Locale;
 
 public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunConfiguration> {
-  @NotNull private final Project myProject;
+  @Nonnull
+  private final Project myProject;
   private JPanel myComponent;
   private EditorTextField myPatternEditor;
 
@@ -54,7 +55,7 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
   private JRadioButton myGocheckFrameworkRadioButton;
   private JRadioButton myGobenchRadioButton;
 
-  public GoTestRunConfigurationEditorForm(@NotNull Project project) {
+  public GoTestRunConfigurationEditorForm(@Nonnull Project project) {
     super(null);
     myProject = project;
     myCommonSettingsPanel.init(project);
@@ -83,7 +84,7 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
   }
 
   @Override
-  protected void resetEditorFrom(@NotNull GoTestRunConfiguration configuration) {
+  protected void resetEditorFrom(@Nonnull GoTestRunConfiguration configuration) {
     myGotestFrameworkRadioButton.setSelected(configuration.getTestFramework() == GotestFramework.INSTANCE);
     myGocheckFrameworkRadioButton.setSelected(configuration.getTestFramework() == GocheckFramework.INSTANCE);
     myGobenchRadioButton.setSelected(configuration.getTestFramework() == GobenchFramework.INSTANCE);
@@ -102,7 +103,7 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
   }
 
   @Override
-  protected void applyEditorTo(@NotNull GoTestRunConfiguration configuration) throws ConfigurationException {
+  protected void applyEditorTo(@Nonnull GoTestRunConfiguration configuration) throws ConfigurationException {
     if (myGocheckFrameworkRadioButton.isSelected()) {
       configuration.setTestFramework(GocheckFramework.INSTANCE);
     } else if (myGobenchRadioButton.isSelected()) {
@@ -119,7 +120,7 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
     myCommonSettingsPanel.applyEditorTo(configuration);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected JComponent createEditor() {
     return myComponent;
@@ -149,7 +150,7 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
     };
   }
 
-  private void installFileChoosers(@NotNull Project project) {
+  private void installFileChoosers(@Nonnull Project project) {
     GoRunUtil.installFileChooser(project, myFileField, false);
     GoRunUtil.installFileChooser(project, myDirectoryField, true);
   }

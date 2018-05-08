@@ -16,19 +16,21 @@
 
 package com.goide.inspections.unresolved;
 
+import javax.annotation.Nonnull;
+
 import com.goide.refactor.GoRefactoringUtil;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoIntroduceLocalVariableFix extends GoUnresolvedFixBase {
-  public GoIntroduceLocalVariableFix(@NotNull PsiElement element, @NotNull String name) {
+  public GoIntroduceLocalVariableFix(@Nonnull PsiElement element, @Nonnull String name) {
     super(element, name, "local variable", "go_lang_local_var_qf");
   }
 
   @Nullable
   @Override
-  protected PsiElement findAnchor(@NotNull PsiElement reference) {
+  protected PsiElement findAnchor(@Nonnull PsiElement reference) {
     return GoRefactoringUtil.findLocalAnchor(GoRefactoringUtil.getLocalOccurrences(reference));
   }
 }

@@ -16,16 +16,17 @@
 
 package com.goide.actions.tool;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.util.GoExecutor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoFmtFileAction extends GoExternalToolsAction {
   @Override
-  @NotNull
-  protected GoExecutor createExecutor(@NotNull Project project, @Nullable Module module, @NotNull String title, @NotNull String filePath) {
+  @Nonnull
+  protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull String filePath) {
     return GoExecutor.in(project, module).withPresentableName(title).withParameters("fmt", filePath).showOutputOnError();
   }
 }

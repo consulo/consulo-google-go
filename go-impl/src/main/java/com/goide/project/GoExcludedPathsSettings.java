@@ -22,8 +22,8 @@ import com.intellij.openapi.util.SimpleModificationTracker;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.xmlb.XmlSerializerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @State(
   name = "GoExcludedPaths",
@@ -68,7 +68,7 @@ public class GoExcludedPathsSettings extends SimpleModificationTracker implement
     return false;
   }
 
-  public void excludePath(@NotNull String importPath) {
+  public void excludePath(@Nonnull String importPath) {
     setExcludedPackages(ArrayUtil.append(myExcludedPackages, importPath));
   }
 }

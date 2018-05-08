@@ -32,19 +32,19 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference;
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 
 public class GoImportReferenceSet extends FileReferenceSet {
-  public GoImportReferenceSet(@NotNull GoImportString importString) {
+  public GoImportReferenceSet(@Nonnull GoImportString importString) {
     super(importString.getPath(), importString, importString.getPathTextRange().getStartOffset(), null, true);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Collection<PsiFileSystemItem> computeDefaultContexts() {
     PsiFile file = getContainingFile();
@@ -85,7 +85,7 @@ public class GoImportReferenceSet extends FileReferenceSet {
     return !isRelativeImport();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public FileReference createFileReference(TextRange range, int index, String text) {
     return new GoImportReference(this, range, index, text);
@@ -95,7 +95,7 @@ public class GoImportReferenceSet extends FileReferenceSet {
     return isRelativeImport(getPathString());
   }
 
-  public static boolean isRelativeImport(@NotNull String pathString) {
+  public static boolean isRelativeImport(@Nonnull String pathString) {
     return pathString.startsWith("./") || pathString.startsWith("../");
   }
 

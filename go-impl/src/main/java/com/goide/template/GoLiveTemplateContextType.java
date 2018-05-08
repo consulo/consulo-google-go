@@ -16,6 +16,8 @@
 
 package com.goide.template;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoLanguage;
 import com.goide.GoTypes;
 import com.goide.highlighting.GoSyntaxHighlighter;
@@ -29,18 +31,18 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.util.ObjectUtils;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 abstract public class GoLiveTemplateContextType extends TemplateContextType {
-  protected GoLiveTemplateContextType(@NotNull @NonNls String id,
-                                      @NotNull String presentableName,
+  protected GoLiveTemplateContextType(@Nonnull @NonNls String id,
+                                      @Nonnull String presentableName,
                                       @Nullable Class<? extends TemplateContextType> baseContextType) {
     super(id, presentableName, baseContextType);
   }
 
   @Override
-  public boolean isInContext(@NotNull PsiFile file, int offset) {
+  public boolean isInContext(@Nonnull PsiFile file, int offset) {
     if (PsiUtilCore.getLanguageAtOffset(file, offset).isKindOf(GoLanguage.INSTANCE)) {
       PsiElement psiElement = ObjectUtils.notNull(file.findElementAt(offset), file);
       if (!acceptLeaf()) {
@@ -84,7 +86,7 @@ abstract public class GoLiveTemplateContextType extends TemplateContextType {
     return result;
   }
 
-  protected abstract boolean isInContext(@NotNull PsiElement element);
+  protected abstract boolean isInContext(@Nonnull PsiElement element);
 
   @Override
   public SyntaxHighlighter createHighlighter() {
@@ -97,7 +99,7 @@ abstract public class GoLiveTemplateContextType extends TemplateContextType {
     }
 
     @Override
-    protected boolean isInContext(@NotNull PsiElement element) {
+    protected boolean isInContext(@Nonnull PsiElement element) {
       if (element instanceof PsiComment || element instanceof GoPackageClause) {
         return false;
       }
@@ -111,7 +113,7 @@ abstract public class GoLiveTemplateContextType extends TemplateContextType {
     }
 
     @Override
-    protected boolean isInContext(@NotNull PsiElement element) {
+    protected boolean isInContext(@Nonnull PsiElement element) {
       return element instanceof GoType;
     }
   }
@@ -122,7 +124,7 @@ abstract public class GoLiveTemplateContextType extends TemplateContextType {
     }
 
     @Override
-    protected boolean isInContext(@NotNull PsiElement element) {
+    protected boolean isInContext(@Nonnull PsiElement element) {
       return (element instanceof GoLeftHandExprList || element instanceof GoSimpleStatement) &&
              PsiTreeUtil.getParentOfType(element, GoBlock.class) != null;
     }
@@ -134,7 +136,7 @@ abstract public class GoLiveTemplateContextType extends TemplateContextType {
     }
 
     @Override
-    protected boolean isInContext(@NotNull PsiElement element) {
+    protected boolean isInContext(@Nonnull PsiElement element) {
       return element instanceof GoExpression;
     }
   }
@@ -145,7 +147,7 @@ abstract public class GoLiveTemplateContextType extends TemplateContextType {
     }
 
     @Override
-    protected boolean isInContext(@NotNull PsiElement element) {
+    protected boolean isInContext(@Nonnull PsiElement element) {
       if (element.getNode().getElementType() == GoTypes.IDENTIFIER) {
         if (isInsideFieldTypeDeclaration(element)) {
           return true;
@@ -179,7 +181,7 @@ abstract public class GoLiveTemplateContextType extends TemplateContextType {
     }
 
     @Override
-    protected boolean isInContext(@NotNull PsiElement element) {
+    protected boolean isInContext(@Nonnull PsiElement element) {
       return element instanceof GoStringLiteral && element.getParent() instanceof GoTag;
     }
   }
@@ -189,7 +191,7 @@ abstract public class GoLiveTemplateContextType extends TemplateContextType {
       super("GO_STATEMENT", "Statement", GoEverywhereContextType.class);
     }
 
-    public static boolean onStatementBeginning(@NotNull PsiElement psiElement) {
+    public static boolean onStatementBeginning(@Nonnull PsiElement psiElement) {
       PsiElement prevLeaf = prevVisibleLeafOrNewLine(psiElement);
       if (prevLeaf == null) {
         return false;
@@ -202,7 +204,7 @@ abstract public class GoLiveTemplateContextType extends TemplateContextType {
     }
 
     @Override
-    protected boolean isInContext(@NotNull PsiElement element) {
+    protected boolean isInContext(@Nonnull PsiElement element) {
       if (element instanceof PsiComment) {
         return false;
       }

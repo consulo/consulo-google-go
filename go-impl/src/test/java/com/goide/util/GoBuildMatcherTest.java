@@ -19,7 +19,7 @@ package com.goide.util;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.ThreeState;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoBuildMatcherTest extends GoCodeInsightFixtureTestCase {
   public void testMatchFile() {
@@ -119,7 +119,7 @@ public class GoBuildMatcherTest extends GoCodeInsightFixtureTestCase {
     assertFalse(matcher.matchBuildFlag("linux,amd64,bar"));
   }
 
-  private void checkMatchFile(@NotNull GoBuildMatcher matcher, boolean expected, @NotNull String fileName, @NotNull String text) {
+  private void checkMatchFile(@Nonnull GoBuildMatcher matcher, boolean expected, @Nonnull String fileName, @Nonnull String text) {
     myFixture.configureByText(fileName, text + "\n\n package main\n\n func main() {}");
     assertEquals(fileName + ":" + text, expected, matcher.matchFile(myFixture.getFile()));
   }

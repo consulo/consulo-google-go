@@ -16,15 +16,17 @@
 
 package com.goide.highlighting;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoSyntaxHighlighterFactory extends SyntaxHighlighterFactory {
-  @NotNull
+  @Nonnull
   @Override
   public SyntaxHighlighter getSyntaxHighlighter(@Nullable Project project, @Nullable VirtualFile virtualFile) {
     return new GoSyntaxHighlighter();

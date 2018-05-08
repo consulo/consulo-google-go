@@ -29,7 +29,7 @@ import com.intellij.psi.stubs.StubOutputStream;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ArrayFactory;
 import com.intellij.util.io.StringRef;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
@@ -38,25 +38,25 @@ public class GoConstSpecStubElementType extends GoStubElementType<GoConstSpecStu
 
   public static final ArrayFactory<GoConstSpec> ARRAY_FACTORY = count -> count == 0 ? EMPTY_ARRAY : new GoConstSpec[count];
   
-  public GoConstSpecStubElementType(@NotNull String name) {
+  public GoConstSpecStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoConstSpec createPsi(@NotNull GoConstSpecStub stub) {
+  public GoConstSpec createPsi(@Nonnull GoConstSpecStub stub) {
     return new GoConstSpecImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoConstSpecStub createStub(@NotNull GoConstSpec psi, StubElement parentStub) {
+  public GoConstSpecStub createStub(@Nonnull GoConstSpec psi, StubElement parentStub) {
     String join = StringUtil.join(psi.getExpressionList(), PsiElement::getText, ";");
     return new GoConstSpecStub(parentStub, this, StringRef.fromString(join));
   }
 
   @Override
-  public void serialize(@NotNull GoConstSpecStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoConstSpecStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getExpressionsText());
   }
 
@@ -65,9 +65,9 @@ public class GoConstSpecStubElementType extends GoStubElementType<GoConstSpecStu
     return super.shouldCreateStub(node) && PsiTreeUtil.getParentOfType(node.getPsi(), GoFunctionOrMethodDeclaration.class) == null;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoConstSpecStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoConstSpecStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoConstSpecStub(parentStub, this, dataStream.readName());
   }
 }

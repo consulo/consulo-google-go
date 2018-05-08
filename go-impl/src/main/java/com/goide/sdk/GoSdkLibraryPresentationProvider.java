@@ -18,10 +18,10 @@ package com.goide.sdk;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.swing.Icon;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.goide.GoIcons;
 import com.intellij.openapi.roots.libraries.DummyLibraryProperties;
 import com.intellij.openapi.roots.libraries.LibraryKind;
@@ -44,7 +44,7 @@ public class GoSdkLibraryPresentationProvider extends LibraryPresentationProvide
 
   @Override
   @Nullable
-  public DummyLibraryProperties detect(@NotNull List<VirtualFile> classesRoots) {
+  public DummyLibraryProperties detect(@Nonnull List<VirtualFile> classesRoots) {
     for (VirtualFile root : classesRoots) {
       if (GoSdkService.isGoSdkLibRoot(root) && !GoSdkService.isAppEngineSdkPath(GoSdkService.libraryRootToSdkPath(root))) {
         return DummyLibraryProperties.INSTANCE;

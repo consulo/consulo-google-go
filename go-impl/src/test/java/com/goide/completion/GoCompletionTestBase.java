@@ -22,14 +22,14 @@ import com.intellij.codeInsight.lookup.Lookup;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.testFramework.UsefulTestCase;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.List;
 
 public abstract class GoCompletionTestBase extends GoCodeInsightFixtureTestCase {
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "completion";
@@ -41,7 +41,7 @@ public abstract class GoCompletionTestBase extends GoCodeInsightFixtureTestCase 
 
   protected enum CheckType {EQUALS, INCLUDES, EXCLUDES, ORDERED_EQUALS}
 
-  private void doTestVariantsInner(@NotNull CompletionType type, int count, CheckType checkType, String... variants) {
+  private void doTestVariantsInner(@Nonnull CompletionType type, int count, CheckType checkType, String... variants) {
     myFixture.complete(type, count);
     List<String> stringList = myFixture.getLookupElementStrings();
 
@@ -63,29 +63,29 @@ public abstract class GoCompletionTestBase extends GoCodeInsightFixtureTestCase 
     }
   }
 
-  protected void doTestVariants(@NotNull String txt, @NotNull CompletionType type, int count, CheckType checkType, String... variants) {
+  protected void doTestVariants(@Nonnull String txt, @Nonnull CompletionType type, int count, CheckType checkType, String... variants) {
     myFixture.configureByText(getDefaultFileName(), txt);
     failOnFileLoading();
     doTestVariantsInner(type, count, checkType, variants);
   }
 
-  protected void doTestInclude(@NotNull String txt, String... variants) {
+  protected void doTestInclude(@Nonnull String txt, String... variants) {
     doTestVariants(txt, CompletionType.BASIC, 1, CheckType.INCLUDES, variants);
   }
 
-  protected void doTestExclude(@NotNull String txt, String... variants) {
+  protected void doTestExclude(@Nonnull String txt, String... variants) {
     doTestVariants(txt, CompletionType.BASIC, 1, CheckType.EXCLUDES, variants);
   }
 
-  protected void doTestEquals(@NotNull String txt, String... variants) {
+  protected void doTestEquals(@Nonnull String txt, String... variants) {
     doTestVariants(txt, CompletionType.BASIC, 1, CheckType.EQUALS, variants);
   }
 
-  protected void doCheckResult(@NotNull String before, @NotNull String after) {
+  protected void doCheckResult(@Nonnull String before, @Nonnull String after) {
     doCheckResult(before, after, (Character)null);
   }
 
-  protected void doCheckResult(@NotNull String before, @NotNull String after, @Nullable Character c) {
+  protected void doCheckResult(@Nonnull String before, @Nonnull String after, @Nullable Character c) {
     myFixture.configureByText(getDefaultFileName(), before);
     failOnFileLoading();
     myFixture.completeBasic();
@@ -93,7 +93,7 @@ public abstract class GoCompletionTestBase extends GoCodeInsightFixtureTestCase 
     myFixture.checkResult(after);
   }
   
-  protected void doCheckResult(@NotNull String before, @NotNull String after, @NotNull String selectItem) {
+  protected void doCheckResult(@Nonnull String before, @Nonnull String after, @Nonnull String selectItem) {
     myFixture.configureByText(getDefaultFileName(), before);
     failOnFileLoading();
     myFixture.completeBasic();
@@ -101,7 +101,7 @@ public abstract class GoCompletionTestBase extends GoCodeInsightFixtureTestCase 
     myFixture.checkResult(after);
   }
 
-  protected void selectLookupItem(@NotNull String selectItem) {
+  protected void selectLookupItem(@Nonnull String selectItem) {
     LookupElement[] lookupElements = myFixture.getLookupElements();
     assertNotNull("Lookup is empty", lookupElements);
     LookupElement toSelect = null;

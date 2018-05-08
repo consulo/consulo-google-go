@@ -24,7 +24,7 @@ import com.intellij.execution.testframework.sm.runner.OutputToGeneralTestEventsC
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.CharsetToolkit;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +53,7 @@ public abstract class GoEventsConverterTestCase extends GoCodeInsightFixtureTest
     assertSameLinesWithFile(getTestDataPath() + "/" + getTestName(true) + "-expected.txt", serviceMessageVisitor.getLog());
   }
 
-  @NotNull
+  @Nonnull
   protected abstract GoTestFramework getTestFramework();
 }
 

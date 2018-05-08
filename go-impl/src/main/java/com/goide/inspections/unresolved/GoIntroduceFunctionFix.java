@@ -16,10 +16,23 @@
 
 package com.goide.inspections.unresolved;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.Nls;
 import com.goide.GoConstants;
 import com.goide.GoDocumentationProvider;
 import com.goide.project.GoVendoringUtil;
-import com.goide.psi.*;
+import com.goide.psi.GoCallExpr;
+import com.goide.psi.GoExpression;
+import com.goide.psi.GoFile;
+import com.goide.psi.GoImportSpec;
+import com.goide.psi.GoType;
+import com.goide.psi.GoTypeList;
+import com.goide.psi.GoTypeSpec;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.GoTypeUtil;
 import com.goide.refactor.GoRefactoringUtil;
@@ -42,28 +55,22 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.Map;
 
 public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsiElement implements HighPriorityAction {
   private final String myName;
   private static final String FAMILY_NAME = "Create function";
 
-  public GoIntroduceFunctionFix(@NotNull PsiElement element, @NotNull String name) {
+  public GoIntroduceFunctionFix(@Nonnull PsiElement element, @Nonnull String name) {
     super(element);
     myName = name;
   }
 
   @Override
-  public void invoke(@NotNull Project project,
-                     @NotNull PsiFile file,
-                     @Nullable("is null when called from inspection") Editor editor,
-                     @NotNull PsiElement startElement,
-                     @NotNull PsiElement endElement) {
+  public void invoke(@Nonnull Project project,
+                     @Nonnull PsiFile file,
+                     @Nullable Editor editor,
+                     @Nonnull PsiElement startElement,
+                     @Nonnull PsiElement endElement) {
     if (editor == null) {
       LOG.error("Cannot run quick fix without editor: " + getClass().getSimpleName(),
                 AttachmentFactory.createAttachment(file.getVirtualFile()));
@@ -93,8 +100,8 @@ public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsi
     startTemplate(editor, template, project);
   }
 
-  @NotNull
-  private static String convertType(@NotNull PsiFile file, @Nullable GoType type, @NotNull Map<String, GoImportSpec> importMap) {
+  @Nonnull
+  private static String convertType(@Nonnull PsiFile file, @Nullable GoType type, @Nonnull Map<String, GoImportSpec> importMap) {
     if (type == null) return GoConstants.INTERFACE_TYPE;
     Module module = ModuleUtilCore.findModuleForPsiElement(file);
     boolean vendoringEnabled = GoVendoringUtil.isVendoringEnabled(module);
@@ -128,7 +135,7 @@ public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsi
     });
   }
 
-  private static void setupFunctionResult(@NotNull Template template, @Nullable GoType type) {
+  private static void setupFunctionResult(@Nonnull Template template, @Nullable GoType type) {
     if (type instanceof GoTypeList) {
       template.addTextSegment(" (");
       List<GoType> list = ((GoTypeList)type).getTypeList();
@@ -145,8 +152,8 @@ public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsi
     }
   }
 
-  private static void setupFunctionParameters(@NotNull Template template,
-                                              @NotNull List<GoExpression> args, PsiFile file) {
+  private static void setupFunctionParameters(@Nonnull Template template,
+                                              @Nonnull List<GoExpression> args, PsiFile file) {
     Map<String, GoImportSpec> importMap = ((GoFile)file).getImportedPackagesMap();
     template.addTextSegment("(");
     for (int i = 0; i < args.size(); i++) {
@@ -160,7 +167,7 @@ public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsi
     template.addTextSegment(")");
   }
 
-  private static void startTemplate(@NotNull Editor editor, @NotNull Template template, @NotNull Project project) {
+  private static void startTemplate(@Nonnull Editor editor, @Nonnull Template template, @Nonnull Project project) {
     Runnable runnable = () -> {
       if (project.isDisposed() || editor.isDisposed()) return;
       CommandProcessor.getInstance().executeCommand(project, () ->
@@ -174,14 +181,14 @@ public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsi
     }
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getText() {
     return FAMILY_NAME + " " + myName;
   }
 
   @Nls
-  @NotNull
+  @Nonnull
   @Override
   public String getFamilyName() {
     return FAMILY_NAME;

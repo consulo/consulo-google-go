@@ -23,7 +23,7 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 import java.util.List;
@@ -71,7 +71,7 @@ public class GoDocumentationProviderTest extends GoCodeInsightFixtureTestCase {
   public void testQuotedStrings()                     { doConverterTest(); }
   public void testLinks()                             { doConverterTest(); }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "doc";

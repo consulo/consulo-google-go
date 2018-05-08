@@ -21,8 +21,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.intellij.util.ReflectionUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,7 +35,7 @@ import java.util.function.BiConsumer;
 public class DlvRequest<In, Out> {
   private static final Map<String, DlvRequest<?, ?>> ourRegistry = new ConcurrentHashMap<>();
 
-  @NotNull
+  @Nonnull
   protected static <In, Out> DlvRequest<In, Out> paramized(String name, Class<In> inObject, Class<Out> outObject, BiConsumer<In, Object[]> args) {
     DlvRequest<In, Out> request = new DlvRequest<>(name, inObject, outObject, args, true);
     ourRegistry.put(request.myName, request);
@@ -68,7 +68,7 @@ public class DlvRequest<In, Out> {
     myParamized = paramized;
   }
 
-  @NotNull
+  @Nonnull
   public final SimpleInOutMessage<In, Out> build(Object... args) {
     In in = ReflectionUtil.newInstance(myInObject);
 

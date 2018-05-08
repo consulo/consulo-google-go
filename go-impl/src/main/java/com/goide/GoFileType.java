@@ -18,8 +18,8 @@ package com.goide;
 
 import java.nio.charset.Charset;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.CharsetToolkit;
@@ -33,19 +33,19 @@ public class GoFileType extends LanguageFileType {
     super(GoLanguage.INSTANCE);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return GoConstants.GO;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getDescription() {
     return "Go files";
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getDefaultExtension() {
     return "go";
@@ -58,12 +58,12 @@ public class GoFileType extends LanguageFileType {
   }
 
   @Override
-  public String getCharset(@NotNull VirtualFile file, @NotNull byte[] content) {
+  public String getCharset(@Nonnull VirtualFile file, @Nonnull byte[] content) {
     return CharsetToolkit.UTF8;
   }
 
   @Override
-  public Charset extractCharsetFromFileContent(@Nullable Project project, @Nullable VirtualFile file, @NotNull CharSequence content) {
+  public Charset extractCharsetFromFileContent(@Nullable Project project, @Nullable VirtualFile file, @Nonnull CharSequence content) {
     return CharsetToolkit.UTF8_CHARSET;
   }
 }

@@ -27,7 +27,7 @@ import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
 import com.intellij.util.ArrayFactory;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,35 +42,35 @@ public class GoFunctionDeclarationStubElementType extends GoNamedStubElementType
   private static final ArrayList<StubIndexKey<String, ? extends GoNamedElement>> EXTRA_KEYS =
     ContainerUtil.newArrayList(GoFunctionIndex.KEY);
 
-  public GoFunctionDeclarationStubElementType(@NotNull String name) {
+  public GoFunctionDeclarationStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoFunctionDeclaration createPsi(@NotNull GoFunctionDeclarationStub stub) {
+  public GoFunctionDeclaration createPsi(@Nonnull GoFunctionDeclarationStub stub) {
     return new GoFunctionDeclarationImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoFunctionDeclarationStub createStub(@NotNull GoFunctionDeclaration psi, StubElement parentStub) {
+  public GoFunctionDeclarationStub createStub(@Nonnull GoFunctionDeclaration psi, StubElement parentStub) {
     return new GoFunctionDeclarationStub(parentStub, this, psi.getName(), psi.isPublic());
   }
 
   @Override
-  public void serialize(@NotNull GoFunctionDeclarationStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoFunctionDeclarationStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoFunctionDeclarationStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoFunctionDeclarationStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoFunctionDeclarationStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected Collection<StubIndexKey<String, ? extends GoNamedElement>> getExtraIndexKeys() {
     return EXTRA_KEYS;

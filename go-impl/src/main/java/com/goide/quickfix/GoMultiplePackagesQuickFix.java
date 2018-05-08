@@ -16,6 +16,12 @@
 
 package com.goide.quickfix;
 
+import java.util.Collection;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.TestOnly;
 import com.goide.GoConstants;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoPackageClause;
@@ -38,11 +44,6 @@ import com.intellij.psi.PsiFile;
 import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.TestOnly;
-
-import java.util.Collection;
 
 public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
   private static String myTestingPackageName;
@@ -50,9 +51,9 @@ public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionO
   private final String myPackageName;
   private final boolean myIsOneTheFly;
 
-  public GoMultiplePackagesQuickFix(@NotNull PsiElement element,
-                                    @NotNull String packageName,
-                                    @NotNull Collection<String> packages,
+  public GoMultiplePackagesQuickFix(@Nonnull PsiElement element,
+                                    @Nonnull String packageName,
+                                    @Nonnull Collection<String> packages,
                                     boolean isOnTheFly) {
     super(element);
     myPackages = packages;
@@ -60,9 +61,9 @@ public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionO
     myIsOneTheFly = isOnTheFly;
   }
 
-  private static void renamePackagesInDirectory(@NotNull Project project,
-                                                @NotNull PsiDirectory dir,
-                                                @NotNull String newName) {
+  private static void renamePackagesInDirectory(@Nonnull Project project,
+                                                @Nonnull PsiDirectory dir,
+                                                @Nonnull String newName) {
     WriteCommandAction.runWriteCommandAction(project, () -> {
       Module module = ModuleUtilCore.findModuleForPsiElement(dir);
       for (PsiFile file : dir.getFiles()) {
@@ -81,7 +82,7 @@ public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionO
   }
 
   @TestOnly
-  public static void setTestingPackageName(@NotNull String packageName, @NotNull Disposable disposable) {
+  public static void setTestingPackageName(@Nonnull String packageName, @Nonnull Disposable disposable) {
     myTestingPackageName = packageName;
     Disposer.register(disposable, () -> {
       //noinspection AssignmentToStaticFieldFromInstanceMethod
@@ -90,11 +91,11 @@ public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionO
   }
 
   @Override
-  public void invoke(@NotNull Project project,
-                     @NotNull PsiFile file,
-                     @Nullable("is null when called from inspection") Editor editor,
-                     @NotNull PsiElement startElement,
-                     @NotNull PsiElement endElement) {
+  public void invoke(@Nonnull Project project,
+                     @Nonnull PsiFile file,
+                     @Nullable Editor editor,
+                     @Nonnull PsiElement startElement,
+                     @Nonnull PsiElement endElement) {
     if (editor == null || myTestingPackageName != null) {
       renamePackagesInDirectory(project, file.getContainingDirectory(),
                                 myTestingPackageName != null ? myTestingPackageName : myPackageName);
@@ -115,13 +116,13 @@ public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionO
     }).createPopup().showInBestPositionFor(editor);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getText() {
     return "Rename packages" + (myIsOneTheFly ? "" : " to " + myPackageName);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getFamilyName() {
     return "Rename packages";

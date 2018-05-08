@@ -16,7 +16,8 @@
 
 package com.goide.runconfig.testing;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.goide.runconfig.GoRunConfigurationTestCase;
 import com.goide.runconfig.testing.frameworks.gobench.GobenchFramework;
 import com.goide.runconfig.testing.frameworks.gobench.GobenchRunConfigurationProducer;
@@ -189,7 +190,7 @@ public class GoTestRunConfigurationProducerTest extends GoRunConfigurationTestCa
     assertFalse(producer.isConfigurationFromContext(runConfiguration, configurationContext));
   }
 
-  @NotNull
+  @Nonnull
   private ConfigurationContext createConfigurationContext() {
     PsiElement at = myFixture.getFile().findElementAt(myFixture.getCaretOffset());
     assertNotNull(at);
@@ -197,7 +198,7 @@ public class GoTestRunConfigurationProducerTest extends GoRunConfigurationTestCa
     return null;
   }
 
-  @NotNull
+  @Nonnull
   private GoTestRunConfiguration createPackageConfiguration(GoTestFramework framework, String pattern, String importPath) {
     GoTestRunConfigurationType configurationType = GoTestRunConfigurationType.getInstance();
     GoTestRunConfiguration runConfiguration = new GoTestRunConfiguration(myFixture.getProject(), "name", configurationType);
@@ -208,7 +209,7 @@ public class GoTestRunConfigurationProducerTest extends GoRunConfigurationTestCa
     return runConfiguration;
   }
 
-  @NotNull
+  @Nonnull
   private GoTestRunConfiguration createFileConfiguration(GoTestFramework framework, String path) {
     GoTestRunConfigurationType configurationType = GoTestRunConfigurationType.getInstance();
     GoTestRunConfiguration runConfiguration = new GoTestRunConfiguration(myFixture.getProject(), "name", configurationType);
@@ -218,7 +219,7 @@ public class GoTestRunConfigurationProducerTest extends GoRunConfigurationTestCa
     return runConfiguration;
   }
 
-  @NotNull
+  @Nonnull
   private GoTestRunConfiguration createDirectoryConfiguration(GoTestFramework framework, String path, String workingDirectoryPath) {
     GoTestRunConfigurationType configurationType = GoTestRunConfigurationType.getInstance();
     GoTestRunConfiguration runConfiguration = new GoTestRunConfiguration(myFixture.getProject(), "name", configurationType);

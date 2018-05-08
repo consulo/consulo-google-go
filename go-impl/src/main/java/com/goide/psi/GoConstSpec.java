@@ -18,17 +18,19 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.StubBasedPsiElement;
 import com.goide.stubs.GoConstSpecStub;
 
 public interface GoConstSpec extends GoCompositeElement, StubBasedPsiElement<GoConstSpecStub> {
 
-  @NotNull
+  @Nonnull
   List<GoConstDefinition> getConstDefinitionList();
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getExpressionList();
 
   @Nullable

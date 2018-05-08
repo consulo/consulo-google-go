@@ -16,8 +16,9 @@
 
 package com.goide.runconfig.testing;
 
+import javax.annotation.Nonnull;
+
 import com.goide.runconfig.testing.frameworks.gocheck.GocheckFramework;
-import org.jetbrains.annotations.NotNull;
 
 public class GocheckEventsConverterTest extends GoEventsConverterTestCase {
   public void testPass()                      { doTest(); }
@@ -35,13 +36,13 @@ public class GocheckEventsConverterTest extends GoEventsConverterTestCase {
   public void testTestBothFixturesError()     { doTest(); }
   public void testSkippingTests()             { doTest(); }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "testing/gocheck";
   }
   
-  @NotNull
+  @Nonnull
   @Override
   protected GoTestFramework getTestFramework() {
     return GocheckFramework.INSTANCE;

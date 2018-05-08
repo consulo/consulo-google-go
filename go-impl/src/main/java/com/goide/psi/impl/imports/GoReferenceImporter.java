@@ -27,13 +27,13 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
 public class GoReferenceImporter implements ReferenceImporter {
   @Override
-  public boolean autoImportReferenceAtCursor(@NotNull Editor editor, @NotNull PsiFile file) {
+  public boolean autoImportReferenceAtCursor(@Nonnull Editor editor, @Nonnull PsiFile file) {
     if (!file.getViewProvider().getLanguages().contains(GoLanguage.INSTANCE) ||
         !DaemonListeners.canChangeFileSilently(file)) {
       return false;
@@ -60,7 +60,7 @@ public class GoReferenceImporter implements ReferenceImporter {
   }
 
   @Override
-  public boolean autoImportReferenceAt(@NotNull Editor editor, @NotNull PsiFile file, int offset) {
+  public boolean autoImportReferenceAt(@Nonnull Editor editor, @Nonnull PsiFile file, int offset) {
     if (!file.getViewProvider().getLanguages().contains(GoLanguage.INSTANCE)) {
       return false;
     }

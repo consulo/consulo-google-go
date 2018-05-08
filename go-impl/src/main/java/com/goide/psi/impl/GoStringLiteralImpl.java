@@ -17,13 +17,14 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi.impl;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.goide.psi.GoPsiTreeUtil;
+
 import static com.goide.GoTypes.*;
+
+import javax.annotation.*;
+
 import com.goide.psi.*;
 import com.goide.util.GoStringLiteralEscaper;
 
@@ -33,11 +34,11 @@ public class GoStringLiteralImpl extends GoExpressionImpl implements GoStringLit
     super(node);
   }
 
-  public void accept(@NotNull GoVisitor visitor) {
+  public void accept(@Nonnull GoVisitor visitor) {
     visitor.visitStringLiteral(this);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof GoVisitor) accept((GoVisitor)visitor);
     else super.accept(visitor);
   }
@@ -58,17 +59,17 @@ public class GoStringLiteralImpl extends GoExpressionImpl implements GoStringLit
     return GoPsiImplUtil.isValidHost(this);
   }
 
-  @NotNull
+  @Nonnull
   public GoStringLiteralImpl updateText(String text) {
     return GoPsiImplUtil.updateText(this, text);
   }
 
-  @NotNull
+  @Nonnull
   public GoStringLiteralEscaper createLiteralTextEscaper() {
     return GoPsiImplUtil.createLiteralTextEscaper(this);
   }
 
-  @NotNull
+  @Nonnull
   public String getDecodedText() {
     return GoPsiImplUtil.getDecodedText(this);
   }

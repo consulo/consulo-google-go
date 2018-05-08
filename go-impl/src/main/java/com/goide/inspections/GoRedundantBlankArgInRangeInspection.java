@@ -23,20 +23,20 @@ import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
 public class GoRedundantBlankArgInRangeInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
   public final static String DELETE_BLANK_ARGUMENT_QUICK_FIX_NAME = "Delete blank argument";
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitRangeClause(@NotNull GoRangeClause o) {
+      public void visitRangeClause(@Nonnull GoRangeClause o) {
         List<GoExpression> leftExpressions = o.getLeftExpressionsList();
         PsiElement range = o.getRange();
         if (range == null) return;
@@ -60,9 +60,9 @@ public class GoRedundantBlankArgInRangeInspection extends GoInspectionBase imple
     };
   }
 
-  private static void registerBlankArgumentProblem(@NotNull ProblemsHolder holder,
-                                                   @NotNull PsiElement start,
-                                                   @NotNull PsiElement end) {
+  private static void registerBlankArgumentProblem(@Nonnull ProblemsHolder holder,
+                                                   @Nonnull PsiElement start,
+                                                   @Nonnull PsiElement end) {
     GoDeleteRangeQuickFix fix = new GoDeleteRangeQuickFix(start, end, DELETE_BLANK_ARGUMENT_QUICK_FIX_NAME);
     holder.registerProblem(holder.getManager().createProblemDescriptor(start, end, "Redundant <code>_</code> expression",
                                                                        ProblemHighlightType.LIKE_UNUSED_SYMBOL, holder.isOnTheFly(), fix));

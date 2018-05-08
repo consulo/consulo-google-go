@@ -18,12 +18,14 @@
 package com.goide.psi.impl;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.goide.psi.GoPsiTreeUtil;
-import static com.goide.GoTypes.*;
+
+import javax.annotation.*;
+
 import com.goide.stubs.GoTypeSpecStub;
 import com.goide.psi.*;
 import com.intellij.psi.ResolveState;
@@ -39,17 +41,17 @@ public class GoTypeSpecImpl extends GoNamedElementImpl<GoTypeSpecStub> implement
     super(node);
   }
 
-  public void accept(@NotNull GoVisitor visitor) {
+  public void accept(@Nonnull GoVisitor visitor) {
     visitor.visitTypeSpec(this);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof GoVisitor) accept((GoVisitor)visitor);
     else super.accept(visitor);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public GoSpecType getSpecType() {
     return notNullChild(GoPsiTreeUtil.getStubChildOfType(this, GoSpecType.class));
   }
@@ -59,7 +61,7 @@ public class GoTypeSpecImpl extends GoNamedElementImpl<GoTypeSpecStub> implement
     return GoPsiImplUtil.getGoTypeInner(this, context);
   }
 
-  @NotNull
+  @Nonnull
   public List<GoMethodDeclaration> getMethods() {
     return GoPsiImplUtil.getMethods(this);
   }
@@ -69,7 +71,7 @@ public class GoTypeSpecImpl extends GoNamedElementImpl<GoTypeSpecStub> implement
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public PsiElement getIdentifier() {
     GoSpecType p1 = getSpecType();
     return p1.getIdentifier();

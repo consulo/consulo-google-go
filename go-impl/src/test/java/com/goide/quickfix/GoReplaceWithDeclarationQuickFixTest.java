@@ -18,7 +18,7 @@ package com.goide.quickfix;
 
 import com.goide.inspections.unresolved.GoReplaceAssignmentWithDeclarationQuickFix;
 import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoReplaceWithDeclarationQuickFixTest extends GoQuickFixTestBase {
   @Override
@@ -27,7 +27,7 @@ public class GoReplaceWithDeclarationQuickFixTest extends GoQuickFixTestBase {
     myFixture.enableInspections(GoUnresolvedReferenceInspection.class);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/replace-with-declaration";

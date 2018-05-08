@@ -27,8 +27,8 @@ import consulo.google.go.module.extension.GoMutableModuleExtension;
 import consulo.google.go.module.orderEntry.GoPathOrderEntry;
 import consulo.roots.ModifiableModuleRootLayer;
 import consulo.roots.impl.ModuleRootLayerImpl;
-import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 
 /**

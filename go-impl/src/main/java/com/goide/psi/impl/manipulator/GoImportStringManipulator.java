@@ -16,24 +16,25 @@
 
 package com.goide.psi.impl.manipulator;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoImportString;
 import com.goide.psi.impl.GoElementFactory;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.AbstractElementManipulator;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
 
 public class GoImportStringManipulator extends AbstractElementManipulator<GoImportString> {
-  @NotNull
+  @Nonnull
   @Override
-  public GoImportString handleContentChange(@NotNull GoImportString string, @NotNull TextRange range, String s) throws IncorrectOperationException {
+  public GoImportString handleContentChange(@Nonnull GoImportString string, @Nonnull TextRange range, String s) throws IncorrectOperationException {
     String newPackage = range.replace(string.getText(), s);
     return (GoImportString)string.replace(GoElementFactory.createImportString(string.getProject(), newPackage));
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public TextRange getRangeInElement(@NotNull GoImportString element) {
+  public TextRange getRangeInElement(@Nonnull GoImportString element) {
     return element.getPathTextRange();
   }
 }

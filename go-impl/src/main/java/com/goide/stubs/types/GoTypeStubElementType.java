@@ -24,23 +24,23 @@ import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
 public abstract class GoTypeStubElementType extends GoStubElementType<GoTypeStub, GoType> {
-  protected GoTypeStubElementType(@NotNull String name) {
+  protected GoTypeStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoTypeStub createStub(@NotNull GoType psi, StubElement parentStub) {
+  public GoTypeStub createStub(@Nonnull GoType psi, StubElement parentStub) {
     return new GoTypeStub(parentStub, this, psi.getText());
   }
 
   @Override
-  public void serialize(@NotNull GoTypeStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoTypeStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getText());
   }
 
@@ -49,9 +49,9 @@ public abstract class GoTypeStubElementType extends GoStubElementType<GoTypeStub
     return PsiTreeUtil.getParentOfType(node.getPsi(), GoTypeSpec.class) != null || super.shouldCreateStubInBlock(node);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoTypeStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoTypeStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoTypeStub(parentStub, this, dataStream.readName());
   }
 }

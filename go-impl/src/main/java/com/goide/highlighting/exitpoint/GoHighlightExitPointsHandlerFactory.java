@@ -16,6 +16,8 @@
 
 package com.goide.highlighting.exitpoint;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoTypes;
 import com.goide.psi.GoCallExpr;
 import com.goide.psi.GoReferenceExpression;
@@ -28,17 +30,17 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoHighlightExitPointsHandlerFactory extends HighlightUsagesHandlerFactoryBase {
   private static final TokenSet BREAK_HIGHLIGHTING_TOKENS = TokenSet.create(GoTypes.BREAK, GoTypes.SWITCH, GoTypes.FOR, GoTypes.SELECT);
 
   @Nullable
   @Override
-  public HighlightUsagesHandlerBase createHighlightUsagesHandler(@NotNull Editor editor,
-                                                                 @NotNull PsiFile file,
-                                                                 @NotNull PsiElement target) {
+  public HighlightUsagesHandlerBase createHighlightUsagesHandler(@Nonnull Editor editor,
+                                                                 @Nonnull PsiFile file,
+                                                                 @Nonnull PsiElement target) {
     if (target instanceof LeafPsiElement) {
       IElementType elementType = ((LeafPsiElement)target).getElementType();
       if (elementType == GoTypes.RETURN || elementType == GoTypes.FUNC || isPanicCall(target)) {
@@ -51,7 +53,7 @@ public class GoHighlightExitPointsHandlerFactory extends HighlightUsagesHandlerF
     return null;
   }
 
-  private static boolean isPanicCall(@NotNull PsiElement e) {
+  private static boolean isPanicCall(@Nonnull PsiElement e) {
     PsiElement parent = e.getParent();
     if (parent instanceof GoReferenceExpression) {
       PsiElement grandPa = parent.getParent();

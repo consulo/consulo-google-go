@@ -16,6 +16,8 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.*;
 import com.goide.quickfix.GoDeleteAmpersandAndTypeInCompositeLitQuickFix;
 import com.intellij.codeInspection.CleanupLocalInspectionTool;
@@ -23,19 +25,19 @@ import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implements CleanupLocalInspectionTool {
   public final static String DELETE_TYPE_DECLARATION_QUICK_FIX_NAME = "Delete redundant type declaration";
   private static final GoDeleteAmpersandAndTypeInCompositeLitQuickFix QUICK_FIX = new GoDeleteAmpersandAndTypeInCompositeLitQuickFix();
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitCompositeLit(@NotNull GoCompositeLit o) {
+      public void visitCompositeLit(@Nonnull GoCompositeLit o) {
         GoLiteralValue literalValue = o.getLiteralValue();
         if (literalValue == null) return;
 
@@ -77,7 +79,7 @@ public class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implemen
   }
 
   @Nullable
-  private static GoType getExpectedType(@NotNull GoCompositeLit o) {
+  private static GoType getExpectedType(@Nonnull GoCompositeLit o) {
     if (o.getType() instanceof GoArrayOrSliceType && ((GoArrayOrSliceType)o.getType()).getType() != null) {
       return ((GoArrayOrSliceType)o.getType()).getType();
     }
@@ -87,7 +89,7 @@ public class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implemen
     return null;
   }
 
-  private static boolean isTypeReferencesEquals(@Nullable GoType pattern, @NotNull GoCompositeLit value) {
+  private static boolean isTypeReferencesEquals(@Nullable GoType pattern, @Nonnull GoCompositeLit value) {
     if (pattern == null || !pattern.isValid() || !value.isValid()) {
       return false;
     }

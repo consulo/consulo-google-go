@@ -25,8 +25,8 @@ import com.intellij.psi.stubs.StubIndex;
 import com.intellij.psi.stubs.StubIndexKey;
 import com.intellij.util.Processor;
 import com.intellij.util.indexing.IdFilter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 
@@ -38,25 +38,25 @@ public class GoFunctionIndex extends StringStubIndexExtension<GoFunctionDeclarat
     return GoFileElementType.VERSION + 3;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public StubIndexKey<String, GoFunctionDeclaration> getKey() {
     return KEY;
   }
 
-  @NotNull
-  public static Collection<GoFunctionDeclaration> find(@NotNull String name,
-                                                       @NotNull Project project,
+  @Nonnull
+  public static Collection<GoFunctionDeclaration> find(@Nonnull String name,
+                                                       @Nonnull Project project,
                                                        @Nullable GlobalSearchScope scope,
                                                        @Nullable IdFilter idFilter) {
     return StubIndex.getElements(KEY, name, project, scope, idFilter, GoFunctionDeclaration.class);
   }
 
-  public static boolean process(@NotNull String name,
-                                @NotNull Project project,
+  public static boolean process(@Nonnull String name,
+                                @Nonnull Project project,
                                 @Nullable GlobalSearchScope scope,
                                 @Nullable IdFilter idFilter,
-                                @NotNull Processor<GoFunctionDeclaration> processor) {
+                                @Nonnull Processor<GoFunctionDeclaration> processor) {
     return StubIndex.getInstance().processElements(KEY, name, project, scope, idFilter, GoFunctionDeclaration.class, processor);
   }
 }

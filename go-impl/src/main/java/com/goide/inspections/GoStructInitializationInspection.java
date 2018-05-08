@@ -30,8 +30,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.containers.ContainerUtil;
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.swing.*;
 import java.util.List;
@@ -44,12 +44,12 @@ public class GoStructInitializationInspection extends GoInspectionBase {
    */
   @SuppressWarnings("WeakerAccess") public Boolean reportImportedStructs;
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitLiteralValue(@NotNull GoLiteralValue o) {
+      public void visitLiteralValue(@Nonnull GoLiteralValue o) {
         if (PsiTreeUtil.getParentOfType(o, GoReturnStatement.class, GoShortVarDeclaration.class, GoAssignmentStatement.class) == null) {
           return;
         }
@@ -67,15 +67,15 @@ public class GoStructInitializationInspection extends GoInspectionBase {
     return new SingleCheckboxOptionsPanel("Report for local type definitions as well", this, "reportLocalStructs");
   }
 
-  private void processStructType(@NotNull ProblemsHolder holder, @NotNull GoLiteralValue element, @NotNull GoStructType structType) {
+  private void processStructType(@Nonnull ProblemsHolder holder, @Nonnull GoLiteralValue element, @Nonnull GoStructType structType) {
     if (reportLocalStructs || !GoUtil.inSamePackage(structType.getContainingFile(), element.getContainingFile())) {
       processLiteralValue(holder, element, structType.getFieldDeclarationList());
     }
   }
 
-  private static void processLiteralValue(@NotNull ProblemsHolder holder,
-                                          @NotNull GoLiteralValue o,
-                                          @NotNull List<GoFieldDeclaration> fields) {
+  private static void processLiteralValue(@Nonnull ProblemsHolder holder,
+                                          @Nonnull GoLiteralValue o,
+                                          @Nonnull List<GoFieldDeclaration> fields) {
     List<GoElement> vals = o.getElementList();
     for (int elemId = 0; elemId < vals.size(); elemId++) {
       ProgressManager.checkCanceled();
@@ -90,7 +90,7 @@ public class GoStructInitializationInspection extends GoInspectionBase {
   }
 
   @Nullable
-  private static String getFieldName(@NotNull GoFieldDeclaration declaration) {
+  private static String getFieldName(@Nonnull GoFieldDeclaration declaration) {
     List<GoFieldDefinition> list = declaration.getFieldDefinitionList();
     GoFieldDefinition fieldDefinition = ContainerUtil.getFirstItem(list);
     return fieldDefinition != null ? fieldDefinition.getIdentifier().getText() : null;
@@ -99,13 +99,13 @@ public class GoStructInitializationInspection extends GoInspectionBase {
   private static class GoReplaceWithNamedStructFieldQuickFix extends LocalQuickFixBase {
     private String myStructField;
 
-    public GoReplaceWithNamedStructFieldQuickFix(@NotNull String structField) {
+    public GoReplaceWithNamedStructFieldQuickFix(@Nonnull String structField) {
       super(REPLACE_WITH_NAMED_STRUCT_FIELD_FIX_NAME);
       myStructField = structField;
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement startElement = descriptor.getStartElement();
       if (startElement instanceof GoElement) {
         startElement.replace(GoElementFactory.createLiteralValueElement(project, myStructField, startElement.getText()));
@@ -114,7 +114,7 @@ public class GoStructInitializationInspection extends GoInspectionBase {
   }
 
   @Override
-  public void readSettings(@NotNull Element node) throws InvalidDataException {
+  public void readSettings(@Nonnull Element node) throws InvalidDataException {
     super.readSettings(node);
     if (reportImportedStructs != null) {
       reportLocalStructs = reportImportedStructs;
@@ -122,7 +122,7 @@ public class GoStructInitializationInspection extends GoInspectionBase {
   }
 
   @Override
-  public void writeSettings(@NotNull Element node) throws WriteExternalException {
+  public void writeSettings(@Nonnull Element node) throws WriteExternalException {
     reportImportedStructs = null;
     super.writeSettings(node);
   }

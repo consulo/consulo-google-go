@@ -18,7 +18,7 @@ package com.goide.inspections;
 
 import com.goide.SdkAware;
 import com.goide.quickfix.GoQuickFixTestBase;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 @SdkAware
 public class GoTestSignaturesInspectionTest extends GoQuickFixTestBase {
@@ -28,7 +28,7 @@ public class GoTestSignaturesInspectionTest extends GoQuickFixTestBase {
     myFixture.enableInspections(GoTestSignaturesInspection.class);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "inspections/test-signatures";

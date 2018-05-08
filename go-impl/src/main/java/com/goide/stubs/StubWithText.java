@@ -21,7 +21,7 @@ import com.intellij.psi.stubs.IStubElementType;
 import com.intellij.psi.stubs.StubBase;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.util.io.StringRef;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 abstract public class StubWithText<T extends PsiElement> extends StubBase<T> implements TextHolder {
   @Nullable private final StringRef myText;

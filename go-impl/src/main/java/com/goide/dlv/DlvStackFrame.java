@@ -18,8 +18,8 @@ package com.goide.dlv;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.goide.GoIcons;
 import com.goide.dlv.protocol.DlvApi;
 import com.goide.dlv.protocol.DlvRequest;
@@ -66,7 +66,7 @@ public class DlvStackFrame extends XStackFrame {
   private final int myId;
   private final int myGoroutineId;
 
-  public DlvStackFrame(@NotNull DlvDebugProcess process, @NotNull DlvApi.Location location, @NotNull DlvCommandProcessor processor, int id, int goroutineId) {
+  public DlvStackFrame(@Nonnull DlvDebugProcess process, @Nonnull DlvApi.Location location, @Nonnull DlvCommandProcessor processor, int id, int goroutineId) {
     myProcess = process;
     myLocation = location;
     myProcessor = processor;
@@ -79,7 +79,7 @@ public class DlvStackFrame extends XStackFrame {
   public XDebuggerEvaluator getEvaluator() {
     return new XDebuggerEvaluator() {
       @Override
-      public void evaluate(@NotNull String expression, @NotNull XEvaluationCallback callback, @Nullable XSourcePosition expressionPosition) {
+      public void evaluate(@Nonnull String expression, @Nonnull XEvaluationCallback callback, @Nullable XSourcePosition expressionPosition) {
         myProcessor.send(new DlvRequest.Eval(expression, myId, myGoroutineId))
                 .doWhenDone(variable -> callback.evaluated(createXValue(variable.Variable, AllIcons.Debugger.Watch)))
                 .doWhenRejectedWithThrowable(throwable -> callback.errorOccurred(throwable.getMessage()));
@@ -92,7 +92,7 @@ public class DlvStackFrame extends XStackFrame {
 
       @Nullable
       @Override
-      public TextRange getExpressionRangeAtOffset(@NotNull Project project, @NotNull Document document, int offset, boolean sideEffectsAllowed) {
+      public TextRange getExpressionRangeAtOffset(@Nonnull Project project, @Nonnull Document document, int offset, boolean sideEffectsAllowed) {
         Ref<TextRange> currentRange = Ref.create(null);
         PsiDocumentManager.getInstance(project).commitAndRunReadAction(() -> {
           try {
@@ -111,8 +111,8 @@ public class DlvStackFrame extends XStackFrame {
     };
   }
 
-  @NotNull
-  private XValue createXValue(@NotNull DlvApi.Variable variable, @Nullable Image icon) {
+  @Nonnull
+  private XValue createXValue(@Nonnull DlvApi.Variable variable, @Nullable Image icon) {
     return new DlvXValue(myProcess, variable, myProcessor, myId, myGoroutineId, TargetAWT.to(icon));
   }
 
@@ -140,19 +140,19 @@ public class DlvStackFrame extends XStackFrame {
   }
 
   @Override
-  public void customizePresentation(@NotNull ColoredTextContainer component) {
+  public void customizePresentation(@Nonnull ColoredTextContainer component) {
     super.customizePresentation(component);
     component.append(" at " + myLocation.function.name, SimpleTextAttributes.REGULAR_ATTRIBUTES);
     component.setIcon(AllIcons.Debugger.StackFrame);
   }
 
-  @NotNull
-  private <T> AsyncResult<T> send(@NotNull DlvRequest<T> request) {
+  @Nonnull
+  private <T> AsyncResult<T> send(@Nonnull DlvRequest<T> request) {
     return DlvDebugProcess.send(request, myProcessor);
   }
 
   @Override
-  public void computeChildren(@NotNull XCompositeNode node) {
+  public void computeChildren(@Nonnull XCompositeNode node) {
     send(new DlvRequest.ListLocalVars(myId, myGoroutineId)).doWhenDone(variablesOut -> {
       List<DlvApi.Variable> variables = variablesOut.Variables;
       XValueChildrenList xVars = new XValueChildrenList(variables.size());

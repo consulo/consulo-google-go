@@ -30,20 +30,20 @@ import com.intellij.psi.ElementManipulators;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 
 public class GoPlaceholderCountInspection extends GoInspectionBase {
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitCallExpr(@NotNull GoCallExpr o) {
+      public void visitCallExpr(@Nonnull GoCallExpr o) {
         PsiReference psiReference = o.getExpression().getReference();
         PsiElement resolved = psiReference != null ? psiReference.resolve() : null;
         if (!(resolved instanceof GoFunctionOrMethodDeclaration)) return;
@@ -61,9 +61,9 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     };
   }
 
-  private static void checkPrint(@NotNull ProblemsHolder holder,
-                                 @NotNull GoCallExpr callExpr,
-                                 @NotNull GoFunctionOrMethodDeclaration declaration) {
+  private static void checkPrint(@Nonnull ProblemsHolder holder,
+                                 @Nonnull GoCallExpr callExpr,
+                                 @Nonnull GoFunctionOrMethodDeclaration declaration) {
     List<GoExpression> arguments = callExpr.getArgumentList().getExpressionList();
     GoExpression firstArg = ContainerUtil.getFirstItem(arguments);
     if (firstArg == null) return;
@@ -103,9 +103,9 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     }
   }
 
-  private static void checkPrintf(@NotNull ProblemsHolder holder,
-                                  @NotNull GoCallExpr callExpr,
-                                  @NotNull GoFunctionOrMethodDeclaration declaration) {
+  private static void checkPrintf(@Nonnull ProblemsHolder holder,
+                                  @Nonnull GoCallExpr callExpr,
+                                  @Nonnull GoFunctionOrMethodDeclaration declaration) {
 
     int placeholderPosition = GoPlaceholderChecker.getPlaceholderPosition(declaration);
     List<GoExpression> arguments = callExpr.getArgumentList().getExpressionList();
@@ -153,7 +153,7 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     // TODO florin: check if all arguments are strings and add quickfix to replace with Println and string concat
   }
 
-  private static int computeMaxArgsNum(@NotNull List<Placeholder> placeholders, int firstArg) {
+  private static int computeMaxArgsNum(@Nonnull List<Placeholder> placeholders, int firstArg) {
     int maxArgsNum = 0;
     for (Placeholder placeholder : placeholders) {
       List<Integer> arguments = placeholder.getArguments();
@@ -168,9 +168,9 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     return maxArgsNum + firstArg;
   }
 
-  private static boolean hasErrors(@NotNull ProblemsHolder holder,
-                                   @NotNull GoExpression formatPlaceholder,
-                                   @NotNull List<Placeholder> placeholders) {
+  private static boolean hasErrors(@Nonnull ProblemsHolder holder,
+                                   @Nonnull GoExpression formatPlaceholder,
+                                   @Nonnull List<Placeholder> placeholders) {
 
     for (Placeholder placeholder : placeholders) {
       Placeholder.State state = placeholder.getState();
@@ -190,13 +190,13 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     return false;
   }
 
-  private static boolean checkPrintfArgument(@NotNull ProblemsHolder holder,
-                                             @NotNull GoExpression placeholder,
-                                             @NotNull GoCallExpr callExpr,
-                                             @NotNull List<GoExpression> arguments,
+  private static boolean checkPrintfArgument(@Nonnull ProblemsHolder holder,
+                                             @Nonnull GoExpression placeholder,
+                                             @Nonnull GoCallExpr callExpr,
+                                             @Nonnull List<GoExpression> arguments,
                                              int callArgsNum,
                                              int firstArg,
-                                             @NotNull Placeholder fmtPlaceholder) {
+                                             @Nonnull Placeholder fmtPlaceholder) {
 
     PrintVerb v = fmtPlaceholder.getVerb();
     if (v == null) {
@@ -253,10 +253,10 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     return true;
   }
 
-  private static boolean checkArgumentIndex(@NotNull ProblemsHolder holder,
-                                            @NotNull GoExpression placeholder,
-                                            @NotNull GoCallExpr callExpr,
-                                            @NotNull Placeholder fmtPlaceholder,
+  private static boolean checkArgumentIndex(@Nonnull ProblemsHolder holder,
+                                            @Nonnull GoExpression placeholder,
+                                            @Nonnull GoCallExpr callExpr,
+                                            @Nonnull Placeholder fmtPlaceholder,
                                             int callArgsNum) {
 
     int argNum = fmtPlaceholder.getPosition();
@@ -282,7 +282,7 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
   }
 
   @Nullable
-  private static String resolve(@NotNull GoExpression argument) {
+  private static String resolve(@Nonnull GoExpression argument) {
     String argumentValue = getValue(argument);
     if (argumentValue != null) {
       return argumentValue;

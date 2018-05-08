@@ -23,19 +23,19 @@ import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Set;
 
 public class GoReceiverNamesInspection extends GoInspectionBase {
   private static final Set<String> genericNamesSet = ContainerUtil.newHashSet("me", "this", "self");
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitReceiver(@NotNull GoReceiver o) {
+      public void visitReceiver(@Nonnull GoReceiver o) {
         if (genericNamesSet.contains(o.getName())) {
           PsiElement identifier = o.getIdentifier();
           if (identifier == null) return;

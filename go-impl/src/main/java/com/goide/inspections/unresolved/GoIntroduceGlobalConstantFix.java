@@ -16,11 +16,12 @@
 
 package com.goide.inspections.unresolved;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
 
 public class GoIntroduceGlobalConstantFix extends GoUnresolvedFixBase {
-  public GoIntroduceGlobalConstantFix(@NotNull PsiElement element, @NotNull String name) {
+  public GoIntroduceGlobalConstantFix(@Nonnull PsiElement element, @Nonnull String name) {
     super(element, name, "global constant", "go_lang_const_qf");
   }
 }

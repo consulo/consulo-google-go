@@ -18,7 +18,9 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.StubBasedPsiElement;
 import com.goide.stubs.GoTypeSpecStub;
@@ -26,18 +28,18 @@ import com.intellij.psi.ResolveState;
 
 public interface GoTypeSpec extends GoNamedElement, StubBasedPsiElement<GoTypeSpecStub> {
 
-  @NotNull
+  @Nonnull
   GoSpecType getSpecType();
 
   @Nullable
   GoType getGoTypeInner(ResolveState context);
 
-  @NotNull
+  @Nonnull
   List<GoMethodDeclaration> getMethods();
 
   boolean shouldGoDeeper();
 
-  @NotNull
+  @Nonnull
   PsiElement getIdentifier();
 
 }

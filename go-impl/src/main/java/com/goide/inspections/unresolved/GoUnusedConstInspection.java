@@ -16,6 +16,8 @@
 
 package com.goide.inspections.unresolved;
 
+import javax.annotation.Nonnull;
+
 import com.goide.inspections.GoInspectionBase;
 import com.goide.psi.GoConstDefinition;
 import com.goide.psi.GoVisitor;
@@ -24,15 +26,14 @@ import com.intellij.codeInspection.LocalInspectionToolSession;
 import com.intellij.codeInspection.ProblemHighlightType;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.search.searches.ReferencesSearch;
-import org.jetbrains.annotations.NotNull;
 
 public class GoUnusedConstInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitConstDefinition(@NotNull GoConstDefinition o) {
+      public void visitConstDefinition(@Nonnull GoConstDefinition o) {
         if (o.isBlank()) return;
         if (ReferencesSearch.search(o, o.getUseScope()).findFirst() == null) {
           String constName = o.getName();

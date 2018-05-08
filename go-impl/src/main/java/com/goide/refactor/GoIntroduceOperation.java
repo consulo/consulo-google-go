@@ -22,7 +22,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.LinkedHashSet;
@@ -39,77 +39,77 @@ public class GoIntroduceOperation {
   private GoVarDefinition myVar;
   private boolean myReplaceAll;
 
-  public GoIntroduceOperation(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+  public GoIntroduceOperation(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
     myProject = project;
     myEditor = editor;
     myFile = file;
   }
 
   @TestOnly
-  public GoIntroduceOperation(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file, boolean replaceAll) {
+  public GoIntroduceOperation(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file, boolean replaceAll) {
     myProject = project;
     myEditor = editor;
     myFile = file;
     myReplaceAll = replaceAll;
   }
 
-  @NotNull
+  @Nonnull
   public Project getProject() {
     return myProject;
   }
 
-  @NotNull
+  @Nonnull
   public Editor getEditor() {
     return myEditor;
   }
 
-  @NotNull
+  @Nonnull
   public PsiFile getFile() {
     return myFile;
   }
 
-  @NotNull
+  @Nonnull
   public GoExpression getExpression() {
     return myExpression;
   }
 
-  public void setExpression(@NotNull GoExpression expression) {
+  public void setExpression(@Nonnull GoExpression expression) {
     myExpression = expression;
   }
 
-  @NotNull
+  @Nonnull
   public List<PsiElement> getOccurrences() {
     return myOccurrences;
   }
 
-  public void setOccurrences(@NotNull List<PsiElement> occurrences) {
+  public void setOccurrences(@Nonnull List<PsiElement> occurrences) {
     myOccurrences = occurrences;
   }
 
-  @NotNull
+  @Nonnull
   public LinkedHashSet<String> getSuggestedNames() {
     return mySuggestedNames;
   }
 
-  public void setSuggestedNames(@NotNull LinkedHashSet<String> suggestedNames) {
+  public void setSuggestedNames(@Nonnull LinkedHashSet<String> suggestedNames) {
     mySuggestedNames = suggestedNames;
   }
 
-  @NotNull
+  @Nonnull
   public String getName() {
     return myName;
   }
 
-  public void setName(@NotNull String name) {
+  public void setName(@Nonnull String name) {
     myName = name;
   }
 
-  @NotNull
+  @Nonnull
   public GoVarDefinition getVar() {
     return myVar;
   }
 
-  public void setVar(@NotNull GoVarDefinition var) {
+  public void setVar(@Nonnull GoVarDefinition var) {
     myVar = var;
   }
 

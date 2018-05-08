@@ -17,15 +17,14 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+import javax.annotation.*;
+
 import com.intellij.psi.StubBasedPsiElement;
 import com.goide.stubs.GoSignatureStub;
 
 public interface GoSignature extends GoCompositeElement, StubBasedPsiElement<GoSignatureStub> {
 
-  @NotNull
+  @Nonnull
   GoParameters getParameters();
 
   @Nullable

@@ -26,7 +26,7 @@ import com.intellij.ui.components.JBLabel;
 import com.intellij.util.ThreeState;
 import com.intellij.util.containers.ContainerUtil;
 import consulo.google.go.module.extension.GoMutableModuleExtension;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -35,9 +35,9 @@ public class GoVendoringUI {
   private static final String ENABLED = "Enabled";
   private static final String DISABLED = "Disabled";
 
-  @NotNull
+  @Nonnull
   private final MutableCollectionComboBoxModel myVendoringEnabledComboModel = new MutableCollectionComboBoxModel<String>(new ArrayList<>());
-  @NotNull
+  @Nonnull
   private String myDefaultComboText = "";
 
   private JPanel myPanel;

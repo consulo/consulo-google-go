@@ -16,6 +16,8 @@
 
 package com.goide.editor.surround;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoBlock;
 import com.goide.psi.impl.GoElementFactory;
 import com.intellij.openapi.project.Project;
@@ -24,8 +26,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.codeStyle.CodeEditUtil;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoWithBlockSurrounder extends GoStatementsSurrounder {
   @Override
@@ -35,9 +37,9 @@ public class GoWithBlockSurrounder extends GoStatementsSurrounder {
 
   @Nullable
   @Override
-  protected TextRange surroundStatements(@NotNull Project project,
-                                         @NotNull PsiElement container,
-                                         @NotNull PsiElement[] statements) throws IncorrectOperationException {
+  protected TextRange surroundStatements(@Nonnull Project project,
+                                         @Nonnull PsiElement container,
+                                         @Nonnull PsiElement[] statements) throws IncorrectOperationException {
     GoBlock block = GoElementFactory.createBlock(project);
     PsiElement first = ArrayUtil.getFirstElement(statements);
     PsiElement last = ArrayUtil.getLastElement(statements);

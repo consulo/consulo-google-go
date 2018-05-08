@@ -16,14 +16,16 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoVarDefinition;
 import com.goide.psi.GoVarSpec;
 import com.intellij.codeInspection.LocalQuickFixBase;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoDeleteVarDefinitionQuickFix extends LocalQuickFixBase {
   public GoDeleteVarDefinitionQuickFix(@Nullable String variableName) {
@@ -31,7 +33,7 @@ public class GoDeleteVarDefinitionQuickFix extends LocalQuickFixBase {
   }
 
   @Override
-  public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     PsiElement element = descriptor.getPsiElement();
     if (element.isValid() && element instanceof GoVarDefinition) {
       PsiElement parent = element.getParent();

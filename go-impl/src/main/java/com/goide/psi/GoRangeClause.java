@@ -18,12 +18,14 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoRangeClause extends GoVarSpec {
 
-  @NotNull
+  @Nonnull
   List<GoVarDefinition> getVarDefinitionList();
 
   @Nullable
@@ -35,10 +37,10 @@ public interface GoRangeClause extends GoVarSpec {
   @Nullable
   GoExpression getRangeExpression();
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getLeftExpressionsList();
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getRightExpressionsList();
 
 }

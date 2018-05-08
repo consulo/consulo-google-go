@@ -51,8 +51,9 @@ import consulo.google.go.run.dlv.DlvSuspendContext;
 import consulo.google.go.run.dlv.api.DlvRequests;
 import consulo.google.go.run.dlv.api.SimpleInOutMessage;
 import org.intellij.lang.annotations.MagicConstant;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.jetbrains.debugger.DebugProcessImpl;
 import org.jetbrains.debugger.StepAction;
 import org.jetbrains.debugger.Vm;
@@ -73,10 +74,10 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   private final AtomicBoolean connectedListenerAdded = new AtomicBoolean();
   private static final Consumer<Throwable> THROWABLE_CONSUMER = LOG::warn;
 
-  @NotNull
+  @Nonnull
   private final Consumer<CommandOut> myStateConsumer = new Consumer<CommandOut>() {
     @Override
-    public void consume(@NotNull final CommandOut so) {
+    public void consume(@Nonnull final CommandOut so) {
       DebuggerState o = so.State;
       if (o.exited) {
         stop();
@@ -109,46 +110,46 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     }
   };
 
-  @NotNull
-  public <T> AsyncResult<T> send(@NotNull SimpleInOutMessage<?, T> request) {
+  @Nonnull
+  public <T> AsyncResult<T> send(@Nonnull SimpleInOutMessage<?, T> request) {
     return send(request, getProcessor());
   }
 
-  @NotNull
-  public static <T> AsyncResult<T> send(@NotNull SimpleInOutMessage<?, T> request, @NotNull DlvCommandProcessor processor) {
+  @Nonnull
+  public static <T> AsyncResult<T> send(@Nonnull SimpleInOutMessage<?, T> request, @Nonnull DlvCommandProcessor processor) {
     AsyncResult<T> send = processor.send(request);
     send.doWhenRejectedWithThrowable(THROWABLE_CONSUMER);
     return send;
   }
 
-  @NotNull
-  public <T> AsyncResult<T> send(@NotNull DlvRequest<T> request) {
+  @Nonnull
+  public <T> AsyncResult<T> send(@Nonnull DlvRequest<T> request) {
     return send(request, getProcessor());
   }
 
-  @NotNull
-  public static <T> AsyncResult<T> send(@NotNull DlvRequest<T> request, @NotNull DlvCommandProcessor processor) {
+  @Nonnull
+  public static <T> AsyncResult<T> send(@Nonnull DlvRequest<T> request, @Nonnull DlvCommandProcessor processor) {
     AsyncResult<T> send = processor.send(request);
     send.doWhenRejectedWithThrowable(THROWABLE_CONSUMER);
     return send;
   }
 
-  @NotNull
+  @Nonnull
   private DlvCommandProcessor getProcessor() {
     return assertNotNull(tryCast(getVm(), DlvVm.class)).getCommandProcessor();
   }
 
-  public DlvDebugProcess(@NotNull XDebugSession session, @NotNull VmConnection<?> connection, @Nullable ExecutionResult er) {
+  public DlvDebugProcess(@Nonnull XDebugSession session, @Nonnull VmConnection<?> connection, @Nullable ExecutionResult er) {
     super(session, connection, new MyEditorsProvider(), null, er);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected XBreakpointHandler<?>[] createBreakpointHandlers() {
     return new XBreakpointHandler[]{new MyBreakpointHandler()};
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public ExecutionConsole createConsole() {
     ExecutionResult executionResult = getExecutionResult();
@@ -201,13 +202,13 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     }
   }
 
-  private void command(@NotNull @MagicConstant(stringValues = {NEXT, CONTINUE, HALT, SWITCH_THREAD, STEP, STEPOUT}) String name) {
+  private void command(@Nonnull @MagicConstant(stringValues = {NEXT, CONTINUE, HALT, SWITCH_THREAD, STEP, STEPOUT}) String name) {
     send(new DlvRequest.Command(name)).doWhenDone(myStateConsumer).doWhenRejectedWithThrowable(LOG::warn);
   }
 
   @Nullable
   @Override
-  protected AsyncResult<?> continueVm(@NotNull Vm vm, @NotNull StepAction stepAction) {
+  protected AsyncResult<?> continueVm(@Nonnull Vm vm, @Nonnull StepAction stepAction) {
     switch (stepAction) {
       case CONTINUE:
         command(CONTINUE);
@@ -232,7 +233,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   }*/
 
   @Override
-  public void runToPosition(@NotNull XSourcePosition position, @Nullable XSuspendContext context) {
+  public void runToPosition(@Nonnull XSourcePosition position, @Nullable XSuspendContext context) {
     // todo
   }
 
@@ -245,14 +246,14 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   }
 
   private static class MyEditorsProvider extends XDebuggerEditorsProviderBase {
-    @NotNull
+    @Nonnull
     @Override
     public FileType getFileType() {
       return GoFileType.INSTANCE;
     }
 
     @Override
-    protected PsiFile createExpressionCodeFragment(@NotNull Project project, @NotNull String text, @Nullable PsiElement context, boolean isPhysical) {
+    protected PsiFile createExpressionCodeFragment(@Nonnull Project project, @Nonnull String text, @Nullable PsiElement context, boolean isPhysical) {
       return PsiFileFactory.getInstance(project).createFileFromText("dlv-debug.txt", PlainTextLanguage.INSTANCE, text);
     }
   }
@@ -266,7 +267,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     }
 
     @Override
-    public void registerBreakpoint(@NotNull XLineBreakpoint<DlvBreakpointProperties> breakpoint) {
+    public void registerBreakpoint(@Nonnull XLineBreakpoint<DlvBreakpointProperties> breakpoint) {
       XSourcePosition breakpointPosition = breakpoint.getSourcePosition();
       if (breakpointPosition == null) return;
       VirtualFile file = breakpointPosition.getFile();
@@ -283,7 +284,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     }
 
     @Override
-    public void unregisterBreakpoint(@NotNull XLineBreakpoint<DlvBreakpointProperties> breakpoint, boolean temporary) {
+    public void unregisterBreakpoint(@Nonnull XLineBreakpoint<DlvBreakpointProperties> breakpoint, boolean temporary) {
       XSourcePosition breakpointPosition = breakpoint.getSourcePosition();
       if (breakpointPosition == null) return;
       Integer vmBreakpointId = myBreakpoints.remove(breakpoint);

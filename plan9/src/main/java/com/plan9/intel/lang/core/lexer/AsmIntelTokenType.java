@@ -16,13 +16,14 @@
 
 package com.plan9.intel.lang.core.lexer;
 
+import javax.annotation.Nonnull;
+
 import com.plan9.intel.lang.AsmIntelLanguage;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 public class AsmIntelTokenType extends IElementType {
-  public AsmIntelTokenType(@NotNull @NonNls String debugName) {
+  public AsmIntelTokenType(@Nonnull @NonNls String debugName) {
     super(debugName, AsmIntelLanguage.INSTANCE);
   }
 }

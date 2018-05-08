@@ -19,10 +19,10 @@ package com.plan9.intel.lang.core.psi;
 import com.plan9.intel.lang.AsmIntelLanguage;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class AsmIntelElementType extends IElementType {
-  public AsmIntelElementType(@NotNull @NonNls String debugName) {
+  public AsmIntelElementType(@Nonnull @NonNls String debugName) {
     super(debugName, AsmIntelLanguage.INSTANCE);
   }
 }

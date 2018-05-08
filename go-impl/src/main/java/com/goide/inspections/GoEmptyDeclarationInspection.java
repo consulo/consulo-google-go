@@ -16,6 +16,8 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoDocumentationProvider;
 import com.goide.psi.*;
 import com.goide.quickfix.GoDeleteQuickFix;
@@ -26,36 +28,35 @@ import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
 
 
 public class GoEmptyDeclarationInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
 
   public final static String QUICK_FIX_NAME = "Delete empty declaration";
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitConstDeclaration(@NotNull GoConstDeclaration o) {
+      public void visitConstDeclaration(@Nonnull GoConstDeclaration o) {
         visitDeclaration(o);
       }
 
       @Override
-      public void visitVarDeclaration(@NotNull GoVarDeclaration o) {
+      public void visitVarDeclaration(@Nonnull GoVarDeclaration o) {
         if (o.getParent() instanceof GoFile) {
           visitDeclaration(o);
         }
       }
 
       @Override
-      public void visitTypeDeclaration(@NotNull GoTypeDeclaration o) {
+      public void visitTypeDeclaration(@Nonnull GoTypeDeclaration o) {
         visitDeclaration(o);
       }
 
       @Override
-      public void visitImportDeclaration(@NotNull GoImportDeclaration o) {
+      public void visitImportDeclaration(@Nonnull GoImportDeclaration o) {
         visitDeclaration(o);
       }
 

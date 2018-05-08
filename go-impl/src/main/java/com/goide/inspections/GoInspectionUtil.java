@@ -19,7 +19,7 @@ package com.goide.inspections;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class GoInspectionUtil {
     return UNKNOWN_COUNT;
   }
 
-  private static int getTypeAssertionResultCount(@NotNull GoTypeAssertionExpr expression) { // todo: ???
+  private static int getTypeAssertionResultCount(@Nonnull GoTypeAssertionExpr expression) { // todo: ???
     PsiElement parent = expression.getParent();
     if (parent instanceof GoAssignmentStatement) {
       // TODO: get expressions and identifiers of assign statement
@@ -76,12 +76,12 @@ public class GoInspectionUtil {
     return 1;
   }
 
-  public static int getFunctionResultCount(@NotNull GoCallExpr call) {
+  public static int getFunctionResultCount(@Nonnull GoCallExpr call) {
     GoSignatureOwner signatureOwner = GoPsiImplUtil.resolveCall(call);
     return signatureOwner == null ? UNKNOWN_COUNT : getFunctionResultCount(signatureOwner);
   }
   
-  public static int getFunctionResultCount(@NotNull GoSignatureOwner function) {
+  public static int getFunctionResultCount(@Nonnull GoSignatureOwner function) {
     int count = 0;
     GoSignature signature = function.getSignature();
     GoResult result = signature != null ? signature.getResult() : null;

@@ -28,7 +28,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.testFramework.exceptionCases.AssertionErrorCase;
 import com.intellij.usageView.UsageInfo;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.List;
@@ -39,7 +39,7 @@ import static com.intellij.util.containers.ContainerUtil.newArrayList;
 public class GoFindUsageTest extends GoCodeInsightFixtureTestCase {
   private static final String USAGE = "/*usage*/";
 
-  private void doTest(@NotNull String text) {
+  private void doTest(@Nonnull String text) {
     List<Integer> offsets = allOccurrences(StringUtil.replace(text, "<caret>", ""), USAGE);
     String replace = StringUtil.replace(text, USAGE, "");
     myFixture.configureByText("a.go", replace);
@@ -48,8 +48,8 @@ public class GoFindUsageTest extends GoCodeInsightFixtureTestCase {
     assertSameElements(actual, offsets);
   }
 
-  @NotNull
-  private static List<Integer> allOccurrences(@NotNull String text, @NotNull String what) {
+  @Nonnull
+  private static List<Integer> allOccurrences(@Nonnull String text, @Nonnull String what) {
     List<Integer> list = newArrayList();
     int index = text.indexOf(what);
     while (index >= 0) {
@@ -272,7 +272,7 @@ public class GoFindUsageTest extends GoCodeInsightFixtureTestCase {
     ((PsiManagerImpl)myFixture.getPsiManager()).setAssertOnFileLoadingFilter(VirtualFileFilter.ALL, getTestRootDisposable());
   }
 
-  private void doTestDoNotFind(@NotNull String text) {
+  private void doTestDoNotFind(@Nonnull String text) {
     myFixture.configureByText("a.go", text);
     PsiElement atCaret = myFixture.getElementAtCaret();
     try {

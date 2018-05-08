@@ -16,21 +16,22 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.Nls;
 import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoDeleteRangeQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
   private static final Logger LOG = Logger.getInstance(GoDeleteRangeQuickFix.class);
   private final String myName;
   
-  public GoDeleteRangeQuickFix(@NotNull PsiElement startElement, @NotNull PsiElement endElement, @NotNull String name) {
+  public GoDeleteRangeQuickFix(@Nonnull PsiElement startElement, @Nonnull PsiElement endElement, @Nonnull String name) {
     super(startElement, endElement);
     if (!startElement.getParent().equals(endElement.getParent())) {
       LOG.error("Cannot delete range of elements with different parents");
@@ -38,25 +39,25 @@ public class GoDeleteRangeQuickFix extends LocalQuickFixAndIntentionActionOnPsiE
     myName = name;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getText() {
     return myName;
   }
 
   @Nls
-  @NotNull
+  @Nonnull
   @Override
   public String getFamilyName() {
     return "Delete elements";
   }
 
   @Override
-  public void invoke(@NotNull Project project,
-                     @NotNull PsiFile file,
-                     @Nullable("is null when called from inspection") Editor editor,
-                     @NotNull PsiElement start,
-                     @NotNull PsiElement end) {
+  public void invoke(@Nonnull Project project,
+                     @Nonnull PsiFile file,
+                     @Nullable Editor editor,
+                     @Nonnull PsiElement start,
+                     @Nonnull PsiElement end) {
     if (start.isValid() && end.isValid()) {
       PsiElement parent = start.getParent();
       if (parent != null && parent.equals(end.getParent())) {

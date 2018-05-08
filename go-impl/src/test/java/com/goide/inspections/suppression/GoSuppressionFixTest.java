@@ -16,13 +16,14 @@
 
 package com.goide.inspections.suppression;
 
+import javax.annotation.Nonnull;
+
 import com.goide.inspections.GoMultiplePackagesInspection;
 import com.goide.inspections.GoUnusedImportInspection;
 import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
 import com.goide.inspections.unresolved.GoUnusedGlobalVariableInspection;
 import com.goide.inspections.unresolved.GoUnusedVariableInspection;
 import com.goide.quickfix.GoQuickFixTestBase;
-import org.jetbrains.annotations.NotNull;
 
 public class GoSuppressionFixTest extends GoQuickFixTestBase {
   @Override
@@ -153,14 +154,14 @@ public class GoSuppressionFixTest extends GoQuickFixTestBase {
     myFixture.testHighlighting(getTestName(true) + ".go");
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "inspections/suppression/fix";
   }
 
   @Override
-  protected void doTest(@NotNull String quickFixName) {
+  protected void doTest(@Nonnull String quickFixName) {
     super.doTest(quickFixName);
     myFixture.testHighlighting(String.format("%s-after-highlighting.go", getTestName(true)));
   }

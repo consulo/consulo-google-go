@@ -27,7 +27,7 @@ import com.intellij.openapi.util.Trinity;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
@@ -36,12 +36,12 @@ public class GoRedundantSecondIndexInSlicesInspection extends GoInspectionBase i
   private static final GoDeleteQuickFix DELETE_REDUNDANT_INDEX_QUICK_FIX =
     new GoDeleteQuickFix(DELETE_REDUNDANT_INDEX_QUICK_FIX_NAME, GoCallExpr.class);
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitIndexOrSliceExpr(@NotNull GoIndexOrSliceExpr o) {
+      public void visitIndexOrSliceExpr(@Nonnull GoIndexOrSliceExpr o) {
         GoExpression expression = o.getExpression();
         PsiReference reference = expression != null ? expression.getReference() : null;
         PsiElement resolvedArrayReference = reference != null ? reference.resolve() : null;
@@ -65,7 +65,7 @@ public class GoRedundantSecondIndexInSlicesInspection extends GoInspectionBase i
     };
   }
 
-  private static boolean isLenFunctionCall(@NotNull GoCallExpr callExpr) {
+  private static boolean isLenFunctionCall(@Nonnull GoCallExpr callExpr) {
     GoExpression functionReferenceExpression = callExpr.getExpression();
     if (!(functionReferenceExpression instanceof GoReferenceExpression) || !functionReferenceExpression.textMatches("len")) {
       return false;

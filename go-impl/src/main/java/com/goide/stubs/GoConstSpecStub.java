@@ -26,8 +26,8 @@ import com.intellij.psi.stubs.StubBase;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.io.StringRef;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class GoConstSpecStub extends StubBase<GoConstSpec> {
     return myExpressionsRef == null? null : myExpressionsRef.getString();
   }
 
-  @NotNull
+  @Nonnull
   public List<GoExpression> getExpressionList() {
     if (myList == null) {
       String text = getExpressionsText();

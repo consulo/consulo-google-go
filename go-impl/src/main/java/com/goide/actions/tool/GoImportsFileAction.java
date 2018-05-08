@@ -16,21 +16,22 @@
 
 package com.goide.actions.tool;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.util.GoExecutor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoImportsFileAction extends GoDownloadableFileAction {
   public GoImportsFileAction() {
     super("goimports", "golang.org/x/tools/cmd/goimports");
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoExecutor createExecutor(@NotNull Project project, @Nullable Module module, @NotNull String title, @NotNull String filePath) {
+  protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull String filePath) {
     VirtualFile executable = getExecutable(project, module);
     assert executable != null;
     return GoExecutor.in(project, module).withExePath(executable.getPath()).withParameters("-w", filePath).showOutputOnError();

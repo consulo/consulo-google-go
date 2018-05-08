@@ -16,6 +16,9 @@
 
 package com.goide.inspections.unresolved;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.inspections.GoInspectionBase;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoVarProcessor;
@@ -29,16 +32,14 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoUnusedVariableInspection extends GoInspectionBase {
-  @NotNull
+  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@NotNull ProblemsHolder holder, @NotNull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
     return new GoVisitor() {
       @Override
-      public void visitVarDefinition(@NotNull GoVarDefinition o) {
+      public void visitVarDefinition(@Nonnull GoVarDefinition o) {
         if (o.isBlank()) return;
         GoCompositeElement varSpec = PsiTreeUtil.getParentOfType(o, GoVarSpec.class, GoTypeSwitchGuard.class);
         GoVarDeclaration decl = PsiTreeUtil.getParentOfType(o, GoVarDeclaration.class);
@@ -78,7 +79,7 @@ public class GoUnusedVariableInspection extends GoInspectionBase {
     };
   }
 
-  protected void reportError(@NotNull GoVarDefinition varDefinition, @NotNull ProblemsHolder holder) {
+  protected void reportError(@Nonnull GoVarDefinition varDefinition, @Nonnull ProblemsHolder holder) {
     holder.registerProblem(varDefinition, "Unused variable <code>#ref</code> #loc", ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                            new GoRenameToBlankQuickFix(varDefinition), new GoDeleteVarDefinitionQuickFix(varDefinition.getName()));
   }

@@ -16,6 +16,8 @@
 
 package com.goide.inspections;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoFileType;
 import com.goide.GoLanguage;
 import com.goide.sdk.GoSdkService;
@@ -39,7 +41,6 @@ import com.intellij.psi.PsiManager;
 import com.intellij.ui.EditorNotificationPanel;
 import com.intellij.ui.EditorNotifications;
 import com.intellij.util.messages.MessageBusConnection;
-import org.jetbrains.annotations.NotNull;
 
 public class WrongSdkConfigurationNotificationProvider extends EditorNotifications.Provider<EditorNotificationPanel> implements DumbAware {
   private static final Key<EditorNotificationPanel> KEY = Key.create("Setup Go SDK");
@@ -47,7 +48,7 @@ public class WrongSdkConfigurationNotificationProvider extends EditorNotificatio
 
   private final Project myProject;
 
-  public WrongSdkConfigurationNotificationProvider(@NotNull Project project, @NotNull EditorNotifications notifications) {
+  public WrongSdkConfigurationNotificationProvider(@Nonnull Project project, @Nonnull EditorNotifications notifications) {
     myProject = project;
     MessageBusConnection connection = myProject.getMessageBus().connect(project);
     connection.subscribe(ProjectTopics.PROJECT_ROOTS, new ModuleRootAdapter() {
@@ -58,14 +59,14 @@ public class WrongSdkConfigurationNotificationProvider extends EditorNotificatio
     });
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Key<EditorNotificationPanel> getKey() {
     return KEY;
   }
 
   @Override
-  public EditorNotificationPanel createNotificationPanel(@NotNull VirtualFile file, @NotNull FileEditor fileEditor) {
+  public EditorNotificationPanel createNotificationPanel(@Nonnull VirtualFile file, @Nonnull FileEditor fileEditor) {
     if (file.getFileType() != GoFileType.INSTANCE) return null;
 
     PsiFile psiFile = PsiManager.getInstance(myProject).findFile(file);
@@ -91,16 +92,16 @@ public class WrongSdkConfigurationNotificationProvider extends EditorNotificatio
     return null;
   }
 
-  @NotNull
-  private static EditorNotificationPanel createMissingSdkPanel(@NotNull Project project, @NotNull Module module) {
+  @Nonnull
+  private static EditorNotificationPanel createMissingSdkPanel(@Nonnull Project project, @Nonnull Module module) {
     EditorNotificationPanel panel = new EditorNotificationPanel();
     panel.setText(ProjectBundle.message("module.sdk.not.defined"));
     panel.createActionLabel(ProjectBundle.message("module.sdk.setup"), () -> ProjectSettingsService.getInstance(project).openModuleSettings(module));
     return panel;
   }
 
-  @NotNull
-  private static EditorNotificationPanel createEmptyGoPathPanel(@NotNull Project project, Module module) {
+  @Nonnull
+  private static EditorNotificationPanel createEmptyGoPathPanel(@Nonnull Project project, Module module) {
     EditorNotificationPanel panel = new EditorNotificationPanel();
     panel.setText("GOPATH is empty");
     panel.createActionLabel("Configure Go Libraries", () -> ProjectSettingsService.getInstance(project).openModuleSettings(module));

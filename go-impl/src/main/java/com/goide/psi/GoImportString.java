@@ -17,28 +17,27 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElement;
+import javax.annotation.*;
+
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiReference;
 
 public interface GoImportString extends GoCompositeElement {
 
-  @NotNull
+  @Nonnull
   GoStringLiteral getStringLiteral();
 
-  @NotNull
+  @Nonnull
   PsiReference[] getReferences();
 
   @Nullable
   PsiDirectory resolve();
 
-  @NotNull
+  @Nonnull
   String getPath();
 
-  @NotNull
+  @Nonnull
   TextRange getPathTextRange();
 
 }

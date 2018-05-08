@@ -24,7 +24,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import consulo.google.go.module.extension.GoModuleExtension;
 import consulo.module.extension.ModuleExtensionHelper;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public abstract class GoConfigurationFactoryBase extends ConfigurationFactory {
   protected GoConfigurationFactoryBase(ConfigurationType type) {
@@ -40,7 +40,7 @@ public abstract class GoConfigurationFactoryBase extends ConfigurationFactory {
   }
 
   @Override
-  public boolean isApplicable(@NotNull Project project) {
+  public boolean isApplicable(@Nonnull Project project) {
     return ModuleExtensionHelper.getInstance(project).hasModuleExtension(GoModuleExtension.class);
   }
 }

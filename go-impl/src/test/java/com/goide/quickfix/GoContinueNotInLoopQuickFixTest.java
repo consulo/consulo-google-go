@@ -16,10 +16,10 @@
 
 package com.goide.quickfix;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoContinueNotInLoopQuickFixTest extends GoQuickFixTestBase {
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/continue-outside-loop";

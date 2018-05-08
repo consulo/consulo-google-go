@@ -38,8 +38,8 @@ import com.intellij.refactoring.introduce.inplace.OccurrencesChooser;
 import com.intellij.refactoring.util.CommonRefactoringUtil;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -92,7 +92,7 @@ public class GoIntroduceVariableBase {
   }
 
   @Nullable
-  public static GoExpression findExpressionInSelection(@NotNull PsiFile file, int start, int end) {
+  public static GoExpression findExpressionInSelection(@Nonnull PsiFile file, int start, int end) {
     return PsiTreeUtil.findElementOfClassAtRange(file, start, end, GoExpression.class);
   }
 
@@ -107,8 +107,8 @@ public class GoIntroduceVariableBase {
     return expr;
   }
 
-  @NotNull
-  private static List<GoExpression> collectExtractableExpressions(@NotNull GoExpression expression) {
+  @Nonnull
+  private static List<GoExpression> collectExtractableExpressions(@Nonnull GoExpression expression) {
     if (PsiTreeUtil.getParentOfType(expression, GoStatement.class) == null) {
       return Collections.emptyList();
     }
@@ -119,7 +119,7 @@ public class GoIntroduceVariableBase {
       .toList();
   }
 
-  private static void performOnElement(@NotNull GoIntroduceOperation operation) {
+  private static void performOnElement(@Nonnull GoIntroduceOperation operation) {
     GoExpression expression = operation.getExpression();
     LinkedHashSet<String> suggestedNames = GoRefactoringUtil.getSuggestedNames(expression);
     operation.setSuggestedNames(suggestedNames);

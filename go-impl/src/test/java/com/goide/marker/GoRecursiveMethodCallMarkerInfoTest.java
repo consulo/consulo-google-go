@@ -16,14 +16,14 @@
 
 package com.goide.marker;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.goide.GoCodeInsightFixtureTestCase;
 
 public class GoRecursiveMethodCallMarkerInfoTest extends GoCodeInsightFixtureTestCase {
   public void testRecursive() { doTest(); }
   public void testGo()        { doTest(); }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "marker";

@@ -21,15 +21,15 @@ import com.intellij.rt.coverage.data.CoverageData;
 import com.intellij.rt.coverage.data.ProjectData;
 import com.intellij.util.Processor;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Map;
 
 public class GoCoverageProjectData extends ProjectData {
-  @NotNull
+  @Nonnull
   private final Map<String, FileData> myFilesData = ContainerUtil.newHashMap();
 
-  public void processFiles(@NotNull Processor<FileData> processor) {
+  public void processFiles(@Nonnull Processor<FileData> processor) {
     for (FileData fileData : myFilesData.values()) {
       if (!processor.process(fileData)) {
         return;
@@ -37,7 +37,7 @@ public class GoCoverageProjectData extends ProjectData {
     }
   }
 
-  public void processFile(@NotNull String filePath, @NotNull Processor<RangeData> processor) {
+  public void processFile(@Nonnull String filePath, @Nonnull Processor<RangeData> processor) {
     FileData fileData = myFilesData.get(filePath);
     if (fileData != null) {
       for (RangeData rangeData : fileData.myRangesData.values()) {
@@ -102,12 +102,12 @@ public class GoCoverageProjectData extends ProjectData {
   }
 
   public static class FileData {
-    @NotNull
+    @Nonnull
     public final String myFilePath;
-    @NotNull
+    @Nonnull
     public final Map<String, RangeData> myRangesData = ContainerUtil.newHashMap();
 
-    public FileData(@NotNull String filePath) {
+    public FileData(@Nonnull String filePath) {
       myFilePath = filePath;
     }
 

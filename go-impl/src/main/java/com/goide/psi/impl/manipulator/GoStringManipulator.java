@@ -16,23 +16,24 @@
 
 package com.goide.psi.impl.manipulator;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.impl.GoStringLiteralImpl;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.AbstractElementManipulator;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
 
 public class GoStringManipulator extends AbstractElementManipulator<GoStringLiteralImpl> {
   @Override
-  public GoStringLiteralImpl handleContentChange(@NotNull GoStringLiteralImpl literal, @NotNull TextRange range, String newContent)
+  public GoStringLiteralImpl handleContentChange(@Nonnull GoStringLiteralImpl literal, @Nonnull TextRange range, String newContent)
     throws IncorrectOperationException {
     String newText = range.replace(literal.getText(), newContent);
     return literal.updateText(newText);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public TextRange getRangeInElement(@NotNull GoStringLiteralImpl element) {
+  public TextRange getRangeInElement(@Nonnull GoStringLiteralImpl element) {
     if (element.getTextLength() == 0) {
       return TextRange.EMPTY_RANGE;
     }

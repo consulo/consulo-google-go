@@ -18,12 +18,14 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoMapType extends GoType {
 
-  @NotNull
+  @Nonnull
   List<GoType> getTypeList();
 
   @Nullable
@@ -32,7 +34,7 @@ public interface GoMapType extends GoType {
   @Nullable
   PsiElement getRbrack();
 
-  @NotNull
+  @Nonnull
   PsiElement getMap();
 
   @Nullable

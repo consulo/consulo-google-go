@@ -19,10 +19,10 @@ package com.goide.refactor;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.refactoring.RefactoringBundle;
 import com.intellij.refactoring.util.CommonRefactoringUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoIntroduceVariableTest extends GoCodeInsightFixtureTestCase {
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "refactor/introduce-variable";

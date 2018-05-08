@@ -20,8 +20,8 @@ import com.goide.util.GoExecutor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoVetFileAction extends GoExternalToolsAction {
   @Override
@@ -30,8 +30,8 @@ public class GoVetFileAction extends GoExternalToolsAction {
   }
 
   @Override
-  @NotNull
-  protected GoExecutor createExecutor(@NotNull Project project, @Nullable Module module, @NotNull String title, @NotNull String filePath) {
+  @Nonnull
+  protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull String filePath) {
     return GoExecutor.in(project, module).withPresentableName(title).withParameters("tool", "vet", filePath)
       .showNotifications(false, true).showOutputOnError();
   }

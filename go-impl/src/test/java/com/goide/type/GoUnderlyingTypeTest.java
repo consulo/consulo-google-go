@@ -20,10 +20,10 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.psi.GoType;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoUnderlyingTypeTest extends GoCodeInsightFixtureTestCase {
-  private void doTest(@NotNull String text, String expected) {
+  private void doTest(@Nonnull String text, String expected) {
     myFixture.configureByText("a.go", "package a\n" + text);
     PsiElement element = myFixture.getFile().findElementAt(myFixture.getEditor().getCaretModel().getOffset());
     GoType type = PsiTreeUtil.getParentOfType(element, GoType.class);

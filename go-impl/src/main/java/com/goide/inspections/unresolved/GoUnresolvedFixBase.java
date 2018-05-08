@@ -16,6 +16,9 @@
 
 package com.goide.inspections.unresolved;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.psi.GoReferenceExpressionBase;
 import com.goide.refactor.GoRefactoringUtil;
 import com.intellij.codeInsight.template.Template;
@@ -29,39 +32,40 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class GoUnresolvedFixBase extends LocalQuickFixAndIntentionActionOnPsiElement {
-  @NotNull private final String myName;
-  @NotNull private final String myWhat;
-  @NotNull private final String myTemplateId;
+  @Nonnull
+  private final String myName;
+  @Nonnull
+  private final String myWhat;
+  @Nonnull
+  private final String myTemplateId;
 
-  public GoUnresolvedFixBase(@NotNull PsiElement element, @NotNull String name, @NotNull String what, @NotNull String templateId) {
+  public GoUnresolvedFixBase(@Nonnull PsiElement element, @Nonnull String name, @Nonnull String what, @Nonnull String templateId) {
     super(element);
     myName = name;
     myWhat = what;
     myTemplateId = templateId;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getText() {
     return "Create " + myWhat + " '" + myName + "'";
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getFamilyName() {
     return "Create " + myWhat;
   }
 
   @Override
-  public void invoke(@NotNull Project project,
-                     @NotNull PsiFile file,
-                     @Nullable("is null when called from inspection") Editor editor,
-                     @NotNull PsiElement startElement,
-                     @NotNull PsiElement endElement) {
+  public void invoke(@Nonnull Project project,
+                     @Nonnull PsiFile file,
+                     @Nullable Editor editor,
+                     @Nonnull PsiElement startElement,
+                     @Nonnull PsiElement endElement) {
     if (editor == null) {
       LOG.error("Cannot run quick fix without editor: " + getClass().getSimpleName(),
                 AttachmentFactory.createAttachment(file.getVirtualFile()));
@@ -87,7 +91,7 @@ public abstract class GoUnresolvedFixBase extends LocalQuickFixAndIntentionActio
   }
 
   @Nullable
-  protected PsiElement findAnchor(@NotNull PsiElement reference) {
+  protected PsiElement findAnchor(@Nonnull PsiElement reference) {
     PsiFile file = reference.getContainingFile();
     return GoRefactoringUtil.findAnchor(GoRefactoringUtil.getOccurrences(reference, file), file);
   }

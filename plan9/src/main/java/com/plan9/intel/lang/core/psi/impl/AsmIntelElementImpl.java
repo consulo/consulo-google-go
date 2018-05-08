@@ -18,10 +18,10 @@ package com.plan9.intel.lang.core.psi.impl;
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class AsmIntelElementImpl extends ASTWrapperPsiElement {
-  public AsmIntelElementImpl(@NotNull ASTNode node) {
+  public AsmIntelElementImpl(@Nonnull ASTNode node) {
     super(node);
   }
 

@@ -26,8 +26,8 @@ import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiWhiteSpace;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,7 +43,7 @@ public class GoMethodSeparatorProvider implements LineMarkerProvider {
 
   @Nullable
   @Override
-  public LineMarkerInfo getLineMarkerInfo(@NotNull PsiElement o) {
+  public LineMarkerInfo getLineMarkerInfo(@Nonnull PsiElement o) {
     if (myDaemonSettings.SHOW_METHOD_SEPARATORS && o instanceof GoTopLevelDeclaration && o.getParent() instanceof GoFile) {
       return LineMarkersPass.createMethodSeparatorLineMarker(findAnchorElement((GoTopLevelDeclaration)o), myColorsManager);
     }
@@ -51,11 +51,11 @@ public class GoMethodSeparatorProvider implements LineMarkerProvider {
   }
 
   @Override
-  public void collectSlowLineMarkers(@NotNull List<PsiElement> elements, @NotNull Collection<LineMarkerInfo> result) {
+  public void collectSlowLineMarkers(@Nonnull List<PsiElement> elements, @Nonnull Collection<LineMarkerInfo> result) {
   }
 
-  @NotNull
-  private static PsiElement findAnchorElement(@NotNull GoTopLevelDeclaration o) {
+  @Nonnull
+  private static PsiElement findAnchorElement(@Nonnull GoTopLevelDeclaration o) {
     PsiElement result = o;
     PsiElement p = o;
     while ((p = p.getPrevSibling()) != null) {

@@ -29,8 +29,8 @@ import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.containers.MultiMap;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,9 +43,9 @@ public class GoImportOptimizer implements ImportOptimizer {
     return file instanceof GoFile;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Runnable processFile(@NotNull PsiFile file) {
+  public Runnable processFile(@Nonnull PsiFile file) {
     if (!(file instanceof GoFile)) {
       return EmptyRunnable.getInstance();
     }
@@ -101,8 +101,8 @@ public class GoImportOptimizer implements ImportOptimizer {
     };
   }
 
-  @NotNull
-  public static Set<PsiElement> findRedundantImportIdentifiers(@NotNull MultiMap<String, GoImportSpec> importMap) {
+  @Nonnull
+  public static Set<PsiElement> findRedundantImportIdentifiers(@Nonnull MultiMap<String, GoImportSpec> importMap) {
     Set<PsiElement> importIdentifiersToDelete = ContainerUtil.newLinkedHashSet();
     for (PsiElement importEntry : importMap.values()) {
       GoImportSpec importSpec = getImportSpec(importEntry);
@@ -118,8 +118,8 @@ public class GoImportOptimizer implements ImportOptimizer {
     return importIdentifiersToDelete;
   }
 
-  public static MultiMap<String, GoImportSpec> filterUnusedImports(@NotNull PsiFile file, 
-                                                                   @NotNull MultiMap<String, GoImportSpec> importMap) {
+  public static MultiMap<String, GoImportSpec> filterUnusedImports(@Nonnull PsiFile file,
+                                                                   @Nonnull MultiMap<String, GoImportSpec> importMap) {
     MultiMap<String, GoImportSpec> result = MultiMap.create();
     result.putAllValues(importMap);
     result.remove("_"); // imports for side effects are always used
@@ -134,7 +134,7 @@ public class GoImportOptimizer implements ImportOptimizer {
     
     file.accept(new GoRecursiveVisitor() {
       @Override
-      public void visitTypeReferenceExpression(@NotNull GoTypeReferenceExpression o) {
+      public void visitTypeReferenceExpression(@Nonnull GoTypeReferenceExpression o) {
         GoTypeReferenceExpression lastQualifier = o.getQualifier();
         if (lastQualifier != null) {
           GoTypeReferenceExpression previousQualifier;
@@ -146,7 +146,7 @@ public class GoImportOptimizer implements ImportOptimizer {
       }
 
       @Override
-      public void visitReferenceExpression(@NotNull GoReferenceExpression o) {
+      public void visitReferenceExpression(@Nonnull GoReferenceExpression o) {
         GoReferenceExpression lastQualifier = o.getQualifier();
         if (lastQualifier != null) {
           GoReferenceExpression previousQualifier;
@@ -157,7 +157,7 @@ public class GoImportOptimizer implements ImportOptimizer {
         }
       }
 
-      private void markAsUsed(@NotNull PsiElement qualifier, @NotNull PsiReference reference) {
+      private void markAsUsed(@Nonnull PsiElement qualifier, @Nonnull PsiReference reference) {
         String qualifierText = qualifier.getText();
         if (!result.containsKey(qualifierText)) {
           // already marked
@@ -185,7 +185,7 @@ public class GoImportOptimizer implements ImportOptimizer {
     return result;
   }
 
-  private static boolean hasImportUsers(@NotNull GoImportSpec spec) {
+  private static boolean hasImportUsers(@Nonnull GoImportSpec spec) {
     //noinspection SynchronizationOnLocalVariableOrMethodParameter
     synchronized (spec) {
       List<PsiElement> list = spec.getUserData(GoReferenceBase.IMPORT_USERS);
@@ -201,8 +201,8 @@ public class GoImportOptimizer implements ImportOptimizer {
     return false;
   }
 
-  @NotNull
-  public static Set<GoImportSpec> findDuplicatedEntries(@NotNull MultiMap<String, GoImportSpec> importMap) {
+  @Nonnull
+  public static Set<GoImportSpec> findDuplicatedEntries(@Nonnull MultiMap<String, GoImportSpec> importMap) {
     Set<GoImportSpec> duplicatedEntries = ContainerUtil.newLinkedHashSet();
     for (Map.Entry<String, Collection<GoImportSpec>> imports : importMap.entrySet()) {
       Collection<GoImportSpec> importsWithSameName = imports.getValue();
@@ -243,8 +243,8 @@ public class GoImportOptimizer implements ImportOptimizer {
     }
   }
 
-  @NotNull
-  private static MultiMap<String, GoImportSpec> collectImportsWithSameString(@NotNull Collection<GoImportSpec> importsWithSameName) {
+  @Nonnull
+  private static MultiMap<String, GoImportSpec> collectImportsWithSameString(@Nonnull Collection<GoImportSpec> importsWithSameName) {
     MultiMap<String, GoImportSpec> importsWithSameString = MultiMap.create();
     for (PsiElement duplicateCandidate : importsWithSameName) {
       GoImportSpec importSpec = getImportSpec(duplicateCandidate);
@@ -256,7 +256,7 @@ public class GoImportOptimizer implements ImportOptimizer {
   }
 
   @Nullable
-  public static GoImportSpec getImportSpec(@NotNull PsiElement importEntry) {
+  public static GoImportSpec getImportSpec(@Nonnull PsiElement importEntry) {
     return PsiTreeUtil.getNonStrictParentOfType(importEntry, GoImportSpec.class);
   }
 }

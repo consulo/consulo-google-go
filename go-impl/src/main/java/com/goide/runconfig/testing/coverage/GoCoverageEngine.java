@@ -35,8 +35,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.io.File;
 import java.util.Collections;
@@ -66,16 +66,16 @@ public class GoCoverageEngine extends CoverageEngine {
     return false;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public CoverageEnabledConfiguration createCoverageEnabledConfiguration(@Nullable RunConfigurationBase conf) {
     return new GoCoverageEnabledConfiguration((GoTestRunConfiguration)conf);
   }
 
   @Override
-  public CoverageSuite createCoverageSuite(@NotNull CoverageRunner runner,
-                                           @NotNull String name,
-                                           @NotNull CoverageFileProvider coverageDataFileProvider,
+  public CoverageSuite createCoverageSuite(@Nonnull CoverageRunner runner,
+                                           @Nonnull String name,
+                                           @Nonnull CoverageFileProvider coverageDataFileProvider,
                                            @Nullable String[] filters,
                                            long lastCoverageTimeStamp,
                                            @Nullable String suiteToMerge,
@@ -87,10 +87,10 @@ public class GoCoverageEngine extends CoverageEngine {
   }
 
   @Override
-  public CoverageSuite createCoverageSuite(@NotNull CoverageRunner runner,
-                                           @NotNull String name,
-                                           @NotNull CoverageFileProvider coverageDataFileProvider,
-                                           @NotNull CoverageEnabledConfiguration config) {
+  public CoverageSuite createCoverageSuite(@Nonnull CoverageRunner runner,
+                                           @Nonnull String name,
+                                           @Nonnull CoverageFileProvider coverageDataFileProvider,
+                                           @Nonnull CoverageEnabledConfiguration config) {
     if (config instanceof GoCoverageEnabledConfiguration) {
       return new GoCoverageSuite(name, coverageDataFileProvider, new Date().getTime(), runner, config.getConfiguration().getProject());
     }
@@ -98,68 +98,68 @@ public class GoCoverageEngine extends CoverageEngine {
   }
 
   @Override
-  public CoverageSuite createEmptyCoverageSuite(@NotNull CoverageRunner coverageRunner) {
+  public CoverageSuite createEmptyCoverageSuite(@Nonnull CoverageRunner coverageRunner) {
     return new GoCoverageSuite();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public CoverageAnnotator getCoverageAnnotator(Project project) {
     return GoCoverageAnnotator.getInstance(project);
   }
 
   @Override
-  public boolean coverageEditorHighlightingApplicableTo(@NotNull PsiFile psiFile) {
+  public boolean coverageEditorHighlightingApplicableTo(@Nonnull PsiFile psiFile) {
     return isProductionGoFile(psiFile);
   }
 
   @Override
-  public boolean acceptedByFilters(@NotNull PsiFile psiFile, @NotNull CoverageSuitesBundle suite) {
+  public boolean acceptedByFilters(@Nonnull PsiFile psiFile, @Nonnull CoverageSuitesBundle suite) {
     return isProductionGoFile(psiFile);
   }
 
-  private static boolean isProductionGoFile(@NotNull PsiFile psiFile) {
+  private static boolean isProductionGoFile(@Nonnull PsiFile psiFile) {
     return psiFile.getFileType() == GoFileType.INSTANCE && !GoTestFinder.isTestFile(psiFile);
   }
 
   @Override
-  public boolean recompileProjectAndRerunAction(@NotNull Module module,
-                                                @NotNull CoverageSuitesBundle suite,
-                                                @NotNull Runnable chooseSuiteAction) {
+  public boolean recompileProjectAndRerunAction(@Nonnull Module module,
+                                                @Nonnull CoverageSuitesBundle suite,
+                                                @Nonnull Runnable chooseSuiteAction) {
     return false;
   }
 
   @Override
-  public String getQualifiedName(@NotNull File outputFile, @NotNull PsiFile sourceFile) {
+  public String getQualifiedName(@Nonnull File outputFile, @Nonnull PsiFile sourceFile) {
     return sourceFile.getVirtualFile().getPath();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Set<String> getQualifiedNames(@NotNull PsiFile sourceFile) {
+  public Set<String> getQualifiedNames(@Nonnull PsiFile sourceFile) {
     return Collections.singleton(sourceFile.getVirtualFile().getPath());
   }
 
   @Override
-  public boolean includeUntouchedFileInCoverage(@NotNull String qualifiedName,
-                                                @NotNull File outputFile,
-                                                @NotNull PsiFile sourceFile,
-                                                @NotNull CoverageSuitesBundle suite) {
+  public boolean includeUntouchedFileInCoverage(@Nonnull String qualifiedName,
+                                                @Nonnull File outputFile,
+                                                @Nonnull PsiFile sourceFile,
+                                                @Nonnull CoverageSuitesBundle suite) {
     return false;
   }
 
   @Override
-  public List<Integer> collectSrcLinesForUntouchedFile(@NotNull File classFile, @NotNull CoverageSuitesBundle suite) {
+  public List<Integer> collectSrcLinesForUntouchedFile(@Nonnull File classFile, @Nonnull CoverageSuitesBundle suite) {
     return null;
   }
 
   @Override
-  public List<PsiElement> findTestsByNames(@NotNull String[] testNames, @NotNull Project project) {
+  public List<PsiElement> findTestsByNames(@Nonnull String[] testNames, @Nonnull Project project) {
     return Collections.emptyList();
   }
 
   @Override
-  public String getTestMethodName(@NotNull PsiElement element, @NotNull AbstractTestProxy testProxy) {
+  public String getTestMethodName(@Nonnull PsiElement element, @Nonnull AbstractTestProxy testProxy) {
     return null;
   }
 

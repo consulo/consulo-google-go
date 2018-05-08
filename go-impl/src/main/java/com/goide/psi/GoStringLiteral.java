@@ -17,8 +17,8 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
+import javax.annotation.*;
+
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiLanguageInjectionHost;
 import com.goide.psi.impl.GoStringLiteralImpl;
@@ -34,13 +34,13 @@ public interface GoStringLiteral extends GoExpression, PsiLanguageInjectionHost 
 
   boolean isValidHost();
 
-  @NotNull
+  @Nonnull
   GoStringLiteralImpl updateText(String text);
 
-  @NotNull
+  @Nonnull
   GoStringLiteralEscaper createLiteralTextEscaper();
 
-  @NotNull
+  @Nonnull
   String getDecodedText();
 
 }

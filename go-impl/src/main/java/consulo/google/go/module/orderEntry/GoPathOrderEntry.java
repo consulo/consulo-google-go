@@ -27,8 +27,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.containers.ContainerUtil;
 import consulo.roots.OrderEntryWithTracking;
 import consulo.roots.impl.ModuleRootLayerImpl;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 
@@ -38,23 +38,23 @@ import java.util.Collection;
  */
 public class GoPathOrderEntry extends OrderEntryBaseImpl implements OrderEntryWithTracking, ClonableOrderEntry {
 
-  public GoPathOrderEntry(@NotNull ModuleRootLayerImpl rootLayer) {
+  public GoPathOrderEntry(@Nonnull ModuleRootLayerImpl rootLayer) {
     super(GoPathOrderEntryType.getInstance(), rootLayer);
   }
 
-  @NotNull
+  @Nonnull
   public String[] getUrls(OrderRootType orderRootType) {
     Collection<VirtualFile> goEnvironmentGoPathRoots = GoEnvironmentGoPathModificationTracker.getGoEnvironmentGoPathRoots();
     return goEnvironmentGoPathRoots.stream().map(VirtualFile::getUrl).toArray(String[]::new);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public VirtualFile[] getFiles(OrderRootType orderRootType) {
     return ContainerUtil.toArray(GoEnvironmentGoPathModificationTracker.getGoEnvironmentGoPathRoots(), VirtualFile.EMPTY_ARRAY);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getPresentableName() {
     return "GOPATH";
@@ -65,7 +65,7 @@ public class GoPathOrderEntry extends OrderEntryBaseImpl implements OrderEntryWi
     return true;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Module getOwnerModule() {
     return getRootModel().getModule();
@@ -77,7 +77,7 @@ public class GoPathOrderEntry extends OrderEntryBaseImpl implements OrderEntryWi
   }
 
   @Override
-  public boolean isEquivalentTo(@NotNull OrderEntry orderEntry) {
+  public boolean isEquivalentTo(@Nonnull OrderEntry orderEntry) {
     return orderEntry instanceof GoPathOrderEntry;
   }
 

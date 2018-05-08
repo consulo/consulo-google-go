@@ -17,13 +17,14 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi.impl;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.goide.psi.GoPsiTreeUtil;
 import static com.goide.GoTypes.*;
+
+import javax.annotation.*;
+
 import com.goide.stubs.GoMethodDeclarationStub;
 import com.goide.psi.*;
 import com.intellij.psi.stubs.IStubElementType;
@@ -38,11 +39,11 @@ public class GoMethodDeclarationImpl extends GoFunctionOrMethodDeclarationImpl<G
     super(node);
   }
 
-  public void accept(@NotNull GoVisitor visitor) {
+  public void accept(@Nonnull GoVisitor visitor) {
     visitor.visitMethodDeclaration(this);
   }
 
-  public void accept(@NotNull PsiElementVisitor visitor) {
+  public void accept(@Nonnull PsiElementVisitor visitor) {
     if (visitor instanceof GoVisitor) accept((GoVisitor)visitor);
     else super.accept(visitor);
   }
@@ -66,7 +67,7 @@ public class GoMethodDeclarationImpl extends GoFunctionOrMethodDeclarationImpl<G
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public PsiElement getFunc() {
     return notNullChild(findChildByType(FUNC));
   }

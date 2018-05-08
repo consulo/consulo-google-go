@@ -33,8 +33,8 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
 import com.intellij.rt.coverage.data.ProjectData;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.jetbrains.annotations.TestOnly;
 
 import java.text.DecimalFormat;
@@ -49,7 +49,7 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
   private final Map<String, FileCoverageInfo> myFileCoverageInfos = ContainerUtil.newHashMap();
   private final Map<String, DirCoverageInfo> myDirCoverageInfos = ContainerUtil.newHashMap();
 
-  public GoCoverageAnnotator(@NotNull Project project) {
+  public GoCoverageAnnotator(@Nonnull Project project) {
     super(project);
   }
 
@@ -59,9 +59,9 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
 
   @Nullable
   @Override
-  public String getDirCoverageInformationString(@NotNull PsiDirectory directory,
-                                                @NotNull CoverageSuitesBundle bundle,
-                                                @NotNull CoverageDataManager manager) {
+  public String getDirCoverageInformationString(@Nonnull PsiDirectory directory,
+                                                @Nonnull CoverageSuitesBundle bundle,
+                                                @Nonnull CoverageDataManager manager) {
     DirCoverageInfo dirCoverageInfo = myDirCoverageInfos.get(directory.getVirtualFile().getPath());
     if (dirCoverageInfo == null) {
       return null;
@@ -75,7 +75,7 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
   }
 
   @Nullable
-  private static String getDirCoverageString(@NotNull DirCoverageInfo dirCoverageInfo) {
+  private static String getDirCoverageString(@Nonnull DirCoverageInfo dirCoverageInfo) {
     String filesCoverageInfo = getFilesCoverageString(dirCoverageInfo);
     if (filesCoverageInfo != null) {
       StringBuilder builder = new StringBuilder();
@@ -91,16 +91,16 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
 
   @Nullable
   @TestOnly
-  public String getDirCoverageInformationString(@NotNull VirtualFile file) {
+  public String getDirCoverageInformationString(@Nonnull VirtualFile file) {
     DirCoverageInfo coverageInfo = myDirCoverageInfos.get(file.getPath());
     return coverageInfo != null ? getDirCoverageString(coverageInfo) : null;
   }
 
   @Nullable
   @Override
-  public String getFileCoverageInformationString(@NotNull PsiFile file,
-                                                 @NotNull CoverageSuitesBundle bundle,
-                                                 @NotNull CoverageDataManager manager) {
+  public String getFileCoverageInformationString(@Nonnull PsiFile file,
+                                                 @Nonnull CoverageSuitesBundle bundle,
+                                                 @Nonnull CoverageDataManager manager) {
     FileCoverageInfo coverageInfo = myFileCoverageInfos.get(file.getVirtualFile().getPath());
     if (coverageInfo == null) {
       return null;
@@ -115,7 +115,7 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
 
   @Nullable
   @TestOnly
-  public String getFileCoverageInformationString(@NotNull VirtualFile file) {
+  public String getFileCoverageInformationString(@Nonnull VirtualFile file) {
     FileCoverageInfo coverageInfo = myFileCoverageInfos.get(file.getPath());
     return coverageInfo != null ? getStatementsCoverageString(coverageInfo) : null;
   }
@@ -129,7 +129,7 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
 
   @Nullable
   @Override
-  protected Runnable createRenewRequest(@NotNull CoverageSuitesBundle bundle, @NotNull CoverageDataManager manager) {
+  protected Runnable createRenewRequest(@Nonnull CoverageSuitesBundle bundle, @Nonnull CoverageDataManager manager) {
     GoCoverageProjectData data = new GoCoverageProjectData();
     for (CoverageSuite suite : bundle.getSuites()) {
       ProjectData toMerge = suite.getCoverageData(manager);
@@ -144,7 +144,7 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
     };
   }
 
-  @NotNull
+  @Nonnull
   private DirCoverageInfo getOrCreateDirectoryInfo(VirtualFile file) {
     return ContainerUtil.getOrCreate(myDirCoverageInfos, file.getPath(), new Factory<DirCoverageInfo>() {
       @Override
@@ -154,7 +154,7 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
     });
   }
 
-  @NotNull
+  @Nonnull
   private FileCoverageInfo getOrCreateFileInfo(VirtualFile file) {
     return ContainerUtil.getOrCreate(myFileCoverageInfos, file.getPath(), new Factory<FileCoverageInfo>() {
       @Override
@@ -165,14 +165,14 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
   }
 
   @Nullable
-  private static String getStatementsCoverageString(@NotNull FileCoverageInfo info) {
+  private static String getStatementsCoverageString(@Nonnull FileCoverageInfo info) {
     double percent = calcPercent(info.coveredLineCount, info.totalLineCount);
     return info.totalLineCount > 0 ? new DecimalFormat("##.#" + STATEMENTS_SUFFIX, DecimalFormatSymbols.getInstance(Locale.US))
       .format(percent) : null;
   }
 
   @Nullable
-  private static String getFilesCoverageString(@NotNull DirCoverageInfo info) {
+  private static String getFilesCoverageString(@Nonnull DirCoverageInfo info) {
     double percent = calcPercent(info.coveredFilesCount, info.totalFilesCount);
     return info.totalFilesCount > 0
            ? new DecimalFormat("##.#" + FILES_SUFFIX, DecimalFormatSymbols.getInstance(Locale.US)).format(percent)
@@ -183,14 +183,14 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
     return total != 0 ? (double)covered / total : 0;
   }
 
-  public void annotateAllFiles(@NotNull GoCoverageProjectData data,
+  public void annotateAllFiles(@Nonnull GoCoverageProjectData data,
                                @Nullable VirtualFile... contentRoots) {
     if (contentRoots != null) {
       for (VirtualFile root : contentRoots) {
         VfsUtilCore.visitChildrenRecursively(root, new VirtualFileVisitor() {
-          @NotNull
+          @Nonnull
           @Override
-          public Result visitFileEx(@NotNull VirtualFile file) {
+          public Result visitFileEx(@Nonnull VirtualFile file) {
             ProgressIndicatorProvider.checkCanceled();
 
             if (file.isDirectory() && !FileIndexFacade.getInstance(getProject()).isInContent(file)) {
@@ -220,7 +220,7 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
           }
 
           @Override
-          public void afterChildrenVisited(@NotNull VirtualFile file) {
+          public void afterChildrenVisited(@Nonnull VirtualFile file) {
             if (file.isDirectory()) {
               DirCoverageInfo currentCoverageInfo = getOrCreateDirectoryInfo(file);
               DirCoverageInfo parentCoverageInfo = getOrCreateDirectoryInfo(file.getParent());

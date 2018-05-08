@@ -23,21 +23,21 @@ import com.intellij.execution.configurations.ConfigurationTypeBase;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.project.Project;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoApplicationRunConfigurationType extends ConfigurationTypeBase {
   public GoApplicationRunConfigurationType() {
     super("GoApplicationRunConfiguration", "Go Application", "Go application run configuration", GoIcons.APPLICATION_RUN);
     addFactory(new GoConfigurationFactoryBase(this) {
       @Override
-      @NotNull
-      public RunConfiguration createTemplateConfiguration(@NotNull Project project) {
+      @Nonnull
+      public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
         return new GoApplicationConfiguration(project, GoConstants.GO, getInstance());
       }
     });
   }
 
-  @NotNull
+  @Nonnull
   public static GoApplicationRunConfigurationType getInstance() {
     return Extensions.findExtension(CONFIGURATION_TYPE_EP, GoApplicationRunConfigurationType.class);
   }

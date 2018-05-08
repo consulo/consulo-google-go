@@ -16,13 +16,14 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+
 import com.goide.inspections.GoRedundantTypeDeclInCompositeLit;
 import com.goide.psi.*;
 import com.intellij.codeInspection.LocalQuickFixBase;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
 
 public class GoDeleteAmpersandAndTypeInCompositeLitQuickFix extends LocalQuickFixBase {
 
@@ -31,7 +32,7 @@ public class GoDeleteAmpersandAndTypeInCompositeLitQuickFix extends LocalQuickFi
   }
 
   @Override
-  public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     PsiElement element = descriptor.getPsiElement();
     if (element != null && element.isValid()) {
       if (element instanceof GoUnaryExpr) {

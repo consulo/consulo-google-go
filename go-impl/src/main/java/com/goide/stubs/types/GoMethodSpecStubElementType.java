@@ -25,17 +25,17 @@ import com.intellij.psi.stubs.IndexSink;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
 public class GoMethodSpecStubElementType extends GoNamedStubElementType<GoMethodSpecStub, GoMethodSpec> {
-  public GoMethodSpecStubElementType(@NotNull String name) {
+  public GoMethodSpecStubElementType(@Nonnull String name) {
     super(name);
   }
 
   @Override
-  public void indexStub(@NotNull GoMethodSpecStub stub, @NotNull IndexSink sink) {
+  public void indexStub(@Nonnull GoMethodSpecStub stub, @Nonnull IndexSink sink) {
     super.indexStub(stub, sink);
     String name = stub.getName();
     int arity = stub.getArity();
@@ -44,29 +44,29 @@ public class GoMethodSpecStubElementType extends GoNamedStubElementType<GoMethod
     }
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoMethodSpec createPsi(@NotNull GoMethodSpecStub stub) {
+  public GoMethodSpec createPsi(@Nonnull GoMethodSpecStub stub) {
     return new GoMethodSpecImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoMethodSpecStub createStub(@NotNull GoMethodSpec psi, StubElement parentStub) {
+  public GoMethodSpecStub createStub(@Nonnull GoMethodSpec psi, StubElement parentStub) {
     int arity = GoPsiImplUtil.getArity(psi.getSignature());
     return new GoMethodSpecStub(parentStub, this, psi.getName(), psi.isPublic(), arity);
   }
 
   @Override
-  public void serialize(@NotNull GoMethodSpecStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoMethodSpecStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
     dataStream.writeVarInt(stub.getArity());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoMethodSpecStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoMethodSpecStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoMethodSpecStub(parentStub, this, dataStream.readName(), dataStream.readBoolean(), dataStream.readVarInt());
   }
 }

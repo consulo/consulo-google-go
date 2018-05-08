@@ -18,8 +18,9 @@ package com.goide.runconfig;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.jdom.Element;
-import org.jetbrains.annotations.Nullable;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.SdkAware;
 import com.intellij.execution.actions.ConfigurationContext;

@@ -16,6 +16,8 @@
 
 package com.goide.editor.surround;
 
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoBlock;
 import com.goide.psi.GoIfStatement;
 import com.goide.psi.impl.GoElementFactory;
@@ -27,34 +29,34 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public abstract class GoStatementsSurrounder implements Surrounder {
   @Override
-  public boolean isApplicable(@NotNull PsiElement[] elements) {
+  public boolean isApplicable(@Nonnull PsiElement[] elements) {
     return true;
   }
 
   @Override
   @Nullable
-  public TextRange surroundElements(@NotNull Project project,
-                                    @NotNull Editor editor,
-                                    @NotNull PsiElement[] elements) throws IncorrectOperationException {
+  public TextRange surroundElements(@Nonnull Project project,
+                                    @Nonnull Editor editor,
+                                    @Nonnull PsiElement[] elements) throws IncorrectOperationException {
     PsiElement container = elements[0].getParent();
     if (container == null) return null;
     return surroundStatements(project, container, elements);
   }
 
   @Nullable
-  protected abstract TextRange surroundStatements(@NotNull Project project,
-                                                  @NotNull PsiElement container,
-                                                  @NotNull PsiElement[] statements) throws IncorrectOperationException;
+  protected abstract TextRange surroundStatements(@Nonnull Project project,
+                                                  @Nonnull PsiElement container,
+                                                  @Nonnull PsiElement[] statements) throws IncorrectOperationException;
 
   @Nullable
-  protected TextRange surroundStatementsWithIfElse(@NotNull Project project,
-                                                   @NotNull PsiElement container,
-                                                   @NotNull PsiElement[] statements,
+  protected TextRange surroundStatementsWithIfElse(@Nonnull Project project,
+                                                   @Nonnull PsiElement container,
+                                                   @Nonnull PsiElement[] statements,
                                                    boolean withElse) {
     PsiElement first = ArrayUtil.getFirstElement(statements);
     PsiElement last = ArrayUtil.getLastElement(statements);

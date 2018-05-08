@@ -18,8 +18,9 @@ package com.goide.psi.legacy;
 
 import java.io.File;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.psi.GoFile;
 import com.intellij.openapi.vfs.VfsUtilCore;
@@ -31,12 +32,17 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.FilteringProcessor;
 
 public abstract class GoLegacyResolveTestBase extends GoCodeInsightFixtureTestCase {
-  @NotNull private static final String REF_MARK = "/*ref*/";
-  @NotNull private static final String NO_REF_MARK = "/*no ref*/";
-  @NotNull private static final String DEF_MARK = "/*def*/";
+  @Nonnull
+  private static final String REF_MARK = "/*ref*/";
+  @Nonnull
+  private static final String NO_REF_MARK = "/*no ref*/";
+  @Nonnull
+  private static final String DEF_MARK = "/*def*/";
 
-  @Nullable private PsiReference myReference;
-  @Nullable private PsiElement myDefinition;
+  @Nullable
+  private PsiReference myReference;
+  @Nullable
+  private PsiElement myDefinition;
   private boolean myShouldBeResolved = true;
 
   @Override
@@ -88,8 +94,8 @@ public abstract class GoLegacyResolveTestBase extends GoCodeInsightFixtureTestCa
       }
   }
 
-  @NotNull
-  private static String getFileName(@NotNull PsiElement resolve) {
+  @Nonnull
+  private static String getFileName(@Nonnull PsiElement resolve) {
     return resolve instanceof PsiFile ? ((PsiFile)resolve).getName() : resolve.getContainingFile().getName();
   }
 
@@ -97,7 +103,7 @@ public abstract class GoLegacyResolveTestBase extends GoCodeInsightFixtureTestCa
     return false;
   }
   
-  private void processPsiFile(@NotNull GoFile file) {
+  private void processPsiFile(@Nonnull GoFile file) {
     String fileContent = loadText(file.getVirtualFile());
 
     String fileName = file.getName();
@@ -122,15 +128,15 @@ public abstract class GoLegacyResolveTestBase extends GoCodeInsightFixtureTestCa
     }
   }
 
-  @NotNull
-  private PsiReference findReference(@NotNull GoFile file, int offset) {
+  @Nonnull
+  private PsiReference findReference(@Nonnull GoFile file, int offset) {
     if (myReference != null) fail("only one reference should be declared in a test case, see file: " + file.getName());
     PsiReference result = file.findReferenceAt(offset);
     if (result == null) fail("no reference was found at mark in file: " + file.getName() + ", offset: " + offset);
     return result;
   }
 
-  private void doDirectoryTest(@NotNull VirtualFile file) {
+  private void doDirectoryTest(@Nonnull VirtualFile file) {
     VfsUtilCore.processFilesRecursively(file, new FilteringProcessor<>(
                                           virtualFile -> !virtualFile.isDirectory() && virtualFile.getName().endsWith(".go"),
                                           virtualFile -> {

@@ -20,8 +20,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.IncorrectOperationException;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoWithIfElseSurrounder extends GoStatementsSurrounder {
   @Override
@@ -31,9 +31,9 @@ public class GoWithIfElseSurrounder extends GoStatementsSurrounder {
 
   @Nullable
   @Override
-  protected TextRange surroundStatements(@NotNull Project project,
-                                         @NotNull PsiElement container,
-                                         @NotNull PsiElement[] statements) throws IncorrectOperationException {
+  protected TextRange surroundStatements(@Nonnull Project project,
+                                         @Nonnull PsiElement container,
+                                         @Nonnull PsiElement[] statements) throws IncorrectOperationException {
     return surroundStatementsWithIfElse(project, container, statements, true);
   }
 }

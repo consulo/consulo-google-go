@@ -16,6 +16,9 @@
 
 package consulo.google.go.module.extension;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.project.GoBuildTargetSettings;
 import com.goide.sdk.GoSdkType;
 import com.intellij.openapi.module.Module;
@@ -27,15 +30,13 @@ import consulo.annotations.RequiredReadAction;
 import consulo.module.extension.impl.ModuleExtensionWithSdkImpl;
 import consulo.roots.ModuleRootLayer;
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author VISTALL
  * @since 12:42/30.05.13
  */
 public class GoModuleExtension extends ModuleExtensionWithSdkImpl<GoModuleExtension> {
-  @NotNull
+  @Nonnull
   public static ThreeState getVendoringEnabled(@Nullable Module module) {
     if (module == null) {
       return ThreeState.UNSURE;
@@ -47,22 +48,22 @@ public class GoModuleExtension extends ModuleExtensionWithSdkImpl<GoModuleExtens
   protected GoBuildTargetSettings myBuildTargetSettings = new GoBuildTargetSettings();
   protected ThreeState myVendoringEnabled = ThreeState.UNSURE;
 
-  public GoModuleExtension(@NotNull String id, @NotNull ModuleRootLayer module) {
+  public GoModuleExtension(@Nonnull String id, @Nonnull ModuleRootLayer module) {
     super(id, module);
   }
 
-  @NotNull
+  @Nonnull
   public ThreeState getVendoringEnabled() {
     return myVendoringEnabled;
   }
 
-  @NotNull
+  @Nonnull
   public GoBuildTargetSettings getBuildTargetSettings() {
     return myBuildTargetSettings;
   }
 
   @RequiredReadAction
-  public void commit(@NotNull GoModuleExtension extension) {
+  public void commit(@Nonnull GoModuleExtension extension) {
     super.commit(extension);
 
     myVendoringEnabled = extension.myVendoringEnabled;
@@ -71,7 +72,7 @@ public class GoModuleExtension extends ModuleExtensionWithSdkImpl<GoModuleExtens
 
   @RequiredReadAction
   @Override
-  protected void loadStateImpl(@NotNull Element element) {
+  protected void loadStateImpl(@Nonnull Element element) {
     super.loadStateImpl(element);
     myVendoringEnabled = ThreeState.valueOf(element.getAttributeValue("vendoring-enabled", ThreeState.UNSURE.name()));
 
@@ -82,7 +83,7 @@ public class GoModuleExtension extends ModuleExtensionWithSdkImpl<GoModuleExtens
   }
 
   @Override
-  protected void getStateImpl(@NotNull Element element) {
+  protected void getStateImpl(@Nonnull Element element) {
     super.getStateImpl(element);
     if (myVendoringEnabled != ThreeState.UNSURE) {
       element.setAttribute("vendoring-enabled", myVendoringEnabled.name());
@@ -93,7 +94,7 @@ public class GoModuleExtension extends ModuleExtensionWithSdkImpl<GoModuleExtens
     }
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Class<? extends SdkType> getSdkTypeClass() {
     return GoSdkType.class;

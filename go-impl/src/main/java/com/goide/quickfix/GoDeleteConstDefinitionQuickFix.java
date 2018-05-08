@@ -16,14 +16,15 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.psi.GoConstDefinition;
 import com.goide.psi.GoConstSpec;
 import com.intellij.codeInspection.LocalQuickFixBase;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class GoDeleteConstDefinitionQuickFix extends LocalQuickFixBase {
   public GoDeleteConstDefinitionQuickFix(@Nullable String constName) {
@@ -31,7 +32,7 @@ public class GoDeleteConstDefinitionQuickFix extends LocalQuickFixBase {
   }
 
   @Override
-  public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     PsiElement element = descriptor.getPsiElement();
     if (element.isValid() && element instanceof GoConstDefinition) {
       PsiElement parent = element.getParent();

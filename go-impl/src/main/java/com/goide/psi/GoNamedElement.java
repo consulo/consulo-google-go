@@ -16,11 +16,13 @@
 
 package com.goide.psi;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.navigation.NavigationItem;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public interface GoNamedElement extends GoCompositeElement, GoTypeOwner, PsiNameIdentifierOwner, NavigationItem {
   boolean isPublic();
@@ -32,7 +34,7 @@ public interface GoNamedElement extends GoCompositeElement, GoTypeOwner, PsiName
   String getQualifiedName();
 
   @Override
-  @NotNull
+  @Nonnull
   GoFile getContainingFile();
 
   @Nullable

@@ -16,10 +16,11 @@
 
 package com.goide.quickfix;
 
+import javax.annotation.Nonnull;
+
 import com.goide.SdkAware;
 import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
 
 @SdkAware
 public class GoIntroduceFunctionFixTest extends GoQuickFixTestBase {
@@ -184,7 +185,7 @@ public class GoIntroduceFunctionFixTest extends GoQuickFixTestBase {
                           "func _() { asd(alias.CreateChanOfMyType());}\nfunc asd(myType struct {ch chan chan alias.MyType}) {\n\t<caret>\n};");
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/introduce-function";

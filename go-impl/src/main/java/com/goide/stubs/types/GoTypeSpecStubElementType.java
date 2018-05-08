@@ -28,7 +28,7 @@ import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
 import com.intellij.util.ArrayFactory;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -38,35 +38,35 @@ public class GoTypeSpecStubElementType extends GoNamedStubElementType<GoTypeSpec
 
   public static final ArrayFactory<GoTypeSpec> ARRAY_FACTORY = count -> count == 0 ? EMPTY_ARRAY : new GoTypeSpec[count];
   
-  public GoTypeSpecStubElementType(@NotNull String name) {
+  public GoTypeSpecStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoTypeSpec createPsi(@NotNull GoTypeSpecStub stub) {
+  public GoTypeSpec createPsi(@Nonnull GoTypeSpecStub stub) {
     return new GoTypeSpecImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoTypeSpecStub createStub(@NotNull GoTypeSpec psi, StubElement parentStub) {
+  public GoTypeSpecStub createStub(@Nonnull GoTypeSpec psi, StubElement parentStub) {
     return new GoTypeSpecStub(parentStub, this, psi.getName(), psi.isPublic());
   }
 
   @Override
-  public void serialize(@NotNull GoTypeSpecStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoTypeSpecStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoTypeSpecStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoTypeSpecStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoTypeSpecStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected Collection<StubIndexKey<String, ? extends GoNamedElement>> getExtraIndexKeys() {
     return ContainerUtil.list(GoTypesIndex.KEY);

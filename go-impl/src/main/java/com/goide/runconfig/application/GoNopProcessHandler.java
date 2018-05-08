@@ -17,7 +17,7 @@
 package com.goide.runconfig.application;
 
 import com.intellij.execution.process.ProcessHandler;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 import java.io.OutputStream;
 

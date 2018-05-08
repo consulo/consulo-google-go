@@ -27,8 +27,8 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,7 +50,7 @@ public abstract class GoTestFramework {
     return Collections.emptyList();
   }
 
-  @NotNull
+  @Nonnull
   public static GoTestFramework fromName(@Nullable String name) {
     for (GoTestFramework framework : all()) {
       if (framework.getName().equals(name)) {
@@ -60,7 +60,7 @@ public abstract class GoTestFramework {
     return GotestFramework.INSTANCE;
   }
 
-  @NotNull
+  @Nonnull
   public abstract String getName();
 
   public abstract boolean isAvailable(@Nullable Module module);
@@ -69,10 +69,10 @@ public abstract class GoTestFramework {
 
   public abstract boolean isAvailableOnFunction(@Nullable GoFunctionOrMethodDeclaration functionOrMethodDeclaration);
 
-  @NotNull
-  protected abstract GoTestRunningState newRunningState(@NotNull ExecutionEnvironment env,
-                                                        @NotNull Module module, @NotNull GoTestRunConfiguration runConfiguration);
+  @Nonnull
+  protected abstract GoTestRunningState newRunningState(@Nonnull ExecutionEnvironment env,
+                                                        @Nonnull Module module, @Nonnull GoTestRunConfiguration runConfiguration);
 
-  @NotNull
-  public abstract OutputToGeneralTestEventsConverter createTestEventsConverter(@NotNull TestConsoleProperties consoleProperties);
+  @Nonnull
+  public abstract OutputToGeneralTestEventsConverter createTestEventsConverter(@Nonnull TestConsoleProperties consoleProperties);
 }

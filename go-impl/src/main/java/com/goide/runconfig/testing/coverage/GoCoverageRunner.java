@@ -33,8 +33,8 @@ import com.intellij.rt.coverage.data.ClassData;
 import com.intellij.rt.coverage.data.LineData;
 import com.intellij.rt.coverage.data.ProjectData;
 import gnu.trove.TIntObjectHashMap;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.io.*;
 import java.util.List;
@@ -47,7 +47,7 @@ public class GoCoverageRunner extends CoverageRunner {
   private static final String PRESENTABLE_NAME = GoConstants.GO;
 
   @Override
-  public ProjectData loadCoverageData(@NotNull File sessionDataFile, @Nullable CoverageSuite baseCoverageSuite) {
+  public ProjectData loadCoverageData(@Nonnull File sessionDataFile, @Nullable CoverageSuite baseCoverageSuite) {
     if (!(baseCoverageSuite instanceof BaseCoverageSuite)) {
       return null;
     }
@@ -85,8 +85,8 @@ public class GoCoverageRunner extends CoverageRunner {
   }
 
   @Nullable
-  public static GoCoverageProjectData parseCoverage(@NotNull BufferedReader dataReader,
-                                                    @NotNull Project project,
+  public static GoCoverageProjectData parseCoverage(@Nonnull BufferedReader dataReader,
+                                                    @Nonnull Project project,
                                                     @Nullable Module module) throws IOException {
     GoCoverageProjectData result = new GoCoverageProjectData();
     String line;
@@ -169,7 +169,7 @@ public class GoCoverageRunner extends CoverageRunner {
   }
 
   @Override
-  public boolean acceptsCoverageEngine(@NotNull CoverageEngine engine) {
+  public boolean acceptsCoverageEngine(@Nonnull CoverageEngine engine) {
     return engine instanceof GoCoverageEngine;
   }
 }

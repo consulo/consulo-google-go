@@ -18,15 +18,17 @@
 package com.goide.psi;
 
 import java.util.List;
-import org.jetbrains.annotations.*;
+
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoReturnStatement extends GoStatement {
 
-  @NotNull
+  @Nonnull
   List<GoExpression> getExpressionList();
 
-  @NotNull
+  @Nonnull
   PsiElement getReturn();
 
 }

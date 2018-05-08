@@ -17,7 +17,7 @@
 package com.goide.psi;
 
 import com.intellij.psi.ResolveState;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 public interface GoTypeOwner extends GoCompositeElement {
   @Nullable

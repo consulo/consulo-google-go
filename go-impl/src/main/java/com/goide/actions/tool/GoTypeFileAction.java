@@ -16,12 +16,14 @@
 
 package com.goide.actions.tool;
 
+import javax.annotation.Nonnull;
+
 import com.goide.util.GoExecutor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class GoTypeFileAction extends GoDownloadableFileAction {
   public GoTypeFileAction() {
@@ -33,15 +35,15 @@ public class GoTypeFileAction extends GoDownloadableFileAction {
     return super.isAvailableOnFile(file) || file.isDirectory();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoExecutor createExecutor(@NotNull Project project, @Nullable Module module, @NotNull String title, @NotNull VirtualFile file) {
+  protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull VirtualFile file) {
     return super.createExecutor(project, module, title, file.isDirectory() ? file : file.getParent());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected GoExecutor createExecutor(@NotNull Project project, @Nullable Module module, @NotNull String title, @NotNull String filePath) {
+  protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull String filePath) {
     VirtualFile executable = getExecutable(project, module);
     assert executable != null;
 

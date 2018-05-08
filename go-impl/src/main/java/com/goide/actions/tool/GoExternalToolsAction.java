@@ -16,6 +16,8 @@
 
 package com.goide.actions.tool;
 
+import javax.annotation.Nonnull;
+
 import com.goide.GoConstants;
 import com.goide.GoFileType;
 import com.goide.sdk.GoSdkService;
@@ -37,20 +39,20 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.Consumer;
 import com.intellij.util.ExceptionUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public abstract class GoExternalToolsAction extends DumbAwareAction {
   private static final Logger LOG = Logger.getInstance(GoExternalToolsAction.class);
 
-  private static void error(@NotNull String title, @NotNull Project project, @Nullable Exception ex) {
+  private static void error(@Nonnull String title, @Nonnull Project project, @Nullable Exception ex) {
     String message = ex == null ? "" : ExceptionUtil.getUserStackTrace(ex, LOG);
     NotificationType type = NotificationType.ERROR;
     Notifications.Bus.notify(GoConstants.GO_EXECUTION_NOTIFICATION_GROUP.createNotification(title, message, type, null), project);
   }
 
   @Override
-  public void update(@NotNull AnActionEvent e) {
+  public void update(@Nonnull AnActionEvent e) {
     super.update(e);
     Project project = e.getProject();
     VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
@@ -67,7 +69,7 @@ public abstract class GoExternalToolsAction extends DumbAwareAction {
   }
 
   @Override
-  public void actionPerformed(@NotNull AnActionEvent e) {
+  public void actionPerformed(@Nonnull AnActionEvent e) {
     Project project = e.getProject();
     VirtualFile file = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE);
     assert project != null;
@@ -83,28 +85,28 @@ public abstract class GoExternalToolsAction extends DumbAwareAction {
     }
   }
 
-  protected boolean doSomething(@NotNull VirtualFile virtualFile,
+  protected boolean doSomething(@Nonnull VirtualFile virtualFile,
                                 @Nullable Module module,
-                                @NotNull Project project,
-                                @NotNull String title) throws ExecutionException {
+                                @Nonnull Project project,
+                                @Nonnull String title) throws ExecutionException {
     return doSomething(virtualFile, module, project, title, false);
   }
 
-  private boolean doSomething(@NotNull VirtualFile virtualFile,
+  private boolean doSomething(@Nonnull VirtualFile virtualFile,
                               @Nullable Module module,
-                              @NotNull Project project,
-                              @NotNull String title,
+                              @Nonnull Project project,
+                              @Nonnull String title,
                               boolean withProgress) {
     //noinspection unchecked
     return doSomething(virtualFile, module, project, title, withProgress, Consumer.EMPTY_CONSUMER);
   }
 
-  protected boolean doSomething(@NotNull VirtualFile virtualFile,
+  protected boolean doSomething(@Nonnull VirtualFile virtualFile,
                                 @Nullable Module module,
-                                @NotNull Project project,
-                                @NotNull String title,
+                                @Nonnull Project project,
+                                @Nonnull String title,
                                 boolean withProgress,
-                                @NotNull Consumer<Boolean> consumer) {
+                                @Nonnull Consumer<Boolean> consumer) {
     Document document = FileDocumentManager.getInstance().getDocument(virtualFile);
     if (document != null) {
       FileDocumentManager.getInstance().saveDocument(document);
@@ -120,18 +122,18 @@ public abstract class GoExternalToolsAction extends DumbAwareAction {
     return true;
   }
 
-  protected GoExecutor createExecutor(@NotNull Project project,
+  protected GoExecutor createExecutor(@Nonnull Project project,
                                       @Nullable Module module,
-                                      @NotNull String title,
-                                      @NotNull VirtualFile virtualFile) {
+                                      @Nonnull String title,
+                                      @Nonnull VirtualFile virtualFile) {
     String filePath = virtualFile.getCanonicalPath();
     assert filePath != null;
     return createExecutor(project, module, title, filePath);
   }
 
-  @NotNull
-  protected abstract GoExecutor createExecutor(@NotNull Project project,
+  @Nonnull
+  protected abstract GoExecutor createExecutor(@Nonnull Project project,
                                                @Nullable Module module,
-                                               @NotNull String title,
-                                               @NotNull String filePath);
+                                               @Nonnull String title,
+                                               @Nonnull String filePath);
 }

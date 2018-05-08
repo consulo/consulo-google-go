@@ -25,7 +25,7 @@ import com.intellij.icons.AllIcons;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.Function;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 
 public class GoRunLineMarkerProvider extends RunLineMarkerContributor {
   private static final Function<PsiElement, String> TOOLTIP_PROVIDER = element -> "Run Application";

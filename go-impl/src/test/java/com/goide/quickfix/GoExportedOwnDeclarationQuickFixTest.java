@@ -17,7 +17,7 @@
 package com.goide.quickfix;
 
 import com.goide.inspections.GoExportedOwnDeclarationInspection;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoExportedOwnDeclarationQuickFixTest extends GoQuickFixTestBase {
   @Override
@@ -26,7 +26,7 @@ public class GoExportedOwnDeclarationQuickFixTest extends GoQuickFixTestBase {
     myFixture.enableInspections(GoExportedOwnDeclarationInspection.class);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/exported-own-declaration";

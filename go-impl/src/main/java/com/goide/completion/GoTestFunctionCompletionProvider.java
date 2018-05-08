@@ -48,14 +48,14 @@ import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.IdFilter;
 import com.intellij.util.text.UniqueNameGenerator;
 import consulo.codeInsight.completion.CompletionProvider;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.Set;
 
 public class GoTestFunctionCompletionProvider implements CompletionProvider {
   @Override
-  public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
+  public void addCompletions(@Nonnull CompletionParameters parameters, ProcessingContext context, @Nonnull CompletionResultSet result) {
     Project project = parameters.getPosition().getProject();
     PsiFile file = parameters.getOriginalFile();
     PsiDirectory containingDirectory = file.getContainingDirectory();
@@ -97,21 +97,21 @@ public class GoTestFunctionCompletionProvider implements CompletionProvider {
     }
   }
 
-  private static void addVariants(@NotNull GoFunctionOrMethodDeclaration declaration,
-                                  @NotNull String functionName,
-                                  @NotNull String fileNameWithoutTestPrefix,
-                                  @NotNull Set<String> allTestFunctionNames,
-                                  @NotNull CompletionResultSet resultSet) {
+  private static void addVariants(@Nonnull GoFunctionOrMethodDeclaration declaration,
+                                  @Nonnull String functionName,
+                                  @Nonnull String fileNameWithoutTestPrefix,
+                                  @Nonnull Set<String> allTestFunctionNames,
+                                  @Nonnull CompletionResultSet resultSet) {
     int priority = fileNameWithoutTestPrefix.equals(declaration.getContainingFile().getName()) ? 5 : 0;
     addLookupElement(GoConstants.TEST_PREFIX + functionName, priority, allTestFunctionNames, resultSet);
     addLookupElement(GoConstants.BENCHMARK_PREFIX + functionName, priority, allTestFunctionNames, resultSet);
     addLookupElement(GoConstants.EXAMPLE_PREFIX + functionName, priority, allTestFunctionNames, resultSet);
   }
 
-  private static void addLookupElement(@NotNull String lookupString,
+  private static void addLookupElement(@Nonnull String lookupString,
                                        int initialPriority,
-                                       @NotNull Set<String> allTestFunctionNames,
-                                       @NotNull CompletionResultSet result) {
+                                       @Nonnull Set<String> allTestFunctionNames,
+                                       @Nonnull CompletionResultSet result) {
     int priority = initialPriority;
     if (allTestFunctionNames.contains(lookupString)) {
       priority -= 5;
@@ -121,8 +121,8 @@ public class GoTestFunctionCompletionProvider implements CompletionProvider {
                                                               .withInsertHandler(GenerateTestInsertHandler.INSTANCE), priority));
   }
 
-  @NotNull
-  private static Set<String> collectAllFunctionNames(@NotNull PsiDirectory directory) {
+  @Nonnull
+  private static Set<String> collectAllFunctionNames(@Nonnull PsiDirectory directory) {
     GlobalSearchScope packageScope = GoPackageUtil.packageScope(directory, null);
     IdFilter packageIdFilter = GoIdFilter.getFilesFilter(packageScope);
     
@@ -136,8 +136,8 @@ public class GoTestFunctionCompletionProvider implements CompletionProvider {
     return result;
   }
 
-  @NotNull
-  private static Set<String> collectAllTestNames(@NotNull Collection<String> names, @NotNull Project project, @NotNull GoFile file) {
+  @Nonnull
+  private static Set<String> collectAllTestNames(@Nonnull Collection<String> names, @Nonnull Project project, @Nonnull GoFile file) {
     Set<String> result = ContainerUtil.newHashSet();
     GlobalSearchScope packageScope = GoPackageUtil.packageScope(file);
     GlobalSearchScope scope = new GoUtil.TestsScope(packageScope);

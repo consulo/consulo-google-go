@@ -25,7 +25,7 @@ import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
 import com.intellij.util.ArrayFactory;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
@@ -33,38 +33,38 @@ public class GoImportSpecStubElementType extends GoNamedStubElementType<GoImport
   public static final GoImportSpec[] EMPTY_ARRAY = new GoImportSpec[0];
   public static final ArrayFactory<GoImportSpec> ARRAY_FACTORY = count -> count == 0 ? EMPTY_ARRAY : new GoImportSpec[count];
 
-  public GoImportSpecStubElementType(@NotNull String name) {
+  public GoImportSpecStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoImportSpec createPsi(@NotNull GoImportSpecStub stub) {
+  public GoImportSpec createPsi(@Nonnull GoImportSpecStub stub) {
     return new GoImportSpecImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoImportSpecStub createStub(@NotNull GoImportSpec psi, StubElement parentStub) {
+  public GoImportSpecStub createStub(@Nonnull GoImportSpec psi, StubElement parentStub) {
     return new GoImportSpecStub(parentStub, this, psi.getAlias(), psi.getPath(), psi.isDot());
   }
 
   @Override
-  public void serialize(@NotNull GoImportSpecStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoImportSpecStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeUTFFast(StringUtil.notNullize(stub.getAlias()));
     dataStream.writeUTFFast(stub.getPath());
     dataStream.writeBoolean(stub.isDot());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoImportSpecStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoImportSpecStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoImportSpecStub(parentStub, this, StringUtil.nullize(dataStream.readUTFFast()), 
                                 dataStream.readUTFFast(), dataStream.readBoolean());
   }
 
   @Override
-  public boolean shouldCreateStub(@NotNull ASTNode node) {
+  public boolean shouldCreateStub(@Nonnull ASTNode node) {
     return true;
   }
 }

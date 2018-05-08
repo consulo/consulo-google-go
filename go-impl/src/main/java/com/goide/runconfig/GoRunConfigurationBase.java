@@ -36,8 +36,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.containers.ContainerUtil;
 import org.jdom.Element;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.Map;
@@ -50,10 +50,14 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
   private static final String PARAMETERS_NAME = "parameters";
   private static final String PASS_PARENT_ENV = "pass_parent_env";
 
-  @NotNull private String myWorkingDirectory = "";
-  @NotNull private String myGoParams = "";
-  @NotNull private String myParams = "";
-  @NotNull private final Map<String, String> myCustomEnvironment = ContainerUtil.newHashMap();
+  @Nonnull
+  private String myWorkingDirectory = "";
+  @Nonnull
+  private String myGoParams = "";
+  @Nonnull
+  private String myParams = "";
+  @Nonnull
+  private final Map<String, String> myCustomEnvironment = ContainerUtil.newHashMap();
   private boolean myPassParentEnvironment = true;
 
   public GoRunConfigurationBase(String name, GoModuleBasedConfiguration configurationModule, ConfigurationFactory factory) {
@@ -78,11 +82,11 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
 
   @Nullable
   @Override
-  public RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment environment) throws ExecutionException {
+  public RunProfileState getState(@Nonnull Executor executor, @Nonnull ExecutionEnvironment environment) throws ExecutionException {
     return createRunningState(environment);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Collection<Module> getValidModules() {
     return GoSdkUtil.getGoModules(getProject());
@@ -124,14 +128,14 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
     }
   }
 
-  protected void addNonEmptyElement(@NotNull Element element, @NotNull String attributeName, @Nullable String value) {
+  protected void addNonEmptyElement(@Nonnull Element element, @Nonnull String attributeName, @Nullable String value) {
     if (StringUtil.isNotEmpty(value)) {
       JDOMExternalizerUtil.addElementWithValueAttribute(element, attributeName, value);
     }
   }
 
   @Override
-  public void readExternal(@NotNull Element element) throws InvalidDataException {
+  public void readExternal(@Nonnull Element element) throws InvalidDataException {
     super.readExternal(element);
     readModule(element);
     myGoParams = StringUtil.notNullize(JDOMExternalizerUtil.getFirstChildValueAttribute(element, GO_PARAMETERS_NAME));
@@ -147,7 +151,7 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
     myPassParentEnvironment = passEnvValue == null || Boolean.valueOf(passEnvValue);
   }
 
-  @NotNull
+  @Nonnull
   private RunningState createRunningState(ExecutionEnvironment env) throws ExecutionException {
     GoModuleBasedConfiguration configuration = getConfigurationModule();
     Module module = configuration.getModule();
@@ -158,7 +162,7 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
   }
   
   @Nullable
-  protected VirtualFile findFile(@NotNull String filePath) {
+  protected VirtualFile findFile(@Nonnull String filePath) {
     VirtualFile virtualFile = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(filePath));
     if (virtualFile == null) {
       String path = FileUtil.join(getWorkingDirectory(), filePath);
@@ -167,33 +171,33 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
     return virtualFile;
   }
 
-  @NotNull
+  @Nonnull
   protected abstract RunningState newRunningState(ExecutionEnvironment env, Module module);
 
-  @NotNull
+  @Nonnull
   public String getGoToolParams() {
     return myGoParams;
   }
 
-  @NotNull
+  @Nonnull
   public String getParams() {
     return myParams;
   }
 
-  public void setGoParams(@NotNull String params) {
+  public void setGoParams(@Nonnull String params) {
     myGoParams = params;
   }
 
-  public void setParams(@NotNull String params) {
+  public void setParams(@Nonnull String params) {
     myParams = params;
   }
 
-  @NotNull
+  @Nonnull
   public Map<String, String> getCustomEnvironment() {
     return myCustomEnvironment;
   }
 
-  public void setCustomEnvironment(@NotNull Map<String, String> customEnvironment) {
+  public void setCustomEnvironment(@Nonnull Map<String, String> customEnvironment) {
     myCustomEnvironment.clear();
     myCustomEnvironment.putAll(customEnvironment);
   }
@@ -206,17 +210,17 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
     return myPassParentEnvironment;
   }
 
-  @NotNull
+  @Nonnull
   public String getWorkingDirectory() {
     return myWorkingDirectory;
   }
 
-  @NotNull
+  @Nonnull
   public String getWorkingDirectoryUrl() {
     return VfsUtilCore.pathToUrl(myWorkingDirectory);
   }
 
-  public void setWorkingDirectory(@NotNull String workingDirectory) {
+  public void setWorkingDirectory(@Nonnull String workingDirectory) {
     myWorkingDirectory = workingDirectory;
   }
 }

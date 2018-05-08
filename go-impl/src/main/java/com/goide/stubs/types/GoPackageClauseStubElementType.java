@@ -22,7 +22,7 @@ import com.goide.stubs.GoPackageClauseStub;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
@@ -33,26 +33,26 @@ public class GoPackageClauseStubElementType extends GoStubElementType<GoPackageC
     super("PACKAGE_CLAUSE");
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoPackageClause createPsi(@NotNull GoPackageClauseStub stub) {
+  public GoPackageClause createPsi(@Nonnull GoPackageClauseStub stub) {
     return new GoPackageClauseImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoPackageClauseStub createStub(@NotNull GoPackageClause psi, StubElement parentStub) {
+  public GoPackageClauseStub createStub(@Nonnull GoPackageClause psi, StubElement parentStub) {
     return new GoPackageClauseStub(parentStub, this, psi.getName());
   }
 
   @Override
-  public void serialize(@NotNull GoPackageClauseStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoPackageClauseStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoPackageClauseStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoPackageClauseStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoPackageClauseStub(parentStub, this, dataStream.readName());
   }
 }

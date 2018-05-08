@@ -22,36 +22,36 @@ import com.goide.stubs.GoAnonymousFieldDefinitionStub;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
 public class GoAnonymousFieldDefinitionStubElementType extends GoNamedStubElementType<GoAnonymousFieldDefinitionStub, GoAnonymousFieldDefinition> {
-  public GoAnonymousFieldDefinitionStubElementType(@NotNull String name) {
+  public GoAnonymousFieldDefinitionStubElementType(@Nonnull String name) {
     super(name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoAnonymousFieldDefinition createPsi(@NotNull GoAnonymousFieldDefinitionStub stub) {
+  public GoAnonymousFieldDefinition createPsi(@Nonnull GoAnonymousFieldDefinitionStub stub) {
     return new GoAnonymousFieldDefinitionImpl(stub, this);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoAnonymousFieldDefinitionStub createStub(@NotNull GoAnonymousFieldDefinition psi, StubElement parentStub) {
+  public GoAnonymousFieldDefinitionStub createStub(@Nonnull GoAnonymousFieldDefinition psi, StubElement parentStub) {
     return new GoAnonymousFieldDefinitionStub(parentStub, this, psi.getName(), psi.isPublic());
   }
 
   @Override
-  public void serialize(@NotNull GoAnonymousFieldDefinitionStub stub, @NotNull StubOutputStream dataStream) throws IOException {
+  public void serialize(@Nonnull GoAnonymousFieldDefinitionStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public GoAnonymousFieldDefinitionStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoAnonymousFieldDefinitionStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoAnonymousFieldDefinitionStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 }

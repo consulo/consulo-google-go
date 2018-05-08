@@ -18,7 +18,8 @@ package com.goide.util;
 
 import java.util.Locale;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.psi.GoStringLiteral;
 import com.goide.psi.impl.GoElementFactory;
@@ -27,7 +28,7 @@ import com.intellij.psi.LiteralTextEscaper;
 import com.intellij.psi.PsiLanguageInjectionHost;
 
 public class GoStringLiteralEscaperTest extends GoCodeInsightFixtureTestCase {
-  private static String decodeRange(@NotNull GoStringLiteral expr, @NotNull TextRange range) {
+  private static String decodeRange(@Nonnull GoStringLiteral expr, @Nonnull TextRange range) {
     StringBuilder builder = new StringBuilder();
     expr.createLiteralTextEscaper().decode(range, builder);
     return builder.toString();
@@ -109,7 +110,7 @@ public class GoStringLiteralEscaperTest extends GoCodeInsightFixtureTestCase {
     doSingleCharTest(createRawStringFromText("c"));
   }
 
-  private static void doSingleCharTest(@NotNull GoStringLiteral expr) {
+  private static void doSingleCharTest(@Nonnull GoStringLiteral expr) {
     LiteralTextEscaper<? extends PsiLanguageInjectionHost> escaper = expr.createLiteralTextEscaper();
     TextRange range = TextRange.create(1, 2);
     escaper.decode(range, new StringBuilder());
@@ -192,13 +193,13 @@ public class GoStringLiteralEscaperTest extends GoCodeInsightFixtureTestCase {
 
   // endregion
 
-  @NotNull
-  private GoStringLiteral createStringFromText(@NotNull String text) {
+  @Nonnull
+  private GoStringLiteral createStringFromText(@Nonnull String text) {
     return GoElementFactory.createStringLiteral(myFixture.getProject(), String.format(Locale.US, "\"%s\"", text));
   }
 
-  @NotNull
-  private GoStringLiteral createRawStringFromText(@NotNull String text) {
+  @Nonnull
+  private GoStringLiteral createRawStringFromText(@Nonnull String text) {
     return GoElementFactory.createStringLiteral(myFixture.getProject(), String.format(Locale.US, "`%s`", text));
   }
 }

@@ -27,24 +27,24 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.util.ThreeState;
 import consulo.annotations.RequiredReadAction;
 import consulo.google.go.module.extension.GoMutableModuleExtension;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import static com.goide.project.GoVendoringUtil.isVendoringEnabled;
 import static com.goide.project.GoVendoringUtil.vendoringCanBeDisabled;
 
 public class GoDisableVendoringInModuleQuickFix extends LocalQuickFixBase {
-  @NotNull
+  @Nonnull
   private final Module myModule;
 
-  private GoDisableVendoringInModuleQuickFix(@NotNull Module module) {
+  private GoDisableVendoringInModuleQuickFix(@Nonnull Module module) {
     super("Disable vendoring experiment support in module '" + module.getName() + "'", "Disable vendoring experiment support in module");
     myModule = module;
   }
 
   @Override
   @RequiredReadAction
-  public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     if (myModule.isDisposed()) {
       return;
     }

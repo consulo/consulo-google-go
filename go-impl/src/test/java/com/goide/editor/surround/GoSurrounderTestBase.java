@@ -22,16 +22,16 @@ import com.intellij.codeInsight.generation.surroundWith.SurroundWithHandler;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiFile;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.List;
 
 @SdkAware
 public abstract class GoSurrounderTestBase extends GoCodeInsightFixtureTestCase {
 
-  protected void doTest(@NotNull String codeBefore,
-                        @NotNull String expectedCodeAfter,
-                        @NotNull String surrounderDescription,
+  protected void doTest(@Nonnull String codeBefore,
+                        @Nonnull String expectedCodeAfter,
+                        @Nonnull String surrounderDescription,
                         boolean apply) {
     PsiFile file = myFixture.configureByText("a.go", normalizeCode(codeBefore));
     List<AnAction> applicable = SurroundWithHandler.buildSurroundActions(myFixture.getProject(), myFixture.getEditor(), file, null);

@@ -28,8 +28,8 @@ import com.intellij.util.ThreeState;
 import com.intellij.util.containers.ContainerUtil;
 import consulo.google.go.module.extension.GoModuleExtension;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Collections;
 import java.util.Set;
@@ -37,25 +37,25 @@ import java.util.Set;
 public class GoTargetSystem {
   private static final String GAE_BUILD_FLAG = "appengine";
 
-  @NotNull
+  @Nonnull
   public final String os;
-  @NotNull
+  @Nonnull
   public final String arch;
   @Nullable
   public final String goVersion;
   @Nullable
   public final String compiler;
 
-  @NotNull
+  @Nonnull
   public final ThreeState cgoEnabled;
   private final Set<String> customFlags = ContainerUtil.newHashSet();
 
-  public GoTargetSystem(@NotNull String os,
-                        @NotNull String arch,
+  public GoTargetSystem(@Nonnull String os,
+                        @Nonnull String arch,
                         @Nullable String goVersion,
                         @Nullable String compiler,
-                        @NotNull ThreeState cgoEnabled,
-                        @NotNull String... customFlags) {
+                        @Nonnull ThreeState cgoEnabled,
+                        @Nonnull String... customFlags) {
     this.os = os;
     this.arch = arch;
     this.goVersion = goVersion;
@@ -64,12 +64,12 @@ public class GoTargetSystem {
     Collections.addAll(this.customFlags, customFlags);
   }
 
-  public boolean supportsFlag(@NotNull String flag) {
+  public boolean supportsFlag(@Nonnull String flag) {
     return customFlags.contains(flag);
   }
 
   @Nullable
-  public static GoTargetSystem forModule(@NotNull Module module) {
+  public static GoTargetSystem forModule(@Nonnull Module module) {
     return CachedValuesManager.getManager(module.getProject()).getCachedValue(module, () -> {
       GoModuleExtension goModuleExtension = ModuleUtilCore.getExtension(module, GoModuleExtension.class);
       if (goModuleExtension == null) {
@@ -90,7 +90,7 @@ public class GoTargetSystem {
   }
 
   @Contract("_,null->!null")
-  private static String realValue(@NotNull String value, @Nullable String defaultValue) {
+  private static String realValue(@Nonnull String value, @Nullable String defaultValue) {
     return GoBuildTargetSettings.DEFAULT.equals(value) ? defaultValue : value;
   }
 }

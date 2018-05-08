@@ -18,8 +18,8 @@ package com.goide;
 
 import com.intellij.lang.Language;
 import com.intellij.openapi.fileTypes.LanguageFileType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoLanguage extends Language {
   public static final Language INSTANCE = new GoLanguage();
@@ -28,7 +28,7 @@ public class GoLanguage extends Language {
     super("go", "text/go", "text/x-go", "application/x-go");
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getDisplayName() {
     return GoConstants.GO;

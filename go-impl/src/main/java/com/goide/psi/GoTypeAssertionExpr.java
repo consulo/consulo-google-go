@@ -17,25 +17,25 @@
 // This is a generated file. Not intended for manual editing.
 package com.goide.psi;
 
-import java.util.List;
-import org.jetbrains.annotations.*;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiElement;
 
 public interface GoTypeAssertionExpr extends GoExpression {
 
-  @NotNull
+  @Nonnull
   GoExpression getExpression();
 
-  @NotNull
+  @Nonnull
   GoType getType();
 
-  @NotNull
+  @Nonnull
   PsiElement getDot();
 
-  @NotNull
+  @Nonnull
   PsiElement getLparen();
 
-  @NotNull
+  @Nonnull
   PsiElement getRparen();
 
 }

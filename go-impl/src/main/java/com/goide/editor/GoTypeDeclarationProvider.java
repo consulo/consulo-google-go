@@ -22,13 +22,13 @@ import com.goide.psi.GoTypeReferenceExpression;
 import com.intellij.codeInsight.navigation.actions.TypeDeclarationProvider;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoTypeDeclarationProvider extends TypeDeclarationProvider {
   @Nullable
   @Override
-  public PsiElement[] getSymbolTypeDeclarations(@NotNull PsiElement element, @Nullable Editor editor, int offset) {
+  public PsiElement[] getSymbolTypeDeclarations(@Nonnull PsiElement element, @Nullable Editor editor, int offset) {
     if (!(element instanceof GoNamedElement)) return PsiElement.EMPTY_ARRAY;
     GoType type = ((GoNamedElement)element).getGoType(null);
     GoTypeReferenceExpression ref = type != null ? type.getTypeReferenceExpression() : null;

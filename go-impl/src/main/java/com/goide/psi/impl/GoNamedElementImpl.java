@@ -16,11 +16,11 @@
 
 package com.goide.psi.impl;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.Icon;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import com.goide.project.GoVendoringUtil;
 import com.goide.psi.*;
 import com.goide.sdk.GoPackageUtil;
@@ -50,11 +50,11 @@ import consulo.ide.IconDescriptorUpdaters;
 
 public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStubbedElementImpl<T> implements GoCompositeElement, GoNamedElement {
 
-  public GoNamedElementImpl(@NotNull T stub, @NotNull IStubElementType nodeType) {
+  public GoNamedElementImpl(@Nonnull T stub, @Nonnull IStubElementType nodeType) {
     super(stub, nodeType);
   }
 
-  public GoNamedElementImpl(@NotNull ASTNode node) {
+  public GoNamedElementImpl(@Nonnull ASTNode node) {
     super(node);
   }
 
@@ -97,9 +97,9 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
     return identifier != null ? identifier.getTextOffset() : super.getTextOffset();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public PsiElement setName(@NonNls @NotNull String newName) throws IncorrectOperationException {
+  public PsiElement setName(@NonNls @Nonnull String newName) throws IncorrectOperationException {
     PsiElement identifier = getIdentifier();
     if (identifier != null) {
       identifier.replace(GoElementFactory.createIdentifierFromText(getProject(), newName));
@@ -131,7 +131,7 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
   }
 
   @Override
-  public boolean processDeclarations(@NotNull PsiScopeProcessor processor, @NotNull ResolveState state, PsiElement lastParent, @NotNull PsiElement place) {
+  public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement place) {
     return GoCompositeElementImpl.processDeclarationsDefault(this, processor, state, lastParent, place);
   }
 
@@ -166,13 +166,13 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
     return super.getPresentation();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public GlobalSearchScope getResolveScope() {
     return isPublic() ? GoUtil.goPathResolveScope(this) : GoPackageUtil.packageScope(getContainingFile());
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public SearchScope getUseScope() {
     if (this instanceof GoVarDefinition || this instanceof GoConstDefinition || this instanceof GoLabelDefinition) {

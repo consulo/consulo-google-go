@@ -3,7 +3,7 @@ package org.jetbrains.rpc;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.util.containers.ConcurrentIntObjectMap;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -68,7 +68,7 @@ public class MessageManager<REQUEST, INCOMING, INCOMING_WITH_SEQ, SUCCESS> exten
     }
   }
 
-  @NotNull
+  @Nonnull
   public RequestCallback<SUCCESS> getCallbackAndRemove(int id) {
     RequestCallback<SUCCESS> callback = callbackMap.remove(id);
 

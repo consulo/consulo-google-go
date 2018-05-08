@@ -38,9 +38,9 @@ import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.ui.UIUtil;
 import consulo.google.go.module.extension.GoModuleExtension;
 import consulo.module.extension.ModuleExtensionHelper;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
@@ -51,7 +51,7 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
 
   @Override
   @Nullable
-  public CheckinHandler createHandler(@NotNull CheckinProjectPanel panel, @NotNull CommitContext commitContext) {
+  public CheckinHandler createHandler(@Nonnull CheckinProjectPanel panel, @Nonnull CommitContext commitContext) {
     if(!ModuleExtensionHelper.getInstance(panel.getProject()).hasModuleExtension(GoModuleExtension.class)) {
       return null;
     }
@@ -61,7 +61,7 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
         JCheckBox checkBox = new JCheckBox("Go fmt");
         return new RefreshableOnComponent() {
           @Override
-          @NotNull
+          @Nonnull
           public JComponent getComponent() {
             JPanel panel = new JPanel(new BorderLayout());
             panel.add(checkBox, BorderLayout.WEST);
@@ -103,7 +103,7 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
         return super.beforeCheckin();
       }
 
-      @NotNull
+      @Nonnull
       private ReturnResult showErrorMessage(@Nullable CommitExecutor executor) {
         String[] buttons = new String[]{"&Details...", commitButtonMessage(executor, panel), CommonBundle.getCancelButtonText()};
         int answer = Messages.showDialog(panel.getProject(),
@@ -119,7 +119,7 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
         return ReturnResult.CANCEL;
       }
 
-      @NotNull
+      @Nonnull
       private List<PsiFile> getPsiFiles() {
         Collection<VirtualFile> files = panel.getVirtualFiles();
         List<PsiFile> psiFiles = ContainerUtil.newArrayList();
@@ -135,12 +135,12 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
     };
   }
 
-  @NotNull
-  private static String commitButtonMessage(@Nullable CommitExecutor executor, @NotNull CheckinProjectPanel panel) {
+  @Nonnull
+  private static String commitButtonMessage(@Nullable CommitExecutor executor, @Nonnull CheckinProjectPanel panel) {
     return StringUtil.trimEnd(executor != null ? executor.getActionText() : panel.getCommitActionName(), "...");
   }
 
-  private static boolean enabled(@NotNull CheckinProjectPanel panel) {
+  private static boolean enabled(@Nonnull CheckinProjectPanel panel) {
     return PropertiesComponent.getInstance(panel.getProject()).getBoolean(GO_FMT, false);
   }
 }

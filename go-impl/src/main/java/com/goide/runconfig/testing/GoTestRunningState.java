@@ -46,8 +46,8 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.containers.ContainerUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.io.File;
 import java.util.Collection;
@@ -57,13 +57,13 @@ public class GoTestRunningState extends GoRunningState<GoTestRunConfiguration> {
   private String myCoverageFilePath;
   private String myFailedTestsPattern;
 
-  public GoTestRunningState(@NotNull ExecutionEnvironment env, @NotNull Module module, @NotNull GoTestRunConfiguration configuration) {
+  public GoTestRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module, @Nonnull GoTestRunConfiguration configuration) {
     super(env, module, configuration);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public ExecutionResult execute(@NotNull Executor executor, @NotNull ProgramRunner runner) throws ExecutionException {
+  public ExecutionResult execute(@Nonnull Executor executor, @Nonnull ProgramRunner runner) throws ExecutionException {
     ProcessHandler processHandler = startProcess();
     TextConsoleBuilder consoleBuilder = TextConsoleBuilderFactory.getInstance().createBuilder(myConfiguration.getProject());
     setConsoleBuilder(consoleBuilder);
@@ -87,7 +87,7 @@ public class GoTestRunningState extends GoRunningState<GoTestRunConfiguration> {
   }
 
   @Override
-  protected GoExecutor patchExecutor(@NotNull GoExecutor executor) throws ExecutionException {
+  protected GoExecutor patchExecutor(@Nonnull GoExecutor executor) throws ExecutionException {
     executor.withParameters("test", "-v");
     executor.withParameterString(myConfiguration.getGoToolParams());
     switch (myConfiguration.getKind()) {
@@ -139,7 +139,7 @@ public class GoTestRunningState extends GoRunningState<GoTestRunConfiguration> {
     return executor;
   }
 
-  @NotNull
+  @Nonnull
   protected String buildFilterPatternForFile(GoFile file) {
     Collection<String> testNames = ContainerUtil.newLinkedHashSet();
     for (GoFunctionDeclaration function : file.getFunctions()) {
@@ -148,7 +148,7 @@ public class GoTestRunningState extends GoRunningState<GoTestRunConfiguration> {
     return "^" + StringUtil.join(testNames, "|") + "$";
   }
 
-  protected void addFilterParameter(@NotNull GoExecutor executor, String pattern) {
+  protected void addFilterParameter(@Nonnull GoExecutor executor, String pattern) {
     if (StringUtil.isNotEmpty(pattern)) {
       executor.withParameters("-run", pattern);
     }
@@ -158,7 +158,7 @@ public class GoTestRunningState extends GoRunningState<GoTestRunConfiguration> {
     myCoverageFilePath = coverageFile;
   }
 
-  public void setFailedTests(@NotNull List<AbstractTestProxy> failedTests) {
+  public void setFailedTests(@Nonnull List<AbstractTestProxy> failedTests) {
     myFailedTestsPattern = "^" + StringUtil.join(failedTests, AbstractTestProxy::getName, "|") + "$";
   }
 }

@@ -31,8 +31,8 @@ import com.intellij.util.ObjectUtils;
 import com.intellij.util.ProcessingContext;
 import com.intellij.util.containers.ContainerUtil;
 import consulo.codeInsight.completion.CompletionProvider;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import java.util.Set;
 
@@ -40,7 +40,7 @@ import static com.goide.completion.GoCompletionUtil.createPrefixMatcher;
 
 public class GoReferenceCompletionProvider implements CompletionProvider {
   @Override
-  public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet set) {
+  public void addCompletions(@Nonnull CompletionParameters parameters, ProcessingContext context, @Nonnull CompletionResultSet set) {
     GoReferenceExpressionBase expression = PsiTreeUtil.getParentOfType(parameters.getPosition(), GoReferenceExpressionBase.class);
     PsiFile originalFile = parameters.getOriginalFile();
     if (expression != null) {
@@ -52,7 +52,7 @@ public class GoReferenceCompletionProvider implements CompletionProvider {
     }
   }
 
-  private static void fillVariantsByReference(@Nullable PsiReference reference, @NotNull PsiFile file, @NotNull CompletionResultSet result) {
+  private static void fillVariantsByReference(@Nullable PsiReference reference, @Nonnull PsiFile file, @Nonnull CompletionResultSet result) {
     if (reference == null) return;
     if (reference instanceof PsiMultiReference) {
       PsiReference[] references = ((PsiMultiReference)reference).getReferences();
@@ -75,7 +75,7 @@ public class GoReferenceCompletionProvider implements CompletionProvider {
       boolean insideParameter = PsiTreeUtil.getParentOfType(element, GoParameterDeclaration.class) != null;
       ((GoTypeReference)reference).processResolveVariants(new MyGoScopeProcessor(result, file, true) {
         @Override
-        protected boolean accept(@NotNull PsiElement e) {
+        protected boolean accept(@Nonnull PsiElement e) {
           return e != spec && !(insideParameter && (e instanceof GoNamedSignatureOwner || e instanceof GoVarDefinition || e instanceof GoConstDefinition));
         }
       });
@@ -85,9 +85,9 @@ public class GoReferenceCompletionProvider implements CompletionProvider {
     }
   }
 
-  private static void fillStructFieldNameVariants(@NotNull PsiFile file,
-                                                  @NotNull CompletionResultSet result,
-                                                  @NotNull GoStructLiteralCompletion.Variants variants,
+  private static void fillStructFieldNameVariants(@Nonnull PsiFile file,
+                                                  @Nonnull CompletionResultSet result,
+                                                  @Nonnull GoStructLiteralCompletion.Variants variants,
                                                   @Nullable GoReferenceExpression refExpression) {
     if (refExpression == null || variants != GoStructLiteralCompletion.Variants.FIELD_NAME_ONLY && variants != GoStructLiteralCompletion.Variants.BOTH) {
       return;
@@ -98,7 +98,7 @@ public class GoReferenceCompletionProvider implements CompletionProvider {
       final Set<String> alreadyAssignedFields = GoStructLiteralCompletion.alreadyAssignedFields(literal);
 
       @Override
-      public boolean execute(@NotNull PsiElement o, @NotNull ResolveState state) {
+      public boolean execute(@Nonnull PsiElement o, @Nonnull ResolveState state) {
         String structFieldName = o instanceof GoFieldDefinition
                                  ? ((GoFieldDefinition)o).getName()
                                  : o instanceof GoAnonymousFieldDefinition ? ((GoAnonymousFieldDefinition)o).getName() : null;
@@ -110,12 +110,12 @@ public class GoReferenceCompletionProvider implements CompletionProvider {
     });
   }
 
-  private static void addElement(@NotNull PsiElement o,
-                                 @NotNull ResolveState state,
+  private static void addElement(@Nonnull PsiElement o,
+                                 @Nonnull ResolveState state,
                                  boolean forTypes,
                                  boolean vendoringEnabled,
-                                 @NotNull Set<String> processedNames,
-                                 @NotNull CompletionResultSet set) {
+                                 @Nonnull Set<String> processedNames,
+                                 @Nonnull CompletionResultSet set) {
     LookupElement lookup = createLookupElement(o, state, forTypes, vendoringEnabled);
     if (lookup != null) {
       String lookupString = lookup.getLookupString();
@@ -127,7 +127,7 @@ public class GoReferenceCompletionProvider implements CompletionProvider {
   }
 
   @Nullable
-  private static LookupElement createLookupElement(@NotNull PsiElement o, @NotNull ResolveState state, boolean forTypes, boolean vendoringEnabled) {
+  private static LookupElement createLookupElement(@Nonnull PsiElement o, @Nonnull ResolveState state, boolean forTypes, boolean vendoringEnabled) {
     if (o instanceof GoNamedElement && !((GoNamedElement)o).isBlank() || o instanceof GoImportSpec && !((GoImportSpec)o).isDot()) {
       if (o instanceof GoImportSpec) {
         return GoCompletionUtil.createPackageLookupElement((GoImportSpec)o, state.get(GoReferenceBase.ACTUAL_NAME), vendoringEnabled);
@@ -159,27 +159,27 @@ public class GoReferenceCompletionProvider implements CompletionProvider {
   }
 
   private static class MyGoScopeProcessor extends GoScopeProcessor {
-    @NotNull
+    @Nonnull
     private final CompletionResultSet myResult;
     private final boolean myForTypes;
     private final boolean myVendoringEnabled;
     private final Set<String> myProcessedNames = ContainerUtil.newHashSet();
 
-    public MyGoScopeProcessor(@NotNull CompletionResultSet result, @NotNull PsiFile originalFile, boolean forTypes) {
+    public MyGoScopeProcessor(@Nonnull CompletionResultSet result, @Nonnull PsiFile originalFile, boolean forTypes) {
       myResult = result;
       myForTypes = forTypes;
       myVendoringEnabled = GoVendoringUtil.isVendoringEnabled(ModuleUtilCore.findModuleForPsiElement(originalFile));
     }
 
     @Override
-    public boolean execute(@NotNull PsiElement o, @NotNull ResolveState state) {
+    public boolean execute(@Nonnull PsiElement o, @Nonnull ResolveState state) {
       if (accept(o)) {
         addElement(o, state, myForTypes, myVendoringEnabled, myProcessedNames, myResult);
       }
       return true;
     }
 
-    protected boolean accept(@NotNull PsiElement e) {
+    protected boolean accept(@Nonnull PsiElement e) {
       return true;
     }
 

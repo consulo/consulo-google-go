@@ -19,7 +19,7 @@ package com.goide.generate;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.runconfig.testing.GoTestFunctionType;
 import com.goide.runconfig.testing.frameworks.gotest.GotestGenerateAction;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 public class GoGenerateTestActionTest extends GoCodeInsightFixtureTestCase {
   public void testTest() {
@@ -106,7 +106,7 @@ public class GoGenerateTestActionTest extends GoCodeInsightFixtureTestCase {
   }
 
 
-  private void doTest(@NotNull GoTestFunctionType type, @NotNull String beforeText, @NotNull String afterText) {
+  private void doTest(@Nonnull GoTestFunctionType type, @Nonnull String beforeText, @Nonnull String afterText) {
     myFixture.configureByText("test_test.go", beforeText);
     myFixture.testAction(new GotestGenerateAction(type));
     myFixture.checkResult(afterText);
