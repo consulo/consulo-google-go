@@ -1,6 +1,6 @@
 package com.goide.lexer;
 
-import com.intellij.lexer.FlexLexer;
+import com.intellij.lexer.LexerBase;
 import com.intellij.psi.tree.IElementType;
 import com.goide.GoTypes;
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
@@ -8,18 +8,13 @@ import static com.goide.GoParserDefinition.*;
 
 %%
 
-%{
-  public _GoLexer() {
-    this((java.io.Reader)null);
- }
-%}
-
 %class _GoLexer
-%implements FlexLexer, GoTypes
+%extends LexerBase
+%implements  GoTypes
 %unicode
 %public
 
-%function advance
+%function advanceImpl
 %type IElementType
 
 NL = \R
