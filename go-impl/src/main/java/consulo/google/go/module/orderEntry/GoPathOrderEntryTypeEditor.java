@@ -22,7 +22,6 @@ import com.goide.GoIcons;
 import com.intellij.openapi.roots.ui.CellAppearanceEx;
 import com.intellij.openapi.roots.ui.util.SimpleTextCellAppearance;
 import com.intellij.ui.SimpleTextAttributes;
-import consulo.awt.TargetAWT;
 import consulo.roots.orderEntry.OrderEntryTypeEditor;
 
 /**
@@ -32,6 +31,6 @@ import consulo.roots.orderEntry.OrderEntryTypeEditor;
 public class GoPathOrderEntryTypeEditor implements OrderEntryTypeEditor<GoPathOrderEntry> {
   @Nonnull
   public CellAppearanceEx getCellAppearance(@Nonnull GoPathOrderEntry orderEntry) {
-    return new SimpleTextCellAppearance(orderEntry.getPresentableName(), TargetAWT.to(GoIcons.ICON), SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
+    return new SimpleTextCellAppearance(orderEntry.getPresentableName(), GoIcons.ICON, SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
   }
 }
