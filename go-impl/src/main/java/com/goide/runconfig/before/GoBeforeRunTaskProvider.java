@@ -17,7 +17,6 @@
 package com.goide.runconfig.before;
 
 import javax.annotation.Nullable;
-import javax.swing.Icon;
 
 import com.goide.GoIcons;
 import com.goide.runconfig.GoRunConfigurationBase;
@@ -38,7 +37,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.concurrency.Semaphore;
 import com.intellij.util.ui.UIUtil;
-import consulo.awt.TargetAWT;
+import consulo.ui.image.Image;
 
 public class GoBeforeRunTaskProvider extends BeforeRunTaskProvider<GoCommandBeforeRunTask> {
   public static final Key<GoCommandBeforeRunTask> ID = Key.create("GoBeforeRunTask");
@@ -60,8 +59,8 @@ public class GoBeforeRunTaskProvider extends BeforeRunTaskProvider<GoCommandBefo
 
   @Nullable
   @Override
-  public Icon getIcon() {
-    return TargetAWT.to(GoIcons.APPLICATION_RUN);
+  public Image getIcon() {
+    return GoIcons.APPLICATION_RUN;
   }
 
   @Override
@@ -71,7 +70,7 @@ public class GoBeforeRunTaskProvider extends BeforeRunTaskProvider<GoCommandBefo
 
   @Nullable
   @Override
-  public Icon getTaskIcon(GoCommandBeforeRunTask task) {
+  public Image getTaskIcon(GoCommandBeforeRunTask task) {
     return getIcon();
   }
 

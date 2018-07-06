@@ -16,6 +16,9 @@
 
 package com.goide.runconfig.testing;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.GoTypes;
 import com.goide.psi.GoFunctionDeclaration;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
@@ -32,10 +35,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.Function;
-import javax.annotation.Nonnull;
-
-import javax.annotation.Nullable;
-import javax.swing.*;
+import consulo.ui.image.Image;
 
 public class GoTestRunLineMarkerProvider extends RunLineMarkerContributor {
   private static final Function<PsiElement, String> TOOLTIP_PROVIDER = element -> "Run Test";
@@ -72,11 +72,11 @@ public class GoTestRunLineMarkerProvider extends RunLineMarkerContributor {
 
   @Nonnull
   private static Info getInfo(String url, Project project) {
-    Icon icon = getTestStateIcon(url, project);
+    Image icon = getTestStateIcon(url, project);
     return new Info(icon, TOOLTIP_PROVIDER, ExecutorAction.getActions(0));
   }
 
-  private static Icon getTestStateIcon(@Nonnull String url, @Nonnull Project project) {
+  private static Image getTestStateIcon(@Nonnull String url, @Nonnull Project project) {
     TestStateStorage.Record state = TestStateStorage.getInstance(project).getState(url);
     if (state != null) {
       TestStateInfo.Magnitude magnitude = TestIconMapper.getMagnitude(state.magnitude);
