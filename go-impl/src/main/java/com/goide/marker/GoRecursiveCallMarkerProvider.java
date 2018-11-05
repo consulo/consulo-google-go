@@ -16,6 +16,12 @@
 
 package com.goide.marker;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+
 import com.goide.psi.GoCallExpr;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.impl.GoPsiImplUtil;
@@ -31,11 +37,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.FunctionUtil;
 import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 
 public class GoRecursiveCallMarkerProvider implements LineMarkerProvider {
   @Override
@@ -75,7 +76,7 @@ public class GoRecursiveCallMarkerProvider implements LineMarkerProvider {
       super(methodCall,
             methodCall.getTextRange(),
             AllIcons.Gutter.RecursiveMethod,
-            Pass.UPDATE_OVERRIDDEN_MARKERS,
+            Pass.LINE_MARKERS,
             FunctionUtil.constant("Recursive call"),
             null,
             GutterIconRenderer.Alignment.RIGHT
