@@ -16,6 +16,29 @@
 
 package com.goide.dlv;
 
+import static com.goide.dlv.protocol.DlvApi.Breakpoint;
+import static com.goide.dlv.protocol.DlvApi.CONTINUE;
+import static com.goide.dlv.protocol.DlvApi.CommandOut;
+import static com.goide.dlv.protocol.DlvApi.DebuggerState;
+import static com.goide.dlv.protocol.DlvApi.HALT;
+import static com.goide.dlv.protocol.DlvApi.NEXT;
+import static com.goide.dlv.protocol.DlvApi.STEP;
+import static com.goide.dlv.protocol.DlvApi.STEPOUT;
+import static com.goide.dlv.protocol.DlvApi.SWITCH_THREAD;
+import static com.intellij.util.ObjectUtils.assertNotNull;
+import static com.intellij.util.ObjectUtils.tryCast;
+
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.intellij.lang.annotations.MagicConstant;
+import org.jetbrains.debugger.DebugProcessImpl;
+import org.jetbrains.debugger.StepAction;
+import org.jetbrains.debugger.Vm;
+import org.jetbrains.debugger.connection.VmConnection;
 import com.goide.GoConstants;
 import com.goide.GoFileType;
 import com.goide.dlv.breakpoint.DlvBreakpointProperties;
@@ -37,7 +60,6 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
-import com.intellij.util.Consumer;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.io.socketConnection.ConnectionStatus;
 import com.intellij.xdebugger.XDebugSession;
@@ -50,21 +72,6 @@ import com.intellij.xdebugger.frame.XSuspendContext;
 import consulo.google.go.run.dlv.DlvSuspendContext;
 import consulo.google.go.run.dlv.api.DlvRequests;
 import consulo.google.go.run.dlv.api.SimpleInOutMessage;
-import org.intellij.lang.annotations.MagicConstant;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jetbrains.debugger.DebugProcessImpl;
-import org.jetbrains.debugger.StepAction;
-import org.jetbrains.debugger.Vm;
-import org.jetbrains.debugger.connection.VmConnection;
-
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import static com.goide.dlv.protocol.DlvApi.*;
-import static com.intellij.util.ObjectUtils.assertNotNull;
-import static com.intellij.util.ObjectUtils.tryCast;
 
 public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> implements Disposable {
   public static final boolean IS_DLV_DISABLED = !GoConstants.AMD64.equals(GoUtil.systemArch());
@@ -72,12 +79,12 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   private final static Logger LOG = Logger.getInstance(DlvDebugProcess.class);
   private final AtomicBoolean breakpointsInitiated = new AtomicBoolean();
   private final AtomicBoolean connectedListenerAdded = new AtomicBoolean();
-  private static final Consumer<Throwable> THROWABLE_CONSUMER = LOG::warn;
+  private static final java.util.function.Consumer<Throwable> THROWABLE_CONSUMER = LOG::warn;
 
   @Nonnull
-  private final Consumer<CommandOut> myStateConsumer = new Consumer<CommandOut>() {
+  private final java.util.function.Consumer<CommandOut> myStateConsumer = new java.util.function.Consumer<CommandOut>() {
     @Override
-    public void consume(@Nonnull final CommandOut so) {
+    public void accept(@Nonnull final CommandOut so) {
       DebuggerState o = so.State;
       if (o.exited) {
         stop();

@@ -16,6 +16,8 @@
 
 package com.goide.quickfix;
 
+import java.util.function.Consumer;
+
 import javax.annotation.Nonnull;
 
 import com.goide.psi.GoNamedElement;
@@ -34,7 +36,6 @@ import com.intellij.refactoring.RefactoringActionHandlerFactory;
 import com.intellij.refactoring.rename.RenameHandler;
 import com.intellij.refactoring.rename.RenameHandlerRegistry;
 import com.intellij.usageView.UsageViewTypeLocation;
-import com.intellij.util.Consumer;
 
 public class GoRenameQuickFix extends LocalQuickFixOnPsiElement {
   private final String myText;
@@ -55,7 +56,7 @@ public class GoRenameQuickFix extends LocalQuickFixOnPsiElement {
       AsyncResult<DataContext> dataContextContainer = DataManager.getInstance().getDataContextFromFocus();
       dataContextContainer.doWhenDone(new Consumer<DataContext>() {
         @Override
-        public void consume(DataContext dataContext) {
+        public void accept(DataContext dataContext) {
           RenameHandler renameHandler = RenameHandlerRegistry.getInstance().getRenameHandler(dataContext);
           if (renameHandler != null) {
             renameHandler.invoke(project, new PsiElement[]{startElement}, dataContext);
