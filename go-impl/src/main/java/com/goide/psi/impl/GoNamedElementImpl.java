@@ -18,7 +18,6 @@ package com.goide.psi.impl;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.swing.Icon;
 
 import org.jetbrains.annotations.NonNls;
 import com.goide.project.GoVendoringUtil;
@@ -45,8 +44,8 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.usageView.UsageViewUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.ObjectUtils;
-import consulo.awt.TargetAWT;
 import consulo.ide.IconDescriptorUpdaters;
+import consulo.ui.image.Image;
 
 public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStubbedElementImpl<T> implements GoCompositeElement, GoNamedElement {
 
@@ -158,8 +157,8 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
 
         @Nullable
         @Override
-        public Icon getIcon(boolean b) {
-          return TargetAWT.to(IconDescriptorUpdaters.getIcon(GoNamedElementImpl.this, Iconable.ICON_FLAG_VISIBILITY));
+        public Image getIcon() {
+          return IconDescriptorUpdaters.getIcon(GoNamedElementImpl.this, Iconable.ICON_FLAG_VISIBILITY);
         }
       };
     }

@@ -16,6 +16,14 @@
 
 package com.goide.dlv;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.goide.dlv.protocol.DlvApi;
 import com.goide.dlv.protocol.DlvRequest;
 import com.goide.psi.GoNamedElement;
@@ -43,24 +51,26 @@ import com.intellij.util.containers.ContainerUtil;
 import com.intellij.xdebugger.XDebugSession;
 import com.intellij.xdebugger.XDebuggerUtil;
 import com.intellij.xdebugger.XSourcePosition;
-import com.intellij.xdebugger.frame.*;
+import com.intellij.xdebugger.frame.XCompositeNode;
+import com.intellij.xdebugger.frame.XInlineDebuggerDataCallback;
+import com.intellij.xdebugger.frame.XNamedValue;
+import com.intellij.xdebugger.frame.XNavigatable;
+import com.intellij.xdebugger.frame.XStackFrame;
+import com.intellij.xdebugger.frame.XValueChildrenList;
+import com.intellij.xdebugger.frame.XValueModifier;
+import com.intellij.xdebugger.frame.XValueNode;
+import com.intellij.xdebugger.frame.XValuePlace;
 import com.intellij.xdebugger.frame.presentation.XNumericValuePresentation;
 import com.intellij.xdebugger.frame.presentation.XRegularValuePresentation;
 import com.intellij.xdebugger.frame.presentation.XStringValuePresentation;
 import com.intellij.xdebugger.frame.presentation.XValuePresentation;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import javax.swing.*;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.regex.Pattern;
+import consulo.awt.TargetAWT;
+import consulo.ui.image.Image;
 
 class DlvXValue extends XNamedValue {
   @Nonnull
   private final DlvApi.Variable myVariable;
-  private final Icon myIcon;
+  private final Image myIcon;
   private final DlvDebugProcess myProcess;
   private final DlvCommandProcessor myProcessor;
   private final int myFrameId;
@@ -71,7 +81,7 @@ class DlvXValue extends XNamedValue {
                    @Nonnull DlvCommandProcessor processor,
                    int frameId,
                    int goroutineId,
-                   @Nullable Icon icon) {
+                   @Nullable Image icon) {
     super(variable.name);
     myProcess = process;
     myVariable = variable;
@@ -85,7 +95,7 @@ class DlvXValue extends XNamedValue {
   public void computePresentation(@Nonnull XValueNode node, @Nonnull XValuePlace place) {
     XValuePresentation presentation = getPresentation();
     boolean hasChildren = myVariable.children.length > 0;
-    node.setPresentation(myIcon, presentation, hasChildren);
+    node.setPresentation(TargetAWT.to(myIcon), presentation, hasChildren);
   }
 
   @Override

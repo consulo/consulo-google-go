@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import com.goide.GoIcons;
 import com.goide.dlv.protocol.DlvApi;
 import com.goide.dlv.protocol.DlvRequest;
@@ -56,7 +57,6 @@ import com.intellij.xdebugger.frame.XCompositeNode;
 import com.intellij.xdebugger.frame.XStackFrame;
 import com.intellij.xdebugger.frame.XValue;
 import com.intellij.xdebugger.frame.XValueChildrenList;
-import consulo.awt.TargetAWT;
 import consulo.ui.image.Image;
 
 public class DlvStackFrame extends XStackFrame {
@@ -113,7 +113,7 @@ public class DlvStackFrame extends XStackFrame {
 
   @Nonnull
   private XValue createXValue(@Nonnull DlvApi.Variable variable, @Nullable Image icon) {
-    return new DlvXValue(myProcess, variable, myProcessor, myId, myGoroutineId, TargetAWT.to(icon));
+    return new DlvXValue(myProcess, variable, myProcessor, myId, myGoroutineId, icon);
   }
 
   @Nullable
