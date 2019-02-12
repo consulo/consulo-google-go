@@ -64,7 +64,6 @@ import com.intellij.xdebugger.frame.presentation.XNumericValuePresentation;
 import com.intellij.xdebugger.frame.presentation.XRegularValuePresentation;
 import com.intellij.xdebugger.frame.presentation.XStringValuePresentation;
 import com.intellij.xdebugger.frame.presentation.XValuePresentation;
-import consulo.awt.TargetAWT;
 import consulo.ui.image.Image;
 
 class DlvXValue extends XNamedValue {
@@ -95,7 +94,7 @@ class DlvXValue extends XNamedValue {
   public void computePresentation(@Nonnull XValueNode node, @Nonnull XValuePlace place) {
     XValuePresentation presentation = getPresentation();
     boolean hasChildren = myVariable.children.length > 0;
-    node.setPresentation(TargetAWT.to(myIcon), presentation, hasChildren);
+    node.setPresentation(myIcon, presentation, hasChildren);
   }
 
   @Override
