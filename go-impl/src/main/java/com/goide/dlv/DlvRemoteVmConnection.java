@@ -16,16 +16,17 @@
 
 package com.goide.dlv;
 
+import java.net.InetSocketAddress;
+
+import javax.annotation.Nonnull;
+
+import org.jetbrains.debugger.Vm;
+import org.jetbrains.debugger.connection.RemoteVmConnection;
 import com.intellij.openapi.util.AsyncResult;
-import com.intellij.util.io.NettyKt;
+import consulo.builtInServer.impl.net.util.netty.NettyKt;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
-import javax.annotation.Nonnull;
-import org.jetbrains.debugger.Vm;
-import org.jetbrains.debugger.connection.RemoteVmConnection;
-
-import java.net.InetSocketAddress;
 
 public class DlvRemoteVmConnection extends RemoteVmConnection {
   @Nonnull

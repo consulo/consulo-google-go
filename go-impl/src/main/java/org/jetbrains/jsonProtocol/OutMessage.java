@@ -1,11 +1,11 @@
 package org.jetbrains.jsonProtocol;
 
+import java.io.IOException;
+
 import com.google.gson.stream.JsonWriter;
+import consulo.builtInServer.impl.net.util.netty.buffer.ByteBufUtf8Writer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-import io.netty.buffer.ByteBufUtf8Writer;
-
-import java.io.IOException;
 
 /**
  * @author VISTALL

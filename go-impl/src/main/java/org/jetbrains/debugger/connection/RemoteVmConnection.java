@@ -1,23 +1,24 @@
 package org.jetbrains.debugger.connection;
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.util.AsyncResult;
-import com.intellij.openapi.util.Condition;
-import com.intellij.util.io.NettyKt;
-import com.intellij.util.io.socketConnection.ConnectionStatus;
-import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import javax.annotation.Nonnull;
-import org.jetbrains.debugger.Vm;
-import org.jetbrains.io.NettyUtil;
-
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+
+import javax.annotation.Nonnull;
+
+import org.jetbrains.debugger.Vm;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.util.AsyncResult;
+import com.intellij.openapi.util.Condition;
+import com.intellij.util.io.socketConnection.ConnectionStatus;
+import consulo.builtInServer.impl.net.http.NettyUtil;
+import consulo.builtInServer.impl.net.util.netty.NettyKt;
+import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 
 /**
  * @author VISTALL
