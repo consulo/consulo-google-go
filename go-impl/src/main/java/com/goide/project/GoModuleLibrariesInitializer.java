@@ -231,7 +231,7 @@ public class GoModuleLibrariesInitializer implements Disposable
 	@Override
 	public void dispose()
 	{
-		Disposer.dispose(myConnection);
+		myConnection.disconnect();
 		Disposer.dispose(myAlarm);
 		VirtualFileManager.getInstance().removeVirtualFileListener(myFilesListener);
 		myLastHandledGoPathSourcesRoots.clear();
