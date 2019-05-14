@@ -8,12 +8,12 @@ import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.io.socketConnection.ConnectionState;
 import com.intellij.util.io.socketConnection.ConnectionStatus;
 import com.intellij.util.io.socketConnection.SocketConnectionListener;
-import consulo.concurrency.Promises;
-import javax.annotation.Nonnull;
 import org.jetbrains.concurrency.AsyncPromise;
+import org.jetbrains.concurrency.Promises;
 import org.jetbrains.debugger.DebugEventListener;
 import org.jetbrains.debugger.Vm;
 
+import javax.annotation.Nonnull;
 import javax.swing.event.HyperlinkListener;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;

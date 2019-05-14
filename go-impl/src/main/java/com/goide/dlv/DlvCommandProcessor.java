@@ -22,12 +22,11 @@ import com.google.gson.JsonElement;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import org.jetbrains.concurrency.Promise;
 import org.jetbrains.rpc.CommandProcessor;
 import org.jetbrains.rpc.RequestCallback;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -60,7 +59,7 @@ public abstract class DlvCommandProcessor extends CommandProcessor<JsonElement, 
       callback.onSuccess(response, this);
     }
     else {
-      callback.onError(Promise.createError(createMessage(response)));
+      callback.onError(createMessage(response));
     }
   }
 
