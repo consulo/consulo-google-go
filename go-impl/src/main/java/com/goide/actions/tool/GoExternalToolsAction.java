@@ -16,8 +16,6 @@
 
 package com.goide.actions.tool;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoConstants;
 import com.goide.GoFileType;
 import com.goide.sdk.GoSdkService;
@@ -27,7 +25,6 @@ import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.module.Module;
@@ -39,7 +36,9 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.Consumer;
 import com.intellij.util.ExceptionUtil;
+import consulo.logging.Logger;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class GoExternalToolsAction extends DumbAwareAction {
