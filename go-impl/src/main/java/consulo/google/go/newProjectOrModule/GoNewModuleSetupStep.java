@@ -17,36 +17,37 @@
 package consulo.google.go.newProjectOrModule;
 
 import com.goide.sdk.GoSdkType;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.roots.ui.configuration.projectRoot.ProjectSdksModel;
+import com.intellij.openapi.projectRoots.SdkTable;
 import com.intellij.openapi.ui.LabeledComponent;
-import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.util.Conditions;
+import consulo.ide.newProject.ui.ProjectOrModuleNameStep;
 import consulo.roots.ui.configuration.SdkComboBox;
 
-import javax.annotation.Nullable;
-import javax.swing.*;
+import javax.annotation.Nonnull;
+import java.awt.*;
 
 /**
  * @author VISTALL
  * @since 05-May-17
  */
-public class GoNewModuleBuilderPanel extends JPanel {
-  private SdkComboBox myComboBox;
+public class GoNewModuleSetupStep extends ProjectOrModuleNameStep<GoNewModuleContext>
+{
+	private final SdkComboBox myComboBox;
 
-  public GoNewModuleBuilderPanel() {
-    super(new VerticalFlowLayout());
+	public GoNewModuleSetupStep(GoNewModuleContext context)
+	{
+		super(context);
 
-    ProjectSdksModel model = new ProjectSdksModel();
-    model.reset();
+		myComboBox = new SdkComboBox(SdkTable.getInstance(), Conditions.equalTo(GoSdkType.getInstance()), false);
 
-    myComboBox = new SdkComboBox(model, Conditions.equalTo(GoSdkType.getInstance()), false);
+		myAdditionalContentPanel.add(LabeledComponent.create(myComboBox, "SDK"), BorderLayout.NORTH);
+	}
 
-    add(LabeledComponent.left(myComboBox, "Sdk"));
-  }
+	@Override
+	public void onStepLeave(@Nonnull GoNewModuleContext context)
+	{
+		super.onStepLeave(context);
 
-  @Nullable
-  public Sdk getSdk() {
-    return myComboBox.getSelectedSdk();
-  }
+		context.setSdk(myComboBox.getSelectedSdk());
+	}
 }

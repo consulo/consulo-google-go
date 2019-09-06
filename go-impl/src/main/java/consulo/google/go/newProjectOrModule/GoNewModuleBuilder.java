@@ -16,8 +16,6 @@
 
 package consulo.google.go.newProjectOrModule;
 
-import javax.annotation.Nonnull;
-
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ContentEntry;
@@ -29,43 +27,56 @@ import consulo.ide.newProject.NewModuleBuilder;
 import consulo.ide.newProject.NewModuleContext;
 import consulo.roots.ModifiableModuleRootLayer;
 import consulo.roots.impl.ModuleRootLayerImpl;
+import consulo.ui.wizard.WizardStep;
+
+import javax.annotation.Nonnull;
+import java.util.function.Consumer;
 
 /**
  * @author VISTALL
  * @since 05-May-17
  */
-public class GoNewModuleBuilder implements NewModuleBuilder {
-  @Override
-  public void setupContext(@Nonnull NewModuleContext context) {
-    NewModuleContext.Group group = context.createGroup("go", "Go");
+public class GoNewModuleBuilder implements NewModuleBuilder
+{
+	@Override
+	public void setupContext(@Nonnull NewModuleContext context)
+	{
+		NewModuleContext.Group group = context.createGroup("go", "Go");
 
-    group.add("Console Application", AllIcons.RunConfigurations.Application,
-              new UnzipNewModuleBuilderProcessor<GoNewModuleBuilderPanel>("/moduleTemplates/GoHelloWorld.zip") {
-                @Nonnull
-                @Override
-                public GoNewModuleBuilderPanel createConfigurationPanel() {
-                  return new GoNewModuleBuilderPanel();
-                }
+		group.add("Console Application", AllIcons.RunConfigurations.Application, new UnzipNewModuleBuilderProcessor<GoNewModuleContext>("/moduleTemplates/GoHelloWorld.zip")
+		{
+			@Nonnull
+			@Override
+			public GoNewModuleContext createContext(boolean isNewProject)
+			{
+				return new GoNewModuleContext(isNewProject);
+			}
 
-                @Override
-                public void setupModule(@Nonnull GoNewModuleBuilderPanel panel,
-                                        @Nonnull ContentEntry contentEntry,
-                                        @Nonnull ModifiableRootModel modifiableRootModel) {
-                  unzip(modifiableRootModel);
+			@Override
+			public void buildSteps(@Nonnull Consumer<WizardStep<GoNewModuleContext>> consumer, @Nonnull GoNewModuleContext context)
+			{
+				consumer.accept(new GoNewModuleSetupStep(context));
+			}
 
-                  GoMutableModuleExtension goModuleExtension = modifiableRootModel.getExtensionWithoutCheck(GoMutableModuleExtension.class);
-                  assert goModuleExtension != null;
+			@Override
+			public void process(@Nonnull GoNewModuleContext context, @Nonnull ContentEntry contentEntry, @Nonnull ModifiableRootModel modifiableRootModel)
+			{
+				unzip(modifiableRootModel);
 
-                  goModuleExtension.setEnabled(true);
+				GoMutableModuleExtension goModuleExtension = modifiableRootModel.getExtensionWithoutCheck(GoMutableModuleExtension.class);
+				assert goModuleExtension != null;
 
-                  ModifiableModuleRootLayer moduleRootLayer = goModuleExtension.getModuleRootLayer();
-                  moduleRootLayer.addOrderEntry(new GoPathOrderEntry((ModuleRootLayerImpl)moduleRootLayer));
-                  Sdk sdk = panel.getSdk();
-                  if (sdk != null) {
-                    goModuleExtension.getInheritableSdk().set(null, sdk);
-                    modifiableRootModel.addModuleExtensionSdkEntry(goModuleExtension);
-                  }
-                }
-              });
-  }
+				goModuleExtension.setEnabled(true);
+
+				ModifiableModuleRootLayer moduleRootLayer = goModuleExtension.getModuleRootLayer();
+				moduleRootLayer.addOrderEntry(new GoPathOrderEntry((ModuleRootLayerImpl) moduleRootLayer));
+				Sdk sdk = context.getSdk();
+				if(sdk != null)
+				{
+					goModuleExtension.getInheritableSdk().set(null, sdk);
+					modifiableRootModel.addModuleExtensionSdkEntry(goModuleExtension);
+				}
+			}
+		});
+	}
 }
