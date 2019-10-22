@@ -16,12 +16,6 @@
 
 package com.goide;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.project.Project;
@@ -41,6 +35,11 @@ import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.FileContentImpl;
 import com.intellij.util.indexing.IndexingDataKeys;
 
+import javax.annotation.Nonnull;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 abstract public class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsightFixtureTestCase {
   protected static String buildStubTreeText(@Nonnull Project project,
                                             @Nonnull VirtualFile file,
@@ -53,7 +52,7 @@ abstract public class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsi
     }
     String full = DebugUtil.stubTreeToString(GoFileElementType.INSTANCE.getBuilder().buildStubTree(psi));
     psi.putUserData(IndexingDataKeys.VIRTUAL_FILE, file);
-    FileContentImpl content = new FileContentImpl(file, fileContent, file.getCharset());
+    FileContentImpl content = new FileContentImpl(file, fileContent, 0);
     PsiFile psiFile = content.getPsiFile();
     String fast = DebugUtil.stubTreeToString(GoFileElementType.INSTANCE.getBuilder().buildStubTree(psiFile));
     if (!Comparing.strEqual(full, fast)) {
