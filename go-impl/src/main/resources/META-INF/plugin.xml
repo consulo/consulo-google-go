@@ -13,8 +13,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-<idea-plugin xmlns:xi="http://www.w3.org/2001/XInclude">
+<consulo-plugin>
 	<id>consulo.google.go</id>
 	<name>Go (golang.org)</name>
 	<version>SNAPSHOT</version>
@@ -25,7 +24,7 @@
 	<depends optional="true">com.intellij.spellchecker</depends>
 
 	<!-- plan9 assembler -->
-	<xi:include href="plan9.xml" xpointer="xpointer(/idea-plugin/*)"/>
+	<import path="/META-INF/plan9.xml"/>
 
 	<extensions defaultExtensionNs="com.intellij.regexp">
 		<languageHost forClass="com.goide.psi.GoStringLiteral" implementationClass="com.goide.regexp.GoRegexHost"/>
@@ -378,7 +377,8 @@
 		<localInspection language="go" displayName="Mismatched types: byte and string" groupPath="Go"
 						 groupName="General" enabledByDefault="true" level="ERROR"
 						 implementationClass="com.goide.inspections.GoStringAndByteTypeMismatchInspection"/>
-		<!-- /general -->
+
+		<projectService serviceImplementation="com.goide.appengine.YamlFilesModificationTracker" />
 	</extensions>
 	<actions>
 		<action id="Go.NewGoFile" class="com.goide.actions.file.GoCreateFileAction" text="Go File" description="Create new Go file" require-module-extensions="google-go">
@@ -410,4 +410,4 @@
 			<add-to-group group-id="EditorLangPopupMenu" anchor="last"/>
 		</group>
 	</actions>
-</idea-plugin>
+</consulo-plugin>

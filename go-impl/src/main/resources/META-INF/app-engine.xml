@@ -14,12 +14,11 @@
   ~ limitations under the License.
   -->
 
-<idea-plugin version="2">
+<consulo-plugin version="2">
   <extensions defaultExtensionNs="ro.redeul.google.go">
     <appengine.Extension implementation="com.goide.appengine.GoAppEngineExtension"/>
   </extensions>
   <extensions defaultExtensionNs="com.intellij">
-    <projectService serviceImplementation="com.goide.appengine.YamlFilesModificationTracker"/>
     <library.presentationProvider implementation="com.goide.appengine.GoAppEngineLibraryPresentationProvider"/>
     
     <!-- run application -->
@@ -28,5 +27,5 @@
     <!-- app engine remoteServer.type extension here -->
   </extensions>
 
-</idea-plugin>
+</consulo-plugin>
 

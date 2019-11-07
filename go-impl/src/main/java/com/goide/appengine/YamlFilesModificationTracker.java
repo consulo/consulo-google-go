@@ -32,9 +32,11 @@ import com.intellij.util.ObjectUtils;
 import com.intellij.util.PathUtil;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.inject.Singleton;
 
 import java.util.Collection;
 
+@Singleton
 public class YamlFilesModificationTracker extends SimpleModificationTracker {
   public YamlFilesModificationTracker(@Nonnull Project project) {
     VirtualFileManager.getInstance().addVirtualFileListener(new VirtualFileAdapter() {

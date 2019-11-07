@@ -17,7 +17,7 @@ import static com.goide.GoParserDefinition.*;
 %function advanceImpl
 %type IElementType
 
-NL = \R
+NL = [\n\r]
 WS = [ \t\f]
 
 LINE_COMMENT = "//" [^\r\n]*
@@ -172,7 +172,7 @@ ESCAPES = [abfnrtv]
 {NUM_HEX}                                 { yybegin(MAYBE_SEMICOLON); return HEX; }
 {NUM_INT}                                 { yybegin(MAYBE_SEMICOLON); return INT; }
 
-.                                         { return BAD_CHARACTER; }
+[^]                                         { return BAD_CHARACTER; }
 }
 
 <MAYBE_SEMICOLON> {
@@ -180,5 +180,5 @@ ESCAPES = [abfnrtv]
 {NL}                                      { yybegin(YYINITIAL); yypushback(yytext().length()); return SEMICOLON_SYNTHETIC; }
 {LINE_COMMENT}                            { return LINE_COMMENT; }
 {MULTILINE_COMMENT}                       { return MULTILINE_COMMENT; }
-.                                         { yybegin(YYINITIAL); yypushback(yytext().length()); }
+[^]                                         { yybegin(YYINITIAL); yypushback(yytext().length()); }
 }

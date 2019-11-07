@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<idea-plugin>
+<consulo-plugin>
   <extensions defaultExtensionNs="com.intellij">
     <additionalTextAttributes scheme="Default" file="colorscheme/AsmIntelDefault.xml"/>
     <additionalTextAttributes scheme="Darcula" file="colorscheme/AsmIntelDarcula.xml"/>
@@ -24,4 +24,4 @@
     <lang.syntaxHighlighterFactory language="plan9_x86" implementationClass="com.plan9.intel.ide.highlighting.AsmIntelSyntaxHighlighterFactory"/>
     <colorSettingsPage implementation="com.plan9.intel.ide.highlighting.AsmIntelColorsAndFontsPage"/>
   </extensions>
-</idea-plugin>
+</consulo-plugin>
