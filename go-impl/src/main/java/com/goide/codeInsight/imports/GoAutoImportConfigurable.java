@@ -27,7 +27,7 @@ import com.intellij.ui.*;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.UIUtil;
-import consulo.annotations.RequiredDispatchThread;
+import consulo.ui.annotation.RequiredUIAccess;
 import org.jetbrains.annotations.Nls;
 import javax.annotation.Nonnull;
 
@@ -54,7 +54,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
     myIsDefaultProject = project.isDefault();
   }
 
-  @RequiredDispatchThread
+  @RequiredUIAccess
   @Nullable
   @Override
   public JComponent createComponent() {
@@ -92,7 +92,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
     return excludedPackages;
   }
 
-  @RequiredDispatchThread
+  @RequiredUIAccess
   @Override
   public boolean isModified() {
     return myCodeInsightSettings.isShowImportPopup() != myCbShowImportPopup.isSelected() ||
@@ -100,7 +100,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
            !Arrays.equals(getExcludedPackages(), myExcludedSettings.getExcludedPackages());
   }
 
-  @RequiredDispatchThread
+  @RequiredUIAccess
   @Override
   public void apply() throws ConfigurationException {
     myCodeInsightSettings.setShowImportPopup(myCbShowImportPopup.isSelected());
@@ -108,7 +108,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
     myExcludedSettings.setExcludedPackages(getExcludedPackages());
   }
 
-  @RequiredDispatchThread
+  @RequiredUIAccess
   @Override
   public void reset() {
     myCbShowImportPopup.setSelected(myCodeInsightSettings.isShowImportPopup());
@@ -139,7 +139,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
     return "Go";
   }
 
-  @RequiredDispatchThread
+  @RequiredUIAccess
   @Override
   public void disposeUIResources() {
     UIUtil.dispose(myCbShowImportPopup);

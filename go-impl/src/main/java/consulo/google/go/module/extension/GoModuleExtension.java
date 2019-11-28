@@ -16,9 +16,6 @@
 
 package consulo.google.go.module.extension;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.goide.project.GoBuildTargetSettings;
 import com.goide.sdk.GoSdkType;
 import com.intellij.openapi.module.Module;
@@ -26,10 +23,13 @@ import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.projectRoots.SdkType;
 import com.intellij.util.ThreeState;
 import com.intellij.util.xmlb.XmlSerializer;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.module.extension.impl.ModuleExtensionWithSdkImpl;
 import consulo.roots.ModuleRootLayer;
 import org.jdom.Element;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author VISTALL

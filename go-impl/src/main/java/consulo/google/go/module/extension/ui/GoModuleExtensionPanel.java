@@ -21,12 +21,12 @@ import com.goide.configuration.GoVendoringUI;
 import com.intellij.openapi.roots.OrderEntry;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.ui.components.JBCheckBox;
-import consulo.annotations.RequiredDispatchThread;
 import consulo.extension.ui.ModuleExtensionSdkBoxBuilder;
 import consulo.google.go.module.extension.GoMutableModuleExtension;
 import consulo.google.go.module.orderEntry.GoPathOrderEntry;
 import consulo.roots.ModifiableModuleRootLayer;
 import consulo.roots.impl.ModuleRootLayerImpl;
+import consulo.ui.annotation.RequiredUIAccess;
 
 import javax.annotation.Nullable;
 import javax.swing.*;
@@ -38,7 +38,7 @@ import javax.swing.*;
 public class GoModuleExtensionPanel extends JPanel {
   private GoMutableModuleExtension myExtension;
 
-  @RequiredDispatchThread
+  @RequiredUIAccess
   public GoModuleExtensionPanel(GoMutableModuleExtension extension, Runnable runnable) {
     super(new VerticalFlowLayout(true, false));
     myExtension = extension;

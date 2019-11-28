@@ -18,13 +18,13 @@ package consulo.google.go.module.extension;
 
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.util.ThreeState;
-import consulo.annotations.RequiredDispatchThread;
 import consulo.google.go.module.extension.ui.GoModuleExtensionPanel;
 import consulo.module.extension.MutableModuleExtensionWithSdk;
 import consulo.module.extension.MutableModuleInheritableNamedPointer;
 import consulo.roots.ModuleRootLayer;
-import javax.annotation.Nonnull;
+import consulo.ui.annotation.RequiredUIAccess;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.swing.*;
 
@@ -47,7 +47,7 @@ public class GoMutableModuleExtension extends GoModuleExtension implements Mutab
     return (MutableModuleInheritableNamedPointer<Sdk>)super.getInheritableSdk();
   }
 
-  @RequiredDispatchThread
+  @RequiredUIAccess
   @Nullable
   @Override
   public JComponent createConfigurablePanel(@Nullable Runnable runnable) {

@@ -16,7 +16,6 @@
 
 package consulo.google.go;
 
-import javax.annotation.Nonnull;
 import com.goide.GoIcons;
 import com.goide.psi.*;
 import com.goide.runconfig.testing.GoTestFinder;
@@ -24,10 +23,12 @@ import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.Iconable;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.BitUtil;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.ide.IconDescriptor;
 import consulo.ide.IconDescriptorUpdater;
 import consulo.ui.image.Image;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL

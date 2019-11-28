@@ -25,8 +25,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.util.ThreeState;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.google.go.module.extension.GoMutableModuleExtension;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

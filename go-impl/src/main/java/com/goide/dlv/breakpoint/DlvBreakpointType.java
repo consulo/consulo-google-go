@@ -16,9 +16,6 @@
 
 package com.goide.dlv.breakpoint;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.goide.GoParserDefinition;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -29,12 +26,15 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.util.Processor;
 import com.intellij.xdebugger.XDebuggerUtil;
 import com.intellij.xdebugger.breakpoints.XLineBreakpointType;
-import consulo.annotations.RequiredReadAction;
+import consulo.annotation.access.RequiredReadAction;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class DlvBreakpointType extends XLineBreakpointType<DlvBreakpointProperties> {
   @Nonnull
   public static DlvBreakpointType getInstance() {
-    return EXTENSION_POINT_NAME.findExtension(DlvBreakpointType.class);
+    return EXTENSION_POINT_NAME.findExtensionOrFail(DlvBreakpointType.class);
   }
 
   protected DlvBreakpointType() {
