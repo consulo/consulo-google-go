@@ -26,7 +26,6 @@ import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.openapi.vfs.newvfs.BulkFileListener;
@@ -38,14 +37,13 @@ import com.intellij.ui.EditorNotificationPanel;
 import com.intellij.ui.EditorNotifications;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.messages.MessageBusConnection;
-import javax.annotation.Nonnull;
+import consulo.editor.notifications.EditorNotificationProvider;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Set;
 
-public class GoFileIgnoredByBuildToolNotificationProvider extends EditorNotifications.Provider<EditorNotificationPanel> implements DumbAware {
-
-  private static final Key<EditorNotificationPanel> KEY = Key.create("Go file ignored by build tool");
+public class GoFileIgnoredByBuildToolNotificationProvider implements EditorNotificationProvider<EditorNotificationPanel>, DumbAware {
   private static final String DO_NOT_SHOW_NOTIFICATION_ABOUT_IGNORE_BY_BUILD_TOOL = "DO_NOT_SHOW_NOTIFICATION_ABOUT_IGNORE_BY_BUILD_TOOL";
 
   private final Project myProject;
@@ -69,12 +67,6 @@ public class GoFileIgnoredByBuildToolNotificationProvider extends EditorNotifica
         }
       }
     });
-  }
-
-  @Nonnull
-  @Override
-  public Key<EditorNotificationPanel> getKey() {
-    return KEY;
   }
 
   @Override

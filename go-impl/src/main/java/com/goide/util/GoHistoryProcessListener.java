@@ -19,8 +19,8 @@ package com.goide.util;
 import com.intellij.execution.process.ProcessAdapter;
 import com.intellij.execution.process.ProcessEvent;
 import com.intellij.execution.process.ProcessHandler;
-import com.intellij.openapi.util.Key;
-import com.intellij.openapi.util.Pair;
+import consulo.util.dataholder.Key;
+import consulo.util.lang.Pair;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 

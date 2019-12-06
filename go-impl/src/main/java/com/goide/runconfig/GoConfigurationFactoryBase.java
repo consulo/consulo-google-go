@@ -21,9 +21,10 @@ import com.intellij.execution.BeforeRunTask;
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationType;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Key;
 import consulo.google.go.module.extension.GoModuleExtension;
 import consulo.module.extension.ModuleExtensionHelper;
+import consulo.util.dataholder.Key;
+
 import javax.annotation.Nonnull;
 
 public abstract class GoConfigurationFactoryBase extends ConfigurationFactory {

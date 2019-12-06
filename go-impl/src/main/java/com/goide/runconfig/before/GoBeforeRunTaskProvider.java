@@ -30,7 +30,6 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.AsyncResult;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFileManager;
@@ -38,6 +37,7 @@ import com.intellij.util.concurrency.Semaphore;
 import com.intellij.util.ui.UIUtil;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.image.Image;
+import consulo.util.dataholder.Key;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

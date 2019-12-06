@@ -23,17 +23,17 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.util.SimpleModificationTracker;
-import com.intellij.openapi.util.UserDataHolder;
 import com.intellij.openapi.vfs.*;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.PathUtil;
+import consulo.util.dataholder.UserDataHolder;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Singleton;
-
 import java.util.Collection;
 
 @Singleton

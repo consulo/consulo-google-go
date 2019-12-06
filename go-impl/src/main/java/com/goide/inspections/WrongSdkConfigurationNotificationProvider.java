@@ -16,8 +16,6 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoFileType;
 import com.goide.GoLanguage;
 import com.goide.sdk.GoSdkService;
@@ -33,7 +31,6 @@ import com.intellij.openapi.project.ProjectBundle;
 import com.intellij.openapi.roots.ModuleRootAdapter;
 import com.intellij.openapi.roots.ModuleRootEvent;
 import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
@@ -41,9 +38,11 @@ import com.intellij.psi.PsiManager;
 import com.intellij.ui.EditorNotificationPanel;
 import com.intellij.ui.EditorNotifications;
 import com.intellij.util.messages.MessageBusConnection;
+import consulo.editor.notifications.EditorNotificationProvider;
 
-public class WrongSdkConfigurationNotificationProvider extends EditorNotifications.Provider<EditorNotificationPanel> implements DumbAware {
-  private static final Key<EditorNotificationPanel> KEY = Key.create("Setup Go SDK");
+import javax.annotation.Nonnull;
+
+public class WrongSdkConfigurationNotificationProvider implements EditorNotificationProvider<EditorNotificationPanel>, DumbAware {
   private static final String DO_NOT_SHOW_NOTIFICATION_ABOUT_EMPTY_GOPATH = "DO_NOT_SHOW_NOTIFICATION_ABOUT_EMPTY_GOPATH";
 
   private final Project myProject;
@@ -57,12 +56,6 @@ public class WrongSdkConfigurationNotificationProvider extends EditorNotificatio
         notifications.updateAllNotifications();
       }
     });
-  }
-
-  @Nonnull
-  @Override
-  public Key<EditorNotificationPanel> getKey() {
-    return KEY;
   }
 
   @Override

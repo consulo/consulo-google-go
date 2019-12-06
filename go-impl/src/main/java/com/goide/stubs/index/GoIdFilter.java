@@ -23,7 +23,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ContentIterator;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.openapi.vfs.VirtualFileWithId;
@@ -33,9 +32,10 @@ import com.intellij.psi.util.CachedValueProvider;
 import com.intellij.psi.util.CachedValuesManager;
 import com.intellij.util.indexing.FileBasedIndex;
 import com.intellij.util.indexing.IdFilter;
+import consulo.util.dataholder.Key;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.BitSet;
 
 public class GoIdFilter extends IdFilter {

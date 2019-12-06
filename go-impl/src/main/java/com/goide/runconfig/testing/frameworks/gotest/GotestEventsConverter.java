@@ -18,10 +18,10 @@ package com.goide.runconfig.testing.frameworks.gotest;
 
 import com.goide.GoConstants;
 import com.intellij.execution.testframework.TestConsoleProperties;
-import com.intellij.openapi.util.Key;
+import consulo.util.dataholder.Key;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
-import javax.annotation.Nonnull;
 
+import javax.annotation.Nonnull;
 import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

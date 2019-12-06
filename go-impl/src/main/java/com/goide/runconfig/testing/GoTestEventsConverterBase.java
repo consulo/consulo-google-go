@@ -16,10 +16,10 @@
 
 package com.goide.runconfig.testing;
 
-import com.intellij.openapi.util.Key;
+import consulo.util.dataholder.Key;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
-import javax.annotation.Nonnull;
 
+import javax.annotation.Nonnull;
 import java.text.ParseException;
 
 public interface GoTestEventsConverterBase {

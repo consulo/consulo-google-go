@@ -23,17 +23,17 @@ import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.WhitespacesBinders;
 import com.intellij.lang.impl.PsiBuilderAdapter;
 import com.intellij.lang.parser.GeneratedParserUtilBase;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.impl.source.resolve.FileContextUtil;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.IndexingDataKeys;
+import consulo.util.dataholder.Key;
 import gnu.trove.TObjectIntHashMap;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.lang.reflect.Field;
 import java.util.List;
 

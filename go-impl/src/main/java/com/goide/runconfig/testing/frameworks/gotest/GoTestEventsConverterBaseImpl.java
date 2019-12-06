@@ -22,13 +22,13 @@ import com.intellij.execution.process.ProcessOutputTypes;
 import com.intellij.execution.testframework.TestConsoleProperties;
 import com.intellij.execution.testframework.sm.ServiceMessageBuilder;
 import com.intellij.execution.testframework.sm.runner.OutputToGeneralTestEventsConverter;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.text.StringUtil;
+import consulo.util.dataholder.Key;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageTypes;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.text.ParseException;
 
 public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestEventsConverter implements GoTestEventsConverterBase {

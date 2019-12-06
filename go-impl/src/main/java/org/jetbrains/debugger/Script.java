@@ -1,12 +1,13 @@
 package org.jetbrains.debugger;
 
-import com.intellij.openapi.util.UserDataHolderEx;
+import consulo.util.dataholder.UserDataHolderEx;
 
 /**
  * @author VISTALL
  * @since 08-May-17
  */
-public interface Script extends UserDataHolderEx {
+public interface Script extends UserDataHolderEx
+{
   enum Type {
     /**
      * A native, internal JavaScript VM script

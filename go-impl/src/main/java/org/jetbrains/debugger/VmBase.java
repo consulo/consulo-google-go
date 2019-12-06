@@ -1,6 +1,7 @@
 package org.jetbrains.debugger;
 
-import com.intellij.openapi.util.UserDataHolderBase;
+import consulo.util.dataholder.UserDataHolderBase;
+
 import javax.annotation.Nonnull;
 
 /**

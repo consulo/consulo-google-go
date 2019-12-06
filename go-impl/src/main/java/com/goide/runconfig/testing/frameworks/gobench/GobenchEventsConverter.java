@@ -19,12 +19,12 @@ package com.goide.runconfig.testing.frameworks.gobench;
 import com.goide.GoConstants;
 import com.goide.runconfig.testing.frameworks.gotest.GoTestEventsConverterBaseImpl;
 import com.intellij.execution.testframework.TestConsoleProperties;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.text.StringUtil;
+import consulo.util.dataholder.Key;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

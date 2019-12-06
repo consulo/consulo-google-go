@@ -21,9 +21,7 @@ import com.goide.psi.*;
 import com.intellij.formatting.*;
 import com.intellij.formatting.alignment.AlignmentStrategy;
 import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.util.UserDataHolderBase;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.TokenType;
@@ -31,9 +29,11 @@ import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.util.dataholder.Key;
+import consulo.util.dataholder.UserDataHolderBase;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collections;
 import java.util.List;
 
