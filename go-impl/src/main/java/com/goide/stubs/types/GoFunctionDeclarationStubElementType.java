@@ -21,17 +21,18 @@ import com.goide.psi.GoNamedElement;
 import com.goide.psi.impl.GoFunctionDeclarationImpl;
 import com.goide.stubs.GoFunctionDeclarationStub;
 import com.goide.stubs.index.GoFunctionIndex;
+import com.intellij.openapi.util.NotNullLazyValue;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.psi.stubs.StubIndexKey;
 import com.intellij.psi.stubs.StubInputStream;
 import com.intellij.psi.stubs.StubOutputStream;
 import com.intellij.util.ArrayFactory;
 import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class GoFunctionDeclarationStubElementType extends GoNamedStubElementType<GoFunctionDeclarationStub, GoFunctionDeclaration> {
   public static final GoFunctionDeclaration[] EMPTY_ARRAY = new GoFunctionDeclaration[0];
@@ -39,8 +40,7 @@ public class GoFunctionDeclarationStubElementType extends GoNamedStubElementType
   public static final ArrayFactory<GoFunctionDeclaration> ARRAY_FACTORY =
     count -> count == 0 ? EMPTY_ARRAY : new GoFunctionDeclaration[count];
   
-  private static final ArrayList<StubIndexKey<String, ? extends GoNamedElement>> EXTRA_KEYS =
-    ContainerUtil.newArrayList(GoFunctionIndex.KEY);
+  private static final NotNullLazyValue<List<StubIndexKey<String, ? extends GoNamedElement>>> EXTRA_KEYS = NotNullLazyValue.createValue(() -> ContainerUtil.newArrayList(GoFunctionIndex.KEY));
 
   public GoFunctionDeclarationStubElementType(@Nonnull String name) {
     super(name);
@@ -73,6 +73,6 @@ public class GoFunctionDeclarationStubElementType extends GoNamedStubElementType
   @Nonnull
   @Override
   protected Collection<StubIndexKey<String, ? extends GoNamedElement>> getExtraIndexKeys() {
-    return EXTRA_KEYS;
+    return EXTRA_KEYS.getValue();
   }
 }
