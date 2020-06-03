@@ -17,12 +17,13 @@
 package com.goide;
 
 import com.goide.sdk.GoSdkService;
-import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.testFramework.PlatformTestUtil;
 import com.intellij.testFramework.UsefulTestCase;
+import consulo.disposer.Disposer;
+
 import javax.annotation.Nonnull;
 
 import java.io.File;

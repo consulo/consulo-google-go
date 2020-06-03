@@ -1,13 +1,13 @@
 package org.jetbrains.debugger.connection;
 
-import com.intellij.openapi.Disposable;
-import com.intellij.openapi.util.Disposer;
 import com.intellij.util.Consumer;
 import com.intellij.util.EventDispatcher;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.io.socketConnection.ConnectionState;
 import com.intellij.util.io.socketConnection.ConnectionStatus;
 import com.intellij.util.io.socketConnection.SocketConnectionListener;
+import consulo.disposer.Disposable;
+import consulo.disposer.Disposer;
 import org.jetbrains.concurrency.AsyncPromise;
 import org.jetbrains.concurrency.Promises;
 import org.jetbrains.debugger.DebugEventListener;
@@ -23,7 +23,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author VISTALL
  * @since 06-May-17
  */
-public abstract class VmConnection<T extends Vm> implements Disposable {
+public abstract class VmConnection<T extends Vm> implements Disposable
+{
   private AtomicReference<ConnectionState> stateRef = new AtomicReference<>(new ConnectionState(ConnectionStatus.NOT_CONNECTED));
   private EventDispatcher<DebugEventListener> myDispatcher = EventDispatcher.create(DebugEventListener.class);
 

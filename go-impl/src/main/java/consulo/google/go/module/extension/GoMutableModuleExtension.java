@@ -16,53 +16,73 @@
 
 package consulo.google.go.module.extension;
 
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.util.ThreeState;
-import consulo.google.go.module.extension.ui.GoModuleExtensionPanel;
-import consulo.module.extension.MutableModuleExtensionWithSdk;
-import consulo.module.extension.MutableModuleInheritableNamedPointer;
-import consulo.roots.ModuleRootLayer;
-import consulo.ui.annotation.RequiredUIAccess;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.swing.*;
+
+import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.util.ThreeState;
+import consulo.disposer.Disposable;
+import consulo.google.go.module.extension.ui.GoModuleExtensionPanel;
+import consulo.module.extension.MutableModuleExtensionWithSdk;
+import consulo.module.extension.MutableModuleInheritableNamedPointer;
+import consulo.module.extension.swing.SwingMutableModuleExtension;
+import consulo.roots.ModuleRootLayer;
+import consulo.ui.Component;
+import consulo.ui.Label;
+import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.layout.VerticalLayout;
 
 /**
  * @author VISTALL
  * @since 12:44/30.05.13
  */
-public class GoMutableModuleExtension extends GoModuleExtension implements MutableModuleExtensionWithSdk<GoModuleExtension> {
-  public GoMutableModuleExtension(@Nonnull String id, @Nonnull ModuleRootLayer module) {
-    super(id, module);
-  }
+public class GoMutableModuleExtension extends GoModuleExtension implements MutableModuleExtensionWithSdk<GoModuleExtension>, SwingMutableModuleExtension
+{
+	public GoMutableModuleExtension(@Nonnull String id, @Nonnull ModuleRootLayer module)
+	{
+		super(id, module);
+	}
 
-  public void setVendoringEnabled(@Nonnull ThreeState enabled) {
-    myVendoringEnabled = enabled;
-  }
+	public void setVendoringEnabled(@Nonnull ThreeState enabled)
+	{
+		myVendoringEnabled = enabled;
+	}
 
-  @Nonnull
-  @Override
-  public MutableModuleInheritableNamedPointer<Sdk> getInheritableSdk() {
-    return (MutableModuleInheritableNamedPointer<Sdk>)super.getInheritableSdk();
-  }
+	@Nonnull
+	@Override
+	public MutableModuleInheritableNamedPointer<Sdk> getInheritableSdk()
+	{
+		return (MutableModuleInheritableNamedPointer<Sdk>) super.getInheritableSdk();
+	}
 
-  @RequiredUIAccess
-  @Nullable
-  @Override
-  public JComponent createConfigurablePanel(@Nullable Runnable runnable) {
-    return new GoModuleExtensionPanel(this, runnable);
-  }
+	@RequiredUIAccess
+	@Nullable
+	@Override
+	public Component createConfigurationComponent(@Nonnull Disposable disposable, @Nonnull Runnable runnable)
+	{
+		return VerticalLayout.create().add(Label.create("Unsupported platform"));
+	}
 
-  @Override
-  public void setEnabled(boolean b) {
-    myIsEnabled = b;
-  }
+	@RequiredUIAccess
+	@Nullable
+	@Override
+	public JComponent createConfigurablePanel(@Nonnull Disposable disposable, @Nonnull Runnable runnable)
+	{
+		return new GoModuleExtensionPanel(this, runnable);
+	}
 
-  @Override
-  public boolean isModified(@Nonnull GoModuleExtension extension) {
-    return isModifiedImpl(extension) ||
-           myVendoringEnabled != extension.myVendoringEnabled ||
-           !myBuildTargetSettings.equals(extension.myBuildTargetSettings);
-  }
+	@Override
+	public void setEnabled(boolean b)
+	{
+		myIsEnabled = b;
+	}
+
+	@Override
+	public boolean isModified(@Nonnull GoModuleExtension extension)
+	{
+		return isModifiedImpl(extension) ||
+				myVendoringEnabled != extension.myVendoringEnabled ||
+				!myBuildTargetSettings.equals(extension.myBuildTargetSettings);
+	}
 }
