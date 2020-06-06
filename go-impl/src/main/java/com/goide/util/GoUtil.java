@@ -120,12 +120,12 @@ public class GoUtil {
 
   @Nonnull
   public static GlobalSearchScope moduleScope(@Nonnull Module module) {
-    return GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module).uniteWith(module.getModuleContentWithDependenciesScope());
+    return GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module).uniteWith(GlobalSearchScope.moduleContentWithDependenciesScope(module));
   }
 
   @Nonnull
   public static GlobalSearchScope moduleScopeWithoutLibraries(@Nonnull Project project, @Nullable Module module) {
-    return module != null ? GlobalSearchScope.moduleWithDependenciesScope(module).uniteWith(module.getModuleContentWithDependenciesScope())
+    return module != null ? GlobalSearchScope.moduleWithDependenciesScope(module).uniteWith(GlobalSearchScope.moduleContentWithDependenciesScope(module))
                           : GlobalSearchScope.projectScope(project);
   }
 
