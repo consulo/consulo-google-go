@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 import com.goide.inspections.GoAddTrailingCommaInspection;
 
-public class GoAddTrailingCommaQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoAddTrailingCommaQuickFixTest extends GoQuickFixTestBase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();

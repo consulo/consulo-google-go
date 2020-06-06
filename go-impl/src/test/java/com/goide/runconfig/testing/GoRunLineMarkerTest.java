@@ -18,7 +18,7 @@ package com.goide.runconfig.testing;
 
 import com.goide.runconfig.GoRunConfigurationTestCase;
 
-public class GoRunLineMarkerTest extends GoRunConfigurationTestCase {
+public abstract class GoRunLineMarkerTest extends GoRunConfigurationTestCase {
   public void testRunTestLineMarker() {
     myFixture.configureByText("a_test.go", "package <caret>main\n" +
                                            "import .`gopkg.in/check.v1`\n" +

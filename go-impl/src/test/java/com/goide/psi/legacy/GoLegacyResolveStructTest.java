@@ -18,7 +18,7 @@ package com.goide.psi.legacy;
 
 import javax.annotation.Nonnull;
 
-public class GoLegacyResolveStructTest extends GoLegacyResolveTestBase {
+public abstract class GoLegacyResolveStructTest extends GoLegacyResolveTestBase {
   @Nonnull
   @Override
   protected String getBasePath() { return "psi/resolve/struct"; }

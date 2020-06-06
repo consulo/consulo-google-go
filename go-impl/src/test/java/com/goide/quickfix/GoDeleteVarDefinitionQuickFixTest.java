@@ -18,7 +18,7 @@ package com.goide.quickfix;
 
 import com.goide.inspections.unresolved.GoUnusedVariableInspection;
 
-public class GoDeleteVarDefinitionQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoDeleteVarDefinitionQuickFixTest extends GoQuickFixTestBase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

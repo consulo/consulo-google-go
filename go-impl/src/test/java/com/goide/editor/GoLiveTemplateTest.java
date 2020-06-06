@@ -18,7 +18,7 @@ package com.goide.editor;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 
-public class GoLiveTemplateTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoLiveTemplateTest extends GoCodeInsightFixtureTestCase {
   public void testErrOnStatementBeginning() {
     myFixture.configureByText("a.go", "package main; func main() { <caret> }");
     myFixture.type("err\t");

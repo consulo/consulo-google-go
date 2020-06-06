@@ -26,7 +26,7 @@ import com.goide.psi.GoStringLiteral;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 
-public class GoInspectionUtilTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoInspectionUtilTest extends GoCodeInsightFixtureTestCase {
 
   private <T extends GoExpression> void doTest(@Nonnull String text, @Nonnull Class<T> aClass, int expected) {
     myFixture.configureByText("a.go", text);

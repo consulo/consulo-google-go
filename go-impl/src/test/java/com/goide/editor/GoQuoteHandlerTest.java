@@ -18,7 +18,7 @@ package com.goide.editor;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 
-public class GoQuoteHandlerTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoQuoteHandlerTest extends GoCodeInsightFixtureTestCase {
   public void testNewlineInStringLiteral() {
     myFixture.configureByText("t.go", "package t; const c = \"const<caret>value\"");
     myFixture.type('\n');

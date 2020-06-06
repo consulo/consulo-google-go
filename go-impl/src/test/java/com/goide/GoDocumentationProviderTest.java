@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.List;
 
 @SdkAware
-public class GoDocumentationProviderTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoDocumentationProviderTest extends GoCodeInsightFixtureTestCase {
 
   public void testPrintln()                           { doTest(); }
   public void testFprintln()                          { doTest(); }

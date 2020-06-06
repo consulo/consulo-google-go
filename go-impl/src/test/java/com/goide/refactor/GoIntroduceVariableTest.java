@@ -21,7 +21,7 @@ import com.intellij.refactoring.RefactoringBundle;
 import com.intellij.refactoring.util.CommonRefactoringUtil;
 import javax.annotation.Nonnull;
 
-public class GoIntroduceVariableTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoIntroduceVariableTest extends GoCodeInsightFixtureTestCase {
   @Nonnull
   @Override
   protected String getBasePath() {

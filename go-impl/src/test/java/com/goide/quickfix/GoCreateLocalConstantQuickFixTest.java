@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
 
-public class GoCreateLocalConstantQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoCreateLocalConstantQuickFixTest extends GoQuickFixTestBase {
   private static final String CREATE_LOCAL_CONSTANT_A = "Create local constant 'a'";
 
   @Override

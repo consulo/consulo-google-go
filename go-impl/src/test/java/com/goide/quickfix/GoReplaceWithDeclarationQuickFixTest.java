@@ -20,7 +20,7 @@ import com.goide.inspections.unresolved.GoReplaceAssignmentWithDeclarationQuickF
 import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
 import javax.annotation.Nonnull;
 
-public class GoReplaceWithDeclarationQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoReplaceWithDeclarationQuickFixTest extends GoQuickFixTestBase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();

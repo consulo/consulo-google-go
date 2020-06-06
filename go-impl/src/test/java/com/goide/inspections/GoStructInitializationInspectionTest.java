@@ -22,7 +22,7 @@ import com.goide.SdkAware;
 import com.goide.quickfix.GoQuickFixTestBase;
 
 @SdkAware
-public class GoStructInitializationInspectionTest extends GoQuickFixTestBase {
+public abstract class GoStructInitializationInspectionTest extends GoQuickFixTestBase {
   private GoStructInitializationInspection myInspectionTool = new GoStructInitializationInspection();
   private boolean myDefaultReportLocalStructs;
 

@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 import com.goide.runconfig.testing.frameworks.gocheck.GocheckFramework;
 
-public class GocheckEventsConverterTest extends GoEventsConverterTestCase {
+public abstract class GocheckEventsConverterTest extends GoEventsConverterTestCase {
   public void testPass()                      { doTest(); }
   public void testAssertions()                { doTest(); }
   public void testAssertionsInvalidFormat()   { doTest(); }

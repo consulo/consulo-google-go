@@ -36,7 +36,7 @@ import java.util.List;
 import static com.intellij.util.containers.ContainerUtil.newArrayList;
 
 @SdkAware
-public class GoFindUsageTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoFindUsageTest extends GoCodeInsightFixtureTestCase {
   private static final String USAGE = "/*usage*/";
 
   private void doTest(@Nonnull String text) {

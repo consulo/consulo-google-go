@@ -28,7 +28,7 @@ import java.util.Collection;
 
 @RunWith(Parameterized.class)
 @SdkAware
-public class GoBoolExpressionsInspectionTest extends GoParametrizedTestBase {
+public abstract class GoBoolExpressionsInspectionTest extends GoParametrizedTestBase {
   private final String expr;
   private final String vars;
   private final String after;

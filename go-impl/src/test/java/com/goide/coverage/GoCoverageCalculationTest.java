@@ -28,7 +28,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class GoCoverageCalculationTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoCoverageCalculationTest extends GoCodeInsightFixtureTestCase {
   public void testCoverage() throws IOException {
     assertEquals("75% statements", annotate().getFileCoverageInformationString(myFixture.findFileInTempDir(file())));
   }

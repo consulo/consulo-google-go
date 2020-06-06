@@ -19,7 +19,7 @@ package com.goide.quickfix;
 import com.goide.inspections.GoUsedAsValueInCondition;
 import javax.annotation.Nonnull;
 
-public class GoAssignmentToComparisonQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoAssignmentToComparisonQuickFixTest extends GoQuickFixTestBase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();

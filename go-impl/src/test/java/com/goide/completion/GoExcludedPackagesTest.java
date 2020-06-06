@@ -16,14 +16,14 @@
 
 package com.goide.completion;
 
-import javax.annotation.Nonnull;
-
 import com.goide.SdkAware;
 import com.goide.project.GoExcludedPathsSettings;
 import com.intellij.util.ArrayUtil;
 
+import javax.annotation.Nonnull;
+
 @SdkAware
-public class GoExcludedPackagesTest extends GoCompletionTestBase {
+public abstract class GoExcludedPackagesTest extends GoCompletionTestBase {
   @Override
   protected void tearDown() throws Exception {
     GoExcludedPathsSettings.getInstance(getProject()).setExcludedPackages(ArrayUtil.EMPTY_STRING_ARRAY);

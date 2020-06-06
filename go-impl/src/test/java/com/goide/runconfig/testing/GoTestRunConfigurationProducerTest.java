@@ -29,7 +29,7 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 
-public class GoTestRunConfigurationProducerTest extends GoRunConfigurationTestCase {
+public abstract class GoTestRunConfigurationProducerTest extends GoRunConfigurationTestCase {
   public void testDirectory() {
     PsiFile file = myFixture.configureByText("a.go", "package main");
     doTestProducedConfigurations(file.getParent());

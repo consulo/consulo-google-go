@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
 
 import java.util.Collection;
 
-public class GoFileStructureGroupRuleTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoFileStructureGroupRuleTest extends GoCodeInsightFixtureTestCase {
   public void testMethod() {
     assertInstanceOf(getGroupElement(), GoFunctionDeclaration.class);
   }

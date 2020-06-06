@@ -18,7 +18,7 @@ package com.goide.parser;
 
 import com.goide.GoParserDefinition;
 
-public class GoParserTest extends GoParserTestBase {
+public abstract class GoParserTest extends GoParserTestBase {
   public GoParserTest() {
     super("parser", "go", new GoParserDefinition());
   }

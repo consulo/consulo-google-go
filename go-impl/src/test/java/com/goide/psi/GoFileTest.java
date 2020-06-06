@@ -18,7 +18,7 @@ package com.goide.psi;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 
-public class GoFileTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoFileTest extends GoCodeInsightFixtureTestCase {
   public void testRetrieveBuildFlags() {
     myFixture.configureByText("a.go", "// Copyright 2009 The Go Authors.  All rights reserved.\n" +
                                       "// Use of this source code is governed by a BSD-style\n" +

@@ -23,7 +23,7 @@ import com.intellij.openapi.vfs.VirtualFileFilter;
 import com.intellij.psi.impl.PsiManagerImpl;
 import com.intellij.testFramework.exceptionCases.AssertionErrorCase;
 
-public class GoPackageClauseStubTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoPackageClauseStubTest extends GoCodeInsightFixtureTestCase {
   public void testStub() {
     GoFile file = (GoFile)myFixture.addFileToProject("bar/bar.go", "package bar; import `foo`; func _() { println(CONST_NAME) }");
     failOnFileLoading();

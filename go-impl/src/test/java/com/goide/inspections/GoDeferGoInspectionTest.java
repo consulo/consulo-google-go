@@ -22,7 +22,7 @@ import com.goide.SdkAware;
 import com.goide.quickfix.GoQuickFixTestBase;
 
 @SdkAware
-public class GoDeferGoInspectionTest extends GoQuickFixTestBase {
+public abstract class GoDeferGoInspectionTest extends GoQuickFixTestBase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

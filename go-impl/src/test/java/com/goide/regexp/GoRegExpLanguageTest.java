@@ -20,7 +20,7 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.SdkAware;
 
 @SdkAware
-public class GoRegExpLanguageTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoRegExpLanguageTest extends GoCodeInsightFixtureTestCase {
   public void testInjectingAndHighlighting() {
     // myFixture.testHighlighting(getTestName(true) + ".go");
   }

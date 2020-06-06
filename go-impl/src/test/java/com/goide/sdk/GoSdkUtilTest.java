@@ -20,7 +20,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class GoSdkUtilTest {
+public abstract class GoSdkUtilTest {
   @Test
   public void testCompareVersions() {
     assertEquals(-1, GoSdkUtil.compareVersions("1.1.2", "1.1.3"));

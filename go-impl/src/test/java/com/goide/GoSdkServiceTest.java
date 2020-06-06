@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-public class GoSdkServiceTest extends UsefulTestCase {
+public abstract class GoSdkServiceTest extends UsefulTestCase {
   public void testRegularSdkPath() {
     setIsWindows(false);
     setIsLinux(false);

@@ -26,7 +26,7 @@ import com.intellij.util.containers.ContainerUtil;
 
 import java.util.List;
 
-public class GoCompletionTest extends GoCompletionTestBase {
+public abstract class GoCompletionTest extends GoCompletionTestBase {
   public void testPackageWithoutAlias() {
     doTestInclude("package foo; import `fmt`; func main(){<caret>}", "fmt");
   }

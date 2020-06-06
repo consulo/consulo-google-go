@@ -30,7 +30,7 @@ import com.intellij.testFramework.fixtures.impl.CodeInsightTestFixtureImpl;
 import javax.annotation.Nonnull;
 
 @SdkAware
-public class GoImportOptimizerTest extends GoQuickFixTestBase {
+public abstract class GoImportOptimizerTest extends GoQuickFixTestBase {
   public void testUnusedImports()                                        { doTest(); }
   public void testUnusedImportsWithSemicolon()                           { doTest(); }
   public void testUnusedImplicitImports()                                { doTest(); }

@@ -23,7 +23,7 @@ import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
 import com.intellij.psi.PsiFile;
 
 @SdkAware
-public class GoIntroduceFunctionFixTest extends GoQuickFixTestBase {
+public abstract class GoIntroduceFunctionFixTest extends GoQuickFixTestBase {
 
   private final static String QUICK_FIX_NAME = "Create function asd";
 

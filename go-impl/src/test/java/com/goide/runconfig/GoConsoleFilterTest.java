@@ -31,7 +31,7 @@ import com.intellij.openapi.util.ThrowableComputable;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.containers.ContainerUtil;
 
-public class GoConsoleFilterTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoConsoleFilterTest extends GoCodeInsightFixtureTestCase {
   private GoConsoleFilter myFilter;
 
   @Override

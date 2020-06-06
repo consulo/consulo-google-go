@@ -26,7 +26,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 
 @SdkAware
-public class GoTypeResolveTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoTypeResolveTest extends GoCodeInsightFixtureTestCase {
   public void testAnon() {
     doTopLevelTest("type A struct{};type E A;type B struct{ E };func (e E) foo() {};func main() { b := B{}; b.<caret>E }", "E");
   }

@@ -16,7 +16,7 @@
 
 package com.goide.editor.surround;
 
-public class GoWithIfElseExpressionSurrounderTest extends GoSurrounderTestBase {
+public abstract class GoWithIfElseExpressionSurrounderTest extends GoSurrounderTestBase {
   private static final String SURROUNDER_DESCRIPTION = new GoWithIfElseExpressionSurrounder().getTemplateDescription();
 
   public void testWithOneBoolVariable() {

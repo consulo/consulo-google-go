@@ -19,7 +19,7 @@ package com.goide.inspections;
 import com.goide.quickfix.GoQuickFixTestBase;
 import javax.annotation.Nonnull;
 
-public class GoEmptyDeclarationInspectionTest extends GoQuickFixTestBase {
+public abstract class GoEmptyDeclarationInspectionTest extends GoQuickFixTestBase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

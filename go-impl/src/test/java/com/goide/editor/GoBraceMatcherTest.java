@@ -19,7 +19,7 @@ package com.goide.editor;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.GoFileType;
 
-public class GoBraceMatcherTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoBraceMatcherTest extends GoCodeInsightFixtureTestCase {
   public void testCloseParenBeforeOpeningBrace() {
     myFixture.configureByText(GoFileType.INSTANCE, "package foo; func name<caret>{}");
     myFixture.type('(');

@@ -48,7 +48,7 @@ import com.intellij.openapi.vfs.VirtualFileVisitor;
 import com.intellij.testFramework.PlatformTestUtil;
 
 @Category(Performance.class)
-public class GoPerformanceTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoPerformanceTest extends GoCodeInsightFixtureTestCase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

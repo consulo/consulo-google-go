@@ -18,7 +18,7 @@ package com.goide.completion;
 
 import com.intellij.codeInsight.completion.CompletionType;
 
-public class GoTestNameCompletionTest extends GoCompletionTestBase {
+public abstract class GoTestNameCompletionTest extends GoCompletionTestBase {
   public void testShowFromSimilarFileFirst() {
     myFixture.addFileToProject("foo.go", "package main; func FooPublic() {}");
     myFixture.addFileToProject("a.go", "package main; func BarPublic() {}");

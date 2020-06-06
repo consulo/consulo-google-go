@@ -18,7 +18,7 @@ package com.goide.intentions;
 
 import com.goide.quickfix.GoQuickFixTestBase;
 
-public class GoAddFunctionBlockIntentionTest extends GoQuickFixTestBase {
+public abstract class GoAddFunctionBlockIntentionTest extends GoQuickFixTestBase {
   public void testSimple() {
     doTest(GoAddFunctionBlockIntention.NAME, true);
   }

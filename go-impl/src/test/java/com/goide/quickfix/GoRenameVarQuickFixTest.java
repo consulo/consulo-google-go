@@ -19,7 +19,7 @@ package com.goide.quickfix;
 import com.goide.inspections.unresolved.GoUnusedVariableInspection;
 import javax.annotation.Nonnull;
 
-public class GoRenameVarQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoRenameVarQuickFixTest extends GoQuickFixTestBase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();

@@ -25,7 +25,7 @@ import com.goide.inspections.unresolved.GoUnusedGlobalVariableInspection;
 import com.goide.inspections.unresolved.GoUnusedVariableInspection;
 import com.goide.quickfix.GoQuickFixTestBase;
 
-public class GoSuppressionFixTest extends GoQuickFixTestBase {
+public abstract class GoSuppressionFixTest extends GoQuickFixTestBase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();

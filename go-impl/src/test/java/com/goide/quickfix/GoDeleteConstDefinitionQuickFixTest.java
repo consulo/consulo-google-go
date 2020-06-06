@@ -18,7 +18,7 @@ package com.goide.quickfix;
 
 import com.goide.inspections.unresolved.GoUnusedConstInspection;
 
-public class GoDeleteConstDefinitionQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoDeleteConstDefinitionQuickFixTest extends GoQuickFixTestBase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

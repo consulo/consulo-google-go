@@ -19,7 +19,7 @@ package com.goide.runconfig.testing;
 import com.goide.runconfig.testing.frameworks.gotest.GotestFramework;
 import javax.annotation.Nonnull;
 
-public class GotestEventsConverterTest extends GoEventsConverterTestCase {
+public abstract class GotestEventsConverterTest extends GoEventsConverterTestCase {
   public void testSingleTestFailed() {
     doTest();
   }

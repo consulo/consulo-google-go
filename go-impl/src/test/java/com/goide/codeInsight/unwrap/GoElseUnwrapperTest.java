@@ -16,7 +16,7 @@
 
 package com.goide.codeInsight.unwrap;
 
-public class GoElseUnwrapperTest extends GoUnwrapTestCase {
+public abstract class GoElseUnwrapperTest extends GoUnwrapTestCase {
   public void testNoAction() {
     assertUnwrapped("if true { \n}<caret>", "if true { \n}<caret>", 1);
   }

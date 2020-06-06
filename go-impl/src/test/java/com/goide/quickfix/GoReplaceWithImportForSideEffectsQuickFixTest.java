@@ -20,7 +20,7 @@ import com.goide.SdkAware;
 import com.goide.inspections.GoUnusedImportInspection;
 
 @SdkAware
-public class GoReplaceWithImportForSideEffectsQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoReplaceWithImportForSideEffectsQuickFixTest extends GoQuickFixTestBase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

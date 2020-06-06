@@ -16,7 +16,7 @@
 
 package com.goide.editor.surround;
 
-public class GoWithParenthesisSurrounderTest extends GoSurrounderTestBase {
+public abstract class GoWithParenthesisSurrounderTest extends GoSurrounderTestBase {
   private static final String PARENTHESIS_SURROUNDER = new GoWithParenthesisSurrounder().getTemplateDescription();
 
   public void testParenthesis() {

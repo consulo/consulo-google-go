@@ -20,7 +20,7 @@ import com.goide.quickfix.GoDeleteImportQuickFix;
 import com.goide.quickfix.GoQuickFixTestBase;
 import com.intellij.psi.PsiFile;
 
-public class GoSelfImportInspectionTest extends GoQuickFixTestBase {
+public abstract class GoSelfImportInspectionTest extends GoQuickFixTestBase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

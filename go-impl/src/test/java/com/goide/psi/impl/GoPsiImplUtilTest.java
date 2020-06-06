@@ -21,7 +21,7 @@ import com.goide.psi.*;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 
-public class GoPsiImplUtilTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoPsiImplUtilTest extends GoCodeInsightFixtureTestCase {
   public void testGetLocalPackageNameDash() {
     assertEquals("test_directory", GoPsiImplUtil.getLocalPackageName("test-directory"));
   }

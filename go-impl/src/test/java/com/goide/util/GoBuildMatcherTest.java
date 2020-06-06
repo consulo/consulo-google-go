@@ -21,7 +21,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.util.ThreeState;
 import javax.annotation.Nonnull;
 
-public class GoBuildMatcherTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoBuildMatcherTest extends GoCodeInsightFixtureTestCase {
   public void testMatchFile() {
     GoBuildMatcher matcher;
 

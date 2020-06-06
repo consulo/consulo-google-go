@@ -22,7 +22,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import javax.annotation.Nonnull;
 
-public class GoUnderlyingTypeTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoUnderlyingTypeTest extends GoCodeInsightFixtureTestCase {
   private void doTest(@Nonnull String text, String expected) {
     myFixture.configureByText("a.go", "package a\n" + text);
     PsiElement element = myFixture.getFile().findElementAt(myFixture.getEditor().getCaretModel().getOffset());

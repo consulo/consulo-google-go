@@ -20,7 +20,7 @@ import com.goide.SdkAware;
 import javax.annotation.Nonnull;
 
 @SdkAware
-public class GoLegacyResolveBuiltinTest extends GoLegacyResolveTestBase {
+public abstract class GoLegacyResolveBuiltinTest extends GoLegacyResolveTestBase {
   @Nonnull
   @Override
   protected String getBasePath() { return "psi/resolve/builtin"; }

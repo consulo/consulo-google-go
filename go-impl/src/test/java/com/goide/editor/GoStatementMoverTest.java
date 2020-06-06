@@ -20,7 +20,7 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.openapi.actionSystem.IdeActions;
 import javax.annotation.Nonnull;
 
-public class GoStatementMoverTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoStatementMoverTest extends GoCodeInsightFixtureTestCase {
   public void testSimpleStatement() {
     doTest(false);
     doTest(true);

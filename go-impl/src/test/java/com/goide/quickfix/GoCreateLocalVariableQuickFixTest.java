@@ -19,7 +19,7 @@ package com.goide.quickfix;
 import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
 import javax.annotation.Nonnull;
 
-public class GoCreateLocalVariableQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoCreateLocalVariableQuickFixTest extends GoQuickFixTestBase {
   private static final String CREATE_LOCAL_VARIABLE_A = "Create local variable 'a'";
 
   @Override

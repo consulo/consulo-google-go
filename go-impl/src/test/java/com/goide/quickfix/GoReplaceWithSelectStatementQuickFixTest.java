@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 import com.goide.inspections.GoInfiniteForInspection;
 
-public class GoReplaceWithSelectStatementQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoReplaceWithSelectStatementQuickFixTest extends GoQuickFixTestBase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();

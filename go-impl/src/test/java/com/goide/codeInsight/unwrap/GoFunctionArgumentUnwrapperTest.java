@@ -16,7 +16,7 @@
 
 package com.goide.codeInsight.unwrap;
 
-public class GoFunctionArgumentUnwrapperTest extends GoUnwrapTestCase {
+public abstract class GoFunctionArgumentUnwrapperTest extends GoUnwrapTestCase {
   public void testNoAction() {
     assertUnwrapped("asd(<caret>)", "asd(<caret>)");
   }

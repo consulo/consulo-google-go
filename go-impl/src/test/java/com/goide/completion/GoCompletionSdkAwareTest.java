@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.List;
 
 @SdkAware
-public class GoCompletionSdkAwareTest extends GoCompletionTestBase {
+public abstract class GoCompletionSdkAwareTest extends GoCompletionTestBase {
   public void testFormatter() {
     doTestInclude("package main; import . \"fmt\"; type alias <caret>", "Formatter");
   }

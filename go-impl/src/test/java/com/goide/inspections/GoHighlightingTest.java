@@ -37,7 +37,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiReference;
 
 @SdkAware
-public class GoHighlightingTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoHighlightingTest extends GoCodeInsightFixtureTestCase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

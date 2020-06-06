@@ -21,7 +21,7 @@ import com.goide.runconfig.testing.GoTestFunctionType;
 import com.goide.runconfig.testing.frameworks.gotest.GotestGenerateAction;
 import javax.annotation.Nonnull;
 
-public class GoGenerateTestActionTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoGenerateTestActionTest extends GoCodeInsightFixtureTestCase {
   public void testTest() {
     doTest(GoTestFunctionType.TEST, "package test\n<caret>", "package test\n" +
                                                              "\n" +

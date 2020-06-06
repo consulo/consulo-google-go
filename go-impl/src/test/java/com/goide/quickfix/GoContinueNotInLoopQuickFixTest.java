@@ -18,7 +18,7 @@ package com.goide.quickfix;
 
 import javax.annotation.Nonnull;
 
-public class GoContinueNotInLoopQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoContinueNotInLoopQuickFixTest extends GoQuickFixTestBase {
   @Nonnull
   @Override
   protected String getBasePath() {

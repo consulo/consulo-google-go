@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 import com.goide.intentions.GoMoveToStructInitializationIntention;
 
-public class GoMoveToStructInitializationIntentionTest extends GoQuickFixTestBase {
+public abstract class GoMoveToStructInitializationIntentionTest extends GoQuickFixTestBase {
   @Nonnull
   @Override
   protected String getBasePath() {

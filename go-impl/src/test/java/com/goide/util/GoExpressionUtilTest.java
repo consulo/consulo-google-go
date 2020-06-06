@@ -33,7 +33,7 @@ import java.util.List;
 
 @RunWith(Parameterized.class)
 @SdkAware
-public class GoExpressionUtilTest extends GoParametrizedTestBase {
+public abstract class GoExpressionUtilTest extends GoParametrizedTestBase {
   private final String vars;
   private final String left;
   private final String right;

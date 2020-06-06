@@ -20,7 +20,7 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.spellchecker.inspections.SpellCheckingInspection;
 import javax.annotation.Nonnull;
 
-public class GoSpellcheckingTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoSpellcheckingTest extends GoCodeInsightFixtureTestCase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

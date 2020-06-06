@@ -21,7 +21,7 @@ import com.goide.quickfix.GoQuickFixTestBase;
 import javax.annotation.Nonnull;
 
 @SdkAware
-public class GoTestSignaturesInspectionTest extends GoQuickFixTestBase {
+public abstract class GoTestSignaturesInspectionTest extends GoQuickFixTestBase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();

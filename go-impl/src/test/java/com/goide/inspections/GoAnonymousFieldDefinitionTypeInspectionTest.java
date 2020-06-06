@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 import com.goide.quickfix.GoCreateWrapperTypeQuickFix;
 import com.goide.quickfix.GoQuickFixTestBase;
 
-public class GoAnonymousFieldDefinitionTypeInspectionTest extends GoQuickFixTestBase{
+public abstract class GoAnonymousFieldDefinitionTypeInspectionTest extends GoQuickFixTestBase{
   @Override
   public void setUp() throws Exception {
     super.setUp();

@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 import com.goide.runconfig.testing.frameworks.gobench.GobenchFramework;
 
-public class GobenchEventsConverterTest extends GoEventsConverterTestCase {
+public abstract class GobenchEventsConverterTest extends GoEventsConverterTestCase {
   public void testSuccessBenchmark() {
     doTest();
   }

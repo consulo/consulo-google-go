@@ -20,7 +20,7 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.openapi.command.WriteCommandAction;
 import javax.annotation.Nonnull;
 
-public class GoImportListTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoImportListTest extends GoCodeInsightFixtureTestCase {
   public void testAddImportToEmptyList()                                { doAddImportTest(); }
   public void testAddImportToListWithMultiSpecDeclaration()             { doAddImportTest(); }
   public void testAddImportToListWithSingleSpecDeclaration()            { doAddImportTest(); }

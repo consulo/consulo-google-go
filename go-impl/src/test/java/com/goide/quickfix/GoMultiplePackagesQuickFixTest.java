@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 import com.goide.inspections.GoMultiplePackagesInspection;
 
-public class GoMultiplePackagesQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoMultiplePackagesQuickFixTest extends GoQuickFixTestBase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();

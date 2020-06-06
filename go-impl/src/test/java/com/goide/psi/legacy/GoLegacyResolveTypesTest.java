@@ -18,7 +18,7 @@ package com.goide.psi.legacy;
 
 import javax.annotation.Nonnull;
 
-public class GoLegacyResolveTypesTest extends GoLegacyResolveTestBase {
+public abstract class GoLegacyResolveTypesTest extends GoLegacyResolveTestBase {
   @Nonnull
   @Override
   protected String getBasePath() { return "psi/resolve/types"; }

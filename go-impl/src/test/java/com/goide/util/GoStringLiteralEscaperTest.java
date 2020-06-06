@@ -27,7 +27,7 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.LiteralTextEscaper;
 import com.intellij.psi.PsiLanguageInjectionHost;
 
-public class GoStringLiteralEscaperTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoStringLiteralEscaperTest extends GoCodeInsightFixtureTestCase {
   private static String decodeRange(@Nonnull GoStringLiteral expr, @Nonnull TextRange range) {
     StringBuilder builder = new StringBuilder();
     expr.createLiteralTextEscaper().decode(range, builder);

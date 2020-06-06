@@ -27,7 +27,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 @SdkAware
-public class GoExitPointsHighlightingTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoExitPointsHighlightingTest extends GoCodeInsightFixtureTestCase {
   public void testBasicExitPoints() {
     String text = "package main;\n" +
                   "func bar(x int) int {\n" +

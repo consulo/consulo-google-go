@@ -19,7 +19,7 @@ package com.goide.psi.legacy;
 import javax.annotation.Nonnull;
 import com.goide.project.GoBuildTargetSettings;
 
-public class GoLegacyResolveCallsTest extends GoLegacyResolveTestBase {
+public abstract class GoLegacyResolveCallsTest extends GoLegacyResolveTestBase {
   @Nonnull
   @Override
   protected String getBasePath() { return "psi/resolve/calls"; }

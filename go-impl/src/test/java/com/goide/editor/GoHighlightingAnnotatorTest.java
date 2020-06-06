@@ -24,7 +24,7 @@ import com.intellij.testFramework.TestDataPath;
 
 @SdkAware
 @TestDataPath("$PROJECT_ROOT/testData/colorHighlighting")
-public class GoHighlightingAnnotatorTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoHighlightingAnnotatorTest extends GoCodeInsightFixtureTestCase {
 
   public void testSimple() {
     doTest();

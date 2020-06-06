@@ -25,7 +25,7 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.LocalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 
-public class GoNamedElementTest extends GoCodeInsightFixtureTestCase{
+public abstract class GoNamedElementTest extends GoCodeInsightFixtureTestCase{
   private <T> void doTestGetUseScope(@Nonnull String text, @Nonnull Class<T> scope) {
     myFixture.configureByText("a.go", text);
     PsiFile file = myFixture.getFile();

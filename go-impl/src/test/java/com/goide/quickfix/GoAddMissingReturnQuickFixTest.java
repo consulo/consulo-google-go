@@ -18,7 +18,7 @@ package com.goide.quickfix;
 
 import com.goide.inspections.GoMissingReturnInspection;
 
-public class GoAddMissingReturnQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoAddMissingReturnQuickFixTest extends GoQuickFixTestBase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

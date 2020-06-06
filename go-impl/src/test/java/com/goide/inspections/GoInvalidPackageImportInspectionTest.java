@@ -28,7 +28,7 @@ import com.intellij.util.containers.ContainerUtil;
 import java.util.Collection;
 
 @SdkAware
-public class GoInvalidPackageImportInspectionTest extends GoQuickFixTestBase {
+public abstract class GoInvalidPackageImportInspectionTest extends GoQuickFixTestBase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

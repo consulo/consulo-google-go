@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
 
-public class GoCreateWrapperTypeQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoCreateWrapperTypeQuickFixTest extends GoQuickFixTestBase {
   private static final String CREATE_TYPE_A = "Create type 'A'";
 
   @Override

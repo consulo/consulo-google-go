@@ -16,7 +16,7 @@
 
 package com.goide.editor.surround;
 
-public class GoWithNotExpressionSurrounderTest extends GoSurrounderTestBase {
+public abstract class GoWithNotExpressionSurrounderTest extends GoSurrounderTestBase {
   private static final String SURROUNDER_DESCRIPTION = new GoWithNotExpressionSurrounder().getTemplateDescription();
 
   public void testWithOneBoolVariable() {

@@ -19,7 +19,7 @@ package com.goide.editor;
 import javax.annotation.Nonnull;
 import com.goide.GoCodeInsightFixtureTestCase;
 
-public class GoSelectWordTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoSelectWordTest extends GoCodeInsightFixtureTestCase {
   public void testImportString()            { doTest(); }
   public void testMultipleImportString()    { doTest(); }
   public void testStringLiteral()           { doTest(); }

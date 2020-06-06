@@ -11,7 +11,7 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 
-public class GoRunConfigurationProducerTest extends GoRunConfigurationTestCase
+public abstract class GoRunConfigurationProducerTest extends GoRunConfigurationTestCase
 {
 	public void testTestFile_test()
 	{

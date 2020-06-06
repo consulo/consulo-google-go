@@ -22,7 +22,7 @@ import com.intellij.psi.codeStyle.CodeStyleManager;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class GoFormatterTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoFormatterTest extends GoCodeInsightFixtureTestCase {
   @Nonnull
   @Override
   protected String getBasePath() {

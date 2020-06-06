@@ -20,7 +20,7 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.refactoring.util.CommonRefactoringUtil;
 import javax.annotation.Nonnull;
 
-public class GoRenameTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoRenameTest extends GoCodeInsightFixtureTestCase {
   public void testAnonymousField() {
     doTest("package foo; type A struct {*A}; func foo(a A) {a.<caret>A}", "B",
            "package foo; type B struct { *B }; func foo(a B) {a.B\n}");

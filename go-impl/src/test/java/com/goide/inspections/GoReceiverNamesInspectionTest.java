@@ -18,7 +18,7 @@ package com.goide.inspections;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 
-public class GoReceiverNamesInspectionTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoReceiverNamesInspectionTest extends GoCodeInsightFixtureTestCase {
 
   @Override
   public void setUp() throws Exception {

@@ -19,7 +19,7 @@ package com.goide.marker;
 import javax.annotation.Nonnull;
 import com.goide.GoCodeInsightFixtureTestCase;
 
-public class GoRecursiveMethodCallMarkerInfoTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoRecursiveMethodCallMarkerInfoTest extends GoCodeInsightFixtureTestCase {
   public void testRecursive() { doTest(); }
   public void testGo()        { doTest(); }
 

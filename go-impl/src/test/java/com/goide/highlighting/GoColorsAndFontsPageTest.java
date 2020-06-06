@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GoColorsAndFontsPageTest extends TestCase {
+public abstract class GoColorsAndFontsPageTest extends TestCase {
 
   public void testDemoText() {
     GoColorsAndFontsPage testee = new GoColorsAndFontsPage();

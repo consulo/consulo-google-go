@@ -22,7 +22,7 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.codeInsight.hint.ParameterInfoComponent;
 import com.intellij.lang.parameterInfo.ParameterInfoUIContextEx;
 
-public class GoParameterInfoHandlerTest extends GoCodeInsightFixtureTestCase
+public abstract class GoParameterInfoHandlerTest extends GoCodeInsightFixtureTestCase
 {
 	private GoParameterInfoHandler myParameterInfoHandler;
 

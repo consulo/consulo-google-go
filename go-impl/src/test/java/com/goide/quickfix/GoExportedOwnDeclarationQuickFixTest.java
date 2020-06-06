@@ -19,7 +19,7 @@ package com.goide.quickfix;
 import com.goide.inspections.GoExportedOwnDeclarationInspection;
 import javax.annotation.Nonnull;
 
-public class GoExportedOwnDeclarationQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoExportedOwnDeclarationQuickFixTest extends GoQuickFixTestBase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();

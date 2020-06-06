@@ -23,7 +23,7 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.psi.PsiFile;
 
-public class GoStubTest extends GoCodeInsightFixtureTestCase
+public abstract class GoStubTest extends GoCodeInsightFixtureTestCase
 {
 	public void testStub() throws IOException
 	{

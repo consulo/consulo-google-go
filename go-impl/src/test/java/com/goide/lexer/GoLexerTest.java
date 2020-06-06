@@ -33,7 +33,7 @@ import java.security.CodeSource;
 
 import static consulo.testFramework.AssertEx.assertSameLinesWithFile;
 
-public class GoLexerTest extends LexerTestCase
+public abstract class GoLexerTest extends LexerTestCase
 {
 	private static final String PATH = "lexer";
 

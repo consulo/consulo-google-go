@@ -19,7 +19,7 @@ package com.goide.inspections;
 import com.goide.quickfix.GoQuickFixTestBase;
 import javax.annotation.Nonnull;
 
-public class GoRedundantBlankArgInRangeInspectionTest extends GoQuickFixTestBase {
+public abstract class GoRedundantBlankArgInRangeInspectionTest extends GoQuickFixTestBase {
 
   @Override
   public void setUp() throws Exception {

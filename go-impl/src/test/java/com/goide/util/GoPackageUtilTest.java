@@ -20,7 +20,7 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.project.GoBuildTargetSettings;
 import com.goide.sdk.GoPackageUtil;
 
-public class GoPackageUtilTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoPackageUtilTest extends GoCodeInsightFixtureTestCase {
   public void testPackageNameOfTestPackageInNonTestFile() {
     myFixture.configureByText("foo.go", "package foo");
     myFixture.configureByText("foo_test.go", "package foo_test");

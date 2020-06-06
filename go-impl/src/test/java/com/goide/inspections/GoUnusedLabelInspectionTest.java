@@ -20,7 +20,7 @@ import com.goide.inspections.unresolved.GoUnusedLabelInspection;
 import com.goide.quickfix.GoQuickFixTestBase;
 import com.goide.quickfix.GoRenameToBlankQuickFix;
 
-public class GoUnusedLabelInspectionTest extends GoQuickFixTestBase {
+public abstract class GoUnusedLabelInspectionTest extends GoQuickFixTestBase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

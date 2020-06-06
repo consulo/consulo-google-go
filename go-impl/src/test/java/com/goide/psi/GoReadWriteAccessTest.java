@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 
 import static com.intellij.codeInsight.highlighting.ReadWriteAccessDetector.Access.*;
 
-public class GoReadWriteAccessTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoReadWriteAccessTest extends GoCodeInsightFixtureTestCase {
   public void testAssignment() {
     doTest("fo<caret>o = 1", Write);
   }

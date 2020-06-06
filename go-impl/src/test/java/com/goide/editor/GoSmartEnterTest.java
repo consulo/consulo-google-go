@@ -19,7 +19,7 @@ package com.goide.editor;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.openapi.actionSystem.IdeActions;
 
-public class GoSmartEnterTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoSmartEnterTest extends GoCodeInsightFixtureTestCase {
   public void testGoStatement()                          { doTest(); }
   public void testDeferStatement()                       { doTest(); }
   public void testGoStatementOnNonFunctionType()         { doTest(); }

@@ -22,7 +22,7 @@ import com.goide.SdkAware;
 import com.goide.quickfix.GoQuickFixTestBase;
 
 @SdkAware
-public class GoRedundantSecondIndexInSlicesInspectionTest extends GoQuickFixTestBase {
+public abstract class GoRedundantSecondIndexInSlicesInspectionTest extends GoQuickFixTestBase {
   @Override
   public void setUp() throws Exception {
     super.setUp();

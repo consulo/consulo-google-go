@@ -27,7 +27,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 
 @SdkAware
-public class GoExpectedTypesTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoExpectedTypesTest extends GoCodeInsightFixtureTestCase {
   public void testAssignment() {
     doStatementTest("var a int; a = <selection>asd()</selection>", "int");
   }

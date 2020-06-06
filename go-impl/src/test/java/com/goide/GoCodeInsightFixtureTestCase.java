@@ -40,7 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-abstract public class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsightFixtureTestCase {
+public abstract class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsightFixtureTestCase {
   protected static String buildStubTreeText(@Nonnull Project project,
                                             @Nonnull VirtualFile file,
                                             @Nonnull String fileContent,

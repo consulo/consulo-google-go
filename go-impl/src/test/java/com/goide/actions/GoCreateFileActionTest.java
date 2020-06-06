@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 
 import java.io.IOException;
 
-public class GoCreateFileActionTest extends GoCodeInsightFixtureTestCase {
+public abstract class GoCreateFileActionTest extends GoCodeInsightFixtureTestCase {
   public void testPackageNameInEmptyDirectory() throws Exception {
     doTestInEmptyDirectory("empty-dir", "a", "empty_dir", "empty_dir");
   }

@@ -21,7 +21,7 @@ import com.goide.inspections.GoStringAndByteTypeMismatchInspection;
 import javax.annotation.Nonnull;
 
 @SdkAware
-public class GoConvertStringToByteQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoConvertStringToByteQuickFixTest extends GoQuickFixTestBase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();

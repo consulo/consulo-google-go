@@ -16,7 +16,7 @@
 
 package com.goide.codeInsight.unwrap;
 
-public class GoForUnwrapperTest extends GoUnwrapTestCase {
+public abstract class GoForUnwrapperTest extends GoUnwrapTestCase {
   public void testVoidFor() {
     assertUnwrapped("for <caret> { \n}", "\n");
   }

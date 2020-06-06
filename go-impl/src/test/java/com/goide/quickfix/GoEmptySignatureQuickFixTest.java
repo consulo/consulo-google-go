@@ -16,7 +16,7 @@
 
 package com.goide.quickfix;
 
-public class GoEmptySignatureQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoEmptySignatureQuickFixTest extends GoQuickFixTestBase {
   public void testSimple() {
     myFixture.configureByText("a.go", "package main; func main() <caret>int {}");
     applySingleQuickFix(GoEmptySignatureQuickFix.QUICK_FIX_NAME);

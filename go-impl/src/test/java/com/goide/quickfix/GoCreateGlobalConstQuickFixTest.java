@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 
 import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
 
-public class GoCreateGlobalConstQuickFixTest extends GoQuickFixTestBase {
+public abstract class GoCreateGlobalConstQuickFixTest extends GoQuickFixTestBase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
