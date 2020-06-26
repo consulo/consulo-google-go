@@ -30,6 +30,7 @@ import com.intellij.util.containers.ContainerUtil;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -54,14 +55,14 @@ public class GoParameterInfoHandler implements ParameterInfoHandlerWithTabAction
 
   @Nonnull
   @Override
-  public Set<Class> getArgumentListAllowedParentClasses() {
-    return ContainerUtil.newHashSet();
+  public Set<Class<?>> getArgumentListAllowedParentClasses() {
+	  return Collections.emptySet();
   }
 
   @Nonnull
   @Override
-  public Set<Class> getArgListStopSearchClasses() {
-    return ContainerUtil.newHashSet();
+  public Set<? extends Class> getArgListStopSearchClasses() {
+    return Collections.emptySet();
   }
 
   @Nonnull
@@ -78,12 +79,6 @@ public class GoParameterInfoHandler implements ParameterInfoHandlerWithTabAction
   @Nullable
   @Override
   public Object[] getParametersForLookup(LookupElement item, ParameterInfoContext context) {
-    return ArrayUtil.EMPTY_OBJECT_ARRAY;
-  }
-
-  @Nullable
-  @Override
-  public Object[] getParametersForDocumentation(Object p, ParameterInfoContext context) {
     return ArrayUtil.EMPTY_OBJECT_ARRAY;
   }
 
@@ -127,17 +122,6 @@ public class GoParameterInfoHandler implements ParameterInfoHandlerWithTabAction
   @Override
   public void updateParameterInfo(@Nonnull GoArgumentList list, @Nonnull UpdateParameterInfoContext context) {
     context.setCurrentParameter(ParameterInfoUtils.getCurrentParameterIndex(list.getNode(), context.getOffset(), GoTypes.COMMA));
-  }
-
-  @Nullable
-  @Override
-  public String getParameterCloseChars() {
-    return ",(";
-  }
-
-  @Override
-  public boolean tracksParameterIndex() {
-    return true;
   }
 
   @Override
