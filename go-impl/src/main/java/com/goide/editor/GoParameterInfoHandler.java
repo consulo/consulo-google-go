@@ -61,7 +61,7 @@ public class GoParameterInfoHandler implements ParameterInfoHandlerWithTabAction
 
   @Nonnull
   @Override
-  public Set<? extends Class> getArgListStopSearchClasses() {
+  public Set<? extends Class<?>> getArgListStopSearchClasses() {
     return Collections.emptySet();
   }
 
