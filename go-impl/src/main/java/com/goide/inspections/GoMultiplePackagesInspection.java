@@ -23,17 +23,17 @@ import com.goide.quickfix.GoMultiplePackagesQuickFix;
 import com.goide.sdk.GoPackageUtil;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.ide.scratch.ScratchFileType;
+import com.intellij.ide.scratch.ScratchUtil;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 
 public class GoMultiplePackagesInspection extends GoInspectionBase {
   @Override
   protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
-    if (((ScratchFileType)ScratchFileType.INSTANCE).isMyFileType(file.getVirtualFile())) return;
+    if (ScratchUtil.isScratch(file.getVirtualFile())) return;
     GoPackageClause packageClause = file.getPackage();
     if (packageClause != null) {
       String packageName = file.getPackageName();
