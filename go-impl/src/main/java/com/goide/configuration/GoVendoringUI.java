@@ -26,6 +26,8 @@ import com.intellij.ui.components.JBLabel;
 import com.intellij.util.ThreeState;
 import com.intellij.util.containers.ContainerUtil;
 import consulo.google.go.module.extension.GoMutableModuleExtension;
+import consulo.ui.image.Image;
+
 import javax.annotation.Nonnull;
 
 import javax.swing.*;
@@ -60,13 +62,13 @@ public class GoVendoringUI {
     Sdk sdk = myModuleExtension.getSdk();
     String sdkVersion = sdk == null ? null : sdk.getVersionString();
     if (!GoVendoringUtil.vendoringCanBeDisabled(sdkVersion)) {
-      myErrorMessageLabel.setIcon(AllIcons.General.BalloonWarning);
+      myErrorMessageLabel.setIcon((Image) AllIcons.General.BalloonWarning);
       myErrorMessageLabel.setText("Go " + sdkVersion + " doesn't support disabling vendor experiment");
       myErrorMessageLabel.setVisible(true);
       myVendoringEnabledCombo.setEnabled(false);
     }
     else if (!GoVendoringUtil.supportsVendoring(sdkVersion) && sdkVersion != null) {
-      myErrorMessageLabel.setIcon(AllIcons.General.BalloonWarning);
+      myErrorMessageLabel.setIcon((Image) AllIcons.General.BalloonWarning);
       myErrorMessageLabel.setText("Go " + sdkVersion + " doesn't support vendor experiment");
       myErrorMessageLabel.setVisible(true);
       myVendoringEnabledCombo.setEnabled(true);

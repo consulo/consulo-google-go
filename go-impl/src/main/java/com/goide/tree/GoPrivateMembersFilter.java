@@ -16,15 +16,15 @@
 
 package com.goide.tree;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoNamedElement;
+import com.intellij.icons.AllIcons;
 import com.intellij.ide.util.treeView.smartTree.ActionPresentation;
 import com.intellij.ide.util.treeView.smartTree.ActionPresentationData;
 import com.intellij.ide.util.treeView.smartTree.Filter;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.psi.PsiElement;
-import com.intellij.util.PlatformIcons;
+
+import javax.annotation.Nonnull;
 
 public class GoPrivateMembersFilter implements Filter {
   private final static String PRIVATE_MEMBERS_FILTER_TEXT = "Show Private Members";
@@ -46,7 +46,7 @@ public class GoPrivateMembersFilter implements Filter {
   @Nonnull
   @Override
   public ActionPresentation getPresentation() {
-    return new ActionPresentationData(PRIVATE_MEMBERS_FILTER_TEXT, null, PlatformIcons.PRIVATE_ICON);
+    return new ActionPresentationData(PRIVATE_MEMBERS_FILTER_TEXT, null, AllIcons.Nodes.C_private);
   }
 
   @Nonnull

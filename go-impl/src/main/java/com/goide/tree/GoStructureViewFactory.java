@@ -16,30 +16,15 @@
 
 package com.goide.tree;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.goide.GoIcons;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.sdk.GoPackageUtil;
-import com.intellij.ide.structureView.StructureViewBuilder;
-import com.intellij.ide.structureView.StructureViewModel;
-import com.intellij.ide.structureView.StructureViewModelBase;
-import com.intellij.ide.structureView.StructureViewTreeElement;
-import com.intellij.ide.structureView.TreeBasedStructureViewBuilder;
+import com.intellij.ide.structureView.*;
 import com.intellij.ide.structureView.impl.common.PsiTreeElementBase;
 import com.intellij.ide.util.ActionShortcutProvider;
 import com.intellij.ide.util.FileStructureNodeProvider;
-import com.intellij.ide.util.treeView.smartTree.ActionPresentation;
-import com.intellij.ide.util.treeView.smartTree.ActionPresentationData;
-import com.intellij.ide.util.treeView.smartTree.Filter;
-import com.intellij.ide.util.treeView.smartTree.NodeProvider;
-import com.intellij.ide.util.treeView.smartTree.Sorter;
-import com.intellij.ide.util.treeView.smartTree.TreeElement;
+import com.intellij.ide.util.treeView.smartTree.*;
 import com.intellij.lang.PsiStructureViewFactory;
 import com.intellij.openapi.actionSystem.Shortcut;
 import com.intellij.openapi.diagnostic.Logger;
@@ -53,7 +38,12 @@ import com.intellij.psi.SyntaxTraverser;
 import com.intellij.psi.stubs.StubElement;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.containers.ContainerUtil;
-import consulo.awt.TargetAWT;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class GoStructureViewFactory implements PsiStructureViewFactory {
   @Nullable
@@ -111,7 +101,7 @@ public class GoStructureViewFactory implements PsiStructureViewFactory {
       @Nonnull
       @Override
       public ActionPresentation getPresentation() {
-        return new ActionPresentationData(ID, null, TargetAWT.to(GoIcons.PACKAGE));
+        return new ActionPresentationData(ID, null, GoIcons.PACKAGE);
       }
 
       @Nonnull
