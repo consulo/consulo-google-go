@@ -16,9 +16,6 @@
 
 package com.goide.completion;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import org.jetbrains.annotations.TestOnly;
 import com.goide.GoIcons;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
@@ -42,10 +39,13 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.ui.UIUtil;
-import consulo.awt.TargetAWT;
 import consulo.disposer.Disposable;
 import consulo.disposer.Disposer;
 import consulo.ui.image.Image;
+import org.jetbrains.annotations.TestOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoCompletionUtil {
   public static final int KEYWORD_PRIORITY = 20;
@@ -135,7 +135,7 @@ public class GoCompletionUtil {
           if (result != null) typeText = result.getText();
         }
 
-        p.setIcon(TargetAWT.to(icon));
+        p.setIcon(icon);
         p.setTypeText(typeText);
         p.setTypeGrayed(true);
         p.setTailText(calcTailText(f), true);
@@ -158,7 +158,7 @@ public class GoCompletionUtil {
                     v instanceof GoAnonymousFieldDefinition ? GoIcons.FIELD :
                     null;
 
-        p.setIcon(TargetAWT.to(icon));
+        p.setIcon(icon);
         p.setTailText(calcTailTextForFields(v), true);
         p.setTypeText(text);
         p.setTypeGrayed(true);
