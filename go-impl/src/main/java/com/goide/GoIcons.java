@@ -17,27 +17,26 @@
 package com.goide;
 
 import com.intellij.icons.AllIcons;
-import com.intellij.openapi.util.IconLoader;
+import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.ui.image.Image;
 import consulo.ui.image.ImageEffects;
 
-@SuppressWarnings("ConstantConditions")
 public interface GoIcons
 {
-	Image ICON = IconLoader.findIcon("/icons/go.png");
-	Image TYPE = IconLoader.findIcon("/icons/type.png");
+	Image ICON = GoogleGoIconGroup.go();
+	Image TYPE = GoogleGoIconGroup.type();
 	Image APPLICATION_RUN = ImageEffects.layered(ICON, AllIcons.Nodes.RunnableMark);
 	Image TEST_RUN = ImageEffects.layered(ICON, AllIcons.Nodes.JunitTestMark);
 	Image METHOD = AllIcons.Nodes.Method;
 	Image FUNCTION = AllIcons.Nodes.Function;
 	Image VARIABLE = AllIcons.Nodes.Variable;
-	Image CONSTANT = IconLoader.findIcon("/icons/constant.png");
+	Image CONSTANT = GoogleGoIconGroup.constant();
 	Image PARAMETER = AllIcons.Nodes.Parameter;
 	Image FIELD = AllIcons.Nodes.Field;
 	Image LABEL = null; // todo: we need an icon here!
 	Image RECEIVER = AllIcons.Nodes.Parameter;
 	Image PACKAGE = AllIcons.Nodes.Package;
-	Image MODULE_ICON = IconLoader.findIcon("/icons/goModule.png");
+	Image MODULE_ICON = GoogleGoIconGroup.goModule();
 	Image DEBUG = ICON;
 	Image DIRECTORY = AllIcons.Nodes.TreeClosed;
 }

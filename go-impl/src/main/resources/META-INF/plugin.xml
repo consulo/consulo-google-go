@@ -37,7 +37,7 @@
 	<extensions defaultExtensionNs="com.intellij">
 		<moduleExtensionProvider key="google-go"
 								 name="Google Go"
-								 icon="/icons/go.png"
+								 icon="consulo.google.go.GoogleGoIconGroup@go"
 								 mutableClass="consulo.google.go.module.extension.GoMutableModuleExtension"
 								 immutableClass="consulo.google.go.module.extension.GoModuleExtension"/>
 
