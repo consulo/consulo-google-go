@@ -17,7 +17,6 @@ package org.jetbrains.debugger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import sun.font.Script;
 
 import java.util.EventListener;
 
