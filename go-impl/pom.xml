@@ -64,6 +64,7 @@
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>generate-icon</goal>
+							<goal>generate-parsers</goal>
 						</goals>
 					</execution>
 					<execution>
