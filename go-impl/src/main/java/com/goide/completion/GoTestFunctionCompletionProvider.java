@@ -48,9 +48,10 @@ import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.IdFilter;
 import com.intellij.util.text.UniqueNameGenerator;
 import consulo.codeInsight.completion.CompletionProvider;
-import javax.annotation.Nonnull;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 public class GoTestFunctionCompletionProvider implements CompletionProvider {
@@ -76,7 +77,7 @@ public class GoTestFunctionCompletionProvider implements CompletionProvider {
         });
       }
 
-      Collection<String> methodKeys = ContainerUtil.newTroveSet();
+      Collection<String> methodKeys = new HashSet<>();
       StubIndex.getInstance().processAllKeys(GoMethodIndex.KEY, new CancellableCollectProcessor<>(methodKeys), scope, idFilter);
       for (String key : methodKeys) {
         Processor<GoMethodDeclaration> processor = declaration -> {

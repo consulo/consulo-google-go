@@ -137,7 +137,7 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
       }
     }
 
-    Set<String> allNames = ContainerUtil.newTroveSet();
+    Set<String> allNames = new HashSet<>();
     StubIndex.getInstance().processAllKeys(ALL_PUBLIC_NAMES, new CancellableCollectProcessor<String>(allNames) {
       @Override
       protected boolean accept(String s) {
