@@ -16,19 +16,18 @@
 
 package com.goide.highlighting;
 
-import static com.goide.highlighting.GoSyntaxHighlightingColors.*;
-
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-
 import com.goide.GoFileType;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
-import com.intellij.util.containers.ContainerUtil;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.goide.highlighting.GoSyntaxHighlightingColors.*;
 
 public class GoColorsAndFontsPage implements ColorSettingsPage {
   private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
@@ -70,7 +69,7 @@ public class GoColorsAndFontsPage implements ColorSettingsPage {
     new AttributesDescriptor("Scope declared variable", SCOPE_VARIABLE),
     new AttributesDescriptor("Label", LABEL)
   };
-  private static final Map<String, TextAttributesKey> ATTRIBUTES_KEY_MAP = ContainerUtil.newTroveMap();
+  private static final Map<String, TextAttributesKey> ATTRIBUTES_KEY_MAP = new HashMap<>();
   static {
     ATTRIBUTES_KEY_MAP.put("tr", TYPE_REFERENCE);
     ATTRIBUTES_KEY_MAP.put("ts", TYPE_SPECIFICATION);
