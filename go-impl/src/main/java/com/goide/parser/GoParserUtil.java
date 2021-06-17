@@ -29,8 +29,9 @@ import com.intellij.psi.impl.source.resolve.FileContextUtil;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.IndexingDataKeys;
+import consulo.util.collection.primitive.objects.ObjectIntMap;
+import consulo.util.collection.primitive.objects.ObjectMaps;
 import consulo.util.dataholder.Key;
-import gnu.trove.TObjectIntHashMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,12 +39,12 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 public class GoParserUtil extends GeneratedParserUtilBase {
-  private static final Key<TObjectIntHashMap<String>> MODES_KEY = Key.create("MODES_KEY");
+  private static final Key<ObjectIntMap<String>> MODES_KEY = Key.create("MODES_KEY");
 
   @Nonnull
-  private static TObjectIntHashMap<String> getParsingModes(@Nonnull PsiBuilder builder_) {
-    TObjectIntHashMap<String> flags = builder_.getUserData(MODES_KEY);
-    if (flags == null) builder_.putUserData(MODES_KEY, flags = new TObjectIntHashMap<>());
+  private static ObjectIntMap<String> getParsingModes(@Nonnull PsiBuilder builder_) {
+    ObjectIntMap<String> flags = builder_.getUserData(MODES_KEY);
+    if (flags == null) builder_.putUserData(MODES_KEY, flags = ObjectMaps.newObjectIntHashMap());
     return flags;
   }
 
@@ -91,7 +92,7 @@ public class GoParserUtil extends GeneratedParserUtilBase {
   }
 
   public static boolean isModeOn(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
-    return getParsingModes(builder_).get(mode) > 0;
+    return getParsingModes(builder_).getInt(mode) > 0;
   }
 
   public static boolean withOn(PsiBuilder builder_, int level_, String mode, Parser parser) {
@@ -99,40 +100,37 @@ public class GoParserUtil extends GeneratedParserUtilBase {
   }
 
   public static boolean withOff(PsiBuilder builder_, int level_, Parser parser, String... modes) {
-    TObjectIntHashMap<String> map = getParsingModes(builder_);
+    ObjectIntMap<String> map = getParsingModes(builder_);
 
-    TObjectIntHashMap<String> prev = new TObjectIntHashMap<>();
+    ObjectIntMap<String> prev = ObjectMaps.newObjectIntHashMap();
     
     for (String mode : modes) {
-      int p = map.get(mode);
+      int p = map.getInt(mode);
       if (p > 0) {
-        map.put(mode, 0);
-        prev.put(mode, p);
+        map.putInt(mode, 0);
+        prev.putInt(mode, p);
       }
     }
     
     boolean result = parser.parse(builder_, level_);
     
-    prev.forEachEntry((mode, p) -> {
-      map.put(mode, p);
-      return true;
-    });
+    prev.forEach((mode, p) -> map.putInt(mode, p));
     
     return result;
   }
 
   private static boolean withImpl(PsiBuilder builder_, int level_, String mode, boolean onOff, Parser whenOn, Parser whenOff) {
-    TObjectIntHashMap<String> map = getParsingModes(builder_);
-    int prev = map.get(mode);
+    ObjectIntMap<String> map = getParsingModes(builder_);
+    int prev = map.getInt(mode);
     boolean change = ((prev & 1) == 0) == onOff;
-    if (change) map.put(mode, prev << 1 | (onOff ? 1 : 0));
+    if (change) map.putInt(mode, prev << 1 | (onOff ? 1 : 0));
     boolean result = (change ? whenOn : whenOff).parse(builder_, level_);
-    if (change) map.put(mode, prev);
+    if (change) map.putInt(mode, prev);
     return result;
   }
 
   public static boolean isModeOff(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
-    return getParsingModes(builder_).get(mode) == 0;
+    return getParsingModes(builder_).getInt(mode) == 0;
   }
 
   public static boolean prevIsType(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level) {
@@ -151,16 +149,20 @@ public class GoParserUtil extends GeneratedParserUtilBase {
   }
 
   public static boolean enterMode(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
-    TObjectIntHashMap<String> flags = getParsingModes(builder_);
-    if (!flags.increment(mode)) flags.put(mode, 1);
+    ObjectIntMap<String> flags = getParsingModes(builder_);
+    if(flags.containsKey(mode)) {
+        flags.putInt(mode, flags.getInt(mode) + 1);
+    } else {
+        flags.putInt(mode, 1);
+    }
     return true;
   }
 
   private static boolean exitMode(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode, boolean safe) {
-    TObjectIntHashMap<String> flags = getParsingModes(builder_);
-    int count = flags.get(mode);
+    ObjectIntMap<String> flags = getParsingModes(builder_);
+    int count = flags.getInt(mode);
     if (count == 1) flags.remove(mode);
-    else if (count > 1) flags.put(mode, count - 1);
+    else if (count > 1) flags.putInt(mode, count - 1);
     else if (!safe) builder_.error("Could not exit inactive '" + mode + "' mode at offset " + builder_.getCurrentOffset());
     return true;
   }

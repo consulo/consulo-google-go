@@ -1,8 +1,8 @@
 package org.jetbrains.rpc;
 
 import consulo.logging.Logger;
-import consulo.util.collection.ConcurrentIntObjectMap;
-import consulo.util.collection.Maps;
+import consulo.util.collection.primitive.ints.ConcurrentIntObjectMap;
+import consulo.util.collection.primitive.ints.IntMaps;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class MessageManager<REQUEST, INCOMING, INCOMING_WITH_SEQ, SUCCESS> exten
   }
 
   private static final Logger LOG = Logger.getInstance(MessageManager.class);
-  private ConcurrentIntObjectMap<RequestCallback<SUCCESS>> callbackMap = Maps.newConcurrentIntObjectHashMap();
+  private ConcurrentIntObjectMap<RequestCallback<SUCCESS>> callbackMap = IntMaps.newConcurrentIntObjectHashMap();
   private MessageManager.Handler<REQUEST, INCOMING, INCOMING_WITH_SEQ, SUCCESS> handler;
 
   public MessageManager(Handler<REQUEST, INCOMING, INCOMING_WITH_SEQ, SUCCESS> handler) {

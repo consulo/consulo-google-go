@@ -32,10 +32,11 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.rt.coverage.data.ClassData;
 import com.intellij.rt.coverage.data.LineData;
 import com.intellij.rt.coverage.data.ProjectData;
-import gnu.trove.TIntObjectHashMap;
+import consulo.util.collection.primitive.ints.IntMaps;
+import consulo.util.collection.primitive.ints.IntObjectMap;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.*;
 import java.util.List;
 
@@ -121,7 +122,7 @@ public class GoCoverageRunner extends CoverageRunner {
     result.processFiles(fileData -> {
       ClassData classData = result.getOrCreateClassData(fileData.myFilePath);
       int max = -1;
-      TIntObjectHashMap<LineData> linesMap = new TIntObjectHashMap<>();
+      IntObjectMap<LineData> linesMap = IntMaps.newIntObjectHashMap();
       for (GoCoverageProjectData.RangeData rangeData : fileData.myRangesData.values()) {
         for (int i = rangeData.startLine; i <= rangeData.endLine; i++) {
           LineData existingData = linesMap.get(i);
@@ -141,10 +142,9 @@ public class GoCoverageRunner extends CoverageRunner {
       }
 
       LineData[] linesArray = new LineData[max + 1];
-      linesMap.forEachValue(data -> {
+      linesMap.forEach((k, data) -> {
         data.fillArrays();
         linesArray[data.getLineNumber()] = data;
-        return true;
       });
       classData.setLines(linesArray);
       return true;

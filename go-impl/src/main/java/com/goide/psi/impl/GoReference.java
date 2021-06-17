@@ -83,12 +83,6 @@ public class GoReference extends GoReferenceBase<GoReferenceExpressionBase> {
     return ResolveCache.getInstance(myElement.getProject()).resolveWithCaching(this, MY_RESOLVER, false, false);
   }
 
-  @Nonnull
-  @Override
-  public Object[] getVariants() {
-    return ArrayUtil.EMPTY_OBJECT_ARRAY;
-  }
-
   public boolean processResolveVariants(@Nonnull GoScopeProcessor processor) {
     PsiFile file = myElement.getContainingFile();
     if (!(file instanceof GoFile)) return false;
