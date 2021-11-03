@@ -19,6 +19,9 @@
 	<version>SNAPSHOT</version>
 	<vendor>consulo.io &amp; github.com/go-lang-plugin-org</vendor>
 	<category>Custom Languages</category>
+	<tags>
+		<tag>custom.language</tag>
+	</tags>
 
 	<depends>com.intellij.regexp</depends>
 	<depends optional="true">com.intellij.spellchecker</depends>
