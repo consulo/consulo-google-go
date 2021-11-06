@@ -835,12 +835,6 @@ public class GoPsiImplUtil {
     return ContainerUtil.filter(o.getMethodSpecList(), spec -> spec.getIdentifier() != null);
   }
 
-  // for binary comp with golang
-  @Nonnull
-  public static List<GoMethodSpec> getAllMethods(@Nonnull GoInterfaceType o) {
-    return ContainerUtil.filter(o.getMethodSpecList(), spec -> spec.getIdentifier() != null);
-  }
-
   @Nonnull
   public static List<GoTypeReferenceExpression> getBaseTypesReferences(@Nonnull GoInterfaceType o) {
     List<GoTypeReferenceExpression> refs = ContainerUtil.newArrayList();
@@ -859,6 +853,13 @@ public class GoPsiImplUtil {
       // todo[zolotov]: implement package modification tracker
       return CachedValueProvider.Result.create(calcMethods(o), PsiModificationTracker.MODIFICATION_COUNT);
     });
+  }
+
+  // for binary comp with golang
+  @Nonnull
+  public static List<GoNamedSignatureOwner> getAllMethods(@Nonnull GoTypeSpec o) {
+    List methods = getMethods(o);
+    return methods;
   }
 
   public static boolean allowed(@Nonnull PsiFile declarationFile, @Nullable PsiFile referenceFile, @Nullable Module contextModule) {

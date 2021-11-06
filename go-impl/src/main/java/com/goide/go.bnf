@@ -170,7 +170,7 @@ ParamDefinition ::= identifier {
 
 InterfaceType ::= interface '{' MethodSpecs? '}' {
   pin(".*")=1
-  methods=[getMethods getAllMethods getBaseTypesReferences]
+  methods=[getMethods getBaseTypesReferences]
 }
 private MethodSpecs ::= MethodSpec (semi MethodSpec)* semi? {pin=1}
 MethodSpec ::= TypeName &(!'(') | identifier Signature {
@@ -255,7 +255,7 @@ private ExpressionListRecover ::= !('!' | '!=' | '%' | '%=' | '&&' | '&' | '&=' 
 TypeDeclaration ::= 'type' ( TypeSpec | '(' TypeSpecs? ')' ) {pin(".*")=1}
 private TypeSpecs ::= TypeSpec (semi TypeSpec)* semi? {pin=1}
 TypeSpec ::= SpecType {
-  methods=[getGoTypeInner getMethods shouldGoDeeper identifier="SpecType/identifier"]
+  methods=[getGoTypeInner getMethods getAllMethods shouldGoDeeper identifier="SpecType/identifier"]
   stubClass="com.goide.stubs.GoTypeSpecStub"
 }
 SpecType ::= identifier Type {pin=1 stubClass="com.goide.stubs.GoTypeStub" extends="com.goide.psi.impl.GoTypeImpl" implements=Type}
