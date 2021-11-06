@@ -111,7 +111,7 @@ ImportSpec ::= [ '.' | identifier ] ImportString {
 }
 ImportString ::= StringLiteral {methods=[getReferences resolve getPath getPathTextRange]}
 
-Type ::= TypeName | TypeLit | ParType {stubClass="com.goide.stubs.GoTypeStub" methods=[getUnderlyingType shouldGoDeeper]}
+Type ::= TypeName | TypeLit | ParType {stubClass="com.goide.stubs.GoTypeStub" methods=[getUnderlyingType contextlessResolve shouldGoDeeper]}
 ParType ::= '(' Type ')' {methods=[getActualType]}
 private TypeName ::= TypeReferenceExpression QualifiedTypeReferenceExpression?
 TypeReferenceExpression ::= identifier { methods=[getReference getQualifier resolve resolveType] }
@@ -170,7 +170,7 @@ ParamDefinition ::= identifier {
 
 InterfaceType ::= interface '{' MethodSpecs? '}' {
   pin(".*")=1
-  methods=[getMethods getBaseTypesReferences]
+  methods=[getMethods getAllMethods getBaseTypesReferences]
 }
 private MethodSpecs ::= MethodSpec (semi MethodSpec)* semi? {pin=1}
 MethodSpec ::= TypeName &(!'(') | identifier Signature {

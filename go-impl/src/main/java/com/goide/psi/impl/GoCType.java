@@ -16,12 +16,18 @@
 
 package com.goide.psi.impl;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoCompositeElement;
+import com.intellij.psi.PsiElement;
+
+import javax.annotation.Nonnull;
 
 public class GoCType extends GoLightType<GoCompositeElement> {
   protected GoCType(@Nonnull GoCompositeElement expression) {
     super(expression);
+  }
+
+  @Override
+  public PsiElement contextlessResolve() {
+    return null;
   }
 }

@@ -835,6 +835,12 @@ public class GoPsiImplUtil {
     return ContainerUtil.filter(o.getMethodSpecList(), spec -> spec.getIdentifier() != null);
   }
 
+  // for binary comp with golang
+  @Nonnull
+  public static List<GoMethodSpec> getAllMethods(@Nonnull GoInterfaceType o) {
+    return ContainerUtil.filter(o.getMethodSpecList(), spec -> spec.getIdentifier() != null);
+  }
+
   @Nonnull
   public static List<GoTypeReferenceExpression> getBaseTypesReferences(@Nonnull GoInterfaceType o) {
     List<GoTypeReferenceExpression> refs = ContainerUtil.newArrayList();
@@ -1160,6 +1166,12 @@ public class GoPsiImplUtil {
 
   public static boolean shouldGoDeeper(@Nonnull GoType o) {
     return o instanceof GoInterfaceType || o instanceof GoStructType;
+  }
+
+  @Nullable
+  public static PsiElement contextlessResolve(@Nonnull GoType o) {
+    GoTypeReferenceExpression typeReferenceExpression = o.getTypeReferenceExpression();
+    return typeReferenceExpression == null ? null : typeReferenceExpression.resolve();
   }
 
   public static boolean isForSideEffects(@Nonnull GoImportSpec o) {

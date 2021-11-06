@@ -90,11 +90,16 @@ public abstract class GoLightType<E extends GoCompositeElement> extends LightEle
     public PsiElement getMul() {
       return myElement; // todo: mock it?
     }
+
+    @Override
+    public PsiElement contextlessResolve() {
+      return myElement;
+    }
   }
 
   static class LightTypeList extends GoLightType<GoCompositeElement> implements GoTypeList {
     @Nonnull
-	private final List<GoType> myTypes;
+    private final List<GoType> myTypes;
 
     public LightTypeList(@Nonnull GoCompositeElement o, @Nonnull List<GoType> types) {
       super(o);
@@ -116,6 +121,11 @@ public abstract class GoLightType<E extends GoCompositeElement> extends LightEle
     public String getText() {
       return StringUtil.join(getTypeList(), PsiElement::getText, ", ");
     }
+
+    @Override
+    public PsiElement contextlessResolve() {
+      return null;
+    }
   }
 
   static class LightFunctionType extends GoLightType<GoSignatureOwner> implements GoFunctionType {
@@ -133,6 +143,11 @@ public abstract class GoLightType<E extends GoCompositeElement> extends LightEle
     @Override
     public PsiElement getFunc() {
       return myElement instanceof GoFunctionOrMethodDeclaration ? ((GoFunctionOrMethodDeclaration)myElement).getFunc() : myElement;
+    }
+
+    @Override
+    public PsiElement contextlessResolve() {
+      return myElement;
     }
 
     @Override
@@ -161,6 +176,11 @@ public abstract class GoLightType<E extends GoCompositeElement> extends LightEle
     @Nullable
     @Override
     public GoType getType() {
+      return myElement;
+    }
+
+    @Override
+    public PsiElement contextlessResolve() {
       return myElement;
     }
 
