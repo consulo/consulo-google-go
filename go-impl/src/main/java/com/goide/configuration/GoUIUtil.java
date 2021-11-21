@@ -18,6 +18,7 @@ package com.goide.configuration;
 
 import com.intellij.ui.BrowserHyperlinkListener;
 import com.intellij.ui.ColorUtil;
+import com.intellij.util.ui.JBHtmlEditorKit;
 import com.intellij.util.ui.UIUtil;
 import javax.annotation.Nonnull;
 
@@ -34,7 +35,7 @@ public class GoUIUtil {
     result.addHyperlinkListener(new BrowserHyperlinkListener());
     result.setContentType("text/html");
     Font descriptionFont = UIUtil.getLabelFont(UIUtil.FontSize.SMALL);
-    HTMLEditorKit editorKit = UIUtil.getHTMLEditorKit();
+    HTMLEditorKit editorKit = JBHtmlEditorKit.create();
     editorKit.getStyleSheet().addRule("body, p {" +
                                       "color:#" + ColorUtil.toHex(UIUtil.getLabelFontColor(UIUtil.FontColor.BRIGHTER)) + ";" +
                                       "font-family:" + descriptionFont.getFamily() + ";" +
