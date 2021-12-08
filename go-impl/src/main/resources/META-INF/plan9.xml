@@ -19,7 +19,7 @@
     <additionalTextAttributes scheme="Default" file="colorscheme/AsmIntelDefault.xml"/>
     <additionalTextAttributes scheme="Darcula" file="colorscheme/AsmIntelDarcula.xml"/>
 
-    <!--<lang.parserDefinition language="plan9_x86" implementationClass="com.plan9.intel.lang.core.AsmIntelParserDefinition"/>-->
+    <lang.parserDefinition language="plan9_x86" implementationClass="com.plan9.intel.lang.core.AsmIntelParserDefinition"/>
     <fileTypeFactory implementation="com.plan9.intel.AsmIntelFileTypeFactory"/>
     <lang.syntaxHighlighterFactory language="plan9_x86" implementationClass="com.plan9.intel.ide.highlighting.AsmIntelSyntaxHighlighterFactory"/>
     <colorSettingsPage implementation="com.plan9.intel.ide.highlighting.AsmIntelColorsAndFontsPage"/>

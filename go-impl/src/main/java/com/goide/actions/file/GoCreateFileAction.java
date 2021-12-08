@@ -16,7 +16,6 @@
 
 package com.goide.actions.file;
 
-import com.goide.GoIcons;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoPackageClause;
 import com.intellij.ide.actions.CreateFileFromTemplateAction;
@@ -29,6 +28,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
+import consulo.google.go.icon.GoogleGoIconGroup;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -42,14 +42,14 @@ public class GoCreateFileAction extends CreateFileFromTemplateAction implements 
   private static final String DEFAULT_GO_TEMPLATE_PROPERTY = "DefaultGoTemplateProperty";
 
   public GoCreateFileAction() {
-    super(NEW_GO_FILE, "", GoIcons.ICON);
+    super(NEW_GO_FILE, "", GoogleGoIconGroup.goFileType());
   }
 
   @Override
   protected void buildDialog(Project project, PsiDirectory directory, @Nonnull CreateFileFromTemplateDialog.Builder builder) {
     builder.setTitle(NEW_GO_FILE)
-      .addKind("Empty file", GoIcons.ICON, FILE_TEMPLATE)
-      .addKind("Simple Application", GoIcons.ICON, APPLICATION_TEMPLATE);
+      .addKind("Empty file", GoogleGoIconGroup.goFileType(), FILE_TEMPLATE)
+      .addKind("Simple Application", GoogleGoIconGroup.goFileType(), APPLICATION_TEMPLATE);
   }
 
   @Nullable

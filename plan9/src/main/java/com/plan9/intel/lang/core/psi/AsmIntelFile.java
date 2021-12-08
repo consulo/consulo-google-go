@@ -17,25 +17,13 @@
 package com.plan9.intel.lang.core.psi;
 
 import com.intellij.extapi.psi.PsiFileBase;
-import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
-import com.plan9.intel.AsmIntelFileType;
 import com.plan9.intel.lang.AsmIntelLanguage;
+
 import javax.annotation.Nonnull;
 
 public class AsmIntelFile extends PsiFileBase {
   public AsmIntelFile(@Nonnull FileViewProvider viewProvider) {
     super(viewProvider, AsmIntelLanguage.INSTANCE);
-  }
-
-  @Nonnull
-  @Override
-  public FileType getFileType() {
-    return AsmIntelFileType.INSTANCE;
-  }
-
-  @Override
-  public String toString() {
-    return "x86 File";
   }
 }

@@ -16,15 +16,16 @@
 
 package com.goide;
 
-import java.nio.charset.Charset;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.openapi.vfs.VirtualFile;
+import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.ui.image.Image;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.nio.charset.Charset;
 
 public class GoFileType extends LanguageFileType {
   public static final LanguageFileType INSTANCE = new GoFileType();
@@ -35,7 +36,7 @@ public class GoFileType extends LanguageFileType {
 
   @Nonnull
   @Override
-  public String getName() {
+  public String getId() {
     return GoConstants.GO;
   }
 
@@ -54,7 +55,7 @@ public class GoFileType extends LanguageFileType {
   @Nullable
   @Override
   public Image getIcon() {
-    return GoIcons.ICON;
+    return GoogleGoIconGroup.goFileType();
   }
 
   @Override

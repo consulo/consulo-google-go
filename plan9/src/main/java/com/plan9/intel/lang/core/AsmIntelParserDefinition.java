@@ -16,10 +16,7 @@
 
 package com.plan9.intel.lang.core;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.Language;
-import com.intellij.lang.ParserDefinition;
-import com.intellij.lang.PsiParser;
+import com.intellij.lang.*;
 import com.intellij.lexer.Lexer;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
@@ -31,9 +28,9 @@ import com.intellij.psi.tree.TokenSet;
 import com.plan9.intel.lang.AsmIntelLanguage;
 import com.plan9.intel.lang.core.lexer.AsmIntelLexer;
 import com.plan9.intel.lang.core.lexer.AsmIntelTokenType;
-import com.plan9.intel.lang.core.parser.AsmIntelParser;
 import com.plan9.intel.lang.core.psi.AsmIntelFile;
 import consulo.lang.LanguageVersion;
+
 import javax.annotation.Nonnull;
 
 import static com.plan9.intel.lang.core.psi.AsmIntelTypes.*;
@@ -78,7 +75,19 @@ public class AsmIntelParserDefinition implements ParserDefinition {
   @Override
   @Nonnull
   public PsiParser createParser(LanguageVersion languageVersion) {
-    return new AsmIntelParser();
+    return new PsiParser() {
+      @Nonnull
+      @Override
+      public ASTNode parse(@Nonnull IElementType rootElement, @Nonnull PsiBuilder builder, @Nonnull LanguageVersion languageVersion) {
+        PsiBuilder.Marker mark = builder.mark();
+        while (!builder.eof()) {
+          builder.advanceLexer();
+        }
+        mark.done(rootElement);
+        return builder.getTreeBuilt();
+      }
+    };
+    //return new AsmIntelParser();
   }
 
   @Override
