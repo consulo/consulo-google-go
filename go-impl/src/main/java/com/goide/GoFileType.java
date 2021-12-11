@@ -21,6 +21,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.openapi.vfs.VirtualFile;
 import consulo.google.go.icon.GoogleGoIconGroup;
+import consulo.localize.LocalizeValue;
 import consulo.ui.image.Image;
 
 import javax.annotation.Nonnull;
@@ -42,8 +43,8 @@ public class GoFileType extends LanguageFileType {
 
   @Nonnull
   @Override
-  public String getDescription() {
-    return "Go files";
+  public LocalizeValue getDescription() {
+    return LocalizeValue.localizeTODO("Go files");
   }
 
   @Nonnull

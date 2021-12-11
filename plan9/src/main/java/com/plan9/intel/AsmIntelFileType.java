@@ -18,6 +18,7 @@ package com.plan9.intel;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.plan9.intel.lang.AsmIntelLanguage;
+import consulo.localize.LocalizeValue;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
 
@@ -40,8 +41,8 @@ public class AsmIntelFileType extends LanguageFileType {
 
   @Nonnull
   @Override
-  public String getDescription() {
-    return "x86 Plan9 Assembly file";
+  public LocalizeValue getDescription() {
+    return LocalizeValue.localizeTODO("x86 Plan9 Assembly file");
   }
 
   @Nonnull
