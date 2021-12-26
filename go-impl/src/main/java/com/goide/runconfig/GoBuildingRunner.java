@@ -83,7 +83,7 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
     ((GoApplicationRunningState)state).createCommonExecutor().withParameters("build").withParameterString(((GoApplicationRunningState)state).getGoBuildParams())
             .withParameters("-o", outputFile.getAbsolutePath())
             .withParameters(((GoApplicationRunningState)state).isDebug() ? new String[]{"-gcflags", "-N -l"} : ArrayUtil.EMPTY_STRING_ARRAY)
-            .withParameters(((GoApplicationRunningState)state).getTarget()).disablePty().withPresentableName("go build")
+            .withParameters(((GoApplicationRunningState)state).getTarget()).withPresentableName("go build")
             .withProcessListener(historyProcessListener).withProcessListener(new ProcessAdapter() {
 
       @Override

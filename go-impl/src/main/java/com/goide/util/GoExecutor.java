@@ -84,7 +84,6 @@ public class GoExecutor {
   private boolean myShowNotificationsOnSuccess;
   private boolean myShowGoEnvVariables = true;
   private GeneralCommandLine.ParentEnvironmentType myParentEnvironmentType = GeneralCommandLine.ParentEnvironmentType.CONSOLE;
-  private boolean myPtyDisabled;
   @Nullable
   private String myExePath;
   @Nullable
@@ -195,12 +194,6 @@ public class GoExecutor {
   @Nonnull
   public GoExecutor showOutputOnError() {
     myShowOutputOnError = true;
-    return this;
-  }
-
-  @Nonnull
-  public GoExecutor disablePty() {
-    myPtyDisabled = true;
     return this;
   }
 
@@ -351,7 +344,7 @@ public class GoExecutor {
       throw new ExecutionException("Sdk is not set or Sdk home path is empty for module");
     }
 
-    GeneralCommandLine commandLine = !myPtyDisabled && PtyCommandLine.isEnabled() ? new PtyCommandLine() : new GeneralCommandLine();
+    GeneralCommandLine commandLine = new GeneralCommandLine();
     commandLine.setExePath(ObjectUtils.notNull(myExePath, GoSdkService.getGoExecutablePath(myGoRoot)));
     commandLine.getEnvironment().putAll(myExtraEnvironment);
     commandLine.getEnvironment().put(GoConstants.GO_ROOT, StringUtil.notNullize(myGoRoot));
