@@ -19,15 +19,14 @@ package com.goide.runconfig.ui;
 import com.goide.runconfig.GoRunUtil;
 import com.goide.runconfig.application.GoApplicationConfiguration;
 import com.goide.runconfig.testing.ui.GoPackageFieldCompletionProvider;
-import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.options.SettingsEditor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.TextFieldWithBrowseButton;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.ui.EditorTextField;
-import com.intellij.ui.ListCellRendererWrapper;
-import javax.annotation.Nonnull;
+import consulo.configurable.ConfigurationException;
+import consulo.execution.configuration.ui.SettingsEditor;
+import consulo.language.editor.ui.awt.EditorTextField;
+import consulo.project.Project;
+import consulo.ui.ex.awt.*;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.swing.*;
 import java.util.Locale;
@@ -35,7 +34,6 @@ import java.util.Locale;
 public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoApplicationConfiguration> {
   @Nonnull
   private final Project myProject;
-  private JPanel myComponent;
   private TextFieldWithBrowseButton myFileField;
   private GoCommonSettingsPanel myCommonSettingsPanel;
   private EditorTextField myPackageField;
@@ -44,9 +42,18 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
   private JLabel myFileLabel;
   private TextFieldWithBrowseButton myOutputFilePathField;
 
-
   public GoApplicationConfigurationEditorForm(@Nonnull Project project) {
     super(null);
+    myCommonSettingsPanel = new GoCommonSettingsPanel() {
+      @Override
+      protected void addBefore(FormBuilder builder) {
+        builder.addLabeledComponent("&Run kind", myRunKindComboBox = new ComboBox());
+        myPackageField = new GoPackageFieldCompletionProvider(this::getSelectedModule).createEditor(project);
+        builder.addLabeledComponent(myPackageLabel = new JBLabel("Package"), myPackageField);
+        builder.addLabeledComponent(myFileLabel = new JBLabel("File"), myFileField = new TextFieldWithBrowseButton());
+        builder.addLabeledComponent("O&utput directory", myOutputFilePathField = new TextFieldWithBrowseButton());
+      }
+    };
     myProject = project;
     myCommonSettingsPanel.init(project);
 
@@ -56,7 +63,7 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
   }
 
   private void onRunKindChanged() {
-    GoApplicationConfiguration.Kind selectedKind = (GoApplicationConfiguration.Kind)myRunKindComboBox.getSelectedItem();
+    GoApplicationConfiguration.Kind selectedKind = (GoApplicationConfiguration.Kind) myRunKindComboBox.getSelectedItem();
     if (selectedKind == null) {
       selectedKind = GoApplicationConfiguration.Kind.PACKAGE;
     }
@@ -82,14 +89,13 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
   protected void applyEditorTo(@Nonnull GoApplicationConfiguration configuration) throws ConfigurationException {
     configuration.setFilePath(myFileField.getText());
     configuration.setPackage(myPackageField.getText());
-    configuration.setKind((GoApplicationConfiguration.Kind)myRunKindComboBox.getSelectedItem());
+    configuration.setKind((GoApplicationConfiguration.Kind) myRunKindComboBox.getSelectedItem());
     configuration.setFileOutputPath(StringUtil.nullize(myOutputFilePathField.getText()));
     myCommonSettingsPanel.applyEditorTo(configuration);
   }
 
   private void createUIComponents() {
-    myPackageField = new GoPackageFieldCompletionProvider(
-      () -> myCommonSettingsPanel != null ? myCommonSettingsPanel.getSelectedModule() : null).createEditor(myProject);
+
   }
 
   @Nullable
@@ -117,11 +123,6 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
   @Nonnull
   @Override
   protected JComponent createEditor() {
-    return myComponent;
-  }
-
-  @Override
-  protected void disposeEditor() {
-    myComponent.setVisible(false);
+    return myCommonSettingsPanel;
   }
 }

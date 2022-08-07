@@ -16,27 +16,23 @@
 
 package com.goide.quickfix;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.Nls;
 import com.goide.psi.GoType;
 import com.goide.psi.GoTypeDeclaration;
 import com.goide.psi.GoTypeSpec;
 import com.goide.psi.impl.GoElementFactory;
-import com.intellij.codeInsight.CodeInsightUtilCore;
-import com.intellij.codeInsight.template.Template;
-import com.intellij.codeInsight.template.TemplateBuilderImpl;
-import com.intellij.codeInsight.template.TemplateManager;
-import com.intellij.codeInsight.template.impl.ConstantNode;
-import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement;
-import com.intellij.diagnostic.AttachmentFactory;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.CodeInsightUtilCore;
+import consulo.language.editor.inspection.LocalQuickFixAndIntentionActionOnPsiElement;
+import consulo.language.editor.template.*;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import org.jetbrains.annotations.Nls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoCreateWrapperTypeQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
 
@@ -55,11 +51,6 @@ public class GoCreateWrapperTypeQuickFix extends LocalQuickFixAndIntentionAction
                      @Nullable Editor editor,
                      @Nonnull PsiElement startElement,
                      @Nonnull PsiElement endElement) {
-    if (editor == null) {
-      LOG.error("Cannot run quick fix without editor: " + getClass().getSimpleName(),
-                AttachmentFactory.createAttachment(file.getVirtualFile()));
-      return;
-    }
     if (!(startElement instanceof GoType)) return;
     GoType type = (GoType)startElement;
 
@@ -73,7 +64,7 @@ public class GoCreateWrapperTypeQuickFix extends LocalQuickFixAndIntentionAction
     GoTypeSpec spec = ContainerUtil.getFirstItem(decl.getTypeSpecList());
     if (spec == null) return;
 
-    TemplateBuilderImpl builder = new TemplateBuilderImpl(file);
+    TemplateBuilder builder = TemplateBuilderFactory.getInstance().createTemplateBuilder(file);
     builder.replaceElement(type, OTHER_NAME, INPUT_NAME, false);
     builder.replaceElement(spec.getIdentifier(), INPUT_NAME, new ConstantNode(name), true);
 

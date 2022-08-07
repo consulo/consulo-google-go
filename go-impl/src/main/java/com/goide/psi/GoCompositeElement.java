@@ -16,7 +16,7 @@
 
 package com.goide.psi;
 
-import com.intellij.psi.PsiElement;
+import consulo.language.psi.PsiElement;
 
 public interface GoCompositeElement extends PsiElement {
   boolean shouldGoDeeper();

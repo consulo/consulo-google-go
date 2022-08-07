@@ -16,15 +16,20 @@
 
 package com.goide.sdk;
 
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.projectRoots.Sdk;
+import consulo.annotation.component.ServiceImpl;
+import consulo.content.bundle.Sdk;
 import consulo.google.go.module.extension.GoModuleExtension;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.project.Project;
+import jakarta.inject.Inject;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ServiceImpl
 public class GoIdeaSdkService extends GoSdkService {
+  @Inject
   public GoIdeaSdkService(@Nonnull Project project) {
     super(project);
   }

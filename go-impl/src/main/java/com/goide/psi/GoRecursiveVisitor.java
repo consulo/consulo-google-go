@@ -16,11 +16,11 @@
 
 package com.goide.psi;
 
-import javax.annotation.Nonnull;
+import consulo.application.progress.ProgressIndicatorProvider;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
 
-import com.intellij.openapi.progress.ProgressIndicatorProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
+import javax.annotation.Nonnull;
 
 public class GoRecursiveVisitor extends GoVisitor {
   @Override

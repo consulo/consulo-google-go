@@ -17,11 +17,12 @@
 package com.goide.project;
 
 import com.goide.sdk.GoSdkService;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.util.ThreeState;
 import consulo.google.go.module.extension.GoModuleExtension;
+import consulo.module.Module;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.ThreeState;
 import org.jetbrains.annotations.Contract;
+
 import javax.annotation.Nullable;
 
 public class GoVendoringUtil {

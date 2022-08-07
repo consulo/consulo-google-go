@@ -19,11 +19,13 @@ package consulo.google.go.run.dlv.breakpoint;
 import com.goide.GoFileType;
 import com.goide.dlv.DlvDebugProcess;
 import com.goide.dlv.breakpoint.DlvBreakpointType;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.xdebugger.breakpoints.XLineBreakpointType;
 import consulo.annotation.access.RequiredReadAction;
-import consulo.xdebugger.breakpoints.XLineBreakpointTypeResolver;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.execution.debug.breakpoint.XLineBreakpointType;
+import consulo.execution.debug.breakpoint.XLineBreakpointTypeResolver;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.fileType.FileType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,17 +34,24 @@ import javax.annotation.Nullable;
  * @author VISTALL
  * @since 06-May-17
  */
+@ExtensionImpl
 public class DlvBreakpointTypeResolver implements XLineBreakpointTypeResolver {
   @RequiredReadAction
   @Nullable
   @Override
   public XLineBreakpointType<?> resolveBreakpointType(@Nonnull Project project, @Nonnull VirtualFile file, int line) {
-    if (line < 0 || DlvDebugProcess.IS_DLV_DISABLED || file.getFileType() != GoFileType.INSTANCE) {
+    if (line < 0 || DlvDebugProcess.IS_DLV_DISABLED) {
       return null;
     }
-    if(DlvBreakpointType.isLineBreakpointAvailable(file, line, project)) {
+    if (DlvBreakpointType.isLineBreakpointAvailable(file, line, project)) {
       return DlvBreakpointType.getInstance();
     }
     return null;
+  }
+
+  @Nonnull
+  @Override
+  public FileType getFileType() {
+    return GoFileType.INSTANCE;
   }
 }

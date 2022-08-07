@@ -16,24 +16,28 @@
 
 package com.goide.runconfig.application;
 
-import javax.annotation.Nonnull;
-
 import com.goide.runconfig.GoModuleBasedConfiguration;
 import com.goide.runconfig.GoRunConfigurationWithMain;
 import com.goide.runconfig.GoRunUtil;
 import com.goide.runconfig.ui.GoApplicationConfigurationEditorForm;
 import com.goide.sdk.GoPackageUtil;
-import com.intellij.execution.configurations.*;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.options.SettingsEditor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.openapi.util.JDOMExternalizerUtil;
-import com.intellij.openapi.util.WriteExternalException;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.execution.RuntimeConfigurationException;
+import consulo.execution.configuration.ConfigurationType;
+import consulo.execution.configuration.ModuleBasedConfiguration;
+import consulo.execution.configuration.RunConfiguration;
+import consulo.execution.configuration.RuntimeConfigurationError;
+import consulo.execution.configuration.ui.SettingsEditor;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.util.lang.StringUtil;
+import consulo.util.xml.serializer.InvalidDataException;
+import consulo.util.xml.serializer.JDOMExternalizerUtil;
+import consulo.util.xml.serializer.WriteExternalException;
+import consulo.virtualFileSystem.VirtualFile;
 import org.jdom.Element;
+
+import javax.annotation.Nonnull;
 
 public class GoApplicationConfiguration extends GoRunConfigurationWithMain<GoApplicationRunningState> {
   private static final String PACKAGE_ATTRIBUTE_NAME = "package";

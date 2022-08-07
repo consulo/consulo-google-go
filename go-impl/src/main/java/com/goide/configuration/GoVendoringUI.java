@@ -17,19 +17,18 @@
 package com.goide.configuration;
 
 import com.goide.project.GoVendoringUtil;
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.ui.ComboBox;
-import com.intellij.ui.IdeBorderFactory;
-import com.intellij.ui.MutableCollectionComboBoxModel;
-import com.intellij.ui.components.JBLabel;
-import com.intellij.util.ThreeState;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.application.AllIcons;
+import consulo.content.bundle.Sdk;
 import consulo.google.go.module.extension.GoMutableModuleExtension;
+import consulo.ui.ex.awt.ComboBox;
+import consulo.ui.ex.awt.IdeBorderFactory;
+import consulo.ui.ex.awt.JBLabel;
+import consulo.ui.ex.awt.MutableCollectionComboBoxModel;
 import consulo.ui.image.Image;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.ThreeState;
 
 import javax.annotation.Nonnull;
-
 import javax.swing.*;
 import java.util.ArrayList;
 

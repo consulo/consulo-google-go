@@ -17,9 +17,9 @@
 package com.goide.stubs;
 
 import com.goide.psi.GoFunctionOrMethodDeclaration;
-import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.util.io.StringRef;
+import consulo.index.io.StringRef;
+import consulo.language.psi.stub.IStubElementType;
+import consulo.language.psi.stub.StubElement;
 
 abstract public class GoFunctionOrMethodDeclarationStub<T extends GoFunctionOrMethodDeclaration> extends GoNamedStub<T> {
   protected GoFunctionOrMethodDeclarationStub(StubElement parent, IStubElementType elementType, StringRef name, boolean isPublic) {

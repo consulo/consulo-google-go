@@ -16,12 +16,11 @@
 
 package com.goide.psi;
 
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiNameIdentifierOwner;
+import consulo.navigation.NavigationItem;
+
 import javax.annotation.Nonnull;
-
-import com.intellij.navigation.NavigationItem;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNameIdentifierOwner;
-
 import javax.annotation.Nullable;
 
 public interface GoNamedElement extends GoCompositeElement, GoTypeOwner, PsiNameIdentifierOwner, NavigationItem {

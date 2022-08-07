@@ -16,19 +16,19 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoExpression;
 import com.goide.psi.GoRangeClause;
 import com.goide.psi.GoType;
 import com.goide.psi.GoVisitor;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.GoTypeUtil;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
 
-public class GoRangeIterationOnIllegalTypeInspection extends GoInspectionBase {
+import javax.annotation.Nonnull;
+
+public abstract class GoRangeIterationOnIllegalTypeInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {

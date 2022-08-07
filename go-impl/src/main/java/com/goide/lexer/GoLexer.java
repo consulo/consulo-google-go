@@ -17,8 +17,8 @@
 package com.goide.lexer;
 
 import com.goide.GoParserDefinition;
-import com.intellij.lexer.MergingLexerAdapter;
-import com.intellij.psi.tree.TokenSet;
+import consulo.language.ast.TokenSet;
+import consulo.language.lexer.MergingLexerAdapter;
 
 public class GoLexer extends MergingLexerAdapter {
   public GoLexer() {

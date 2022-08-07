@@ -20,14 +20,14 @@ import com.goide.psi.GoConstDefinition;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.impl.GoConstDefinitionImpl;
 import com.goide.stubs.GoConstDefinitionStub;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.stubs.StubInputStream;
-import com.intellij.psi.stubs.StubOutputStream;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ArrayFactory;
-import javax.annotation.Nonnull;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.stub.StubInputStream;
+import consulo.language.psi.stub.StubOutputStream;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.collection.ArrayFactory;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoConstDefinitionStubElementType extends GoNamedStubElementType<GoConstDefinitionStub, GoConstDefinition> {

@@ -16,16 +16,16 @@
 
 package com.goide.quickfix;
 
-import javax.annotation.Nonnull;
-
 import com.goide.inspections.GoNoNewVariablesInspection;
 import com.goide.psi.GoNamedElement;
 import com.goide.psi.GoVarDefinition;
 import com.goide.psi.GoVarSpec;
-import com.intellij.codeInspection.LocalQuickFixOnPsiElement;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
+import consulo.language.editor.inspection.LocalQuickFixOnPsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+
+import javax.annotation.Nonnull;
 
 public class GoRenameToBlankQuickFix extends LocalQuickFixOnPsiElement {
   public static final String NAME = "Rename to _";

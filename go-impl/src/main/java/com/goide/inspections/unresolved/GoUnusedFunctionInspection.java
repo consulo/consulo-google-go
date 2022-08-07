@@ -16,8 +16,6 @@
 
 package com.goide.inspections.unresolved;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoConstants;
 import com.goide.inspections.GoInspectionBase;
 import com.goide.psi.GoFile;
@@ -27,15 +25,17 @@ import com.goide.quickfix.GoDeleteQuickFix;
 import com.goide.quickfix.GoRenameToBlankQuickFix;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.runconfig.testing.GoTestFunctionType;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.search.searches.ReferencesSearch;
+import consulo.document.util.TextRange;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.search.ReferencesSearch;
+import consulo.util.lang.StringUtil;
 
-public class GoUnusedFunctionInspection extends GoInspectionBase {
+import javax.annotation.Nonnull;
+
+public abstract class GoUnusedFunctionInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {

@@ -17,10 +17,10 @@
 package com.goide.util;
 
 import com.goide.psi.GoStringLiteral;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.LiteralTextEscaper;
-import javax.annotation.Nonnull;
+import consulo.document.util.TextRange;
+import consulo.language.psi.LiteralTextEscaper;
 
+import javax.annotation.Nonnull;
 import java.util.Locale;
 
 public class GoStringLiteralEscaper extends LiteralTextEscaper<GoStringLiteral> {

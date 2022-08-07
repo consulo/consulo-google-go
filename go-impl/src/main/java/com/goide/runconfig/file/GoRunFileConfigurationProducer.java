@@ -17,9 +17,12 @@
 package com.goide.runconfig.file;
 
 import com.goide.runconfig.GoRunConfigurationProducerBase;
-import com.intellij.psi.PsiFile;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiFile;
+
 import javax.annotation.Nonnull;
 
+@ExtensionImpl
 public class GoRunFileConfigurationProducer extends GoRunConfigurationProducerBase<GoRunFileConfiguration> implements Cloneable {
   public GoRunFileConfigurationProducer() {
     super(GoRunFileConfigurationType.getInstance());

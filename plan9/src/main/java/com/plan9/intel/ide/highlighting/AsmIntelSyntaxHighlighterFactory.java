@@ -16,18 +16,28 @@
 
 package com.plan9.intel.ide.highlighting;
 
+import com.plan9.intel.lang.AsmIntelLanguage;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.language.editor.highlight.SyntaxHighlighterFactory;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
-import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-
+@ExtensionImpl
 public class AsmIntelSyntaxHighlighterFactory extends SyntaxHighlighterFactory {
   @Nonnull
   @Override
   public SyntaxHighlighter getSyntaxHighlighter(@Nullable Project project, @Nullable VirtualFile file) {
     return new AsmIntelSyntaxHighlighter();
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return AsmIntelLanguage.INSTANCE;
   }
 }

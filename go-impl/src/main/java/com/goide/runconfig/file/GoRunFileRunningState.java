@@ -16,13 +16,13 @@
 
 package com.goide.runconfig.file;
 
-import javax.annotation.Nonnull;
-
 import com.goide.runconfig.GoRunningState;
 import com.goide.util.GoExecutor;
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.openapi.module.Module;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.module.Module;
+import consulo.process.ExecutionException;
+
+import javax.annotation.Nonnull;
 
 public class GoRunFileRunningState extends GoRunningState<GoRunFileConfiguration> {
   public GoRunFileRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module, GoRunFileConfiguration configuration) {
@@ -32,8 +32,8 @@ public class GoRunFileRunningState extends GoRunningState<GoRunFileConfiguration
   @Override
   protected GoExecutor patchExecutor(@Nonnull GoExecutor executor) throws ExecutionException {
     return executor
-      .withParameters("run")
-      .withParameterString(myConfiguration.getGoToolParams())
-      .withParameters(myConfiguration.getFilePath());
+        .withParameters("run")
+        .withParameterString(myConfiguration.getGoToolParams())
+        .withParameters(myConfiguration.getFilePath());
   }
 }

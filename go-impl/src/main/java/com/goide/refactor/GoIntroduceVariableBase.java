@@ -19,31 +19,31 @@ package com.goide.refactor;
 import com.goide.inspections.GoInspectionUtil;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoElementFactory;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.SelectionModel;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Conditions;
-import com.intellij.openapi.util.Pass;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.SyntaxTraverser;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.refactoring.IntroduceTargetChooser;
-import com.intellij.refactoring.RefactoringBundle;
-import com.intellij.refactoring.introduce.inplace.InplaceVariableIntroducer;
-import com.intellij.refactoring.introduce.inplace.OccurrencesChooser;
-import com.intellij.refactoring.util.CommonRefactoringUtil;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.application.ApplicationManager;
+import consulo.codeEditor.Editor;
+import consulo.codeEditor.SelectionModel;
+import consulo.language.editor.WriteCommandAction;
+import consulo.language.editor.refactoring.IntroduceTargetChooser;
+import consulo.language.editor.refactoring.RefactoringBundle;
+import consulo.language.editor.refactoring.introduce.inplace.InplaceVariableIntroducer;
+import consulo.language.editor.refactoring.introduce.inplace.OccurrencesChooser;
+import consulo.language.editor.refactoring.util.CommonRefactoringUtil;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.SyntaxTraverser;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.function.Conditions;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class GoIntroduceVariableBase {
   protected static void performAction(GoIntroduceOperation operation) {
@@ -79,9 +79,9 @@ public class GoIntroduceVariableBase {
       performOnElement(operation);
     }
     else {
-      IntroduceTargetChooser.showChooser(operation.getEditor(), expressions, new Pass<GoExpression>() {
+      IntroduceTargetChooser.showChooser(operation.getEditor(), expressions, new Consumer<GoExpression>() {
         @Override
-        public void pass(GoExpression expression) {
+        public void accept(GoExpression expression) {
           if (expression.isValid()) {
             operation.setExpression(expression);
             performOnElement(operation);
@@ -134,9 +134,9 @@ public class GoIntroduceVariableBase {
         return;
       }
       OccurrencesChooser.simpleChooser(editor)
-        .showChooser(expression, operation.getOccurrences(), new Pass<OccurrencesChooser.ReplaceChoice>() {
+        .showChooser(expression, operation.getOccurrences(), new Consumer<OccurrencesChooser.ReplaceChoice>() {
           @Override
-          public void pass(OccurrencesChooser.ReplaceChoice choice) {
+          public void accept(OccurrencesChooser.ReplaceChoice choice) {
             operation.setReplaceAll(choice == OccurrencesChooser.ReplaceChoice.ALL);
             performInplaceIntroduce(operation);
           }
@@ -206,7 +206,7 @@ public class GoIntroduceVariableBase {
 
   private static void showCannotPerform(GoIntroduceOperation operation, String message) {
     message = RefactoringBundle.getCannotRefactorMessage(message);
-    CommonRefactoringUtil.showErrorHint(operation.getProject(), operation.getEditor(), message, 
+    CommonRefactoringUtil.showErrorHint(operation.getProject(), operation.getEditor(), message,
                                         RefactoringBundle.getCannotRefactorMessage(null), "refactoring.extractVariable");
   }
 

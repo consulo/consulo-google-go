@@ -23,17 +23,17 @@ import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.imports.GoImportReferenceSet;
 import com.goide.sdk.GoPackageUtil;
 import com.goide.sdk.GoSdkService;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.ObjectUtils;
-import javax.annotation.Nonnull;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.util.lang.ObjectUtil;
+import consulo.virtualFileSystem.VirtualFile;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Set;
 
@@ -79,7 +79,7 @@ public class GoPathUseScope extends GlobalSearchScope {
       return true;
     }
 
-    Project project = ObjectUtils.assertNotNull(getProject());
+    Project project = ObjectUtil.assertNotNull(getProject());
     PsiManager psiManager = PsiManager.getInstance(project);
     PsiFile referencePsiFile = psiManager.findFile(referenceFile);
     Module module = referencePsiFile != null ? ModuleUtilCore.findModuleForPsiElement(referencePsiFile) : null;
@@ -143,7 +143,7 @@ public class GoPathUseScope extends GlobalSearchScope {
 
   @Override
   public boolean isSearchInModuleContent(@Nonnull Module aModule) {
-    return GoSdkService.getInstance(ObjectUtils.assertNotNull(getProject())).isGoModule(aModule);
+    return GoSdkService.getInstance(ObjectUtil.assertNotNull(getProject())).isGoModule(aModule);
   }
 
   @Override

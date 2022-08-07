@@ -17,12 +17,15 @@
 package com.goide.completion;
 
 import com.goide.psi.GoImportString;
-import com.intellij.codeInsight.lookup.CharFilter;
-import com.intellij.codeInsight.lookup.Lookup;
-import com.intellij.psi.util.PsiTreeUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.completion.lookup.CharFilter;
+import consulo.language.editor.completion.lookup.Lookup;
+import consulo.language.psi.util.PsiTreeUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoCharFilter extends CharFilter {
   @Nullable
   @Override

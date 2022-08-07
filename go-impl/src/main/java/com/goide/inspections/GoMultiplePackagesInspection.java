@@ -21,16 +21,16 @@ import com.goide.psi.GoFile;
 import com.goide.psi.GoPackageClause;
 import com.goide.quickfix.GoMultiplePackagesQuickFix;
 import com.goide.sdk.GoPackageUtil;
-import com.intellij.codeInspection.LocalQuickFix;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.ide.scratch.ScratchUtil;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.language.editor.inspection.LocalQuickFix;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.scratch.ScratchUtil;
+import consulo.language.psi.PsiDirectory;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Collection;
 
-public class GoMultiplePackagesInspection extends GoInspectionBase {
+public abstract class GoMultiplePackagesInspection extends GoInspectionBase {
   @Override
   protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     if (ScratchUtil.isScratch(file.getVirtualFile())) return;
@@ -42,7 +42,7 @@ public class GoMultiplePackagesInspection extends GoInspectionBase {
       Collection<String> packages = GoPackageUtil.getAllPackagesInDirectory(dir, null, true);
       packages.remove(GoConstants.DOCUMENTATION);
       if (packages.size() > 1) {
-        Collection<LocalQuickFix> fixes = ContainerUtil.newArrayList();
+        Collection<LocalQuickFix> fixes = new ArrayList<>();
         if (problemsHolder.isOnTheFly()) {
           fixes.add(new GoMultiplePackagesQuickFix(packageClause, packageName, packages, true));
         }

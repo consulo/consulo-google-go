@@ -17,20 +17,29 @@
 package com.goide.template;
 
 import com.goide.psi.GoFieldDeclaration;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.codeInsight.template.*;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.editor.completion.lookup.LookupElementBuilder;
+import consulo.language.editor.template.Expression;
+import consulo.language.editor.template.ExpressionContext;
+import consulo.language.editor.template.Result;
+import consulo.language.editor.template.TextResult;
+import consulo.language.editor.template.context.TemplateContextType;
+import consulo.language.editor.template.macro.Macro;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiNamedElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+@ExtensionImpl
 public class GoFieldNameMacro extends Macro {
   @Override
   public String getName() {
@@ -66,6 +75,6 @@ public class GoFieldNameMacro extends Macro {
     if (fieldDeclaration == null) {
       return Collections.emptySet();
     }
-    return ContainerUtil.map2LinkedSet(fieldDeclaration.getFieldDefinitionList(), PsiNamedElement::getName);
+    return fieldDeclaration.getFieldDefinitionList().stream().map(PsiNamedElement::getName).collect(Collectors.toCollection(LinkedHashSet::new));
   }
 }

@@ -18,14 +18,14 @@ package com.goide.psi.impl;
 
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.GoNamedElement;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.ResolveState;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.containers.OrderedSet;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.resolve.ResolveState;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.collection.OrderedSet;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 
 public abstract class GoScopeProcessorBase extends GoScopeProcessor {

@@ -16,8 +16,8 @@
 
 package com.goide.codeInsight.unwrap;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.util.IncorrectOperationException;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.IncorrectOperationException;
 
 public class GoElseRemover extends GoElseUnwrapperBase {
   public GoElseRemover() {

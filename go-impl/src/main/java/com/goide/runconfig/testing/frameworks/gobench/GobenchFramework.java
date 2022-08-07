@@ -16,20 +16,19 @@
 
 package com.goide.runconfig.testing.frameworks.gobench;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoFunctionDeclaration;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.runconfig.testing.GoTestFramework;
 import com.goide.runconfig.testing.GoTestRunConfiguration;
 import com.goide.runconfig.testing.GoTestRunningState;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.execution.testframework.TestConsoleProperties;
-import com.intellij.execution.testframework.sm.runner.OutputToGeneralTestEventsConverter;
-import com.intellij.openapi.module.Module;
-import com.intellij.psi.PsiFile;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.execution.test.TestConsoleProperties;
+import consulo.execution.test.sm.runner.OutputToGeneralTestEventsConverter;
+import consulo.language.psi.PsiFile;
+import consulo.module.Module;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GobenchFramework extends GoTestFramework {

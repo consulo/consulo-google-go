@@ -16,11 +16,12 @@
 
 package com.goide.highlighting;
 
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
-import com.intellij.openapi.editor.HighlighterColors;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
 
-import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
+import consulo.codeEditor.DefaultLanguageHighlighterColors;
+import consulo.codeEditor.HighlighterColors;
+import consulo.colorScheme.TextAttributesKey;
+
+import static consulo.colorScheme.TextAttributesKey.createTextAttributesKey;
 
 public class GoSyntaxHighlightingColors {
   public static final TextAttributesKey LINE_COMMENT = createTextAttributesKey("GO_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);

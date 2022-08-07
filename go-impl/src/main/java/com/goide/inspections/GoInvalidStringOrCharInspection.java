@@ -16,17 +16,17 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoLiteral;
 import com.goide.psi.GoStringLiteral;
 import com.goide.psi.GoVisitor;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.impl.psi.LeafPsiElement;
+import consulo.language.psi.PsiElement;
 
-public class GoInvalidStringOrCharInspection extends GoInspectionBase {
+import javax.annotation.Nonnull;
+
+public abstract class GoInvalidStringOrCharInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,

@@ -1,22 +1,23 @@
 package org.jetbrains.debugger;
 
-import com.intellij.execution.ExecutionResult;
-import com.intellij.execution.process.ProcessHandler;
-import com.intellij.openapi.util.AsyncResult;
-import com.intellij.openapi.util.AtomicNotNullLazyValue;
-import com.intellij.xdebugger.DefaultDebugProcessHandler;
-import com.intellij.xdebugger.XDebugProcess;
-import com.intellij.xdebugger.XDebugSession;
-import com.intellij.xdebugger.breakpoints.XBreakpointHandler;
-import com.intellij.xdebugger.evaluation.XDebuggerEditorsProvider;
-import com.intellij.xdebugger.frame.XExecutionStack;
-import com.intellij.xdebugger.frame.XSuspendContext;
-import com.intellij.xdebugger.stepping.XSmartStepIntoHandler;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import consulo.execution.ExecutionResult;
+import consulo.execution.debug.DefaultDebugProcessHandler;
+import consulo.execution.debug.XDebugProcess;
+import consulo.execution.debug.XDebugSession;
+import consulo.execution.debug.breakpoint.XBreakpointHandler;
+import consulo.execution.debug.evaluation.XDebuggerEditorsProvider;
+import consulo.execution.debug.frame.XExecutionStack;
+import consulo.execution.debug.frame.XSuspendContext;
+import consulo.execution.debug.step.XSmartStepIntoHandler;
+import consulo.process.ProcessHandler;
+import consulo.util.concurrent.AsyncResult;
+import consulo.util.lang.lazy.LazyValue;
 import org.jetbrains.debugger.connection.VmConnection;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.event.HyperlinkListener;
+import java.util.function.Supplier;
 
 /**
  * @author VISTALL
@@ -30,13 +31,7 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
   private final ExecutionResult myExecutionResult;
   private boolean isForceStep;
 
-  private AtomicNotNullLazyValue<XBreakpointHandler<?>[]> myBreakpointHandlerValue = new AtomicNotNullLazyValue<XBreakpointHandler<?>[]>() {
-    @Nonnull
-    @Override
-    protected XBreakpointHandler<?>[] compute() {
-      return createBreakpointHandlers();
-    }
-  };
+  private Supplier<XBreakpointHandler<?>[]> myBreakpointHandlerValue = LazyValue.atomicNotNull(() -> createBreakpointHandlers());
 
   protected DebugProcessImpl(@Nonnull XDebugSession session,
                              C connection,
@@ -113,7 +108,7 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
   }
 
   private Vm getVm(XSuspendContext context) {
-    if (context instanceof SuspendContextView) {
+    if (context instanceof XSuspendContext) {
       XExecutionStack activeExecutionStack = context.getActiveExecutionStack();
       if (activeExecutionStack instanceof ExecutionStackView) {
         return ((ExecutionStackView)activeExecutionStack).getSuspendContext().getVm();
@@ -139,7 +134,7 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
       case CONNECTION_FAILED:
         return XBreakpointHandler.EMPTY_ARRAY;
       default:
-        return myBreakpointHandlerValue.getValue();
+        return myBreakpointHandlerValue.get();
     }
   }
 
@@ -173,7 +168,7 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
   @Nullable
   @Override
   public HyperlinkListener getCurrentStateHyperlinkListener() {
-    return myConnection.getState().getMessageLinkListener();
+    return (HyperlinkListener) myConnection.getState().getMessageLinkListener();
   }
 
   @Nullable

@@ -19,13 +19,13 @@ package com.goide.util;
 import com.goide.GoConstants;
 import com.goide.psi.GoFile;
 import com.goide.sdk.GoSdkUtil;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.ThreeState;
+import consulo.language.psi.PsiFile;
+import consulo.util.io.FileUtil;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.ThreeState;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 import java.util.regex.Pattern;
 

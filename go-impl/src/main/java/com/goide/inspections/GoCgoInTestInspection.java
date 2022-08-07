@@ -20,10 +20,11 @@ import com.goide.psi.GoFile;
 import com.goide.psi.GoImportSpec;
 import com.goide.quickfix.GoDeleteImportQuickFix;
 import com.goide.runconfig.testing.GoTestFinder;
-import com.intellij.codeInspection.ProblemsHolder;
+import consulo.language.editor.inspection.ProblemsHolder;
+
 import javax.annotation.Nonnull;
 
-public class GoCgoInTestInspection extends GoInspectionBase {
+public abstract class GoCgoInTestInspection extends GoInspectionBase {
   @Override
   protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     if (!GoTestFinder.isTestFile(file)) return;

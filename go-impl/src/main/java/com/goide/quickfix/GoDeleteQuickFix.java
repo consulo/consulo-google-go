@@ -16,15 +16,15 @@
 
 package com.goide.quickfix;
 
-import javax.annotation.Nonnull;
+import consulo.language.ast.IElementType;
+import consulo.language.editor.WriteCommandAction;
+import consulo.language.editor.inspection.LocalQuickFixBase;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
+import consulo.util.lang.ObjectUtil;
 
-import com.intellij.codeInspection.LocalQuickFixBase;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.util.ObjectUtils;
+import javax.annotation.Nonnull;
 
 public class GoDeleteQuickFix extends LocalQuickFixBase {
   private final Class<? extends PsiElement> myClazz;
@@ -45,7 +45,7 @@ public class GoDeleteQuickFix extends LocalQuickFixBase {
   @Override
   public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     WriteCommandAction.runWriteCommandAction(project, () -> {
-      PsiElement element = ObjectUtils.tryCast(descriptor.getStartElement(), myClazz);
+      PsiElement element = ObjectUtil.tryCast(descriptor.getStartElement(), myClazz);
       if (element != null && (myElementType == null || element.getNode().getElementType() == myElementType)) {
         element.delete();
       }

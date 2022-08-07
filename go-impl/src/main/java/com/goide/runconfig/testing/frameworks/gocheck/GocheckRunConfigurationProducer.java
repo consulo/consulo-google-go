@@ -16,12 +16,14 @@
 
 package com.goide.runconfig.testing.frameworks.gocheck;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.GoMethodDeclaration;
 import com.goide.runconfig.testing.GoTestRunConfigurationProducerBase;
+import consulo.annotation.component.ExtensionImpl;
 
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
 public class GocheckRunConfigurationProducer extends GoTestRunConfigurationProducerBase implements Cloneable {
   public GocheckRunConfigurationProducer() {
     super(GocheckFramework.INSTANCE);

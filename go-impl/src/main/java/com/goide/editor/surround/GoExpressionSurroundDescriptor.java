@@ -16,16 +16,21 @@
 
 package com.goide.editor.surround;
 
+import com.goide.GoLanguage;
 import com.goide.psi.GoExpression;
 import com.goide.refactor.GoIntroduceVariableBase;
-import com.intellij.featureStatistics.FeatureUsageTracker;
-import com.intellij.internal.statistic.UsageTrigger;
-import com.intellij.lang.surroundWith.SurroundDescriptor;
-import com.intellij.lang.surroundWith.Surrounder;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.externalService.statistic.FeatureUsageTracker;
+import consulo.externalService.statistic.UsageTrigger;
+import consulo.language.Language;
+import consulo.language.editor.surroundWith.SurroundDescriptor;
+import consulo.language.editor.surroundWith.Surrounder;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+
 import javax.annotation.Nonnull;
 
+@ExtensionImpl
 public class GoExpressionSurroundDescriptor implements SurroundDescriptor {
   private static final Surrounder[] SURROUNDERS = new Surrounder[]{
     new GoWithParenthesisSurrounder(),
@@ -53,5 +58,11 @@ public class GoExpressionSurroundDescriptor implements SurroundDescriptor {
   @Override
   public boolean isExclusive() {
     return false;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

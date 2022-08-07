@@ -16,24 +16,23 @@
 
 package com.goide.completion;
 
+import consulo.codeEditor.Editor;
+import consulo.codeEditor.util.EditorModificationUtil;
+import consulo.language.editor.completion.AutoCompletionPolicy;
+import consulo.language.editor.completion.CompletionParameters;
+import consulo.language.editor.completion.CompletionProvider;
+import consulo.language.editor.completion.CompletionResultSet;
+import consulo.language.editor.completion.lookup.InsertHandler;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.editor.completion.lookup.LookupElementBuilder;
+import consulo.language.editor.completion.lookup.PrioritizedLookupElement;
+import consulo.language.editor.template.Template;
+import consulo.language.editor.template.TemplateManager;
+import consulo.language.editor.template.TemplateSettings;
+import consulo.language.util.ProcessingContext;
+import consulo.util.lang.ObjectUtil;
+
 import javax.annotation.Nonnull;
-
-import com.intellij.codeInsight.completion.CompletionParameters;
-import com.intellij.codeInsight.completion.CompletionResultSet;
-import com.intellij.codeInsight.completion.InsertHandler;
-import com.intellij.codeInsight.completion.PrioritizedLookupElement;
-import com.intellij.codeInsight.lookup.AutoCompletionPolicy;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.codeInsight.template.Template;
-import com.intellij.codeInsight.template.TemplateManager;
-import com.intellij.codeInsight.template.impl.TemplateSettings;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.EditorModificationUtil;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.ProcessingContext;
-import consulo.codeInsight.completion.CompletionProvider;
-
 import javax.annotation.Nullable;
 
 public class GoKeywordCompletionProvider implements CompletionProvider {
@@ -79,7 +78,7 @@ public class GoKeywordCompletionProvider implements CompletionProvider {
 
   @Nonnull
   private LookupElement createKeywordLookupElement(@Nonnull String keyword) {
-    InsertHandler<LookupElement> insertHandler = ObjectUtils.chooseNotNull(myInsertHandler,
+    InsertHandler<LookupElement> insertHandler = ObjectUtil.chooseNotNull(myInsertHandler,
                                                                                  createTemplateBasedInsertHandler("go_lang_" + keyword));
     LookupElement result = createKeywordLookupElement(keyword, myPriority, insertHandler);
     return myCompletionPolicy != null ? myCompletionPolicy.applyPolicy(result) : result;

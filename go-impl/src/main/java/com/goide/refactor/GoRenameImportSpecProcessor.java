@@ -16,18 +16,19 @@
 
 package com.goide.refactor;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoImportSpec;
-import com.intellij.find.FindManager;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.psi.PsiElement;
-import com.intellij.refactoring.RefactoringBundle;
-import com.intellij.refactoring.rename.RenamePsiElementProcessor;
-import com.intellij.refactoring.util.CommonRefactoringUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.find.FindManager;
+import consulo.language.editor.refactoring.RefactoringBundle;
+import consulo.language.editor.refactoring.rename.RenamePsiElementProcessor;
+import consulo.language.editor.refactoring.util.CommonRefactoringUtil;
+import consulo.language.psi.PsiElement;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoRenameImportSpecProcessor extends RenamePsiElementProcessor {
   @Nullable
   @Override

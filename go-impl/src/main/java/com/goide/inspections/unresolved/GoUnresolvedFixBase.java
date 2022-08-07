@@ -16,22 +16,22 @@
 
 package com.goide.inspections.unresolved;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.goide.psi.GoReferenceExpressionBase;
 import com.goide.refactor.GoRefactoringUtil;
-import com.intellij.codeInsight.template.Template;
-import com.intellij.codeInsight.template.TemplateManager;
-import com.intellij.codeInsight.template.impl.TemplateSettings;
-import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement;
-import com.intellij.diagnostic.AttachmentFactory;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.inspection.LocalQuickFixAndIntentionActionOnPsiElement;
+import consulo.language.editor.template.Template;
+import consulo.language.editor.template.TemplateManager;
+import consulo.language.editor.template.TemplateSettings;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.AttachmentFactoryUtil;
+import consulo.project.Project;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Map;
 
 public abstract class GoUnresolvedFixBase extends LocalQuickFixAndIntentionActionOnPsiElement {
   @Nonnull
@@ -68,26 +68,26 @@ public abstract class GoUnresolvedFixBase extends LocalQuickFixAndIntentionActio
                      @Nonnull PsiElement endElement) {
     if (editor == null) {
       LOG.error("Cannot run quick fix without editor: " + getClass().getSimpleName(),
-                AttachmentFactory.createAttachment(file.getVirtualFile()));
+          AttachmentFactoryUtil.createAttachment(file.getVirtualFile()));
       return;
     }
     PsiElement reference = PsiTreeUtil.getNonStrictParentOfType(startElement, GoReferenceExpressionBase.class);
     PsiElement anchor = reference != null ? findAnchor(reference) : null;
     if (anchor == null) {
       LOG.error("Cannot find anchor for " + myWhat + " (GoUnresolvedFixBase), offset: " + editor.getCaretModel().getOffset(),
-                AttachmentFactory.createAttachment(file.getVirtualFile()));
+          AttachmentFactoryUtil.createAttachment(file.getVirtualFile()));
       return;
     }
     Template template = TemplateSettings.getInstance().getTemplateById(myTemplateId);
     if (template == null) {
       LOG.error("Cannot find anchor for " + myWhat + " (GoUnresolvedFixBase), offset: " + editor.getCaretModel().getOffset(),
-                AttachmentFactory.createAttachment(file.getVirtualFile()));
+          AttachmentFactoryUtil.createAttachment(file.getVirtualFile()));
       return;
     }
     int start = anchor.getTextRange().getStartOffset();
     editor.getCaretModel().moveToOffset(start);
     template.setToReformat(true);
-    TemplateManager.getInstance(project).startTemplate(editor, template, true, ContainerUtil.stringMap("NAME", myName), null);
+    TemplateManager.getInstance(project).startTemplate(editor, template, true, Map.of("NAME", myName), null);
   }
 
   @Nullable

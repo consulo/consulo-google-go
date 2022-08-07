@@ -20,16 +20,16 @@ import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.runconfig.testing.frameworks.gobench.GobenchFramework;
 import com.goide.runconfig.testing.frameworks.gocheck.GocheckFramework;
 import com.goide.runconfig.testing.frameworks.gotest.GotestFramework;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.execution.testframework.TestConsoleProperties;
-import com.intellij.execution.testframework.sm.runner.OutputToGeneralTestEventsConverter;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.module.Module;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.execution.test.TestConsoleProperties;
+import consulo.execution.test.sm.runner.OutputToGeneralTestEventsConverter;
+import consulo.language.psi.PsiFile;
+import consulo.module.Module;
+import consulo.ui.ex.action.AnAction;
+import consulo.util.collection.ContainerUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

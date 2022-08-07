@@ -17,15 +17,18 @@
 package com.goide.refactor;
 
 import com.goide.psi.GoNamedElement;
-import com.intellij.codeInsight.highlighting.HighlightUsagesDescriptionLocation;
-import com.intellij.psi.ElementDescriptionLocation;
-import com.intellij.psi.ElementDescriptionProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.usageView.UsageViewLongNameLocation;
-import com.intellij.usageView.UsageViewShortNameLocation;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.highlight.HighlightUsagesDescriptionLocation;
+import consulo.language.psi.ElementDescriptionLocation;
+import consulo.language.psi.ElementDescriptionProvider;
+import consulo.language.psi.PsiElement;
+import consulo.usage.UsageViewLongNameLocation;
+import consulo.usage.UsageViewShortNameLocation;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoDescriptionProvider implements ElementDescriptionProvider {
   @Nullable
   @Override

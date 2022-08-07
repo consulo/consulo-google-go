@@ -16,27 +16,31 @@
 
 package com.goide.runconfig.testing;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import com.goide.GoLanguage;
 import com.goide.GoTypes;
 import com.goide.psi.GoFunctionDeclaration;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.GoMethodDeclaration;
 import com.goide.psi.GoReceiver;
 import com.goide.runconfig.GoRunUtil;
-import com.intellij.execution.TestStateStorage;
-import com.intellij.execution.lineMarker.ExecutorAction;
-import com.intellij.execution.lineMarker.RunLineMarkerContributor;
-import com.intellij.execution.testframework.TestIconMapper;
-import com.intellij.execution.testframework.sm.runner.states.TestStateInfo;
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.Function;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.AllIcons;
+import consulo.execution.lineMarker.ExecutorAction;
+import consulo.execution.lineMarker.RunLineMarkerContributor;
+import consulo.execution.test.TestIconMapper;
+import consulo.execution.test.TestStateInfo;
+import consulo.execution.test.TestStateStorage;
+import consulo.language.Language;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
 import consulo.ui.image.Image;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.function.Function;
+
+@ExtensionImpl
 public class GoTestRunLineMarkerProvider extends RunLineMarkerContributor {
   private static final Function<PsiElement, String> TOOLTIP_PROVIDER = element -> "Run Test";
 
@@ -93,5 +97,11 @@ public class GoTestRunLineMarkerProvider extends RunLineMarkerContributor {
       }
     }
     return AllIcons.RunConfigurations.TestState.Run;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

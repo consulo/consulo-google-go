@@ -16,17 +16,17 @@
 
 package com.goide.stubs;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.goide.GoFileElementType;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoPackageClause;
 import com.goide.stubs.types.GoPackageClauseStubElementType;
-import com.intellij.psi.stubs.PsiFileStubImpl;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.tree.IStubFileElementType;
-import com.intellij.util.io.StringRef;
+import consulo.index.io.StringRef;
+import consulo.language.psi.stub.IStubFileElementType;
+import consulo.language.psi.stub.PsiFileStubImpl;
+import consulo.language.psi.stub.StubElement;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoFileStub extends PsiFileStubImpl<GoFile> {
   private final StringRef myBuildFlags;

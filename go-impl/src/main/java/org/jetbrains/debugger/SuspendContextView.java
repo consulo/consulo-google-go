@@ -1,6 +1,6 @@
 package org.jetbrains.debugger;
 
-import com.intellij.xdebugger.frame.XSuspendContext;
+import consulo.execution.debug.frame.XSuspendContext;
 
 /**
  * @author VISTALL

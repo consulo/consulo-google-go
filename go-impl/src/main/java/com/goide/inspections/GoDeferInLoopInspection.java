@@ -16,18 +16,18 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoDeferStatement;
 import com.goide.psi.GoForStatement;
 import com.goide.psi.GoFunctionLit;
 import com.goide.psi.GoVisitor;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.util.PsiTreeUtil;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.util.PsiTreeUtil;
 
-public class GoDeferInLoopInspection extends GoInspectionBase {
+import javax.annotation.Nonnull;
+
+public abstract class GoDeferInLoopInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {

@@ -19,14 +19,14 @@ package com.goide.stubs.types;
 import com.goide.psi.GoImportSpec;
 import com.goide.psi.impl.GoImportSpecImpl;
 import com.goide.stubs.GoImportSpecStub;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.stubs.StubInputStream;
-import com.intellij.psi.stubs.StubOutputStream;
-import com.intellij.util.ArrayFactory;
-import javax.annotation.Nonnull;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.stub.StubInputStream;
+import consulo.language.psi.stub.StubOutputStream;
+import consulo.util.collection.ArrayFactory;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoImportSpecStubElementType extends GoNamedStubElementType<GoImportSpecStub, GoImportSpec> {

@@ -16,23 +16,23 @@
 
 package com.goide.dlv;
 
-import java.net.InetSocketAddress;
-
-import javax.annotation.Nonnull;
-
-import org.jetbrains.debugger.Vm;
-import org.jetbrains.debugger.connection.RemoteVmConnection;
-import com.intellij.openapi.util.AsyncResult;
-import consulo.builtInServer.impl.net.util.netty.NettyKt;
+import consulo.application.util.concurrent.PooledThreadExecutor;
+import consulo.util.concurrent.AsyncResult;
+import consulo.util.netty.NettyKt;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
+import org.jetbrains.debugger.Vm;
+import org.jetbrains.debugger.connection.RemoteVmConnection;
+
+import javax.annotation.Nonnull;
+import java.net.InetSocketAddress;
 
 public class DlvRemoteVmConnection extends RemoteVmConnection {
   @Nonnull
   @Override
   public Bootstrap createBootstrap(@Nonnull InetSocketAddress address, @Nonnull AsyncResult<Vm> vmResult) {
-    return NettyKt.oioClientBootstrap().handler(new ChannelInitializer() {
+    return NettyKt.oioClientBootstrap(PooledThreadExecutor.INSTANCE).handler(new ChannelInitializer() {
       @Override
       protected void initChannel(@Nonnull Channel channel) throws Exception {
         vmResult.setDone(new DlvVm(getDebugEventListener(), channel));

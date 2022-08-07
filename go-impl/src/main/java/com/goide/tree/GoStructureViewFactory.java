@@ -17,34 +17,41 @@
 package com.goide.tree;
 
 import com.goide.GoIcons;
+import com.goide.GoLanguage;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.sdk.GoPackageUtil;
-import com.intellij.ide.structureView.*;
-import com.intellij.ide.structureView.impl.common.PsiTreeElementBase;
-import com.intellij.ide.util.ActionShortcutProvider;
-import com.intellij.ide.util.FileStructureNodeProvider;
-import com.intellij.ide.util.treeView.smartTree.*;
-import com.intellij.lang.PsiStructureViewFactory;
-import com.intellij.openapi.actionSystem.Shortcut;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.IndexNotReadyException;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.StubBasedPsiElement;
-import com.intellij.psi.SyntaxTraverser;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.dumb.IndexNotReadyException;
+import consulo.codeEditor.Editor;
+import consulo.fileEditor.structureView.StructureViewBuilder;
+import consulo.fileEditor.structureView.StructureViewModel;
+import consulo.fileEditor.structureView.StructureViewTreeElement;
+import consulo.fileEditor.structureView.TreeBasedStructureViewBuilder;
+import consulo.fileEditor.structureView.tree.*;
+import consulo.language.Language;
+import consulo.language.editor.structureView.PsiStructureViewFactory;
+import consulo.language.editor.structureView.PsiTreeElementBase;
+import consulo.language.editor.structureView.StructureViewModelBase;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.StubBasedPsiElement;
+import consulo.language.psi.SyntaxTraverser;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.util.IncorrectOperationException;
+import consulo.logging.Logger;
+import consulo.ui.ex.action.Shortcut;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+@ExtensionImpl
 public class GoStructureViewFactory implements PsiStructureViewFactory {
   @Nullable
   @Override
@@ -63,9 +70,14 @@ public class GoStructureViewFactory implements PsiStructureViewFactory {
     };
   }
 
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
+  }
+
   public static class Model extends StructureViewModelBase implements StructureViewModel.ElementInfoProvider {
-    private static final List<NodeProvider> PROVIDERS =
-      ContainerUtil.newSmartList(new TreeElementFileStructureNodeProvider());
+    private static final List<NodeProvider> PROVIDERS = List.of(new TreeElementFileStructureNodeProvider());
 
     Model(@Nonnull PsiFile file, @Nullable Editor editor) {
       super(file, editor, new Element(file));
@@ -116,7 +128,7 @@ public class GoStructureViewFactory implements PsiStructureViewFactory {
         PsiElement psi = node instanceof Element ? ((Element)node).getElement() : null;
         if (psi instanceof GoFile) {
           GoFile orig = (GoFile)psi;
-          List<TreeElement> result = ContainerUtil.newSmartList();
+          List<TreeElement> result = new ArrayList<>();
           for (GoFile f : GoPackageUtil.getAllPackageFiles(orig)) {
             if (f != orig) {
               ContainerUtil.addAll(result, new Element(f).getChildren());

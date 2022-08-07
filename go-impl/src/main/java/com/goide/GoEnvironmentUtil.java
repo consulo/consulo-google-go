@@ -16,15 +16,14 @@
 
 package com.goide;
 
+import consulo.application.ApplicationManager;
+import consulo.application.macro.PathMacros;
+import consulo.application.util.SystemInfo;
+import consulo.process.local.EnvironmentUtil;
+import consulo.util.io.FileUtil;
+import consulo.util.io.PathUtil;
+
 import javax.annotation.Nonnull;
-
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.PathMacros;
-import com.intellij.openapi.util.SystemInfo;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.util.EnvironmentUtil;
-import com.intellij.util.PathUtil;
-
 import javax.annotation.Nullable;
 
 public class GoEnvironmentUtil {

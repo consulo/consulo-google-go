@@ -22,10 +22,12 @@ import com.goide.psi.GoLabeledStatement;
 import com.goide.psi.GoStatement;
 import com.goide.psi.GoVisitor;
 import com.goide.quickfix.GoRenameToBlankQuickFix;
-import com.intellij.codeInspection.*;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.search.searches.ReferencesSearch;
+import consulo.language.editor.inspection.*;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.search.ReferencesSearch;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -46,6 +48,24 @@ public class GoUnusedLabelInspection extends GoInspectionBase {
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Declaration redundancy";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Unused label inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 
   private static class GoDeleteLabelStatementQuickFix extends LocalQuickFixBase {

@@ -18,11 +18,12 @@ package com.goide.editor.surround;
 
 import com.goide.psi.GoExpression;
 import com.goide.psi.impl.GoElementFactory;
-import com.intellij.lang.surroundWith.Surrounder;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.ObjectUtils;
+import consulo.document.util.TextRange;
+import consulo.language.editor.surroundWith.Surrounder;
+import consulo.language.psi.PsiElement;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.lang.ObjectUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -46,6 +47,6 @@ public abstract class GoExpressionSurrounder implements Surrounder {
 
   @Nullable
   protected GoExpression getExpression(@Nonnull PsiElement[] elements) {
-    return ObjectUtils.tryCast(ArrayUtil.getFirstElement(elements), GoExpression.class);
+    return ObjectUtil.tryCast(ArrayUtil.getFirstElement(elements), GoExpression.class);
   }
 }

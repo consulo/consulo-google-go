@@ -16,10 +16,10 @@
 
 package com.goide.psi;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoLanguage;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
+
+import javax.annotation.Nonnull;
 
 public class GoCompositeElementType extends IElementType {
   public GoCompositeElementType(@Nonnull String debug) {

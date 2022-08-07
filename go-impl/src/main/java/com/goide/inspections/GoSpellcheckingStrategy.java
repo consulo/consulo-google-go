@@ -16,15 +16,24 @@
 
 package com.goide.inspections;
 
+import com.goide.GoLanguage;
+import com.intellij.spellchecker.tokenizer.SpellcheckingStrategy;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.psi.PsiElement;
+
 import javax.annotation.Nonnull;
 
-import com.goide.GoLanguage;
-import com.intellij.psi.PsiElement;
-import com.intellij.spellchecker.tokenizer.SpellcheckingStrategy;
-
+@ExtensionImpl
 public class GoSpellcheckingStrategy extends SpellcheckingStrategy {
   @Override
   public boolean isMyContext(@Nonnull PsiElement element) {
     return GoLanguage.INSTANCE.is(element.getLanguage());
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

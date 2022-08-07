@@ -18,20 +18,20 @@ package com.goide.util;
 
 import com.goide.project.GoBuildTargetSettings;
 import com.goide.sdk.GoSdkService;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.roots.ProjectRootManager;
-import com.intellij.psi.util.CachedValueProvider;
-import com.intellij.psi.util.CachedValuesManager;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.ThreeState;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.application.util.CachedValueProvider;
+import consulo.application.util.CachedValuesManager;
 import consulo.google.go.module.extension.GoModuleExtension;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.module.content.ProjectRootManager;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.lang.ThreeState;
 import org.jetbrains.annotations.Contract;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 public class GoTargetSystem {
@@ -48,7 +48,7 @@ public class GoTargetSystem {
 
   @Nonnull
   public final ThreeState cgoEnabled;
-  private final Set<String> customFlags = ContainerUtil.newHashSet();
+  private final Set<String> customFlags = new HashSet<>();
 
   public GoTargetSystem(@Nonnull String os,
                         @Nonnull String arch,

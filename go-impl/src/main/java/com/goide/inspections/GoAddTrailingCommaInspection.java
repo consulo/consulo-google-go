@@ -16,22 +16,22 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoElement;
 import com.goide.psi.GoVisitor;
 import com.goide.psi.impl.GoElementFactory;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.LocalQuickFixBase;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiErrorElement;
-import com.intellij.psi.util.PsiTreeUtil;
+import consulo.language.editor.WriteCommandAction;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.LocalQuickFixBase;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiErrorElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
 
-public class GoAddTrailingCommaInspection extends GoInspectionBase {
+import javax.annotation.Nonnull;
+
+public abstract class GoAddTrailingCommaInspection extends GoInspectionBase {
   public static final String QUICK_FIX_NAME = "Add comma";
 
   @Nonnull

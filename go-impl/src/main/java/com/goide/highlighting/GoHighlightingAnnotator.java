@@ -19,18 +19,18 @@ package com.goide.highlighting;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.GoReferenceBase;
-import com.intellij.lang.annotation.AnnotationHolder;
-import com.intellij.lang.annotation.Annotator;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.editor.markup.TextAttributes;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.colorScheme.TextAttributes;
+import consulo.colorScheme.TextAttributesKey;
+import consulo.language.editor.annotation.AnnotationHolder;
+import consulo.language.editor.annotation.Annotator;
+import consulo.language.editor.annotation.HighlightSeverity;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.language.psi.util.PsiTreeUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -119,9 +119,8 @@ public class GoHighlightingAnnotator implements Annotator {
   }
 
   private static void setHighlighting(@Nonnull PsiElement element, @Nonnull AnnotationHolder holder, @Nonnull TextAttributesKey key) {
-    holder.createInfoAnnotation(element, null).setEnforcedTextAttributes(TextAttributes.ERASE_MARKER);
-    String description = ApplicationManager.getApplication().isUnitTestMode() ? key.getExternalName() : null;
-    holder.createInfoAnnotation(element, description).setTextAttributes(key);
+    holder.newSilentAnnotation(HighlightSeverity.INFORMATION).range(element).enforcedTextAttributes(TextAttributes.ERASE_MARKER).create();
+    holder.newSilentAnnotation(HighlightSeverity.INFORMATION).range(element).textAttributes(key).create();
   }
 
   private static boolean isPackageWide(@Nonnull GoVarDefinition o) {
@@ -142,7 +141,7 @@ public class GoHighlightingAnnotator implements Annotator {
       synchronized (o) {
         List<PsiElement> importUsers = o.getUserData(GoReferenceBase.IMPORT_USERS);
         if (importUsers != null) {
-          List<PsiElement> newImportUsers = ContainerUtil.newSmartList();
+          List<PsiElement> newImportUsers = new ArrayList<>();
           newImportUsers.addAll(importUsers.stream().filter(PsiElement::isValid).collect(Collectors.toList()));
           o.putUserData(GoReferenceBase.IMPORT_USERS, newImportUsers.isEmpty() ? null : newImportUsers);
         }

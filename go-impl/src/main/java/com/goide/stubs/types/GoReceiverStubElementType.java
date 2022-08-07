@@ -19,13 +19,13 @@ package com.goide.stubs.types;
 import com.goide.psi.GoReceiver;
 import com.goide.psi.impl.GoReceiverImpl;
 import com.goide.stubs.GoReceiverStub;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.stubs.StubInputStream;
-import com.intellij.psi.stubs.StubOutputStream;
-import javax.annotation.Nonnull;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.stub.StubInputStream;
+import consulo.language.psi.stub.StubOutputStream;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoReceiverStubElementType extends GoNamedStubElementType<GoReceiverStub, GoReceiver> {

@@ -19,14 +19,12 @@ package com.goide;
 import com.goide.psi.GoFile;
 import com.goide.stubs.GoFileStub;
 import com.goide.stubs.index.GoPackagesIndex;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.StubBuilder;
-import com.intellij.psi.stubs.*;
-import com.intellij.psi.tree.IStubFileElementType;
-import com.intellij.util.io.StringRef;
-import javax.annotation.Nonnull;
+import consulo.index.io.StringRef;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.stub.*;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoFileElementType extends IStubFileElementType<GoFileStub> {

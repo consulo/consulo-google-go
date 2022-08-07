@@ -17,20 +17,22 @@
 package com.goide.actions.file;
 
 import com.goide.util.GoUtil;
-import com.intellij.ide.fileTemplates.DefaultTemplatePropertiesProvider;
-import com.intellij.ide.fileTemplates.FileTemplate;
-import com.intellij.psi.PsiDirectory;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.fileTemplate.DefaultTemplatePropertiesProvider;
+import consulo.fileTemplate.FileTemplate;
+import consulo.language.psi.PsiDirectory;
 
-import java.util.Properties;
+import java.util.Map;
 
+@ExtensionImpl
 public class GoTemplatePropertiesProvider implements DefaultTemplatePropertiesProvider {
   public static final String GO_PACKAGE_NAME = "GO_" + FileTemplate.ATTRIBUTE_PACKAGE_NAME;
   public static final String GO_PACKAGE_NAME_WITH_TEST_SUFFIX = GO_PACKAGE_NAME + "_WITH_TEST_SUFFIX";
 
   @Override
-  public void fillProperties(PsiDirectory directory, Properties props) {
+  public void fillProperties(PsiDirectory directory, Map<String, Object> props) {
     String packageForDirectory = GoUtil.suggestPackageForDirectory(directory);
-    props.setProperty(GO_PACKAGE_NAME, packageForDirectory);
-    props.setProperty(GO_PACKAGE_NAME_WITH_TEST_SUFFIX, packageForDirectory);
+    props.put(GO_PACKAGE_NAME, packageForDirectory);
+    props.put(GO_PACKAGE_NAME_WITH_TEST_SUFFIX, packageForDirectory);
   }
 }

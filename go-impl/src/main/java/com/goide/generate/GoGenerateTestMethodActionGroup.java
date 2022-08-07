@@ -17,19 +17,19 @@
 package com.goide.generate;
 
 import com.goide.runconfig.testing.GoTestFramework;
-import com.intellij.openapi.actionSystem.ActionGroup;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiUtilBase;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.CommonDataKeys;
+import consulo.language.editor.util.PsiUtilBase;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+import consulo.ui.ex.action.ActionGroup;
+import consulo.ui.ex.action.AnAction;
+import consulo.ui.ex.action.AnActionEvent;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class GoGenerateTestMethodActionGroup extends ActionGroup {
   @Nonnull
@@ -38,12 +38,12 @@ public class GoGenerateTestMethodActionGroup extends ActionGroup {
     if (e == null) {
       return AnAction.EMPTY_ARRAY;
     }
-    Project project = e.getProject();
+    Project project = e.getData(Project.KEY);
     Editor editor = e.getData(CommonDataKeys.EDITOR);
     if (project == null || editor == null) return AnAction.EMPTY_ARRAY;
     PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
 
-    ArrayList<AnAction> children = ContainerUtil.newArrayList();
+    List<AnAction> children = new ArrayList<>();
     for (GoTestFramework framework : GoTestFramework.all()) {
       if (framework.isAvailableOnFile(file)) {
         children.addAll(framework.getGenerateMethodActions());

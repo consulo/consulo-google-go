@@ -23,21 +23,22 @@ import com.goide.stubs.index.GoFunctionIndex;
 import com.goide.stubs.index.GoIdFilter;
 import com.goide.stubs.index.GoMethodIndex;
 import com.goide.stubs.types.GoMethodDeclarationStubElementType;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.indexing.IdFilter;
+import consulo.application.progress.ProgressManager;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.stub.IdFilter;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.util.lang.Comparing;
+
 import javax.annotation.Nonnull;
 
 import static com.goide.GoConstants.INIT;
 import static com.goide.GoConstants.MAIN;
 
-public class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
+public abstract class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {

@@ -19,12 +19,15 @@ package com.goide.editor;
 import com.goide.psi.GoNamedElement;
 import com.goide.psi.GoType;
 import com.goide.psi.GoTypeReferenceExpression;
-import com.intellij.codeInsight.navigation.actions.TypeDeclarationProvider;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.psi.PsiElement;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.action.TypeDeclarationProvider;
+import consulo.language.psi.PsiElement;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoTypeDeclarationProvider extends TypeDeclarationProvider {
   @Nullable
   @Override

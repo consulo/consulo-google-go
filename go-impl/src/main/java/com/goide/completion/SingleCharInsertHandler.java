@@ -16,16 +16,16 @@
 
 package com.goide.completion;
 
+import consulo.codeEditor.Editor;
+import consulo.document.Document;
+import consulo.language.editor.AutoPopupController;
+import consulo.language.editor.completion.lookup.InsertHandler;
+import consulo.language.editor.completion.lookup.InsertionContext;
+import consulo.language.editor.completion.lookup.LookupElement;
+
 import javax.annotation.Nonnull;
 
-import com.intellij.codeInsight.AutoPopupController;
-import com.intellij.codeInsight.completion.BasicInsertHandler;
-import com.intellij.codeInsight.completion.InsertionContext;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
-
-public class SingleCharInsertHandler extends BasicInsertHandler<LookupElement> {
+public class SingleCharInsertHandler implements InsertHandler<LookupElement> {
   private final char myChar;
 
   public SingleCharInsertHandler(char aChar) {

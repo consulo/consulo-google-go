@@ -16,16 +16,16 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoFunctionDeclaration;
 import com.goide.psi.GoVisitor;
 import com.goide.quickfix.GoRenameQuickFix;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.util.text.StringUtil;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.util.lang.StringUtil;
 
-public class GoRedeclareImportAsFunctionInspection extends GoInspectionBase {
+import javax.annotation.Nonnull;
+
+public abstract class GoRedeclareImportAsFunctionInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {

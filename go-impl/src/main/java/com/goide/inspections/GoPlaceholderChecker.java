@@ -17,12 +17,12 @@
 package com.goide.inspections;
 
 import com.goide.psi.GoFunctionOrMethodDeclaration;
-import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.Pair;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +34,7 @@ import static com.goide.inspections.GoPlaceholderChecker.PrintfArgumentType.*;
 public class GoPlaceholderChecker {
 
   // This holds the name of the known formatting functions and position of the string to be formatted
-  private static final Map<String, Integer> FORMATTING_FUNCTIONS = ContainerUtil.newHashMap(
+  private static final Map<String, Integer> FORMATTING_FUNCTIONS = Map.ofEntries(
     Pair.pair("errorf", 0),
     Pair.pair("fatalf", 0),
     Pair.pair("fprintf", 1),
@@ -47,7 +47,7 @@ public class GoPlaceholderChecker {
     Pair.pair("sprintf", 0),
     Pair.pair("sscanf", 1));
 
-  private static final Set<String> PRINTING_FUNCTIONS = ContainerUtil.newHashSet(
+  private static final Set<String> PRINTING_FUNCTIONS = Set.of(
     "error",
     "error",
     "fatal",

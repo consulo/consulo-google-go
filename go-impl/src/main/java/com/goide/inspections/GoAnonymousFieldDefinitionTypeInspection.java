@@ -16,15 +16,15 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoAnonymousFieldDefinition;
 import com.goide.psi.GoVisitor;
 import com.goide.quickfix.GoCreateWrapperTypeQuickFix;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemsHolder;
 
-public class GoAnonymousFieldDefinitionTypeInspection extends GoInspectionBase {
+import javax.annotation.Nonnull;
+
+public abstract class GoAnonymousFieldDefinitionTypeInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,

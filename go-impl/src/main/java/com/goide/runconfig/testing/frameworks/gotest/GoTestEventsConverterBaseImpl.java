@@ -18,12 +18,12 @@ package com.goide.runconfig.testing.frameworks.gotest;
 
 import com.goide.runconfig.testing.GoTestEventsConverterBase;
 import com.goide.runconfig.testing.GoTestLocator;
-import com.intellij.execution.process.ProcessOutputTypes;
-import com.intellij.execution.testframework.TestConsoleProperties;
-import com.intellij.execution.testframework.sm.ServiceMessageBuilder;
-import com.intellij.execution.testframework.sm.runner.OutputToGeneralTestEventsConverter;
-import com.intellij.openapi.util.text.StringUtil;
+import consulo.execution.test.TestConsoleProperties;
+import consulo.execution.test.sm.ServiceMessageBuilder;
+import consulo.execution.test.sm.runner.OutputToGeneralTestEventsConverter;
+import consulo.process.ProcessOutputTypes;
 import consulo.util.dataholder.Key;
+import consulo.util.lang.StringUtil;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageTypes;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
 

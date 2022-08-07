@@ -16,21 +16,34 @@
 
 package consulo.google.go.module.orderEntry;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoIcons;
-import com.intellij.openapi.roots.ui.CellAppearanceEx;
-import com.intellij.openapi.roots.ui.util.SimpleTextCellAppearance;
-import com.intellij.ui.SimpleTextAttributes;
-import consulo.roots.orderEntry.OrderEntryTypeEditor;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.ide.setting.module.CustomOrderEntryTypeEditor;
+import consulo.module.content.layer.orderEntry.CustomOrderEntry;
+import consulo.ui.ex.ColoredTextContainer;
+import consulo.ui.ex.SimpleTextAttributes;
+
+import javax.annotation.Nonnull;
+import java.util.function.Consumer;
 
 /**
  * @author VISTALL
  * @since 05-May-17
  */
-public class GoPathOrderEntryTypeEditor implements OrderEntryTypeEditor<GoPathOrderEntry> {
+@ExtensionImpl
+public class GoPathOrderEntryTypeEditor implements CustomOrderEntryTypeEditor<GoPathOrderEntryModel> {
   @Nonnull
-  public CellAppearanceEx getCellAppearance(@Nonnull GoPathOrderEntry orderEntry) {
-    return new SimpleTextCellAppearance(orderEntry.getPresentableName(), GoIcons.ICON, SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
+  @Override
+  public Consumer<ColoredTextContainer> getRender(@Nonnull CustomOrderEntry<GoPathOrderEntryModel> orderEntry) {
+    return c -> {
+      c.setIcon(GoIcons.ICON);
+      c.append(orderEntry.getPresentableName(), SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
+    };
+  }
+
+  @Nonnull
+  @Override
+  public String getOrderTypeId() {
+    return "gopath";
   }
 }

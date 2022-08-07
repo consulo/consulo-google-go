@@ -17,26 +17,26 @@
 package com.goide.codeInsight.imports;
 
 import com.goide.project.GoExcludedPathsSettings;
-import com.intellij.openapi.application.ApplicationBundle;
-import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.options.SearchableConfigurable;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.ui.*;
-import com.intellij.ui.components.JBList;
-import com.intellij.util.ui.FormBuilder;
-import com.intellij.util.ui.UIUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.ApplicationBundle;
+import consulo.configurable.ConfigurationException;
+import consulo.configurable.ProjectConfigurable;
+import consulo.configurable.SearchableConfigurable;
+import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.ex.awt.*;
+import consulo.util.lang.StringUtil;
+import jakarta.inject.Inject;
 import org.jetbrains.annotations.Nls;
-import javax.annotation.Nonnull;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 
-public class GoAutoImportConfigurable implements SearchableConfigurable {
+@ExtensionImpl
+public class GoAutoImportConfigurable implements SearchableConfigurable, ProjectConfigurable {
   private JCheckBox myCbShowImportPopup;
   private JCheckBox myCbAddUnambiguousImports;
   private JBList myExcludePackagesList;
@@ -48,6 +48,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
   private final GoExcludedPathsSettings myExcludedSettings;
   private final boolean myIsDefaultProject;
 
+  @Inject
   public GoAutoImportConfigurable(@Nonnull Project project) {
     myCodeInsightSettings = GoCodeInsightSettings.getInstance();
     myExcludedSettings = GoExcludedPathsSettings.getInstance(project);
@@ -125,6 +126,12 @@ public class GoAutoImportConfigurable implements SearchableConfigurable {
   @Override
   public String getId() {
     return "go.autoimport";
+  }
+
+  @Nullable
+  @Override
+  public String getParentId() {
+    return "editor.preferences.import";
   }
 
   @Nullable

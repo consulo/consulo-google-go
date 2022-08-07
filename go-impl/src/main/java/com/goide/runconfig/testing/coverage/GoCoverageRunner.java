@@ -18,28 +18,30 @@ package com.goide.runconfig.testing.coverage;
 
 import com.goide.GoConstants;
 import com.goide.sdk.GoPackageUtil;
-import com.intellij.coverage.BaseCoverageSuite;
-import com.intellij.coverage.CoverageEngine;
-import com.intellij.coverage.CoverageRunner;
-import com.intellij.coverage.CoverageSuite;
-import com.intellij.execution.configurations.ModuleBasedConfiguration;
-import com.intellij.execution.configurations.RunConfigurationBase;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.rt.coverage.data.ClassData;
 import com.intellij.rt.coverage.data.LineData;
 import com.intellij.rt.coverage.data.ProjectData;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.execution.configuration.ModuleBasedConfiguration;
+import consulo.execution.configuration.RunConfigurationBase;
+import consulo.execution.coverage.BaseCoverageSuite;
+import consulo.execution.coverage.CoverageEngine;
+import consulo.execution.coverage.CoverageRunner;
+import consulo.execution.coverage.CoverageSuite;
+import consulo.logging.Logger;
+import consulo.module.Module;
+import consulo.project.Project;
 import consulo.util.collection.primitive.ints.IntMaps;
 import consulo.util.collection.primitive.ints.IntObjectMap;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.*;
 import java.util.List;
 
+@ExtensionImpl
 public class GoCoverageRunner extends CoverageRunner {
   private static final Logger LOG = Logger.getInstance(GoCoverageRunner.class);
 

@@ -16,8 +16,8 @@
 
 package com.plan9.intel;
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.plan9.intel.lang.AsmIntelLanguage;
+import consulo.language.file.LanguageFileType;
 import consulo.localize.LocalizeValue;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
@@ -54,6 +54,6 @@ public class AsmIntelFileType extends LanguageFileType {
   @Nullable
   @Override
   public Image getIcon() {
-    return PlatformIconGroup.debuggerMemoryViewActive();
+    return PlatformIconGroup.debuggerMemoryviewActive();
   }
 }

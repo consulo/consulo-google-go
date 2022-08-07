@@ -18,13 +18,13 @@ package com.goide.psi.impl;
 
 import com.goide.psi.*;
 import com.goide.stubs.GoTypeStub;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.impl.light.LightElement;
-import com.intellij.psi.stubs.IStubElementType;
+import consulo.language.impl.psi.LightElement;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.stub.IStubElementType;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 
 public abstract class GoLightType<E extends GoCompositeElement> extends LightElement implements GoType {

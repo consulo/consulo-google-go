@@ -20,22 +20,19 @@ import com.goide.codeInsight.imports.GoGetPackageFix;
 import com.goide.completion.GoCompletionUtil;
 import com.goide.quickfix.GoDeleteImportQuickFix;
 import com.goide.sdk.GoPackageUtil;
-import com.intellij.codeInsight.completion.CompletionUtil;
-import com.intellij.codeInsight.daemon.quickFix.CreateFileFix;
-import com.intellij.codeInspection.LocalQuickFix;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference;
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.document.util.TextRange;
+import consulo.language.editor.completion.CompletionUtilCore;
+import consulo.language.editor.impl.intention.CreateFileFix;
+import consulo.language.editor.inspection.LocalQuickFix;
+import consulo.language.psi.*;
+import consulo.language.psi.path.FileReference;
+import consulo.language.psi.path.FileReferenceSet;
+import consulo.language.util.IncorrectOperationException;
+import consulo.util.collection.ArrayUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class GoImportReference extends FileReference {
   public GoImportReference(@Nonnull FileReferenceSet fileReferenceSet, TextRange range, int index, String text) {
@@ -43,7 +40,7 @@ public class GoImportReference extends FileReference {
   }
 
   @Override
-  protected Object createLookupItem(PsiElement candidate) {
+  public Object createLookupItem(PsiElement candidate) {
     if (candidate instanceof PsiDirectory) {
       return GoCompletionUtil.createDirectoryLookupElement((PsiDirectory)candidate);
     }
@@ -66,8 +63,8 @@ public class GoImportReference extends FileReference {
     }
 
     String referenceText = getText();
-    Set<ResolveResult> result = ContainerUtil.newLinkedHashSet();
-    Set<ResolveResult> innerResult = ContainerUtil.newLinkedHashSet();
+    Set<ResolveResult> result = new LinkedHashSet<>();
+    Set<ResolveResult> innerResult = new LinkedHashSet<>();
     for (PsiFileSystemItem context : getContexts()) {
       innerResolveInContext(referenceText, context, innerResult, caseSensitive);
       for (ResolveResult resolveResult : innerResult) {
@@ -120,13 +117,13 @@ public class GoImportReference extends FileReference {
     return super.bindToElement(element, absolute);
   }
 
-  @Override
+  @Nonnull
   public LocalQuickFix[] getQuickFixes() {
     if (GoPackageUtil.isBuiltinPackage(resolve())) {
       return new LocalQuickFix[]{new GoDeleteImportQuickFix()};
     }
 
-    List<LocalQuickFix> result = ContainerUtil.newArrayList();
+    List<LocalQuickFix> result = new ArrayList<>();
     FileReferenceSet fileReferenceSet = getFileReferenceSet();
     if (fileReferenceSet instanceof GoImportReferenceSet && !((GoImportReferenceSet)fileReferenceSet).isRelativeImport()
         && !fileReferenceSet.isAbsolutePathReference()) {
@@ -160,7 +157,7 @@ public class GoImportReference extends FileReference {
 
   @Nullable
   private PsiDirectory getDirectory() {
-    PsiElement originalElement = CompletionUtil.getOriginalElement(getElement());
+    PsiElement originalElement = CompletionUtilCore.getOriginalElement(getElement());
     PsiFile file = originalElement != null ? originalElement.getContainingFile() : getElement().getContainingFile();
     return file.getParent();
   }

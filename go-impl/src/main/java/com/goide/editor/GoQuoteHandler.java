@@ -16,18 +16,24 @@
 
 package com.goide.editor;
 
+import com.goide.GoFileType;
 import com.goide.GoTypes;
-import com.intellij.codeInsight.editorActions.JavaLikeQuoteHandler;
-import com.intellij.codeInsight.editorActions.SimpleTokenSetQuoteHandler;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.highlighter.HighlighterIterator;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.TokenType;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.codeEditor.HighlighterIterator;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenSet;
+import consulo.language.ast.TokenType;
+import consulo.language.editor.action.FileQuoteHandler;
+import consulo.language.editor.action.JavaLikeQuoteHandler;
+import consulo.language.editor.action.SimpleTokenSetQuoteHandler;
+import consulo.language.psi.PsiElement;
+import consulo.virtualFileSystem.fileType.FileType;
+
 import javax.annotation.Nonnull;
 
-public class GoQuoteHandler extends SimpleTokenSetQuoteHandler implements JavaLikeQuoteHandler {
+@ExtensionImpl
+public class GoQuoteHandler extends SimpleTokenSetQuoteHandler implements JavaLikeQuoteHandler, FileQuoteHandler {
   private static final TokenSet SINGLE_LINE_LITERALS = TokenSet.create(GoTypes.STRING);
 
   public GoQuoteHandler() {
@@ -62,5 +68,11 @@ public class GoQuoteHandler extends SimpleTokenSetQuoteHandler implements JavaLi
   @Override
   public boolean needParenthesesAroundConcatenation(PsiElement element) {
     return false;
+  }
+
+  @Nonnull
+  @Override
+  public FileType getFileType() {
+    return GoFileType.INSTANCE;
   }
 }

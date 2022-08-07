@@ -18,17 +18,17 @@ package com.goide.actions.file;
 
 import com.goide.psi.GoFile;
 import com.goide.psi.GoPackageClause;
-import com.intellij.ide.actions.CreateFileFromTemplateAction;
-import com.intellij.ide.actions.CreateFileFromTemplateDialog;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiFile;
+import consulo.application.dumb.DumbAware;
+import consulo.codeEditor.Editor;
+import consulo.document.FileDocumentManager;
+import consulo.fileEditor.FileEditorManager;
 import consulo.google.go.icon.GoogleGoIconGroup;
+import consulo.ide.action.CreateFileFromTemplateAction;
+import consulo.ide.action.CreateFileFromTemplateDialog;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -42,14 +42,14 @@ public class GoCreateFileAction extends CreateFileFromTemplateAction implements 
   private static final String DEFAULT_GO_TEMPLATE_PROPERTY = "DefaultGoTemplateProperty";
 
   public GoCreateFileAction() {
-    super(NEW_GO_FILE, "", GoogleGoIconGroup.goFileType());
+    super(NEW_GO_FILE, "", GoogleGoIconGroup.gofiletype());
   }
 
   @Override
   protected void buildDialog(Project project, PsiDirectory directory, @Nonnull CreateFileFromTemplateDialog.Builder builder) {
     builder.setTitle(NEW_GO_FILE)
-      .addKind("Empty file", GoogleGoIconGroup.goFileType(), FILE_TEMPLATE)
-      .addKind("Simple Application", GoogleGoIconGroup.goFileType(), APPLICATION_TEMPLATE);
+      .addKind("Empty file", GoogleGoIconGroup.gofiletype(), FILE_TEMPLATE)
+      .addKind("Simple Application", GoogleGoIconGroup.gofiletype(), APPLICATION_TEMPLATE);
   }
 
   @Nullable

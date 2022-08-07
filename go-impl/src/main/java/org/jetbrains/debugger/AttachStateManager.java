@@ -1,6 +1,6 @@
 package org.jetbrains.debugger;
 
-import com.intellij.openapi.util.AsyncResult;
+import consulo.util.concurrent.AsyncResult;
 
 /**
  * @author VISTALL

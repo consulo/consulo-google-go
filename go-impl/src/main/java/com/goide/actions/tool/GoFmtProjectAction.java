@@ -16,32 +16,31 @@
 
 package com.goide.actions.tool;
 
-import javax.annotation.Nonnull;
-
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
 import com.goide.util.GoExecutor;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.DumbAwareAction;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.openapi.vfs.VfsUtil;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.document.FileDocumentManager;
+import consulo.module.Module;
+import consulo.module.content.ModuleRootManager;
+import consulo.project.Project;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.DumbAwareAction;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GoFmtProjectAction extends DumbAwareAction {
   @Override
   public void update(@Nonnull AnActionEvent e) {
-    Project project = e.getProject();
+    Project project = e.getData(Project.KEY);
     e.getPresentation().setEnabled(project != null && GoSdkService.getInstance(project).getSdkHomePath(null) != null);
   }
 
   @Override
   public void actionPerformed(@Nonnull AnActionEvent e) {
-    Project project = e.getProject();
+    Project project = e.getData(Project.KEY);
     assert project != null;
 
     FileDocumentManager.getInstance().saveAllDocuments();
@@ -55,6 +54,6 @@ public class GoFmtProjectAction extends DumbAwareAction {
   private static void fmt(@Nonnull Project project, @Nullable Module module, @Nonnull String presentation, @Nonnull VirtualFile dir) {
     GoExecutor.in(project, module).withPresentableName(presentation).withWorkDirectory(dir.getPath())
       .withParameters("fmt", "./...").showOutputOnError().executeWithProgress(false,
-                                                                              result -> VfsUtil.markDirtyAndRefresh(true, true, true, dir));
+                                                                              result -> VirtualFileUtil.markDirtyAndRefresh(true, true, true, dir));
   }
 }

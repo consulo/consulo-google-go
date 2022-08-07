@@ -18,46 +18,48 @@ package com.goide.inspections;
 
 import com.goide.GoFileType;
 import com.goide.util.GoUtil;
-import com.intellij.ide.util.PropertiesComponent;
-import com.intellij.openapi.fileEditor.FileEditor;
-import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.openapi.vfs.newvfs.BulkFileListener;
-import com.intellij.openapi.vfs.newvfs.events.VFileEvent;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
-import com.intellij.ui.EditorNotificationPanel;
-import com.intellij.ui.EditorNotifications;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.messages.MessageBusConnection;
-import consulo.editor.notifications.EditorNotificationProvider;
+import consulo.annotation.access.RequiredReadAction;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.ApplicationPropertiesComponent;
+import consulo.application.dumb.DumbAware;
+import consulo.component.messagebus.MessageBusConnection;
+import consulo.fileEditor.*;
+import consulo.ide.setting.ShowSettingsUtil;
+import consulo.language.inject.InjectedLanguageManagerUtil;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.language.util.ModuleUtilCore;
+import consulo.localize.LocalizeValue;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.event.BulkFileListener;
+import consulo.virtualFileSystem.event.VFileEvent;
+import jakarta.inject.Inject;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
-public class GoFileIgnoredByBuildToolNotificationProvider implements EditorNotificationProvider<EditorNotificationPanel>, DumbAware {
+@ExtensionImpl
+public class GoFileIgnoredByBuildToolNotificationProvider implements EditorNotificationProvider, DumbAware {
   private static final String DO_NOT_SHOW_NOTIFICATION_ABOUT_IGNORE_BY_BUILD_TOOL = "DO_NOT_SHOW_NOTIFICATION_ABOUT_IGNORE_BY_BUILD_TOOL";
 
   private final Project myProject;
 
+  @Inject
   public GoFileIgnoredByBuildToolNotificationProvider(@Nonnull Project project,
                                                       @Nonnull EditorNotifications notifications,
                                                       @Nonnull FileEditorManager fileEditorManager) {
     myProject = project;
     MessageBusConnection connection = myProject.getMessageBus().connect(myProject);
-    connection.subscribe(VirtualFileManager.VFS_CHANGES, new BulkFileListener.Adapter() {
+    connection.subscribe(BulkFileListener.class, new BulkFileListener.Adapter() {
       @Override
       public void after(@Nonnull List<? extends VFileEvent> events) {
         if (!myProject.isDisposed()) {
-          Set<VirtualFile> openFiles = ContainerUtil.newHashSet(fileEditorManager.getSelectedFiles());
+          Set<VirtualFile> openFiles = Set.of(fileEditorManager.getSelectedFiles());
           for (VFileEvent event : events) {
             VirtualFile file = event.getFile();
             if (file != null && openFiles.contains(file)) {
@@ -69,42 +71,50 @@ public class GoFileIgnoredByBuildToolNotificationProvider implements EditorNotif
     });
   }
 
+  @Nonnull
   @Override
-  public EditorNotificationPanel createNotificationPanel(@Nonnull VirtualFile file, @Nonnull FileEditor fileEditor) {
+  public String getId() {
+    return "go-file-ignored-by-build-tool";
+  }
+
+  @RequiredReadAction
+  @Nullable
+  @Override
+  public EditorNotificationBuilder buildNotification(@Nonnull VirtualFile file, @Nonnull FileEditor fileEditor, @Nonnull Supplier<EditorNotificationBuilder> factory) {
     if (file.getFileType() == GoFileType.INSTANCE) {
       PsiFile psiFile = PsiManager.getInstance(myProject).findFile(file);
-      if (InjectedLanguageUtil.findInjectionHost(psiFile) != null) {
+      if (InjectedLanguageManagerUtil.findInjectionHost(psiFile) != null) {
         return null;
       }
       Module module = psiFile != null ? ModuleUtilCore.findModuleForPsiElement(psiFile) : null;
       if (GoUtil.fileToIgnore(file.getName())) {
-        if (!PropertiesComponent.getInstance().getBoolean(DO_NOT_SHOW_NOTIFICATION_ABOUT_IGNORE_BY_BUILD_TOOL, false)) {
-          return createIgnoredByBuildToolPanel(myProject, file);
+        if (!ApplicationPropertiesComponent.getInstance().getBoolean(DO_NOT_SHOW_NOTIFICATION_ABOUT_IGNORE_BY_BUILD_TOOL, false)) {
+          return createIgnoredByBuildToolPanel(myProject, file, factory.get());
         }
       }
       else if (module != null && !GoUtil.matchedForModuleBuildTarget(psiFile, module)) {
-        return createMismatchedTargetPanel(module, file);
+        return createMismatchedTargetPanel(module, file, factory.get());
       }
     }
     return null;
   }
 
-  private static EditorNotificationPanel createIgnoredByBuildToolPanel(@Nonnull Project project, @Nonnull VirtualFile file) {
-    EditorNotificationPanel panel = new EditorNotificationPanel();
+  private static EditorNotificationBuilder createIgnoredByBuildToolPanel(@Nonnull Project project, @Nonnull VirtualFile file, EditorNotificationBuilder builder) {
     String fileName = file.getName();
-    panel.setText("'" + fileName + "' will be ignored by build tool since its name starts with '" + fileName.charAt(0) + "'");
-    panel.createActionLabel("Do not show again", () -> {
-      PropertiesComponent.getInstance().setValue(DO_NOT_SHOW_NOTIFICATION_ABOUT_IGNORE_BY_BUILD_TOOL, true);
+    builder.withText(LocalizeValue.localizeTODO("'" + fileName + "' will be ignored by build tool since its name starts with '" + fileName.charAt(0) + "'"));
+    builder.withAction(LocalizeValue.localizeTODO("Do not show again"), () -> {
+      ApplicationPropertiesComponent.getInstance().setValue(DO_NOT_SHOW_NOTIFICATION_ABOUT_IGNORE_BY_BUILD_TOOL, true);
       EditorNotifications.getInstance(project).updateAllNotifications();
     });
-    return panel;
+    return builder;
   }
 
   @Nonnull
-  private static EditorNotificationPanel createMismatchedTargetPanel(@Nonnull Module module, @Nonnull VirtualFile file) {
-    EditorNotificationPanel panel = new EditorNotificationPanel();
-    panel.setText("'" + file.getName() + "' doesn't match to target system. File will be ignored by build tool");
-    panel.createActionLabel("Edit Go project settings", () -> ProjectSettingsService.getInstance(module.getProject()).openModuleSettings(module));
-    return panel;
+  private static EditorNotificationBuilder createMismatchedTargetPanel(@Nonnull Module module, @Nonnull VirtualFile file, EditorNotificationBuilder builder) {
+    builder.withText(LocalizeValue.localizeTODO("'" + file.getName() + "' doesn't match to target system. File will be ignored by build tool"));
+    builder.withAction(LocalizeValue.localizeTODO("Edit Go project settings"), () -> {
+      ShowSettingsUtil.getInstance().showProjectStructureDialog(module.getProject(), s -> s.select(module, true));
+    });
+    return builder;
   }
 }

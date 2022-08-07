@@ -21,27 +21,20 @@ import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.sdk.GoSdkUtil;
 import com.goide.stubs.GoFieldDefinitionStub;
-import com.intellij.codeInsight.AutoPopupController;
-import com.intellij.codeInsight.completion.InsertHandler;
-import com.intellij.codeInsight.completion.InsertionContext;
-import com.intellij.codeInsight.completion.PrefixMatcher;
-import com.intellij.codeInsight.completion.PrioritizedLookupElement;
-import com.intellij.codeInsight.completion.impl.CamelHumpMatcher;
-import com.intellij.codeInsight.completion.util.ParenthesesInsertHandler;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.codeInsight.lookup.LookupElementPresentation;
-import com.intellij.codeInsight.lookup.LookupElementRenderer;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.ui.UIUtil;
+import consulo.application.util.matcher.PrefixMatcher;
 import consulo.disposer.Disposable;
 import consulo.disposer.Disposer;
+import consulo.language.editor.AutoPopupController;
+import consulo.language.editor.completion.CamelHumpMatcher;
+import consulo.language.editor.completion.lookup.*;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.ui.ex.awt.UIUtil;
 import consulo.ui.image.Image;
+import consulo.util.lang.ObjectUtil;
+import consulo.util.lang.StringUtil;
 import org.jetbrains.annotations.TestOnly;
 
 import javax.annotation.Nonnull;
@@ -256,7 +249,7 @@ public class GoCompletionUtil {
                                                                 @Nullable String importPath,
                                                                 double priority) {
     // todo: check context and place caret in or outside {}
-    InsertHandler<LookupElement> handler = ObjectUtils.notNull(insertHandler, Lazy.TYPE_CONVERSION_INSERT_HANDLER);
+    InsertHandler<LookupElement> handler = ObjectUtil.notNull(insertHandler, Lazy.TYPE_CONVERSION_INSERT_HANDLER);
     return createTypeLookupElement(t, lookupString, handler, importPath, priority);
   }
 
@@ -296,7 +289,7 @@ public class GoCompletionUtil {
 
   @Nullable
   public static LookupElement createPackageLookupElement(@Nonnull GoImportSpec spec, @Nullable String name, boolean vendoringEnabled) {
-    name = name != null ? name : ObjectUtils.notNull(spec.getAlias(), spec.getLocalPackageName());
+    name = name != null ? name : ObjectUtil.notNull(spec.getAlias(), spec.getLocalPackageName());
     return createPackageLookupElement(name, spec.getImportString().resolve(), spec, vendoringEnabled, true);
   }
 

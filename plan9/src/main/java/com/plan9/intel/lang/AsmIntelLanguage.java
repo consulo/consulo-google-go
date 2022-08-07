@@ -16,7 +16,7 @@
 
 package com.plan9.intel.lang;
 
-import com.intellij.lang.Language;
+import consulo.language.Language;
 
 public class AsmIntelLanguage extends Language {
   public static final AsmIntelLanguage INSTANCE = new AsmIntelLanguage();

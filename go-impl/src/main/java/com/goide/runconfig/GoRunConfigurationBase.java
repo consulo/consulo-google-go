@@ -18,28 +18,30 @@ package com.goide.runconfig;
 
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
-import com.intellij.execution.ExecutionBundle;
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.Executor;
-import com.intellij.execution.configuration.EnvironmentVariablesComponent;
-import com.intellij.execution.configurations.*;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.execution.runners.RunConfigurationWithSuppressedDefaultRunAction;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.openapi.util.JDOMExternalizerUtil;
-import com.intellij.openapi.util.WriteExternalException;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.execution.ExecutionBundle;
+import consulo.execution.RuntimeConfigurationException;
+import consulo.execution.RuntimeConfigurationWarning;
+import consulo.execution.configuration.*;
+import consulo.execution.executor.Executor;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.execution.ui.awt.EnvironmentVariablesComponent;
+import consulo.module.Module;
+import consulo.process.ExecutionException;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.io.FileUtil;
+import consulo.util.lang.StringUtil;
+import consulo.util.xml.serializer.InvalidDataException;
+import consulo.util.xml.serializer.JDOMExternalizerUtil;
+import consulo.util.xml.serializer.WriteExternalException;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 import org.jdom.Element;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class GoRunConfigurationBase<RunningState extends GoRunningState>
@@ -57,7 +59,7 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
   @Nonnull
   private String myParams = "";
   @Nonnull
-  private final Map<String, String> myCustomEnvironment = ContainerUtil.newHashMap();
+  private final Map<String, String> myCustomEnvironment = new HashMap<>();
   private boolean myPassParentEnvironment = true;
 
   public GoRunConfigurationBase(String name, GoModuleBasedConfiguration configurationModule, ConfigurationFactory factory) {
@@ -163,10 +165,10 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
   
   @Nullable
   protected VirtualFile findFile(@Nonnull String filePath) {
-    VirtualFile virtualFile = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(filePath));
+    VirtualFile virtualFile = VirtualFileManager.getInstance().findFileByUrl(VirtualFileUtil.pathToUrl(filePath));
     if (virtualFile == null) {
       String path = FileUtil.join(getWorkingDirectory(), filePath);
-      virtualFile = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(path));
+      virtualFile = VirtualFileManager.getInstance().findFileByUrl(VirtualFileUtil.pathToUrl(path));
     }
     return virtualFile;
   }
@@ -217,7 +219,7 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
 
   @Nonnull
   public String getWorkingDirectoryUrl() {
-    return VfsUtilCore.pathToUrl(myWorkingDirectory);
+    return VirtualFileUtil.pathToUrl(myWorkingDirectory);
   }
 
   public void setWorkingDirectory(@Nonnull String workingDirectory) {

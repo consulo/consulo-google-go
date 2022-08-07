@@ -21,14 +21,14 @@ import com.goide.project.GoVendoringUtil;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.application.ApplicationManager;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collection;
 import java.util.Set;
 
@@ -89,7 +89,7 @@ public class GoPathScopeHelper {
       if (myVendoringEnabled && GoSdkUtil.isUnreachableVendoredPackage(declarationDirectory, referenceDirectory, myRoots)) {
         return false;
       }
-      boolean declarationIsInSdk = mySdkHome != null && VfsUtilCore.isAncestor(mySdkHome, declarationDirectory, false);
+      boolean declarationIsInSdk = mySdkHome != null && VirtualFileUtil.isAncestor(mySdkHome, declarationDirectory, false);
       if (mySupportsInternalPackages || mySupportsSdkInternalPackages && declarationIsInSdk) {
         if (GoSdkUtil.isUnreachableInternalPackage(declarationDirectory, referenceDirectory, myRoots)) {
           return false;
@@ -99,7 +99,7 @@ public class GoPathScopeHelper {
         return false;
       }
       else {
-        boolean referenceIsInSdk = mySdkHome != null && VfsUtilCore.isAncestor(mySdkHome, referenceDirectory, false);
+        boolean referenceIsInSdk = mySdkHome != null && VirtualFileUtil.isAncestor(mySdkHome, referenceDirectory, false);
         if (referenceIsInSdk) {
           return false;
         }

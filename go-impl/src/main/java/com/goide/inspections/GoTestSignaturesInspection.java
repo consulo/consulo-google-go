@@ -23,18 +23,18 @@ import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.runconfig.testing.GoTestFunctionType;
 import com.goide.runconfig.testing.frameworks.gotest.GotestGenerateAction;
-import com.intellij.codeInspection.LocalQuickFixBase;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.language.editor.inspection.LocalQuickFixBase;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.ObjectUtil;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class GoTestSignaturesInspection extends GoInspectionBase {
+public abstract class GoTestSignaturesInspection extends GoInspectionBase {
   @Override
   protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     if (!GoTestFinder.isTestFile(file)) return;
@@ -79,10 +79,10 @@ public class GoTestSignaturesInspection extends GoInspectionBase {
     public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getStartElement();
       if (element == null) return;
-      GoFunctionDeclaration function = ObjectUtils.tryCast(element.getParent(), GoFunctionDeclaration.class);
+      GoFunctionDeclaration function = ObjectUtil.tryCast(element.getParent(), GoFunctionDeclaration.class);
       GoSignature signature = function != null ? function.getSignature() : null;
       if (signature == null) return;
-      GoFile file = ObjectUtils.tryCast(signature.getContainingFile(), GoFile.class);
+      GoFile file = ObjectUtil.tryCast(signature.getContainingFile(), GoFile.class);
       if (file == null) return;
 
       String testingQualifier = GotestGenerateAction.importTestingPackageIfNeeded(file);

@@ -19,9 +19,10 @@ package com.goide.dlv;
 import com.goide.dlv.protocol.DlvRequest;
 import com.goide.dlv.protocol.DlvResponse;
 import com.google.gson.JsonElement;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.logging.Logger;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.collection.SmartList;
+import consulo.util.lang.StringUtil;
 import org.jetbrains.rpc.CommandProcessor;
 import org.jetbrains.rpc.RequestCallback;
 
@@ -70,7 +71,7 @@ public abstract class DlvCommandProcessor extends CommandProcessor<JsonElement, 
     List<String> data = e.data();
     String message = e.message();
     if (ContainerUtil.isEmpty(data)) return StringUtil.defaultIfEmpty(message, "<null>");
-    List<String> list = ContainerUtil.newSmartList(message);
+    List<String> list = new SmartList<>(message);
     list.addAll(data);
     return list.toString();
   }

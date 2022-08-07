@@ -16,21 +16,25 @@
 
 package com.goide.intentions;
 
-import javax.annotation.Nonnull;
-
 import com.goide.editor.smart.GoSmartEnterProcessor;
 import com.goide.psi.GoBlock;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.impl.GoElementFactory;
-import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.ObjectUtils;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.intention.BaseElementAtCaretIntentionAction;
+import consulo.language.editor.intention.IntentionMetaData;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.IncorrectOperationException;
+import consulo.project.Project;
+import consulo.util.lang.ObjectUtil;
 import org.jetbrains.annotations.Nls;
 
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
+@IntentionMetaData(ignoreId = "go.add.function.body", fileExtensions = "go", categories = "Go")
 public class GoAddFunctionBlockIntention extends BaseElementAtCaretIntentionAction {
   public static final String NAME = "Add function body";
 
@@ -57,7 +61,7 @@ public class GoAddFunctionBlockIntention extends BaseElementAtCaretIntentionActi
     if (parent instanceof GoFunctionOrMethodDeclaration) {
       GoBlock block = ((GoFunctionOrMethodDeclaration)parent).getBlock();
       if (block == null) {
-        GoBlock newBlock = ObjectUtils.tryCast(parent.add(GoElementFactory.createBlock(project)), GoBlock.class);
+        GoBlock newBlock = ObjectUtil.tryCast(parent.add(GoElementFactory.createBlock(project)), GoBlock.class);
         if (newBlock != null) {
           PsiDocumentManager.getInstance(project).doPostponedOperationsAndUnblockDocument(editor.getDocument());
           new GoSmartEnterProcessor.PlainEnterProcessor().doEnter(newBlock, newBlock.getContainingFile(), editor, false);

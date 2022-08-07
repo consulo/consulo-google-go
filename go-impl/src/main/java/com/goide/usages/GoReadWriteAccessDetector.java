@@ -16,21 +16,17 @@
 
 package com.goide.usages;
 
+import com.goide.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.highlight.ReadWriteAccessDetector;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.language.psi.util.PsiTreeUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import com.goide.psi.GoConstDefinition;
-import com.goide.psi.GoFieldDefinition;
-import com.goide.psi.GoFieldName;
-import com.goide.psi.GoKey;
-import com.goide.psi.GoParamDefinition;
-import com.goide.psi.GoReceiver;
-import com.goide.psi.GoReferenceExpression;
-import com.goide.psi.GoVarDefinition;
-import com.intellij.codeInsight.highlighting.ReadWriteAccessDetector;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.util.PsiTreeUtil;
 
+@ExtensionImpl(id = "go")
 public class GoReadWriteAccessDetector extends ReadWriteAccessDetector {
   @Override
   public boolean isReadWriteAccessible(@Nullable PsiElement e) {

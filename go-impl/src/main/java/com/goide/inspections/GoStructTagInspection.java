@@ -16,21 +16,21 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoFieldDeclaration;
 import com.goide.psi.GoStructType;
 import com.goide.psi.GoTag;
 import com.goide.psi.GoVisitor;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemsHolder;
+
+import javax.annotation.Nonnull;
 
 /**
  * Implements <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/issues/1983"/>, an
  * inspector that warns if a go StructTag is not well-formed according to Go language conventions.
  */
-public class GoStructTagInspection extends GoInspectionBase {
+public abstract class GoStructTagInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,

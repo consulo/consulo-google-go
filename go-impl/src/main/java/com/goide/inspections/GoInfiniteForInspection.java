@@ -16,16 +16,16 @@
 
 package com.goide.inspections;
 
+import com.goide.psi.*;
+import com.goide.quickfix.GoReplaceWithSelectStatementQuickFix;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.goide.psi.*;
-import com.goide.quickfix.GoReplaceWithSelectStatementQuickFix;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-
-public class GoInfiniteForInspection extends GoInspectionBase {
+public abstract class GoInfiniteForInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {

@@ -16,16 +16,20 @@
 
 package com.goide.editor.surround;
 
-import javax.annotation.Nonnull;
-
+import com.goide.GoLanguage;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoPsiTreeUtil;
 import com.goide.psi.GoStatement;
-import com.intellij.lang.surroundWith.SurroundDescriptor;
-import com.intellij.lang.surroundWith.Surrounder;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.surroundWith.SurroundDescriptor;
+import consulo.language.editor.surroundWith.Surrounder;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
 
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
 public class GoStatementsSurroundDescriptor implements SurroundDescriptor {
   private static final Surrounder[] SURROUNDERS = new Surrounder[]{
     new GoWithIfSurrounder(),
@@ -51,5 +55,11 @@ public class GoStatementsSurroundDescriptor implements SurroundDescriptor {
   @Override
   public boolean isExclusive() {
     return false;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

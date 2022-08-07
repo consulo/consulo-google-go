@@ -17,12 +17,14 @@
 package com.goide.highlighting;
 
 import com.goide.GoFileType;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.wolfAnalyzer.WolfFileProblemFilter;
+import consulo.virtualFileSystem.VirtualFile;
 
-public class GoProblemFileHighlightFilter implements Condition<VirtualFile> {
+@ExtensionImpl
+public class GoProblemFileHighlightFilter implements WolfFileProblemFilter {
   @Override
-  public boolean value(VirtualFile virtualFile) {
+  public boolean isToBeHighlighted(VirtualFile virtualFile) {
     return virtualFile.getFileType() == GoFileType.INSTANCE;
   }
 }

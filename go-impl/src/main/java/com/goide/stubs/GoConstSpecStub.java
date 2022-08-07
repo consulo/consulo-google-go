@@ -19,16 +19,16 @@ package com.goide.stubs;
 import com.goide.psi.GoConstSpec;
 import com.goide.psi.GoExpression;
 import com.goide.psi.impl.GoElementFactory;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.psi.stubs.StubBase;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.io.StringRef;
+import consulo.index.io.StringRef;
+import consulo.language.psi.stub.IStubElementType;
+import consulo.language.psi.stub.StubBase;
+import consulo.language.psi.stub.StubElement;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 
 public class GoConstSpecStub extends StubBase<GoConstSpec> {
@@ -49,7 +49,7 @@ public class GoConstSpecStub extends StubBase<GoConstSpec> {
   public List<GoExpression> getExpressionList() {
     if (myList == null) {
       String text = getExpressionsText();
-      if (!StringUtil.isNotEmpty(text)) return myList = ContainerUtil.emptyList();
+      if (!StringUtil.isNotEmpty(text)) return myList = List.of();
       Project project = getPsi().getProject();
       List<String> split = StringUtil.split(text, ";");
       myList = ContainerUtil.map(split, s -> GoElementFactory.createExpression(project, s));

@@ -16,20 +16,21 @@
 
 package com.plan9.intel.ide.highlighting;
 
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.colorScheme.TextAttributesKey;
+import consulo.language.ast.IElementType;
+import consulo.language.editor.highlight.SyntaxHighlighterBase;
+import consulo.language.lexer.Lexer;
+import consulo.util.collection.ContainerUtil;
 
+import javax.annotation.Nonnull;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.plan9.intel.ide.highlighting.AsmIntelSyntaxHighlightingColors.*;
 
 public class AsmIntelSyntaxHighlighter extends SyntaxHighlighterBase {
 
-  private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = ContainerUtil.newHashMap();
+  private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<>();
 
   static {
     fillMap(ATTRIBUTES, LINE_COMMENT, AsmIntelLexerTokens.LINE_COMMENT);

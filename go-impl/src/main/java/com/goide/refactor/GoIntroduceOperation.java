@@ -18,13 +18,13 @@ package com.goide.refactor;
 
 import com.goide.psi.GoExpression;
 import com.goide.psi.GoVarDefinition;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import javax.annotation.Nonnull;
+import consulo.codeEditor.Editor;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
 import org.jetbrains.annotations.TestOnly;
 
+import javax.annotation.Nonnull;
 import java.util.LinkedHashSet;
 import java.util.List;
 

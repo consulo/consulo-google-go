@@ -27,27 +27,27 @@ import com.goide.stubs.index.GoIdFilter;
 import com.goide.stubs.index.GoMethodIndex;
 import com.goide.stubs.types.GoMethodDeclarationStubElementType;
 import com.goide.util.GoUtil;
-import com.intellij.codeInsight.completion.*;
-import com.intellij.codeInsight.completion.impl.CamelHumpMatcher;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.codeStyle.CodeStyleManager;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.stubs.StubIndex;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ProcessingContext;
-import com.intellij.util.Processor;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.indexing.IdFilter;
-import com.intellij.util.text.UniqueNameGenerator;
-import consulo.codeInsight.completion.CompletionProvider;
+import consulo.application.util.function.Processor;
+import consulo.component.util.text.UniqueNameGenerator;
+import consulo.document.Document;
+import consulo.language.codeStyle.CodeStyleManager;
+import consulo.language.editor.completion.CamelHumpMatcher;
+import consulo.language.editor.completion.CompletionParameters;
+import consulo.language.editor.completion.CompletionProvider;
+import consulo.language.editor.completion.CompletionResultSet;
+import consulo.language.editor.completion.lookup.*;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.stub.IdFilter;
+import consulo.language.psi.stub.StubIndex;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.ProcessingContext;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -126,8 +126,8 @@ public class GoTestFunctionCompletionProvider implements CompletionProvider {
   private static Set<String> collectAllFunctionNames(@Nonnull PsiDirectory directory) {
     GlobalSearchScope packageScope = GoPackageUtil.packageScope(directory, null);
     IdFilter packageIdFilter = GoIdFilter.getFilesFilter(packageScope);
-    
-    Set<String> result = ContainerUtil.newHashSet();
+
+    Set<String> result = new HashSet<>();
     StubIndex.getInstance().processAllKeys(GoFunctionIndex.KEY, new CancellableCollectProcessor<String>(result) {
       @Override
       protected boolean accept(String s) {
@@ -139,7 +139,7 @@ public class GoTestFunctionCompletionProvider implements CompletionProvider {
 
   @Nonnull
   private static Set<String> collectAllTestNames(@Nonnull Collection<String> names, @Nonnull Project project, @Nonnull GoFile file) {
-    Set<String> result = ContainerUtil.newHashSet();
+    Set<String> result = new HashSet<>();
     GlobalSearchScope packageScope = GoPackageUtil.packageScope(file);
     GlobalSearchScope scope = new GoUtil.TestsScope(packageScope);
     IdFilter idFilter = GoIdFilter.getFilesFilter(packageScope);

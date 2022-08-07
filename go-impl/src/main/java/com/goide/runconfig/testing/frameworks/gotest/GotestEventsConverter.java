@@ -17,7 +17,7 @@
 package com.goide.runconfig.testing.frameworks.gotest;
 
 import com.goide.GoConstants;
-import com.intellij.execution.testframework.TestConsoleProperties;
+import consulo.execution.test.TestConsoleProperties;
 import consulo.util.dataholder.Key;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
 

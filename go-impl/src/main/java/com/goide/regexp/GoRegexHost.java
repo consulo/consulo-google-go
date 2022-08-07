@@ -16,21 +16,30 @@
 
 package com.goide.regexp;
 
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.containers.ContainerUtil;
+import com.goide.psi.GoStringLiteral;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
 import org.intellij.lang.regexp.RegExpLanguageHost;
 import org.intellij.lang.regexp.psi.RegExpChar;
 import org.intellij.lang.regexp.psi.RegExpGroup;
 import org.intellij.lang.regexp.psi.RegExpNamedGroupRef;
 import org.intellij.lang.regexp.psi.RegExpSimpleClass;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Set;
 
 // see https://golang.org/pkg/regexp/syntax/
+@ExtensionImpl
 public class GoRegexHost implements RegExpLanguageHost {
+  @Nonnull
+  @Override
+  public Class getHostClass() {
+    return GoStringLiteral.class;
+  }
+
   @Override
   public boolean characterNeedsEscaping(char c) {
     return false;
@@ -128,7 +137,7 @@ public class GoRegexHost implements RegExpLanguageHost {
 
   private interface Lazy {
     // SDK/unicode/tables.go
-    Set<String> KNOWN_PROPERTIES = ContainerUtil.immutableSet("C", "Cc", "Cf", "Co", "Cs", "L", "Ll", "Lm", "Lo", "Lt", "Lu", "M", "Mc",
+    Set<String> KNOWN_PROPERTIES = Set.of                    ("C", "Cc", "Cf", "Co", "Cs", "L", "Ll", "Lm", "Lo", "Lt", "Lu", "M", "Mc",
                                                               "Me", "Mn", "N", "Nd", "Nl", "No", "P", "Pc", "Pd", "Pe", "Pf", "Pi", "Po",
                                                               "Ps", "S", "Sc", "Sk", "Sm", "So", "Z", "Zl", "Zp", "Zs",
 

@@ -16,14 +16,13 @@
 
 package consulo.google.go.run.dlv;
 
-import javax.annotation.Nonnull;
-
 import com.goide.dlv.DlvCommandProcessor;
 import com.goide.dlv.DlvDebugProcess;
 import com.goide.dlv.protocol.DlvApi;
-import com.intellij.xdebugger.frame.XExecutionStack;
-import com.intellij.xdebugger.frame.XSuspendContext;
+import consulo.execution.debug.frame.XExecutionStack;
+import consulo.execution.debug.frame.XSuspendContext;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class DlvSuspendContext extends XSuspendContext {

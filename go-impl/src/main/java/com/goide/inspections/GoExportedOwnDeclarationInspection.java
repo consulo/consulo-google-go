@@ -16,23 +16,23 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.*;
-import com.intellij.codeInspection.*;
-import com.intellij.diagnostic.AttachmentFactory;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
+import consulo.language.editor.WriteCommandAction;
+import consulo.language.editor.inspection.*;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.AttachmentFactoryUtil;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import consulo.util.lang.StringUtil;
+
+import javax.annotation.Nonnull;
 
 /**
  * Part of the golint tool
  * <p/>
  * https://github.com/golang/lint/blob/32a87160691b3c96046c0c678fe57c5bef761456/lint.go#L827
  */
-public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
+public abstract class GoExportedOwnDeclarationInspection extends GoInspectionBase {
   public static final String QUICK_FIX_NAME = "Extract to own declaration";
 
   @Nonnull
@@ -107,7 +107,7 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
             return;
           }
         }
-        LOG.error("Cannot run quick fix", AttachmentFactory.createAttachment(element.getContainingFile().getVirtualFile()));
+        LOG.error("Cannot run quick fix", AttachmentFactoryUtil.createAttachment(element.getContainingFile().getVirtualFile()));
       });
     }
   }
@@ -146,7 +146,7 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
             return;
           }
         }
-        LOG.error("Cannot run quick fix", AttachmentFactory.createAttachment(element.getContainingFile().getVirtualFile()));
+        LOG.error("Cannot run quick fix", AttachmentFactoryUtil.createAttachment(element.getContainingFile().getVirtualFile()));
       });
     }
   }

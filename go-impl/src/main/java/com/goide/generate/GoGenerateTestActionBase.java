@@ -16,14 +16,14 @@
 
 package com.goide.generate;
 
-import javax.annotation.Nonnull;
-
 import com.goide.runconfig.testing.GoTestFramework;
-import com.intellij.codeInsight.CodeInsightActionHandler;
-import com.intellij.codeInsight.actions.CodeInsightAction;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiFile;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.action.CodeInsightAction;
+import consulo.language.editor.action.CodeInsightActionHandler;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+
+import javax.annotation.Nonnull;
 
 abstract public class GoGenerateTestActionBase extends CodeInsightAction {
   @Nonnull

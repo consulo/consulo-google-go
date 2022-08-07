@@ -21,16 +21,16 @@ import com.goide.psi.GoTypeSpec;
 import com.goide.stubs.index.GoFunctionIndex;
 import com.goide.stubs.index.GoIdFilter;
 import com.goide.stubs.index.GoTypesIndex;
-import com.intellij.execution.Location;
-import com.intellij.execution.PsiLocation;
-import com.intellij.execution.testframework.sm.runner.SMTestLocator;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.indexing.IdFilter;
-import javax.annotation.Nonnull;
+import consulo.execution.action.Location;
+import consulo.execution.action.PsiLocation;
+import consulo.execution.test.sm.runner.SMTestLocator;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.stub.IdFilter;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 

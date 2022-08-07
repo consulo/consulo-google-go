@@ -17,16 +17,16 @@
 package com.goide.inspections;
 
 import com.goide.psi.*;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
+import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class GoDuplicateArgumentInspection extends GoInspectionBase {
+public abstract class GoDuplicateArgumentInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -42,7 +42,7 @@ public class GoDuplicateArgumentInspection extends GoInspectionBase {
 
   protected void check(@Nullable GoSignature o, @Nonnull ProblemsHolder holder) {
     if (o != null) {
-      checkParameters(holder, o.getParameters(), ContainerUtil.newLinkedHashSet());
+      checkParameters(holder, o.getParameters(), new LinkedHashSet<>());
     }
   }
 

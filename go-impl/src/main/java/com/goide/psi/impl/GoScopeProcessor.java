@@ -16,7 +16,7 @@
 
 package com.goide.psi.impl;
 
-import com.intellij.psi.scope.BaseScopeProcessor;
+import consulo.language.psi.resolve.BaseScopeProcessor;
 
 abstract public class GoScopeProcessor extends BaseScopeProcessor {
   public boolean isCompletion() {

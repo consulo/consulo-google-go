@@ -18,10 +18,13 @@ package com.goide.stubs.index;
 
 import com.goide.GoFileElementType;
 import com.goide.psi.GoFile;
-import com.intellij.psi.stubs.StringStubIndexExtension;
-import com.intellij.psi.stubs.StubIndexKey;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.stub.StringStubIndexExtension;
+import consulo.language.psi.stub.StubIndexKey;
+
 import javax.annotation.Nonnull;
 
+@ExtensionImpl
 public class GoPackagesIndex extends StringStubIndexExtension<GoFile> {
   public static final StubIndexKey<String, GoFile> KEY = StubIndexKey.createIndexKey("go.packages");
 

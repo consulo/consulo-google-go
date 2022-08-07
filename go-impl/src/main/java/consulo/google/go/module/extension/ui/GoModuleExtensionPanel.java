@@ -18,15 +18,17 @@ package consulo.google.go.module.extension.ui;
 
 import com.goide.configuration.GoBuildTagsUI;
 import com.goide.configuration.GoVendoringUI;
-import com.intellij.openapi.roots.OrderEntry;
-import com.intellij.openapi.ui.VerticalFlowLayout;
-import com.intellij.ui.components.JBCheckBox;
-import consulo.extension.ui.ModuleExtensionSdkBoxBuilder;
 import consulo.google.go.module.extension.GoMutableModuleExtension;
-import consulo.google.go.module.orderEntry.GoPathOrderEntry;
-import consulo.roots.ModifiableModuleRootLayer;
-import consulo.roots.impl.ModuleRootLayerImpl;
+import consulo.google.go.module.orderEntry.GoPathOrderEntryModel;
+import consulo.google.go.module.orderEntry.GoPathOrderEntryType;
+import consulo.module.content.layer.ModifiableModuleRootLayer;
+import consulo.module.content.layer.orderEntry.CustomOrderEntry;
+import consulo.module.content.layer.orderEntry.CustomOrderEntryModel;
+import consulo.module.content.layer.orderEntry.OrderEntry;
+import consulo.module.ui.extension.ModuleExtensionSdkBoxBuilder;
 import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.ex.awt.JBCheckBox;
+import consulo.ui.ex.awt.VerticalFlowLayout;
 
 import javax.annotation.Nullable;
 import javax.swing.*;
@@ -47,14 +49,14 @@ public class GoModuleExtensionPanel extends JPanel {
     usePgoPath.addActionListener(e -> {
       boolean selected = usePgoPath.isSelected();
 
-      ModifiableModuleRootLayer moduleRootLayer = extension.getModuleRootLayer();
+      ModifiableModuleRootLayer moduleRootLayer = (ModifiableModuleRootLayer) extension.getModuleRootLayer();
       if (selected) {
-        moduleRootLayer.addOrderEntry(new GoPathOrderEntry((ModuleRootLayerImpl)moduleRootLayer));
+        moduleRootLayer.addCustomOderEntry(GoPathOrderEntryType.getInstance(), new GoPathOrderEntryModel());
       }
       else {
-        GoPathOrderEntry goPathOrderErntry = findGoPathOrderEntry();
-        if (goPathOrderErntry != null) {
-          moduleRootLayer.removeOrderEntry(goPathOrderErntry);
+        OrderEntry orderEntry = findGoPathOrderEntry();
+        if (orderEntry != null) {
+          moduleRootLayer.removeOrderEntry(orderEntry);
         }
       }
 
@@ -77,11 +79,14 @@ public class GoModuleExtensionPanel extends JPanel {
   }
 
   @Nullable
-  private GoPathOrderEntry findGoPathOrderEntry() {
+  private OrderEntry findGoPathOrderEntry() {
     OrderEntry[] orderEntries = myExtension.getModuleRootLayer().getOrderEntries();
     for (OrderEntry orderEntry : orderEntries) {
-      if (orderEntry instanceof GoPathOrderEntry) {
-        return (GoPathOrderEntry)orderEntry;
+      if (orderEntry instanceof CustomOrderEntry) {
+        CustomOrderEntryModel model = ((CustomOrderEntry<?>) orderEntry).getModel();
+        if (model instanceof GoPathOrderEntryModel) {
+          return orderEntry;
+        }
       }
     }
     return null;

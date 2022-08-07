@@ -16,26 +16,25 @@
 
 package com.goide.quickfix;
 
-import java.util.function.Consumer;
+import com.goide.psi.GoNamedElement;
+import consulo.application.ApplicationManager;
+import consulo.dataContext.DataContext;
+import consulo.dataContext.DataManager;
+import consulo.language.editor.FileModificationService;
+import consulo.language.editor.inspection.LocalQuickFixOnPsiElement;
+import consulo.language.editor.refactoring.RefactoringActionHandler;
+import consulo.language.editor.refactoring.RefactoringActionHandlerFactory;
+import consulo.language.editor.refactoring.rename.RenameHandler;
+import consulo.language.editor.refactoring.rename.RenameHandlerRegistry;
+import consulo.language.psi.ElementDescriptionUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+import consulo.usage.UsageViewTypeLocation;
+import consulo.util.concurrent.AsyncResult;
 
 import javax.annotation.Nonnull;
-
-import com.goide.psi.GoNamedElement;
-import com.intellij.codeInsight.FileModificationService;
-import com.intellij.codeInspection.LocalQuickFixOnPsiElement;
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.AsyncResult;
-import com.intellij.psi.ElementDescriptionUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.refactoring.RefactoringActionHandler;
-import com.intellij.refactoring.RefactoringActionHandlerFactory;
-import com.intellij.refactoring.rename.RenameHandler;
-import com.intellij.refactoring.rename.RenameHandlerRegistry;
-import com.intellij.usageView.UsageViewTypeLocation;
+import java.util.function.Consumer;
 
 public class GoRenameQuickFix extends LocalQuickFixOnPsiElement {
   private final String myText;
@@ -68,12 +67,7 @@ public class GoRenameQuickFix extends LocalQuickFixOnPsiElement {
         }
       });
     };
-    if (ApplicationManager.getApplication().isUnitTestMode()) {
-      runnable.run();
-    }
-    else {
-      ApplicationManager.getApplication().invokeLater(runnable, project.getDisposed());
-    }
+    ApplicationManager.getApplication().invokeLater(runnable, project.getDisposed());
   }
 
   @Override

@@ -20,46 +20,51 @@ import com.goide.GoFileType;
 import com.goide.GoLanguage;
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
-import com.intellij.ProjectTopics;
-import com.intellij.ide.util.PropertiesComponent;
-import com.intellij.openapi.fileEditor.FileEditor;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectBundle;
-import com.intellij.openapi.roots.ModuleRootAdapter;
-import com.intellij.openapi.roots.ModuleRootEvent;
-import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.ui.EditorNotificationPanel;
-import com.intellij.ui.EditorNotifications;
-import com.intellij.util.messages.MessageBusConnection;
-import consulo.editor.notifications.EditorNotificationProvider;
+import consulo.annotation.access.RequiredReadAction;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.ApplicationPropertiesComponent;
+import consulo.application.dumb.DumbAware;
+import consulo.fileEditor.EditorNotificationBuilder;
+import consulo.fileEditor.EditorNotificationProvider;
+import consulo.fileEditor.EditorNotifications;
+import consulo.fileEditor.FileEditor;
+import consulo.ide.setting.ShowSettingsUtil;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.language.util.ModuleUtilCore;
+import consulo.localize.LocalizeValue;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.project.ProjectBundle;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import jakarta.inject.Inject;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
-public class WrongSdkConfigurationNotificationProvider implements EditorNotificationProvider<EditorNotificationPanel>, DumbAware {
+@ExtensionImpl
+public class WrongSdkConfigurationNotificationProvider implements EditorNotificationProvider, DumbAware {
   private static final String DO_NOT_SHOW_NOTIFICATION_ABOUT_EMPTY_GOPATH = "DO_NOT_SHOW_NOTIFICATION_ABOUT_EMPTY_GOPATH";
 
   private final Project myProject;
 
-  public WrongSdkConfigurationNotificationProvider(@Nonnull Project project, @Nonnull EditorNotifications notifications) {
+  @Inject
+  public WrongSdkConfigurationNotificationProvider(@Nonnull Project project) {
     myProject = project;
-    MessageBusConnection connection = myProject.getMessageBus().connect(project);
-    connection.subscribe(ProjectTopics.PROJECT_ROOTS, new ModuleRootAdapter() {
-      @Override
-      public void rootsChanged(ModuleRootEvent event) {
-        notifications.updateAllNotifications();
-      }
-    });
   }
 
+  @Nonnull
   @Override
-  public EditorNotificationPanel createNotificationPanel(@Nonnull VirtualFile file, @Nonnull FileEditor fileEditor) {
+  public String getId() {
+    return "go-wrong-sdk-configuration";
+  }
+
+  @RequiredReadAction
+  @Nullable
+  @Override
+  public EditorNotificationBuilder buildNotification(@Nonnull VirtualFile file, @Nonnull FileEditor fileEditor, @Nonnull Supplier<EditorNotificationBuilder> builderFactory) {
     if (file.getFileType() != GoFileType.INSTANCE) return null;
 
     PsiFile psiFile = PsiManager.getInstance(myProject).findFile(file);
@@ -72,13 +77,13 @@ public class WrongSdkConfigurationNotificationProvider implements EditorNotifica
 
     String sdkHomePath = GoSdkService.getInstance(myProject).getSdkHomePath(module);
     if (StringUtil.isEmpty(sdkHomePath)) {
-      return createMissingSdkPanel(myProject, module);
+      return createMissingSdkPanel(myProject, module, builderFactory.get());
     }
 
-    if (!PropertiesComponent.getInstance().getBoolean(DO_NOT_SHOW_NOTIFICATION_ABOUT_EMPTY_GOPATH, false)) {
+    if (!ApplicationPropertiesComponent.getInstance().getBoolean(DO_NOT_SHOW_NOTIFICATION_ABOUT_EMPTY_GOPATH, false)) {
       String goPath = GoSdkUtil.retrieveGoPath(myProject, module);
       if (StringUtil.isEmpty(goPath.trim())) {
-        return createEmptyGoPathPanel(myProject, module);
+        return createEmptyGoPathPanel(myProject, module, builderFactory.get());
       }
     }
 
@@ -86,22 +91,22 @@ public class WrongSdkConfigurationNotificationProvider implements EditorNotifica
   }
 
   @Nonnull
-  private static EditorNotificationPanel createMissingSdkPanel(@Nonnull Project project, @Nonnull Module module) {
-    EditorNotificationPanel panel = new EditorNotificationPanel();
-    panel.setText(ProjectBundle.message("module.sdk.not.defined"));
-    panel.createActionLabel(ProjectBundle.message("module.sdk.setup"), () -> ProjectSettingsService.getInstance(project).openModuleSettings(module));
-    return panel;
+  private static EditorNotificationBuilder createMissingSdkPanel(@Nonnull Project project, @Nonnull Module module, EditorNotificationBuilder builder) {
+    builder.withText(LocalizeValue.localizeTODO(ProjectBundle.message("module.sdk.not.defined")));
+    builder.withAction(LocalizeValue.localizeTODO(ProjectBundle.message("module.sdk.setup")), () -> ShowSettingsUtil.getInstance().showProjectStructureDialog(project, s -> s.select(module, true)));
+    return builder;
   }
 
   @Nonnull
-  private static EditorNotificationPanel createEmptyGoPathPanel(@Nonnull Project project, Module module) {
-    EditorNotificationPanel panel = new EditorNotificationPanel();
-    panel.setText("GOPATH is empty");
-    panel.createActionLabel("Configure Go Libraries", () -> ProjectSettingsService.getInstance(project).openModuleSettings(module));
-    panel.createActionLabel("Do not show again", () -> {
-      PropertiesComponent.getInstance().setValue(DO_NOT_SHOW_NOTIFICATION_ABOUT_EMPTY_GOPATH, true);
+  private static EditorNotificationBuilder createEmptyGoPathPanel(@Nonnull Project project, Module module, EditorNotificationBuilder builder) {
+    builder.withText(LocalizeValue.localizeTODO("GOPATH is empty"));
+    builder.withAction(LocalizeValue.localizeTODO("Configure Go Libraries"), () -> {
+      ShowSettingsUtil.getInstance().showProjectStructureDialog(project, s -> s.select(module, true));
+    });
+    builder.withAction(LocalizeValue.localizeTODO("Do not show again"), () -> {
+      ApplicationPropertiesComponent.getInstance().setValue(DO_NOT_SHOW_NOTIFICATION_ABOUT_EMPTY_GOPATH, true);
       EditorNotifications.getInstance(project).updateAllNotifications();
     });
-    return panel;
+    return builder;
   }
 }

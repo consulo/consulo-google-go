@@ -20,19 +20,19 @@ import com.goide.GoConstants;
 import com.goide.runconfig.GoRunningState;
 import com.goide.util.GoExecutor;
 import com.goide.util.GoHistoryProcessListener;
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.executors.DefaultDebugExecutor;
-import com.intellij.execution.process.ProcessAdapter;
-import com.intellij.execution.process.ProcessEvent;
-import com.intellij.execution.process.ProcessHandler;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.ide.plugins.PluginManager;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.util.SystemInfo;
-import com.intellij.openapi.util.text.StringUtil;
+import consulo.application.util.SystemInfo;
+import consulo.container.plugin.PluginManager;
+import consulo.execution.debug.DefaultDebugExecutor;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.module.Module;
+import consulo.process.ExecutionException;
+import consulo.process.ProcessHandler;
+import consulo.process.event.ProcessAdapter;
+import consulo.process.event.ProcessEvent;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.File;
 
 public class GoApplicationRunningState extends GoRunningState<GoApplicationConfiguration> {

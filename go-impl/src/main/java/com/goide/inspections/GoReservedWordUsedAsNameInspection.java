@@ -16,22 +16,22 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.*;
 import com.goide.psi.impl.GoTypeReference;
 import com.goide.quickfix.GoRenameQuickFix;
 import com.goide.sdk.GoSdkUtil;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.ElementDescriptionUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.usageView.UsageViewTypeLocation;
+import consulo.application.progress.ProgressManager;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.ElementDescriptionUtil;
+import consulo.language.psi.PsiElement;
+import consulo.usage.UsageViewTypeLocation;
+import consulo.util.lang.StringUtil;
 
-public class GoReservedWordUsedAsNameInspection extends GoInspectionBase {
+import javax.annotation.Nonnull;
+
+public abstract class GoReservedWordUsedAsNameInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {

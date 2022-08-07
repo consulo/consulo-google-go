@@ -28,32 +28,37 @@ import com.goide.stubs.index.GoAllPrivateNamesIndex;
 import com.goide.stubs.index.GoAllPublicNamesIndex;
 import com.goide.stubs.index.GoIdFilter;
 import com.goide.util.GoUtil;
-import com.intellij.codeInsight.documentation.DocumentationManagerProtocol;
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.documentation.AbstractDocumentationProvider;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.DumbService;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.stubs.StubIndex;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.Function;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.indexing.IdFilter;
-import com.intellij.xml.util.XmlStringUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.TokenType;
+import consulo.language.editor.documentation.AbstractDocumentationProvider;
+import consulo.language.editor.documentation.DocumentationManagerProtocol;
+import consulo.language.editor.documentation.LanguageDocumentationProvider;
+import consulo.language.psi.*;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.stub.IdFilter;
+import consulo.language.psi.stub.StubIndex;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.ModuleUtilCore;
+import consulo.logging.Logger;
+import consulo.module.Module;
+import consulo.project.DumbService;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.xml.XmlStringUtil;
+import consulo.virtualFileSystem.VirtualFile;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
-public class GoDocumentationProvider extends AbstractDocumentationProvider {
+@ExtensionImpl
+public class GoDocumentationProvider extends AbstractDocumentationProvider implements LanguageDocumentationProvider {
   private static final Logger LOG = Logger.getInstance(GoDocumentationProvider.class);
   private static final GoCommentsConverter COMMENTS_CONVERTER = new GoCommentsConverter();
 
@@ -83,7 +88,7 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
   @Nonnull
   private static List<PsiComment> getCommentsInner(@Nullable PsiElement element) {
     if (element == null) {
-      return ContainerUtil.emptyList();
+      return List.of();
     }
     List<PsiComment> result = ContainerUtil.newArrayList();
     PsiElement e;
@@ -295,7 +300,7 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
       }
     }
 
-    return presentationFunction.fun(element);
+    return presentationFunction.apply(element);
   }
 
   @Nullable
@@ -420,6 +425,12 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
     return super.getDocumentationElementForLink(psiManager, link, context);
   }
 
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
+  }
+
   private static class GoDocumentationPresentationFunction implements Function<PsiElement, String> {
     private final String myContextImportPath;
 
@@ -428,7 +439,7 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider {
     }
 
     @Override
-    public String fun(PsiElement element) {
+    public String apply(PsiElement element) {
       if (element instanceof GoTypeSpec) {
         String localUrl = getLocalUrlToElement(element);
         String name = ((GoTypeSpec)element).getName();

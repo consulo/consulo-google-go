@@ -18,17 +18,17 @@ package com.goide.inspections;
 
 import com.goide.psi.*;
 import com.goide.quickfix.GoDeleteRangeQuickFix;
-import com.intellij.codeInspection.CleanupLocalInspectionTool;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiElement;
+import consulo.language.editor.inspection.CleanupLocalInspectionTool;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 
-public class GoRedundantBlankArgInRangeInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
+public abstract class GoRedundantBlankArgInRangeInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
   public final static String DELETE_BLANK_ARGUMENT_QUICK_FIX_NAME = "Delete blank argument";
 
   @Nonnull

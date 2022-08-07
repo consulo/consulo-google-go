@@ -16,30 +16,34 @@
 
 package com.goide.runconfig.testing;
 
-import javax.annotation.Nonnull;
-
 import com.goide.runconfig.GoModuleBasedConfiguration;
 import com.goide.runconfig.GoRunConfigurationBase;
 import com.goide.runconfig.testing.frameworks.gotest.GotestFramework;
 import com.goide.runconfig.testing.ui.GoTestRunConfigurationEditorForm;
 import com.goide.sdk.GoPackageUtil;
-import com.intellij.execution.configurations.*;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.execution.testframework.TestConsoleProperties;
-import com.intellij.execution.testframework.sm.runner.OutputToGeneralTestEventsConverter;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.options.SettingsEditor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.openapi.util.JDOMExternalizerUtil;
-import com.intellij.openapi.util.WriteExternalException;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
+import consulo.execution.RuntimeConfigurationException;
+import consulo.execution.configuration.ConfigurationType;
+import consulo.execution.configuration.ModuleBasedConfiguration;
+import consulo.execution.configuration.RunConfiguration;
+import consulo.execution.configuration.RuntimeConfigurationError;
+import consulo.execution.configuration.ui.SettingsEditor;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.execution.test.TestConsoleProperties;
+import consulo.execution.test.sm.runner.OutputToGeneralTestEventsConverter;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.util.io.FileUtil;
+import consulo.util.lang.StringUtil;
+import consulo.util.xml.serializer.InvalidDataException;
+import consulo.util.xml.serializer.JDOMExternalizerUtil;
+import consulo.util.xml.serializer.WriteExternalException;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
 import org.jdom.Element;
+
+import javax.annotation.Nonnull;
 
 public class GoTestRunConfiguration extends GoRunConfigurationBase<GoTestRunningState> {
   private static final String PATTERN_ATTRIBUTE_NAME = "pattern";

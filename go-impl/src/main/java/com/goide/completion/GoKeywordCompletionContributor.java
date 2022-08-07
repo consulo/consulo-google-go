@@ -16,32 +16,37 @@
 
 package com.goide.completion;
 
+import com.goide.GoLanguage;
 import com.goide.GoTypes;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.template.GoLiveTemplateContextType;
-import com.intellij.codeInsight.completion.*;
-import com.intellij.codeInsight.lookup.AutoCompletionPolicy;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.patterns.*;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiErrorElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ProcessingContext;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.dumb.DumbAware;
+import consulo.language.Language;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenSet;
+import consulo.language.editor.completion.*;
+import consulo.language.editor.completion.lookup.AddSpaceInsertHandler;
+import consulo.language.editor.completion.lookup.InsertHandler;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.pattern.*;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiErrorElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.ProcessingContext;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 
 import static com.goide.completion.GoCompletionUtil.CONTEXT_KEYWORD_PRIORITY;
 import static com.goide.completion.GoCompletionUtil.KEYWORD_PRIORITY;
 import static com.goide.completion.GoKeywordCompletionProvider.EMPTY_INSERT_HANDLER;
-import static com.intellij.patterns.PlatformPatterns.psiElement;
-import static com.intellij.patterns.PlatformPatterns.psiFile;
-import static com.intellij.patterns.StandardPatterns.*;
+import static consulo.language.pattern.PlatformPatterns.psiElement;
+import static consulo.language.pattern.PlatformPatterns.psiFile;
+import static consulo.language.pattern.StandardPatterns.*;
 
+@ExtensionImpl(id = "go-keyword", order = "before go")
 public class GoKeywordCompletionContributor extends CompletionContributor implements DumbAware {
   private static final InsertHandler<LookupElement> ADD_BRACKETS_INSERT_HANDLER = new AddBracketsInsertHandler();
 
@@ -205,6 +210,12 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
                                                                          collection.first(not(psiElement(GoTypes.PACKAGE_CLAUSE))));
     return psiFile(GoFile.class).withChildren(collection.filter(not(psiElement().whitespaceCommentEmptyOrError()),
                                                                 emptyOrPackageIsNotFirst));
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 
   private static class GoNonQualifiedReference extends PatternCondition<GoReferenceExpressionBase> {

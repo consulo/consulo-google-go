@@ -16,9 +16,9 @@
 
 package com.goide.inspections.unresolved;
 
-import com.intellij.openapi.util.text.StringUtil;
+import consulo.util.lang.StringUtil;
 
-public class GoUnusedExportedFunctionInspection extends GoUnusedFunctionInspection {
+public abstract class GoUnusedExportedFunctionInspection extends GoUnusedFunctionInspection {
   @Override
   protected boolean canRun(String name) {
     return StringUtil.isCapitalized(name);

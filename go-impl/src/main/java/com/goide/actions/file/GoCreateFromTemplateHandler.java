@@ -18,12 +18,14 @@ package com.goide.actions.file;
 
 import com.goide.GoConstants;
 import com.goide.GoFileType;
-import com.intellij.ide.fileTemplates.DefaultCreateFromTemplateHandler;
-import com.intellij.ide.fileTemplates.FileTemplate;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.fileTemplate.CreateFromTemplateHandler;
+import consulo.fileTemplate.FileTemplate;
 
 import java.util.Map;
 
-public class GoCreateFromTemplateHandler extends DefaultCreateFromTemplateHandler {
+@ExtensionImpl
+public class GoCreateFromTemplateHandler implements CreateFromTemplateHandler {
   @Override
   public boolean handlesTemplate(FileTemplate template) {
     return template.isTemplateOfType(GoFileType.INSTANCE);

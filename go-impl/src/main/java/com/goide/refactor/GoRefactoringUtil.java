@@ -20,36 +20,33 @@ import com.goide.GoLanguage;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.GoTypeUtil;
-import com.intellij.codeInsight.PsiEquivalenceUtil;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.codeInsight.template.Expression;
-import com.intellij.codeInsight.template.ExpressionContext;
-import com.intellij.codeInsight.template.Result;
-import com.intellij.codeInsight.template.TextResult;
-import com.intellij.lang.LanguageNamesValidation;
-import com.intellij.lang.refactoring.NamesValidator;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiRecursiveElementVisitor;
-import com.intellij.psi.codeStyle.NameUtil;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.text.UniqueNameGenerator;
+import consulo.application.util.matcher.NameUtil;
+import consulo.component.util.text.UniqueNameGenerator;
+import consulo.language.editor.PsiEquivalenceUtil;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.editor.completion.lookup.LookupElementBuilder;
+import consulo.language.editor.refactoring.NamesValidator;
+import consulo.language.editor.template.Expression;
+import consulo.language.editor.template.ExpressionContext;
+import consulo.language.editor.template.Result;
+import consulo.language.editor.template.TextResult;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiRecursiveElementVisitor;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class GoRefactoringUtil {
-  private GoRefactoringUtil() {}
+  private GoRefactoringUtil() {
+  }
 
   @Nonnull
   public static List<PsiElement> getLocalOccurrences(@Nonnull PsiElement element) {
@@ -130,7 +127,7 @@ public class GoRefactoringUtil {
       assert file != null;
       PsiElement elementAt = file.findElementAt(offset);
 
-      Set<String> parameterNames = ContainerUtil.newHashSet();
+      Set<String> parameterNames = new HashSet<>();
       GoParameters parameters = PsiTreeUtil.getParentOfType(elementAt, GoParameters.class);
       if (parameters != null) {
         GoParamDefinition parameter = PsiTreeUtil.getParentOfType(elementAt, GoParamDefinition.class);
@@ -143,7 +140,7 @@ public class GoRefactoringUtil {
         }
       }
 
-      Set<LookupElement> set = ContainerUtil.newLinkedHashSet();
+      Set<LookupElement> set = new LinkedHashSet<>();
       for (String name : myNames) {
         set.add(LookupElementBuilder.create(UniqueNameGenerator.generateUniqueName(name, parameterNames)));
       }
@@ -158,8 +155,8 @@ public class GoRefactoringUtil {
       context = PsiTreeUtil.getParentOfType(context, GoBlock.class);
     }
     LinkedHashSet<String> usedNames = getNamesInContext(context);
-    LinkedHashSet<String> names = ContainerUtil.newLinkedHashSet();
-    NamesValidator namesValidator = LanguageNamesValidation.INSTANCE.forLanguage(GoLanguage.INSTANCE);
+    LinkedHashSet<String> names = new LinkedHashSet<>();
+    NamesValidator namesValidator = NamesValidator.forLanguage(GoLanguage.INSTANCE);
 
     if (expression instanceof GoCallExpr) {
       GoReferenceExpression callReference = PsiTreeUtil.getChildOfType(expression, GoReferenceExpression.class);
@@ -196,13 +193,13 @@ public class GoRefactoringUtil {
 
   @Nonnull
   private static LinkedHashSet<String> getNamesInContext(PsiElement context) {
-    if (context == null) return ContainerUtil.newLinkedHashSet();
-    LinkedHashSet<String> names = ContainerUtil.newLinkedHashSet();
+    if (context == null) return new LinkedHashSet<>();
+    LinkedHashSet<String> names = new LinkedHashSet<>();
 
     for (GoNamedElement namedElement : PsiTreeUtil.findChildrenOfType(context, GoNamedElement.class)) {
       names.add(namedElement.getName());
     }
-    names.addAll(((GoFile)context.getContainingFile()).getImportMap().keySet());
+    names.addAll(((GoFile) context.getContainingFile()).getImportMap().keySet());
 
     GoFunctionDeclaration functionDeclaration = PsiTreeUtil.getParentOfType(context, GoFunctionDeclaration.class);
     GoSignature signature = PsiTreeUtil.getChildOfType(functionDeclaration, GoSignature.class);

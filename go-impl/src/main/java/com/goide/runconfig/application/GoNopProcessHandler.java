@@ -16,9 +16,9 @@
 
 package com.goide.runconfig.application;
 
-import com.intellij.execution.process.ProcessHandler;
-import javax.annotation.Nullable;
+import consulo.process.ProcessHandler;
 
+import javax.annotation.Nullable;
 import java.io.OutputStream;
 
 // todo[zolotov]: replace with built-in implementation in 2017.1

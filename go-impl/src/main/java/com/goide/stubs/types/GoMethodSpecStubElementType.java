@@ -21,12 +21,12 @@ import com.goide.psi.impl.GoMethodSpecImpl;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.stubs.GoMethodSpecStub;
 import com.goide.stubs.index.GoMethodFingerprintIndex;
-import com.intellij.psi.stubs.IndexSink;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.stubs.StubInputStream;
-import com.intellij.psi.stubs.StubOutputStream;
-import javax.annotation.Nonnull;
+import consulo.language.psi.stub.IndexSink;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.stub.StubInputStream;
+import consulo.language.psi.stub.StubOutputStream;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoMethodSpecStubElementType extends GoNamedStubElementType<GoMethodSpecStub, GoMethodSpec> {

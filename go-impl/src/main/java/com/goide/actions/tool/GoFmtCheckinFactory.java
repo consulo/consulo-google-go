@@ -17,42 +17,44 @@
 package com.goide.actions.tool;
 
 import com.goide.psi.GoFile;
-import com.intellij.CommonBundle;
-import com.intellij.ide.util.PropertiesComponent;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vcs.CheckinProjectPanel;
-import com.intellij.openapi.vcs.changes.CommitContext;
-import com.intellij.openapi.vcs.changes.CommitExecutor;
-import com.intellij.openapi.vcs.checkin.CheckinHandler;
-import com.intellij.openapi.vcs.checkin.CheckinHandlerFactory;
-import com.intellij.openapi.vcs.ui.RefreshableOnComponent;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.util.PairConsumer;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.ui.UIUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.CommonBundle;
+import consulo.document.FileDocumentManager;
 import consulo.google.go.module.extension.GoModuleExtension;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.language.util.ModuleUtilCore;
 import consulo.module.extension.ModuleExtensionHelper;
-import javax.annotation.Nonnull;
+import consulo.project.ProjectPropertiesComponent;
+import consulo.ui.ex.awt.Messages;
+import consulo.ui.ex.awt.UIUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.function.PairConsumer;
+import consulo.util.lang.ref.Ref;
+import consulo.versionControlSystem.change.CommitContext;
+import consulo.versionControlSystem.change.CommitExecutor;
+import consulo.versionControlSystem.checkin.CheckinHandler;
+import consulo.versionControlSystem.checkin.CheckinHandlerFactory;
+import consulo.versionControlSystem.checkin.CheckinProjectPanel;
+import consulo.versionControlSystem.ui.RefreshableOnComponent;
+import consulo.virtualFileSystem.VirtualFile;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
 import java.util.List;
 
+@ExtensionImpl(order = "last")
 public class GoFmtCheckinFactory extends CheckinHandlerFactory {
   private static final String GO_FMT = "GO_FMT";
 
   @Override
   @Nullable
   public CheckinHandler createHandler(@Nonnull CheckinProjectPanel panel, @Nonnull CommitContext commitContext) {
-    if(!ModuleExtensionHelper.getInstance(panel.getProject()).hasModuleExtension(GoModuleExtension.class)) {
+    if (!ModuleExtensionHelper.getInstance(panel.getProject()).hasModuleExtension(GoModuleExtension.class)) {
       return null;
     }
     return new CheckinHandler() {
@@ -74,7 +76,7 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
 
           @Override
           public void saveState() {
-            PropertiesComponent.getInstance(panel.getProject()).setValue(GO_FMT, Boolean.toString(checkBox.isSelected()));
+            ProjectPropertiesComponent.getInstance(panel.getProject()).setValue(GO_FMT, Boolean.toString(checkBox.isSelected()));
           }
 
           @Override
@@ -92,9 +94,9 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
           for (PsiFile file : getPsiFiles()) {
             VirtualFile virtualFile = file.getVirtualFile();
             new GoFmtFileAction().doSomething(virtualFile, ModuleUtilCore.findModuleForPsiElement(file), file.getProject(), "Go fmt", true,
-                                              result -> {
-                                                if (!result) success.set(false);
-                                              });
+                result -> {
+                  if (!result) success.set(false);
+                });
           }
           if (!success.get()) {
             return showErrorMessage(executor);
@@ -107,9 +109,9 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
       private ReturnResult showErrorMessage(@Nullable CommitExecutor executor) {
         String[] buttons = new String[]{"&Details...", commitButtonMessage(executor, panel), CommonBundle.getCancelButtonText()};
         int answer = Messages.showDialog(panel.getProject(),
-                                         "<html><body>GoFmt returned non-zero code on some of the files.<br/>" +
-                                         "Would you like to commit anyway?</body></html>\n",
-                                         "Go Fmt", null, buttons, 0, 1, UIUtil.getWarningIcon());
+            "<html><body>GoFmt returned non-zero code on some of the files.<br/>" +
+                "Would you like to commit anyway?</body></html>\n",
+            "Go Fmt", null, buttons, 0, 1, UIUtil.getWarningIcon());
         if (answer == Messages.OK) {
           return ReturnResult.CLOSE_WINDOW;
         }
@@ -141,6 +143,6 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
   }
 
   private static boolean enabled(@Nonnull CheckinProjectPanel panel) {
-    return PropertiesComponent.getInstance(panel.getProject()).getBoolean(GO_FMT, false);
+    return ProjectPropertiesComponent.getInstance(panel.getProject()).getBoolean(GO_FMT, false);
   }
 }

@@ -16,8 +16,9 @@
 
 package com.goide;
 
-import com.intellij.lang.Language;
-import com.intellij.openapi.fileTypes.LanguageFileType;
+import consulo.language.Language;
+import consulo.language.file.LanguageFileType;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

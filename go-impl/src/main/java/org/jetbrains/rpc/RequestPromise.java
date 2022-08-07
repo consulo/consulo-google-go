@@ -1,7 +1,7 @@
 package org.jetbrains.rpc;
 
-import com.intellij.openapi.util.AsyncResult;
-import com.intellij.openapi.util.ThrowableComputable;
+import consulo.application.util.function.ThrowableComputable;
+import consulo.util.concurrent.AsyncResult;
 
 /**
  * @author VISTALL

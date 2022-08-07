@@ -16,21 +16,25 @@
 
 package com.goide.editor.smart;
 
+import com.goide.GoLanguage;
 import com.goide.inspections.GoDeferGoInspection;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoElementFactory;
-import com.intellij.lang.SmartEnterProcessorWithFixers;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.IncorrectOperationException;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.language.Language;
+import consulo.language.editor.action.SmartEnterProcessorWithFixers;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.IncorrectOperationException;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 
+@ExtensionImpl
 public class GoSmartEnterProcessor extends SmartEnterProcessorWithFixers {
   public GoSmartEnterProcessor() {
     addFixers(new IfFixer(), new ForFixer(), new FuncFixer(), new GoDeferExpressionFixer());
@@ -56,6 +60,12 @@ public class GoSmartEnterProcessor extends SmartEnterProcessorWithFixers {
         result.add(parent);
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 
   private static class GoDeferExpressionFixer extends Fixer<SmartEnterProcessorWithFixers> {

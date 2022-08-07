@@ -23,15 +23,15 @@ import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.runconfig.testing.*;
 import com.goide.stubs.index.GoPackagesIndex;
 import com.goide.util.GoUtil;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.execution.testframework.TestConsoleProperties;
-import com.intellij.execution.testframework.sm.runner.OutputToGeneralTestEventsConverter;
-import com.intellij.openapi.module.Module;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.stubs.StubIndex;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.execution.test.TestConsoleProperties;
+import consulo.execution.test.sm.runner.OutputToGeneralTestEventsConverter;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.stub.StubIndex;
+import consulo.module.Module;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.regex.Pattern;
 
 public class GocheckFramework extends GoTestFramework {

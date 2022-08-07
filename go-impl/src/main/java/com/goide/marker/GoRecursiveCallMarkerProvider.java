@@ -16,28 +16,30 @@
 
 package com.goide.marker;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
+import com.goide.GoLanguage;
 import com.goide.psi.GoCallExpr;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.codeHighlighting.Pass;
-import com.intellij.codeInsight.daemon.LineMarkerInfo;
-import com.intellij.codeInsight.daemon.LineMarkerProvider;
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.markup.GutterIconRenderer;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.FunctionUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.AllIcons;
+import consulo.codeEditor.markup.GutterIconRenderer;
+import consulo.document.Document;
+import consulo.language.Language;
+import consulo.language.editor.Pass;
+import consulo.language.editor.gutter.LineMarkerInfo;
+import consulo.language.editor.gutter.LineMarkerProvider;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.lang.Comparing;
 
+import javax.annotation.Nonnull;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@ExtensionImpl
 public class GoRecursiveCallMarkerProvider implements LineMarkerProvider {
   @Override
   public LineMarkerInfo getLineMarkerInfo(@Nonnull PsiElement element) {
@@ -46,12 +48,12 @@ public class GoRecursiveCallMarkerProvider implements LineMarkerProvider {
 
   @Override
   public void collectSlowLineMarkers(@Nonnull List<PsiElement> elements, @Nonnull Collection<LineMarkerInfo> result) {
-    Set<Integer> lines = ContainerUtil.newHashSet();
+    Set<Integer> lines = new HashSet<>();
     for (PsiElement element : elements) {
       if (element instanceof GoCallExpr) {
-        PsiElement resolve = GoPsiImplUtil.resolveCall((GoCallExpr)element);
+        PsiElement resolve = GoPsiImplUtil.resolveCall((GoCallExpr) element);
         if (resolve instanceof GoFunctionOrMethodDeclaration) {
-          if (isRecursiveCall(element, (GoFunctionOrMethodDeclaration)resolve)) {
+          if (isRecursiveCall(element, (GoFunctionOrMethodDeclaration) resolve)) {
             PsiDocumentManager instance = PsiDocumentManager.getInstance(element.getProject());
             Document document = instance.getDocument(element.getContainingFile());
             int textOffset = element.getTextOffset();
@@ -71,15 +73,21 @@ public class GoRecursiveCallMarkerProvider implements LineMarkerProvider {
     return Comparing.equal(PsiTreeUtil.getParentOfType(element, GoFunctionOrMethodDeclaration.class), function);
   }
 
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
+  }
+
   private static class RecursiveMethodCallMarkerInfo extends LineMarkerInfo<PsiElement> {
     private RecursiveMethodCallMarkerInfo(@Nonnull PsiElement methodCall) {
       super(methodCall,
-            methodCall.getTextRange(),
-            AllIcons.Gutter.RecursiveMethod,
-            Pass.LINE_MARKERS,
-            FunctionUtil.constant("Recursive call"),
-            null,
-            GutterIconRenderer.Alignment.RIGHT
+          methodCall.getTextRange(),
+          AllIcons.Gutter.RecursiveMethod,
+          Pass.LINE_MARKERS,
+          (e) -> "Recursive call",
+          null,
+          GutterIconRenderer.Alignment.RIGHT
       );
     }
   }

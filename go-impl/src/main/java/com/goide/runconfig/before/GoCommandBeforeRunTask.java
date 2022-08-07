@@ -16,8 +16,8 @@
 
 package com.goide.runconfig.before;
 
-import com.intellij.execution.BeforeRunTask;
-import com.intellij.openapi.util.text.StringUtil;
+import consulo.execution.BeforeRunTask;
+import consulo.util.lang.StringUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 

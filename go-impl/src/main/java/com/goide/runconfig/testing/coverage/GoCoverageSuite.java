@@ -16,14 +16,14 @@
 
 package com.goide.runconfig.testing.coverage;
 
+import consulo.execution.coverage.BaseCoverageSuite;
+import consulo.execution.coverage.CoverageEngine;
+import consulo.execution.coverage.CoverageFileProvider;
+import consulo.execution.coverage.CoverageRunner;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.intellij.coverage.BaseCoverageSuite;
-import com.intellij.coverage.CoverageEngine;
-import com.intellij.coverage.CoverageFileProvider;
-import com.intellij.coverage.CoverageRunner;
-import com.intellij.openapi.project.Project;
 
 public class GoCoverageSuite extends BaseCoverageSuite {
   public GoCoverageSuite() {

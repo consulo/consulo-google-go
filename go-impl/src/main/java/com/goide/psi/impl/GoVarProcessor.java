@@ -16,18 +16,17 @@
 
 package com.goide.psi.impl;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.*;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.lang.Comparing;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GoVarProcessor extends GoScopeProcessorBase {
   private final boolean myImShortVarDeclaration;
-  private final PsiElement myParentGuard; 
+  private final PsiElement myParentGuard;
   @Nullable private final GoCompositeElement myScope;
   
   public GoVarProcessor(@Nonnull PsiElement origin, boolean completion) {

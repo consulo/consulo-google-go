@@ -22,24 +22,22 @@ import com.goide.runconfig.testing.frameworks.gobench.GobenchFramework;
 import com.goide.runconfig.testing.frameworks.gocheck.GocheckFramework;
 import com.goide.runconfig.testing.frameworks.gotest.GotestFramework;
 import com.goide.runconfig.ui.GoCommonSettingsPanel;
-import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.options.SettingsEditor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.TextFieldWithBrowseButton;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.ui.EditorTextField;
-import com.intellij.ui.ListCellRendererWrapper;
+import consulo.configurable.ConfigurationException;
+import consulo.execution.configuration.ui.SettingsEditor;
+import consulo.language.editor.ui.awt.EditorTextField;
+import consulo.project.Project;
+import consulo.ui.ex.awt.*;
+import consulo.util.lang.StringUtil;
 import org.intellij.lang.regexp.RegExpLanguage;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import javax.swing.*;
 import java.util.Locale;
 
 public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunConfiguration> {
   @Nonnull
   private final Project myProject;
-  private JPanel myComponent;
   private EditorTextField myPatternEditor;
 
   private JComboBox myTestKindComboBox;
@@ -58,6 +56,30 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
   public GoTestRunConfigurationEditorForm(@Nonnull Project project) {
     super(null);
     myProject = project;
+    myCommonSettingsPanel = new GoCommonSettingsPanel() {
+      @Override
+      protected void addBefore(FormBuilder builder) {
+        JPanel frameworksPanel = new JPanel(new HorizontalLayout(5));
+        frameworksPanel.add(myGotestFrameworkRadioButton = new JRadioButton("gotest"));
+        frameworksPanel.add(myGocheckFrameworkRadioButton = new JRadioButton("gocheck"));
+        frameworksPanel.add(myGobenchRadioButton = new JRadioButton("gobench"));
+
+        ButtonGroup group = new ButtonGroup();
+        group.add(myGotestFrameworkRadioButton);
+        group.add(myGocheckFrameworkRadioButton);
+        group.add(myGobenchRadioButton);
+        builder.addLabeledComponent("Test framework:", frameworksPanel);
+
+        builder.addLabeledComponent("Test kind:", myTestKindComboBox = new ComboBox());
+
+        builder.addLabeledComponent(myDirectoryLabel = new JBLabel("Directory:"), myDirectoryField = new TextFieldWithBrowseButton());
+        myPackageField = new GoPackageFieldCompletionProvider(this::getSelectedModule).createEditor(project);
+        builder.addLabeledComponent(myPackageLabel = new JBLabel("Package:"), myPackageField);
+        builder.addLabeledComponent(myFileLabel = new JBLabel("File:"), myFileField = new TextFieldWithBrowseButton());
+        myPatternEditor = new EditorTextField("", null, RegExpLanguage.INSTANCE.getAssociatedFileType());
+        builder.addLabeledComponent(myPatternLabel = new JBLabel("Pattern:"), myPatternEditor);
+      }
+    };
     myCommonSettingsPanel.init(project);
 
     installTestKindComboBox();
@@ -123,18 +145,11 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
   @Nonnull
   @Override
   protected JComponent createEditor() {
-    return myComponent;
+    return myCommonSettingsPanel;
   }
 
   @Override
   protected void disposeEditor() {
-    myComponent.setVisible(false);
-  }
-
-  private void createUIComponents() {
-    myPatternEditor = new EditorTextField("", null, RegExpLanguage.INSTANCE.getAssociatedFileType());
-    myPackageField = new GoPackageFieldCompletionProvider(
-      () -> myCommonSettingsPanel != null ? myCommonSettingsPanel.getSelectedModule() : null).createEditor(myProject);
   }
 
   @Nullable

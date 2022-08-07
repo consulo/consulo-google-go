@@ -22,19 +22,19 @@ import com.goide.psi.GoCompositeElement;
 import com.goide.psi.GoNamedElement;
 import com.goide.psi.GoPackageClause;
 import com.goide.psi.GoVisitor;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiComment;
-import javax.annotation.Nonnull;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiComment;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
  * golint inspection from:
  * https://github.com/golang/lint/blob/32a87160691b3c96046c0c678fe57c5bef761456/lint.go#L744
  */
-public class GoCommentStartInspection extends GoInspectionBase {
+public abstract class GoCommentStartInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {

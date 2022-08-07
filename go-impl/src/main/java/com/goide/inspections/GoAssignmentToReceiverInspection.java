@@ -16,20 +16,17 @@
 
 package com.goide.inspections;
 
-import com.goide.psi.GoPointerType;
-import com.goide.psi.GoReceiver;
-import com.goide.psi.GoReferenceExpression;
-import com.goide.psi.GoUnaryExpr;
-import com.goide.psi.GoVisitor;
-import com.intellij.codeInsight.highlighting.ReadWriteAccessDetector;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiElement;
+import com.goide.psi.*;
+import consulo.language.editor.highlight.ReadWriteAccessDetector;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+
 import javax.annotation.Nonnull;
 
-import static com.intellij.codeInspection.ProblemHighlightType.WEAK_WARNING;
+import static consulo.language.editor.inspection.ProblemHighlightType.WEAK_WARNING;
 
-public class GoAssignmentToReceiverInspection extends GoInspectionBase {
+public abstract class GoAssignmentToReceiverInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {

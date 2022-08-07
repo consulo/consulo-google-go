@@ -19,8 +19,8 @@ package com.goide.runconfig.testing;
 import com.goide.runconfig.GoConfigurationFactoryBase;
 import com.goide.runconfig.before.GoBeforeRunTaskProvider;
 import com.goide.runconfig.before.GoCommandBeforeRunTask;
-import com.intellij.execution.BeforeRunTask;
-import com.intellij.execution.configurations.ConfigurationTypeBase;
+import consulo.execution.BeforeRunTask;
+import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.util.dataholder.Key;
 
 import javax.annotation.Nonnull;

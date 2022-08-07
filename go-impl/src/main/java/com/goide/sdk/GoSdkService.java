@@ -18,34 +18,35 @@ package com.goide.sdk;
 
 import com.goide.GoConstants;
 import com.goide.GoEnvironmentUtil;
-import com.intellij.execution.configurations.PathEnvironmentVariableUtil;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.SystemInfo;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.PathUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.application.util.SystemInfo;
 import consulo.disposer.Disposable;
 import consulo.disposer.Disposer;
+import consulo.ide.ServiceManager;
+import consulo.logging.Logger;
+import consulo.module.Module;
+import consulo.process.PathEnvironmentVariableUtil;
+import consulo.project.Project;
+import consulo.util.io.FileUtil;
+import consulo.util.io.PathUtil;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 import org.jetbrains.annotations.Contract;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.jetbrains.annotations.TestOnly;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.util.Set;
 
+@ServiceAPI(ComponentScope.PROJECT)
 public abstract class GoSdkService {
   public static final String LIBRARY_NAME = "Go SDK";
 
   public static final Logger LOG = Logger.getInstance(GoSdkService.class);
-  private static final Set<String> FEDORA_SUBDIRECTORIES = ContainerUtil.newHashSet("linux_amd64", "linux_386", "linux_arm");
+  private static final Set<String> FEDORA_SUBDIRECTORIES = Set.of("linux_amd64", "linux_386", "linux_arm");
   private static String ourTestSdkVersion;
 
   @Nonnull
@@ -64,7 +65,7 @@ public abstract class GoSdkService {
 
   @Nonnull
   public static String libraryRootToSdkPath(@Nonnull VirtualFile root) {
-    return VfsUtilCore.urlToPath(StringUtil.trimEnd(StringUtil.trimEnd(StringUtil.trimEnd(root.getUrl(), "src/pkg"), "src"), "/"));
+    return VirtualFileUtil.urlToPath(StringUtil.trimEnd(StringUtil.trimEnd(StringUtil.trimEnd(root.getUrl(), "src/pkg"), "src"), "/"));
   }
 
   @Nullable
@@ -161,8 +162,8 @@ public abstract class GoSdkService {
   public static boolean isGoSdkLibRoot(@Nonnull VirtualFile root) {
     return root.isInLocalFileSystem() &&
            root.isDirectory() &&
-           (VfsUtilCore.findRelativeFile(GoConstants.GO_VERSION_FILE_PATH, root) != null ||
-            VfsUtilCore.findRelativeFile(GoConstants.GO_VERSION_NEW_FILE_PATH, root) != null
+           (VirtualFileUtil.findRelativeFile(GoConstants.GO_VERSION_FILE_PATH, root) != null ||
+               VirtualFileUtil.findRelativeFile(GoConstants.GO_VERSION_NEW_FILE_PATH, root) != null
            );
   }
 }

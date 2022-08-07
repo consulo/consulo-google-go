@@ -17,27 +17,39 @@
 package com.goide.appengine;
 
 import com.goide.util.GoUtil;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Computable;
-import com.intellij.openapi.util.SimpleModificationTracker;
-import com.intellij.openapi.vfs.*;
-import com.intellij.psi.search.FilenameIndex;
-import com.intellij.psi.util.CachedValueProvider;
-import com.intellij.psi.util.CachedValuesManager;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.PathUtil;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
+import consulo.application.ApplicationManager;
+import consulo.application.util.CachedValueProvider;
+import consulo.application.util.CachedValuesManager;
+import consulo.application.util.function.Computable;
+import consulo.component.util.SimpleModificationTracker;
+import consulo.ide.ServiceManager;
+import consulo.language.psi.search.FilenameIndex;
+import consulo.module.Module;
+import consulo.project.Project;
 import consulo.util.dataholder.UserDataHolder;
+import consulo.util.io.PathUtil;
+import consulo.util.lang.ObjectUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.event.VirtualFileAdapter;
+import consulo.virtualFileSystem.event.VirtualFileCopyEvent;
+import consulo.virtualFileSystem.event.VirtualFileEvent;
+import consulo.virtualFileSystem.event.VirtualFileMoveEvent;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import jakarta.inject.Singleton;
 import java.util.Collection;
 
 @Singleton
+@ServiceAPI(ComponentScope.PROJECT)
+@ServiceImpl
 public class YamlFilesModificationTracker extends SimpleModificationTracker {
+  @Inject
   public YamlFilesModificationTracker(@Nonnull Project project) {
     VirtualFileManager.getInstance().addVirtualFileListener(new VirtualFileAdapter() {
       @Override
@@ -74,7 +86,7 @@ public class YamlFilesModificationTracker extends SimpleModificationTracker {
 
   @Nonnull
   public static Collection<VirtualFile> getYamlFiles(@Nonnull Project project, @Nullable Module module) {
-    UserDataHolder dataHolder = ObjectUtils.notNull(module, project);
+    UserDataHolder dataHolder = ObjectUtil.notNull(module, project);
     return CachedValuesManager.getManager(project).getCachedValue(dataHolder, () -> {
       Collection<VirtualFile> yamlFiles = ApplicationManager.getApplication().runReadAction(new Computable<Collection<VirtualFile>>() {
         @Override

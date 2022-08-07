@@ -1,4 +1,5 @@
 {
+  version="3"
   parserClass='com.goide.parser.GoParser'
   classHeader='copyrightHeader.java.ft'
 
@@ -302,7 +303,7 @@ Literal ::=
   | char
 
 StringLiteral ::= string | raw_string {
-  implements = "com.intellij.psi.PsiLanguageInjectionHost"
+  implements = "consulo.language.psi.PsiLanguageInjectionHost"
   methods = [isValidHost updateText createLiteralTextEscaper getDecodedText]
 }
 OperandName ::= ReferenceExpression QualifiedReferenceExpression? {elementType=ReferenceExpression}

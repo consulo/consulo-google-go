@@ -17,12 +17,14 @@
 package com.goide.runconfig.testing;
 
 import com.goide.GoIcons;
-import com.intellij.execution.configurations.ConfigurationTypeBase;
-import com.intellij.execution.configurations.RunConfiguration;
-import com.intellij.openapi.project.Project;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.execution.configuration.ConfigurationTypeBase;
+import consulo.execution.configuration.RunConfiguration;
+import consulo.project.Project;
 
 import javax.annotation.Nonnull;
 
+@ExtensionImpl
 public class GoTestRunConfigurationType extends ConfigurationTypeBase {
 
   public GoTestRunConfigurationType() {
@@ -38,6 +40,6 @@ public class GoTestRunConfigurationType extends ConfigurationTypeBase {
 
   @Nonnull
   public static GoTestRunConfigurationType getInstance() {
-    return CONFIGURATION_TYPE_EP.findExtensionOrFail(GoTestRunConfigurationType.class);
+    return EP_NAME.findExtensionOrFail(GoTestRunConfigurationType.class);
   }
 }

@@ -16,21 +16,20 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoDocumentationProvider;
 import com.goide.psi.*;
 import com.goide.quickfix.GoDeleteQuickFix;
-import com.intellij.codeInspection.CleanupLocalInspectionTool;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiComment;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
+import consulo.language.editor.inspection.CleanupLocalInspectionTool;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiComment;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
 
+import javax.annotation.Nonnull;
 
-public class GoEmptyDeclarationInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
+public abstract class GoEmptyDeclarationInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
 
   public final static String QUICK_FIX_NAME = "Delete empty declaration";
 

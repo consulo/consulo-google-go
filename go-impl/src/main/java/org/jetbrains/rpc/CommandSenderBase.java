@@ -1,6 +1,6 @@
 package org.jetbrains.rpc;
 
-import com.intellij.openapi.util.AsyncResult;
+import consulo.util.concurrent.AsyncResult;
 import org.jetbrains.jsonProtocol.Request;
 
 /**

@@ -19,9 +19,9 @@ package com.goide.codeInsight.unwrap;
 import com.goide.psi.GoArgumentList;
 import com.goide.psi.GoCallExpr;
 import com.goide.psi.GoExpression;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.ObjectUtils;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.IncorrectOperationException;
+import consulo.util.lang.ObjectUtil;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class GoFunctionArgumentUnwrapper extends GoUnwrapper {
   @Override
   protected void doUnwrap(PsiElement element, Context context) throws IncorrectOperationException {
     PsiElement parent = element.getParent();
-    GoCallExpr call = parent != null ? ObjectUtils.tryCast(parent.getParent(), GoCallExpr.class) : null;
+    GoCallExpr call = parent != null ? ObjectUtil.tryCast(parent.getParent(), GoCallExpr.class) : null;
     if (call != null) {
       context.extractElement(element, call);
       context.delete(call);

@@ -18,19 +18,18 @@ package com.goide.quickfix;
 
 import com.goide.psi.GoConditionalExpr;
 import com.goide.psi.GoStringLiteral;
-import com.intellij.codeInspection.LocalQuickFixBase;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.ElementManipulators;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.language.editor.inspection.LocalQuickFixBase;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.psi.ElementManipulators;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 
 import static com.goide.psi.impl.GoElementFactory.createExpression;
 import static com.goide.psi.impl.GoPsiImplUtil.isSingleCharLiteral;
-import static java.lang.String.format;
 
 public class GoConvertStringToByteQuickFix extends LocalQuickFixBase {
   public static final String NAME = "Convert string to byte";
@@ -56,6 +55,6 @@ public class GoConvertStringToByteQuickFix extends LocalQuickFixBase {
 
   @Nonnull
   private static String extractSingleCharFromText(@Nonnull GoStringLiteral element) {
-    return format("'%s'", ElementManipulators.getValueText(element));
+    return String.format("'%s'", ElementManipulators.getValueText(element));
   }
 }

@@ -17,17 +17,19 @@
 package com.goide.refactor;
 
 import com.goide.psi.*;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.search.SearchScope;
-import com.intellij.psi.search.searches.ReferencesSearch;
-import com.intellij.refactoring.rename.RenamePsiElementProcessor;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.Query;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.util.query.Query;
+import consulo.content.scope.SearchScope;
+import consulo.language.editor.refactoring.rename.RenamePsiElementProcessor;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.language.psi.search.ReferencesSearch;
+import consulo.util.lang.ObjectUtil;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
 
+@ExtensionImpl
 public class GoAnonymousFieldProcessor extends RenamePsiElementProcessor {
   @Override
   public boolean canProcessElement(@Nonnull PsiElement element) {
@@ -45,7 +47,7 @@ public class GoAnonymousFieldProcessor extends RenamePsiElementProcessor {
         PsiElement type = refElement == null ? null : refElement.getParent();
         if (!(type instanceof GoType)) continue;
         PsiElement typeParent = type.getParent();
-        GoPointerType pointer = ObjectUtils.tryCast(typeParent, GoPointerType.class);
+        GoPointerType pointer = ObjectUtil.tryCast(typeParent, GoPointerType.class);
         PsiElement anon = pointer != null ? pointer.getParent() : typeParent;
         if (anon instanceof GoAnonymousFieldDefinition) {
           allRenames.put(anon, newName);

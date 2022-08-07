@@ -16,18 +16,17 @@
 
 package com.goide.runconfig.testing.coverage;
 
-import com.intellij.openapi.util.Factory;
 import com.intellij.rt.coverage.data.CoverageData;
 import com.intellij.rt.coverage.data.ProjectData;
-import com.intellij.util.Processor;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.application.util.function.Processor;
 
+import javax.annotation.Nonnull;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GoCoverageProjectData extends ProjectData {
   @Nonnull
-  private final Map<String, FileData> myFilesData = ContainerUtil.newHashMap();
+  private final Map<String, FileData> myFilesData = new HashMap<>();
 
   public void processFiles(@Nonnull Processor<FileData> processor) {
     for (FileData fileData : myFilesData.values()) {
@@ -49,12 +48,7 @@ public class GoCoverageProjectData extends ProjectData {
   }
 
   public void addData(String filePath, int startLine, int startColumn, int endLine, int endColumn, int statements, int hits) {
-    FileData fileData = ContainerUtil.getOrCreate(myFilesData, filePath, new Factory<FileData>() {
-      @Override
-      public FileData create() {
-        return new FileData(filePath);
-      }
-    });
+    FileData fileData = myFilesData.computeIfAbsent(filePath, FileData::new);
     fileData.add(startLine, startColumn, endLine, endColumn, statements, hits);
   }
 
@@ -62,7 +56,7 @@ public class GoCoverageProjectData extends ProjectData {
   public void merge(CoverageData data) {
     super.merge(data);
     if (data instanceof GoCoverageProjectData) {
-      for (Map.Entry<String, FileData> entry : ((GoCoverageProjectData)data).myFilesData.entrySet()) {
+      for (Map.Entry<String, FileData> entry : ((GoCoverageProjectData) data).myFilesData.entrySet()) {
         String filePath = entry.getKey();
         FileData fileData = myFilesData.get(filePath);
         FileData fileDataToMerge = entry.getValue();
@@ -71,16 +65,14 @@ public class GoCoverageProjectData extends ProjectData {
             RangeData existingRangeData = fileData.myRangesData.get(dataEntry.getKey());
             if (existingRangeData != null) {
               fileData.myRangesData.put(dataEntry.getKey(),
-                                        new RangeData(existingRangeData.startLine, existingRangeData.startColumn, existingRangeData.endLine,
-                                                      existingRangeData.endColumn, existingRangeData.statements,
-                                                      existingRangeData.hits + dataEntry.getValue().hits));
-            }
-            else {
+                  new RangeData(existingRangeData.startLine, existingRangeData.startColumn, existingRangeData.endLine,
+                      existingRangeData.endColumn, existingRangeData.statements,
+                      existingRangeData.hits + dataEntry.getValue().hits));
+            } else {
               fileData.myRangesData.put(dataEntry.getKey(), dataEntry.getValue());
             }
           }
-        }
-        else {
+        } else {
           myFilesData.put(filePath, fileDataToMerge);
         }
       }
@@ -92,7 +84,7 @@ public class GoCoverageProjectData extends ProjectData {
     if (this == o) return true;
     if (!(o instanceof GoCoverageProjectData)) return false;
 
-    GoCoverageProjectData data = (GoCoverageProjectData)o;
+    GoCoverageProjectData data = (GoCoverageProjectData) o;
     return myFilesData.equals(data.myFilesData);
   }
 
@@ -105,7 +97,7 @@ public class GoCoverageProjectData extends ProjectData {
     @Nonnull
     public final String myFilePath;
     @Nonnull
-    public final Map<String, RangeData> myRangesData = ContainerUtil.newHashMap();
+    public final Map<String, RangeData> myRangesData = new HashMap<>();
 
     public FileData(@Nonnull String filePath) {
       myFilePath = filePath;
@@ -113,7 +105,7 @@ public class GoCoverageProjectData extends ProjectData {
 
     public void add(int startLine, int startColumn, int endLine, int endColumn, int statements, int hits) {
       myRangesData.put(rangeKey(startLine, startColumn, endLine, endColumn),
-                       new RangeData(startLine, startColumn, endLine, endColumn, statements, hits));
+          new RangeData(startLine, startColumn, endLine, endColumn, statements, hits));
     }
 
     @Override
@@ -121,7 +113,7 @@ public class GoCoverageProjectData extends ProjectData {
       if (this == o) return true;
       if (!(o instanceof FileData)) return false;
 
-      FileData fileData = (FileData)o;
+      FileData fileData = (FileData) o;
 
       if (!myFilePath.equals(fileData.myFilePath)) return false;
       return myRangesData.equals(fileData.myRangesData);
@@ -157,7 +149,7 @@ public class GoCoverageProjectData extends ProjectData {
       if (this == o) return true;
       if (!(o instanceof RangeData)) return false;
 
-      RangeData data = (RangeData)o;
+      RangeData data = (RangeData) o;
 
       if (startLine != data.startLine) return false;
       if (startColumn != data.startColumn) return false;

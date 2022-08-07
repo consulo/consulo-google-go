@@ -16,20 +16,24 @@
 
 package com.goide.codeInsight;
 
+import com.goide.GoLanguage;
 import com.goide.psi.GoTopLevelDeclaration;
 import com.goide.psi.GoType;
 import com.goide.psi.GoTypeOwner;
-import com.intellij.lang.ExpressionTypeProvider;
-import com.intellij.openapi.util.Conditions;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiWhiteSpace;
-import com.intellij.psi.SyntaxTraverser;
-import com.intellij.psi.util.PsiTreeUtil;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.ExpressionTypeProvider;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiWhiteSpace;
+import consulo.language.psi.SyntaxTraverser;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.function.Conditions;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
+@ExtensionImpl
 public class GoExpressionTypeProvider extends ExpressionTypeProvider<GoTypeOwner> {
   @Nonnull
   @Override
@@ -52,5 +56,11 @@ public class GoExpressionTypeProvider extends ExpressionTypeProvider<GoTypeOwner
     }
     return SyntaxTraverser.psiApi().parents(at).takeWhile(Conditions.notInstanceOf(GoTopLevelDeclaration.class))
       .filter(GoTypeOwner.class).toList();
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

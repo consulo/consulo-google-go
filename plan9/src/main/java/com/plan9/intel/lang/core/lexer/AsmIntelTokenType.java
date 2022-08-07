@@ -16,11 +16,11 @@
 
 package com.plan9.intel.lang.core.lexer;
 
-import javax.annotation.Nonnull;
-
 import com.plan9.intel.lang.AsmIntelLanguage;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
 import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
 
 public class AsmIntelTokenType extends IElementType {
   public AsmIntelTokenType(@Nonnull @NonNls String debugName) {

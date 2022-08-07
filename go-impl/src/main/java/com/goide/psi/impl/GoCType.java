@@ -17,7 +17,7 @@
 package com.goide.psi.impl;
 
 import com.goide.psi.GoCompositeElement;
-import com.intellij.psi.PsiElement;
+import consulo.language.psi.PsiElement;
 
 import javax.annotation.Nonnull;
 

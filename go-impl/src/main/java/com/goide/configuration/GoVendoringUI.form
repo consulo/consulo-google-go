@@ -8,13 +8,12 @@
     <properties/>
     <border type="none" title="Vendor experiment"/>
     <children>
-      <component id="36138" class="com.intellij.openapi.ui.ComboBox" binding="myVendoringEnabledCombo">
+      <component id="36138" class="consulo.ui.ex.awt.ComboBox" binding="myVendoringEnabledCombo">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="250" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
       </component>
       <component id="ddda9" class="javax.swing.JLabel">
         <constraints>
@@ -29,18 +28,17 @@
           <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
       </hspacer>
-      <component id="2307f" class="com.intellij.ui.components.JBLabel" binding="myErrorMessageLabel">
+      <component id="2307f" class="consulo.ui.ex.awt.JBLabel" binding="myErrorMessageLabel">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <componentStyle value="SMALL"/>
           <fontColor value="BRIGHTER"/>
         </properties>
       </component>
       <component id="904a5" class="javax.swing.JTextPane" binding="myDescriptionPane" custom-create="true" default-binding="true">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
@@ -48,7 +46,7 @@
           <contentType value="text/html"/>
           <editable value="false"/>
           <opaque value="false"/>
-          <text value="&lt;html&gt;&#10;  &lt;head&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;    &lt;p&gt;&#10;      With this option enabled IDE will resolve and complete symbols according &#10;      to &lt;a href=&quot;https://golang.org/s/go15vendor&quot;&gt;Go Vendoring Experiment &#10;      Proposal&lt;/a&gt;.&#10;    &lt;/p&gt;&#10;    &lt;p&gt;&#10;      Also corrensponding value of &lt;strong&gt;GO15VENDOREXPERIMENT&lt;/strong&gt; &#10;      environment variable will be set for all go executions from IDE.&#10;    &lt;/p&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;"/>
+          <text value="&lt;html&gt;&#13;&#10;  &lt;head&gt;&#13;&#10;&#13;&#10;  &lt;/head&gt;&#13;&#10;  &lt;body&gt;&#13;&#10;    &lt;p style=&quot;margin-top: 0&quot;&gt;&#13;&#10;      &#13;&#10;    &lt;/p&gt;&#13;&#10;  &lt;/body&gt;&#13;&#10;&lt;/html&gt;&#13;&#10;"/>
         </properties>
       </component>
     </children>

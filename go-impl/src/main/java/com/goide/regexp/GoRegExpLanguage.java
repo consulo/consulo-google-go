@@ -16,7 +16,7 @@
 
 package com.goide.regexp;
 
-import com.intellij.lang.Language;
+import consulo.language.Language;
 import org.intellij.lang.regexp.RegExpLanguage;
 
 public class GoRegExpLanguage extends Language {

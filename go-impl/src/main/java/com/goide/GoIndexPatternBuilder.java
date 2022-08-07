@@ -16,16 +16,18 @@
 
 package com.goide;
 
+import com.goide.psi.GoFile;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenSet;
+import consulo.language.lexer.Lexer;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.search.IndexPatternBuilder;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.goide.psi.GoFile;
-import com.intellij.lexer.Lexer;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.impl.search.IndexPatternBuilder;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
-
+@ExtensionImpl
 public class GoIndexPatternBuilder implements IndexPatternBuilder {
   @Nullable
   @Override

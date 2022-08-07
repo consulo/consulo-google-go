@@ -20,15 +20,15 @@ import com.goide.inspections.GoInspectionBase;
 import com.goide.psi.GoConstDefinition;
 import com.goide.psi.GoReferenceExpression;
 import com.goide.psi.GoVisitor;
-import com.intellij.codeInsight.highlighting.ReadWriteAccessDetector;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiElement;
+import consulo.language.editor.highlight.ReadWriteAccessDetector;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+
 import javax.annotation.Nonnull;
 
-import static com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
-
-public class GoAssignmentToConstantInspection extends GoInspectionBase {
+public abstract class GoAssignmentToConstantInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -39,7 +39,7 @@ public class GoAssignmentToConstantInspection extends GoInspectionBase {
         if (o.getReadWriteAccess() != ReadWriteAccessDetector.Access.Read) {
           PsiElement resolve = o.resolve();
           if (resolve instanceof GoConstDefinition) {
-            holder.registerProblem(o, "Cannot assign to constant", GENERIC_ERROR_OR_WARNING);
+            holder.registerProblem(o, "Cannot assign to constant", ProblemHighlightType.GENERIC_ERROR_OR_WARNING);
           }
         }
       }

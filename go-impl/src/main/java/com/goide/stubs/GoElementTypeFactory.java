@@ -20,8 +20,8 @@ import com.goide.psi.GoType;
 import com.goide.psi.GoVarSpec;
 import com.goide.psi.impl.*;
 import com.goide.stubs.types.*;
-import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.util.ReflectionUtil;
+import consulo.language.psi.stub.IStubElementType;
+import consulo.util.lang.reflect.ReflectionUtil;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

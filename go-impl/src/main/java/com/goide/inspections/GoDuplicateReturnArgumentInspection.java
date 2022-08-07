@@ -17,15 +17,16 @@
 package com.goide.inspections;
 
 import com.goide.psi.*;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.util.collection.ContainerUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class GoDuplicateReturnArgumentInspection extends GoDuplicateArgumentInspection {
+public abstract class GoDuplicateReturnArgumentInspection extends GoDuplicateArgumentInspection {
   @Override
   public void check(@Nullable GoSignature o, @Nonnull ProblemsHolder holder) {
     if (o == null) return;
@@ -41,7 +42,7 @@ public class GoDuplicateReturnArgumentInspection extends GoDuplicateArgumentInsp
   @Nonnull
   private static Set<String> getParamNames(@Nonnull GoSignature o) {
     List<GoParameterDeclaration> params = o.getParameters().getParameterDeclarationList();
-    Set<String> names = ContainerUtil.newLinkedHashSet();
+    Set<String> names = new LinkedHashSet<>();
     for (GoParameterDeclaration fp : params) {
       for (GoParamDefinition parameter : fp.getParamDefinitionList()) {
         if (parameter.isBlank()) continue;

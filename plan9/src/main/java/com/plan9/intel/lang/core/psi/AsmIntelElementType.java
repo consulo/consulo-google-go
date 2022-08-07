@@ -17,8 +17,9 @@
 package com.plan9.intel.lang.core.psi;
 
 import com.plan9.intel.lang.AsmIntelLanguage;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
 import org.jetbrains.annotations.NonNls;
+
 import javax.annotation.Nonnull;
 
 public class AsmIntelElementType extends IElementType {

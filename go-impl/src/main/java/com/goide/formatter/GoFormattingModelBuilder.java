@@ -18,17 +18,16 @@ package com.goide.formatter;
 
 import com.goide.GoLanguage;
 import com.goide.psi.*;
-import com.intellij.formatting.*;
-import com.intellij.formatting.alignment.AlignmentStrategy;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.TokenType;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.document.util.TextRange;
+import consulo.language.Language;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenSet;
+import consulo.language.ast.TokenType;
+import consulo.language.codeStyle.*;
+import consulo.language.psi.PsiElement;
+import consulo.util.collection.ContainerUtil;
 import consulo.util.dataholder.Key;
 import consulo.util.dataholder.UserDataHolderBase;
 
@@ -40,152 +39,155 @@ import java.util.List;
 import static com.goide.GoParserDefinition.*;
 import static com.goide.GoTypes.*;
 
+@ExtensionImpl
 public class GoFormattingModelBuilder implements FormattingModelBuilder {
   @Nonnull
   private static SpacingBuilder createSpacingBuilder(@Nonnull CodeStyleSettings settings) {
     return new SpacingBuilder(settings, GoLanguage.INSTANCE)
-      .before(COMMA).spaceIf(false)
-      .after(COMMA).spaceIf(true)
-      .betweenInside(SEMICOLON, SEMICOLON, FOR_CLAUSE).spaces(1)
-      .before(SEMICOLON).spaceIf(false)
-      .after(SEMICOLON).spaceIf(true)
-      .beforeInside(DOT, IMPORT_SPEC).none()
-      .afterInside(DOT, IMPORT_SPEC).spaces(1)
-      .around(DOT).none()
-      .around(ASSIGN).spaces(1)
-      .around(VAR_ASSIGN).spaces(1)
-      .aroundInside(MUL, POINTER_TYPE).none()
-      .before(ARGUMENT_LIST).none()
-      .before(BUILTIN_ARGUMENT_LIST).none()
-      .afterInside(LPAREN, ARGUMENT_LIST).none()
-      .beforeInside(RPAREN, ARGUMENT_LIST).none()
-      .afterInside(LPAREN, BUILTIN_ARGUMENT_LIST).none()
-      .beforeInside(RPAREN, BUILTIN_ARGUMENT_LIST).none()
-      .before(SIGNATURE).none()
-      .afterInside(LPAREN, TYPE_ASSERTION_EXPR).none()
-      .beforeInside(RPAREN, TYPE_ASSERTION_EXPR).none()
-      .afterInside(LPAREN, PARAMETERS).none()
-      .beforeInside(RPAREN, PARAMETERS).none()
-      .afterInside(LPAREN, RESULT).none()
-      .beforeInside(RPAREN, RESULT).none()
-      .between(PARAMETERS, RESULT).spaces(1)
-      .before(BLOCK).spaces(1)
-      .after(FUNC).spaces(1)
-      .after(PACKAGE).spaces(1)
-      .after(IMPORT).spaces(1)
-      .after(CONST).spaces(1)
-      .after(VAR).spaces(1)
-      .after(STRUCT).spaces(1)
-      .after(INTERFACE).spaces(1)
-      .after(RETURN).spaces(1)
-      .after(GO).spaces(1)
-      .after(DEFER).spaces(1)
-      .after(FALLTHROUGH).spaces(1)
-      .after(GOTO).spaces(1)
-      .after(CONTINUE).spaces(1)
-      .after(BREAK).spaces(1)
-      .after(SELECT).spaces(1)
-      .after(FOR).spaces(1)
-      .after(IF).spaces(1)
-      .after(ELSE).spaces(1)
-      .before(ELSE_STATEMENT).spaces(1)
-      .after(CASE).spaces(1)
-      .after(RANGE).spaces(1)
-      .after(SWITCH).spaces(1)
-      .afterInside(SEND_CHANNEL, UNARY_EXPR).none()
-      .aroundInside(SEND_CHANNEL, SEND_STATEMENT).spaces(1)
-      .afterInside(CHAN, CHANNEL_TYPE).spaces(1)
-      .afterInside(MAP, MAP_TYPE).none()
-      .aroundInside(LBRACK, MAP_TYPE).none()
-      .aroundInside(RBRACK, MAP_TYPE).none()
-      .beforeInside(LITERAL_VALUE, COMPOSITE_LIT).none()
-      .afterInside(LBRACE, LITERAL_VALUE).none()
-      .beforeInside(LBRACE, LITERAL_VALUE).none()
-      .afterInside(BIT_AND, UNARY_EXPR).none()
-      .after(LINE_COMMENT).lineBreakInCode()
-      .after(MULTILINE_COMMENT).lineBreakInCode()
-      .between(COMM_CASE, COLON).none()
-      .afterInside(COLON, COMM_CLAUSE).lineBreakInCode()
-      .betweenInside(FIELD_DECLARATION, LINE_COMMENT, STRUCT_TYPE).spaces(1)
-      .betweenInside(FIELD_DECLARATION, MULTILINE_COMMENT, STRUCT_TYPE).spaces(1)
-      .betweenInside(LBRACK, RBRACK, ARRAY_OR_SLICE_TYPE).none()
-      .around(ASSIGN_OP).spaces(1)
-      .aroundInside(OPERATORS, TokenSet.create(MUL_EXPR, ADD_EXPR, OR_EXPR, CONDITIONAL_EXPR)).spaces(1)
+        .before(COMMA).spaceIf(false)
+        .after(COMMA).spaceIf(true)
+        .betweenInside(SEMICOLON, SEMICOLON, FOR_CLAUSE).spaces(1)
+        .before(SEMICOLON).spaceIf(false)
+        .after(SEMICOLON).spaceIf(true)
+        .beforeInside(DOT, IMPORT_SPEC).none()
+        .afterInside(DOT, IMPORT_SPEC).spaces(1)
+        .around(DOT).none()
+        .around(ASSIGN).spaces(1)
+        .around(VAR_ASSIGN).spaces(1)
+        .aroundInside(MUL, POINTER_TYPE).none()
+        .before(ARGUMENT_LIST).none()
+        .before(BUILTIN_ARGUMENT_LIST).none()
+        .afterInside(LPAREN, ARGUMENT_LIST).none()
+        .beforeInside(RPAREN, ARGUMENT_LIST).none()
+        .afterInside(LPAREN, BUILTIN_ARGUMENT_LIST).none()
+        .beforeInside(RPAREN, BUILTIN_ARGUMENT_LIST).none()
+        .before(SIGNATURE).none()
+        .afterInside(LPAREN, TYPE_ASSERTION_EXPR).none()
+        .beforeInside(RPAREN, TYPE_ASSERTION_EXPR).none()
+        .afterInside(LPAREN, PARAMETERS).none()
+        .beforeInside(RPAREN, PARAMETERS).none()
+        .afterInside(LPAREN, RESULT).none()
+        .beforeInside(RPAREN, RESULT).none()
+        .between(PARAMETERS, RESULT).spaces(1)
+        .before(BLOCK).spaces(1)
+        .after(FUNC).spaces(1)
+        .after(PACKAGE).spaces(1)
+        .after(IMPORT).spaces(1)
+        .after(CONST).spaces(1)
+        .after(VAR).spaces(1)
+        .after(STRUCT).spaces(1)
+        .after(INTERFACE).spaces(1)
+        .after(RETURN).spaces(1)
+        .after(GO).spaces(1)
+        .after(DEFER).spaces(1)
+        .after(FALLTHROUGH).spaces(1)
+        .after(GOTO).spaces(1)
+        .after(CONTINUE).spaces(1)
+        .after(BREAK).spaces(1)
+        .after(SELECT).spaces(1)
+        .after(FOR).spaces(1)
+        .after(IF).spaces(1)
+        .after(ELSE).spaces(1)
+        .before(ELSE_STATEMENT).spaces(1)
+        .after(CASE).spaces(1)
+        .after(RANGE).spaces(1)
+        .after(SWITCH).spaces(1)
+        .afterInside(SEND_CHANNEL, UNARY_EXPR).none()
+        .aroundInside(SEND_CHANNEL, SEND_STATEMENT).spaces(1)
+        .afterInside(CHAN, CHANNEL_TYPE).spaces(1)
+        .afterInside(MAP, MAP_TYPE).none()
+        .aroundInside(LBRACK, MAP_TYPE).none()
+        .aroundInside(RBRACK, MAP_TYPE).none()
+        .beforeInside(LITERAL_VALUE, COMPOSITE_LIT).none()
+        .afterInside(LBRACE, LITERAL_VALUE).none()
+        .beforeInside(LBRACE, LITERAL_VALUE).none()
+        .afterInside(BIT_AND, UNARY_EXPR).none()
+        .after(LINE_COMMENT).lineBreakInCode()
+        .after(MULTILINE_COMMENT).lineBreakInCode()
+        .between(COMM_CASE, COLON).none()
+        .afterInside(COLON, COMM_CLAUSE).lineBreakInCode()
+        .betweenInside(FIELD_DECLARATION, LINE_COMMENT, STRUCT_TYPE).spaces(1)
+        .betweenInside(FIELD_DECLARATION, MULTILINE_COMMENT, STRUCT_TYPE).spaces(1)
+        .betweenInside(LBRACK, RBRACK, ARRAY_OR_SLICE_TYPE).none()
+        .around(ASSIGN_OP).spaces(1)
+        .aroundInside(OPERATORS, TokenSet.create(MUL_EXPR, ADD_EXPR, OR_EXPR, CONDITIONAL_EXPR)).spaces(1)
 
-      .betweenInside(LBRACE, RBRACE, BLOCK).spacing(0, 0, 0, true, 1)
-      .afterInside(LBRACE, BLOCK).spacing(0, 0, 1, true, 1)
-      .beforeInside(RBRACE, BLOCK).spacing(0, 0, 1, true, 1)
-      
-      .betweenInside(LPAREN, RPAREN, IMPORT_DECLARATION).spacing(0, 0, 0, false, 0)
-      .afterInside(LPAREN, IMPORT_DECLARATION).spacing(0, 0, 1, false, 0)
-      .beforeInside(RPAREN, IMPORT_DECLARATION).spacing(0, 0, 1, false, 0)
-      .between(IMPORT_SPEC, IMPORT_SPEC).spacing(0, 0, 1, true, 1)
-      
-      .betweenInside(LPAREN, RPAREN, VAR_DECLARATION).spacing(0, 0, 0, false, 0)
-      .afterInside(LPAREN, VAR_DECLARATION).spacing(0, 0, 1, false, 0)
-      .beforeInside(RPAREN, VAR_DECLARATION).spacing(0, 0, 1, false, 0)
-      .beforeInside(TYPE, VAR_SPEC).spaces(1)
-      .between(VAR_SPEC, VAR_SPEC).spacing(0, 0, 1, true, 1)
-      
-      .betweenInside(LPAREN, RPAREN, CONST_DECLARATION).spacing(0, 0, 0, false, 0)
-      .afterInside(LPAREN, CONST_DECLARATION).spacing(0, 0, 1, false, 0)
-      .beforeInside(RPAREN, CONST_DECLARATION).spacing(0, 0, 1, false, 0)
-      .beforeInside(TYPE, CONST_SPEC).spaces(1)
-      .between(CONST_SPEC, CONST_SPEC).spacing(0, 0, 1, true, 1)
-      
-      .between(FIELD_DECLARATION, FIELD_DECLARATION).spacing(0, 0, 1, true, 1)
-      .between(METHOD_SPEC, METHOD_SPEC).spacing(0, 0, 1, true, 1)
-      ;
+        .betweenInside(LBRACE, RBRACE, BLOCK).spacing(0, 0, 0, true, 1)
+        .afterInside(LBRACE, BLOCK).spacing(0, 0, 1, true, 1)
+        .beforeInside(RBRACE, BLOCK).spacing(0, 0, 1, true, 1)
+
+        .betweenInside(LPAREN, RPAREN, IMPORT_DECLARATION).spacing(0, 0, 0, false, 0)
+        .afterInside(LPAREN, IMPORT_DECLARATION).spacing(0, 0, 1, false, 0)
+        .beforeInside(RPAREN, IMPORT_DECLARATION).spacing(0, 0, 1, false, 0)
+        .between(IMPORT_SPEC, IMPORT_SPEC).spacing(0, 0, 1, true, 1)
+
+        .betweenInside(LPAREN, RPAREN, VAR_DECLARATION).spacing(0, 0, 0, false, 0)
+        .afterInside(LPAREN, VAR_DECLARATION).spacing(0, 0, 1, false, 0)
+        .beforeInside(RPAREN, VAR_DECLARATION).spacing(0, 0, 1, false, 0)
+        .beforeInside(TYPE, VAR_SPEC).spaces(1)
+        .between(VAR_SPEC, VAR_SPEC).spacing(0, 0, 1, true, 1)
+
+        .betweenInside(LPAREN, RPAREN, CONST_DECLARATION).spacing(0, 0, 0, false, 0)
+        .afterInside(LPAREN, CONST_DECLARATION).spacing(0, 0, 1, false, 0)
+        .beforeInside(RPAREN, CONST_DECLARATION).spacing(0, 0, 1, false, 0)
+        .beforeInside(TYPE, CONST_SPEC).spaces(1)
+        .between(CONST_SPEC, CONST_SPEC).spacing(0, 0, 1, true, 1)
+
+        .between(FIELD_DECLARATION, FIELD_DECLARATION).spacing(0, 0, 1, true, 1)
+        .between(METHOD_SPEC, METHOD_SPEC).spacing(0, 0, 1, true, 1)
+        ;
   }
 
   @Nonnull
   @Override
-  public FormattingModel createModel(@Nonnull PsiElement element, @Nonnull CodeStyleSettings settings) {
+  public FormattingModel createModel(@Nonnull FormattingContext formattingContext) {
+    PsiElement element = formattingContext.getPsiElement();
+    CodeStyleSettings settings = formattingContext.getCodeStyleSettings();
     Block block = new GoFormattingBlock(element.getNode(), null, Indent.getNoneIndent(), null, settings, createSpacingBuilder(settings));
     return FormattingModelProvider.createFormattingModelForPsiFile(element.getContainingFile(), block, settings);
   }
 
-  @Nullable
+  @Nonnull
   @Override
-  public TextRange getRangeAffectingIndent(PsiFile file, int offset, ASTNode elementAtOffset) {
-    return null;
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 
   private static class GoFormattingBlock extends UserDataHolderBase implements ASTBlock {
     private static final TokenSet BLOCKS_TOKEN_SET = TokenSet.create(
-      BLOCK,
-      STRUCT_TYPE,
-      INTERFACE_TYPE,
-      SELECT_STATEMENT,
-      EXPR_CASE_CLAUSE,
-      TYPE_CASE_CLAUSE,
-      LITERAL_VALUE
+        BLOCK,
+        STRUCT_TYPE,
+        INTERFACE_TYPE,
+        SELECT_STATEMENT,
+        EXPR_CASE_CLAUSE,
+        TYPE_CASE_CLAUSE,
+        LITERAL_VALUE
     );
 
     private static final TokenSet BRACES_TOKEN_SET = TokenSet.create(
-      LBRACE,
-      RBRACE,
-      LBRACK,
-      RBRACK,
-      LPAREN,
-      RPAREN
+        LBRACE,
+        RBRACE,
+        LBRACK,
+        RBRACK,
+        LPAREN,
+        RPAREN
     );
     private static final Key<Alignment> TYPE_ALIGNMENT_INSIDE_STRUCT = Key.create("TYPE_ALIGNMENT_INSIDE_STRUCT");
 
     @Nonnull
-	private final ASTNode myNode;
+    private final ASTNode myNode;
     @Nullable
-	private final Alignment myAlignment;
+    private final Alignment myAlignment;
     @Nullable
-	private final Indent myIndent;
+    private final Indent myIndent;
     @Nullable
-	private final Wrap myWrap;
+    private final Wrap myWrap;
     @Nonnull
-	private final CodeStyleSettings mySettings;
+    private final CodeStyleSettings mySettings;
     @Nonnull
-	private final SpacingBuilder mySpacingBuilder;
+    private final SpacingBuilder mySpacingBuilder;
     @Nullable
-	private List<Block> mySubBlocks;
+    private List<Block> mySubBlocks;
 
     private GoFormattingBlock(@Nonnull ASTNode node,
                               @Nullable Alignment alignment,
@@ -207,8 +209,8 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
     }
 
     private static boolean isTopLevelDeclaration(@Nonnull PsiElement element) {
-      return element instanceof GoPackageClause || element instanceof GoImportList 
-             || element instanceof GoTopLevelDeclaration && element.getParent() instanceof GoFile; 
+      return element instanceof GoPackageClause || element instanceof GoImportList
+          || element instanceof GoTopLevelDeclaration && element.getParent() instanceof GoFile;
     }
 
     private static Spacing lineBreak() {
@@ -295,7 +297,7 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
       }
       return Collections.unmodifiableList(blocks);
     }
-    
+
     @Nonnull
     private GoFormattingBlock buildSubBlock(@Nonnull ASTNode child, @Nullable Alignment alignment) {
       if (child.getPsi() instanceof GoType && child.getTreeParent().getElementType() == FIELD_DECLARATION) {
@@ -304,7 +306,7 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
       Indent indent = calcIndent(child);
       return new GoFormattingBlock(child, alignment, indent, null, mySettings, mySpacingBuilder);
     }
-    
+
     @Nonnull
     private Indent calcIndent(@Nonnull ASTNode child) {
       IElementType parentType = myNode.getElementType();
@@ -313,14 +315,15 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
       if (parentType == BLOCK && type == SELECT_STATEMENT) return Indent.getNoneIndent();
       if (parentType == SELECT_STATEMENT && type == RBRACE) return Indent.getNormalIndent();
       if (parentType == ARGUMENT_LIST && type != LPAREN && type != RPAREN) return Indent.getNormalIndent();
-      if ((parentType == EXPR_CASE_CLAUSE || parentType == TYPE_CASE_CLAUSE) && (type == CASE || type == DEFAULT)) return Indent.getNoneIndent();
+      if ((parentType == EXPR_CASE_CLAUSE || parentType == TYPE_CASE_CLAUSE) && (type == CASE || type == DEFAULT))
+        return Indent.getNoneIndent();
       if (BLOCKS_TOKEN_SET.contains(parentType)) return indentIfNotBrace(child);
       if (parentType == IMPORT_DECLARATION) return indentOfMultipleDeclarationChild(type, IMPORT_SPEC);
       if (parentType == CONST_DECLARATION) return indentOfMultipleDeclarationChild(type, CONST_SPEC);
       if (parentType == VAR_DECLARATION) return indentOfMultipleDeclarationChild(type, VAR_SPEC);
       if (parentType == TYPE_DECLARATION) return indentOfMultipleDeclarationChild(type, TYPE_SPEC);
       if (parentType == COMM_CLAUSE && child.getPsi() instanceof GoStatement) return Indent.getNormalIndent();
-      if (child.getPsi() instanceof GoExpression) return Indent.getContinuationWithoutFirstIndent(); 
+      if (child.getPsi() instanceof GoExpression) return Indent.getContinuationWithoutFirstIndent();
       return Indent.getNoneIndent();
     }
 
@@ -334,12 +337,12 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
     @Override
     public Spacing getSpacing(@Nullable Block child1, @Nonnull Block child2) {
       if (child1 instanceof GoFormattingBlock && child2 instanceof GoFormattingBlock) {
-        ASTNode n1 = ((GoFormattingBlock)child1).getNode();
-        ASTNode n2 = ((GoFormattingBlock)child2).getNode();
+        ASTNode n1 = ((GoFormattingBlock) child1).getNode();
+        ASTNode n2 = ((GoFormattingBlock) child2).getNode();
         PsiElement psi1 = n1.getPsi();
         PsiElement psi2 = n2.getPsi();
         if (n1.getElementType() == FIELD_DEFINITION && psi2 instanceof GoType) return one();
-        
+
         PsiElement parent = psi1.getParent();
         if (parent instanceof GoStructType || parent instanceof GoInterfaceType) {
           boolean oneLineType = !parent.textContains('\n');
@@ -356,14 +359,14 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
             return oneLineType ? one() : lineBreak(false);
           }
         }
-          
+
         if (psi1 instanceof GoStatement && psi2 instanceof GoStatement) {
           return lineBreak();
         }
         if (isTopLevelDeclaration(psi2) && (isTopLevelDeclaration(psi1) || n1.getElementType() == SEMICOLON)) {
           // Different declarations should be separated by blank line 
           boolean sameKind = psi1.getClass().equals(psi2.getClass())
-                             || psi1 instanceof GoFunctionOrMethodDeclaration && psi2 instanceof GoFunctionOrMethodDeclaration;
+              || psi1 instanceof GoFunctionOrMethodDeclaration && psi2 instanceof GoFunctionOrMethodDeclaration;
           return sameKind ? lineBreak() : lineBreak(1, true);
         }
       }
@@ -387,11 +390,10 @@ public class GoFormattingModelBuilder implements FormattingModelBuilder {
         List<Block> subBlocks = getSubBlocks();
         Block block = subBlocks.size() > newChildIndex ? subBlocks.get(newChildIndex - 1) : null;
         if (block instanceof GoFormattingBlock) {
-          IElementType type = ((GoFormattingBlock)block).getNode().getElementType();
+          IElementType type = ((GoFormattingBlock) block).getNode().getElementType();
           if (type == TYPE_CASE_CLAUSE || type == EXPR_CASE_CLAUSE) {
             childIndent = Indent.getNormalIndent();
-          }
-          else if (type == COMM_CLAUSE) {
+          } else if (type == COMM_CLAUSE) {
             childIndent = Indent.getNormalIndent(true);
           }
         }

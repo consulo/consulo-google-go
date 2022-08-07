@@ -16,18 +16,18 @@
 
 package com.goide.inspections.unresolved;
 
-import javax.annotation.Nonnull;
-
 import com.goide.inspections.GoInspectionBase;
 import com.goide.psi.GoConstDefinition;
 import com.goide.psi.GoVisitor;
 import com.goide.quickfix.GoDeleteConstDefinitionQuickFix;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.search.searches.ReferencesSearch;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.search.ReferencesSearch;
 
-public class GoUnusedConstInspection extends GoInspectionBase {
+import javax.annotation.Nonnull;
+
+public abstract class GoUnusedConstInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {

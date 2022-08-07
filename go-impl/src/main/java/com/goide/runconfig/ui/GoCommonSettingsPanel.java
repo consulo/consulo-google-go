@@ -18,18 +18,21 @@ package com.goide.runconfig.ui;
 
 import com.goide.runconfig.GoRunConfigurationBase;
 import com.goide.runconfig.GoRunUtil;
-import com.intellij.application.options.ModuleListCellRenderer;
-import com.intellij.execution.configuration.EnvironmentVariablesTextFieldWithBrowseButton;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.ComboBox;
-import com.intellij.openapi.ui.TextFieldWithBrowseButton;
-import com.intellij.ui.MutableCollectionComboBoxModel;
-import com.intellij.ui.RawCommandLineEditor;
-import javax.annotation.Nonnull;
+import consulo.execution.ui.awt.EnvironmentVariablesTextFieldWithBrowseButton;
+import consulo.execution.ui.awt.RawCommandLineEditor;
+import consulo.module.Module;
+import consulo.module.ui.awt.ModuleListCellRenderer;
+import consulo.project.Project;
+import consulo.ui.ex.awt.ComboBox;
+import consulo.ui.ex.awt.FormBuilder;
+import consulo.ui.ex.awt.MutableCollectionComboBoxModel;
+import consulo.ui.ex.awt.TextFieldWithBrowseButton;
+import consulo.ui.ex.awtUnsafe.TargetAWT;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class GoCommonSettingsPanel extends JPanel {
@@ -38,7 +41,35 @@ public class GoCommonSettingsPanel extends JPanel {
   private TextFieldWithBrowseButton myWorkingDirectoryField;
   private EnvironmentVariablesTextFieldWithBrowseButton myEnvironmentField;
   private ComboBox<Module> myModulesComboBox;
-  @SuppressWarnings("unused") private JPanel myRoot;
+
+  public GoCommonSettingsPanel() {
+    super(new BorderLayout());
+
+    FormBuilder builder = FormBuilder.createFormBuilder();
+
+    addBefore(builder);
+
+    myWorkingDirectoryField = new TextFieldWithBrowseButton();
+    builder.addLabeledComponent("&Working directory:", myWorkingDirectoryField);
+    myEnvironmentField = new EnvironmentVariablesTextFieldWithBrowseButton();
+    builder.addLabeledComponent("&Environment:", (JComponent) TargetAWT.to(myEnvironmentField.getComponent()));
+    myGoToolParamsField = new RawCommandLineEditor();
+    builder.addLabeledComponent("&Go tool arguments:", myGoToolParamsField);
+    myParamsField = new RawCommandLineEditor();
+    builder.addLabeledComponent("Pr&ogram arguments:", myParamsField);
+    myModulesComboBox = new ComboBox<>();
+    builder.addLabeledComponent("&Module:", myModulesComboBox);
+
+    addAfter(builder);
+    
+    add(builder.getPanel(), BorderLayout.CENTER);
+  }
+
+  protected void addBefore(FormBuilder builder) {
+  }
+
+  protected void addAfter(FormBuilder builder) {
+  }
 
   public void init(@Nonnull Project project) {
     GoRunUtil.installFileChooser(project, myWorkingDirectoryField, true);
@@ -58,7 +89,7 @@ public class GoCommonSettingsPanel extends JPanel {
   }
 
   public void applyEditorTo(@Nonnull GoRunConfigurationBase<?> configuration) {
-    configuration.setModule((Module)myModulesComboBox.getSelectedItem());
+    configuration.setModule((Module) myModulesComboBox.getSelectedItem());
     configuration.setGoParams(myGoToolParamsField.getText());
     configuration.setParams(myParamsField.getText());
     configuration.setWorkingDirectory(myWorkingDirectoryField.getText());
@@ -68,6 +99,6 @@ public class GoCommonSettingsPanel extends JPanel {
 
   @Nullable
   public Module getSelectedModule() {
-    return (Module)myModulesComboBox.getSelectedItem();
+    return (Module) myModulesComboBox.getSelectedItem();
   }
 }

@@ -20,18 +20,18 @@ import com.goide.inspections.GoInspectionBase;
 import com.goide.psi.*;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.runconfig.testing.GoTestFunctionType;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.search.searches.ReferencesSearch;
-import com.intellij.util.Query;
-import javax.annotation.Nonnull;
+import consulo.application.progress.ProgressManager;
+import consulo.application.util.query.Query;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiReference;
+import consulo.language.psi.search.ReferencesSearch;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class GoUnusedParameterInspection extends GoInspectionBase {
+public abstract class GoUnusedParameterInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {

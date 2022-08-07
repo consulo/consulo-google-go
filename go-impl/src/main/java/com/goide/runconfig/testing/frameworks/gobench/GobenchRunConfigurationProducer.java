@@ -16,10 +16,12 @@
 
 package com.goide.runconfig.testing.frameworks.gobench;
 
+import com.goide.runconfig.testing.GoTestRunConfigurationProducerBase;
+import consulo.annotation.component.ExtensionImpl;
+
 import javax.annotation.Nonnull;
 
-import com.goide.runconfig.testing.GoTestRunConfigurationProducerBase;
-
+@ExtensionImpl
 public class GobenchRunConfigurationProducer extends GoTestRunConfigurationProducerBase implements Cloneable {
   public GobenchRunConfigurationProducer() {
     super(GobenchFramework.INSTANCE);

@@ -16,19 +16,19 @@
 
 package com.goide.quickfix;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.Nls;
 import com.goide.psi.GoFunctionDeclaration;
 import com.goide.psi.GoSignature;
 import com.goide.psi.impl.GoElementFactory;
-import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.ObjectUtils;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.inspection.LocalQuickFixAndIntentionActionOnPsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+import consulo.util.lang.ObjectUtil;
+import org.jetbrains.annotations.Nls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class GoEmptySignatureQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
   public static final String QUICK_FIX_NAME = "Fix signature";
@@ -56,7 +56,7 @@ public class GoEmptySignatureQuickFix extends LocalQuickFixAndIntentionActionOnP
                      @Nullable Editor editor,
                      @Nonnull PsiElement startElement,
                      @Nonnull PsiElement endElement) {
-    GoFunctionDeclaration function = ObjectUtils.tryCast(startElement, GoFunctionDeclaration.class);
+    GoFunctionDeclaration function = ObjectUtil.tryCast(startElement, GoFunctionDeclaration.class);
     GoSignature signature = function != null ? function.getSignature() : null;
     if (signature == null) return;
     signature.replace(GoElementFactory.createFunctionSignatureFromText(project, ""));

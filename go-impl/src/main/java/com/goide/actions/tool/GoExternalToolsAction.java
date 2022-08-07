@@ -20,32 +20,32 @@ import com.goide.GoConstants;
 import com.goide.GoFileType;
 import com.goide.sdk.GoSdkService;
 import com.goide.util.GoExecutor;
-import com.intellij.execution.ExecutionException;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.DumbAwareAction;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VfsUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.util.Consumer;
-import com.intellij.util.ExceptionUtil;
+import consulo.document.Document;
+import consulo.document.FileDocumentManager;
+import consulo.language.editor.CommonDataKeys;
+import consulo.language.util.ModuleUtilCore;
 import consulo.logging.Logger;
+import consulo.module.Module;
+import consulo.process.ExecutionException;
+import consulo.project.Project;
+import consulo.project.ui.notification.NotificationType;
+import consulo.project.ui.notification.Notifications;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.DumbAwareAction;
+import consulo.util.lang.ExceptionUtil;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public abstract class GoExternalToolsAction extends DumbAwareAction {
   private static final Logger LOG = Logger.getInstance(GoExternalToolsAction.class);
 
   private static void error(@Nonnull String title, @Nonnull Project project, @Nullable Exception ex) {
-    String message = ex == null ? "" : ExceptionUtil.getUserStackTrace(ex, LOG);
+    String message = ex == null ? "" : ExceptionUtil.getThrowableText(ex);
     NotificationType type = NotificationType.ERROR;
     Notifications.Bus.notify(GoConstants.GO_EXECUTION_NOTIFICATION_GROUP.createNotification(title, message, type, null), project);
   }
@@ -53,7 +53,7 @@ public abstract class GoExternalToolsAction extends DumbAwareAction {
   @Override
   public void update(@Nonnull AnActionEvent e) {
     super.update(e);
-    Project project = e.getProject();
+    Project project = e.getData(Project.KEY);
     VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
     if (project == null || file == null || !file.isInLocalFileSystem() || !isAvailableOnFile(file)) {
       e.getPresentation().setEnabled(false);
@@ -69,7 +69,7 @@ public abstract class GoExternalToolsAction extends DumbAwareAction {
 
   @Override
   public void actionPerformed(@Nonnull AnActionEvent e) {
-    Project project = e.getProject();
+    Project project = e.getData(Project.KEY);
     VirtualFile file = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE);
     assert project != null;
     String title = StringUtil.notNullize(e.getPresentation().getText());
@@ -97,7 +97,7 @@ public abstract class GoExternalToolsAction extends DumbAwareAction {
                               @Nonnull String title,
                               boolean withProgress) {
     //noinspection unchecked
-    return doSomething(virtualFile, module, project, title, withProgress, Consumer.EMPTY_CONSUMER);
+    return doSomething(virtualFile, module, project, title, withProgress, c -> {});
   }
 
   protected boolean doSomething(@Nonnull VirtualFile virtualFile,
@@ -115,8 +115,8 @@ public abstract class GoExternalToolsAction extends DumbAwareAction {
     }
 
     createExecutor(project, module, title, virtualFile).executeWithProgress(withProgress, result -> {
-      consumer.consume(result);
-      VfsUtil.markDirtyAndRefresh(true, true, true, virtualFile);
+      consumer.accept(result);
+      VirtualFileUtil.markDirtyAndRefresh(true, true, true, virtualFile);
     });
     return true;
   }

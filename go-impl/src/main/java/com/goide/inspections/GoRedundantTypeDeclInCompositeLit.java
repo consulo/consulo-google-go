@@ -16,19 +16,18 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.*;
 import com.goide.quickfix.GoDeleteAmpersandAndTypeInCompositeLitQuickFix;
-import com.intellij.codeInspection.CleanupLocalInspectionTool;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiElement;
+import consulo.language.editor.inspection.CleanupLocalInspectionTool;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implements CleanupLocalInspectionTool {
+public abstract class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implements CleanupLocalInspectionTool {
   public final static String DELETE_TYPE_DECLARATION_QUICK_FIX_NAME = "Delete redundant type declaration";
   private static final GoDeleteAmpersandAndTypeInCompositeLitQuickFix QUICK_FIX = new GoDeleteAmpersandAndTypeInCompositeLitQuickFix();
 

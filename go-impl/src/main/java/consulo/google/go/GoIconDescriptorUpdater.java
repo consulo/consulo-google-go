@@ -19,14 +19,17 @@ package consulo.google.go;
 import com.goide.GoIcons;
 import com.goide.psi.*;
 import com.goide.runconfig.testing.GoTestFinder;
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.util.Iconable;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.BitUtil;
 import consulo.annotation.access.RequiredReadAction;
-import consulo.ide.IconDescriptor;
-import consulo.ide.IconDescriptorUpdater;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.AllIcons;
+import consulo.component.util.Iconable;
+import consulo.google.go.icon.GoogleGoIconGroup;
+import consulo.language.icon.IconDescriptor;
+import consulo.language.icon.IconDescriptorUpdater;
+import consulo.language.psi.PsiElement;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
+import consulo.util.lang.BitUtil;
 
 import javax.annotation.Nonnull;
 
@@ -34,12 +37,13 @@ import javax.annotation.Nonnull;
  * @author VISTALL
  * @since 03-May-17
  */
+@ExtensionImpl
 public class GoIconDescriptorUpdater implements IconDescriptorUpdater {
   @RequiredReadAction
   @Override
   public void updateIcon(@Nonnull IconDescriptor iconDescriptor, @Nonnull PsiElement element, int flags) {
     if (element instanceof GoFile && element.isValid() && GoTestFinder.isTestFile((GoFile)element)) {
-      iconDescriptor.setMainIcon(GoIcons.TEST_RUN);
+      iconDescriptor.setMainIcon(GoogleGoIconGroup.gofiletype()).addLayerIcon(PlatformIconGroup.nodesJunittestmark());
       return;
     }
 

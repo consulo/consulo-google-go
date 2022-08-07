@@ -20,44 +20,43 @@ import com.goide.GoConstants;
 import com.goide.GoEnvironmentUtil;
 import com.goide.appengine.YamlFilesModificationTracker;
 import com.goide.psi.GoFile;
-import com.intellij.execution.configurations.PathEnvironmentVariableUtil;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleManager;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ProjectRootManager;
-import com.intellij.openapi.util.SystemInfo;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VfsUtil;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.CachedValueProvider;
-import com.intellij.psi.util.CachedValuesManager;
-import com.intellij.util.Function;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.SmartList;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.text.VersionComparatorUtil;
+import consulo.application.ApplicationManager;
+import consulo.application.util.CachedValueProvider;
+import consulo.application.util.CachedValuesManager;
+import consulo.application.util.SystemInfo;
 import consulo.google.go.module.extension.GoModuleExtension;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.LanguageCachedValueUtil;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.module.ModuleManager;
+import consulo.module.content.ProjectRootManager;
+import consulo.process.PathEnvironmentVariableUtil;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.collection.SmartList;
 import consulo.util.dataholder.Key;
 import consulo.util.dataholder.UserDataHolder;
+import consulo.util.io.FileUtil;
+import consulo.util.lang.ObjectUtil;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.VersionComparatorUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 import org.jetbrains.annotations.Contract;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.intellij.util.containers.ContainerUtil.newLinkedHashSet;
 
 public class GoSdkUtil {
   private static final Pattern GO_VERSION_PATTERN = Pattern.compile("[tT]heVersion\\s*=\\s*`go([\\d.]+\\w+(\\d+)?)`");
@@ -92,7 +91,7 @@ public class GoSdkUtil {
   @Nullable
   private static VirtualFile getSdkSrcDir(@Nonnull String sdkPath, @Nonnull String sdkVersion) {
     String srcPath = getSrcLocation(sdkVersion);
-    VirtualFile file = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(FileUtil.join(sdkPath, srcPath)));
+    VirtualFile file = VirtualFileManager.getInstance().findFileByUrl(VirtualFileUtil.pathToUrl(FileUtil.join(sdkPath, srcPath)));
     return file != null && file.isDirectory() ? file : null;
   }
 
@@ -111,7 +110,7 @@ public class GoSdkUtil {
     }
 
     Module module = moduleFromContext;
-    UserDataHolder holder = ObjectUtils.notNull(module, project);
+    UserDataHolder holder = ObjectUtil.notNull(module, project);
     VirtualFile file = CachedValuesManager.getManager(context.getProject()).getCachedValue(holder, () -> {
       VirtualFile sdkSrcDir = getSdkSrcDir(project, module);
       VirtualFile result = sdkSrcDir != null ? sdkSrcDir.findFileByRelativePath(GoConstants.BUILTIN_FILE_PATH) : null;
@@ -128,11 +127,11 @@ public class GoSdkUtil {
     executableName = GoEnvironmentUtil.getBinaryFileNameForPath(executableName);
     Collection<VirtualFile> roots = getGoPathRoots(project, module);
     for (VirtualFile file : roots) {
-      VirtualFile child = VfsUtil.findRelativeFile(file, "bin", executableName);
+      VirtualFile child = VirtualFileUtil.findRelativeFile(file, "bin", executableName);
       if (child != null) return child;
     }
     File fromPath = PathEnvironmentVariableUtil.findInPath(executableName);
-    return fromPath != null ? VfsUtil.findFileByIoFile(fromPath, true) : null;
+    return fromPath != null ? VirtualFileUtil.findFileByIoFile(fromPath, true) : null;
   }
 
   /**
@@ -140,7 +139,7 @@ public class GoSdkUtil {
    */
   @Nonnull
   public static LinkedHashSet<VirtualFile> getSourcesPathsToLookup(@Nonnull Project project, @Nullable Module module) {
-    LinkedHashSet<VirtualFile> sdkAndGoPath = newLinkedHashSet();
+    LinkedHashSet<VirtualFile> sdkAndGoPath = new LinkedHashSet<>();
     ContainerUtil.addIfNotNull(sdkAndGoPath, getSdkSrcDir(project, module));
     ContainerUtil.addAllNotNull(sdkAndGoPath, getGoPathSources(project, module));
     return sdkAndGoPath;
@@ -154,7 +153,7 @@ public class GoSdkUtil {
     if (contextFile != null) {
       Collection<VirtualFile> vendorDirectories = collectVendorDirectories(contextFile, sdkAndGoPath);
       if (!vendorDirectories.isEmpty()) {
-        LinkedHashSet<VirtualFile> result = newLinkedHashSet(vendorDirectories);
+        LinkedHashSet<VirtualFile> result = new LinkedHashSet<>(vendorDirectories);
         result.addAll(sdkAndGoPath);
         return result;
       }
@@ -198,7 +197,7 @@ public class GoSdkUtil {
   public static Collection<VirtualFile> getGoPathSources(@Nonnull Project project, @Nullable Module module) {
     if (module != null) {
       return CachedValuesManager.getManager(project).getCachedValue(module, () -> {
-        Collection<VirtualFile> result = newLinkedHashSet();
+        Collection<VirtualFile> result = new LinkedHashSet<>();
         Project project1 = module.getProject();
         GoSdkService sdkService = GoSdkService.getInstance(project1);
         if (sdkService.isAppEngineSdk(module)) {
@@ -221,10 +220,10 @@ public class GoSdkUtil {
 
   @Nonnull
   private static Collection<VirtualFile> getGoPathBins(@Nonnull Project project, @Nullable Module module) {
-    Collection<VirtualFile> result = newLinkedHashSet(ContainerUtil.mapNotNull(getGoPathRoots(project, module), new RetrieveSubDirectoryOrSelfFunction("bin")));
+    Collection<VirtualFile> result = new LinkedHashSet<>(ContainerUtil.mapNotNull(getGoPathRoots(project, module), new RetrieveSubDirectoryOrSelfFunction("bin")));
     String executableGoPath = GoSdkService.getInstance(project).getGoExecutablePath(module);
     if (executableGoPath != null) {
-      VirtualFile executable = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(executableGoPath));
+      VirtualFile executable = VirtualFileManager.getInstance().findFileByUrl(VirtualFileUtil.pathToUrl(executableGoPath));
       if (executable != null) ContainerUtil.addIfNotNull(result, executable.getParent());
     }
     return result;
@@ -274,7 +273,7 @@ public class GoSdkUtil {
     if (psiDirectory == null) {
       return null;
     }
-    return CachedValuesManager
+    return LanguageCachedValueUtil
             .getCachedValue(psiDirectory, withVendoring ? new CachedVendoredImportPathProvider(psiDirectory) : new CachedImportPathProviderImpl(psiDirectory));
   }
 
@@ -302,7 +301,7 @@ public class GoSdkUtil {
   @Nullable
   public static String getRelativePathToRoots(@Nonnull VirtualFile file, @Nonnull Collection<VirtualFile> sourceRoots) {
     for (VirtualFile root : sourceRoots) {
-      String relativePath = VfsUtilCore.getRelativePath(file, root, '/');
+      String relativePath = VirtualFileUtil.getRelativePath(file, root, '/');
       if (StringUtil.isNotEmpty(relativePath)) {
         return relativePath;
       }
@@ -376,7 +375,7 @@ public class GoSdkUtil {
   @Nullable
   public static String retrieveGoVersion(@Nonnull String sdkPath) {
     try {
-      VirtualFile sdkRoot = VirtualFileManager.getInstance().findFileByUrl(VfsUtilCore.pathToUrl(sdkPath));
+      VirtualFile sdkRoot = VirtualFileManager.getInstance().findFileByUrl(VirtualFileUtil.pathToUrl(sdkPath));
       if (sdkRoot != null) {
         String cachedVersion = sdkRoot.getUserData(ZVERSION_DATA_KEY);
         if (cachedVersion != null) {
@@ -391,7 +390,7 @@ public class GoSdkUtil {
           versionFile = sdkRoot.findFileByRelativePath("src/pkg/" + GoConstants.GO_VERSION_FILE_PATH);
         }
         if (versionFile != null) {
-          String text = VfsUtilCore.loadText(versionFile);
+          String text = Files.readString(VirtualFileUtil.virtualToIoFile(versionFile).toPath());
           String version = parseGoVersion(text);
           if (version == null) {
             GoSdkService.LOG.debug("Cannot retrieve go version from zVersion file: " + text);
@@ -485,7 +484,7 @@ public class GoSdkUtil {
                                               @Nonnull Set<VirtualFile> sourceRoots) {
     VirtualFile directory = findParentDirectory(targetDirectory, sourceRoots, unreachableDirectoryName);
     VirtualFile parent = directory != null ? directory.getParent() : null;
-    return directory != null && !VfsUtilCore.isAncestor(parent, referenceContextFile, false);
+    return directory != null && !VirtualFileUtil.isAncestor(parent, referenceContextFile, false);
   }
 
   private static class RetrieveSubDirectoryOrSelfFunction implements Function<VirtualFile, VirtualFile> {
@@ -497,7 +496,7 @@ public class GoSdkUtil {
     }
 
     @Override
-    public VirtualFile fun(VirtualFile file) {
+    public VirtualFile apply(VirtualFile file) {
       return file == null || FileUtil.namesEqual(mySubdirName, file.getName()) ? file : file.findChild(mySubdirName);
     }
   }

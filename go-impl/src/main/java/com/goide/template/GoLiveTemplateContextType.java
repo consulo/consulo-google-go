@@ -16,22 +16,20 @@
 
 package com.goide.template;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoLanguage;
 import com.goide.GoTypes;
 import com.goide.highlighting.GoSyntaxHighlighter;
 import com.goide.psi.*;
-import com.intellij.codeInsight.template.TemplateContextType;
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.psi.util.PsiUtilCore;
-import com.intellij.util.ObjectUtils;
+import consulo.language.ast.IElementType;
+import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.language.editor.template.context.TemplateContextType;
+import consulo.language.impl.psi.LeafPsiElement;
+import consulo.language.psi.*;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.lang.ObjectUtil;
 import org.jetbrains.annotations.NonNls;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 abstract public class GoLiveTemplateContextType extends TemplateContextType {
@@ -44,7 +42,7 @@ abstract public class GoLiveTemplateContextType extends TemplateContextType {
   @Override
   public boolean isInContext(@Nonnull PsiFile file, int offset) {
     if (PsiUtilCore.getLanguageAtOffset(file, offset).isKindOf(GoLanguage.INSTANCE)) {
-      PsiElement psiElement = ObjectUtils.notNull(file.findElementAt(offset), file);
+      PsiElement psiElement = ObjectUtil.notNull(file.findElementAt(offset), file);
       if (!acceptLeaf()) {
         psiElement = getFirstCompositeElement(psiElement);
       }

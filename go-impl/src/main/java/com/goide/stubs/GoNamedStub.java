@@ -17,11 +17,11 @@
 package com.goide.stubs;
 
 import com.goide.psi.GoNamedElement;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.psi.stubs.NamedStubBase;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.util.io.StringRef;
+import consulo.index.io.StringRef;
+import consulo.language.psi.stub.IStubElementType;
+import consulo.language.psi.stub.NamedStubBase;
+import consulo.language.psi.stub.StubElement;
+import consulo.util.lang.StringUtil;
 
 abstract public class GoNamedStub<T extends GoNamedElement> extends NamedStubBase<T> {
   private final boolean myIsPublic;

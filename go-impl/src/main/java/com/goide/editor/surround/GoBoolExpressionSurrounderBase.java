@@ -16,15 +16,14 @@
 
 package com.goide.editor.surround;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoExpression;
 import com.goide.psi.GoIfStatement;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.psi.impl.GoTypeUtil;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
+import consulo.document.util.TextRange;
+import consulo.language.psi.PsiElement;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class GoBoolExpressionSurrounderBase extends GoExpressionSurrounder {

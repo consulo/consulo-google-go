@@ -23,19 +23,19 @@ import com.goide.psi.GoImportSpec;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.runconfig.testing.GoTestFunctionType;
 import com.goide.template.GoLiveTemplateContextType;
-import com.intellij.codeInsight.AutoPopupController;
-import com.intellij.codeInsight.CodeInsightActionHandler;
-import com.intellij.codeInsight.template.TemplateContextType;
-import com.intellij.openapi.actionSystem.Presentation;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.EditorModificationUtil;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.text.UniqueNameGenerator;
-import javax.annotation.Nonnull;
+import consulo.codeEditor.Editor;
+import consulo.codeEditor.util.EditorModificationUtil;
+import consulo.component.util.text.UniqueNameGenerator;
+import consulo.language.editor.AutoPopupController;
+import consulo.language.editor.action.CodeInsightActionHandler;
+import consulo.language.editor.template.context.TemplateContextType;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+import consulo.ui.ex.action.Presentation;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
 import java.util.Locale;
 
 public class GotestGenerateAction extends GoGenerateTestActionBase {

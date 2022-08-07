@@ -18,14 +18,14 @@ package consulo.google.go.module.extension;
 
 import com.goide.project.GoBuildTargetSettings;
 import com.goide.sdk.GoSdkType;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.projectRoots.SdkType;
-import com.intellij.util.ThreeState;
-import com.intellij.util.xmlb.XmlSerializer;
 import consulo.annotation.access.RequiredReadAction;
-import consulo.module.extension.impl.ModuleExtensionWithSdkImpl;
-import consulo.roots.ModuleRootLayer;
+import consulo.content.bundle.SdkType;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.module.content.layer.ModuleRootLayer;
+import consulo.module.content.layer.extension.ModuleExtensionWithSdkBase;
+import consulo.util.lang.ThreeState;
+import consulo.util.xml.serializer.XmlSerializer;
 import org.jdom.Element;
 
 import javax.annotation.Nonnull;
@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
  * @author VISTALL
  * @since 12:42/30.05.13
  */
-public class GoModuleExtension extends ModuleExtensionWithSdkImpl<GoModuleExtension> {
+public class GoModuleExtension extends ModuleExtensionWithSdkBase<GoModuleExtension> {
   @Nonnull
   public static ThreeState getVendoringEnabled(@Nullable Module module) {
     if (module == null) {

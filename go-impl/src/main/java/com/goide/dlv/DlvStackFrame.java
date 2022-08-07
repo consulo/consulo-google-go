@@ -16,48 +16,43 @@
 
 package com.goide.dlv;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.goide.GoIcons;
 import com.goide.dlv.protocol.DlvApi;
 import com.goide.dlv.protocol.DlvRequest;
-import com.goide.psi.GoConstDefinition;
-import com.goide.psi.GoExpression;
-import com.goide.psi.GoParamDefinition;
-import com.goide.psi.GoTypeOwner;
-import com.goide.psi.GoVarDefinition;
+import com.goide.psi.*;
 import com.goide.sdk.GoSdkService;
-import com.intellij.execution.configurations.ModuleBasedConfiguration;
-import com.intellij.execution.configurations.RunProfile;
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.IndexNotReadyException;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.AsyncResult;
-import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.SystemInfo;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.ui.ColoredTextContainer;
-import com.intellij.ui.SimpleTextAttributes;
-import com.intellij.xdebugger.XDebuggerUtil;
-import com.intellij.xdebugger.XSourcePosition;
-import com.intellij.xdebugger.evaluation.XDebuggerEvaluator;
-import com.intellij.xdebugger.frame.XCompositeNode;
-import com.intellij.xdebugger.frame.XStackFrame;
-import com.intellij.xdebugger.frame.XValue;
-import com.intellij.xdebugger.frame.XValueChildrenList;
+import consulo.application.AllIcons;
+import consulo.application.dumb.IndexNotReadyException;
+import consulo.application.util.SystemInfo;
+import consulo.document.Document;
+import consulo.document.util.TextRange;
+import consulo.execution.configuration.ModuleBasedConfiguration;
+import consulo.execution.configuration.RunProfile;
+import consulo.execution.debug.XDebuggerUtil;
+import consulo.execution.debug.XSourcePosition;
+import consulo.execution.debug.evaluation.XDebuggerEvaluator;
+import consulo.execution.debug.frame.XCompositeNode;
+import consulo.execution.debug.frame.XStackFrame;
+import consulo.execution.debug.frame.XValue;
+import consulo.execution.debug.frame.XValueChildrenList;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.ui.ex.ColoredTextContainer;
+import consulo.ui.ex.SimpleTextAttributes;
 import consulo.ui.image.Image;
+import consulo.util.concurrent.AsyncResult;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.ref.Ref;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class DlvStackFrame extends XStackFrame {
   private final DlvDebugProcess myProcess;

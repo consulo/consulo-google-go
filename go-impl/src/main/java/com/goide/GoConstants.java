@@ -16,9 +16,8 @@
 
 package com.goide;
 
-import com.intellij.notification.NotificationGroup;
-import com.intellij.openapi.wm.ToolWindowId;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.project.ui.notification.NotificationGroup;
+import consulo.project.ui.wm.ToolWindowId;
 import org.jetbrains.annotations.NonNls;
 
 import java.util.Set;
@@ -73,20 +72,20 @@ public class GoConstants {
   public static final String ANDROID_OS = "android";
 
   // see "$GOROOT/src/go/build/syslist.go
-  public static final Set<String> KNOWN_OS = ContainerUtil.immutableSet("android", "darwin", "dragonfly", "freebsd", "linux", "nacl",
+  public static final Set<String> KNOWN_OS = Set.of("android", "darwin", "dragonfly", "freebsd", "linux", "nacl",
                                                                         "netbsd", "openbsd", "plan9", "solaris", "windows");
-  public static final Set<String> KNOWN_ARCH = ContainerUtil.immutableSet("386", "amd64", "amd64p32", "arm", "armbe", "arm64", "arm64be", 
+  public static final Set<String> KNOWN_ARCH = Set.of("386", "amd64", "amd64p32", "arm", "armbe", "arm64", "arm64be",
                                                                           "ppc64", "ppc64le", "mips", "mipsle", "mips64", "mips64le", 
                                                                           "mips64p32", "mips64p32le", "ppc", "s390", "s390x", "sparc", 
                                                                           "sparc64");
-  public static final Set<String> KNOWN_VERSIONS = ContainerUtil.immutableSet("go1.1", "go1.2", "go1.3", "go1.4", "go1.5", "go1.6", "go1.7");
-  public static final Set<String> KNOWN_CGO = ContainerUtil.immutableSet("darwin/386", "darwin/amd64", "dragonfly/386", "dragonfly/amd64",
+  public static final Set<String> KNOWN_VERSIONS = Set.of("go1.1", "go1.2", "go1.3", "go1.4", "go1.5", "go1.6", "go1.7");
+  public static final Set<String> KNOWN_CGO = Set.of("darwin/386", "darwin/amd64", "dragonfly/386", "dragonfly/amd64",
                                                                          "freebsd/386", "freebsd/amd64", "freebsd/arm", "linux/386",
                                                                          "linux/amd64", "linux/arm", "linux/arm64", "android/386", 
                                                                          "android/amd64", "android/arm", "netbsd/386", "netbsd/amd64", 
                                                                          "netbsd/arm", "openbsd/386", "openbsd/amd64", "windows/386", 
                                                                          "windows/amd64", "linux/ppc64le");
-  public static final Set<String> KNOWN_COMPILERS = ContainerUtil.immutableSet("gc", "gccgo");
+  public static final Set<String> KNOWN_COMPILERS = Set.of("gc", "gccgo");
 
   @NonNls public static final String NIL = "nil";
 

@@ -18,13 +18,13 @@ package com.goide.completion;
 
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.language.psi.PsiElement;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.ObjectUtil;
 import org.jetbrains.annotations.Contract;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -108,6 +108,6 @@ class GoStructLiteralCompletion {
 
   @Contract("null,_->null")
   private static <T> T parent(@Nullable PsiElement of, @Nonnull Class<T> parentClass) {
-    return ObjectUtils.tryCast(of != null ? of.getParent() : null, parentClass);
+    return ObjectUtil.tryCast(of != null ? of.getParent() : null, parentClass);
   }
 }

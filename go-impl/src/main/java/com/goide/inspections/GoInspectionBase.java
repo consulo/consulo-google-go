@@ -16,25 +16,48 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import com.goide.GoLanguage;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoVisitor;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.codeInspection.*;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.ObjectUtils;
+import consulo.language.Language;
+import consulo.language.editor.inspection.LocalInspectionTool;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.inspection.scheme.InspectionManager;
+import consulo.language.psi.PsiElementVisitor;
+import consulo.language.psi.PsiFile;
+import consulo.language.util.ModuleUtilCore;
+import consulo.util.lang.ObjectUtil;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 abstract public class GoInspectionBase extends LocalInspectionTool {
   protected static final GoVisitor DUMMY_VISITOR = new GoVisitor() { };
 
+  @Nullable
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
+  }
+
+  @Nonnull
+  @Override
+  public String[] getGroupPath() {
+    return new String[] {"Go"};
+  }
+
+  @Override
+  public boolean isEnabledByDefault() {
+    return true;
+  }
+
   @Nonnull
   @Override
   public final PsiElementVisitor buildVisitor(@Nonnull ProblemsHolder holder, boolean isOnTheFly, @Nonnull LocalInspectionToolSession session) {
-    GoFile file = ObjectUtils.tryCast(session.getFile(), GoFile.class);
+    GoFile file = ObjectUtil.tryCast(session.getFile(), GoFile.class);
     return file != null && GoPsiImplUtil.allowed(file, null, ModuleUtilCore.findModuleForPsiElement(file))
            ? buildGoVisitor(holder, session)
            : DUMMY_VISITOR;

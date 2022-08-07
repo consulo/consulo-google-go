@@ -19,22 +19,22 @@ package com.goide.psi.impl.imports;
 import com.goide.project.GoVendoringUtil;
 import com.goide.psi.GoImportString;
 import com.goide.sdk.GoSdkUtil;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.Conditions;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference;
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.document.util.TextRange;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.language.psi.PsiManager;
+import consulo.language.psi.path.FileReference;
+import consulo.language.psi.path.FileReferenceSet;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.function.Condition;
+import consulo.util.lang.function.Conditions;
+import consulo.virtualFileSystem.VirtualFile;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -62,7 +62,7 @@ public class GoImportReferenceSet extends FileReferenceSet {
   }
 
   @Override
-  protected Condition<PsiFileSystemItem> getReferenceCompletionFilter() {
+  public Condition<PsiFileSystemItem> getReferenceCompletionFilter() {
     if (!isRelativeImport()) {
       return Conditions.alwaysFalse();
     }

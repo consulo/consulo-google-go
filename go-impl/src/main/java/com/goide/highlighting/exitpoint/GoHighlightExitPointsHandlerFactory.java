@@ -16,37 +16,39 @@
 
 package com.goide.highlighting.exitpoint;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoTypes;
 import com.goide.psi.GoCallExpr;
 import com.goide.psi.GoReferenceExpression;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.codeInsight.highlighting.HighlightUsagesHandlerBase;
-import com.intellij.codeInsight.highlighting.HighlightUsagesHandlerFactoryBase;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
+import consulo.annotation.access.RequiredReadAction;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenSet;
+import consulo.language.editor.highlight.usage.HighlightUsagesHandlerBase;
+import consulo.language.editor.highlight.usage.HighlightUsagesHandlerFactoryBase;
+import consulo.language.impl.psi.LeafPsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoHighlightExitPointsHandlerFactory extends HighlightUsagesHandlerFactoryBase {
   private static final TokenSet BREAK_HIGHLIGHTING_TOKENS = TokenSet.create(GoTypes.BREAK, GoTypes.SWITCH, GoTypes.FOR, GoTypes.SELECT);
 
+  @RequiredReadAction
   @Nullable
   @Override
   public HighlightUsagesHandlerBase createHighlightUsagesHandler(@Nonnull Editor editor,
                                                                  @Nonnull PsiFile file,
                                                                  @Nonnull PsiElement target) {
     if (target instanceof LeafPsiElement) {
-      IElementType elementType = ((LeafPsiElement)target).getElementType();
+      IElementType elementType = ((LeafPsiElement) target).getElementType();
       if (elementType == GoTypes.RETURN || elementType == GoTypes.FUNC || isPanicCall(target)) {
         return GoFunctionExitPointHandler.createForElement(editor, file, target);
-      }
-      else if (BREAK_HIGHLIGHTING_TOKENS.contains(elementType)) {
+      } else if (BREAK_HIGHLIGHTING_TOKENS.contains(elementType)) {
         return GoBreakStatementExitPointHandler.createForElement(editor, file, target);
       }
     }
@@ -57,7 +59,7 @@ public class GoHighlightExitPointsHandlerFactory extends HighlightUsagesHandlerF
     PsiElement parent = e.getParent();
     if (parent instanceof GoReferenceExpression) {
       PsiElement grandPa = parent.getParent();
-      if (grandPa instanceof GoCallExpr) return GoPsiImplUtil.isPanic((GoCallExpr)grandPa);
+      if (grandPa instanceof GoCallExpr) return GoPsiImplUtil.isPanic((GoCallExpr) grandPa);
     }
     return false;
   }
