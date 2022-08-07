@@ -17,6 +17,10 @@
 package com.goide.generate;
 
 import com.goide.runconfig.testing.GoTestFramework;
+import consulo.annotation.component.ActionImpl;
+import consulo.annotation.component.ActionParentRef;
+import consulo.annotation.component.ActionRef;
+import consulo.annotation.component.ActionRefAnchor;
 import consulo.codeEditor.Editor;
 import consulo.language.editor.CommonDataKeys;
 import consulo.language.editor.util.PsiUtilBase;
@@ -25,12 +29,14 @@ import consulo.project.Project;
 import consulo.ui.ex.action.ActionGroup;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.IdeActions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@ActionImpl(id = "GoTestGenerateGroup", parents = @ActionParentRef(value = @ActionRef(id = IdeActions.GROUP_GENERATE), anchor = ActionRefAnchor.FIRST))
 public class GoGenerateTestMethodActionGroup extends ActionGroup {
   @Nonnull
   @Override

@@ -20,7 +20,7 @@ import com.goide.GoLanguage;
 import com.goide.GoTypes;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.goide.template.GoLiveTemplateContextType;
+import com.goide.template.GoStatementLiveTemplateContextType;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.application.dumb.DumbAware;
 import consulo.language.Language;
@@ -259,7 +259,7 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
 
     @Override
     public boolean accepts(@Nonnull PsiElement psiElement, ProcessingContext context) {
-      return GoLiveTemplateContextType.Statement.onStatementBeginning(psiElement);   
+      return GoStatementLiveTemplateContextType.onStatementBeginning(psiElement);
     }
   }
 

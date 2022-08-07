@@ -22,7 +22,7 @@ import com.goide.psi.GoFile;
 import com.goide.psi.GoImportSpec;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.runconfig.testing.GoTestFunctionType;
-import com.goide.template.GoLiveTemplateContextType;
+import com.goide.template.GoFileLiveTemplateContextType;
 import consulo.codeEditor.Editor;
 import consulo.codeEditor.util.EditorModificationUtil;
 import consulo.component.util.text.UniqueNameGenerator;
@@ -49,8 +49,8 @@ public class GotestGenerateAction extends GoGenerateTestActionBase {
 
   @Override
   protected boolean isValidForFile(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
-    GoLiveTemplateContextType.File fileContextType =
-      TemplateContextType.EP_NAME.findExtension(GoLiveTemplateContextType.File.class);
+    GoFileLiveTemplateContextType fileContextType =
+      TemplateContextType.EP_NAME.findExtension(GoFileLiveTemplateContextType.class);
     return fileContextType != null && fileContextType.isInContext(file, editor.getCaretModel().getOffset());
   }
 

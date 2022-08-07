@@ -66,7 +66,7 @@ public class GoFieldNameMacro extends Macro {
 
   @Override
   public boolean isAcceptableInContext(TemplateContextType context) {
-    return context instanceof GoLiveTemplateContextType.Tag || context instanceof GoLiveTemplateContextType.TagLiteral;
+    return context instanceof GoTagLiveTemplateContextType || context instanceof GoTagLiteralLiveTemplateContextType;
   }
 
   private static Set<String> fieldNames(ExpressionContext context) {
