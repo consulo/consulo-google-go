@@ -19,13 +19,16 @@ package com.goide.inspections;
 import com.goide.psi.GoFunctionDeclaration;
 import com.goide.psi.GoVisitor;
 import com.goide.quickfix.GoRenameQuickFix;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.util.lang.StringUtil;
 
 import javax.annotation.Nonnull;
 
-public abstract class GoRedeclareImportAsFunctionInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoRedeclareImportAsFunctionInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -40,5 +43,23 @@ public abstract class GoRedeclareImportAsFunctionInspection extends GoInspection
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Redeclared symbols";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Redeclare import as function";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 }

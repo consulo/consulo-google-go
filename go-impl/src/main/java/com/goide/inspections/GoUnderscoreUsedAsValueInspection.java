@@ -18,6 +18,8 @@ package com.goide.inspections;
 
 import com.goide.psi.GoReferenceExpression;
 import com.goide.psi.GoVisitor;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.highlight.ReadWriteAccessDetector;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
@@ -25,7 +27,8 @@ import consulo.language.editor.inspection.ProblemsHolder;
 
 import javax.annotation.Nonnull;
 
-public abstract class GoUnderscoreUsedAsValueInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoUnderscoreUsedAsValueInspection extends GoGeneralInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -38,5 +41,11 @@ public abstract class GoUnderscoreUsedAsValueInspection extends GoInspectionBase
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Underscore used as value";
   }
 }

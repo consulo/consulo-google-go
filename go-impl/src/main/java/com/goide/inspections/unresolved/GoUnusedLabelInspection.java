@@ -22,6 +22,7 @@ import com.goide.psi.GoLabeledStatement;
 import com.goide.psi.GoStatement;
 import com.goide.psi.GoVisitor;
 import com.goide.quickfix.GoRenameToBlankQuickFix;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.*;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
@@ -31,6 +32,7 @@ import consulo.project.Project;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoUnusedLabelInspection extends GoInspectionBase {
   @Nonnull
   @Override

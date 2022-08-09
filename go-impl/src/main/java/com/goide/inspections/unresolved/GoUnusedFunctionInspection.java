@@ -25,17 +25,20 @@ import com.goide.quickfix.GoDeleteQuickFix;
 import com.goide.quickfix.GoRenameToBlankQuickFix;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.runconfig.testing.GoTestFunctionType;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.document.util.TextRange;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.search.ReferencesSearch;
 import consulo.util.lang.StringUtil;
 
 import javax.annotation.Nonnull;
 
-public abstract class GoUnusedFunctionInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoUnusedFunctionInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -53,7 +56,7 @@ public abstract class GoUnusedFunctionInspection extends GoInspectionBase {
           PsiElement id = o.getIdentifier();
           TextRange range = TextRange.from(id.getStartOffsetInParent(), id.getTextLength());
           holder.registerProblem(o, "Unused function <code>#ref</code> #loc", ProblemHighlightType.LIKE_UNUSED_SYMBOL, range,
-                                 new GoDeleteQuickFix("Delete function", GoFunctionDeclaration.class), new GoRenameToBlankQuickFix(o));
+              new GoDeleteQuickFix("Delete function", GoFunctionDeclaration.class), new GoRenameToBlankQuickFix(o));
         }
       }
     };
@@ -61,5 +64,23 @@ public abstract class GoUnusedFunctionInspection extends GoInspectionBase {
 
   protected boolean canRun(String name) {
     return !StringUtil.isCapitalized(name);
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Declaration redundancy";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Unused function inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
   }
 }

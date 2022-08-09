@@ -18,16 +18,19 @@ package com.goide.inspections;
 
 import com.goide.psi.*;
 import com.goide.quickfix.GoDeleteAmpersandAndTypeInCompositeLitQuickFix;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.CleanupLocalInspectionTool;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implements CleanupLocalInspectionTool {
+@ExtensionImpl
+public class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implements CleanupLocalInspectionTool {
   public final static String DELETE_TYPE_DECLARATION_QUICK_FIX_NAME = "Delete redundant type declaration";
   private static final GoDeleteAmpersandAndTypeInCompositeLitQuickFix QUICK_FIX = new GoDeleteAmpersandAndTypeInCompositeLitQuickFix();
 
@@ -102,5 +105,23 @@ public abstract class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase
     }
     //TODO Complex type comparison
     return true;
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Declaration redundancy";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Redundant type declaration in composite literals";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
   }
 }

@@ -22,6 +22,7 @@ import com.goide.psi.GoImportSpec;
 import com.goide.psi.GoRecursiveVisitor;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.quickfix.GoRenameQuickFix;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.application.ApplicationManager;
 import consulo.find.FindManager;
 import consulo.language.editor.WriteCommandAction;
@@ -37,6 +38,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
+@ExtensionImpl
 public class GoUnusedImportInspection extends GoInspectionBase {
   @Nullable
   private final static LocalQuickFix OPTIMIZE_QUICK_FIX = new LocalQuickFixBase("Optimize imports") {

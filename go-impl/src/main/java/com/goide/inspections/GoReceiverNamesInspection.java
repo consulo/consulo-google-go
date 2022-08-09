@@ -19,14 +19,17 @@ package com.goide.inspections;
 import com.goide.psi.GoReceiver;
 import com.goide.psi.GoVisitor;
 import com.goide.quickfix.GoRenameQuickFix;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 
 import javax.annotation.Nonnull;
 import java.util.Set;
 
-public abstract class GoReceiverNamesInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoReceiverNamesInspection extends GoInspectionBase {
   private static final Set<String> genericNamesSet = Set.of("me", "this", "self");
 
   @Nonnull
@@ -42,5 +45,23 @@ public abstract class GoReceiverNamesInspection extends GoInspectionBase {
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Code style issues";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Receiver has generic name";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WEAK_WARNING;
   }
 }

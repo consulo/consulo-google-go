@@ -18,9 +18,11 @@ package com.goide.inspections;
 
 import com.goide.psi.*;
 import com.goide.quickfix.GoRenameQuickFix;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.ElementDescriptionUtil;
 import consulo.language.psi.PsiElement;
 import consulo.usage.UsageViewTypeLocation;
@@ -28,7 +30,8 @@ import consulo.util.lang.StringUtil;
 
 import javax.annotation.Nonnull;
 
-public abstract class GoImportUsedAsNameInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoImportUsedAsNameInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -75,5 +78,23 @@ public abstract class GoImportUsedAsNameInspection extends GoInspectionBase {
       String message = StringUtil.capitalize(elementDescription) + " <code>#ref</code> collides with imported package name #loc";
       holder.registerProblem(identifier, message, ProblemHighlightType.GENERIC_ERROR_OR_WARNING, new GoRenameQuickFix(element));
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Probable bugs";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Imported package name as name identifier";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
   }
 }

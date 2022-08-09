@@ -22,9 +22,11 @@ import com.goide.psi.GoCompositeElement;
 import com.goide.psi.GoNamedElement;
 import com.goide.psi.GoPackageClause;
 import com.goide.psi.GoVisitor;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiComment;
 
 import javax.annotation.Nonnull;
@@ -34,7 +36,8 @@ import java.util.List;
  * golint inspection from:
  * https://github.com/golang/lint/blob/32a87160691b3c96046c0c678fe57c5bef761456/lint.go#L744
  */
-public abstract class GoCommentStartInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoCommentStartInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -85,5 +88,28 @@ public abstract class GoCommentStartInspection extends GoInspectionBase {
            || commentText.startsWith("A " + elementName)
            || commentText.startsWith("An " + elementName)
            || commentText.startsWith("The " + elementName);
+  }
+
+  @Override
+  public boolean isEnabledByDefault() {
+    return false;
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Code style issues";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Comment of exported element starts with incorrect name";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WEAK_WARNING;
   }
 }

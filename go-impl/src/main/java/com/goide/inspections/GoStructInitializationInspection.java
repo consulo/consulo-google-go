@@ -20,9 +20,11 @@ import com.goide.psi.*;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.util.GoUtil;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.application.progress.ProgressManager;
 import consulo.language.editor.inspection.*;
 import consulo.language.editor.inspection.ui.SingleCheckboxOptionsPanel;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
@@ -36,7 +38,8 @@ import javax.annotation.Nullable;
 import javax.swing.*;
 import java.util.List;
 
-public abstract class GoStructInitializationInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoStructInitializationInspection extends GoInspectionBase {
   public static final String REPLACE_WITH_NAMED_STRUCT_FIELD_FIX_NAME = "Replace with named struct field";
   public boolean reportLocalStructs;
   /**
@@ -60,6 +63,24 @@ public abstract class GoStructInitializationInspection extends GoInspectionBase 
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Code style issues";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Struct initialization without field names";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WEAK_WARNING;
   }
 
   @Override

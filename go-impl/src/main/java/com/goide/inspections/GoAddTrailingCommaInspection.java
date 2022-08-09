@@ -19,6 +19,8 @@ package com.goide.inspections;
 import com.goide.psi.GoElement;
 import com.goide.psi.GoVisitor;
 import com.goide.psi.impl.GoElementFactory;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.WriteCommandAction;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.LocalQuickFixBase;
@@ -31,7 +33,8 @@ import consulo.project.Project;
 
 import javax.annotation.Nonnull;
 
-public abstract class GoAddTrailingCommaInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoAddTrailingCommaInspection extends GoGeneralInspectionBase {
   public static final String QUICK_FIX_NAME = "Add comma";
 
   @Nonnull
@@ -46,6 +49,12 @@ public abstract class GoAddTrailingCommaInspection extends GoInspectionBase {
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Need trailing comma before newline in composite literal";
   }
 
   private static class MyAddCommaFix extends LocalQuickFixBase {

@@ -19,6 +19,8 @@ package com.goide.inspections;
 import com.goide.psi.GoLiteral;
 import com.goide.psi.GoStringLiteral;
 import com.goide.psi.GoVisitor;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.impl.psi.LeafPsiElement;
@@ -26,7 +28,8 @@ import consulo.language.psi.PsiElement;
 
 import javax.annotation.Nonnull;
 
-public abstract class GoInvalidStringOrCharInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoInvalidStringOrCharInspection extends GoGeneralInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
@@ -58,5 +61,11 @@ public abstract class GoInvalidStringOrCharInspection extends GoInspectionBase {
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Invalid strings and runes";
   }
 }

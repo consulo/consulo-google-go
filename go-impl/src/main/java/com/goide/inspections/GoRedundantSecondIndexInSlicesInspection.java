@@ -19,10 +19,12 @@ package com.goide.inspections;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.quickfix.GoDeleteQuickFix;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.CleanupLocalInspectionTool;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
 import consulo.util.collection.ContainerUtil;
@@ -31,7 +33,8 @@ import consulo.util.lang.Trinity;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public abstract class GoRedundantSecondIndexInSlicesInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
+@ExtensionImpl
+public class GoRedundantSecondIndexInSlicesInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
   public final static String DELETE_REDUNDANT_INDEX_QUICK_FIX_NAME = "Delete redundant index";
   private static final GoDeleteQuickFix DELETE_REDUNDANT_INDEX_QUICK_FIX =
     new GoDeleteQuickFix(DELETE_REDUNDANT_INDEX_QUICK_FIX_NAME, GoCallExpr.class);
@@ -75,5 +78,23 @@ public abstract class GoRedundantSecondIndexInSlicesInspection extends GoInspect
       return false;
     }
     return GoPsiImplUtil.builtin(((GoReferenceExpression)functionReferenceExpression).resolve());
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Declaration redundancy";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Redundant second index in slices inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
   }
 }

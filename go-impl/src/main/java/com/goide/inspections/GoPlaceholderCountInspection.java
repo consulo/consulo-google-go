@@ -21,10 +21,12 @@ import com.goide.inspections.GoPlaceholderChecker.PrintVerb;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.GoTypeUtil;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.document.util.TextRange;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.ElementManipulators;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
@@ -36,7 +38,8 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class GoPlaceholderCountInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoPlaceholderCountInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
@@ -321,4 +324,23 @@ public abstract class GoPlaceholderCountInspection extends GoInspectionBase {
       return getValue(((GoParenthesesExpr)expression).getExpression());
     }
     return null;
-  }}
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Probable bugs";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Printf/Logf placeholder handler";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
+  }
+}

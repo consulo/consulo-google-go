@@ -45,17 +45,6 @@ abstract public class GoInspectionBase extends LocalInspectionTool {
 
   @Nonnull
   @Override
-  public String[] getGroupPath() {
-    return new String[] {"Go"};
-  }
-
-  @Override
-  public boolean isEnabledByDefault() {
-    return true;
-  }
-
-  @Nonnull
-  @Override
   public final PsiElementVisitor buildVisitor(@Nonnull ProblemsHolder holder, boolean isOnTheFly, @Nonnull LocalInspectionToolSession session) {
     GoFile file = ObjectUtil.tryCast(session.getFile(), GoFile.class);
     return file != null && GoPsiImplUtil.allowed(file, null, ModuleUtilCore.findModuleForPsiElement(file))

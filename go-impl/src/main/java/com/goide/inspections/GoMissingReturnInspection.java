@@ -19,12 +19,14 @@ package com.goide.inspections;
 import com.goide.highlighting.exitpoint.GoBreakStatementExitPointHandler;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.codeEditor.Editor;
 import consulo.codeEditor.ScrollType;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.LocalQuickFix;
 import consulo.language.editor.inspection.LocalQuickFixAndIntentionActionOnPsiElement;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.editor.template.Template;
 import consulo.language.editor.template.TemplateManager;
 import consulo.language.editor.template.TemplateSettings;
@@ -38,7 +40,8 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class GoMissingReturnInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoMissingReturnInspection extends GoInspectionBase {
   public static final String ADD_RETURN_STATEMENT_QUICK_FIX_NAME = "Add return statement";
 
   private static void check(@Nullable GoSignature signature, @Nullable GoBlock block, @Nonnull ProblemsHolder holder) {
@@ -150,6 +153,24 @@ public abstract class GoMissingReturnInspection extends GoInspectionBase {
         check(o.getSignature(), o.getBlock(), holder);
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Control flow issues";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Missing return at end of function";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 
   private static class AddReturnFix extends LocalQuickFixAndIntentionActionOnPsiElement {

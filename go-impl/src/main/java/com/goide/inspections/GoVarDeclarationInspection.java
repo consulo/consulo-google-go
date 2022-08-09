@@ -19,6 +19,8 @@ package com.goide.inspections;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.GoTypeUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
@@ -31,7 +33,8 @@ import java.util.List;
 import static com.goide.inspections.GoInspectionUtil.UNKNOWN_COUNT;
 import static com.goide.inspections.GoInspectionUtil.getExpressionResultCount;
 
-public abstract class GoVarDeclarationInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoVarDeclarationInspection extends GoGeneralInspectionBase {
   @Nonnull
   private static Pair<List<? extends GoCompositeElement>, List<GoExpression>> getPair(@Nonnull GoVarSpec varDeclaration) {
     PsiElement assign = varDeclaration instanceof GoShortVarDeclaration ? ((GoShortVarDeclaration)varDeclaration).getVarAssign()
@@ -126,5 +129,11 @@ public abstract class GoVarDeclarationInspection extends GoInspectionBase {
         result.registerProblem(expr, msg, ProblemHighlightType.GENERIC_ERROR);
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Incorrect variable declaration";
   }
 }

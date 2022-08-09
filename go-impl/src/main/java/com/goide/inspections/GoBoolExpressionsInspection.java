@@ -20,9 +20,11 @@ import com.goide.psi.*;
 import com.goide.psi.impl.GoExpressionUtil;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.quickfix.GoSimplifyBoolExprQuickFix;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.application.progress.ProgressManager;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 
@@ -32,7 +34,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class GoBoolExpressionsInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoBoolExpressionsInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -109,5 +112,23 @@ public abstract class GoBoolExpressionsInspection extends GoInspectionBase {
 
   private static boolean isSameOp(GoExpression expr, boolean and) {
     return and ? expr instanceof GoAndExpr : expr instanceof GoOrExpr;
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Declaration redundancy";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Bool condition inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
   }
 }

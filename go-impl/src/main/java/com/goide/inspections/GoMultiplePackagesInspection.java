@@ -21,6 +21,8 @@ import com.goide.psi.GoFile;
 import com.goide.psi.GoPackageClause;
 import com.goide.quickfix.GoMultiplePackagesQuickFix;
 import com.goide.sdk.GoPackageUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.LocalQuickFix;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.scratch.ScratchUtil;
@@ -30,7 +32,8 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class GoMultiplePackagesInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoMultiplePackagesInspection extends GoGeneralInspectionBase {
   @Override
   protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     if (ScratchUtil.isScratch(file.getVirtualFile())) return;
@@ -54,5 +57,11 @@ public abstract class GoMultiplePackagesInspection extends GoInspectionBase {
         problemsHolder.registerProblem(packageClause, "Multiple packages in directory", fixes.toArray(new LocalQuickFix[fixes.size()]));
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Multiple packages in directory declaration";
   }
 }

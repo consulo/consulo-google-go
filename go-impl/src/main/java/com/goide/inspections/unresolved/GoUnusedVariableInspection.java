@@ -21,6 +21,7 @@ import com.goide.psi.*;
 import com.goide.psi.impl.GoVarProcessor;
 import com.goide.quickfix.GoDeleteVarDefinitionQuickFix;
 import com.goide.quickfix.GoRenameToBlankQuickFix;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.application.progress.ProgressManager;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
@@ -34,6 +35,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoUnusedVariableInspection extends GoInspectionBase {
   @Nonnull
   @Override

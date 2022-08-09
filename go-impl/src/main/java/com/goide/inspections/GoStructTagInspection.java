@@ -21,8 +21,10 @@ import com.goide.psi.GoStructType;
 import com.goide.psi.GoTag;
 import com.goide.psi.GoVisitor;
 import com.goide.psi.impl.GoPsiImplUtil;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 
 import javax.annotation.Nonnull;
 
@@ -30,7 +32,8 @@ import javax.annotation.Nonnull;
  * Implements <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/issues/1983"/>, an
  * inspector that warns if a go StructTag is not well-formed according to Go language conventions.
  */
-public abstract class GoStructTagInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoStructTagInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
@@ -106,5 +109,23 @@ public abstract class GoStructTagInspection extends GoInspectionBase {
     }
 
     return true;
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Probable bugs";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Malformed struct tag";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
   }
 }

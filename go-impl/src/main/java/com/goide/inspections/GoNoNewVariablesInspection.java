@@ -19,7 +19,9 @@ package com.goide.inspections;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.psi.impl.GoPsiImplUtil;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.document.util.TextRange;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.LocalQuickFixBase;
 import consulo.language.editor.inspection.ProblemDescriptor;
@@ -32,7 +34,8 @@ import consulo.util.collection.ContainerUtil;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public abstract class GoNoNewVariablesInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoNoNewVariablesInspection extends GoGeneralInspectionBase {
   public static final String QUICK_FIX_NAME = "Replace with '='";
 
   @Nonnull
@@ -97,6 +100,12 @@ public abstract class GoNoNewVariablesInspection extends GoInspectionBase {
       String right = recvExpression != null ? recvExpression.getText() : "";
       element.replace(GoElementFactory.createRecvStatementAssignment(project, left, right));
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "No new variables on left side of :=";
   }
 
   private static class MyLocalQuickFixBase extends LocalQuickFixBase {

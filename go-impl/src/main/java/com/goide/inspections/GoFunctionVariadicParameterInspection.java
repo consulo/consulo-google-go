@@ -18,6 +18,8 @@ package com.goide.inspections;
 
 import com.goide.psi.*;
 import com.goide.quickfix.GoDeleteQuickFix;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
@@ -28,7 +30,8 @@ import java.util.List;
 
 import static com.goide.GoTypes.TRIPLE_DOT;
 
-public abstract class GoFunctionVariadicParameterInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoFunctionVariadicParameterInspection extends GoGeneralInspectionBase {
   private static final GoDeleteQuickFix DELETE_QUICK_FIX = new GoDeleteQuickFix("Delete ...", TRIPLE_DOT);
 
   @Nonnull
@@ -76,5 +79,11 @@ public abstract class GoFunctionVariadicParameterInspection extends GoInspection
         }
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Incorrect variadic parameter";
   }
 }

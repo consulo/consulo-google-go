@@ -17,7 +17,9 @@
 package com.goide.inspections;
 
 import com.goide.psi.*;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.util.collection.ContainerUtil;
 
 import javax.annotation.Nonnull;
@@ -26,7 +28,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class GoDuplicateReturnArgumentInspection extends GoDuplicateArgumentInspection {
+@ExtensionImpl
+public class GoDuplicateReturnArgumentInspection extends GoDuplicateArgumentInspection {
   @Override
   public void check(@Nullable GoSignature o, @Nonnull ProblemsHolder holder) {
     if (o == null) return;
@@ -50,5 +53,23 @@ public abstract class GoDuplicateReturnArgumentInspection extends GoDuplicateArg
       }
     }
     return names;
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Duplicate return argument";
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Redeclared symbols";
   }
 }

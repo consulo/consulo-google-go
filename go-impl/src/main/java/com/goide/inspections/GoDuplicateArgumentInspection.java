@@ -17,16 +17,19 @@
 package com.goide.inspections;
 
 import com.goide.psi.*;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public abstract class GoDuplicateArgumentInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoDuplicateArgumentInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -61,5 +64,23 @@ public abstract class GoDuplicateArgumentInspection extends GoInspectionBase {
         }
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Redeclared symbols";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Duplicate argument";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 }

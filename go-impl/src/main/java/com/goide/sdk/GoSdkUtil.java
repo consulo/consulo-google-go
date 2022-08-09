@@ -37,7 +37,6 @@ import consulo.process.PathEnvironmentVariableUtil;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.collection.SmartList;
-import consulo.util.dataholder.Key;
 import consulo.util.dataholder.UserDataHolder;
 import consulo.util.io.FileUtil;
 import consulo.util.lang.ObjectUtil;
@@ -60,9 +59,9 @@ import java.util.regex.Pattern;
 
 public class GoSdkUtil {
   private static final Pattern GO_VERSION_PATTERN = Pattern.compile("[tT]heVersion\\s*=\\s*`go([\\d.]+\\w+(\\d+)?)`");
+  private static final Pattern GO_TEXT_VERSION_PATTERN = Pattern.compile("go([\\d.]+\\w+(\\d+)?)");
   private static final Pattern GAE_VERSION_PATTERN = Pattern.compile("[tT]heVersion\\s*=\\s*`go([\\d.]+)( \\(appengine-[\\d.]+\\))?`");
   private static final Pattern GO_DEVEL_VERSION_PATTERN = Pattern.compile("[tT]heVersion\\s*=\\s*`(devel.*)`");
-  private static final Key<String> ZVERSION_DATA_KEY = Key.create("GO_ZVERSION_KEY");
 
   private GoSdkUtil() {
   }
@@ -251,15 +250,6 @@ public class GoSdkUtil {
 
   @Nonnull
   private static String getSrcLocation(@Nonnull String version) {
-    if (ApplicationManager.getApplication().isUnitTestMode()) {
-      return "src/pkg";
-    }
-    if (version.startsWith("devel")) {
-      return "src";
-    }
-    if (version.length() > 2 && StringUtil.parseDouble(version.substring(0, 3), 1.4) < 1.4) {
-      return "src/pkg";
-    }
     return "src";
   }
 
@@ -368,6 +358,10 @@ public class GoSdkUtil {
     if (matcher.find()) {
       return matcher.group(1);
     }
+    matcher = GO_TEXT_VERSION_PATTERN.matcher(text);
+    if (matcher.matches()) {
+      return matcher.group(1);
+    }
 
     return null;
   }
@@ -377,25 +371,23 @@ public class GoSdkUtil {
     try {
       VirtualFile sdkRoot = VirtualFileManager.getInstance().findFileByUrl(VirtualFileUtil.pathToUrl(sdkPath));
       if (sdkRoot != null) {
-        String cachedVersion = sdkRoot.getUserData(ZVERSION_DATA_KEY);
-        if (cachedVersion != null) {
-          return !cachedVersion.isEmpty() ? cachedVersion : null;
+        VirtualFile versionFile = sdkRoot.findFileByRelativePath("VERSION");
+        if (versionFile == null) {
+          versionFile = sdkRoot.findFileByRelativePath("src/" + GoConstants.GO_VERSION_NEW_FILE_PATH);
         }
-
-        VirtualFile versionFile = sdkRoot.findFileByRelativePath("src/" + GoConstants.GO_VERSION_NEW_FILE_PATH);
         if (versionFile == null) {
           versionFile = sdkRoot.findFileByRelativePath("src/" + GoConstants.GO_VERSION_FILE_PATH);
         }
         if (versionFile == null) {
           versionFile = sdkRoot.findFileByRelativePath("src/pkg/" + GoConstants.GO_VERSION_FILE_PATH);
         }
+
         if (versionFile != null) {
           String text = Files.readString(VirtualFileUtil.virtualToIoFile(versionFile).toPath());
           String version = parseGoVersion(text);
           if (version == null) {
             GoSdkService.LOG.debug("Cannot retrieve go version from zVersion file: " + text);
           }
-          sdkRoot.putUserData(ZVERSION_DATA_KEY, StringUtil.notNullize(version));
           return version;
         }
         else {

@@ -20,14 +20,17 @@ import com.goide.psi.GoDeferStatement;
 import com.goide.psi.GoForStatement;
 import com.goide.psi.GoFunctionLit;
 import com.goide.psi.GoVisitor;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.util.PsiTreeUtil;
 
 import javax.annotation.Nonnull;
 
-public abstract class GoDeferInLoopInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoDeferInLoopInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -40,5 +43,23 @@ public abstract class GoDeferInLoopInspection extends GoInspectionBase {
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Control flow issues";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Defer in loop";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 }

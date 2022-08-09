@@ -20,11 +20,14 @@ import com.goide.psi.GoFile;
 import com.goide.psi.GoImportSpec;
 import com.goide.quickfix.GoDeleteImportQuickFix;
 import com.goide.runconfig.testing.GoTestFinder;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.ProblemsHolder;
 
 import javax.annotation.Nonnull;
 
-public abstract class GoCgoInTestInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoCgoInTestInspection extends GoGeneralInspectionBase {
   @Override
   protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     if (!GoTestFinder.isTestFile(file)) return;
@@ -33,5 +36,11 @@ public abstract class GoCgoInTestInspection extends GoInspectionBase {
         problemsHolder.registerProblem(importSpec, "Usage of cgo in tests is not supported.", new GoDeleteImportQuickFix());
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Usage of cgo in tests is not supported";
   }
 }

@@ -19,12 +19,15 @@ package com.goide.inspections;
 import com.goide.psi.GoAnonymousFieldDefinition;
 import com.goide.psi.GoVisitor;
 import com.goide.quickfix.GoCreateWrapperTypeQuickFix;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
 
 import javax.annotation.Nonnull;
 
-public abstract class GoAnonymousFieldDefinitionTypeInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoAnonymousFieldDefinitionTypeInspection extends GoGeneralInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
@@ -38,5 +41,11 @@ public abstract class GoAnonymousFieldDefinitionTypeInspection extends GoInspect
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Invalid anonymous field definition type";
   }
 }

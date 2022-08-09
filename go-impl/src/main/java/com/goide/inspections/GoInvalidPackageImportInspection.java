@@ -27,6 +27,8 @@ import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.sdk.GoPackageUtil;
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.WriteCommandAction;
 import consulo.language.editor.inspection.LocalQuickFixBase;
 import consulo.language.editor.inspection.ProblemDescriptor;
@@ -48,7 +50,8 @@ import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Set;
 
-public abstract class GoInvalidPackageImportInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoInvalidPackageImportInspection extends GoGeneralInspectionBase {
   public static final String DELETE_ALIAS_QUICK_FIX_NAME = "Delete alias";
 
   @Override
@@ -148,6 +151,12 @@ public abstract class GoInvalidPackageImportInspection extends GoInspectionBase 
         }
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Invalid package import";
   }
 
   private static class GoDeleteImportSpecAlias extends LocalQuickFixBase {

@@ -23,6 +23,8 @@ import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.runconfig.testing.GoTestFunctionType;
 import com.goide.runconfig.testing.frameworks.gotest.GotestGenerateAction;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.LocalQuickFixBase;
 import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.editor.inspection.ProblemsHolder;
@@ -34,7 +36,8 @@ import consulo.util.lang.ObjectUtil;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public abstract class GoTestSignaturesInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoTestSignaturesInspection extends GoGeneralInspectionBase {
   @Override
   protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     if (!GoTestFinder.isTestFile(file)) return;
@@ -65,6 +68,12 @@ public abstract class GoTestSignaturesInspection extends GoInspectionBase {
         }
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Wrong test declaration";
   }
 
   private static class GoTestSignaturesQuickFix extends LocalQuickFixBase {

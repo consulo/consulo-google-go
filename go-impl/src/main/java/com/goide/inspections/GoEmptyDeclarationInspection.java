@@ -19,17 +19,20 @@ package com.goide.inspections;
 import com.goide.GoDocumentationProvider;
 import com.goide.psi.*;
 import com.goide.quickfix.GoDeleteQuickFix;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.CleanupLocalInspectionTool;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiComment;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 
 import javax.annotation.Nonnull;
 
-public abstract class GoEmptyDeclarationInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
+@ExtensionImpl
+public class GoEmptyDeclarationInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
 
   public final static String QUICK_FIX_NAME = "Delete empty declaration";
 
@@ -69,5 +72,23 @@ public abstract class GoEmptyDeclarationInspection extends GoInspectionBase impl
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Declaration redundancy";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Empty declaration inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
   }
 }

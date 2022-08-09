@@ -18,17 +18,20 @@ package com.goide.inspections;
 
 import com.goide.psi.*;
 import com.goide.quickfix.GoDeleteRangeQuickFix;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.CleanupLocalInspectionTool;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class GoRedundantBlankArgInRangeInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
+@ExtensionImpl
+public class GoRedundantBlankArgInRangeInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
   public final static String DELETE_BLANK_ARGUMENT_QUICK_FIX_NAME = "Delete blank argument";
 
   @Nonnull
@@ -74,5 +77,23 @@ public abstract class GoRedundantBlankArgInRangeInspection extends GoInspectionB
 
   private static boolean isBlankGoReferenceExpression(@Nullable PsiElement o) {
     return o instanceof GoReferenceExpression && o.textMatches("_");
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Declaration redundancy";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Redundant blank argument in range inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
   }
 }

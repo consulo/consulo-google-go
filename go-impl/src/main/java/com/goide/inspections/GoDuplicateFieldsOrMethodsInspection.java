@@ -17,9 +17,11 @@
 package com.goide.inspections;
 
 import com.goide.psi.*;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.util.collection.ContainerUtil;
 
@@ -28,7 +30,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class GoDuplicateFieldsOrMethodsInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoDuplicateFieldsOrMethodsInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
@@ -88,5 +91,23 @@ public abstract class GoDuplicateFieldsOrMethodsInspection extends GoInspectionB
         }
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Redeclared symbols";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Duplicate fields and methods inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 }

@@ -18,9 +18,10 @@ package com.goide.inspections.unresolved;
 
 import com.goide.GoTypes;
 import com.goide.codeInsight.imports.GoImportPackageQuickFix;
-import com.goide.inspections.GoInspectionBase;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoReference;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.ast.ASTNode;
 import consulo.language.codeStyle.FormatterUtil;
 import consulo.language.editor.highlight.ReadWriteAccessDetector;
@@ -43,7 +44,8 @@ import java.util.List;
 import static consulo.language.editor.inspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
 import static consulo.language.editor.inspection.ProblemHighlightType.LIKE_UNKNOWN_SYMBOL;
 
-public abstract class GoUnresolvedReferenceInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoUnresolvedReferenceInspection extends GoGeneralInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -187,5 +189,11 @@ public abstract class GoUnresolvedReferenceInspection extends GoInspectionBase {
     ASTNode next = FormatterUtil.getNextNonWhitespaceSibling(o.getNode());
     boolean isDot = next != null && next.getElementType() == GoTypes.DOT;
     return isDot || qualifier != null;
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Unresolved reference inspection";
   }
 }

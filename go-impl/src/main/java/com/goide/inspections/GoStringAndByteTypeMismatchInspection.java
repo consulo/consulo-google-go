@@ -21,6 +21,8 @@ import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.GoTypeUtil;
 import com.goide.quickfix.GoConvertStringToByteQuickFix;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.ast.TokenSet;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.LocalQuickFix;
@@ -32,7 +34,8 @@ import consulo.util.lang.Trinity;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 
-public abstract class GoStringAndByteTypeMismatchInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoStringAndByteTypeMismatchInspection extends GoGeneralInspectionBase {
   private static final String TEXT_HINT = "Mismatched types: byte and string";
   private static final GoConvertStringToByteQuickFix STRING_INDEX_IS_BYTE_QUICK_FIX = new GoConvertStringToByteQuickFix();
 
@@ -72,5 +75,11 @@ public abstract class GoStringAndByteTypeMismatchInspection extends GoInspection
     return indices.getSecond() == null
            && indices.getThird() == null
            && expr.getNode().getChildren(TokenSet.create(GoTypes.COLON)).length == 0;
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Mismatched types: byte and string";
   }
 }

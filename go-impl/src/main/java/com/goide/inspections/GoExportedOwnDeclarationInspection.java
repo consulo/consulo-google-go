@@ -17,8 +17,10 @@
 package com.goide.inspections;
 
 import com.goide.psi.*;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.WriteCommandAction;
 import consulo.language.editor.inspection.*;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.util.AttachmentFactoryUtil;
 import consulo.logging.Logger;
@@ -32,7 +34,8 @@ import javax.annotation.Nonnull;
  * <p/>
  * https://github.com/golang/lint/blob/32a87160691b3c96046c0c678fe57c5bef761456/lint.go#L827
  */
-public abstract class GoExportedOwnDeclarationInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
   public static final String QUICK_FIX_NAME = "Extract to own declaration";
 
   @Nonnull
@@ -71,6 +74,24 @@ public abstract class GoExportedOwnDeclarationInspection extends GoInspectionBas
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Code style issues";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Exported element should have its own declaration";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WEAK_WARNING;
   }
 
   private static class ExtractConstantDefinitionFix extends LocalQuickFixBase {

@@ -49,7 +49,6 @@ public class GoPlaceholderChecker {
 
   private static final Set<String> PRINTING_FUNCTIONS = Set.of(
     "error",
-    "error",
     "fatal",
     "fprint",
     "fprintln",

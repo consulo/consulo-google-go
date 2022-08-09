@@ -23,9 +23,11 @@ import com.goide.stubs.index.GoFunctionIndex;
 import com.goide.stubs.index.GoIdFilter;
 import com.goide.stubs.index.GoMethodIndex;
 import com.goide.stubs.types.GoMethodDeclarationStubElementType;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.application.progress.ProgressManager;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.scope.GlobalSearchScope;
 import consulo.language.psi.stub.IdFilter;
@@ -38,7 +40,8 @@ import javax.annotation.Nonnull;
 import static com.goide.GoConstants.INIT;
 import static com.goide.GoConstants.MAIN;
 
-public abstract class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -103,5 +106,23 @@ public abstract class GoDuplicateFunctionOrMethodInspection extends GoInspection
   private static boolean zeroArity(@Nonnull GoFunctionDeclaration o) {
     GoSignature signature = o.getSignature();
     return signature == null || signature.getParameters().getParameterDeclarationList().isEmpty();
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Redeclared symbols";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Duplicate functions and methods inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 }
