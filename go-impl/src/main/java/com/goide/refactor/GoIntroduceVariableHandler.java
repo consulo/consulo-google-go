@@ -18,7 +18,7 @@ package com.goide.refactor;
 
 import consulo.codeEditor.Editor;
 import consulo.dataContext.DataContext;
-import consulo.language.editor.refactoring.RefactoringActionHandler;
+import consulo.language.editor.refactoring.action.RefactoringActionHandler;
 import consulo.language.editor.refactoring.util.CommonRefactoringUtil;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;

@@ -20,8 +20,8 @@ import com.goide.GoLanguage;
 import com.goide.psi.GoNamedElement;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Language;
-import consulo.language.editor.refactoring.RefactoringActionHandler;
 import consulo.language.editor.refactoring.RefactoringSupportProvider;
+import consulo.language.editor.refactoring.action.RefactoringActionHandler;
 import consulo.language.psi.PsiElement;
 
 import javax.annotation.Nonnull;
