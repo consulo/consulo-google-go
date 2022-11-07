@@ -93,17 +93,17 @@ public class WrongSdkConfigurationNotificationProvider implements EditorNotifica
   @Nonnull
   private static EditorNotificationBuilder createMissingSdkPanel(@Nonnull Project project, @Nonnull Module module, EditorNotificationBuilder builder) {
     builder.withText(LocalizeValue.localizeTODO(ProjectBundle.message("module.sdk.not.defined")));
-    builder.withAction(LocalizeValue.localizeTODO(ProjectBundle.message("module.sdk.setup")), () -> ShowSettingsUtil.getInstance().showProjectStructureDialog(project, s -> s.select(module, true)));
+    builder.withAction(LocalizeValue.localizeTODO(ProjectBundle.message("module.sdk.setup")), (e) -> ShowSettingsUtil.getInstance().showProjectStructureDialog(project, s -> s.select(module, true)));
     return builder;
   }
 
   @Nonnull
   private static EditorNotificationBuilder createEmptyGoPathPanel(@Nonnull Project project, Module module, EditorNotificationBuilder builder) {
     builder.withText(LocalizeValue.localizeTODO("GOPATH is empty"));
-    builder.withAction(LocalizeValue.localizeTODO("Configure Go Libraries"), () -> {
+    builder.withAction(LocalizeValue.localizeTODO("Configure Go Libraries"), (e) -> {
       ShowSettingsUtil.getInstance().showProjectStructureDialog(project, s -> s.select(module, true));
     });
-    builder.withAction(LocalizeValue.localizeTODO("Do not show again"), () -> {
+    builder.withAction(LocalizeValue.localizeTODO("Do not show again"), (e) -> {
       ApplicationPropertiesComponent.getInstance().setValue(DO_NOT_SHOW_NOTIFICATION_ABOUT_EMPTY_GOPATH, true);
       EditorNotifications.getInstance(project).updateAllNotifications();
     });

@@ -102,7 +102,7 @@ public class GoFileIgnoredByBuildToolNotificationProvider implements EditorNotif
   private static EditorNotificationBuilder createIgnoredByBuildToolPanel(@Nonnull Project project, @Nonnull VirtualFile file, EditorNotificationBuilder builder) {
     String fileName = file.getName();
     builder.withText(LocalizeValue.localizeTODO("'" + fileName + "' will be ignored by build tool since its name starts with '" + fileName.charAt(0) + "'"));
-    builder.withAction(LocalizeValue.localizeTODO("Do not show again"), () -> {
+    builder.withAction(LocalizeValue.localizeTODO("Do not show again"), (e) -> {
       ApplicationPropertiesComponent.getInstance().setValue(DO_NOT_SHOW_NOTIFICATION_ABOUT_IGNORE_BY_BUILD_TOOL, true);
       EditorNotifications.getInstance(project).updateAllNotifications();
     });
@@ -112,7 +112,7 @@ public class GoFileIgnoredByBuildToolNotificationProvider implements EditorNotif
   @Nonnull
   private static EditorNotificationBuilder createMismatchedTargetPanel(@Nonnull Module module, @Nonnull VirtualFile file, EditorNotificationBuilder builder) {
     builder.withText(LocalizeValue.localizeTODO("'" + file.getName() + "' doesn't match to target system. File will be ignored by build tool"));
-    builder.withAction(LocalizeValue.localizeTODO("Edit Go project settings"), () -> {
+    builder.withAction(LocalizeValue.localizeTODO("Edit Go project settings"), (e) -> {
       ShowSettingsUtil.getInstance().showProjectStructureDialog(module.getProject(), s -> s.select(module, true));
     });
     return builder;
