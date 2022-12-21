@@ -42,13 +42,6 @@ public class GoAddFunctionBlockIntention extends BaseElementAtCaretIntentionActi
     setText(NAME);
   }
 
-  @Nls
-  @Nonnull
-  @Override
-  public String getFamilyName() {
-    return NAME;
-  }
-
   @Override
   public boolean isAvailable(@Nonnull Project project, Editor editor, @Nonnull PsiElement element) {
     PsiElement parent = element.getParent();

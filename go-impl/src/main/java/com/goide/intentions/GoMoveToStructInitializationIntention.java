@@ -48,13 +48,6 @@ public class GoMoveToStructInitializationIntention extends BaseElementAtCaretInt
     setText(NAME);
   }
 
-  @Nls
-  @Nonnull
-  @Override
-  public String getFamilyName() {
-    return NAME;
-  }
-
   @Override
   public boolean isAvailable(@Nonnull Project project, Editor editor, @Nonnull PsiElement element) {
     return getData(element) != null;
