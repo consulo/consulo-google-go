@@ -21,18 +21,21 @@ import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.GoTypeUtil;
 import com.goide.quickfix.GoConvertStringToByteQuickFix;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.LocalQuickFix;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.util.Trinity;
-import com.intellij.psi.tree.TokenSet;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
+import consulo.language.ast.TokenSet;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.LocalQuickFix;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.Trinity;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 
-public class GoStringAndByteTypeMismatchInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoStringAndByteTypeMismatchInspection extends GoGeneralInspectionBase {
   private static final String TEXT_HINT = "Mismatched types: byte and string";
   private static final GoConvertStringToByteQuickFix STRING_INDEX_IS_BYTE_QUICK_FIX = new GoConvertStringToByteQuickFix();
 
@@ -72,5 +75,11 @@ public class GoStringAndByteTypeMismatchInspection extends GoInspectionBase {
     return indices.getSecond() == null
            && indices.getThird() == null
            && expr.getNode().getChildren(TokenSet.create(GoTypes.COLON)).length == 0;
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Mismatched types: byte and string";
   }
 }

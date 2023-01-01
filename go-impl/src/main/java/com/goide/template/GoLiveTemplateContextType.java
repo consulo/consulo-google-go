@@ -16,22 +16,18 @@
 
 package com.goide.template;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoLanguage;
 import com.goide.GoTypes;
 import com.goide.highlighting.GoSyntaxHighlighter;
-import com.goide.psi.*;
-import com.intellij.codeInsight.template.TemplateContextType;
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.psi.util.PsiUtilCore;
-import com.intellij.util.ObjectUtils;
+import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.language.editor.template.context.TemplateContextType;
+import consulo.language.impl.psi.LeafPsiElement;
+import consulo.language.psi.*;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.lang.ObjectUtil;
 import org.jetbrains.annotations.NonNls;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 abstract public class GoLiveTemplateContextType extends TemplateContextType {
@@ -44,7 +40,7 @@ abstract public class GoLiveTemplateContextType extends TemplateContextType {
   @Override
   public boolean isInContext(@Nonnull PsiFile file, int offset) {
     if (PsiUtilCore.getLanguageAtOffset(file, offset).isKindOf(GoLanguage.INSTANCE)) {
-      PsiElement psiElement = ObjectUtils.notNull(file.findElementAt(offset), file);
+      PsiElement psiElement = ObjectUtil.notNull(file.findElementAt(offset), file);
       if (!acceptLeaf()) {
         psiElement = getFirstCompositeElement(psiElement);
       }
@@ -93,133 +89,4 @@ abstract public class GoLiveTemplateContextType extends TemplateContextType {
     return new GoSyntaxHighlighter();
   }
 
-  public static class File extends GoLiveTemplateContextType {
-    protected File() {
-      super("GO_FILE", "File", GoEverywhereContextType.class);
-    }
-
-    @Override
-    protected boolean isInContext(@Nonnull PsiElement element) {
-      if (element instanceof PsiComment || element instanceof GoPackageClause) {
-        return false;
-      }
-      return element instanceof GoFile || element.getParent() instanceof GoFile && !(element instanceof GoTopLevelDeclaration);
-    }
-  }
-
-  public static class Type extends GoLiveTemplateContextType {
-    protected Type() {
-      super("GO_TYPE", "Type", GoEverywhereContextType.class);
-    }
-
-    @Override
-    protected boolean isInContext(@Nonnull PsiElement element) {
-      return element instanceof GoType;
-    }
-  }
-
-  public static class Block extends GoLiveTemplateContextType {
-    protected Block() {
-      super("GO_BLOCK", "Block", GoEverywhereContextType.class);
-    }
-
-    @Override
-    protected boolean isInContext(@Nonnull PsiElement element) {
-      return (element instanceof GoLeftHandExprList || element instanceof GoSimpleStatement) &&
-             PsiTreeUtil.getParentOfType(element, GoBlock.class) != null;
-    }
-  }
-
-  public static class Expression extends GoLiveTemplateContextType {
-    protected Expression() {
-      super("GO_EXPRESSION", "Expression", GoEverywhereContextType.class);
-    }
-
-    @Override
-    protected boolean isInContext(@Nonnull PsiElement element) {
-      return element instanceof GoExpression;
-    }
-  }
-
-  public static class Tag extends GoLiveTemplateContextType {
-    protected Tag() {
-      super("GO_TAG", "Tag", GoEverywhereContextType.class);
-    }
-
-    @Override
-    protected boolean isInContext(@Nonnull PsiElement element) {
-      if (element.getNode().getElementType() == GoTypes.IDENTIFIER) {
-        if (isInsideFieldTypeDeclaration(element)) {
-          return true;
-        }
-        if (isInsideFieldTypeDeclaration(prevVisibleLeafOrNewLine(element))) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    private static boolean isInsideFieldTypeDeclaration(@Nullable PsiElement element) {
-      if (element != null) {
-        PsiElement parent = element.getParent();
-        if (parent instanceof GoTypeReferenceExpression) {
-          return PsiTreeUtil.skipParentsOfType(parent, GoType.class) instanceof GoFieldDeclaration;
-        }
-      }
-      return false;
-    }
-
-    @Override
-    protected boolean acceptLeaf() {
-      return true;
-    }
-  }
-
-  public static class TagLiteral extends GoLiveTemplateContextType {
-    protected TagLiteral() {
-      super("GO_TAG_LITERAL", "Tag literal", GoEverywhereContextType.class);
-    }
-
-    @Override
-    protected boolean isInContext(@Nonnull PsiElement element) {
-      return element instanceof GoStringLiteral && element.getParent() instanceof GoTag;
-    }
-  }
-
-  public static class Statement extends GoLiveTemplateContextType {
-    protected Statement() {
-      super("GO_STATEMENT", "Statement", GoEverywhereContextType.class);
-    }
-
-    public static boolean onStatementBeginning(@Nonnull PsiElement psiElement) {
-      PsiElement prevLeaf = prevVisibleLeafOrNewLine(psiElement);
-      if (prevLeaf == null) {
-        return false;
-      }
-      if (prevLeaf instanceof PsiWhiteSpace) {
-        return true;
-      }
-      IElementType type = prevLeaf.getNode().getElementType();
-      return type == GoTypes.SEMICOLON || type == GoTypes.LBRACE || type == GoTypes.RBRACE || type == GoTypes.COLON;
-    }
-
-    @Override
-    protected boolean isInContext(@Nonnull PsiElement element) {
-      if (element instanceof PsiComment) {
-        return false;
-      }
-
-      PsiElement parent = element.getParent();
-      if (parent instanceof PsiErrorElement || parent instanceof GoExpression) {
-        parent = parent.getParent();
-      }
-      return (parent instanceof GoStatement || parent instanceof GoLeftHandExprList || parent instanceof GoBlock) 
-             && onStatementBeginning(element);
-    }
-
-    @Override
-    protected boolean acceptLeaf() {
-      return true;
-    }
-  }
 }

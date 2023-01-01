@@ -20,31 +20,32 @@ import com.goide.GoConstants;
 import com.goide.project.GoBuildTargetSettings;
 import com.goide.psi.GoFile;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ProjectRootManager;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileSystemItem;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.util.CachedValue;
-import com.intellij.psi.util.CachedValueProvider;
-import com.intellij.psi.util.CachedValuesManager;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.application.util.CachedValue;
+import consulo.application.util.CachedValueProvider;
+import consulo.application.util.CachedValuesManager;
 import consulo.google.go.module.extension.GoModuleExtension;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiFileSystemItem;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.module.content.ProjectRootManager;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
 import consulo.util.dataholder.Key;
+import consulo.util.io.FileUtil;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
 import org.jetbrains.annotations.Contract;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class GoPackageUtil {
@@ -119,7 +120,7 @@ public class GoPackageUtil {
   private static Collection<String> getAllPackagesInDirectoryInner(@Nonnull PsiDirectory dir,
                                                                    @Nullable Module contextModule,
                                                                    boolean trimTestSuffices) {
-    Collection<String> set = ContainerUtil.newLinkedHashSet();
+    Collection<String> set = new LinkedHashSet<>();
     for (PsiFile file : dir.getFiles()) {
       if (file instanceof GoFile && GoPsiImplUtil.allowed(file, null, contextModule)) {
         String name = trimTestSuffices ? ((GoFile)file).getCanonicalPackageName() : ((GoFile)file).getPackageName();

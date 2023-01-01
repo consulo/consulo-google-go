@@ -16,15 +16,15 @@
 
 package com.goide.quickfix;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoForStatement;
 import com.goide.psi.impl.GoElementFactory;
-import com.intellij.codeInspection.LocalQuickFixBase;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
+import consulo.language.editor.inspection.LocalQuickFixBase;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
 import org.jetbrains.annotations.Nls;
+
+import javax.annotation.Nonnull;
 
 public class GoReplaceWithSelectStatementQuickFix extends LocalQuickFixBase {
   public static final String QUICK_FIX_NAME = "Replace with 'select'";

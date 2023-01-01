@@ -1,6 +1,6 @@
 package org.jetbrains.debugger;
 
-import com.intellij.util.ThreeState;
+import consulo.util.lang.ThreeState;
 import org.jetbrains.debugger.values.Value;
 
 /**

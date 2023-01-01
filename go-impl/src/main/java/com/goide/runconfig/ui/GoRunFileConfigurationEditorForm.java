@@ -18,20 +18,27 @@ package com.goide.runconfig.ui;
 
 import com.goide.runconfig.GoRunUtil;
 import com.goide.runconfig.file.GoRunFileConfiguration;
-import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.options.SettingsEditor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.TextFieldWithBrowseButton;
-import javax.annotation.Nonnull;
+import consulo.configurable.ConfigurationException;
+import consulo.execution.configuration.ui.SettingsEditor;
+import consulo.project.Project;
+import consulo.ui.ex.awt.FormBuilder;
+import consulo.ui.ex.awt.TextFieldWithBrowseButton;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 
 public class GoRunFileConfigurationEditorForm extends SettingsEditor<GoRunFileConfiguration> {
-  private JPanel myComponent;
   private TextFieldWithBrowseButton myFileField;
   private GoCommonSettingsPanel myCommonSettingsPanel;
 
   public GoRunFileConfigurationEditorForm(@Nonnull Project project) {
+    myCommonSettingsPanel = new GoCommonSettingsPanel() {
+      @Override
+      protected void addBefore(FormBuilder builder) {
+        myFileField = new TextFieldWithBrowseButton();
+        builder.addLabeledComponent("File", myFileField);
+      }
+    };
     myCommonSettingsPanel.init(project);
     GoRunUtil.installGoWithMainFileChooser(project, myFileField);
   }
@@ -51,6 +58,6 @@ public class GoRunFileConfigurationEditorForm extends SettingsEditor<GoRunFileCo
   @Nonnull
   @Override
   protected JComponent createEditor() {
-    return myComponent;
+    return myCommonSettingsPanel;
   }
 }

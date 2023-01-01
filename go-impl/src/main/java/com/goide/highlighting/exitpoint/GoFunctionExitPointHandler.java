@@ -18,17 +18,17 @@ package com.goide.highlighting.exitpoint;
 
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.codeInsight.highlighting.HighlightUsagesHandlerBase;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.Consumer;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.highlight.usage.HighlightUsagesHandlerBase;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class GoFunctionExitPointHandler extends HighlightUsagesHandlerBase<PsiElement> {
   @Nonnull
@@ -50,7 +50,7 @@ public class GoFunctionExitPointHandler extends HighlightUsagesHandlerBase<PsiEl
 
   @Override
   protected void selectTargets(List<PsiElement> targets, @Nonnull Consumer<List<PsiElement>> selectionConsumer) {
-    selectionConsumer.consume(targets);
+    selectionConsumer.accept(targets);
   }
 
   @Override

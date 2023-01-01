@@ -16,14 +16,16 @@
 
 package com.goide.psi.impl.manipulator;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoImportString;
 import com.goide.psi.impl.GoElementFactory;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.AbstractElementManipulator;
-import com.intellij.util.IncorrectOperationException;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.document.util.TextRange;
+import consulo.language.psi.AbstractElementManipulator;
+import consulo.language.util.IncorrectOperationException;
 
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
 public class GoImportStringManipulator extends AbstractElementManipulator<GoImportString> {
   @Nonnull
   @Override
@@ -36,5 +38,11 @@ public class GoImportStringManipulator extends AbstractElementManipulator<GoImpo
   @Override
   public TextRange getRangeInElement(@Nonnull GoImportString element) {
     return element.getPathTextRange();
+  }
+
+  @Nonnull
+  @Override
+  public Class<GoImportString> getElementClass() {
+    return GoImportString.class;
   }
 }

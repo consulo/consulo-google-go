@@ -16,23 +16,26 @@
 
 package com.goide.inspections.unresolved;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.goide.inspections.GoInspectionBase;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoVarProcessor;
 import com.goide.quickfix.GoDeleteVarDefinitionQuickFix;
 import com.goide.quickfix.GoRenameToBlankQuickFix;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.search.searches.ReferencesSearch;
-import com.intellij.psi.util.PsiTreeUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.progress.ProgressManager;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.language.psi.search.ReferencesSearch;
+import consulo.language.psi.util.PsiTreeUtil;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+@ExtensionImpl
 public class GoUnusedVariableInspection extends GoInspectionBase {
   @Nonnull
   @Override
@@ -86,5 +89,23 @@ public class GoUnusedVariableInspection extends GoInspectionBase {
 
   protected boolean shouldValidate(@Nullable GoVarDeclaration varDeclaration) {
     return varDeclaration == null || !(varDeclaration.getParent() instanceof GoFile);
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Declaration redundancy";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Unused variable inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 }

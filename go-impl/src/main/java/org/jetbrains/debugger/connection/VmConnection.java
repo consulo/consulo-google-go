@@ -1,15 +1,14 @@
 package org.jetbrains.debugger.connection;
 
-import com.intellij.util.Consumer;
-import com.intellij.util.EventDispatcher;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.io.socketConnection.ConnectionState;
-import com.intellij.util.io.socketConnection.ConnectionStatus;
-import com.intellij.util.io.socketConnection.SocketConnectionListener;
 import consulo.disposer.Disposable;
 import consulo.disposer.Disposer;
-import org.jetbrains.concurrency.AsyncPromise;
-import org.jetbrains.concurrency.Promises;
+import consulo.proxy.EventDispatcher;
+import consulo.util.collection.Lists;
+import consulo.util.concurrent.AsyncPromise;
+import consulo.util.concurrent.Promises;
+import consulo.util.socketConnection.ConnectionState;
+import consulo.util.socketConnection.ConnectionStatus;
+import consulo.util.socketConnection.SocketConnectionListener;
 import org.jetbrains.debugger.DebugEventListener;
 import org.jetbrains.debugger.Vm;
 
@@ -18,6 +17,7 @@ import javax.swing.event.HyperlinkListener;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 /**
  * @author VISTALL
@@ -28,7 +28,7 @@ public abstract class VmConnection<T extends Vm> implements Disposable
   private AtomicReference<ConnectionState> stateRef = new AtomicReference<>(new ConnectionState(ConnectionStatus.NOT_CONNECTED));
   private EventDispatcher<DebugEventListener> myDispatcher = EventDispatcher.create(DebugEventListener.class);
 
-  private List<Consumer<ConnectionState>> connectionDispatcher = ContainerUtil.createLockFreeCopyOnWriteList();
+  private List<Consumer<ConnectionState>> connectionDispatcher = Lists.newLockFreeCopyOnWriteList();
 
   private AsyncPromise<?> opened = new AsyncPromise<>();
   private AtomicBoolean closed = new AtomicBoolean();
@@ -57,7 +57,7 @@ public abstract class VmConnection<T extends Vm> implements Disposable
       }
 
       for (Consumer<ConnectionState> listener : connectionDispatcher) {
-        listener.consume(newState);
+        listener.accept(newState);
       }
     }
   }

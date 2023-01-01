@@ -21,18 +21,19 @@ import com.goide.psi.GoNamedElement;
 import com.goide.psi.impl.GoFunctionDeclarationImpl;
 import com.goide.stubs.GoFunctionDeclarationStub;
 import com.goide.stubs.index.GoFunctionIndex;
-import com.intellij.openapi.util.NotNullLazyValue;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.stubs.StubIndexKey;
-import com.intellij.psi.stubs.StubInputStream;
-import com.intellij.psi.stubs.StubOutputStream;
-import com.intellij.util.ArrayFactory;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.stub.StubIndexKey;
+import consulo.language.psi.stub.StubInputStream;
+import consulo.language.psi.stub.StubOutputStream;
+import consulo.util.collection.ArrayFactory;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.lazy.LazyValue;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class GoFunctionDeclarationStubElementType extends GoNamedStubElementType<GoFunctionDeclarationStub, GoFunctionDeclaration> {
   public static final GoFunctionDeclaration[] EMPTY_ARRAY = new GoFunctionDeclaration[0];
@@ -40,7 +41,7 @@ public class GoFunctionDeclarationStubElementType extends GoNamedStubElementType
   public static final ArrayFactory<GoFunctionDeclaration> ARRAY_FACTORY =
     count -> count == 0 ? EMPTY_ARRAY : new GoFunctionDeclaration[count];
   
-  private static final NotNullLazyValue<List<StubIndexKey<String, ? extends GoNamedElement>>> EXTRA_KEYS = NotNullLazyValue.createValue(() -> ContainerUtil.newArrayList(GoFunctionIndex.KEY));
+  private static final Supplier<List<StubIndexKey<String, ? extends GoNamedElement>>> EXTRA_KEYS = LazyValue.notNull(() -> ContainerUtil.newArrayList(GoFunctionIndex.KEY));
 
   public GoFunctionDeclarationStubElementType(@Nonnull String name) {
     super(name);
@@ -73,6 +74,6 @@ public class GoFunctionDeclarationStubElementType extends GoNamedStubElementType
   @Nonnull
   @Override
   protected Collection<StubIndexKey<String, ? extends GoNamedElement>> getExtraIndexKeys() {
-    return EXTRA_KEYS.getValue();
+    return EXTRA_KEYS.get();
   }
 }

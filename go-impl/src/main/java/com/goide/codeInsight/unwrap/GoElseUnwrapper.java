@@ -18,8 +18,8 @@ package com.goide.codeInsight.unwrap;
 
 import com.goide.psi.GoElseStatement;
 import com.goide.psi.GoIfStatement;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.IncorrectOperationException;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.IncorrectOperationException;
 
 public class GoElseUnwrapper extends GoElseUnwrapperBase {
   public GoElseUnwrapper() {

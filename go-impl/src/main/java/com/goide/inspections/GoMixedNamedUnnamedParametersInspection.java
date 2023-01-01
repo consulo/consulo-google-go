@@ -16,16 +16,19 @@
 
 package com.goide.inspections;
 
+import com.goide.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.progress.ProgressManager;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.goide.psi.*;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.progress.ProgressManager;
-
-public class GoMixedNamedUnnamedParametersInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoMixedNamedUnnamedParametersInspection extends GoGeneralInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -81,5 +84,11 @@ public class GoMixedNamedUnnamedParametersInspection extends GoInspectionBase {
         return;
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Mixed named and unnamed parameters";
   }
 }

@@ -16,13 +16,14 @@
 
 package com.goide.refactor;
 
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.refactoring.RefactoringActionHandler;
-import com.intellij.refactoring.util.CommonRefactoringUtil;
+import consulo.codeEditor.Editor;
+import consulo.dataContext.DataContext;
+import consulo.language.editor.refactoring.action.RefactoringActionHandler;
+import consulo.language.editor.refactoring.util.CommonRefactoringUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 
 public class GoIntroduceVariableHandler extends GoIntroduceVariableBase implements RefactoringActionHandler {

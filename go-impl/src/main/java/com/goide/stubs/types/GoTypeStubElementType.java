@@ -19,13 +19,13 @@ package com.goide.stubs.types;
 import com.goide.psi.GoType;
 import com.goide.psi.GoTypeSpec;
 import com.goide.stubs.GoTypeStub;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.stubs.StubInputStream;
-import com.intellij.psi.stubs.StubOutputStream;
-import com.intellij.psi.util.PsiTreeUtil;
-import javax.annotation.Nonnull;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.stub.StubInputStream;
+import consulo.language.psi.stub.StubOutputStream;
+import consulo.language.psi.util.PsiTreeUtil;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public abstract class GoTypeStubElementType extends GoStubElementType<GoTypeStub, GoType> {

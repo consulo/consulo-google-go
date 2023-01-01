@@ -18,9 +18,9 @@ package com.goide.codeInsight.unwrap;
 
 import com.goide.psi.GoForClause;
 import com.goide.psi.GoForStatement;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.IncorrectOperationException;
+import consulo.util.collection.ContainerUtil;
 
 public class GoForUnwrapper extends GoUnwrapper {
   public GoForUnwrapper() {

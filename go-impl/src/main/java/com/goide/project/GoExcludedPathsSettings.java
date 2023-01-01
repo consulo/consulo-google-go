@@ -16,21 +16,31 @@
 
 package com.goide.project;
 
-import com.intellij.openapi.components.*;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.SimpleModificationTracker;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.xmlb.XmlSerializerUtil;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
+import consulo.component.persist.PersistentStateComponent;
+import consulo.component.persist.State;
+import consulo.component.persist.Storage;
+import consulo.component.persist.StoragePathMacros;
+import consulo.component.util.SimpleModificationTracker;
+import consulo.ide.ServiceManager;
+import consulo.project.Project;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.io.FileUtil;
+import consulo.util.xml.serializer.XmlSerializerUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @State(
-  name = "GoExcludedPaths",
-  storages = {
-    @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/goExcludedPaths.xml")
-  }
+    name = "GoExcludedPaths",
+    storages = {
+        @Storage(file = StoragePathMacros.PROJECT_CONFIG_DIR + "/goExcludedPaths.xml")
+    }
 )
+@ServiceAPI(ComponentScope.PROJECT)
+@ServiceImpl
 public class GoExcludedPathsSettings extends SimpleModificationTracker implements PersistentStateComponent<GoExcludedPathsSettings> {
   private String[] myExcludedPackages = ArrayUtil.EMPTY_STRING_ARRAY;
 

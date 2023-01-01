@@ -17,6 +17,7 @@
 package com.goide.completion;
 
 import com.goide.GoConstants;
+import com.goide.GoLanguage;
 import com.goide.GoParserDefinition;
 import com.goide.GoTypes;
 import com.goide.psi.*;
@@ -24,29 +25,28 @@ import com.goide.psi.impl.GoCachedReference;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.sdk.GoPackageUtil;
-import com.intellij.codeInsight.completion.CompletionContributor;
-import com.intellij.codeInsight.completion.CompletionParameters;
-import com.intellij.codeInsight.completion.CompletionResultSet;
-import com.intellij.codeInsight.completion.CompletionType;
-import com.intellij.codeInsight.lookup.AutoCompletionPolicy;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.Conditions;
-import com.intellij.patterns.PatternCondition;
-import com.intellij.patterns.PsiElementPattern;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.ProcessingContext;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.ast.ASTNode;
+import consulo.language.editor.completion.*;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.editor.completion.lookup.LookupElementBuilder;
+import consulo.language.pattern.PatternCondition;
+import consulo.language.pattern.PsiElementPattern;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.util.ProcessingContext;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.function.Conditions;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 
-import static com.intellij.codeInsight.completion.PrioritizedLookupElement.withPriority;
-import static com.intellij.patterns.PlatformPatterns.psiElement;
+import static consulo.language.editor.completion.lookup.PrioritizedLookupElement.withPriority;
+import static consulo.language.pattern.PlatformPatterns.psiElement;
 
+@ExtensionImpl(id = "go")
 public class GoCompletionContributor extends CompletionContributor {
   public GoCompletionContributor() {
     extend(CompletionType.BASIC, importString(), new GoImportPathsCompletionProvider());
@@ -107,6 +107,12 @@ public class GoCompletionContributor extends CompletionContributor {
 
   private static PsiElementPattern.Capture<PsiElement> referenceExpression() {
     return psiElement().withParent(GoReferenceExpressionBase.class);
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 
   private static class GoTestFilePattern extends PatternCondition<PsiElement> {

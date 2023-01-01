@@ -16,8 +16,6 @@
 
 package com.goide.inspections.unresolved;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoConstants;
 import com.goide.inspections.GoInspectionBase;
 import com.goide.psi.GoFile;
@@ -27,14 +25,19 @@ import com.goide.quickfix.GoDeleteQuickFix;
 import com.goide.quickfix.GoRenameToBlankQuickFix;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.runconfig.testing.GoTestFunctionType;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.search.searches.ReferencesSearch;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.document.util.TextRange;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.search.ReferencesSearch;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
 public class GoUnusedFunctionInspection extends GoInspectionBase {
   @Nonnull
   @Override
@@ -53,7 +56,7 @@ public class GoUnusedFunctionInspection extends GoInspectionBase {
           PsiElement id = o.getIdentifier();
           TextRange range = TextRange.from(id.getStartOffsetInParent(), id.getTextLength());
           holder.registerProblem(o, "Unused function <code>#ref</code> #loc", ProblemHighlightType.LIKE_UNUSED_SYMBOL, range,
-                                 new GoDeleteQuickFix("Delete function", GoFunctionDeclaration.class), new GoRenameToBlankQuickFix(o));
+              new GoDeleteQuickFix("Delete function", GoFunctionDeclaration.class), new GoRenameToBlankQuickFix(o));
         }
       }
     };
@@ -61,5 +64,23 @@ public class GoUnusedFunctionInspection extends GoInspectionBase {
 
   protected boolean canRun(String name) {
     return !StringUtil.isCapitalized(name);
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Declaration redundancy";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Unused function inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
   }
 }

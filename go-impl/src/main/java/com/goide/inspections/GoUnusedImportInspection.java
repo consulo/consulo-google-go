@@ -22,24 +22,23 @@ import com.goide.psi.GoImportSpec;
 import com.goide.psi.GoRecursiveVisitor;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.quickfix.GoRenameQuickFix;
-import com.intellij.codeInspection.*;
-import com.intellij.find.FindManager;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiReference;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.containers.MultiMap;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.ApplicationManager;
+import consulo.find.FindManager;
+import consulo.language.editor.WriteCommandAction;
+import consulo.language.editor.inspection.*;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiReference;
+import consulo.project.Project;
+import consulo.util.collection.MultiMap;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.*;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
+@ExtensionImpl
 public class GoUnusedImportInspection extends GoInspectionBase {
   @Nullable
   private final static LocalQuickFix OPTIMIZE_QUICK_FIX = new LocalQuickFixBase("Optimize imports") {
@@ -76,6 +75,24 @@ public class GoUnusedImportInspection extends GoInspectionBase {
     });
   }
 
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Unused import inspection";
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Declaration redundancy";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
+  }
+
   @Override
   protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     MultiMap<String, GoImportSpec> importMap = file.getImportMap();
@@ -110,7 +127,7 @@ public class GoUnusedImportInspection extends GoInspectionBase {
       if (!problemsHolder.isOnTheFly() || ApplicationManager.getApplication().isUnitTestMode()) resolveAllReferences(file);
     }
     MultiMap<String, GoImportSpec> unusedImportsMap = GoImportOptimizer.filterUnusedImports(file, importMap);
-    Set<GoImportSpec> unusedImportSpecs = ContainerUtil.newHashSet(unusedImportsMap.values());
+    Set<GoImportSpec> unusedImportSpecs = new HashSet<>(unusedImportsMap.values());
     for (PsiElement importEntry : unusedImportSpecs) {
       GoImportSpec spec = GoImportOptimizer.getImportSpec(importEntry);
       if (spec != null && spec.getImportString().resolve() != null) {

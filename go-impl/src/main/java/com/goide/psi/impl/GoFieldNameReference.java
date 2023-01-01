@@ -17,12 +17,13 @@
 package com.goide.psi.impl;
 
 import com.goide.psi.*;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.util.PsiTreeUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.resolve.ResolveState;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

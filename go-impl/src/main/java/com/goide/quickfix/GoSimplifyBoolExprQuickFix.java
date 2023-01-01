@@ -24,14 +24,14 @@ import com.goide.psi.GoReferenceExpression;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.psi.impl.GoExpressionUtil;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.codeInspection.LocalQuickFixOnPsiElement;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.language.editor.inspection.LocalQuickFixOnPsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+import consulo.util.collection.SmartList;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class GoSimplifyBoolExprQuickFix extends LocalQuickFixOnPsiElement {
@@ -61,7 +61,7 @@ public class GoSimplifyBoolExprQuickFix extends LocalQuickFixOnPsiElement {
     boolean and = o instanceof GoAndExpr;
 
     List<GoExpression> elements = GoBoolExpressionsInspection.collect(o, and);
-    List<GoExpression> toRemove = ContainerUtil.newSmartList();
+    List<GoExpression> toRemove = new SmartList<>();
     for (int i = 0; i < elements.size(); i++) {
       GoExpression l = elements.get(i);
       if (l instanceof GoReferenceExpression &&

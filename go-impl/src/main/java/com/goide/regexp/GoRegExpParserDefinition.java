@@ -16,17 +16,20 @@
 
 package com.goide.regexp;
 
-import com.intellij.lang.PsiParser;
-import com.intellij.lexer.Lexer;
-import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.tree.IFileElementType;
-import consulo.lang.LanguageVersion;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.ast.IFileElementType;
+import consulo.language.file.FileViewProvider;
+import consulo.language.lexer.Lexer;
+import consulo.language.parser.PsiParser;
+import consulo.language.psi.PsiFile;
+import consulo.language.version.LanguageVersion;
 import org.intellij.lang.regexp.*;
-import javax.annotation.Nonnull;
 
+import javax.annotation.Nonnull;
 import java.util.EnumSet;
 
+@ExtensionImpl
 public class GoRegExpParserDefinition extends RegExpParserDefinition {
   private static final IFileElementType GO_REGEXP_FILE = new IFileElementType("GO_REGEXP_FILE", GoRegExpLanguage.INSTANCE);
   private final EnumSet<RegExpCapability> CAPABILITIES = EnumSet.of(RegExpCapability.UNICODE_CATEGORY_SHORTHAND,
@@ -34,6 +37,12 @@ public class GoRegExpParserDefinition extends RegExpParserDefinition {
                                                                     RegExpCapability.NESTED_CHARACTER_CLASSES,
                                                                     RegExpCapability.OCTAL_NO_LEADING_ZERO,
                                                                     RegExpCapability.POSIX_BRACKET_EXPRESSIONS);
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoRegExpLanguage.INSTANCE;
+  }
 
   @Override
   @Nonnull

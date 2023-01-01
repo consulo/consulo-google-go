@@ -18,38 +18,44 @@ package com.goide.actions.file;
 
 import com.goide.psi.GoFile;
 import com.goide.psi.GoPackageClause;
-import com.intellij.ide.actions.CreateFileFromTemplateAction;
-import com.intellij.ide.actions.CreateFileFromTemplateDialog;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiFile;
+import consulo.annotation.component.ActionImpl;
+import consulo.annotation.component.ActionParentRef;
+import consulo.annotation.component.ActionRef;
+import consulo.annotation.component.ActionRefAnchor;
+import consulo.application.dumb.DumbAware;
+import consulo.codeEditor.Editor;
+import consulo.document.FileDocumentManager;
+import consulo.fileEditor.FileEditorManager;
 import consulo.google.go.icon.GoogleGoIconGroup;
+import consulo.google.go.module.extension.GoModuleExtension;
+import consulo.ide.action.CreateFileFromTemplateAction;
+import consulo.ide.action.CreateFileFromTemplateDialog;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiFile;
+import consulo.module.extension.ModuleExtension;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
+@ActionImpl(id = "Go.NewGoFile", parents = @ActionParentRef(value = @ActionRef(id = "NewGroup"), anchor = ActionRefAnchor.BEFORE, relatedToAction = @ActionRef(id = "NewFile")))
 public class GoCreateFileAction extends CreateFileFromTemplateAction implements DumbAware {
   public static final String FILE_TEMPLATE = "Go File";
   public static final String APPLICATION_TEMPLATE = "Go Application";
 
-  private static final String NEW_GO_FILE = "New Go File";
   private static final String DEFAULT_GO_TEMPLATE_PROPERTY = "DefaultGoTemplateProperty";
 
   public GoCreateFileAction() {
-    super(NEW_GO_FILE, "", GoogleGoIconGroup.goFileType());
+    super("Go File", "", GoogleGoIconGroup.gofiletype());
   }
 
   @Override
   protected void buildDialog(Project project, PsiDirectory directory, @Nonnull CreateFileFromTemplateDialog.Builder builder) {
-    builder.setTitle(NEW_GO_FILE)
-      .addKind("Empty file", GoogleGoIconGroup.goFileType(), FILE_TEMPLATE)
-      .addKind("Simple Application", GoogleGoIconGroup.goFileType(), APPLICATION_TEMPLATE);
+    builder.setTitle("New Go File")
+      .addKind("Empty file", GoogleGoIconGroup.gofiletype(), FILE_TEMPLATE)
+      .addKind("Simple Application", GoogleGoIconGroup.gofiletype(), APPLICATION_TEMPLATE);
   }
 
   @Nullable
@@ -61,9 +67,8 @@ public class GoCreateFileAction extends CreateFileFromTemplateAction implements 
   @Nonnull
   @Override
   protected String getActionName(PsiDirectory directory, String newName, String templateName) {
-    return NEW_GO_FILE;
+    return "New Go File";
   }
-
 
   @Override
   protected void postProcess(PsiFile createdElement, String templateName, Map<String, String> customProperties) {
@@ -85,6 +90,12 @@ public class GoCreateFileAction extends CreateFileFromTemplateAction implements 
         editor.getCaretModel().moveToOffset(packageClause.getTextRange().getEndOffset());
       }
     }
+  }
+
+  @Nullable
+  @Override
+  protected Class<? extends ModuleExtension> getModuleExtensionClass() {
+    return GoModuleExtension.class;
   }
 
   @Override

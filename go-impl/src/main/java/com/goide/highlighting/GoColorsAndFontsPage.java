@@ -17,11 +17,12 @@
 package com.goide.highlighting;
 
 import com.goide.GoFileType;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.fileTypes.SyntaxHighlighter;
-import com.intellij.openapi.options.colors.AttributesDescriptor;
-import com.intellij.openapi.options.colors.ColorDescriptor;
-import com.intellij.openapi.options.colors.ColorSettingsPage;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.colorScheme.TextAttributesKey;
+import consulo.colorScheme.setting.AttributesDescriptor;
+import consulo.colorScheme.setting.ColorDescriptor;
+import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
+import consulo.language.editor.highlight.SyntaxHighlighter;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import java.util.Map;
 
 import static com.goide.highlighting.GoSyntaxHighlightingColors.*;
 
+@ExtensionImpl
 public class GoColorsAndFontsPage implements ColorSettingsPage {
   private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
     new AttributesDescriptor("Line comment", LINE_COMMENT),

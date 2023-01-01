@@ -17,20 +17,32 @@
 package com.goide.sdk;
 
 import com.goide.GoEnvironmentUtil;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.*;
-import com.intellij.util.SystemProperties;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
+import consulo.ide.ServiceManager;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.SystemProperties;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.event.VirtualFileAdapter;
+import consulo.virtualFileSystem.event.VirtualFileCopyEvent;
+import consulo.virtualFileSystem.event.VirtualFileEvent;
+import consulo.virtualFileSystem.event.VirtualFileMoveEvent;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
+@ServiceAPI(ComponentScope.APPLICATION)
+@ServiceImpl
 public class GoEnvironmentGoPathModificationTracker {
-  private final Set<String> pathsToTrack = ContainerUtil.newHashSet();
-  private final Collection<VirtualFile> goPathRoots = ContainerUtil.newLinkedHashSet();
+  private final Set<String> pathsToTrack = new HashSet<>();
+  private final Collection<VirtualFile> goPathRoots = new HashSet<>();
 
   public GoEnvironmentGoPathModificationTracker() {
     String goPath = GoEnvironmentUtil.retrieveGoPathFromEnvironment();
@@ -47,7 +59,7 @@ public class GoEnvironmentGoPathModificationTracker {
       }
     }
     recalculateFiles();
-    
+
     VirtualFileManager.getInstance().addVirtualFileListener(new VirtualFileAdapter() {
       @Override
       public void fileCreated(@Nonnull VirtualFileEvent event) {
@@ -78,7 +90,7 @@ public class GoEnvironmentGoPathModificationTracker {
   }
 
   private void recalculateFiles() {
-    Collection<VirtualFile> result = ContainerUtil.newLinkedHashSet();
+    Collection<VirtualFile> result = new HashSet<>();
     for (String path : pathsToTrack) {
       ContainerUtil.addIfNotNull(result, LocalFileSystem.getInstance().findFileByPath(path));
     }
@@ -89,7 +101,7 @@ public class GoEnvironmentGoPathModificationTracker {
     goPathRoots.clear();
     goPathRoots.addAll(newRoots);
   }
-  
+
   private synchronized Collection<VirtualFile> getGoPathRoots() {
     return goPathRoots;
   }

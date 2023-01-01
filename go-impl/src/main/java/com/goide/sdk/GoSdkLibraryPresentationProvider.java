@@ -16,18 +16,19 @@
 
 package com.goide.sdk;
 
-import java.util.List;
+import com.goide.GoIcons;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.content.library.DummyLibraryProperties;
+import consulo.content.library.LibraryKind;
+import consulo.content.library.LibraryPresentationProvider;
+import consulo.ui.image.Image;
+import consulo.virtualFileSystem.VirtualFile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
-import com.goide.GoIcons;
-import com.intellij.openapi.roots.libraries.DummyLibraryProperties;
-import com.intellij.openapi.roots.libraries.LibraryKind;
-import com.intellij.openapi.roots.libraries.LibraryPresentationProvider;
-import com.intellij.openapi.vfs.VirtualFile;
-import consulo.ui.image.Image;
-
+@ExtensionImpl
 public class GoSdkLibraryPresentationProvider extends LibraryPresentationProvider<DummyLibraryProperties> {
   private static final LibraryKind KIND = LibraryKind.create("go");
 

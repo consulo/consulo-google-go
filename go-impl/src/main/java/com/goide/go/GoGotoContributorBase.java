@@ -16,24 +16,21 @@
 
 package com.goide.go;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.goide.psi.GoNamedElement;
-import com.intellij.navigation.ChooseByNameContributorEx;
-import com.intellij.navigation.GotoClassContributor;
-import com.intellij.navigation.NavigationItem;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.stubs.StubIndex;
-import com.intellij.psi.stubs.StubIndexKey;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.Processor;
-import com.intellij.util.indexing.FindSymbolParameters;
-import com.intellij.util.indexing.IdFilter;
+import consulo.application.progress.ProgressManager;
+import consulo.application.util.function.Processor;
+import consulo.content.scope.SearchScope;
+import consulo.ide.navigation.ChooseByNameContributorEx;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.search.FindSymbolParameters;
+import consulo.language.psi.stub.IdFilter;
+import consulo.language.psi.stub.StubIndex;
+import consulo.language.psi.stub.StubIndexKey;
+import consulo.navigation.NavigationItem;
 
-public class GoGotoContributorBase<T extends GoNamedElement> implements GotoClassContributor, ChooseByNameContributorEx {
+import javax.annotation.Nonnull;
+
+public class GoGotoContributorBase<T extends GoNamedElement> implements ChooseByNameContributorEx {
   private final StubIndexKey<String, T>[] myIndexKeys;
   @Nonnull
   private final Class<T> myClazz;
@@ -44,23 +41,11 @@ public class GoGotoContributorBase<T extends GoNamedElement> implements GotoClas
     myClazz = clazz;
   }
 
-  @Nonnull
   @Override
-  public String[] getNames(@Nonnull Project project, boolean includeNonProjectItems) {
-    return ArrayUtil.EMPTY_STRING_ARRAY;
-  }
-
-  @Nonnull
-  @Override
-  public NavigationItem[] getItemsByName(String name, String pattern, Project project, boolean includeNonProjectItems) {
-    return NavigationItem.EMPTY_NAVIGATION_ITEM_ARRAY;
-  }
-
-  @Override
-  public void processNames(@Nonnull Processor<String> processor, @Nonnull GlobalSearchScope scope, IdFilter filter) {
+  public void processNames(@Nonnull Processor<String> processor, @Nonnull SearchScope scope, IdFilter filter) {
     for (StubIndexKey<String, T> key : myIndexKeys) {
       ProgressManager.checkCanceled();
-      StubIndex.getInstance().processAllKeys(key, processor, scope, filter);
+      StubIndex.getInstance().processAllKeys(key, processor, (GlobalSearchScope) scope, filter);
     }
   }
 
@@ -70,20 +55,8 @@ public class GoGotoContributorBase<T extends GoNamedElement> implements GotoClas
                                       @Nonnull FindSymbolParameters parameters) {
     for (StubIndexKey<String, T> key : myIndexKeys) {
       ProgressManager.checkCanceled();
-      StubIndex.getInstance().processElements(key, s, parameters.getProject(), parameters.getSearchScope(), parameters.getIdFilter(), 
-                                              myClazz, processor);
+      StubIndex.getInstance().processElements(key, s, parameters.getProject(), (GlobalSearchScope) parameters.getSearchScope(), parameters.getIdFilter(),
+          myClazz, processor);
     }
-  }
-  
-  @Nullable
-  @Override
-  public String getQualifiedName(NavigationItem item) {
-    return item instanceof GoNamedElement ? ((GoNamedElement)item).getQualifiedName() : null;
-  }
-
-  @Nullable
-  @Override
-  public String getQualifiedNameSeparator() {
-    return null;
   }
 }

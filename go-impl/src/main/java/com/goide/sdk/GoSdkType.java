@@ -16,28 +16,28 @@
 
 package com.goide.sdk;
 
+import com.goide.GoIcons;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.content.OrderRootType;
+import consulo.content.base.BinariesOrderRootType;
+import consulo.content.base.SourcesOrderRootType;
+import consulo.content.bundle.Sdk;
+import consulo.content.bundle.SdkModificator;
+import consulo.content.bundle.SdkType;
+import consulo.ui.image.Image;
+import consulo.virtualFileSystem.VirtualFile;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.util.Collection;
 
-import javax.annotation.Nonnull;
-
-import org.jetbrains.annotations.NonNls;
-
-import javax.annotation.Nullable;
-import com.goide.GoIcons;
-import com.intellij.openapi.projectRoots.Sdk;
-import com.intellij.openapi.projectRoots.SdkModificator;
-import com.intellij.openapi.projectRoots.SdkType;
-import com.intellij.openapi.roots.OrderRootType;
-import com.intellij.openapi.vfs.VirtualFile;
-import consulo.roots.types.BinariesOrderRootType;
-import consulo.roots.types.SourcesOrderRootType;
-import consulo.ui.image.Image;
-
+@ExtensionImpl
 public class GoSdkType extends SdkType {
   @Nonnull
   public static GoSdkType getInstance() {
-    return SdkType.EP_NAME.findExtension(GoSdkType.class);
+    return SdkType.EP_NAME.findExtensionOrFail(GoSdkType.class);
   }
 
   public GoSdkType() {

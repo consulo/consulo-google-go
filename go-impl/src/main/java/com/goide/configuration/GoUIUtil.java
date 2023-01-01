@@ -16,12 +16,12 @@
 
 package com.goide.configuration;
 
-import com.intellij.ui.BrowserHyperlinkListener;
-import com.intellij.ui.ColorUtil;
-import com.intellij.util.ui.JBHtmlEditorKit;
-import com.intellij.util.ui.UIUtil;
-import javax.annotation.Nonnull;
+import consulo.ui.ex.awt.BrowserHyperlinkListener;
+import consulo.ui.ex.awt.JBHtmlEditorKit;
+import consulo.ui.ex.awt.UIUtil;
+import consulo.ui.ex.awt.util.ColorUtil;
 
+import javax.annotation.Nonnull;
 import javax.swing.*;
 import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;

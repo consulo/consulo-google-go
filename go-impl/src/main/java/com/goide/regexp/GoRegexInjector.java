@@ -18,20 +18,27 @@ package com.goide.regexp;
 
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.psi.*;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.inject.InjectedLanguagePlaces;
+import consulo.language.inject.LanguageInjector;
+import consulo.language.psi.ElementManipulators;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiLanguageInjectionHost;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.ObjectUtil;
 
+import javax.annotation.Nonnull;
 import java.util.Set;
 
+@ExtensionImpl
 public class GoRegexInjector implements LanguageInjector {
-  private static final Set<String> REGEXP_FUNCTION_NAMES = ContainerUtil.newHashSet(
+  private static final Set<String> REGEXP_FUNCTION_NAMES = Set.of(
     "Compile", "CompilePOSIX", "MustCompile", "MustCompilePOSIX", "Match", "MatchReader", "MatchString"
   );
 
   @Override
-  public void getLanguagesToInject(@Nonnull PsiLanguageInjectionHost host, @Nonnull InjectedLanguagePlaces injectionPlacesRegistrar) {
+  public void injectLanguages(@Nonnull PsiLanguageInjectionHost host, @Nonnull InjectedLanguagePlaces injectionPlacesRegistrar) {
     if (!(host instanceof GoStringLiteral)) return;
     PsiElement topMostExpression = host;
     PsiElement argumentList = host.getParent();
@@ -43,9 +50,9 @@ public class GoRegexInjector implements LanguageInjector {
     // must be first argument
     if (ContainerUtil.getFirstItem(((GoArgumentList)argumentList).getExpressionList()) != topMostExpression) return;
 
-    GoCallExpr callExpression = ObjectUtils.tryCast(argumentList.getParent(), GoCallExpr.class);
+    GoCallExpr callExpression = ObjectUtil.tryCast(argumentList.getParent(), GoCallExpr.class);
     if (callExpression == null) return;
-    GoReferenceExpression referenceExpression = ObjectUtils.tryCast(callExpression.getExpression(), GoReferenceExpression.class);
+    GoReferenceExpression referenceExpression = ObjectUtil.tryCast(callExpression.getExpression(), GoReferenceExpression.class);
     if (referenceExpression != null && REGEXP_FUNCTION_NAMES.contains(referenceExpression.getIdentifier().getText())) {
       GoSignatureOwner resolvedCall = GoPsiImplUtil.resolveCall(callExpression);
       if (resolvedCall instanceof GoFunctionDeclaration) {

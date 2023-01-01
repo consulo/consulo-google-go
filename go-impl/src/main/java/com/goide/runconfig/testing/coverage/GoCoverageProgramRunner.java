@@ -16,29 +16,30 @@
 
 package com.goide.runconfig.testing.coverage;
 
-import javax.annotation.Nonnull;
-
 import com.goide.runconfig.testing.GoTestRunConfiguration;
 import com.goide.runconfig.testing.GoTestRunningState;
-import com.intellij.coverage.CoverageExecutor;
-import com.intellij.coverage.CoverageHelper;
-import com.intellij.coverage.CoverageRunnerData;
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.ExecutionResult;
-import com.intellij.execution.configurations.ConfigurationInfoProvider;
-import com.intellij.execution.configurations.RunProfile;
-import com.intellij.execution.configurations.RunProfileState;
-import com.intellij.execution.configurations.RunnerSettings;
-import com.intellij.execution.configurations.coverage.CoverageEnabledConfiguration;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.execution.runners.GenericProgramRunner;
-import com.intellij.execution.runners.RunContentBuilder;
-import com.intellij.execution.ui.RunContentDescriptor;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.util.ObjectUtils;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.document.FileDocumentManager;
+import consulo.execution.ExecutionResult;
+import consulo.execution.configuration.ConfigurationInfoProvider;
+import consulo.execution.configuration.RunProfile;
+import consulo.execution.configuration.RunProfileState;
+import consulo.execution.configuration.RunnerSettings;
+import consulo.execution.coverage.CoverageEnabledConfiguration;
+import consulo.execution.coverage.CoverageExecutor;
+import consulo.execution.coverage.CoverageHelper;
+import consulo.execution.coverage.CoverageRunnerData;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.execution.runner.GenericProgramRunner;
+import consulo.execution.runner.RunContentBuilder;
+import consulo.execution.ui.RunContentDescriptor;
+import consulo.process.ExecutionException;
+import consulo.util.lang.ObjectUtil;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoCoverageProgramRunner extends GenericProgramRunner {
   private static final String ID = "GoCoverageProgramRunner";
 
@@ -64,7 +65,7 @@ public class GoCoverageProgramRunner extends GenericProgramRunner {
     throws ExecutionException {
     assert state instanceof GoTestRunningState;
     GoTestRunningState runningState = (GoTestRunningState)state;
-    GoTestRunConfiguration runConfiguration = ObjectUtils.tryCast(environment.getRunProfile(), GoTestRunConfiguration.class);
+    GoTestRunConfiguration runConfiguration = ObjectUtil.tryCast(environment.getRunProfile(), GoTestRunConfiguration.class);
     if (runConfiguration == null) {
       return null;
     }

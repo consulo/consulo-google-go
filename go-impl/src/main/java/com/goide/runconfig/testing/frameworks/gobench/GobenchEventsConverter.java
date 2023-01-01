@@ -18,9 +18,9 @@ package com.goide.runconfig.testing.frameworks.gobench;
 
 import com.goide.GoConstants;
 import com.goide.runconfig.testing.frameworks.gotest.GoTestEventsConverterBaseImpl;
-import com.intellij.execution.testframework.TestConsoleProperties;
-import com.intellij.openapi.util.text.StringUtil;
+import consulo.execution.test.TestConsoleProperties;
 import consulo.util.dataholder.Key;
+import consulo.util.lang.StringUtil;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
 
 import javax.annotation.Nonnull;

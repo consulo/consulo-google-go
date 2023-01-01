@@ -16,15 +16,14 @@
 
 package com.goide.psi.impl;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.*;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.Trinity;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.impl.source.tree.LeafElement;
+import consulo.language.ast.ASTNode;
+import consulo.language.impl.ast.LeafElement;
+import consulo.language.psi.PsiElement;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.Trinity;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GoExpressionUtil {

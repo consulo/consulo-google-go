@@ -16,15 +16,14 @@
 
 package com.goide.quickfix;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoVarDefinition;
 import com.goide.psi.GoVarSpec;
-import com.intellij.codeInspection.LocalQuickFixBase;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
+import consulo.language.editor.inspection.LocalQuickFixBase;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GoDeleteVarDefinitionQuickFix extends LocalQuickFixBase {

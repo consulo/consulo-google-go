@@ -16,39 +16,45 @@
 
 package com.goide.runconfig.testing.coverage;
 
-import com.intellij.coverage.BaseCoverageAnnotator;
-import com.intellij.coverage.CoverageDataManager;
-import com.intellij.coverage.CoverageSuite;
-import com.intellij.coverage.CoverageSuitesBundle;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.progress.ProgressIndicatorProvider;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.FileIndexFacade;
-import com.intellij.openapi.roots.ProjectRootManager;
-import com.intellij.openapi.util.Factory;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileVisitor;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiFile;
 import com.intellij.rt.coverage.data.ProjectData;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
+import consulo.application.progress.ProgressIndicatorProvider;
+import consulo.execution.coverage.BaseCoverageAnnotator;
+import consulo.execution.coverage.CoverageDataManager;
+import consulo.execution.coverage.CoverageSuite;
+import consulo.execution.coverage.CoverageSuitesBundle;
+import consulo.ide.ServiceManager;
+import consulo.language.content.FileIndexFacade;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiFile;
+import consulo.module.content.ProjectRootManager;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
+import consulo.virtualFileSystem.util.VirtualFileVisitor;
+import jakarta.inject.Inject;
 import org.jetbrains.annotations.TestOnly;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+@ServiceAPI(ComponentScope.PROJECT)
+@ServiceImpl
 public class GoCoverageAnnotator extends BaseCoverageAnnotator {
   private static final String STATEMENTS_SUFFIX = "% statements";
   private static final String FILES_SUFFIX = "% files";
 
-  private final Map<String, FileCoverageInfo> myFileCoverageInfos = ContainerUtil.newHashMap();
-  private final Map<String, DirCoverageInfo> myDirCoverageInfos = ContainerUtil.newHashMap();
+  private final Map<String, FileCoverageInfo> myFileCoverageInfos = new HashMap<>();
+  private final Map<String, DirCoverageInfo> myDirCoverageInfos = new HashMap<>();
 
+  @Inject
   public GoCoverageAnnotator(@Nonnull Project project) {
     super(project);
   }
@@ -146,22 +152,12 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
 
   @Nonnull
   private DirCoverageInfo getOrCreateDirectoryInfo(VirtualFile file) {
-    return ContainerUtil.getOrCreate(myDirCoverageInfos, file.getPath(), new Factory<DirCoverageInfo>() {
-      @Override
-      public DirCoverageInfo create() {
-        return new DirCoverageInfo();
-      }
-    });
+    return myDirCoverageInfos.computeIfAbsent(file.getPath(), s -> new DirCoverageInfo());
   }
 
   @Nonnull
   private FileCoverageInfo getOrCreateFileInfo(VirtualFile file) {
-    return ContainerUtil.getOrCreate(myFileCoverageInfos, file.getPath(), new Factory<FileCoverageInfo>() {
-      @Override
-      public FileCoverageInfo create() {
-        return new FileCoverageInfo();
-      }
-    });
+    return myFileCoverageInfos.computeIfAbsent(file.getPath(), s -> new FileCoverageInfo());
   }
 
   @Nullable
@@ -187,7 +183,7 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
                                @Nullable VirtualFile... contentRoots) {
     if (contentRoots != null) {
       for (VirtualFile root : contentRoots) {
-        VfsUtilCore.visitChildrenRecursively(root, new VirtualFileVisitor() {
+        VirtualFileUtil.visitChildrenRecursively(root, new VirtualFileVisitor() {
           @Nonnull
           @Override
           public Result visitFileEx(@Nonnull VirtualFile file) {

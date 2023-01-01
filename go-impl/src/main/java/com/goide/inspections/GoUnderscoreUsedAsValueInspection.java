@@ -16,16 +16,19 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoReferenceExpression;
 import com.goide.psi.GoVisitor;
-import com.intellij.codeInsight.highlighting.ReadWriteAccessDetector;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
+import consulo.language.editor.highlight.ReadWriteAccessDetector;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
 
-public class GoUnderscoreUsedAsValueInspection extends GoInspectionBase {
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
+public class GoUnderscoreUsedAsValueInspection extends GoGeneralInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -38,5 +41,11 @@ public class GoUnderscoreUsedAsValueInspection extends GoInspectionBase {
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Underscore used as value";
   }
 }

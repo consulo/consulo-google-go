@@ -16,14 +16,17 @@
 
 package com.goide.inspections;
 
+import com.goide.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+
 import javax.annotation.Nonnull;
 
-import com.goide.psi.*;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-
-public class GoEmbeddedInterfacePointerInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoEmbeddedInterfacePointerInspection extends GoGeneralInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -40,5 +43,11 @@ public class GoEmbeddedInterfacePointerInspection extends GoInspectionBase {
         holder.registerProblem(o, "Embedded type cannot be a pointer to interface", ProblemHighlightType.GENERIC_ERROR_OR_WARNING);
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Embedded interface pointer";
   }
 }

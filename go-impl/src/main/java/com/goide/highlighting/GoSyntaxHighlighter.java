@@ -19,13 +19,13 @@ package com.goide.highlighting;
 import com.goide.GoParserDefinition;
 import com.goide.GoTypes;
 import com.goide.lexer.GoLexer;
-import com.intellij.lexer.Lexer;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
-import com.intellij.psi.TokenType;
-import com.intellij.psi.tree.IElementType;
-import javax.annotation.Nonnull;
+import consulo.colorScheme.TextAttributesKey;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenType;
+import consulo.language.editor.highlight.SyntaxHighlighterBase;
+import consulo.language.lexer.Lexer;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 

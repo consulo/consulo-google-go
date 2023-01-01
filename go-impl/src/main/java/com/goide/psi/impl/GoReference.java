@@ -19,20 +19,20 @@ package com.goide.psi.impl;
 import com.goide.GoConstants;
 import com.goide.psi.*;
 import com.goide.util.GoUtil;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.RecursionManager;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.source.resolve.ResolveCache;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.containers.OrderedSet;
+import consulo.application.util.RecursionManager;
+import consulo.document.util.TextRange;
+import consulo.language.psi.*;
+import consulo.language.psi.resolve.ResolveCache;
+import consulo.language.psi.resolve.ResolveState;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.IncorrectOperationException;
+import consulo.language.util.ModuleUtilCore;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.collection.OrderedSet;
 import consulo.util.dataholder.Key;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.ObjectUtil;
+import consulo.util.lang.function.Condition;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -153,7 +153,7 @@ public class GoReference extends GoReferenceBase<GoReferenceExpressionBase> {
   private boolean processExistingType(@Nonnull GoType type, @Nonnull GoScopeProcessor processor, @Nonnull ResolveState state) {
     PsiFile file = type.getContainingFile();
     if (!(file instanceof GoFile)) return true;
-    PsiFile myFile = ObjectUtils.notNull(getContextFile(state), myElement.getContainingFile());
+    PsiFile myFile = ObjectUtil.notNull(getContextFile(state), myElement.getContainingFile());
     if (!(myFile instanceof GoFile) || !allowed(file, myFile, ModuleUtilCore.findModuleForPsiElement(myFile))) return true;
 
     boolean localResolve = isLocalResolve(myFile, file);
@@ -199,7 +199,7 @@ public class GoReference extends GoReferenceBase<GoReferenceExpressionBase> {
     if (!(originFile instanceof GoFile) || !(externalFile instanceof GoFile)) return false;
     GoFile o1 = (GoFile)originFile.getOriginalFile();
     GoFile o2 = (GoFile)externalFile.getOriginalFile();
-    return Comparing.equal(o1.getImportPath(false), o2.getImportPath(false)) 
+    return Comparing.equal(o1.getImportPath(false), o2.getImportPath(false))
            && Comparing.equal(o1.getPackageName(), o2.getPackageName());
   }
 

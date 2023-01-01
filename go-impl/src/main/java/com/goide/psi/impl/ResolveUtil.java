@@ -16,13 +16,13 @@
 
 package com.goide.psi.impl;
 
+import com.goide.psi.GoCompositeElement;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.resolve.PsiScopeProcessor;
+import consulo.language.psi.resolve.ResolveState;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.goide.psi.GoCompositeElement;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.scope.PsiScopeProcessor;
 
 public final class ResolveUtil {
   private ResolveUtil() {}

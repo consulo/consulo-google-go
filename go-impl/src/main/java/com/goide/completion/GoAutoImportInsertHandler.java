@@ -16,23 +16,22 @@
 
 package com.goide.completion;
 
-import javax.annotation.Nonnull;
-
 import com.goide.codeInsight.imports.GoImportPackageQuickFix;
 import com.goide.project.GoVendoringUtil;
 import com.goide.psi.GoFunctionDeclaration;
 import com.goide.psi.GoNamedElement;
 import com.goide.psi.GoTypeSpec;
-import com.intellij.codeInsight.completion.InsertHandler;
-import com.intellij.codeInsight.completion.InsertionContext;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiReference;
+import consulo.language.editor.completion.lookup.InsertHandler;
+import consulo.language.editor.completion.lookup.InsertionContext;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiReference;
+import consulo.language.util.ModuleUtilCore;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GoAutoImportInsertHandler<T extends GoNamedElement> implements InsertHandler<LookupElement> {

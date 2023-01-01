@@ -20,21 +20,25 @@ import com.goide.lexer.GoLexer;
 import com.goide.parser.GoParser;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoTokenType;
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.ParserDefinition;
-import com.intellij.lang.PsiParser;
-import com.intellij.lexer.Lexer;
-import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.IFileElementType;
-import com.intellij.psi.tree.TokenSet;
-import consulo.lang.LanguageVersion;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.IFileElementType;
+import consulo.language.ast.TokenSet;
+import consulo.language.file.FileViewProvider;
+import consulo.language.lexer.Lexer;
+import consulo.language.parser.ParserDefinition;
+import consulo.language.parser.PsiParser;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.version.LanguageVersion;
+
 import javax.annotation.Nonnull;
 
 import static com.goide.GoTypes.*;
 
+@ExtensionImpl
 public class GoParserDefinition implements ParserDefinition {
   public static final IElementType LINE_COMMENT = new GoTokenType("GO_LINE_COMMENT");
   public static final IElementType MULTILINE_COMMENT = new GoTokenType("GO_MULTILINE_COMMENT");
@@ -54,6 +58,12 @@ public class GoParserDefinition implements ParserDefinition {
     BIT_CLEAR_ASSIGN, BIT_CLEAR, COND_AND, BIT_AND_ASSIGN, BIT_AND, SHIFT_LEFT_ASSIGN, SHIFT_LEFT, SEND_CHANNEL, LESS_OR_EQUAL,
     LESS, BIT_XOR_ASSIGN, BIT_XOR, MUL_ASSIGN, MUL, QUOTIENT_ASSIGN, QUOTIENT, REMAINDER_ASSIGN, REMAINDER, SHIFT_RIGHT_ASSIGN,
     SHIFT_RIGHT, GREATER_OR_EQUAL, GREATER, VAR_ASSIGN);
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
+  }
 
   @Nonnull
   @Override

@@ -20,17 +20,17 @@ import com.goide.psi.GoConstSpec;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.impl.GoConstSpecImpl;
 import com.goide.stubs.GoConstSpecStub;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.stubs.StubInputStream;
-import com.intellij.psi.stubs.StubOutputStream;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ArrayFactory;
-import com.intellij.util.io.StringRef;
-import javax.annotation.Nonnull;
+import consulo.index.io.StringRef;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.stub.StubInputStream;
+import consulo.language.psi.stub.StubOutputStream;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.collection.ArrayFactory;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoConstSpecStubElementType extends GoStubElementType<GoConstSpecStub, GoConstSpec> {

@@ -18,7 +18,8 @@ package com.goide.psi.impl;
 
 import com.goide.psi.GoTypeReferenceExpression;
 import com.goide.psi.GoTypeSpec;
-import com.intellij.psi.PsiElement;
+import consulo.language.psi.PsiElement;
+
 import javax.annotation.Nonnull;
 
 public class GoTypeProcessor extends GoScopeProcessorBase {

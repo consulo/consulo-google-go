@@ -1,8 +1,8 @@
 package com.plan9.intel.lang.core.lexer;
 
-import com.intellij.lexer.FlexLexer;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.TokenType;
+import consulo.language.lexer.FlexLexer;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenType;
 import static com.plan9.intel.ide.highlighting.AsmIntelLexerTokens.*;
 
 %%
@@ -146,4 +146,4 @@ FLAG          = "NOPROF" | "DUPOK" | "NOSPLIT" | "RODATA" | "NOPTR" | "WRAPPER" 
 // Catch All
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-[^] { return com.intellij.psi.TokenType.BAD_CHARACTER; }
+[^] { return TokenType.BAD_CHARACTER; }

@@ -17,14 +17,24 @@
 package com.goide.codeInsight.imports;
 
 import com.goide.GoConstants;
-import com.intellij.openapi.components.*;
-import com.intellij.util.xmlb.XmlSerializerUtil;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
+import consulo.component.persist.PersistentStateComponent;
+import consulo.component.persist.State;
+import consulo.component.persist.Storage;
+import consulo.component.persist.StoragePathMacros;
+import consulo.ide.ServiceManager;
+import consulo.util.xml.serializer.XmlSerializerUtil;
+
 import javax.annotation.Nullable;
 
 @State(
-  name = GoConstants.GO,
-  storages = @Storage(file = StoragePathMacros.APP_CONFIG + "/editor.codeinsight.xml")
+    name = GoConstants.GO,
+    storages = @Storage(file = StoragePathMacros.APP_CONFIG + "/editor.codeinsight.xml")
 )
+@ServiceAPI(ComponentScope.APPLICATION)
+@ServiceImpl
 public class GoCodeInsightSettings implements PersistentStateComponent<GoCodeInsightSettings> {
   private boolean myShowImportPopup = true;
   private boolean myAddUnambiguousImportsOnTheFly = true;

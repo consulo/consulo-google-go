@@ -18,8 +18,8 @@ package com.goide.codeInsight.unwrap;
 
 import com.goide.psi.GoStatement;
 import com.goide.psi.impl.GoStatementImpl;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.IncorrectOperationException;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.IncorrectOperationException;
 
 public class GoBracesUnwrapper extends GoUnwrapper {
   public GoBracesUnwrapper() {

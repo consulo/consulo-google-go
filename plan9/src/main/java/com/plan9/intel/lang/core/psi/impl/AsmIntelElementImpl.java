@@ -16,17 +16,13 @@
 
 package com.plan9.intel.lang.core.psi.impl;
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
-import com.intellij.lang.ASTNode;
+import consulo.language.ast.ASTNode;
+import consulo.language.impl.psi.ASTWrapperPsiElement;
+
 import javax.annotation.Nonnull;
 
 public class AsmIntelElementImpl extends ASTWrapperPsiElement {
   public AsmIntelElementImpl(@Nonnull ASTNode node) {
     super(node);
-  }
-
-  @Override
-  public String toString() {
-    return getNode().getElementType().toString();
   }
 }

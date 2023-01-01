@@ -20,16 +20,18 @@ import com.goide.GoConstants;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.GoReferenceExpressionImpl;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiElement;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-import static com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
-
-public class GoAssignmentNilWithoutExplicitTypeInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoAssignmentNilWithoutExplicitTypeInspection extends GoGeneralInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -66,14 +68,20 @@ public class GoAssignmentNilWithoutExplicitTypeInspection extends GoInspectionBa
       private void checkExpressions(@Nonnull List<GoExpression> expressions) {
         for (GoExpression expr : expressions) {
           if (expr instanceof GoReferenceExpressionImpl) {
-            GoReferenceExpressionImpl ref = (GoReferenceExpressionImpl)expr;
+            GoReferenceExpressionImpl ref = (GoReferenceExpressionImpl) expr;
             PsiElement resolve = ref.resolve();
             if (ref.getIdentifier().textMatches(GoConstants.NIL) && resolve != null && GoPsiImplUtil.builtin(resolve)) {
-              holder.registerProblem(expr, "Cannot assign nil without explicit type", GENERIC_ERROR_OR_WARNING);
+              holder.registerProblem(expr, "Cannot assign nil without explicit type", ProblemHighlightType.GENERIC_ERROR_OR_WARNING);
             }
           }
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Assignment nil without explicit type";
   }
 }

@@ -17,26 +17,30 @@
 package com.goide.dlv.breakpoint;
 
 import com.goide.GoParserDefinition;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.util.Processor;
-import com.intellij.xdebugger.XDebuggerUtil;
-import com.intellij.xdebugger.breakpoints.XLineBreakpointType;
 import consulo.annotation.access.RequiredReadAction;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.util.function.Processor;
+import consulo.document.Document;
+import consulo.document.FileDocumentManager;
+import consulo.execution.debug.XDebuggerUtil;
+import consulo.execution.debug.breakpoint.XLineBreakpointType;
+import consulo.language.ast.IElementType;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
+import jakarta.inject.Inject;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class DlvBreakpointType extends XLineBreakpointType<DlvBreakpointProperties> {
   @Nonnull
   public static DlvBreakpointType getInstance() {
     return EXTENSION_POINT_NAME.findExtensionOrFail(DlvBreakpointType.class);
   }
 
+  @Inject
   protected DlvBreakpointType() {
     super("DlvLineBreakpoint", "Dlv breakpoint");
   }

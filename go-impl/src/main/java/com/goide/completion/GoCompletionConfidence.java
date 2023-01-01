@@ -16,18 +16,28 @@
 
 package com.goide.completion;
 
+import com.goide.GoLanguage;
+import com.goide.psi.GoNamedElement;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.completion.CompletionConfidence;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.util.lang.ThreeState;
+
 import javax.annotation.Nonnull;
 
-import com.goide.psi.GoNamedElement;
-import com.intellij.codeInsight.completion.CompletionConfidence;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.ThreeState;
-
+@ExtensionImpl(order = "last")
 public class GoCompletionConfidence extends CompletionConfidence {
   @Nonnull
   @Override
   public ThreeState shouldSkipAutopopup(@Nonnull PsiElement context, @Nonnull PsiFile psiFile, int offset) {
     return context instanceof GoNamedElement && ((GoNamedElement)context).isBlank() ? ThreeState.YES : ThreeState.UNSURE;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

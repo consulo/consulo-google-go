@@ -17,11 +17,14 @@
 package com.goide.formatter.settings;
 
 import com.goide.GoConstants;
-import com.intellij.openapi.options.Configurable;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
-import com.intellij.psi.codeStyle.CodeStyleSettingsProvider;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.configurable.Configurable;
+import consulo.language.codeStyle.CodeStyleSettings;
+import consulo.language.codeStyle.setting.CodeStyleSettingsProvider;
+
 import javax.annotation.Nonnull;
 
+@ExtensionImpl
 public class GoCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
   @Override
   public String getConfigurableDisplayName() {

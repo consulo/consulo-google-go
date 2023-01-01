@@ -21,19 +21,22 @@ import com.goide.runconfig.GoRunConfigurationProducerBase;
 import com.goide.runconfig.GoRunUtil;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.sdk.GoSdkUtil;
-import com.intellij.execution.actions.ConfigurationContext;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.execution.action.ConfigurationContext;
 import consulo.google.go.module.extension.GoModuleExtension;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.ref.Ref;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoApplicationRunConfigurationProducer extends GoRunConfigurationProducerBase<GoApplicationConfiguration> implements Cloneable {
   public GoApplicationRunConfigurationProducer() {
     super(GoApplicationRunConfigurationType.getInstance());

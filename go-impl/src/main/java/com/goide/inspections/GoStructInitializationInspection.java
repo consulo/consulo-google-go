@@ -20,22 +20,25 @@ import com.goide.psi.*;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.util.GoUtil;
-import com.intellij.codeInspection.*;
-import com.intellij.codeInspection.ui.SingleCheckboxOptionsPanel;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.InvalidDataException;
-import com.intellij.openapi.util.WriteExternalException;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.progress.ProgressManager;
+import consulo.language.editor.inspection.*;
+import consulo.language.editor.inspection.ui.SingleCheckboxOptionsPanel;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.xml.serializer.InvalidDataException;
+import consulo.util.xml.serializer.WriteExternalException;
 import org.jdom.Element;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import javax.swing.*;
 import java.util.List;
 
+@ExtensionImpl
 public class GoStructInitializationInspection extends GoInspectionBase {
   public static final String REPLACE_WITH_NAMED_STRUCT_FIELD_FIX_NAME = "Replace with named struct field";
   public boolean reportLocalStructs;
@@ -60,6 +63,24 @@ public class GoStructInitializationInspection extends GoInspectionBase {
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Code style issues";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Struct initialization without field names";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WEAK_WARNING;
   }
 
   @Override

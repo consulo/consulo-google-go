@@ -19,36 +19,33 @@ package com.goide.intentions;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.codeInsight.intention.BaseElementAtCaretIntentionAction;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.containers.MultiMap;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.intention.BaseElementAtCaretIntentionAction;
+import consulo.language.editor.intention.IntentionMetaData;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.IncorrectOperationException;
+import consulo.project.Project;
+import consulo.util.collection.MultiMap;
+import consulo.util.lang.ObjectUtil;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nls;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 import java.util.Set;
 
-import static com.intellij.util.containers.ContainerUtil.*;
+import static consulo.util.collection.ContainerUtil.*;
 
+@ExtensionImpl
+@IntentionMetaData(ignoreId = "go.move.to.struct.initializer", fileExtensions = "go", categories = "Go")
 public class GoMoveToStructInitializationIntention extends BaseElementAtCaretIntentionAction {
   public static final String NAME = "Move field assignment to struct initialization";
 
   public GoMoveToStructInitializationIntention() {
     setText(NAME);
-  }
-
-  @Nls
-  @Nonnull
-  @Override
-  public String getFamilyName() {
-    return NAME;
   }
 
   @Override
@@ -101,7 +98,7 @@ public class GoMoveToStructInitializationIntention extends BaseElementAtCaretInt
     while (e instanceof GoParenthesesExpr) {
       e = ((GoParenthesesExpr)e).getExpression();
     }
-    return ObjectUtils.tryCast(e, GoReferenceExpression.class);
+    return ObjectUtil.tryCast(e, GoReferenceExpression.class);
   }
 
   @Contract("null -> false")
@@ -126,7 +123,7 @@ public class GoMoveToStructInitializationIntention extends BaseElementAtCaretInt
 
   @Nonnull
   private static GoExpression getTopmostExpression(@Nonnull GoExpression expression) {
-    return ObjectUtils.notNull(PsiTreeUtil.getTopmostParentOfType(expression, GoExpression.class), expression);
+    return ObjectUtil.notNull(PsiTreeUtil.getTopmostParentOfType(expression, GoExpression.class), expression);
   }
 
   private static boolean isResolvedTo(@Nullable PsiElement e, @Nullable PsiElement resolve) {
@@ -168,7 +165,7 @@ public class GoMoveToStructInitializationIntention extends BaseElementAtCaretInt
 
     PsiElement resolve = resolveQualifier(fieldReferenceExpression);
     GoVarDefinition structVarDefinition = find(varDeclaration.getVarDefinitionList(), definition -> resolve == definition);
-    return structVarDefinition != null ? ObjectUtils.tryCast(structVarDefinition.getValue(), GoCompositeLit.class) : null;
+    return structVarDefinition != null ? ObjectUtil.tryCast(structVarDefinition.getValue(), GoCompositeLit.class) : null;
   }
 
   @Nullable
@@ -180,7 +177,7 @@ public class GoMoveToStructInitializationIntention extends BaseElementAtCaretInt
   @Nullable
   private static GoCompositeLit getStructLiteral(@Nonnull GoReferenceExpression fieldReferenceExpression,
                                                  @Nonnull GoAssignmentStatement structAssignment) {
-    GoVarDefinition varDefinition = ObjectUtils.tryCast(resolveQualifier(fieldReferenceExpression), GoVarDefinition.class);
+    GoVarDefinition varDefinition = ObjectUtil.tryCast(resolveQualifier(fieldReferenceExpression), GoVarDefinition.class);
     PsiElement field = fieldReferenceExpression.resolve();
     if (varDefinition == null || !isFieldDefinition(field) || !hasStructTypeWithField(varDefinition, (GoNamedElement)field)) {
       return null;
@@ -190,12 +187,12 @@ public class GoMoveToStructInitializationIntention extends BaseElementAtCaretInt
                                                   expression -> isResolvedTo(expression, varDefinition));
     if (structReferenceExpression == null) return null;
     GoExpression compositeLit = GoPsiImplUtil.getRightExpression(structAssignment, structReferenceExpression);
-    return ObjectUtils.tryCast(compositeLit, GoCompositeLit.class);
+    return ObjectUtil.tryCast(compositeLit, GoCompositeLit.class);
   }
 
   private static boolean hasStructTypeWithField(@Nonnull GoVarDefinition structVarDefinition, @Nonnull GoNamedElement field) {
     GoType type = structVarDefinition.getGoType(null);
-    GoStructType structType = type != null ? ObjectUtils.tryCast(type.getUnderlyingType(), GoStructType.class) : null;
+    GoStructType structType = type != null ? ObjectUtil.tryCast(type.getUnderlyingType(), GoStructType.class) : null;
     return structType != null && PsiTreeUtil.isAncestor(structType, field, true);
   }
 
@@ -226,12 +223,12 @@ public class GoMoveToStructInitializationIntention extends BaseElementAtCaretInt
   private static List<? extends PsiElement> getLeftHandElements(@Nonnull GoStatement statement) {
     if (statement instanceof GoSimpleStatement) {
       GoShortVarDeclaration varDeclaration = ((GoSimpleStatement)statement).getShortVarDeclaration();
-      return varDeclaration != null ? varDeclaration.getVarDefinitionList() : emptyList();
+      return varDeclaration != null ? varDeclaration.getVarDefinitionList() : List.of();
     }
     if (statement instanceof GoAssignmentStatement) {
       return ((GoAssignmentStatement)statement).getLeftHandExprList().getExpressionList();
     }
-    return emptyList();
+    return List.of();
   }
 
   @Override

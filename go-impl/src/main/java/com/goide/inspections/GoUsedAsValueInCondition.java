@@ -22,16 +22,20 @@ import com.goide.psi.GoShortVarDeclaration;
 import com.goide.psi.GoVisitor;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.LocalQuickFixBase;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.LocalQuickFixBase;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 
-import static com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
+import static consulo.language.editor.inspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
 
+@ExtensionImpl
 public class GoUsedAsValueInCondition extends GoInspectionBase {
   public static final String QUICK_FIX_NAME = "Convert to '==''";
 
@@ -63,6 +67,24 @@ public class GoUsedAsValueInCondition extends GoInspectionBase {
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Control flow issues";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Used as value in condition";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 
   private static class GoAssignmentToComparisonQuickFix extends LocalQuickFixBase {

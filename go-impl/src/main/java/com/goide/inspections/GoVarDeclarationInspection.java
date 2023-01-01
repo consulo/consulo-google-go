@@ -19,26 +19,28 @@ package com.goide.inspections;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.GoTypeUtil;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.util.Pair;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+import consulo.util.lang.Pair;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 import static com.goide.inspections.GoInspectionUtil.UNKNOWN_COUNT;
 import static com.goide.inspections.GoInspectionUtil.getExpressionResultCount;
 
-public class GoVarDeclarationInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoVarDeclarationInspection extends GoGeneralInspectionBase {
   @Nonnull
   private static Pair<List<? extends GoCompositeElement>, List<GoExpression>> getPair(@Nonnull GoVarSpec varDeclaration) {
     PsiElement assign = varDeclaration instanceof GoShortVarDeclaration ? ((GoShortVarDeclaration)varDeclaration).getVarAssign()
                                                                         : varDeclaration.getAssign();
     if (assign == null) {
-      return Pair.create(ContainerUtil.emptyList(), ContainerUtil.emptyList());
+      return Pair.create(List.of(), List.of());
     }
     if (varDeclaration instanceof GoRecvStatement) {
       return Pair.create(((GoRecvStatement)varDeclaration).getLeftExpressionsList(), varDeclaration.getRightExpressionsList());
@@ -127,5 +129,11 @@ public class GoVarDeclarationInspection extends GoInspectionBase {
         result.registerProblem(expr, msg, ProblemHighlightType.GENERIC_ERROR);
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Incorrect variable declaration";
   }
 }

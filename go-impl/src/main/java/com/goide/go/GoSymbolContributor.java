@@ -19,8 +19,11 @@ package com.goide.go;
 import com.goide.psi.GoNamedElement;
 import com.goide.stubs.index.GoAllPrivateNamesIndex;
 import com.goide.stubs.index.GoAllPublicNamesIndex;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.ide.navigation.GotoSymbolContributor;
 
-public class GoSymbolContributor extends GoGotoContributorBase<GoNamedElement> {
+@ExtensionImpl
+public class GoSymbolContributor extends GoGotoContributorBase<GoNamedElement> implements GotoSymbolContributor {
   public GoSymbolContributor() {
     super(GoNamedElement.class, GoAllPublicNamesIndex.ALL_PUBLIC_NAMES, GoAllPrivateNamesIndex.ALL_PRIVATE_NAMES);
   }

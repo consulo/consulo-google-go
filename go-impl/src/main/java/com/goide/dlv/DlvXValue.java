@@ -16,55 +16,45 @@
 
 package com.goide.dlv;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.goide.dlv.protocol.DlvApi;
 import com.goide.dlv.protocol.DlvRequest;
 import com.goide.psi.GoNamedElement;
 import com.goide.psi.GoTopLevelDeclaration;
 import com.goide.psi.GoTypeSpec;
 import com.goide.stubs.index.GoTypesIndex;
-import com.intellij.icons.AllIcons;
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.fileEditor.impl.FileEditorManagerImpl;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.SyntaxTraverser;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ThreeState;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.xdebugger.XDebugSession;
-import com.intellij.xdebugger.XDebuggerUtil;
-import com.intellij.xdebugger.XSourcePosition;
-import com.intellij.xdebugger.frame.XCompositeNode;
-import com.intellij.xdebugger.frame.XInlineDebuggerDataCallback;
-import com.intellij.xdebugger.frame.XNamedValue;
-import com.intellij.xdebugger.frame.XNavigatable;
-import com.intellij.xdebugger.frame.XStackFrame;
-import com.intellij.xdebugger.frame.XValueChildrenList;
-import com.intellij.xdebugger.frame.XValueModifier;
-import com.intellij.xdebugger.frame.XValueNode;
-import com.intellij.xdebugger.frame.XValuePlace;
-import com.intellij.xdebugger.frame.presentation.XNumericValuePresentation;
-import com.intellij.xdebugger.frame.presentation.XRegularValuePresentation;
-import com.intellij.xdebugger.frame.presentation.XStringValuePresentation;
-import com.intellij.xdebugger.frame.presentation.XValuePresentation;
+import consulo.application.AllIcons;
+import consulo.application.ApplicationManager;
+import consulo.codeEditor.Editor;
+import consulo.execution.debug.XDebugSession;
+import consulo.execution.debug.XDebuggerUtil;
+import consulo.execution.debug.XSourcePosition;
+import consulo.execution.debug.frame.*;
+import consulo.execution.debug.frame.presentation.XNumericValuePresentation;
+import consulo.execution.debug.frame.presentation.XRegularValuePresentation;
+import consulo.execution.debug.frame.presentation.XStringValuePresentation;
+import consulo.execution.debug.frame.presentation.XValuePresentation;
+import consulo.fileEditor.FileEditorManager;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.SyntaxTraverser;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
 import consulo.ui.image.Image;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.ThreeState;
+import consulo.virtualFileSystem.VirtualFile;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Pattern;
 
 class DlvXValue extends XNamedValue {
   @Nonnull
@@ -179,7 +169,7 @@ class DlvXValue extends XNamedValue {
         if (stackFrame == null) return null;
         Project project = debugSession.getProject();
         XSourcePosition position = debugSession.getCurrentPosition();
-        Editor editor = ((FileEditorManagerImpl)FileEditorManager.getInstance(project)).getSelectedTextEditor(true);
+        Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor(true);
         if (editor == null || position == null) return null;
         String name = myName.startsWith("&") ? myName.replaceFirst("\\&", "") : myName;
         PsiElement resolved = findTargetElement(project, position, editor, name);

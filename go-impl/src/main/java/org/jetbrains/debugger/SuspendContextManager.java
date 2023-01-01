@@ -1,6 +1,6 @@
 package org.jetbrains.debugger;
 
-import com.intellij.openapi.util.Comparing;
+import consulo.util.lang.Comparing;
 import io.netty.util.concurrent.Promise;
 
 /**

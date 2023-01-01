@@ -16,11 +16,16 @@
 
 package com.goide;
 
-import com.intellij.lang.CodeDocumentationAwareCommenter;
-import com.intellij.psi.PsiComment;
-import com.intellij.psi.tree.IElementType;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.CodeDocumentationAwareCommenter;
+import consulo.language.Language;
+import consulo.language.ast.IElementType;
+import consulo.language.psi.PsiComment;
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoCommenter implements CodeDocumentationAwareCommenter {
   @Nullable
   @Override
@@ -91,5 +96,11 @@ public class GoCommenter implements CodeDocumentationAwareCommenter {
   @Override
   public boolean isDocumentationComment(PsiComment comment) {
     return false;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

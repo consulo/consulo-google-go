@@ -16,16 +16,20 @@
 
 package com.goide.template;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoConstants;
 import com.goide.GoTypes;
-import com.intellij.codeInsight.template.EverywhereContextType;
-import com.intellij.psi.PsiComment;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.template.context.EverywhereContextType;
+import consulo.language.impl.psi.LeafPsiElement;
+import consulo.language.psi.PsiComment;
+import consulo.language.psi.PsiElement;
+import jakarta.inject.Inject;
 
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
 public class GoEverywhereContextType extends GoLiveTemplateContextType {
+  @Inject
   protected GoEverywhereContextType() {
     super("GO", GoConstants.GO, EverywhereContextType.class);
   }

@@ -16,21 +16,21 @@
 
 package com.goide.psi;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.openapi.util.Couple;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiWhiteSpace;
-import com.intellij.psi.StubBasedPsiElement;
-import com.intellij.psi.impl.source.tree.TreeUtil;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.psi.util.PsiUtilCore;
-import com.intellij.util.SmartList;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.document.util.TextRange;
+import consulo.language.ast.ASTNode;
+import consulo.language.impl.ast.TreeUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiUtilCore;
+import consulo.language.psi.PsiWhiteSpace;
+import consulo.language.psi.StubBasedPsiElement;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.collection.SmartList;
+import consulo.util.lang.Couple;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -137,7 +137,7 @@ public class GoPsiTreeUtil extends PsiTreeUtil {
       return PsiElement.EMPTY_ARRAY;
     }
 
-    List<PsiElement> result = ContainerUtil.newSmartList();
+    List<PsiElement> result = new ArrayList<>();
     PsiElement start = topmostElementRange.first;
     while (start != null && !start.isEquivalentTo(topmostElementRange.second)) {
       if (clazz.isInstance(start)) result.add(start);

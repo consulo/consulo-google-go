@@ -16,13 +16,13 @@
 
 package com.goide.runconfig.before;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.ui.ValidationInfo;
-import com.intellij.ui.TextFieldWithAutoCompletion;
+import consulo.language.editor.ui.awt.TextFieldWithAutoCompletion;
+import consulo.project.Project;
+import consulo.ui.ex.awt.DialogWrapper;
+import consulo.ui.ex.awt.ValidationInfo;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;

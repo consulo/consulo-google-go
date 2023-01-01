@@ -16,15 +16,18 @@
 
 package com.goide.inspections;
 
+import com.goide.psi.*;
+import com.goide.quickfix.GoReplaceWithSelectStatementQuickFix;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.goide.psi.*;
-import com.goide.quickfix.GoReplaceWithSelectStatementQuickFix;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-
+@ExtensionImpl
 public class GoInfiniteForInspection extends GoInspectionBase {
   @Nonnull
   @Override
@@ -54,5 +57,23 @@ public class GoInfiniteForInspection extends GoInspectionBase {
 
   private static boolean hasClause(@Nullable GoForClause forClause) {
     return forClause != null && !forClause.getStatementList().isEmpty();
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Control flow issues";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Infinite for loop";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 }

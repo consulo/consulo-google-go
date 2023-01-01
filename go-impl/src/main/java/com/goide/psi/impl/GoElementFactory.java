@@ -16,18 +16,18 @@
 
 package com.goide.psi.impl;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.goide.GoLanguage;
 import com.goide.psi.*;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFileFactory;
-import com.intellij.psi.impl.PsiParserFacadeImpl;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFileFactory;
+import consulo.language.psi.PsiParserFacade;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @SuppressWarnings("ConstantConditions")
 public class GoElementFactory {
@@ -101,7 +101,7 @@ public class GoElementFactory {
 
   @Nonnull
   public static PsiElement createNewLine(@Nonnull Project project) {
-    return PsiParserFacadeImpl.SERVICE.getInstance(project).createWhiteSpaceFromText("\n");
+    return PsiParserFacade.getInstance(project).createWhiteSpaceFromText("\n");
   }
 
   @Nonnull

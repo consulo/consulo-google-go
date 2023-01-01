@@ -16,13 +16,15 @@
 
 package com.goide.psi.impl.manipulator;
 
+import com.goide.psi.impl.GoStringLiteralImpl;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.document.util.TextRange;
+import consulo.language.psi.AbstractElementManipulator;
+import consulo.language.util.IncorrectOperationException;
+
 import javax.annotation.Nonnull;
 
-import com.goide.psi.impl.GoStringLiteralImpl;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.AbstractElementManipulator;
-import com.intellij.util.IncorrectOperationException;
-
+@ExtensionImpl
 public class GoStringManipulator extends AbstractElementManipulator<GoStringLiteralImpl> {
   @Override
   public GoStringLiteralImpl handleContentChange(@Nonnull GoStringLiteralImpl literal, @Nonnull TextRange range, String newContent)
@@ -51,6 +53,12 @@ public class GoStringManipulator extends AbstractElementManipulator<GoStringLite
       }
     }
     return TextRange.create(startOffset, endOffset);
+  }
+
+  @Nonnull
+  @Override
+  public Class<GoStringLiteralImpl> getElementClass() {
+    return GoStringLiteralImpl.class;
   }
 
   private static boolean isQuote(char ch) {

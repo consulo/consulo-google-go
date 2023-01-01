@@ -1,24 +1,22 @@
 package org.jetbrains.debugger.connection;
 
+import consulo.application.ApplicationManager;
+import consulo.logging.Logger;
+import consulo.util.concurrent.AsyncResult;
+import consulo.util.lang.function.Condition;
+import consulo.util.netty.NettyKt;
+import consulo.util.socketConnection.ConnectionStatus;
+import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import org.jetbrains.debugger.Vm;
+
+import javax.annotation.Nonnull;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-
-import javax.annotation.Nonnull;
-
-import org.jetbrains.debugger.Vm;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.util.AsyncResult;
-import com.intellij.openapi.util.Condition;
-import com.intellij.util.io.socketConnection.ConnectionStatus;
-import consulo.builtInServer.impl.net.http.NettyUtil;
-import consulo.builtInServer.impl.net.util.netty.NettyKt;
-import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 
 /**
  * @author VISTALL
@@ -69,7 +67,7 @@ public abstract class RemoteVmConnection extends VmConnection<Vm> {
         Bootstrap bootstrap = createBootstrap(address, result);
 
         Channel channel =
-                NettyKt.connect(bootstrap, address, connectionPromise, stopCondition == null ? NettyUtil.DEFAULT_CONNECT_ATTEMPT_COUNT : -1, stopCondition);
+                NettyKt.connect(bootstrap, address, connectionPromise, stopCondition == null ? NettyKt.DEFAULT_CONNECT_ATTEMPT_COUNT : -1, stopCondition);
 
         if (channel != null) {
           ChannelFuture closeFuture = channel.closeFuture();

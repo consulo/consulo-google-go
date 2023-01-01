@@ -16,15 +16,17 @@
 
 package com.goide;
 
-import javax.annotation.Nonnull;
-
 import com.goide.lexer.GoLexer;
-import com.intellij.lang.refactoring.NamesValidator;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.tree.IElementType;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.ast.IElementType;
+import consulo.language.editor.refactoring.NamesValidator;
+import consulo.project.Project;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoNamesValidator implements NamesValidator {
   @Override
   public boolean isKeyword(@Nonnull String name, Project project) {
@@ -41,5 +43,11 @@ public class GoNamesValidator implements NamesValidator {
     GoLexer lexer = new GoLexer();
     lexer.start(text);
     return lexer.getTokenEnd() == text.length() ? lexer.getTokenType() : null;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

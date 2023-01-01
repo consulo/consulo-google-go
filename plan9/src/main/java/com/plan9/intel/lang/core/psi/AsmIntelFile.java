@@ -16,9 +16,9 @@
 
 package com.plan9.intel.lang.core.psi;
 
-import com.intellij.extapi.psi.PsiFileBase;
-import com.intellij.psi.FileViewProvider;
 import com.plan9.intel.lang.AsmIntelLanguage;
+import consulo.language.file.FileViewProvider;
+import consulo.language.impl.psi.PsiFileBase;
 
 import javax.annotation.Nonnull;
 

@@ -16,11 +16,30 @@
 
 package com.goide.go;
 
+import com.goide.psi.GoNamedElement;
 import com.goide.psi.GoTypeSpec;
 import com.goide.stubs.index.GoTypesIndex;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.ide.navigation.GotoClassOrTypeContributor;
+import consulo.navigation.NavigationItem;
 
-public class GoTypeContributor extends GoGotoContributorBase<GoTypeSpec> {
+import javax.annotation.Nullable;
+
+@ExtensionImpl
+public class GoTypeContributor extends GoGotoContributorBase<GoTypeSpec> implements GotoClassOrTypeContributor {
   public GoTypeContributor() {
     super(GoTypeSpec.class, GoTypesIndex.KEY);
+  }
+
+  @Nullable
+  @Override
+  public String getQualifiedName(NavigationItem item) {
+    return item instanceof GoNamedElement ? ((GoNamedElement) item).getQualifiedName() : null;
+  }
+
+  @Nullable
+  @Override
+  public String getQualifiedNameSeparator() {
+    return null;
   }
 }

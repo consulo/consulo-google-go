@@ -19,31 +19,31 @@ package com.goide.runconfig.testing.coverage;
 import com.goide.GoFileType;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.runconfig.testing.GoTestRunConfiguration;
-import com.intellij.coverage.*;
-import com.intellij.coverage.view.CoverageViewExtension;
-import com.intellij.coverage.view.CoverageViewManager;
-import com.intellij.coverage.view.DirectoryCoverageViewExtension;
-import com.intellij.execution.configurations.RunConfigurationBase;
-import com.intellij.execution.configurations.coverage.CoverageEnabledConfiguration;
-import com.intellij.execution.testframework.AbstractTestProxy;
-import com.intellij.ide.util.treeView.AbstractTreeNode;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.execution.configuration.RunConfigurationBase;
+import consulo.execution.coverage.*;
+import consulo.execution.coverage.view.CoverageViewExtension;
+import consulo.execution.coverage.view.DirectoryCoverageViewExtension;
+import consulo.execution.test.AbstractTestProxy;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.project.ui.view.tree.AbstractTreeNode;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.function.Condition;
+import consulo.virtualFileSystem.VirtualFile;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.File;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+@ExtensionImpl
 public class GoCoverageEngine extends CoverageEngine {
   private static final Condition<AbstractTreeNode> NODE_TO_COVERAGE = node -> {
     Object value = node.getValue();

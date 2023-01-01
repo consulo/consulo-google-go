@@ -18,10 +18,10 @@ package com.goide.runconfig.testing;
 
 import com.goide.GoConstants;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.openapi.util.text.StringUtil;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Locale;
 
 public enum GoTestFunctionType {

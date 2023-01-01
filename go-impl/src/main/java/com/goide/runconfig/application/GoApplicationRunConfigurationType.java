@@ -19,12 +19,14 @@ package com.goide.runconfig.application;
 import com.goide.GoConstants;
 import com.goide.GoIcons;
 import com.goide.runconfig.GoConfigurationFactoryBase;
-import com.intellij.execution.configurations.ConfigurationTypeBase;
-import com.intellij.execution.configurations.RunConfiguration;
-import com.intellij.openapi.extensions.Extensions;
-import com.intellij.openapi.project.Project;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.execution.configuration.ConfigurationTypeBase;
+import consulo.execution.configuration.RunConfiguration;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 
+@ExtensionImpl
 public class GoApplicationRunConfigurationType extends ConfigurationTypeBase {
   public GoApplicationRunConfigurationType() {
     super("GoApplicationRunConfiguration", "Go Application", "Go application run configuration", GoIcons.APPLICATION_RUN);
@@ -39,6 +41,6 @@ public class GoApplicationRunConfigurationType extends ConfigurationTypeBase {
 
   @Nonnull
   public static GoApplicationRunConfigurationType getInstance() {
-    return Extensions.findExtension(CONFIGURATION_TYPE_EP, GoApplicationRunConfigurationType.class);
+    return EP_NAME.findExtensionOrFail(GoApplicationRunConfigurationType.class);
   }
 }

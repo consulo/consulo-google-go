@@ -16,7 +16,7 @@
 
 package com.plan9.intel.lang.core.lexer;
 
-import com.intellij.lexer.FlexAdapter;
+import consulo.language.lexer.FlexAdapter;
 
 public class AsmIntelLexer extends FlexAdapter {
   public AsmIntelLexer() {

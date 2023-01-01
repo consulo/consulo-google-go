@@ -16,20 +16,19 @@
 
 package com.goide.stubs.types;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoLanguage;
 import com.goide.psi.GoBlock;
 import com.goide.psi.GoCompositeElement;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.psi.stubs.IndexSink;
-import com.intellij.psi.stubs.StubBase;
-import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NonNls;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.stub.IStubElementType;
+import consulo.language.psi.stub.IndexSink;
+import consulo.language.psi.stub.StubBase;
+import consulo.language.psi.util.PsiTreeUtil;
+
+import javax.annotation.Nonnull;
 
 public abstract class GoStubElementType<S extends StubBase<T>, T extends GoCompositeElement> extends IStubElementType<S, T> {
-  public GoStubElementType(@NonNls @Nonnull String debugName) {
+  public GoStubElementType(@Nonnull String debugName) {
     super(debugName, GoLanguage.INSTANCE);
   }
 

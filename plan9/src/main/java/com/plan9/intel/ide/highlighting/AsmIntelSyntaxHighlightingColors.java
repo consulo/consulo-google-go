@@ -16,10 +16,10 @@
 
 package com.plan9.intel.ide.highlighting;
 
-import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
-import com.intellij.openapi.editor.colors.TextAttributesKey;
+import consulo.codeEditor.DefaultLanguageHighlighterColors;
+import consulo.colorScheme.TextAttributesKey;
 
-import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
+import static consulo.colorScheme.TextAttributesKey.createTextAttributesKey;
 
 public class AsmIntelSyntaxHighlightingColors {
   public static final TextAttributesKey LINE_COMMENT = createTextAttributesKey("com.plan9.LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);

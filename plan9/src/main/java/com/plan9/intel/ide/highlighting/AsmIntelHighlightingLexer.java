@@ -16,8 +16,8 @@
 
 package com.plan9.intel.ide.highlighting;
 
-import com.intellij.lexer.FlexAdapter;
 import com.plan9.intel.lang.core.lexer._AsmIntelHighlightingLexer;
+import consulo.language.lexer.FlexAdapter;
 
 public class AsmIntelHighlightingLexer extends FlexAdapter {
   public AsmIntelHighlightingLexer() {

@@ -16,22 +16,25 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.*;
-import com.intellij.codeInspection.*;
-import com.intellij.diagnostic.AttachmentFactory;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.WriteCommandAction;
+import consulo.language.editor.inspection.*;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.AttachmentFactoryUtil;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import consulo.util.lang.StringUtil;
+
+import javax.annotation.Nonnull;
 
 /**
  * Part of the golint tool
  * <p/>
  * https://github.com/golang/lint/blob/32a87160691b3c96046c0c678fe57c5bef761456/lint.go#L827
  */
+@ExtensionImpl
 public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
   public static final String QUICK_FIX_NAME = "Extract to own declaration";
 
@@ -73,6 +76,24 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
     };
   }
 
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Code style issues";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Exported element should have its own declaration";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WEAK_WARNING;
+  }
+
   private static class ExtractConstantDefinitionFix extends LocalQuickFixBase {
     private static final Logger LOG = Logger.getInstance(ExtractConstantDefinitionFix.class);
 
@@ -107,7 +128,7 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
             return;
           }
         }
-        LOG.error("Cannot run quick fix", AttachmentFactory.createAttachment(element.getContainingFile().getVirtualFile()));
+        LOG.error("Cannot run quick fix", AttachmentFactoryUtil.createAttachment(element.getContainingFile().getVirtualFile()));
       });
     }
   }
@@ -146,7 +167,7 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
             return;
           }
         }
-        LOG.error("Cannot run quick fix", AttachmentFactory.createAttachment(element.getContainingFile().getVirtualFile()));
+        LOG.error("Cannot run quick fix", AttachmentFactoryUtil.createAttachment(element.getContainingFile().getVirtualFile()));
       });
     }
   }

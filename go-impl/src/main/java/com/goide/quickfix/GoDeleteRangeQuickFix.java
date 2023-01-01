@@ -16,16 +16,16 @@
 
 package com.goide.quickfix;
 
+import consulo.codeEditor.Editor;
+import consulo.language.editor.inspection.LocalQuickFixAndIntentionActionOnPsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import org.jetbrains.annotations.Nls;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.Nls;
-import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
 
 public class GoDeleteRangeQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
   private static final Logger LOG = Logger.getInstance(GoDeleteRangeQuickFix.class);

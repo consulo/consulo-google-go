@@ -18,15 +18,16 @@ package com.goide.psi.impl;
 
 import com.goide.psi.*;
 import com.goide.sdk.GoSdkUtil;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.document.util.TextRange;
+import consulo.language.psi.*;
+import consulo.language.psi.resolve.ResolveState;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.util.collection.SmartList;
 import consulo.util.dataholder.Key;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.ObjectUtil;
+import consulo.virtualFileSystem.VirtualFile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -54,8 +55,8 @@ public abstract class GoReferenceBase<T extends GoReferenceExpressionBase> exten
   private static void putIfAbsent(@Nonnull GoImportSpec importSpec, @Nonnull PsiElement usage) {
     //noinspection SynchronizationOnLocalVariableOrMethodParameter
     synchronized (importSpec) {
-      List<PsiElement> newUsages = ContainerUtil.newSmartList(usage);
-      newUsages.addAll(IMPORT_USERS.get(importSpec, ContainerUtil.emptyList()));
+      List<PsiElement> newUsages = new SmartList<>(usage);
+      newUsages.addAll(IMPORT_USERS.get(importSpec, List.of()));
       importSpec.putUserData(IMPORT_USERS, newUsages);
     }
   }
@@ -120,7 +121,7 @@ public abstract class GoReferenceBase<T extends GoReferenceExpressionBase> exten
       @Override
       public boolean execute(@Nonnull PsiElement element, @Nonnull ResolveState state) {
         if (element.equals(o)) return !result.add(new PsiElementResolveResult(element));
-        String name = ObjectUtils.chooseNotNull(state.get(ACTUAL_NAME),
+        String name = ObjectUtil.chooseNotNull(state.get(ACTUAL_NAME),
                                                 element instanceof PsiNamedElement ? ((PsiNamedElement)element).getName() : null);
         if (name != null && o.getIdentifier().textMatches(name)) {
           result.add(new PsiElementResolveResult(element));

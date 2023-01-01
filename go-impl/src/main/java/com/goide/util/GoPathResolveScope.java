@@ -16,16 +16,16 @@
 
 package com.goide.util;
 
+import com.goide.sdk.GoSdkService;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.util.lang.ObjectUtil;
+import consulo.virtualFileSystem.VirtualFile;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.goide.sdk.GoSdkService;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.ObjectUtils;
 
 public class GoPathResolveScope extends GlobalSearchScope {
   @Nullable
@@ -66,7 +66,7 @@ public class GoPathResolveScope extends GlobalSearchScope {
 
   @Override
   public boolean isSearchInModuleContent(@Nonnull Module aModule) {
-    return GoSdkService.getInstance(ObjectUtils.assertNotNull(getProject())).isGoModule(aModule);
+    return GoSdkService.getInstance(ObjectUtil.assertNotNull(getProject())).isGoModule(aModule);
   }
 
   @Override

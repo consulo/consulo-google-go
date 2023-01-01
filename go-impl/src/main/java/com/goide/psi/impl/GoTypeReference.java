@@ -21,19 +21,20 @@ import com.goide.GoTypes;
 import com.goide.psi.*;
 import com.goide.sdk.GoSdkUtil;
 import com.goide.util.GoUtil;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.*;
-import com.intellij.psi.formatter.FormatterUtil;
-import com.intellij.psi.impl.source.resolve.ResolveCache;
-import com.intellij.psi.scope.PsiScopeProcessor;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.containers.OrderedSet;
-import javax.annotation.Nonnull;
+import consulo.document.util.TextRange;
+import consulo.language.codeStyle.FormatterUtil;
+import consulo.language.psi.*;
+import consulo.language.psi.resolve.PsiScopeProcessor;
+import consulo.language.psi.resolve.ResolveCache;
+import consulo.language.psi.resolve.ResolveState;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.IncorrectOperationException;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.collection.OrderedSet;
+import consulo.util.lang.function.Condition;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -132,7 +133,7 @@ public class GoTypeReference extends GoReferenceBase<GoTypeReferenceExpression> 
     return true;
   }
 
-  public final static Set<String> DOC_ONLY_TYPES = ContainerUtil.set("Type", "Type1", "IntegerType", "FloatType", "ComplexType");
+  public final static Set<String> DOC_ONLY_TYPES = Set.of("Type", "Type1", "IntegerType", "FloatType", "ComplexType");
   private static final Condition<GoTypeSpec> BUILTIN_TYPE = spec -> {
     String name = spec.getName();
     return name != null && !DOC_ONLY_TYPES.contains(name);

@@ -17,7 +17,8 @@
 package com.goide.psi;
 
 import com.goide.GoLanguage;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.ast.IElementType;
+
 import javax.annotation.Nonnull;
 
 public class GoTokenType extends IElementType {

@@ -21,36 +21,37 @@ import com.goide.psi.GoFunctionDeclaration;
 import com.goide.runconfig.GoConsoleFilter;
 import com.goide.runconfig.GoRunningState;
 import com.goide.util.GoExecutor;
-import com.intellij.execution.DefaultExecutionResult;
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.ExecutionResult;
-import com.intellij.execution.Executor;
-import com.intellij.execution.filters.TextConsoleBuilder;
-import com.intellij.execution.filters.TextConsoleBuilderFactory;
-import com.intellij.execution.process.ProcessHandler;
-import com.intellij.execution.process.ProcessTerminatedListener;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.execution.runners.ProgramRunner;
-import com.intellij.execution.testframework.AbstractTestProxy;
-import com.intellij.execution.testframework.actions.AbstractRerunFailedTestsAction;
-import com.intellij.execution.testframework.autotest.ToggleAutoTestAction;
-import com.intellij.execution.testframework.sm.SMTestRunnerConnectionUtil;
-import com.intellij.execution.testframework.sm.runner.ui.SMTRunnerConsoleView;
-import com.intellij.execution.ui.ConsoleView;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.execution.DefaultExecutionResult;
+import consulo.execution.ExecutionResult;
+import consulo.execution.executor.Executor;
+import consulo.execution.process.ProcessTerminatedListener;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.execution.runner.ProgramRunner;
+import consulo.execution.test.AbstractTestProxy;
+import consulo.execution.test.action.AbstractRerunFailedTestsAction;
+import consulo.execution.test.action.ToggleAutoTestAction;
+import consulo.execution.test.sm.SMTestRunnerConnectionUtil;
+import consulo.execution.test.sm.ui.SMTRunnerConsoleView;
+import consulo.execution.ui.console.ConsoleView;
+import consulo.execution.ui.console.TextConsoleBuilder;
+import consulo.execution.ui.console.TextConsoleBuilderFactory;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.module.Module;
+import consulo.process.ExecutionException;
+import consulo.process.ProcessHandler;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.io.FileUtil;
+import consulo.util.lang.ObjectUtil;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.File;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class GoTestRunningState extends GoRunningState<GoTestRunConfiguration> {
@@ -105,11 +106,11 @@ public class GoTestRunningState extends GoRunningState<GoTestRunConfiguration> {
           executor.withParameters("./" + pathSuffix);
           executor.withWorkDirectory(myConfiguration.getDirectoryPath());
         }
-        addFilterParameter(executor, ObjectUtils.notNull(myFailedTestsPattern, myConfiguration.getPattern()));
+        addFilterParameter(executor, ObjectUtil.notNull(myFailedTestsPattern, myConfiguration.getPattern()));
         break;
       case PACKAGE:
         executor.withParameters(myConfiguration.getPackage());
-        addFilterParameter(executor, ObjectUtils.notNull(myFailedTestsPattern, myConfiguration.getPattern()));
+        addFilterParameter(executor, ObjectUtil.notNull(myFailedTestsPattern, myConfiguration.getPattern()));
         break;
       case FILE:
         String filePath = myConfiguration.getFilePath();
@@ -141,7 +142,7 @@ public class GoTestRunningState extends GoRunningState<GoTestRunConfiguration> {
 
   @Nonnull
   protected String buildFilterPatternForFile(GoFile file) {
-    Collection<String> testNames = ContainerUtil.newLinkedHashSet();
+    Collection<String> testNames = new LinkedHashSet<>();
     for (GoFunctionDeclaration function : file.getFunctions()) {
       ContainerUtil.addIfNotNull(testNames, GoTestFinder.isTestOrExampleFunction(function) ? function.getName() : null);
     }

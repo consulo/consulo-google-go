@@ -17,9 +17,9 @@
 package com.goide.stubs;
 
 import com.goide.psi.GoVarSpec;
-import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.psi.stubs.StubBase;
-import com.intellij.psi.stubs.StubElement;
+import consulo.language.psi.stub.IStubElementType;
+import consulo.language.psi.stub.StubBase;
+import consulo.language.psi.stub.StubElement;
 
 public class GoVarSpecStub extends StubBase<GoVarSpec> {
   public GoVarSpecStub(StubElement parent, IStubElementType elementType) {

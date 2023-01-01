@@ -16,30 +16,29 @@
 
 package com.goide.util;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoConstants;
 import com.goide.project.GoExcludedPathsSettings;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.sdk.GoPackageUtil;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.SystemInfo;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.search.DelegatingGlobalSearchScope;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.util.CachedValueProvider;
-import com.intellij.psi.util.CachedValuesManager;
-import com.intellij.util.ThreeState;
+import consulo.application.util.CachedValueProvider;
+import consulo.application.util.SystemInfo;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.language.psi.scope.DelegatingGlobalSearchScope;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.util.LanguageCachedValueUtil;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.ThreeState;
+import consulo.virtualFileSystem.VirtualFile;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GoUtil {
@@ -51,7 +50,7 @@ public class GoUtil {
   }
 
   public static boolean isExcludedFile(@Nonnull GoFile file) {
-    return CachedValuesManager.getCachedValue(file, () -> {
+    return LanguageCachedValueUtil.getCachedValue(file, () -> {
       String importPath = file.getImportPath(false);
       GoExcludedPathsSettings excludedSettings = GoExcludedPathsSettings.getInstance(file.getProject());
       return CachedValueProvider.Result.create(importPath != null && excludedSettings.isExcluded(importPath), file, excludedSettings);

@@ -16,13 +16,13 @@
 
 package com.goide.runconfig;
 
-import com.intellij.compiler.options.CompileStepBeforeRun;
-import com.intellij.execution.BeforeRunTask;
-import com.intellij.execution.configurations.ConfigurationFactory;
-import com.intellij.execution.configurations.ConfigurationType;
-import com.intellij.openapi.project.Project;
+import consulo.compiler.execution.CompileStepBeforeRun;
+import consulo.execution.BeforeRunTask;
+import consulo.execution.configuration.ConfigurationFactory;
+import consulo.execution.configuration.ConfigurationType;
 import consulo.google.go.module.extension.GoModuleExtension;
 import consulo.module.extension.ModuleExtensionHelper;
+import consulo.project.Project;
 import consulo.util.dataholder.Key;
 
 import javax.annotation.Nonnull;

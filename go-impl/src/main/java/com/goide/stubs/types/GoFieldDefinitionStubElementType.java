@@ -19,11 +19,11 @@ package com.goide.stubs.types;
 import com.goide.psi.GoFieldDefinition;
 import com.goide.psi.impl.GoFieldDefinitionImpl;
 import com.goide.stubs.GoFieldDefinitionStub;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.stubs.StubInputStream;
-import com.intellij.psi.stubs.StubOutputStream;
-import javax.annotation.Nonnull;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.stub.StubInputStream;
+import consulo.language.psi.stub.StubOutputStream;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoFieldDefinitionStubElementType extends GoNamedStubElementType<GoFieldDefinitionStub, GoFieldDefinition> {

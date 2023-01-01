@@ -18,9 +18,9 @@ package com.goide.inspections;
 
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.psi.PsiElement;
-import javax.annotation.Nonnull;
+import consulo.language.psi.PsiElement;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class GoInspectionUtil {

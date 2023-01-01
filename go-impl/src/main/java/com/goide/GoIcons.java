@@ -16,27 +16,26 @@
 
 package com.goide;
 
-import com.intellij.icons.AllIcons;
+import consulo.application.AllIcons;
 import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
 import consulo.ui.image.ImageEffects;
 
-public interface GoIcons
-{
-	Image ICON = GoogleGoIconGroup.go();
-	Image TYPE = PlatformIconGroup.nodesTypeAlias();
-	Image APPLICATION_RUN = ImageEffects.layered(ICON, AllIcons.Nodes.RunnableMark);
-	Image TEST_RUN = ImageEffects.layered(ICON, AllIcons.Nodes.JunitTestMark);
-	Image METHOD = AllIcons.Nodes.Method;
-	Image FUNCTION = AllIcons.Nodes.Function;
-	Image VARIABLE = AllIcons.Nodes.Variable;
-	Image CONSTANT = PlatformIconGroup.nodesConstant();
-	Image PARAMETER = AllIcons.Nodes.Parameter;
-	Image FIELD = AllIcons.Nodes.Field;
-	Image LABEL = null; // todo: we need an icon here!
-	Image RECEIVER = AllIcons.Nodes.Parameter;
-	Image PACKAGE = AllIcons.Nodes.Package;
-	Image DEBUG = ICON;
-	Image DIRECTORY = AllIcons.Nodes.TreeClosed;
+public interface GoIcons {
+  Image ICON = GoogleGoIconGroup.go();
+  Image TYPE = PlatformIconGroup.nodesTypealias();
+  Image APPLICATION_RUN = ImageEffects.layered(ICON, AllIcons.Nodes.RunnableMark);
+  Image TEST_RUN = ImageEffects.layered(ICON, AllIcons.Nodes.JunitTestMark);
+  Image METHOD = AllIcons.Nodes.Method;
+  Image FUNCTION = AllIcons.Nodes.Function;
+  Image VARIABLE = AllIcons.Nodes.Variable;
+  Image CONSTANT = PlatformIconGroup.nodesConstant();
+  Image PARAMETER = AllIcons.Nodes.Parameter;
+  Image FIELD = AllIcons.Nodes.Field;
+  Image LABEL = null; // todo: we need an icon here!
+  Image RECEIVER = AllIcons.Nodes.Parameter;
+  Image PACKAGE = AllIcons.Nodes.Package;
+  Image DEBUG = ICON;
+  Image DIRECTORY = AllIcons.Nodes.TreeClosed;
 }

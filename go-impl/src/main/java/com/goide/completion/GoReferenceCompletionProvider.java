@@ -19,24 +19,23 @@ package com.goide.completion;
 import com.goide.project.GoVendoringUtil;
 import com.goide.psi.*;
 import com.goide.psi.impl.*;
-import com.intellij.codeInsight.completion.CompletionParameters;
-import com.intellij.codeInsight.completion.CompletionResultSet;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.source.resolve.reference.impl.PsiMultiReference;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.ProcessingContext;
-import com.intellij.util.containers.ContainerUtil;
-import consulo.codeInsight.completion.CompletionProvider;
+import consulo.language.editor.completion.CompletionParameters;
+import consulo.language.editor.completion.CompletionProvider;
+import consulo.language.editor.completion.CompletionResultSet;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.psi.*;
+import consulo.language.psi.resolve.ResolveState;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.ModuleUtilCore;
+import consulo.language.util.ProcessingContext;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.ObjectUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
+import java.util.HashSet;
 import java.util.Set;
-
-import static com.goide.completion.GoCompletionUtil.createPrefixMatcher;
 
 public class GoReferenceCompletionProvider implements CompletionProvider {
   @Override
@@ -44,11 +43,11 @@ public class GoReferenceCompletionProvider implements CompletionProvider {
     GoReferenceExpressionBase expression = PsiTreeUtil.getParentOfType(parameters.getPosition(), GoReferenceExpressionBase.class);
     PsiFile originalFile = parameters.getOriginalFile();
     if (expression != null) {
-      fillVariantsByReference(expression.getReference(), originalFile, set.withPrefixMatcher(createPrefixMatcher(set.getPrefixMatcher())));
+      fillVariantsByReference(expression.getReference(), originalFile, set.withPrefixMatcher(GoCompletionUtil.createPrefixMatcher(set.getPrefixMatcher())));
     }
     PsiElement parent = parameters.getPosition().getParent();
     if (parent != null) {
-      fillVariantsByReference(parent.getReference(), originalFile, set.withPrefixMatcher(createPrefixMatcher(set.getPrefixMatcher())));
+      fillVariantsByReference(parent.getReference(), originalFile, set.withPrefixMatcher(GoCompletionUtil.createPrefixMatcher(set.getPrefixMatcher())));
     }
   }
 
@@ -60,7 +59,7 @@ public class GoReferenceCompletionProvider implements CompletionProvider {
       fillVariantsByReference(ArrayUtil.getFirstElement(references), file, result);
     }
     else if (reference instanceof GoReference) {
-      GoReferenceExpression refExpression = ObjectUtils.tryCast(reference.getElement(), GoReferenceExpression.class);
+      GoReferenceExpression refExpression = ObjectUtil.tryCast(reference.getElement(), GoReferenceExpression.class);
       GoStructLiteralCompletion.Variants variants = GoStructLiteralCompletion.allowedVariants(refExpression);
 
       fillStructFieldNameVariants(file, result, variants, refExpression);
@@ -163,7 +162,7 @@ public class GoReferenceCompletionProvider implements CompletionProvider {
     private final CompletionResultSet myResult;
     private final boolean myForTypes;
     private final boolean myVendoringEnabled;
-    private final Set<String> myProcessedNames = ContainerUtil.newHashSet();
+    private final Set<String> myProcessedNames = new HashSet<>();
 
     public MyGoScopeProcessor(@Nonnull CompletionResultSet result, @Nonnull PsiFile originalFile, boolean forTypes) {
       myResult = result;

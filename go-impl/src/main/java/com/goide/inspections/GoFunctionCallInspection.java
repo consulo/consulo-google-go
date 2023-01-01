@@ -18,15 +18,18 @@ package com.goide.inspections;
 
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+import consulo.util.collection.ContainerUtil;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class GoFunctionCallInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoFunctionCallInspection extends GoGeneralInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
@@ -34,7 +37,7 @@ public class GoFunctionCallInspection extends GoInspectionBase {
       @Override
       public void visitCallExpr(@Nonnull GoCallExpr o) {
         super.visitCallExpr(o);
-        PsiElement resolve = GoPsiImplUtil.resolveCallRaw(o); 
+        PsiElement resolve = GoPsiImplUtil.resolveCallRaw(o);
         GoExpression expression = o.getExpression();
         if (resolve != null && expression instanceof GoReferenceExpression) {
           List<GoExpression> list = o.getArgumentList().getExpressionList();
@@ -75,5 +78,11 @@ public class GoFunctionCallInspection extends GoInspectionBase {
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Function call inspection";
   }
 }

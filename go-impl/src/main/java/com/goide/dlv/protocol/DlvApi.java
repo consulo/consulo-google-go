@@ -17,9 +17,9 @@
 package com.goide.dlv.protocol;
 
 import com.google.gson.annotations.SerializedName;
-import com.intellij.openapi.diagnostic.Logger;
-import javax.annotation.Nonnull;
+import consulo.logging.Logger;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 @SuppressWarnings("unused")

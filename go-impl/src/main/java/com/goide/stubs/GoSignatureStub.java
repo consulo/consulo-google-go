@@ -17,9 +17,9 @@
 package com.goide.stubs;
 
 import com.goide.psi.GoSignature;
-import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.util.io.StringRef;
+import consulo.index.io.StringRef;
+import consulo.language.psi.stub.IStubElementType;
+import consulo.language.psi.stub.StubElement;
 
 public class GoSignatureStub extends StubWithText<GoSignature> {
   public GoSignatureStub(StubElement parent, IStubElementType elementType, StringRef ref) {

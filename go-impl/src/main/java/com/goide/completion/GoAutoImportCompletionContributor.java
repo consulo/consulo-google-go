@@ -16,6 +16,7 @@
 
 package com.goide.completion;
 
+import com.goide.GoLanguage;
 import com.goide.project.GoVendoringUtil;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
@@ -23,35 +24,38 @@ import com.goide.psi.impl.GoTypeReference;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.stubs.index.GoIdFilter;
 import com.goide.util.GoUtil;
-import com.intellij.codeInsight.completion.*;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.patterns.PsiElementPattern;
-import com.intellij.patterns.StandardPatterns;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.stubs.StubIndex;
-import com.intellij.util.ProcessingContext;
-import com.intellij.util.Processor;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.indexing.IdFilter;
-import consulo.codeInsight.completion.CompletionProvider;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.progress.ProgressManager;
+import consulo.application.util.function.Processor;
+import consulo.application.util.matcher.PrefixMatcher;
+import consulo.document.util.TextRange;
+import consulo.language.Language;
+import consulo.language.editor.completion.*;
+import consulo.language.pattern.PsiElementPattern;
+import consulo.language.pattern.StandardPatterns;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiReference;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.stub.IdFilter;
+import consulo.language.psi.stub.StubIndex;
+import consulo.language.util.ModuleUtilCore;
+import consulo.language.util.ProcessingContext;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.virtualFileSystem.VirtualFile;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.*;
 
 import static com.goide.completion.GoCompletionUtil.createPrefixMatcher;
 import static com.goide.psi.impl.GoPsiImplUtil.prevDot;
 import static com.goide.stubs.index.GoAllPublicNamesIndex.ALL_PUBLIC_NAMES;
-import static com.intellij.patterns.PlatformPatterns.psiElement;
+import static consulo.language.pattern.PlatformPatterns.psiElement;
 
+@ExtensionImpl(order = "last")
 public class GoAutoImportCompletionContributor extends CompletionContributor {
   public GoAutoImportCompletionContributor() {
     extend(CompletionType.BASIC, inGoFile(), new CompletionProvider() {
@@ -124,7 +128,7 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
     String prefix = matcher.getPrefix();
     boolean emptyPrefix = prefix.isEmpty();
 
-    Set<String> packagesWithAliases = ContainerUtil.newHashSet();
+    Set<String> packagesWithAliases = new HashSet<>();
     if (!emptyPrefix) {
       for (Map.Entry<String, Collection<GoImportSpec>> entry : file.getImportMap().entrySet()) {
         for (GoImportSpec spec : entry.getValue()) {
@@ -152,7 +156,7 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
     List<String> sorted = ContainerUtil.sorted(allNames, String.CASE_INSENSITIVE_ORDER);
     ProgressManager.checkCanceled();
 
-    LinkedHashSet<String> result = ContainerUtil.newLinkedHashSet();
+    LinkedHashSet<String> result = new LinkedHashSet<>();
     for (String name : sorted) {
       ProgressManager.checkCanceled();
       if (matcher.isStartMatch(name)) {
@@ -183,6 +187,12 @@ public class GoAutoImportCompletionContributor extends CompletionContributor {
   @Nonnull
   private static String replacePackageWithAlias(@Nonnull String qualifiedName, @Nullable String alias) {
     return alias != null ? alias + "." + substringAfter(qualifiedName, '.') : qualifiedName;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 
   private interface ElementProcessor {

@@ -16,25 +16,24 @@
 
 package com.goide.dlv;
 
-import java.io.IOException;
-
-import javax.annotation.Nonnull;
-
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import consulo.logging.Logger;
+import consulo.util.io.CharsetToolkit;
+import consulo.util.netty.NettyKt;
+import consulo.util.netty.SimpleChannelInboundHandlerAdapter;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.json.JsonObjectDecoder;
 import org.jetbrains.debugger.AttachStateManager;
 import org.jetbrains.debugger.DebugEventListener;
 import org.jetbrains.debugger.StandaloneVmHelper;
 import org.jetbrains.debugger.VmBase;
 import org.jetbrains.jsonProtocol.Request;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.vfs.CharsetToolkit;
-import consulo.builtInServer.impl.net.http.SimpleChannelInboundHandlerAdapter;
-import consulo.builtInServer.impl.net.util.netty.NettyKt;
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.json.JsonObjectDecoder;
+
+import javax.annotation.Nonnull;
+import java.io.IOException;
 
 public class DlvVm extends VmBase {
   private final static Logger LOG = Logger.getInstance(DlvVm.class);
@@ -64,8 +63,7 @@ public class DlvVm extends VmBase {
         if (message instanceof ByteBuf) {
           LOG.info("IN: " + ((ByteBuf)message).toString(CharsetToolkit.UTF8_CHARSET));
           String json = NettyKt.readUtf8((ByteBuf)message);
-          JsonParser parser = new JsonParser();
-          JsonElement jsonElement = parser.parse(json);
+          JsonElement jsonElement = JsonParser.parseString(json);
           getCommandProcessor().processIncomingJson(jsonElement);
         }
       }

@@ -16,13 +16,12 @@
 
 package com.goide.actions.tool;
 
-import javax.annotation.Nonnull;
-
 import com.goide.util.GoExecutor;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.virtualFileSystem.VirtualFile;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GoTypeFileAction extends GoDownloadableFileAction {

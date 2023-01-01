@@ -20,9 +20,10 @@ import com.goide.psi.GoBlock;
 import com.goide.psi.GoFieldDefinition;
 import com.goide.psi.GoStatement;
 import com.goide.psi.GoVarDefinition;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.util.PsiTreeUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.resolve.ResolveState;
+import consulo.language.psi.util.PsiTreeUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

@@ -16,13 +16,14 @@
 
 package com.goide.completion;
 
-import com.intellij.codeInsight.completion.InsertionContext;
-import com.intellij.codeInsight.completion.util.ParenthesesInsertHandler;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
+import consulo.codeEditor.Editor;
+import consulo.document.Document;
+import consulo.language.editor.completion.lookup.InsertionContext;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.editor.completion.lookup.ParenthesesInsertHandler;
+import consulo.language.psi.PsiElement;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

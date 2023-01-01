@@ -16,23 +16,27 @@
 
 package com.goide.inspections.suppression;
 
+import com.goide.GoLanguage;
 import com.goide.psi.*;
-import com.intellij.codeInsight.daemon.impl.actions.AbstractBatchSuppressByNoInspectionCommentFix;
-import com.intellij.codeInspection.InspectionSuppressor;
-import com.intellij.codeInspection.SuppressQuickFix;
-import com.intellij.codeInspection.SuppressionUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.ElementDescriptionUtil;
-import com.intellij.psi.PsiComment;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiWhiteSpace;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.usageView.UsageViewTypeLocation;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.inspection.AbstractBatchSuppressByNoInspectionCommentFix;
+import consulo.language.editor.inspection.InspectionSuppressor;
+import consulo.language.editor.inspection.SuppressQuickFix;
+import consulo.language.editor.inspection.SuppressionUtil;
+import consulo.language.psi.ElementDescriptionUtil;
+import consulo.language.psi.PsiComment;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiWhiteSpace;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.usage.UsageViewTypeLocation;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.regex.Matcher;
 
+@ExtensionImpl
 public class GoInspectionSuppressor implements InspectionSuppressor {
   @Override
   public boolean isSuppressedFor(@Nonnull PsiElement element, @Nonnull String toolId) {
@@ -66,6 +70,12 @@ public class GoInspectionSuppressor implements InspectionSuppressor {
       new GoSuppressInspectionFix("package statement", GoPackageClause.class, false),
       new GoSuppressInspectionFix(toolId, "package statement", GoPackageClause.class, false),
     };
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 
   private static class GoSuppressForStatementFix extends GoSuppressInspectionFix {

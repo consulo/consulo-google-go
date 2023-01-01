@@ -16,9 +16,9 @@
 
 package com.goide.inspections.unresolved;
 
-import javax.annotation.Nonnull;
+import consulo.language.psi.PsiElement;
 
-import com.intellij.psi.PsiElement;
+import javax.annotation.Nonnull;
 
 public class GoIntroduceTypeFix extends GoUnresolvedFixBase {
   public GoIntroduceTypeFix(@Nonnull PsiElement element, @Nonnull String name) {

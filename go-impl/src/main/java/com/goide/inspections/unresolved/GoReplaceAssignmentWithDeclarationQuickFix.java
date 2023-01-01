@@ -16,19 +16,19 @@
 
 package com.goide.inspections.unresolved;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoAssignmentStatement;
 import com.goide.psi.GoExpression;
 import com.goide.psi.GoRangeClause;
 import com.goide.psi.GoRecvStatement;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.psi.impl.GoPsiImplUtil;
-import com.intellij.codeInspection.LocalQuickFixOnPsiElement;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
+import consulo.language.editor.inspection.LocalQuickFixOnPsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
 import org.jetbrains.annotations.Nls;
+
+import javax.annotation.Nonnull;
 
 public class GoReplaceAssignmentWithDeclarationQuickFix extends LocalQuickFixOnPsiElement {
   public static final String QUICK_FIX_NAME = "Replace with ':='";

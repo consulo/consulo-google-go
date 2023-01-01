@@ -20,7 +20,7 @@
 
 	<groupId>consulo.plugin</groupId>
 	<artifactId>consulo.google.go.parent</artifactId>
-	<version>2-SNAPSHOT</version>
+	<version>3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>

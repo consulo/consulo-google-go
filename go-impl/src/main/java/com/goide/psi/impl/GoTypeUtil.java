@@ -18,14 +18,16 @@ package com.goide.psi.impl;
 
 import com.goide.GoConstants;
 import com.goide.psi.*;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.collection.SmartList;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -158,7 +160,7 @@ public class GoTypeUtil {
           List<GoExpression> exprList = argumentList.getExpressionList();
           List<GoParameterDeclaration> paramsList = signature.getParameters().getParameterDeclarationList();
           if (exprList.size() == 1) {
-            List<GoType> typeList = ContainerUtil.newSmartList();
+            List<GoType> typeList = new SmartList<>();
             for (GoParameterDeclaration parameterDecl : paramsList) {
               for (GoParamDefinition parameter : parameterDecl.getParamDefinitionList()) {
                 typeList.add(getGoType(parameter, argumentList));
@@ -167,7 +169,7 @@ public class GoTypeUtil {
                 typeList.add(getInterfaceIfNull(parameterDecl.getType(), argumentList));
               }
             }
-            List<GoType> result = ContainerUtil.newSmartList(createGoTypeListOrGoType(typeList, argumentList));
+            List<GoType> result = new SmartList<>(createGoTypeListOrGoType(typeList, argumentList));
             if (paramsList.size() > 1) {
               assert paramsList.get(0) != null;
               result.add(getInterfaceIfNull(paramsList.get(0).getType(), argumentList));
@@ -195,7 +197,7 @@ public class GoTypeUtil {
 
   @Nonnull
   private static List<GoType> getExpectedTypesFromRecvStatement(@Nonnull GoRecvStatement recvStatement) {
-    List<GoType> typeList = ContainerUtil.newSmartList();
+    List<GoType> typeList = new ArrayList<>();
     for (GoExpression expr : recvStatement.getLeftExpressionsList()) {
       typeList.add(getGoType(expr, recvStatement));
     }
@@ -204,10 +206,10 @@ public class GoTypeUtil {
 
   @Nonnull
   private static List<GoType> getExpectedTypesFromVarSpec(@Nonnull GoExpression expression, @Nonnull GoVarSpec varSpec) {
-    List<GoType> result = ContainerUtil.newSmartList();
+    List<GoType> result = new ArrayList<>();
     GoType type = getInterfaceIfNull(varSpec.getType(), varSpec);
     if (varSpec.getRightExpressionsList().size() == 1) {
-      List<GoType> typeList = ContainerUtil.newSmartList();
+      List<GoType> typeList = new ArrayList<>();
       int defListSize = varSpec.getVarDefinitionList().size();
       for (int i = 0; i < defListSize; i++) {
         typeList.add(type);
@@ -227,12 +229,12 @@ public class GoTypeUtil {
                                                                       @Nonnull GoAssignmentStatement assignment) {
     List<GoExpression> leftExpressions = assignment.getLeftHandExprList().getExpressionList();
     if (assignment.getExpressionList().size() == 1) {
-      List<GoType> typeList = ContainerUtil.newSmartList();
+      List<GoType> typeList = new ArrayList<>();
       for (GoExpression expr : leftExpressions) {
         GoType type = expr.getGoType(null);
         typeList.add(type);
       }
-      List<GoType> result = ContainerUtil.newSmartList(createGoTypeListOrGoType(typeList, expression));
+      List<GoType> result = new SmartList<>(createGoTypeListOrGoType(typeList, expression));
       if (leftExpressions.size() > 1) {
         result.add(getGoType(leftExpressions.get(0), assignment));
       }

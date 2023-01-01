@@ -16,27 +16,28 @@
 
 package com.goide.codeInsight.imports;
 
+import com.goide.GoLanguage;
 import com.goide.GoTypes;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoReferenceBase;
-import com.intellij.lang.ImportOptimizer;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.openapi.util.EmptyRunnable;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.containers.MultiMap;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.progress.ProgressManager;
+import consulo.document.Document;
+import consulo.language.Language;
+import consulo.language.editor.refactoring.ImportOptimizer;
+import consulo.language.psi.*;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.collection.MultiMap;
+import consulo.util.lang.Comparing;
+import consulo.util.lang.EmptyRunnable;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.*;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+@ExtensionImpl
 public class GoImportOptimizer implements ImportOptimizer {
   @Override
   public boolean supports(PsiFile file) {
@@ -50,7 +51,7 @@ public class GoImportOptimizer implements ImportOptimizer {
       return EmptyRunnable.getInstance();
     }
     MultiMap<String, GoImportSpec> importMap = ((GoFile)file).getImportMap();
-    Set<PsiElement> importEntriesToDelete = ContainerUtil.newLinkedHashSet();
+    Set<PsiElement> importEntriesToDelete = new LinkedHashSet<>();
     Set<PsiElement> importIdentifiersToDelete = findRedundantImportIdentifiers(importMap);
 
     importEntriesToDelete.addAll(findDuplicatedEntries(importMap));
@@ -103,7 +104,7 @@ public class GoImportOptimizer implements ImportOptimizer {
 
   @Nonnull
   public static Set<PsiElement> findRedundantImportIdentifiers(@Nonnull MultiMap<String, GoImportSpec> importMap) {
-    Set<PsiElement> importIdentifiersToDelete = ContainerUtil.newLinkedHashSet();
+    Set<PsiElement> importIdentifiersToDelete = new LinkedHashSet<>();
     for (PsiElement importEntry : importMap.values()) {
       GoImportSpec importSpec = getImportSpec(importEntry);
       if (importSpec != null) {
@@ -167,7 +168,7 @@ public class GoImportOptimizer implements ImportOptimizer {
         if (!(resolve instanceof PsiDirectory || resolve instanceof GoImportSpec || resolve instanceof PsiDirectoryContainer)) {
           return;
         }
-        Collection<String> qualifiersToDelete = ContainerUtil.newHashSet();
+        Collection<String> qualifiersToDelete = new HashSet<>();
         for (GoImportSpec spec : result.get(qualifierText)) {
           for (Map.Entry<String, Collection<GoImportSpec>> entry : result.entrySet()) {
             for (GoImportSpec importSpec : entry.getValue()) {
@@ -203,7 +204,7 @@ public class GoImportOptimizer implements ImportOptimizer {
 
   @Nonnull
   public static Set<GoImportSpec> findDuplicatedEntries(@Nonnull MultiMap<String, GoImportSpec> importMap) {
-    Set<GoImportSpec> duplicatedEntries = ContainerUtil.newLinkedHashSet();
+    Set<GoImportSpec> duplicatedEntries = new LinkedHashSet<>();
     for (Map.Entry<String, Collection<GoImportSpec>> imports : importMap.entrySet()) {
       Collection<GoImportSpec> importsWithSameName = imports.getValue();
       if (importsWithSameName.size() > 1) {
@@ -258,5 +259,11 @@ public class GoImportOptimizer implements ImportOptimizer {
   @Nullable
   public static GoImportSpec getImportSpec(@Nonnull PsiElement importEntry) {
     return PsiTreeUtil.getNonStrictParentOfType(importEntry, GoImportSpec.class);
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

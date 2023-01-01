@@ -27,28 +27,31 @@ import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.sdk.GoPackageUtil;
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
-import com.intellij.codeInsight.intention.HighPriorityAction;
-import com.intellij.codeInspection.LocalQuickFixBase;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.ElementManipulators;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
-import com.intellij.util.ObjectUtils;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
+import consulo.language.editor.WriteCommandAction;
+import consulo.language.editor.inspection.LocalQuickFixBase;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.intention.HighPriorityAction;
+import consulo.language.psi.ElementManipulators;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.util.lang.ObjectUtil;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Set;
 
-public class GoInvalidPackageImportInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoInvalidPackageImportInspection extends GoGeneralInspectionBase {
   public static final String DELETE_ALIAS_QUICK_FIX_NAME = "Delete alias";
 
   @Override
@@ -100,7 +103,7 @@ public class GoInvalidPackageImportInspection extends GoInspectionBase {
         VirtualFile contextFile = file.getVirtualFile();
         VirtualFile resolvedFile = resolve.getVirtualFile();
 
-        boolean resolvedToSdk = sdkHome != null && VfsUtilCore.isAncestor(sdkHome, resolvedFile, false);
+        boolean resolvedToSdk = sdkHome != null && VirtualFileUtil.isAncestor(sdkHome, resolvedFile, false);
         boolean validateInternal = supportsInternalPackages || supportsInternalPackagesInSdk && resolvedToSdk;
         if (supportsVendoring || validateInternal || resolvedToSdk) {
           Set<VirtualFile> sourceRoots = GoSdkUtil.getSourcesPathsToLookup(file.getProject(), module);
@@ -150,6 +153,12 @@ public class GoInvalidPackageImportInspection extends GoInspectionBase {
     }
   }
 
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Invalid package import";
+  }
+
   private static class GoDeleteImportSpecAlias extends LocalQuickFixBase {
     protected GoDeleteImportSpecAlias() {
       super(DELETE_ALIAS_QUICK_FIX_NAME);
@@ -157,7 +166,7 @@ public class GoInvalidPackageImportInspection extends GoInspectionBase {
 
     @Override
     public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
-      GoImportSpec element = ObjectUtils.tryCast(descriptor.getPsiElement(), GoImportSpec.class);
+      GoImportSpec element = ObjectUtil.tryCast(descriptor.getPsiElement(), GoImportSpec.class);
       if (element != null) {
         WriteCommandAction.runWriteCommandAction(project, () -> {
           PsiElement dot = element.getDot();
@@ -186,7 +195,7 @@ public class GoInvalidPackageImportInspection extends GoInspectionBase {
 
     @Override
     public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
-      GoImportSpec element = ObjectUtils.tryCast(descriptor.getPsiElement(), GoImportSpec.class);
+      GoImportSpec element = ObjectUtil.tryCast(descriptor.getPsiElement(), GoImportSpec.class);
       if (element != null) {
         ElementManipulators.handleContentChange(element.getImportString(), myNewImportPath);
       }

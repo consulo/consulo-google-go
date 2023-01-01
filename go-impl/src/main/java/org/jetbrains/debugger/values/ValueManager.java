@@ -1,6 +1,6 @@
 package org.jetbrains.debugger.values;
 
-import org.jetbrains.concurrency.Obsolescent;
+import consulo.util.concurrent.Obsolescent;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

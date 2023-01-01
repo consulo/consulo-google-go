@@ -16,17 +16,17 @@
 
 package com.goide.quickfix;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoFile;
 import com.goide.psi.GoImportSpec;
-import com.intellij.codeInspection.LocalQuickFixBase;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
+import consulo.language.editor.WriteCommandAction;
+import consulo.language.editor.inspection.LocalQuickFixBase;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
+
+import javax.annotation.Nonnull;
 
 public class GoDeleteImportQuickFix extends LocalQuickFixBase {
   public static final String QUICK_FIX_NAME = "Delete import";

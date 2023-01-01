@@ -16,10 +16,10 @@
 
 package com.goide.psi;
 
-import com.intellij.psi.PsiElement;
+import consulo.language.psi.PsiElement;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 
 public interface GoCaseClause extends GoCompositeElement {

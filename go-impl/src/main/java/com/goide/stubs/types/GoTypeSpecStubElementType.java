@@ -21,15 +21,15 @@ import com.goide.psi.GoTypeSpec;
 import com.goide.psi.impl.GoTypeSpecImpl;
 import com.goide.stubs.GoTypeSpecStub;
 import com.goide.stubs.index.GoTypesIndex;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.stubs.StubIndexKey;
-import com.intellij.psi.stubs.StubInputStream;
-import com.intellij.psi.stubs.StubOutputStream;
-import com.intellij.util.ArrayFactory;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.language.ast.ASTNode;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.stub.StubIndexKey;
+import consulo.language.psi.stub.StubInputStream;
+import consulo.language.psi.stub.StubOutputStream;
+import consulo.util.collection.ArrayFactory;
+import consulo.util.collection.ContainerUtil;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Collection;
 

@@ -16,24 +16,28 @@
 
 package com.goide.editor;
 
+import com.goide.GoLanguage;
 import com.goide.GoTypes;
 import com.goide.psi.*;
-import com.intellij.codeInsight.CodeInsightBundle;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.lang.parameterInfo.*;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.Function;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.ast.IElementType;
+import consulo.language.editor.CodeInsightBundle;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.editor.parameterInfo.*;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.collection.ContainerUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
+@ExtensionImpl
 public class GoParameterInfoHandler implements ParameterInfoHandlerWithTabActionSupport<GoArgumentList, Object, GoExpression> {
   @Nonnull
   @Override
@@ -182,11 +186,11 @@ public class GoParameterInfoHandler implements ParameterInfoHandlerWithTabAction
       List<GoParamDefinition> paramDefinitionList = paramDeclaration.getParamDefinitionList();
       for (GoParamDefinition paramDefinition : paramDefinitionList) {
         String separator = isVariadic ? " ..." : " ";
-        paramPresentations.add(paramDefinition.getText() + separator + typePresentationFunction.fun(paramDeclaration.getType()));
+        paramPresentations.add(paramDefinition.getText() + separator + typePresentationFunction.apply(paramDeclaration.getType()));
       }
       if (paramDefinitionList.isEmpty()) {
         String separator = isVariadic ? "..." : "";
-        paramPresentations.add(separator + typePresentationFunction.fun(paramDeclaration.getType()));
+        paramPresentations.add(separator + typePresentationFunction.apply(paramDeclaration.getType()));
       }
     }
     return paramPresentations;
@@ -195,5 +199,11 @@ public class GoParameterInfoHandler implements ParameterInfoHandlerWithTabAction
   private static boolean isLastParameterVariadic(@Nonnull List<GoParameterDeclaration> declarations) {
     GoParameterDeclaration lastItem = ContainerUtil.getLastItem(declarations);
     return lastItem != null && lastItem.isVariadic();
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

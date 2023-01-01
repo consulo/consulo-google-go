@@ -18,10 +18,11 @@ package com.goide.formatter.settings;
 
 import com.goide.GoConstants;
 import com.goide.GoLanguage;
-import com.intellij.application.options.CodeStyleAbstractConfigurable;
-import com.intellij.application.options.CodeStyleAbstractPanel;
-import com.intellij.application.options.TabbedLanguageCodeStylePanel;
-import com.intellij.psi.codeStyle.CodeStyleSettings;
+import consulo.language.codeStyle.CodeStyleSettings;
+import consulo.language.codeStyle.ui.setting.CodeStyleAbstractConfigurable;
+import consulo.language.codeStyle.ui.setting.CodeStyleAbstractPanel;
+import consulo.language.codeStyle.ui.setting.TabbedLanguageCodeStylePanel;
+
 import javax.annotation.Nonnull;
 
 public class GoCodeStyleConfigurable extends CodeStyleAbstractConfigurable {

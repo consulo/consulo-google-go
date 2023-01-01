@@ -16,62 +16,53 @@
 
 package com.goide.dlv;
 
-import static com.goide.dlv.protocol.DlvApi.Breakpoint;
-import static com.goide.dlv.protocol.DlvApi.CONTINUE;
-import static com.goide.dlv.protocol.DlvApi.CommandOut;
-import static com.goide.dlv.protocol.DlvApi.DebuggerState;
-import static com.goide.dlv.protocol.DlvApi.HALT;
-import static com.goide.dlv.protocol.DlvApi.NEXT;
-import static com.goide.dlv.protocol.DlvApi.STEP;
-import static com.goide.dlv.protocol.DlvApi.STEPOUT;
-import static com.goide.dlv.protocol.DlvApi.SWITCH_THREAD;
-import static com.intellij.util.ObjectUtils.assertNotNull;
-import static com.intellij.util.ObjectUtils.tryCast;
-
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.intellij.lang.annotations.MagicConstant;
-import org.jetbrains.debugger.DebugProcessImpl;
-import org.jetbrains.debugger.StepAction;
-import org.jetbrains.debugger.Vm;
-import org.jetbrains.debugger.connection.VmConnection;
 import com.goide.GoConstants;
 import com.goide.GoFileType;
 import com.goide.dlv.breakpoint.DlvBreakpointProperties;
 import com.goide.dlv.breakpoint.DlvBreakpointType;
 import com.goide.dlv.protocol.DlvRequest;
 import com.goide.util.GoUtil;
-import com.intellij.execution.ExecutionResult;
-import com.intellij.execution.ui.ExecutionConsole;
-import com.intellij.icons.AllIcons;
+import consulo.application.AccessToken;
+import consulo.application.AllIcons;
+import consulo.application.ReadAction;
 import consulo.disposer.Disposable;
-import com.intellij.openapi.application.AccessToken;
-import com.intellij.openapi.application.ReadAction;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.fileTypes.PlainTextLanguage;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.AsyncResult;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiFileFactory;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.io.socketConnection.ConnectionStatus;
-import com.intellij.xdebugger.XDebugSession;
-import com.intellij.xdebugger.XSourcePosition;
-import com.intellij.xdebugger.breakpoints.XBreakpoint;
-import com.intellij.xdebugger.breakpoints.XBreakpointHandler;
-import com.intellij.xdebugger.breakpoints.XLineBreakpoint;
-import com.intellij.xdebugger.evaluation.XDebuggerEditorsProviderBase;
-import com.intellij.xdebugger.frame.XSuspendContext;
+import consulo.execution.ExecutionResult;
+import consulo.execution.debug.XDebugSession;
+import consulo.execution.debug.XSourcePosition;
+import consulo.execution.debug.breakpoint.XBreakpoint;
+import consulo.execution.debug.breakpoint.XBreakpointHandler;
+import consulo.execution.debug.breakpoint.XLineBreakpoint;
+import consulo.execution.debug.evaluation.XDebuggerEditorsProviderBase;
+import consulo.execution.debug.frame.XSuspendContext;
+import consulo.execution.ui.ExecutionConsole;
 import consulo.google.go.run.dlv.DlvSuspendContext;
 import consulo.google.go.run.dlv.api.DlvRequests;
 import consulo.google.go.run.dlv.api.SimpleInOutMessage;
+import consulo.language.plain.PlainTextLanguage;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiFileFactory;
+import consulo.logging.Logger;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.concurrent.AsyncResult;
+import consulo.util.socketConnection.ConnectionStatus;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.fileType.FileType;
+import org.intellij.lang.annotations.MagicConstant;
+import org.jetbrains.debugger.DebugProcessImpl;
+import org.jetbrains.debugger.StepAction;
+import org.jetbrains.debugger.Vm;
+import org.jetbrains.debugger.connection.VmConnection;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static com.goide.dlv.protocol.DlvApi.*;
+import static consulo.util.lang.ObjectUtil.assertNotNull;
+import static consulo.util.lang.ObjectUtil.tryCast;
 
 public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> implements Disposable {
   public static final boolean IS_DLV_DISABLED = !GoConstants.AMD64.equals(GoUtil.systemArch());

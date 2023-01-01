@@ -16,25 +16,27 @@
 
 package com.plan9.intel.lang.core;
 
-import com.intellij.lang.*;
-import com.intellij.lexer.Lexer;
-import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.TokenType;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.IFileElementType;
-import com.intellij.psi.tree.TokenSet;
 import com.plan9.intel.lang.AsmIntelLanguage;
 import com.plan9.intel.lang.core.lexer.AsmIntelLexer;
 import com.plan9.intel.lang.core.lexer.AsmIntelTokenType;
 import com.plan9.intel.lang.core.psi.AsmIntelFile;
-import consulo.lang.LanguageVersion;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.ast.*;
+import consulo.language.file.FileViewProvider;
+import consulo.language.lexer.Lexer;
+import consulo.language.parser.ParserDefinition;
+import consulo.language.parser.PsiBuilder;
+import consulo.language.parser.PsiParser;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.version.LanguageVersion;
 
 import javax.annotation.Nonnull;
 
 import static com.plan9.intel.lang.core.psi.AsmIntelTypes.*;
 
+@ExtensionImpl
 public class AsmIntelParserDefinition implements ParserDefinition {
 
   public static final IElementType LINE_COMMENT = new AsmIntelTokenType("LINE_COMMENT");
@@ -47,6 +49,12 @@ public class AsmIntelParserDefinition implements ParserDefinition {
   public static final TokenSet REGISTERS = TokenSet.create(PSEUDO_REG);
 
   public static final IFileElementType FILE = new IFileElementType(Language.findInstance(AsmIntelLanguage.class));
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return AsmIntelLanguage.INSTANCE;
+  }
 
   @Nonnull
   @Override

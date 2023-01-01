@@ -1,9 +1,9 @@
 package com.goide.lexer;
 
-import com.intellij.lexer.LexerBase;
-import com.intellij.psi.tree.IElementType;
+import consulo.language.lexer.LexerBase;
+import consulo.language.ast.IElementType;
 import com.goide.GoTypes;
-import static com.intellij.psi.TokenType.BAD_CHARACTER;
+import static consulo.language.ast.TokenType.BAD_CHARACTER;
 import static com.goide.GoParserDefinition.*;
 
 %%

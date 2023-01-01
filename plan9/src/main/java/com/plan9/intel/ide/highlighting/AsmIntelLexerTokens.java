@@ -16,9 +16,9 @@
 
 package com.plan9.intel.ide.highlighting;
 
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.tree.TokenSet;
 import com.plan9.intel.lang.core.lexer.AsmIntelTokenType;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenSet;
 
 public class AsmIntelLexerTokens {
   public static final IElementType LINE_COMMENT = new AsmIntelTokenType("LINE_COMMENT");

@@ -20,21 +20,23 @@ import com.goide.GoConstants;
 import com.goide.GoFileType;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
-import com.intellij.testIntegration.TestFinder;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.testIntegration.TestFinder;
+import consulo.language.inject.InjectedLanguageManager;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.util.io.FileUtil;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
+@ExtensionImpl
 public class GoTestFinder implements TestFinder {
   private static final String EXTENSION = "." + GoFileType.INSTANCE.getDefaultExtension();
 
@@ -74,18 +76,18 @@ public class GoTestFinder implements TestFinder {
   @Nullable
   @Override
   public PsiElement findSourceElement(@Nonnull PsiElement from) {
-    return InjectedLanguageUtil.getTopLevelFile(from);
+    return InjectedLanguageManager.getInstance(from.getProject()).getTopLevelFile(from);
   }
 
   @Nonnull
   @Override
   public Collection<PsiElement> findTestsForClass(@Nonnull PsiElement element) {
-    PsiFile file = InjectedLanguageUtil.getTopLevelFile(element);
+    PsiFile file = InjectedLanguageManager.getInstance(element.getProject()).getTopLevelFile(element);
     if (file instanceof GoFile) {
       PsiDirectory directory = file.getContainingDirectory();
       PsiFile testFile = directory.findFile(FileUtil.getNameWithoutExtension(file.getName()) + GoConstants.TEST_SUFFIX_WITH_EXTENSION);
       if (testFile != null) {
-        return ContainerUtil.newSmartList(testFile);
+        return List.of(testFile);
       }
     }
     return Collections.emptyList();
@@ -94,12 +96,12 @@ public class GoTestFinder implements TestFinder {
   @Nonnull
   @Override
   public Collection<PsiElement> findClassesForTest(@Nonnull PsiElement element) {
-    PsiFile testFile = InjectedLanguageUtil.getTopLevelFile(element);
+    PsiFile testFile = InjectedLanguageManager.getInstance(element.getProject()).getTopLevelFile(element);
     if (testFile instanceof GoFile) {
       PsiDirectory directory = testFile.getContainingDirectory();
       PsiFile sourceFile = directory.findFile(StringUtil.trimEnd(testFile.getName(), GoConstants.TEST_SUFFIX_WITH_EXTENSION) + EXTENSION);
       if (sourceFile != null) {
-        return ContainerUtil.newSmartList(sourceFile);
+        return List.of(sourceFile);
       }
     }
     return Collections.emptyList();
@@ -107,6 +109,6 @@ public class GoTestFinder implements TestFinder {
 
   @Override
   public boolean isTest(@Nonnull PsiElement element) {
-    return isTestFile(InjectedLanguageUtil.getTopLevelFile(element));
+    return isTestFile(InjectedLanguageManager.getInstance(element.getProject()).getTopLevelFile(element));
   }
 }

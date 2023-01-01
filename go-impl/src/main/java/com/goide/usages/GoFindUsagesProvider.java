@@ -16,24 +16,26 @@
 
 package com.goide.usages;
 
-import javax.annotation.Nonnull;
-
+import com.goide.GoLanguage;
 import com.goide.GoParserDefinition;
 import com.goide.GoTypes;
 import com.goide.lexer.GoLexer;
 import com.goide.psi.*;
-import com.intellij.lang.HelpID;
-import com.intellij.lang.cacheBuilder.DefaultWordsScanner;
-import com.intellij.lang.cacheBuilder.WordsScanner;
-import com.intellij.lang.findUsages.FindUsagesProvider;
-import com.intellij.psi.ElementDescriptionUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.TokenSet;
-import com.intellij.usageView.UsageViewLongNameLocation;
-import com.intellij.usageView.UsageViewShortNameLocation;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.ast.TokenSet;
+import consulo.language.cacheBuilder.DefaultWordsScanner;
+import consulo.language.cacheBuilder.WordsScanner;
+import consulo.language.findUsage.FindUsagesProvider;
+import consulo.language.psi.ElementDescriptionUtil;
+import consulo.language.psi.PsiElement;
+import consulo.usage.UsageViewLongNameLocation;
+import consulo.usage.UsageViewShortNameLocation;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoFindUsagesProvider implements FindUsagesProvider {
   @Nullable
   @Override
@@ -49,12 +51,6 @@ public class GoFindUsagesProvider implements FindUsagesProvider {
       return importSpec.getAlias() != null && !importSpec.isDot() && !importSpec.isForSideEffects();
     }
     return element instanceof GoNamedElement;
-  }
-
-  @Nullable
-  @Override
-  public String getHelpId(@Nonnull PsiElement psiElement) {
-    return HelpID.FIND_OTHER_USAGES;
   }
 
   @Nonnull
@@ -92,5 +88,11 @@ public class GoFindUsagesProvider implements FindUsagesProvider {
   @Override
   public String getNodeText(@Nonnull PsiElement element, boolean useFullName) {
     return ElementDescriptionUtil.getElementDescription(element, UsageViewShortNameLocation.INSTANCE);
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

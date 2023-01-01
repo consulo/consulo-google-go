@@ -16,8 +16,8 @@
 
 package com.goide.completion;
 
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.util.CommonProcessors;
+import consulo.application.progress.ProgressManager;
+import consulo.application.util.function.CommonProcessors;
 
 import java.util.Collection;
 

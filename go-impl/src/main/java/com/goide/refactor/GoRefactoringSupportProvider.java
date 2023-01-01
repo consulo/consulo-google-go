@@ -16,15 +16,18 @@
 
 package com.goide.refactor;
 
-import javax.annotation.Nonnull;
-
+import com.goide.GoLanguage;
 import com.goide.psi.GoNamedElement;
-import com.intellij.lang.refactoring.RefactoringSupportProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.refactoring.RefactoringActionHandler;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.refactoring.RefactoringSupportProvider;
+import consulo.language.editor.refactoring.action.RefactoringActionHandler;
+import consulo.language.psi.PsiElement;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoRefactoringSupportProvider extends RefactoringSupportProvider {
   @Override
   public boolean isMemberInplaceRenameAvailable(@Nonnull PsiElement element, PsiElement context) {
@@ -35,5 +38,11 @@ public class GoRefactoringSupportProvider extends RefactoringSupportProvider {
   @Override
   public RefactoringActionHandler getIntroduceVariableHandler() {
     return new GoIntroduceVariableHandler();
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

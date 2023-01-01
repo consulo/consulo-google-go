@@ -18,15 +18,17 @@ package com.goide.stubs.index;
 
 import com.goide.GoFileElementType;
 import com.goide.psi.GoMethodSpec;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.stubs.StringStubIndexExtension;
-import com.intellij.psi.stubs.StubIndex;
-import com.intellij.psi.stubs.StubIndexKey;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.stub.StringStubIndexExtension;
+import consulo.language.psi.stub.StubIndex;
+import consulo.language.psi.stub.StubIndexKey;
+import consulo.project.Project;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 
+@ExtensionImpl
 public class GoMethodFingerprintIndex extends StringStubIndexExtension<GoMethodSpec> {
   public static final StubIndexKey<String, GoMethodSpec> KEY = StubIndexKey.createIndexKey("go.method.fingerprint");
 

@@ -16,36 +16,37 @@
 
 package com.goide.psi.impl;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.NonNls;
 import com.goide.project.GoVendoringUtil;
 import com.goide.psi.*;
 import com.goide.sdk.GoPackageUtil;
 import com.goide.stubs.GoNamedStub;
 import com.goide.util.GoUtil;
-import com.intellij.lang.ASTNode;
-import com.intellij.navigation.ItemPresentation;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.util.Iconable;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.scope.PsiScopeProcessor;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.search.LocalSearchScope;
-import com.intellij.psi.search.SearchScope;
-import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.psi.util.CachedValueProvider;
-import com.intellij.psi.util.CachedValuesManager;
-import com.intellij.psi.util.PsiModificationTracker;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.usageView.UsageViewUtil;
-import com.intellij.util.IncorrectOperationException;
-import com.intellij.util.ObjectUtils;
-import consulo.ide.IconDescriptorUpdaters;
+import consulo.application.util.CachedValueProvider;
+import consulo.application.util.CachedValuesManager;
+import consulo.component.util.Iconable;
+import consulo.content.scope.SearchScope;
+import consulo.language.ast.ASTNode;
+import consulo.language.icon.IconDescriptorUpdaters;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiModificationTracker;
+import consulo.language.psi.resolve.PsiScopeProcessor;
+import consulo.language.psi.resolve.ResolveState;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.scope.LocalSearchScope;
+import consulo.language.psi.stub.IStubElementType;
+import consulo.language.psi.util.LanguageCachedValueUtil;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.IncorrectOperationException;
+import consulo.language.util.ModuleUtilCore;
+import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
+import consulo.usage.UsageViewUtil;
+import consulo.util.lang.ObjectUtil;
+import consulo.util.lang.StringUtil;
+import org.jetbrains.annotations.NonNls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStubbedElementImpl<T> implements GoCompositeElement, GoNamedElement {
 
@@ -110,7 +111,7 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
   @Override
   public GoType getGoType(@Nullable ResolveState context) {
     if (context != null) return getGoTypeInner(context);
-    return CachedValuesManager.getCachedValue(this, () -> CachedValueProvider.Result
+    return LanguageCachedValueUtil.getCachedValue(this, () -> CachedValueProvider.Result
             .create(getGoTypeInner(GoPsiImplUtil.createContextOnElement(this)), PsiModificationTracker.MODIFICATION_COUNT));
   }
 
@@ -151,7 +152,7 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
         public String getLocationString() {
           GoFile file = getContainingFile();
           String fileName = file.getName();
-          String importPath = ObjectUtils.chooseNotNull(file.getImportPath(vendoringEnabled), file.getPackageName());
+          String importPath = ObjectUtil.chooseNotNull(file.getImportPath(vendoringEnabled), file.getPackageName());
           return "in " + (importPath != null ? importPath + "/" + fileName : fileName);
         }
 

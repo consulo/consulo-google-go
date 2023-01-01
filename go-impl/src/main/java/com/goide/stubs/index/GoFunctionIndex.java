@@ -18,18 +18,20 @@ package com.goide.stubs.index;
 
 import com.goide.GoFileElementType;
 import com.goide.psi.GoFunctionDeclaration;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.stubs.StringStubIndexExtension;
-import com.intellij.psi.stubs.StubIndex;
-import com.intellij.psi.stubs.StubIndexKey;
-import com.intellij.util.Processor;
-import com.intellij.util.indexing.IdFilter;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.util.function.Processor;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.stub.IdFilter;
+import consulo.language.psi.stub.StringStubIndexExtension;
+import consulo.language.psi.stub.StubIndex;
+import consulo.language.psi.stub.StubIndexKey;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collection;
 
+@ExtensionImpl
 public class GoFunctionIndex extends StringStubIndexExtension<GoFunctionDeclaration> {
   public static final StubIndexKey<String, GoFunctionDeclaration> KEY = StubIndexKey.createIndexKey("go.function");
 

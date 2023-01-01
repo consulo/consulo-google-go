@@ -19,17 +19,17 @@ package com.goide.actions.tool;
 import com.goide.GoConstants;
 import com.goide.codeInsight.imports.GoGetPackageFix;
 import com.goide.sdk.GoSdkUtil;
-import com.intellij.execution.ExecutionException;
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationListener;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
+import consulo.module.Module;
+import consulo.process.ExecutionException;
+import consulo.project.Project;
+import consulo.project.ui.notification.Notification;
+import consulo.project.ui.notification.NotificationType;
+import consulo.project.ui.notification.Notifications;
+import consulo.project.ui.notification.event.NotificationListener;
+import consulo.virtualFileSystem.VirtualFile;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import javax.swing.event.HyperlinkEvent;
 
 public abstract class GoDownloadableFileAction extends GoExternalToolsAction {

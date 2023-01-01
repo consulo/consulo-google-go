@@ -16,11 +16,34 @@
 
 package com.goide.inspections.unresolved;
 
-import com.intellij.openapi.util.text.StringUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
 public class GoUnusedExportedFunctionInspection extends GoUnusedFunctionInspection {
   @Override
   protected boolean canRun(String name) {
     return StringUtil.isCapitalized(name);
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Declaration redundancy";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Unused exported function inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
   }
 }

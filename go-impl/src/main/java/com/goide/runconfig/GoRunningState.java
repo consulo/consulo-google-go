@@ -16,17 +16,17 @@
 
 package com.goide.runconfig;
 
-import javax.annotation.Nonnull;
-
 import com.goide.util.GoExecutor;
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.configurations.CommandLineState;
-import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.process.KillableColoredProcessHandler;
-import com.intellij.execution.process.ProcessHandler;
-import com.intellij.execution.process.ProcessTerminatedListener;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.openapi.module.Module;
+import consulo.execution.configuration.CommandLineState;
+import consulo.execution.process.ProcessTerminatedListener;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.module.Module;
+import consulo.process.ExecutionException;
+import consulo.process.ProcessHandler;
+import consulo.process.cmd.GeneralCommandLine;
+import consulo.process.local.ProcessHandlerFactory;
+
+import javax.annotation.Nonnull;
 
 public abstract class GoRunningState<T extends GoRunConfigurationBase<?>> extends CommandLineState {
   @Nonnull
@@ -52,7 +52,7 @@ public abstract class GoRunningState<T extends GoRunConfigurationBase<?>> extend
   protected ProcessHandler startProcess() throws ExecutionException {
     GoExecutor executor = patchExecutor(createCommonExecutor());
     GeneralCommandLine commandLine = executor.withParameterString(myConfiguration.getParams()).createCommandLine();
-    KillableColoredProcessHandler handler = new KillableColoredProcessHandler(commandLine, true);
+    ProcessHandler handler = ProcessHandlerFactory.getInstance().createKillableProcessHandler(commandLine);
     ProcessTerminatedListener.attach(handler);
     return handler;
   }

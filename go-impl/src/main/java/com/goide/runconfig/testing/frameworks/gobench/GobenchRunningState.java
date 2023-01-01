@@ -22,13 +22,14 @@ import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.runconfig.testing.GoTestRunConfiguration;
 import com.goide.runconfig.testing.GoTestRunningState;
 import com.goide.util.GoExecutor;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.module.Module;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
+import java.util.LinkedList;
 
 public class GobenchRunningState extends GoTestRunningState {
   public GobenchRunningState(ExecutionEnvironment env, Module module, GoTestRunConfiguration configuration) {
@@ -38,7 +39,7 @@ public class GobenchRunningState extends GoTestRunningState {
   @Nonnull
   @Override
   protected String buildFilterPatternForFile(GoFile file) {
-    Collection<String> benchmarkNames = ContainerUtil.newLinkedHashSet();
+    Collection<String> benchmarkNames = new LinkedList<>();
     for (GoFunctionDeclaration function : file.getFunctions()) {
       ContainerUtil.addIfNotNull(benchmarkNames, GoTestFinder.isBenchmarkFunction(function) ? function.getName() : null);
     }

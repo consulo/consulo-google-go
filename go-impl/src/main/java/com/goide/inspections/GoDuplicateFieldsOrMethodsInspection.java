@@ -17,17 +17,20 @@
 package com.goide.inspections;
 
 import com.goide.psi.*;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiElement;
+import consulo.util.collection.ContainerUtil;
 
+import javax.annotation.Nonnull;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
-
+@ExtensionImpl
 public class GoDuplicateFieldsOrMethodsInspection extends GoInspectionBase {
   @Nonnull
   @Override
@@ -70,7 +73,7 @@ public class GoDuplicateFieldsOrMethodsInspection extends GoInspectionBase {
   }
 
   private static void check(@Nonnull List<? extends GoNamedElement> fields, @Nonnull ProblemsHolder problemsHolder, @Nonnull String what) {
-    Set<String> names = ContainerUtil.newHashSet();
+    Set<String> names = new HashSet<>();
     for (GoCompositeElement field : fields) {
       if (field instanceof GoMethodSpec && ((GoMethodSpec) field).getSignature() == null) {
         // It's an embedded type, not a method or a field.
@@ -81,12 +84,30 @@ public class GoDuplicateFieldsOrMethodsInspection extends GoInspectionBase {
         if (names.contains(name)) {
           PsiElement id = ((GoNamedElement)field).getIdentifier();
           problemsHolder.registerProblem(id != null ? id : field, "Duplicate " + what + " <code>#ref</code> #loc",
-                                         GENERIC_ERROR_OR_WARNING);
+                                         ProblemHighlightType.GENERIC_ERROR_OR_WARNING);
         }
         else {
           ContainerUtil.addIfNotNull(names, name);
         }
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Redeclared symbols";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Duplicate fields and methods inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 }

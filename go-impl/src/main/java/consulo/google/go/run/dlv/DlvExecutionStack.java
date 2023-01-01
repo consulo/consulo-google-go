@@ -20,12 +20,12 @@ import com.goide.dlv.DlvCommandProcessor;
 import com.goide.dlv.DlvDebugProcess;
 import com.goide.dlv.DlvStackFrame;
 import com.goide.dlv.protocol.DlvApi;
-import com.intellij.xdebugger.frame.XExecutionStack;
-import com.intellij.xdebugger.frame.XStackFrame;
+import consulo.execution.debug.frame.XExecutionStack;
+import consulo.execution.debug.frame.XStackFrame;
 import consulo.google.go.run.dlv.api.DlvRequests;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 

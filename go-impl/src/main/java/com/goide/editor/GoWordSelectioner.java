@@ -17,16 +17,18 @@
 package com.goide.editor;
 
 import com.goide.psi.*;
-import com.intellij.codeInsight.editorActions.wordSelection.AbstractWordSelectioner;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.ElementManipulators;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.document.util.TextRange;
+import consulo.language.editor.action.AbstractWordSelectioner;
+import consulo.language.psi.ElementManipulators;
+import consulo.language.psi.PsiElement;
+import consulo.util.collection.ContainerUtil;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
+@ExtensionImpl
 public class GoWordSelectioner extends AbstractWordSelectioner {
   @Override
   public boolean canSelect(@Nonnull PsiElement e) {
@@ -71,9 +73,9 @@ public class GoWordSelectioner extends AbstractWordSelectioner {
     PsiElement last = ContainerUtil.getLastItem(list);
     if (first != null && last != null) {
       TextRange range = TextRange.create(first.getTextRange().getStartOffset(), last.getTextRange().getEndOffset());
-      if (!expand) return ContainerUtil.newSmartList(range);
+      if (!expand) return List.of(range);
       return expandToWholeLine(editorText, range);
     }
-    return ContainerUtil.emptyList();
+    return List.of();
   }
 }

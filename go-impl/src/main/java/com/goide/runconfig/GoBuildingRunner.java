@@ -22,39 +22,37 @@ import com.goide.dlv.DlvRemoteVmConnection;
 import com.goide.runconfig.application.GoApplicationConfiguration;
 import com.goide.runconfig.application.GoApplicationRunningState;
 import com.goide.util.GoHistoryProcessListener;
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.ExecutionResult;
-import com.intellij.execution.RunProfileStarter;
-import com.intellij.execution.RunnerAndConfigurationSettings;
-import com.intellij.execution.configurations.RunProfile;
-import com.intellij.execution.configurations.RunProfileState;
-import com.intellij.execution.executors.DefaultDebugExecutor;
-import com.intellij.execution.executors.DefaultRunExecutor;
-import com.intellij.execution.process.ProcessAdapter;
-import com.intellij.execution.process.ProcessEvent;
-import com.intellij.execution.runners.AsyncGenericProgramRunner;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.execution.runners.RunContentBuilder;
-import com.intellij.execution.ui.RunContentDescriptor;
-import com.intellij.internal.statistic.UsageTrigger;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.util.AsyncResult;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.net.NetUtils;
-import com.intellij.xdebugger.XDebugProcess;
-import com.intellij.xdebugger.XDebugProcessStarter;
-import com.intellij.xdebugger.XDebugSession;
-import com.intellij.xdebugger.XDebuggerManager;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.document.FileDocumentManager;
+import consulo.execution.ExecutionResult;
+import consulo.execution.RunProfileStarter;
+import consulo.execution.RunnerAndConfigurationSettings;
+import consulo.execution.configuration.RunProfile;
+import consulo.execution.configuration.RunProfileState;
+import consulo.execution.debug.*;
+import consulo.execution.executor.DefaultRunExecutor;
+import consulo.execution.runner.AsyncGenericProgramRunner;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.execution.runner.RunContentBuilder;
+import consulo.execution.ui.RunContentDescriptor;
+import consulo.externalService.statistic.UsageTrigger;
+import consulo.process.ExecutionException;
+import consulo.process.event.ProcessAdapter;
+import consulo.process.event.ProcessEvent;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.concurrent.AsyncResult;
+import consulo.util.io.FileUtil;
+import consulo.util.io.NetUtil;
+import consulo.util.lang.StringUtil;
 import org.jetbrains.debugger.connection.RemoteVmConnection;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
+@ExtensionImpl(order = "before goRunner")
 public class GoBuildingRunner extends AsyncGenericProgramRunner {
   private static final String ID = "GoBuildingRunner";
 
@@ -75,25 +73,24 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
   @Nonnull
   @Override
   protected AsyncResult<RunProfileStarter> prepare(@Nonnull ExecutionEnvironment environment, @Nonnull RunProfileState state) throws ExecutionException {
-    File outputFile = getOutputFile(environment, (GoApplicationRunningState)state);
+    File outputFile = getOutputFile(environment, (GoApplicationRunningState) state);
     FileDocumentManager.getInstance().saveAllDocuments();
 
     AsyncResult<RunProfileStarter> buildingPromise = new AsyncResult<>();
     GoHistoryProcessListener historyProcessListener = new GoHistoryProcessListener();
-    ((GoApplicationRunningState)state).createCommonExecutor().withParameters("build").withParameterString(((GoApplicationRunningState)state).getGoBuildParams())
-            .withParameters("-o", outputFile.getAbsolutePath())
-            .withParameters(((GoApplicationRunningState)state).isDebug() ? new String[]{"-gcflags", "-N -l"} : ArrayUtil.EMPTY_STRING_ARRAY)
-            .withParameters(((GoApplicationRunningState)state).getTarget()).withPresentableName("go build")
-            .withProcessListener(historyProcessListener).withProcessListener(new ProcessAdapter() {
+    ((GoApplicationRunningState) state).createCommonExecutor().withParameters("build").withParameterString(((GoApplicationRunningState) state).getGoBuildParams())
+        .withParameters("-o", outputFile.getAbsolutePath())
+        .withParameters(((GoApplicationRunningState) state).isDebug() ? new String[]{"-gcflags", "-N -l"} : ArrayUtil.EMPTY_STRING_ARRAY)
+        .withParameters(((GoApplicationRunningState) state).getTarget()).withPresentableName("go build")
+        .withProcessListener(historyProcessListener).withProcessListener(new ProcessAdapter() {
 
       @Override
       public void processTerminated(ProcessEvent event) {
         super.processTerminated(event);
         boolean compilationFailed = event.getExitCode() != 0;
-        if (((GoApplicationRunningState)state).isDebug()) {
+        if (((GoApplicationRunningState) state).isDebug()) {
           buildingPromise.setDone(new MyDebugStarter(outputFile.getAbsolutePath(), historyProcessListener, compilationFailed));
-        }
-        else {
+        } else {
           buildingPromise.setDone(new MyRunStarter(outputFile.getAbsolutePath(), historyProcessListener, compilationFailed));
         }
       }
@@ -110,12 +107,10 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
     if (StringUtil.isEmpty(outputDirectoryPath)) {
       try {
         outputFile = FileUtil.createTempFile(configurationName, "go", true);
-      }
-      catch (IOException e) {
+      } catch (IOException e) {
         throw new ExecutionException("Cannot create temporary output file", e);
       }
-    }
-    else {
+    } else {
       File outputDirectory = new File(outputDirectoryPath);
       if (outputDirectory.isDirectory() || !outputDirectory.exists() && outputDirectory.mkdirs()) {
         outputFile = new File(outputDirectoryPath, GoEnvironmentUtil.getBinaryFileNameForPath(configurationName));
@@ -123,12 +118,10 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
           if (!outputFile.exists() && !outputFile.createNewFile()) {
             throw new ExecutionException("Cannot create output file " + outputFile.getAbsolutePath());
           }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
           throw new ExecutionException("Cannot create output file " + outputFile.getAbsolutePath());
         }
-      }
-      else {
+      } else {
         throw new ExecutionException("Cannot create output file in " + outputDirectory.getAbsolutePath());
       }
     }
@@ -141,8 +134,7 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
   private static boolean prepareFile(@Nonnull File file) {
     try {
       FileUtil.writeToFile(file, new byte[]{0x7F, 'E', 'L', 'F'});
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       return false;
     }
     return file.setExecutable(true);
@@ -166,17 +158,16 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
       if (state instanceof GoApplicationRunningState) {
         final int port;
         try {
-          port = NetUtils.findAvailableSocketPort();
-        }
-        catch (IOException e) {
+          port = NetUtil.findAvailableSocketPort();
+        } catch (IOException e) {
           throw new ExecutionException(e);
         }
 
         FileDocumentManager.getInstance().saveAllDocuments();
-        ((GoApplicationRunningState)state).setHistoryProcessHandler(myHistoryProcessListener);
-        ((GoApplicationRunningState)state).setOutputFilePath(myOutputFilePath);
-        ((GoApplicationRunningState)state).setDebugPort(port);
-        ((GoApplicationRunningState)state).setCompilationFailed(myCompilationFailed);
+        ((GoApplicationRunningState) state).setHistoryProcessHandler(myHistoryProcessListener);
+        ((GoApplicationRunningState) state).setOutputFilePath(myOutputFilePath);
+        ((GoApplicationRunningState) state).setDebugPort(port);
+        ((GoApplicationRunningState) state).setCompilationFailed(myCompilationFailed);
 
         // start debugger
         ExecutionResult executionResult = state.execute(env.getExecutor(), GoBuildingRunner.this);
@@ -192,7 +183,7 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
           public XDebugProcess start(@Nonnull XDebugSession session) throws ExecutionException {
             RemoteVmConnection connection = new DlvRemoteVmConnection();
             DlvDebugProcess process = new DlvDebugProcess(session, connection, executionResult);
-            connection.open(new InetSocketAddress(NetUtils.getLoopbackAddress(), port));
+            connection.open(new InetSocketAddress(NetUtil.getLoopbackAddress(), port));
             return process;
           }
         }).getRunContentDescriptor();
@@ -218,9 +209,9 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
     public RunContentDescriptor execute(@Nonnull RunProfileState state, @Nonnull ExecutionEnvironment env) throws ExecutionException {
       if (state instanceof GoApplicationRunningState) {
         FileDocumentManager.getInstance().saveAllDocuments();
-        ((GoApplicationRunningState)state).setHistoryProcessHandler(myHistoryProcessListener);
-        ((GoApplicationRunningState)state).setOutputFilePath(myOutputFilePath);
-        ((GoApplicationRunningState)state).setCompilationFailed(myCompilationFailed);
+        ((GoApplicationRunningState) state).setHistoryProcessHandler(myHistoryProcessListener);
+        ((GoApplicationRunningState) state).setOutputFilePath(myOutputFilePath);
+        ((GoApplicationRunningState) state).setCompilationFailed(myCompilationFailed);
         ExecutionResult executionResult = state.execute(env.getExecutor(), GoBuildingRunner.this);
         return executionResult != null ? new RunContentBuilder(executionResult, env).showRunContent(env.getContentToReuse()) : null;
       }

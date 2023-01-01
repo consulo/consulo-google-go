@@ -16,11 +16,11 @@
 
 package com.goide.inspections.unresolved;
 
+import com.goide.refactor.GoRefactoringUtil;
+import consulo.language.psi.PsiElement;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.goide.refactor.GoRefactoringUtil;
-import com.intellij.psi.PsiElement;
 
 public class GoIntroduceLocalConstantFix extends GoUnresolvedFixBase {
   public GoIntroduceLocalConstantFix(@Nonnull PsiElement element, @Nonnull String name) {

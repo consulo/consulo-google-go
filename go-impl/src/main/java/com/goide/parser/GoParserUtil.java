@@ -18,20 +18,19 @@ package com.goide.parser;
 
 import com.goide.GoParserDefinition;
 import com.goide.GoTypes;
-import com.intellij.lang.LighterASTNode;
-import com.intellij.lang.PsiBuilder;
-import com.intellij.lang.WhitespacesBinders;
-import com.intellij.lang.impl.PsiBuilderAdapter;
-import com.intellij.lang.parser.GeneratedParserUtilBase;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.impl.source.resolve.FileContextUtil;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.indexing.IndexingDataKeys;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.LighterASTNode;
+import consulo.language.impl.parser.GeneratedParserUtilBase;
+import consulo.language.parser.PsiBuilder;
+import consulo.language.parser.PsiBuilderAdapter;
+import consulo.language.parser.WhitespacesBinders;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.stub.IndexingDataKeys;
+import consulo.util.collection.ContainerUtil;
 import consulo.util.collection.primitive.objects.ObjectIntMap;
 import consulo.util.collection.primitive.objects.ObjectMaps;
 import consulo.util.dataholder.Key;
+import consulo.virtualFileSystem.VirtualFile;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -49,7 +48,7 @@ public class GoParserUtil extends GeneratedParserUtilBase {
   }
 
   public static boolean consumeBlock(PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level) {
-    PsiFile file = builder_.getUserData(FileContextUtil.CONTAINING_FILE_KEY);
+    PsiFile file = builder_.getContainingFile();
     VirtualFile data = file != null ? file.getUserData(IndexingDataKeys.VIRTUAL_FILE) : null;
     if (data == null) return false;
     int i = 0;

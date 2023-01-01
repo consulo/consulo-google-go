@@ -18,7 +18,7 @@ package com.goide.codeInsight.unwrap;
 
 import com.goide.psi.GoElseStatement;
 import com.goide.psi.GoIfStatement;
-import com.intellij.psi.PsiElement;
+import consulo.language.psi.PsiElement;
 
 import java.util.Set;
 

@@ -16,11 +16,12 @@
 
 package com.goide.stubs;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.stubs.IStubElementType;
-import com.intellij.psi.stubs.StubBase;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.util.io.StringRef;
+import consulo.index.io.StringRef;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.stub.IStubElementType;
+import consulo.language.psi.stub.StubBase;
+import consulo.language.psi.stub.StubElement;
+
 import javax.annotation.Nullable;
 
 abstract public class StubWithText<T extends PsiElement> extends StubBase<T> implements TextHolder {

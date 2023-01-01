@@ -16,34 +16,35 @@
 
 package com.goide.quickfix;
 
-import java.util.Collection;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.TestOnly;
 import com.goide.GoConstants;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoPackageClause;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.runconfig.testing.GoTestFinder;
-import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement;
+import consulo.codeEditor.Editor;
 import consulo.disposer.Disposable;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.popup.JBPopupFactory;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.ui.IdeBorderFactory;
-import com.intellij.ui.components.JBLabel;
-import com.intellij.ui.components.JBList;
 import consulo.disposer.Disposer;
+import consulo.language.editor.WriteCommandAction;
+import consulo.language.editor.inspection.LocalQuickFixAndIntentionActionOnPsiElement;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.ui.ex.awt.IdeBorderFactory;
+import consulo.ui.ex.awt.JBLabel;
+import consulo.ui.ex.awt.JBList;
+import consulo.ui.ex.popup.JBPopup;
+import consulo.ui.ex.popup.JBPopupFactory;
+import consulo.util.lang.StringUtil;
+import org.jetbrains.annotations.TestOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
   private static String myTestingPackageName;
@@ -101,19 +102,18 @@ public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionO
                                 myTestingPackageName != null ? myTestingPackageName : myPackageName);
       return;
     }
-    JBList list = new JBList(myPackages);
-    list.installCellRenderer(o -> {
-      JBLabel label = new JBLabel(o.toString());
-      label.setBorder(IdeBorderFactory.createEmptyBorder(2, 4, 2, 4));
-      return label;
-    });
 
-    JBPopupFactory.getInstance().createListPopupBuilder(list).setTitle("Choose package name").setItemChoosenCallback(() -> {
-      String name = (String)list.getSelectedValue();
+    JBPopup popup = JBPopupFactory.getInstance().createPopupChooserBuilder(new ArrayList<>(myPackages)).setTitle("Choose package name").setItemChosenCallback((name) -> {
       if (name != null) {
         renamePackagesInDirectory(project, file.getContainingDirectory(), name);
       }
-    }).createPopup().showInBestPositionFor(editor);
+    }).setRenderer((list1, value, index, isSelected, cellHasFocus) -> {
+      JBLabel label = new JBLabel(value.toString());
+      label.setBorder(IdeBorderFactory.createEmptyBorder(2, 4, 2, 4));
+      return label;
+    }).createPopup();
+
+    editor.showPopupInBestPositionFor(popup);
   }
 
   @Nonnull

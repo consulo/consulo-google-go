@@ -16,15 +16,18 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoFunctionDeclaration;
 import com.goide.psi.GoVisitor;
 import com.goide.quickfix.GoRenameQuickFix;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.util.text.StringUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
 public class GoRedeclareImportAsFunctionInspection extends GoInspectionBase {
   @Nonnull
   @Override
@@ -40,5 +43,23 @@ public class GoRedeclareImportAsFunctionInspection extends GoInspectionBase {
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Redeclared symbols";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Redeclare import as function";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 }

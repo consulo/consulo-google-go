@@ -17,13 +17,17 @@
 package com.goide.inspections;
 
 import com.goide.psi.*;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.util.collection.ContainerUtil;
+
 import javax.annotation.Nonnull;
 
-import static com.intellij.codeInspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
+import static consulo.language.editor.inspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
 
+@ExtensionImpl
 public class GoDirectAssignToStructFieldInMapInspection extends GoInspectionBase {
   @Nonnull
   @Override
@@ -44,5 +48,23 @@ public class GoDirectAssignToStructFieldInMapInspection extends GoInspectionBase
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Control flow issues";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Direct assignment to struct field in map";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 }

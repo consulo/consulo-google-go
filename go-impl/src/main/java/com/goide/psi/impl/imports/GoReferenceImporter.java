@@ -19,23 +19,25 @@ package com.goide.psi.impl.imports;
 import com.goide.GoLanguage;
 import com.goide.codeInsight.imports.GoImportPackageQuickFix;
 import com.goide.psi.GoCompositeElement;
-import com.intellij.codeInsight.daemon.ReferenceImporter;
-import com.intellij.codeInsight.daemon.impl.CollectHighlightsUtil;
-import com.intellij.codeInsight.daemon.impl.DaemonListeners;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiReference;
-import javax.annotation.Nonnull;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.document.Document;
+import consulo.language.editor.AutoImportHelper;
+import consulo.language.editor.ReferenceImporter;
+import consulo.language.editor.util.CollectHighlightsUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiReference;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
+@ExtensionImpl
 public class GoReferenceImporter implements ReferenceImporter {
   @Override
   public boolean autoImportReferenceAtCursor(@Nonnull Editor editor, @Nonnull PsiFile file) {
-    if (!file.getViewProvider().getLanguages().contains(GoLanguage.INSTANCE) ||
-        !DaemonListeners.canChangeFileSilently(file)) {
+    AutoImportHelper importHelper = AutoImportHelper.getInstance(file.getProject());
+    if (!file.getViewProvider().getLanguages().contains(GoLanguage.INSTANCE) || !importHelper.canChangeFileSilently(file)) {
       return false;
     }
 

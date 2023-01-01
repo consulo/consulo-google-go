@@ -16,9 +16,9 @@
 
 package com.goide.util;
 
-import com.intellij.execution.process.ProcessAdapter;
-import com.intellij.execution.process.ProcessEvent;
-import com.intellij.execution.process.ProcessHandler;
+import consulo.process.ProcessHandler;
+import consulo.process.event.ProcessAdapter;
+import consulo.process.event.ProcessEvent;
 import consulo.util.dataholder.Key;
 import consulo.util.lang.Pair;
 

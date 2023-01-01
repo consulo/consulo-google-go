@@ -1,4 +1,5 @@
 {
+  version="3"
   parserClass="com.plan9.intel.lang.core.parser.AsmIntelParser"
 
   extends='com.plan9.intel.lang.core.psi.impl.AsmIntelElementImpl'

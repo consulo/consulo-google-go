@@ -16,30 +16,30 @@
 
 package com.goide.runconfig.testing.ui;
 
-import javax.annotation.Nonnull;
-
 import com.goide.completion.GoImportPathsCompletionProvider;
 import com.goide.util.GoUtil;
-import com.intellij.codeInsight.completion.CompletionResultSet;
-import com.intellij.openapi.module.Module;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.Producer;
-import com.intellij.util.TextFieldCompletionProvider;
+import consulo.language.editor.completion.CompletionResultSet;
+import consulo.language.editor.ui.awt.TextFieldCompletionProvider;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.module.Module;
+
+import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
 public class GoPackageFieldCompletionProvider extends TextFieldCompletionProvider {
   @Nonnull
-  private final Producer<Module> myModuleProducer;
+  private final Supplier<Module> myModuleProducer;
 
-  public GoPackageFieldCompletionProvider(@Nonnull Producer<Module> moduleProducer) {
+  public GoPackageFieldCompletionProvider(@Nonnull Supplier<Module> moduleProducer) {
     myModuleProducer = moduleProducer;
   }
 
   @Override
-  protected void addCompletionVariants(@Nonnull String text,
+  public void addCompletionVariants(@Nonnull String text,
                                        int offset,
                                        @Nonnull String prefix,
                                        @Nonnull CompletionResultSet result) {
-    Module module = myModuleProducer.produce();
+    Module module = myModuleProducer.get();
     if (module != null) {
       GlobalSearchScope scope = GoUtil.moduleScopeWithoutLibraries(module.getProject(), module);
       GoImportPathsCompletionProvider.addCompletions(result, module, null, scope, true);

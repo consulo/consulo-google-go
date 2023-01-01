@@ -16,36 +16,38 @@
 
 package consulo.google.go.module.orderEntry;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.openapi.util.InvalidDataException;
-import consulo.roots.ModuleRootLayer;
-import consulo.roots.impl.ModuleRootLayerImpl;
-import consulo.roots.orderEntry.OrderEntryType;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.Application;
+import consulo.module.content.layer.ModuleRootLayer;
+import consulo.module.content.layer.orderEntry.CustomOrderEntryTypeProvider;
+import consulo.util.xml.serializer.InvalidDataException;
 import org.jdom.Element;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
  * @since 05-May-17
  */
-public class GoPathOrderEntryType implements OrderEntryType<GoPathOrderEntry> {
-  public static OrderEntryType getInstance() {
-    return EP_NAME.findExtension(GoPathOrderEntryType.class);
-  }
-
-  @Override
-  public void storeOrderEntry(@Nonnull Element element, @Nonnull GoPathOrderEntry goPathOrderEntry) {
-  }
-
-  @Nonnull
-  @Override
-  public GoPathOrderEntry loadOrderEntry(@Nonnull Element element, @Nonnull ModuleRootLayer moduleRootLayer) throws InvalidDataException {
-    return new GoPathOrderEntry((ModuleRootLayerImpl)moduleRootLayer);
+@ExtensionImpl
+public class GoPathOrderEntryType implements CustomOrderEntryTypeProvider<GoPathOrderEntryModel> {
+  public static GoPathOrderEntryType getInstance() {
+    return EP.findExtensionOrFail(Application.get(), GoPathOrderEntryType.class);
   }
 
   @Nonnull
   @Override
   public String getId() {
     return "gopath";
+  }
+
+  @Nonnull
+  @Override
+  public GoPathOrderEntryModel loadOrderEntry(@Nonnull Element element, @Nonnull ModuleRootLayer moduleRootLayer) throws InvalidDataException {
+    return new GoPathOrderEntryModel();
+  }
+
+  @Override
+  public void storeOrderEntry(@Nonnull Element element, @Nonnull GoPathOrderEntryModel goPathOrderEntryModel) {
   }
 }

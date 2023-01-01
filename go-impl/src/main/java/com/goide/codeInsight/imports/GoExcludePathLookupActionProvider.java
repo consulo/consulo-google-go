@@ -18,34 +18,36 @@ package com.goide.codeInsight.imports;
 
 import com.goide.project.GoExcludedPathsSettings;
 import com.goide.psi.GoFile;
-import com.intellij.codeInsight.lookup.Lookup;
-import com.intellij.codeInsight.lookup.LookupActionProvider;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupElementAction;
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.options.ShowSettingsUtil;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.util.Consumer;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.AllIcons;
+import consulo.application.ApplicationManager;
+import consulo.ide.setting.ShowSettingsUtil;
+import consulo.language.editor.completion.lookup.Lookup;
+import consulo.language.editor.completion.lookup.LookupActionProvider;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.editor.completion.lookup.LookupElementAction;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+
 import javax.annotation.Nonnull;
-
 import java.util.List;
+import java.util.function.Consumer;
 
+@ExtensionImpl
 public class GoExcludePathLookupActionProvider implements LookupActionProvider {
   @Override
   public void fillActions(LookupElement element, Lookup lookup, Consumer<LookupElementAction> consumer) {
     PsiElement psiElement = element.getPsiElement();
     PsiFile file = psiElement != null && psiElement.isValid() ? psiElement.getContainingFile() : null;
-    String importPath = file instanceof GoFile ? ((GoFile)file).getImportPath(false) : null;
+    String importPath = file instanceof GoFile ? ((GoFile) file).getImportPath(false) : null;
     if (importPath != null) {
       Project project = psiElement.getProject();
       for (String path : getPaths(importPath)) {
-        consumer.consume(new ExcludePathAction(project, path));
+        consumer.accept(new ExcludePathAction(project, path));
       }
-      consumer.consume(new EditExcludedAction(project));
+      consumer.accept(new EditExcludedAction(project));
     }
   }
 
@@ -61,7 +63,7 @@ public class GoExcludePathLookupActionProvider implements LookupActionProvider {
 
   private static class EditExcludedAction extends LookupElementAction {
     @Nonnull
-	Project myProject;
+    Project myProject;
 
     protected EditExcludedAction(@Nonnull Project project) {
       super(AllIcons.Actions.Edit, "Edit auto import settings");
@@ -71,8 +73,7 @@ public class GoExcludePathLookupActionProvider implements LookupActionProvider {
     @Override
     public Result performLookupAction() {
       ApplicationManager.getApplication().invokeLater(() -> {
-        GoAutoImportConfigurable configurable = new GoAutoImportConfigurable(myProject);
-        ShowSettingsUtil.getInstance().editConfigurable(myProject, configurable, configurable::focusList);
+        ShowSettingsUtil.getInstance().showAndSelect(myProject, GoAutoImportConfigurable.class, it -> it.focusList());
       });
       return Result.HIDE_LOOKUP;
     }

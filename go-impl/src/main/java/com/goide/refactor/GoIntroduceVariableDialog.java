@@ -18,15 +18,15 @@ package com.goide.refactor;
 
 import com.goide.GoFileType;
 import com.goide.GoNamesValidator;
-import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.refactoring.RefactoringBundle;
-import com.intellij.refactoring.ui.NameSuggestionsField;
-import com.intellij.refactoring.ui.RefactoringDialog;
-import com.intellij.ui.IdeBorderFactory;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.ui.UIUtil;
-import javax.annotation.Nullable;
+import consulo.configurable.ConfigurationException;
+import consulo.language.editor.refactoring.RefactoringBundle;
+import consulo.language.editor.refactoring.ui.NameSuggestionsField;
+import consulo.language.editor.refactoring.ui.RefactoringDialog;
+import consulo.ui.ex.awt.IdeBorderFactory;
+import consulo.ui.ex.awt.UIUtil;
+import consulo.util.collection.ArrayUtil;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 

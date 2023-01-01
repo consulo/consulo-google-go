@@ -16,43 +16,37 @@
 
 package com.goide.editor;
 
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.ApplicationManager;
+import consulo.codeEditor.Editor;
+import consulo.document.util.TextRange;
+import consulo.language.codeStyle.CodeStyleManager;
+import consulo.language.editor.action.TypedHandlerDelegate;
+import consulo.language.psi.PsiDocumentManager;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 
-import com.intellij.codeInsight.template.impl.editorActions.TypedActionHandlerBase;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.actionSystem.TypedActionHandler;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.codeStyle.CodeStyleManager;
-import com.intellij.psi.util.PsiUtilBase;
-
-public class GoTypedHandler extends TypedActionHandlerBase {
-  public GoTypedHandler(TypedActionHandler originalHandler) {
-    super(originalHandler);
-  }
-
+@ExtensionImpl
+public class GoTypedHandler extends TypedHandlerDelegate {
+  @Nonnull
   @Override
-  public void execute(@Nonnull Editor editor, char c, @Nonnull DataContext dataContext) {
-    if (myOriginalHandler != null) myOriginalHandler.execute(editor, c, dataContext);
-    if (c != 'e') return;
-    Project project = editor.getProject();
-    if (project == null) return;
+  public Result charTyped(char c, @Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
+    if (c != 'e') return Result.CONTINUE;
     int offset = editor.getCaretModel().getOffset();
-    if (offset < 4) return;
+    if (offset < 4) return Result.CONTINUE;
     TextRange from = TextRange.from(offset - 4, 4);
     String text = editor.getDocument().getText(from);
     if ("case".equals(text)) {
       PsiDocumentManager.getInstance(project).commitDocument(editor.getDocument());
       ApplicationManager.getApplication().runWriteAction(() -> {
         if (project.isDisposed()) return;
-        PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
         if (file == null) return;
         CodeStyleManager.getInstance(project).adjustLineIndent(file, from);
       });
     }
+
+    return Result.CONTINUE;
   }
 }

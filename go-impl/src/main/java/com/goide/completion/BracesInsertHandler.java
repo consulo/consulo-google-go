@@ -16,22 +16,21 @@
 
 package com.goide.completion;
 
+import consulo.application.ApplicationManager;
+import consulo.codeEditor.Editor;
+import consulo.codeEditor.EditorEx;
+import consulo.codeEditor.action.EditorActionHandler;
+import consulo.codeEditor.action.EditorActionManager;
+import consulo.language.editor.completion.lookup.InsertHandler;
+import consulo.language.editor.completion.lookup.InsertionContext;
+import consulo.language.editor.completion.lookup.LookupElement;
+import consulo.language.editor.template.Template;
+import consulo.language.editor.template.TemplateManager;
+import consulo.project.Project;
+import consulo.ui.ex.action.IdeActions;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
-
-import com.intellij.codeInsight.completion.InsertHandler;
-import com.intellij.codeInsight.completion.InsertionContext;
-import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.template.Template;
-import com.intellij.codeInsight.template.TemplateManager;
-import com.intellij.openapi.actionSystem.IdeActions;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
-import com.intellij.openapi.editor.actionSystem.EditorActionManager;
-import com.intellij.openapi.editor.ex.EditorEx;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-
 public class BracesInsertHandler implements InsertHandler<LookupElement> {
   public static final BracesInsertHandler ONE_LINER = new BracesInsertHandler(true);
   public static final BracesInsertHandler INSTANCE = new BracesInsertHandler(false);

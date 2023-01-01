@@ -23,15 +23,15 @@ import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.stubs.GoFileStub;
 import com.goide.stubs.GoMethodDeclarationStub;
 import com.goide.stubs.index.GoMethodIndex;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.stubs.IndexSink;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.stubs.StubInputStream;
-import com.intellij.psi.stubs.StubOutputStream;
-import com.intellij.util.ArrayFactory;
+import consulo.language.psi.stub.IndexSink;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.stub.StubInputStream;
+import consulo.language.psi.stub.StubOutputStream;
+import consulo.util.collection.ArrayFactory;
+import consulo.util.lang.StringUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.IOException;
 
 public class GoMethodDeclarationStubElementType extends GoNamedStubElementType<GoMethodDeclarationStub, GoMethodDeclaration> {

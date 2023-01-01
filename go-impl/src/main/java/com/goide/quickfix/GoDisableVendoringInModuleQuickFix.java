@@ -17,16 +17,16 @@
 package com.goide.quickfix;
 
 import com.goide.sdk.GoSdkService;
-import com.intellij.codeInspection.LocalQuickFixBase;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.openapi.application.WriteAction;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ModifiableRootModel;
-import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.util.ThreeState;
 import consulo.annotation.access.RequiredReadAction;
+import consulo.application.WriteAction;
 import consulo.google.go.module.extension.GoMutableModuleExtension;
+import consulo.language.editor.inspection.LocalQuickFixBase;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.module.Module;
+import consulo.module.content.ModuleRootManager;
+import consulo.module.content.layer.ModifiableRootModel;
+import consulo.project.Project;
+import consulo.util.lang.ThreeState;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

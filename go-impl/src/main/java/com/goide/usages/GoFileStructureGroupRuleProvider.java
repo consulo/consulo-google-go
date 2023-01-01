@@ -19,18 +19,21 @@ package com.goide.usages;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.GoNamedElement;
 import com.goide.psi.GoTypeSpec;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.usages.PsiElementUsageGroupBase;
-import com.intellij.usages.Usage;
-import com.intellij.usages.UsageGroup;
-import com.intellij.usages.impl.FileStructureGroupRuleProvider;
-import com.intellij.usages.rules.PsiElementUsage;
-import com.intellij.usages.rules.UsageGroupingRule;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.project.Project;
+import consulo.usage.PsiElementUsageGroupBase;
+import consulo.usage.Usage;
+import consulo.usage.UsageGroup;
+import consulo.usage.rule.FileStructureGroupRuleProvider;
+import consulo.usage.rule.PsiElementUsage;
+import consulo.usage.rule.UsageGroupingRule;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoFileStructureGroupRuleProvider implements FileStructureGroupRuleProvider {
   public static final UsageGroupingRule USAGE_GROUPING_RULE = new UsageGroupingRule() {
     @Nullable

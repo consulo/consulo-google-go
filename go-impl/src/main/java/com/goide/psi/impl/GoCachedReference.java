@@ -17,12 +17,13 @@
 package com.goide.psi.impl;
 
 import com.goide.util.GoUtil;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReferenceBase;
-import com.intellij.psi.impl.source.resolve.ResolveCache;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.IncorrectOperationException;
+import consulo.document.util.TextRange;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReferenceBase;
+import consulo.language.psi.resolve.ResolveCache;
+import consulo.language.util.IncorrectOperationException;
+import consulo.util.collection.ArrayUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

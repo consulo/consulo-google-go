@@ -16,16 +16,19 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoFile;
 import com.goide.psi.GoImportSpec;
 import com.goide.quickfix.GoDeleteImportQuickFix;
 import com.goide.runconfig.testing.GoTestFinder;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiDirectory;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiDirectory;
 
-public class GoSelfImportInspection extends GoInspectionBase {
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
+public class GoSelfImportInspection extends GoGeneralInspectionBase {
   @Override
   protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
     if (GoTestFinder.isTestFileWithTestPackage(file)) return;
@@ -38,5 +41,11 @@ public class GoSelfImportInspection extends GoInspectionBase {
         }
       }
     }
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Self import";
   }
 }

@@ -17,7 +17,9 @@
 package com.goide.runconfig.testing.frameworks.gotest;
 
 import com.goide.runconfig.testing.GoTestRunConfigurationProducerBase;
+import consulo.annotation.component.ExtensionImpl;
 
+@ExtensionImpl
 public class GotestRunConfigurationProducer extends GoTestRunConfigurationProducerBase implements Cloneable {
   public GotestRunConfigurationProducer() {
     super(GotestFramework.INSTANCE);

@@ -16,26 +16,29 @@
 
 package com.goide.editor.marker;
 
+import com.goide.GoLanguage;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoTopLevelDeclaration;
-import com.intellij.codeInsight.daemon.DaemonCodeAnalyzerSettings;
-import com.intellij.codeInsight.daemon.LineMarkerInfo;
-import com.intellij.codeInsight.daemon.LineMarkerProvider;
-import com.intellij.codeInsight.daemon.impl.LineMarkersPass;
-import com.intellij.openapi.editor.colors.EditorColorsManager;
-import com.intellij.psi.PsiComment;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiWhiteSpace;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.colorScheme.EditorColorsManager;
+import consulo.language.Language;
+import consulo.language.editor.DaemonCodeAnalyzerSettings;
+import consulo.language.editor.gutter.LineMarkerInfo;
+import consulo.language.editor.gutter.LineMarkerProvider;
+import consulo.language.psi.PsiComment;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiWhiteSpace;
+import jakarta.inject.Inject;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import java.util.Collection;
-import java.util.List;
-
+@ExtensionImpl
 public class GoMethodSeparatorProvider implements LineMarkerProvider {
   private final DaemonCodeAnalyzerSettings myDaemonSettings;
   private final EditorColorsManager myColorsManager;
 
+  @Inject
   public GoMethodSeparatorProvider(DaemonCodeAnalyzerSettings daemonSettings, EditorColorsManager colorsManager) {
     myDaemonSettings = daemonSettings;
     myColorsManager = colorsManager;
@@ -45,13 +48,9 @@ public class GoMethodSeparatorProvider implements LineMarkerProvider {
   @Override
   public LineMarkerInfo getLineMarkerInfo(@Nonnull PsiElement o) {
     if (myDaemonSettings.SHOW_METHOD_SEPARATORS && o instanceof GoTopLevelDeclaration && o.getParent() instanceof GoFile) {
-      return LineMarkersPass.createMethodSeparatorLineMarker(findAnchorElement((GoTopLevelDeclaration)o), myColorsManager);
+      return LineMarkerInfo.createMethodSeparatorLineMarker(findAnchorElement((GoTopLevelDeclaration) o), myColorsManager);
     }
     return null;
-  }
-
-  @Override
-  public void collectSlowLineMarkers(@Nonnull List<PsiElement> elements, @Nonnull Collection<LineMarkerInfo> result) {
   }
 
   @Nonnull
@@ -61,14 +60,18 @@ public class GoMethodSeparatorProvider implements LineMarkerProvider {
     while ((p = p.getPrevSibling()) != null) {
       if (p instanceof PsiComment) {
         result = p;
-      }
-      else if (p instanceof PsiWhiteSpace) {
+      } else if (p instanceof PsiWhiteSpace) {
         if (p.getText().contains("\n\n")) return result;
-      }
-      else {
+      } else {
         break;
       }
     }
     return result;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

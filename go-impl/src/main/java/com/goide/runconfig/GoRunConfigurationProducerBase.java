@@ -16,18 +16,18 @@
 
 package com.goide.runconfig;
 
+import com.goide.psi.GoFile;
+import consulo.execution.action.ConfigurationContext;
+import consulo.execution.action.RunConfigurationProducer;
+import consulo.execution.configuration.ConfigurationType;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.module.Module;
+import consulo.util.io.FileUtil;
+import consulo.util.lang.ref.Ref;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.goide.psi.GoFile;
-import com.intellij.execution.actions.ConfigurationContext;
-import com.intellij.execution.actions.RunConfigurationProducer;
-import com.intellij.execution.configurations.ConfigurationType;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
 
 public abstract class GoRunConfigurationProducerBase<T extends GoRunConfigurationWithMain> extends RunConfigurationProducer<T> implements Cloneable {
   protected GoRunConfigurationProducerBase(@Nonnull ConfigurationType configurationType) {

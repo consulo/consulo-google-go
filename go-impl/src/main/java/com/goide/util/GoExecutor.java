@@ -21,46 +21,53 @@ import com.goide.runconfig.GoConsoleFilter;
 import com.goide.runconfig.GoRunUtil;
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.ExecutionHelper;
-import com.intellij.execution.ExecutionModes;
-import com.intellij.execution.RunContentExecutor;
-import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.configurations.ParametersList;
-import com.intellij.execution.configurations.PtyCommandLine;
-import com.intellij.execution.process.*;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.progress.Task;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.CharsetToolkit;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.util.Consumer;
-import com.intellij.util.EnvironmentUtil;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.ThreeState;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.application.ApplicationManager;
+import consulo.application.progress.ProgressIndicator;
+import consulo.application.progress.ProgressManager;
+import consulo.application.progress.Task;
 import consulo.disposer.Disposer;
+import consulo.execution.ExecutionHelper;
+import consulo.execution.RunContentExecutor;
+import consulo.execution.process.ExecutionModes;
 import consulo.google.go.module.extension.GoModuleExtension;
+import consulo.logging.Logger;
+import consulo.module.Module;
+import consulo.process.ExecutionException;
+import consulo.process.NopProcessHandler;
+import consulo.process.ProcessHandler;
+import consulo.process.cmd.GeneralCommandLine;
+import consulo.process.cmd.ParametersList;
+import consulo.process.event.ProcessAdapter;
+import consulo.process.event.ProcessEvent;
+import consulo.process.event.ProcessListener;
+import consulo.process.local.CapturingProcessAdapter;
+import consulo.process.local.EnvironmentUtil;
+import consulo.process.local.ProcessHandlerFactory;
+import consulo.process.local.ProcessOutput;
+import consulo.project.Project;
+import consulo.project.ui.notification.NotificationType;
+import consulo.project.ui.notification.Notifications;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.io.CharsetToolkit;
+import consulo.util.lang.ObjectUtil;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.ThreeState;
+import consulo.util.lang.ref.Ref;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class GoExecutor {
   private static final Logger LOGGER = Logger.getInstance(GoExecutor.class);
   @Nonnull
-  private final Map<String, String> myExtraEnvironment = ContainerUtil.newHashMap();
+  private final Map<String, String> myExtraEnvironment = new HashMap<>();
   @Nonnull
   private final ParametersList myParameterList = new ParametersList();
   @Nonnull
@@ -88,7 +95,7 @@ public class GoExecutor {
   private String myExePath;
   @Nullable
   private String myPresentableName;
-  private OSProcessHandler myProcessHandler;
+  private ProcessHandler myProcessHandler;
   private final Collection<ProcessListener> myProcessListeners = ContainerUtil.newArrayList();
 
   private GoExecutor(@Nonnull Project project, @Nullable Module module) {
@@ -212,15 +219,15 @@ public class GoExecutor {
     try {
       commandLine = createCommandLine();
       GeneralCommandLine finalCommandLine = commandLine;
-      myProcessHandler = new KillableColoredProcessHandler(finalCommandLine, true) {
+      myProcessHandler = ProcessHandlerFactory.getInstance().createKillableProcessHandler(finalCommandLine);
+      myProcessHandler.addProcessListener(new ProcessAdapter() {
         @Override
-        public void startNotify() {
+        public void startNotified(ProcessEvent event) {
           if (myShowGoEnvVariables) {
-            GoRunUtil.printGoEnvVariables(finalCommandLine, this);
+            GoRunUtil.printGoEnvVariables(finalCommandLine, myProcessHandler);
           }
-          super.startNotify();
         }
-      };
+      });
       GoHistoryProcessListener historyProcessListener = new GoHistoryProcessListener();
       myProcessHandler.addProcessListener(historyProcessListener);
       for (ProcessListener listener : myProcessListeners) {
@@ -274,7 +281,7 @@ public class GoExecutor {
 
   public void executeWithProgress(boolean modal) {
     //noinspection unchecked
-    executeWithProgress(modal, Consumer.EMPTY_CONSUMER);
+    executeWithProgress(modal, c -> {});
   }
 
   public void executeWithProgress(boolean modal, @Nonnull Consumer<Boolean> consumer) {
@@ -306,7 +313,7 @@ public class GoExecutor {
           return;
         }
         indicator.setIndeterminate(true);
-        consumer.consume(execute());
+        consumer.accept(execute());
       }
     });
   }
@@ -323,15 +330,15 @@ public class GoExecutor {
     });
   }
 
-  private void showOutput(@Nonnull OSProcessHandler originalHandler, @Nonnull GoHistoryProcessListener historyProcessListener) {
+  private void showOutput(@Nonnull ProcessHandler originalHandler, @Nonnull GoHistoryProcessListener historyProcessListener) {
     if (myShowOutputOnError) {
-      BaseOSProcessHandler outputHandler = new KillableColoredProcessHandler(originalHandler.getProcess(), null);
+      NopProcessHandler process = new NopProcessHandler();
       RunContentExecutor runContentExecutor =
-              new RunContentExecutor(myProject, outputHandler).withTitle(getPresentableName()).withActivateToolWindow(myShowOutputOnError)
-                      .withFilter(new GoConsoleFilter(myProject, myModule, myWorkDirectory != null ? VfsUtilCore.pathToUrl(myWorkDirectory) : null));
+              new RunContentExecutor(myProject, process).withTitle(getPresentableName()).withActivateToolWindow(myShowOutputOnError)
+                      .withFilter(new GoConsoleFilter(myProject, myModule, myWorkDirectory != null ? VirtualFileUtil.pathToUrl(myWorkDirectory) : null));
       Disposer.register(myProject, runContentExecutor);
       runContentExecutor.run();
-      historyProcessListener.apply(outputHandler);
+      historyProcessListener.apply(process);
     }
     if (myShowNotificationsOnError) {
       showNotification("Failed to run", NotificationType.ERROR);
@@ -345,7 +352,7 @@ public class GoExecutor {
     }
 
     GeneralCommandLine commandLine = new GeneralCommandLine();
-    commandLine.setExePath(ObjectUtils.notNull(myExePath, GoSdkService.getGoExecutablePath(myGoRoot)));
+    commandLine.setExePath(ObjectUtil.notNull(myExePath, GoSdkService.getGoExecutablePath(myGoRoot)));
     commandLine.getEnvironment().putAll(myExtraEnvironment);
     commandLine.getEnvironment().put(GoConstants.GO_ROOT, StringUtil.notNullize(myGoRoot));
     commandLine.getEnvironment().put(GoConstants.GO_PATH, StringUtil.notNullize(myGoPath));
@@ -368,7 +375,7 @@ public class GoExecutor {
 
   @Nonnull
   private String getPresentableName() {
-    return ObjectUtils.notNull(myPresentableName, "go");
+    return ObjectUtil.notNull(myPresentableName, "go");
   }
 
   @Nullable

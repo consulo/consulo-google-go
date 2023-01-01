@@ -16,12 +16,13 @@
 
 package com.goide.template;
 
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.template.DefaultLiveTemplatesProvider;
+
 import javax.annotation.Nonnull;
-
-import com.intellij.codeInsight.template.impl.DefaultLiveTemplatesProvider;
-
 import javax.annotation.Nullable;
 
+@ExtensionImpl
 public class GoLiveTemplatesProvider implements DefaultLiveTemplatesProvider {
   @Nonnull
   @Override

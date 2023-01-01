@@ -16,15 +16,19 @@
 
 package com.goide.editor;
 
+import com.goide.GoLanguage;
+import com.goide.psi.GoTopLevelDeclaration;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.document.util.TextRange;
+import consulo.language.Language;
+import consulo.language.editor.ImplementationTextSelectioner;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.lang.ObjectUtil;
+
 import javax.annotation.Nonnull;
 
-import com.goide.psi.GoTopLevelDeclaration;
-import com.intellij.codeInsight.hint.ImplementationTextSelectioner;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ObjectUtils;
-
+@ExtensionImpl
 public class GoImplementationTextSelectioner implements ImplementationTextSelectioner {
   @Override
   public int getTextStartOffset(@Nonnull PsiElement o) {
@@ -38,6 +42,12 @@ public class GoImplementationTextSelectioner implements ImplementationTextSelect
 
   @Nonnull
   private static TextRange getTextRange(@Nonnull PsiElement o) {
-    return ObjectUtils.notNull(PsiTreeUtil.getParentOfType(o, GoTopLevelDeclaration.class), o).getTextRange();
+    return ObjectUtil.notNull(PsiTreeUtil.getParentOfType(o, GoTopLevelDeclaration.class), o).getTextRange();
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

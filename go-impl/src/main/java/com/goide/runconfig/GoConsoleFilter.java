@@ -20,31 +20,34 @@ import com.goide.codeInsight.imports.GoGetPackageFix;
 import com.goide.sdk.GoPackageUtil;
 import com.goide.util.GoPathResolveScope;
 import com.goide.util.GoUtil;
-import com.intellij.execution.filters.Filter;
-import com.intellij.execution.filters.HyperlinkInfo;
-import com.intellij.execution.filters.OpenFileHyperlinkInfo;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.openapi.vfs.ex.temp.TempFileSystem;
-import com.intellij.psi.search.FilenameIndex;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.ObjectUtils;
-import com.intellij.util.PathUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.ApplicationManager;
+import consulo.execution.ui.console.Filter;
+import consulo.execution.ui.console.HyperlinkInfo;
+import consulo.execution.ui.console.OpenFileHyperlinkInfo;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.search.FilenameIndex;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.io.FileUtil;
+import consulo.util.io.PathUtil;
+import consulo.util.lang.ObjectUtil;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.TempFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
+import jakarta.inject.Inject;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+//todo @ExtensionImpl
 public class GoConsoleFilter implements Filter {
   private static final Pattern MESSAGE_PATTERN = Pattern.compile("(?:^|\\s)(\\S+\\.\\w+):(\\d+)(:(\\d+))?(?=[:\\s]|$).*");
   private static final Pattern GO_GET_MESSAGE_PATTERN = Pattern.compile("^[ \t]*(go get (.*))\n?$");
@@ -58,7 +61,7 @@ public class GoConsoleFilter implements Filter {
   @Nullable
   private final String myWorkingDirectoryUrl;
 
-  @SuppressWarnings("unused") //used by pico container
+  @Inject
   public GoConsoleFilter(@Nonnull Project project) {
     this(project, null, null);
   }
@@ -66,7 +69,7 @@ public class GoConsoleFilter implements Filter {
   public GoConsoleFilter(@Nonnull Project project, @Nullable Module module, @Nullable String workingDirectoryUrl) {
     myProject = project;
     myModule = module;
-    myWorkingDirectoryUrl = ObjectUtils.chooseNotNull(workingDirectoryUrl, VfsUtilCore.pathToUrl(System.getProperty("user.dir")));
+    myWorkingDirectoryUrl = ObjectUtil.chooseNotNull(workingDirectoryUrl, VirtualFileUtil.pathToUrl(System.getProperty("user.dir")));
   }
 
   @Override
@@ -115,7 +118,7 @@ public class GoConsoleFilter implements Filter {
     if (FileUtil.isAbsolutePlatformIndependent(fileName)) {
       virtualFile = ApplicationManager.getApplication().isUnitTestMode()
                     ? TempFileSystem.getInstance().refreshAndFindFileByPath(fileName)
-                    : VirtualFileManager.getInstance().refreshAndFindFileByUrl(VfsUtilCore.pathToUrl(fileName));
+                    : VirtualFileManager.getInstance().refreshAndFindFileByUrl(VirtualFileUtil.pathToUrl(fileName));
     }
     else {
       if (myWorkingDirectoryUrl != null) {

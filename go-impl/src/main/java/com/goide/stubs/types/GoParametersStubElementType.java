@@ -19,11 +19,11 @@ package com.goide.stubs.types;
 import com.goide.psi.GoParameters;
 import com.goide.psi.impl.GoParametersImpl;
 import com.goide.stubs.GoParametersStub;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.stubs.StubInputStream;
-import com.intellij.psi.stubs.StubOutputStream;
-import javax.annotation.Nonnull;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.stub.StubInputStream;
+import consulo.language.psi.stub.StubOutputStream;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoParametersStubElementType extends GoStubElementType<GoParametersStub, GoParameters> {

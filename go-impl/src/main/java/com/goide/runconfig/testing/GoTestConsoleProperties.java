@@ -20,37 +20,37 @@ import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.runconfig.GoRunConfigurationBase;
 import com.goide.sdk.GoPackageUtil;
 import com.goide.util.GoUtil;
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.Executor;
-import com.intellij.execution.Location;
-import com.intellij.execution.PsiLocation;
-import com.intellij.execution.configurations.RunConfigurationBase;
-import com.intellij.execution.configurations.RunProfile;
-import com.intellij.execution.configurations.RunProfileState;
-import com.intellij.execution.runners.ExecutionEnvironment;
-import com.intellij.execution.testframework.AbstractTestProxy;
-import com.intellij.execution.testframework.Filter;
-import com.intellij.execution.testframework.TestConsoleProperties;
-import com.intellij.execution.testframework.actions.AbstractRerunFailedTestsAction;
-import com.intellij.execution.testframework.sm.SMCustomMessagesParsing;
-import com.intellij.execution.testframework.sm.runner.OutputToGeneralTestEventsConverter;
-import com.intellij.execution.testframework.sm.runner.SMTRunnerConsoleProperties;
-import com.intellij.execution.testframework.sm.runner.SMTestLocator;
-import com.intellij.execution.ui.ConsoleView;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.search.GlobalSearchScopesCore;
+import consulo.execution.action.Location;
+import consulo.execution.action.PsiLocation;
+import consulo.execution.configuration.RunConfigurationBase;
+import consulo.execution.configuration.RunProfile;
+import consulo.execution.configuration.RunProfileState;
+import consulo.execution.executor.Executor;
+import consulo.execution.runner.ExecutionEnvironment;
+import consulo.execution.test.AbstractTestProxy;
+import consulo.execution.test.Filter;
+import consulo.execution.test.TestConsoleProperties;
+import consulo.execution.test.action.AbstractRerunFailedTestsAction;
+import consulo.execution.test.sm.SMCustomMessagesParsing;
+import consulo.execution.test.sm.runner.OutputToGeneralTestEventsConverter;
+import consulo.execution.test.sm.runner.SMTRunnerConsoleProperties;
+import consulo.execution.test.sm.runner.SMTestLocator;
+import consulo.execution.ui.console.ConsoleView;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiManager;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.scope.GlobalSearchScopesCore;
+import consulo.module.Module;
+import consulo.process.ExecutionException;
+import consulo.project.Project;
+import consulo.ui.ex.action.ActionManager;
+import consulo.ui.ex.action.AnAction;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.List;
 
 public class GoTestConsoleProperties extends SMTRunnerConsoleProperties implements SMCustomMessagesParsing {
@@ -68,7 +68,7 @@ public class GoTestConsoleProperties extends SMTRunnerConsoleProperties implemen
       Module module = ((GoTestRunConfiguration)configuration).getConfigurationModule().getModule();
       switch (((GoTestRunConfiguration)configuration).getKind()) {
         case DIRECTORY:
-          String directoryUrl = VfsUtilCore.pathToUrl(((GoTestRunConfiguration)configuration).getDirectoryPath());
+          String directoryUrl = VirtualFileUtil.pathToUrl(((GoTestRunConfiguration)configuration).getDirectoryPath());
           VirtualFile directory = VirtualFileManager.getInstance().findFileByUrl(directoryUrl);
           if (directory != null) {
             return GlobalSearchScopesCore.directoryScope(project, directory, true);
@@ -82,7 +82,7 @@ public class GoTestConsoleProperties extends SMTRunnerConsoleProperties implemen
           }
           break;
         case FILE:
-          String fileUrl = VfsUtilCore.pathToUrl(((GoTestRunConfiguration)configuration).getFilePath());
+          String fileUrl = VirtualFileUtil.pathToUrl(((GoTestRunConfiguration)configuration).getFilePath());
           VirtualFile file = VirtualFileManager.getInstance().findFileByUrl(fileUrl);
           if (file != null) {
             return GlobalSearchScope.fileScope(project, file);

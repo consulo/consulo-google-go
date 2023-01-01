@@ -17,12 +17,12 @@
 package com.goide.dlv.protocol;
 
 import com.google.gson.stream.JsonWriter;
-import com.intellij.xdebugger.frame.XValueNode;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import consulo.execution.debug.frame.XValueNode;
 import org.jetbrains.jsonProtocol.OutMessage;
 import org.jetbrains.jsonProtocol.Request;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 
 /**

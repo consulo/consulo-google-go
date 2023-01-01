@@ -17,29 +17,29 @@
 package com.goide.stubs.index;
 
 import com.goide.runconfig.testing.GoTestFinder;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ContentIterator;
-import com.intellij.openapi.roots.ProjectRootManager;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.openapi.vfs.VirtualFileWithId;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.util.CachedValue;
-import com.intellij.psi.util.CachedValueProvider;
-import com.intellij.psi.util.CachedValuesManager;
-import com.intellij.util.indexing.FileBasedIndex;
-import com.intellij.util.indexing.IdFilter;
+import consulo.application.progress.ProgressManager;
+import consulo.application.util.CachedValue;
+import consulo.application.util.CachedValueProvider;
+import consulo.application.util.CachedValuesManager;
+import consulo.content.ContentIterator;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.stub.FileBasedIndex;
+import consulo.language.psi.stub.IdFilter;
+import consulo.logging.Logger;
+import consulo.module.content.ProjectRootManager;
+import consulo.project.Project;
 import consulo.util.dataholder.Key;
+import consulo.util.lang.function.Condition;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.VirtualFileManager;
+import consulo.virtualFileSystem.VirtualFileWithId;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.BitSet;
 
 public class GoIdFilter extends IdFilter {
-  public static final Logger LOG = Logger.getInstance("#com.intellij.ide.util.gotoByName.DefaultFileNavigationContributor");
+  public static final Logger LOG = Logger.getInstance(GoIdFilter.class);
   private static final Key<CachedValue<IdFilter>> PRODUCTION_FILTER = Key.create("PRODUCTION");
   private static final Key<CachedValue<IdFilter>> TESTS_FILTER = Key.create("TESTS");
 

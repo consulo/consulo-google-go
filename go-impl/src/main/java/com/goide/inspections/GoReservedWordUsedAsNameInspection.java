@@ -16,21 +16,24 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.*;
 import com.goide.psi.impl.GoTypeReference;
 import com.goide.quickfix.GoRenameQuickFix;
 import com.goide.sdk.GoSdkUtil;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.ElementDescriptionUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.usageView.UsageViewTypeLocation;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.progress.ProgressManager;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.ElementDescriptionUtil;
+import consulo.language.psi.PsiElement;
+import consulo.usage.UsageViewTypeLocation;
+import consulo.util.lang.StringUtil;
 
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
 public class GoReservedWordUsedAsNameInspection extends GoInspectionBase {
   @Nonnull
   @Override
@@ -96,5 +99,23 @@ public class GoReservedWordUsedAsNameInspection extends GoInspectionBase {
     String builtinElementDescription = ElementDescriptionUtil.getElementDescription(builtinElement, UsageViewTypeLocation.INSTANCE);
     String message = StringUtil.capitalize(elementDescription) + " <code>#ref</code> collides with builtin " + builtinElementDescription;
     holder.registerProblem(identifier, message, ProblemHighlightType.GENERIC_ERROR_OR_WARNING, new GoRenameQuickFix(element));
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Probable bugs";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Reserved word used as name";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
   }
 }

@@ -16,29 +16,34 @@
 
 package com.goide.editor;
 
+import com.goide.GoLanguage;
 import com.goide.GoParserDefinition;
 import com.goide.GoTypes;
 import com.goide.psi.*;
-import com.intellij.codeInsight.folding.CodeFoldingSettings;
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.folding.CustomFoldingBuilder;
-import com.intellij.lang.folding.FoldingDescriptor;
-import com.intellij.lang.folding.NamedFoldingDescriptor;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.project.DumbAware;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiWhiteSpace;
-import com.intellij.psi.TokenType;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.dumb.DumbAware;
+import consulo.document.Document;
+import consulo.document.util.TextRange;
+import consulo.language.Language;
+import consulo.language.ast.ASTNode;
+import consulo.language.ast.IElementType;
+import consulo.language.ast.TokenType;
+import consulo.language.editor.folding.CodeFoldingSettings;
+import consulo.language.editor.folding.CustomFoldingBuilder;
+import consulo.language.editor.folding.FoldingDescriptor;
+import consulo.language.editor.folding.NamedFoldingDescriptor;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiWhiteSpace;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.collection.ContainerUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@ExtensionImpl
 public class GoFoldingBuilder extends CustomFoldingBuilder implements DumbAware {
   private static void foldTypes(@Nullable PsiElement e, @Nonnull List<FoldingDescriptor> result) {
     if (e instanceof GoStructType) {
@@ -169,7 +174,7 @@ public class GoFoldingBuilder extends CustomFoldingBuilder implements DumbAware 
     }
 
     if (!quick) {
-      Set<PsiElement> processedComments = ContainerUtil.newHashSet();
+      Set<PsiElement> processedComments = new HashSet<>();
       PsiTreeUtil.processElements(file, element -> {
         ASTNode node = element.getNode();
         IElementType type = node.getElementType();
@@ -203,5 +208,11 @@ public class GoFoldingBuilder extends CustomFoldingBuilder implements DumbAware 
       return parent != null && parent.getPsi() instanceof GoFunctionOrMethodDeclaration;
     }
     return CodeFoldingSettings.getInstance().COLLAPSE_IMPORTS && node.getElementType() == GoTypes.IMPORT_LIST;
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

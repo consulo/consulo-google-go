@@ -16,8 +16,6 @@
 
 package com.goide.completion;
 
-import javax.annotation.Nonnull;
-
 import com.goide.GoFileType;
 import com.goide.project.GoExcludedPathsSettings;
 import com.goide.project.GoVendoringUtil;
@@ -26,25 +24,26 @@ import com.goide.psi.GoImportString;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.runconfig.testing.GoTestFinder;
 import com.goide.util.GoUtil;
-import com.intellij.codeInsight.completion.CompletionParameters;
-import com.intellij.codeInsight.completion.CompletionResultSet;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.search.FileTypeIndex;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.ProcessingContext;
-import consulo.codeInsight.completion.CompletionProvider;
+import consulo.application.progress.ProgressManager;
+import consulo.document.util.TextRange;
+import consulo.language.editor.completion.CompletionParameters;
+import consulo.language.editor.completion.CompletionProvider;
+import consulo.language.editor.completion.CompletionResultSet;
+import consulo.language.psi.PsiDirectory;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.search.FileTypeIndex;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.ModuleUtilCore;
+import consulo.language.util.ProcessingContext;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GoImportPathsCompletionProvider implements CompletionProvider {
@@ -88,7 +87,7 @@ public class GoImportPathsCompletionProvider implements CompletionProvider {
       if (!GoPsiImplUtil.canBeAutoImported(goFile, allowMain, module)) continue;
       
       String importPath = goFile.getImportPath(vendoringEnabled);
-      if (StringUtil.isNotEmpty(importPath) && !excludedSettings.isExcluded(importPath) 
+      if (StringUtil.isNotEmpty(importPath) && !excludedSettings.isExcluded(importPath)
           && (testFileWithTestPackage || !importPath.equals(contextImportPath))) {
         result.addElement(GoCompletionUtil.createPackageLookupElement(importPath, contextImportPath, directory, false));
       }

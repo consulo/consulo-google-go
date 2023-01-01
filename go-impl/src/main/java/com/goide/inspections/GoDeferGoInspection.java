@@ -20,13 +20,17 @@ import com.goide.psi.*;
 import com.goide.psi.impl.GoElementFactory;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.quickfix.GoDeleteQuickFix;
-import com.intellij.codeInspection.*;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.google.go.inspection.GoGeneralInspectionBase;
+import consulo.language.editor.inspection.*;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class GoDeferGoInspection extends GoInspectionBase {
+@ExtensionImpl
+public class GoDeferGoInspection extends GoGeneralInspectionBase {
   public static final String ADD_CALL_QUICK_FIX_NAME = "Add function call";
   public static final String UNWRAP_PARENTHESES_QUICK_FIX_NAME = "Unwrap parentheses";
   public static final String REPLACE_WITH_CORRECT_DEFER_RECOVER = "Replace with correct defer construct";
@@ -95,6 +99,12 @@ public class GoDeferGoInspection extends GoInspectionBase {
         holder.registerProblem(o, "Expression in " + who + " must be function call", ProblemHighlightType.GENERIC_ERROR_OR_WARNING, fixes);
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Defer/go statements check";
   }
 
   public static class GoAddParensQuickFix extends LocalQuickFixBase {

@@ -16,17 +16,16 @@
 
 package com.goide.editor.surround;
 
-import javax.annotation.Nonnull;
-
 import com.goide.psi.GoBlock;
 import com.goide.psi.impl.GoElementFactory;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.impl.source.codeStyle.CodeEditUtil;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.IncorrectOperationException;
+import consulo.document.util.TextRange;
+import consulo.language.impl.psi.CodeEditUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.IncorrectOperationException;
+import consulo.project.Project;
+import consulo.util.collection.ArrayUtil;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GoWithBlockSurrounder extends GoStatementsSurrounder {

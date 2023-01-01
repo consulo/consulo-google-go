@@ -16,11 +16,11 @@
 
 package com.goide.project;
 
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.ThreeState;
-import com.intellij.util.xmlb.annotations.Tag;
-import javax.annotation.Nonnull;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.lang.ThreeState;
+import consulo.util.xml.serializer.annotation.Tag;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 
 @Tag("buildTags")

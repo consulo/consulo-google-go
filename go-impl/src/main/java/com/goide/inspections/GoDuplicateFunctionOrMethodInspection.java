@@ -23,20 +23,24 @@ import com.goide.stubs.index.GoFunctionIndex;
 import com.goide.stubs.index.GoIdFilter;
 import com.goide.stubs.index.GoMethodIndex;
 import com.goide.stubs.types.GoMethodDeclarationStubElementType;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.util.Comparing;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.util.indexing.IdFilter;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.progress.ProgressManager;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.language.psi.stub.IdFilter;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.util.lang.Comparing;
+
 import javax.annotation.Nonnull;
 
 import static com.goide.GoConstants.INIT;
 import static com.goide.GoConstants.MAIN;
 
+@ExtensionImpl
 public class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
   @Nonnull
   @Override
@@ -102,5 +106,23 @@ public class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
   private static boolean zeroArity(@Nonnull GoFunctionDeclaration o) {
     GoSignature signature = o.getSignature();
     return signature == null || signature.getParameters().getParameterDeclarationList().isEmpty();
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Redeclared symbols";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Duplicate functions and methods inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 }

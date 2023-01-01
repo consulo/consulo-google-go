@@ -20,18 +20,21 @@ import com.goide.psi.*;
 import com.goide.psi.impl.GoExpressionUtil;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.quickfix.GoSimplifyBoolExprQuickFix;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.application.progress.ProgressManager;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@ExtensionImpl
 public class GoBoolExpressionsInspection extends GoInspectionBase {
   @Nonnull
   @Override
@@ -89,7 +92,7 @@ public class GoBoolExpressionsInspection extends GoInspectionBase {
 
   @Nonnull
   public static List<GoExpression> collect(GoBinaryExpr o, boolean and) {
-    List<GoExpression> result = ContainerUtil.newSmartList();
+    List<GoExpression> result = new ArrayList<>();
     result.addAll(processExpr(o.getLeft(), and));
     result.addAll(processExpr(o.getRight(), and));
     return result;
@@ -97,7 +100,7 @@ public class GoBoolExpressionsInspection extends GoInspectionBase {
 
   @Nonnull
   private static List<GoExpression> processExpr(@Nullable GoExpression e, boolean and) {
-    if (e == null) return ContainerUtil.emptyList();
+    if (e == null) return List.of();
     if (isSameOp(e, and)) {
       return collect((GoBinaryExpr)e, and);
     }
@@ -109,5 +112,23 @@ public class GoBoolExpressionsInspection extends GoInspectionBase {
 
   private static boolean isSameOp(GoExpression expr, boolean and) {
     return and ? expr instanceof GoAndExpr : expr instanceof GoOrExpr;
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Declaration redundancy";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Bool condition inspection";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.WARNING;
   }
 }

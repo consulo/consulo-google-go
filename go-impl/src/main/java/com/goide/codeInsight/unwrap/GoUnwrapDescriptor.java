@@ -16,9 +16,15 @@
 
 package com.goide.codeInsight.unwrap;
 
-import com.intellij.codeInsight.unwrap.UnwrapDescriptorBase;
-import com.intellij.codeInsight.unwrap.Unwrapper;
+import com.goide.GoLanguage;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.Language;
+import consulo.language.editor.refactoring.unwrap.UnwrapDescriptorBase;
+import consulo.language.editor.refactoring.unwrap.Unwrapper;
 
+import javax.annotation.Nonnull;
+
+@ExtensionImpl
 public class GoUnwrapDescriptor extends UnwrapDescriptorBase {
   @Override
   protected Unwrapper[] createUnwrappers() {
@@ -30,5 +36,11 @@ public class GoUnwrapDescriptor extends UnwrapDescriptorBase {
       new GoBracesUnwrapper(),
       new GoFunctionArgumentUnwrapper()
     };
+  }
+
+  @Nonnull
+  @Override
+  public Language getLanguage() {
+    return GoLanguage.INSTANCE;
   }
 }

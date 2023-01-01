@@ -16,17 +16,22 @@
 
 package com.plan9.intel;
 
-import com.intellij.openapi.fileTypes.FileTypeConsumer;
-import com.intellij.openapi.fileTypes.FileTypeFactory;
-import com.intellij.openapi.fileTypes.WildcardFileNameMatcher;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.virtualFileSystem.fileType.FileNameMatcherFactory;
+import consulo.virtualFileSystem.fileType.FileTypeConsumer;
+import consulo.virtualFileSystem.fileType.FileTypeFactory;
+
 import javax.annotation.Nonnull;
 
+@ExtensionImpl
 public class AsmIntelFileTypeFactory extends FileTypeFactory {
   @Override
   public void createFileTypes(@Nonnull FileTypeConsumer consumer) {
+    FileNameMatcherFactory nameMatcherFactory = FileNameMatcherFactory.getInstance();
+
     consumer.consume(AsmIntelFileType.INSTANCE,
-                     new WildcardFileNameMatcher("*_amd64.s"),
-                     new WildcardFileNameMatcher("*_amd64p32.s"),
-                     new WildcardFileNameMatcher("*_386.s"));
+        nameMatcherFactory.createWildcardFileNameMatcher("*_amd64.s"),
+        nameMatcherFactory.createWildcardFileNameMatcher("*_amd64p32.s"),
+        nameMatcherFactory.createWildcardFileNameMatcher("*_386.s"));
   }
 }

@@ -16,12 +16,12 @@
 
 package com.goide.actions.tool;
 
+import com.goide.util.GoExecutor;
+import consulo.module.Module;
+import consulo.project.Project;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.goide.util.GoExecutor;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.project.Project;
 
 public class GoFmtFileAction extends GoExternalToolsAction {
   @Override

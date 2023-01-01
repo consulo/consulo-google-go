@@ -16,45 +16,38 @@
 
 package com.goide.inspections.unresolved;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.jetbrains.annotations.Nls;
 import com.goide.GoConstants;
 import com.goide.GoDocumentationProvider;
 import com.goide.project.GoVendoringUtil;
-import com.goide.psi.GoCallExpr;
-import com.goide.psi.GoExpression;
-import com.goide.psi.GoFile;
-import com.goide.psi.GoImportSpec;
-import com.goide.psi.GoType;
-import com.goide.psi.GoTypeList;
-import com.goide.psi.GoTypeSpec;
+import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.GoTypeUtil;
 import com.goide.refactor.GoRefactoringUtil;
 import com.goide.util.GoPathScopeHelper;
 import com.goide.util.GoUtil;
-import com.intellij.codeInsight.intention.HighPriorityAction;
-import com.intellij.codeInsight.template.Template;
-import com.intellij.codeInsight.template.TemplateManager;
-import com.intellij.codeInsight.template.impl.ConstantNode;
-import com.intellij.codeInspection.LocalQuickFixAndIntentionActionOnPsiElement;
-import com.intellij.diagnostic.AttachmentFactory;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.command.CommandProcessor;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.containers.ContainerUtil;
+import consulo.application.ApplicationManager;
+import consulo.codeEditor.Editor;
+import consulo.language.editor.inspection.LocalQuickFixAndIntentionActionOnPsiElement;
+import consulo.language.editor.intention.HighPriorityAction;
+import consulo.language.editor.template.ConstantNode;
+import consulo.language.editor.template.Template;
+import consulo.language.editor.template.TemplateManager;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.language.util.ModuleUtilCore;
+import consulo.logging.attachment.AttachmentFactory;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.undoRedo.CommandProcessor;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
+import org.jetbrains.annotations.Nls;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Map;
 
 public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsiElement implements HighPriorityAction {
   private final String myName;
@@ -73,7 +66,7 @@ public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsi
                      @Nonnull PsiElement endElement) {
     if (editor == null) {
       LOG.error("Cannot run quick fix without editor: " + getClass().getSimpleName(),
-                AttachmentFactory.createAttachment(file.getVirtualFile()));
+                AttachmentFactory.get().create(file.getVirtualFile().getName(), ""));
       return;
     }
     if (!(startElement instanceof GoCallExpr)) return;

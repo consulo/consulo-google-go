@@ -16,11 +16,13 @@
 
 package com.goide;
 
+import consulo.annotation.component.ExtensionImpl;
+import consulo.virtualFileSystem.fileType.FileTypeConsumer;
+import consulo.virtualFileSystem.fileType.FileTypeFactory;
+
 import javax.annotation.Nonnull;
 
-import com.intellij.openapi.fileTypes.FileTypeConsumer;
-import com.intellij.openapi.fileTypes.FileTypeFactory;
-
+@ExtensionImpl
 public class GoFileTypeFactory extends FileTypeFactory {
   @Override
   public void createFileTypes(@Nonnull FileTypeConsumer consumer) {

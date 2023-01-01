@@ -16,19 +16,19 @@
 
 package com.goide.inspections;
 
-import com.goide.psi.GoPointerType;
-import com.goide.psi.GoReceiver;
-import com.goide.psi.GoReferenceExpression;
-import com.goide.psi.GoUnaryExpr;
-import com.goide.psi.GoVisitor;
-import com.intellij.codeInsight.highlighting.ReadWriteAccessDetector;
-import com.intellij.codeInspection.LocalInspectionToolSession;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiElement;
+import com.goide.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.editor.highlight.ReadWriteAccessDetector;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.language.psi.PsiElement;
+
 import javax.annotation.Nonnull;
 
-import static com.intellij.codeInspection.ProblemHighlightType.WEAK_WARNING;
+import static consulo.language.editor.inspection.ProblemHighlightType.WEAK_WARNING;
 
+@ExtensionImpl
 public class GoAssignmentToReceiverInspection extends GoInspectionBase {
   @Nonnull
   @Override
@@ -56,5 +56,23 @@ public class GoAssignmentToReceiverInspection extends GoInspectionBase {
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public String getGroupDisplayName() {
+    return "Control flow issues";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return "Assignment to receiver";
+  }
+
+  @Nonnull
+  @Override
+  public HighlightDisplayLevel getDefaultLevel() {
+    return HighlightDisplayLevel.ERROR;
   }
 }

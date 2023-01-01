@@ -19,11 +19,11 @@ package com.goide.stubs.types;
 import com.goide.psi.GoPackageClause;
 import com.goide.psi.impl.GoPackageClauseImpl;
 import com.goide.stubs.GoPackageClauseStub;
-import com.intellij.psi.stubs.StubElement;
-import com.intellij.psi.stubs.StubInputStream;
-import com.intellij.psi.stubs.StubOutputStream;
-import javax.annotation.Nonnull;
+import consulo.language.psi.stub.StubElement;
+import consulo.language.psi.stub.StubInputStream;
+import consulo.language.psi.stub.StubOutputStream;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoPackageClauseStubElementType extends GoStubElementType<GoPackageClauseStub, GoPackageClause> {

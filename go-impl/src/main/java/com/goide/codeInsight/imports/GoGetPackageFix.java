@@ -16,23 +16,22 @@
 
 package com.goide.codeInsight.imports;
 
-import javax.annotation.Nonnull;
-
 import com.goide.sdk.GoSdkService;
 import com.goide.util.GoExecutor;
-import com.intellij.codeInsight.intention.HighPriorityAction;
-import com.intellij.codeInspection.LocalQuickFixBase;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.openapi.command.CommandProcessor;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.util.Consumer;
+import consulo.language.editor.inspection.LocalQuickFixBase;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.editor.intention.HighPriorityAction;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.ModuleUtilCore;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.undoRedo.CommandProcessor;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFileManager;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public class GoGetPackageFix extends LocalQuickFixBase implements HighPriorityAction {
   @Nonnull
