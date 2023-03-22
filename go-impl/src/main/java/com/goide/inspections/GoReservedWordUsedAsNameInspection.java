@@ -37,7 +37,7 @@ import javax.annotation.Nonnull;
 public class GoReservedWordUsedAsNameInspection extends GoInspectionBase {
   @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
     GoFile builtinFile = GoSdkUtil.findBuiltinFile(session.getFile());
     if (builtinFile == null) return DUMMY_VISITOR;
 

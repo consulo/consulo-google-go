@@ -34,8 +34,9 @@ import consulo.util.lang.ObjectUtil;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-abstract public class GoInspectionBase extends LocalInspectionTool {
-  protected static final GoVisitor DUMMY_VISITOR = new GoVisitor() { };
+abstract public class GoInspectionBase<State> extends LocalInspectionTool {
+  protected static final GoVisitor DUMMY_VISITOR = new GoVisitor() {
+  };
 
   @Nullable
   @Override
@@ -45,11 +46,16 @@ abstract public class GoInspectionBase extends LocalInspectionTool {
 
   @Nonnull
   @Override
-  public final PsiElementVisitor buildVisitor(@Nonnull ProblemsHolder holder, boolean isOnTheFly, @Nonnull LocalInspectionToolSession session) {
+  @SuppressWarnings("unchecked")
+  public final PsiElementVisitor buildVisitor(@Nonnull ProblemsHolder holder,
+                                              boolean isOnTheFly,
+                                              @Nonnull LocalInspectionToolSession session,
+                                              Object state) {
     GoFile file = ObjectUtil.tryCast(session.getFile(), GoFile.class);
+    State inspectionState = (State)state;
     return file != null && GoPsiImplUtil.allowed(file, null, ModuleUtilCore.findModuleForPsiElement(file))
-           ? buildGoVisitor(holder, session)
-           : DUMMY_VISITOR;
+      ? buildGoVisitor(holder, session, inspectionState)
+      : DUMMY_VISITOR;
   }
 
   @Nonnull
@@ -65,7 +71,7 @@ abstract public class GoInspectionBase extends LocalInspectionTool {
   }
 
   @Nonnull
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, State inspectionState) {
     return new GoVisitor() {
       @Override
       public void visitFile(PsiFile file) {

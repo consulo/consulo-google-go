@@ -47,7 +47,7 @@
 				<artifactId>maven-consulo-plugin</artifactId>
 				<extensions>true</extensions>
 				<configuration>
-					<repositoryChannel>valhalla</repositoryChannel>
+					<repositoryChannel>nightly</repositoryChannel>
 					<dependencies>
 						<dependency>com.intellij.spellchecker</dependency>
 						<dependency>com.intellij.regexp</dependency>

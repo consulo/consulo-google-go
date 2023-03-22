@@ -31,7 +31,8 @@ public class GoAnonymousFieldDefinitionTypeInspection extends GoGeneralInspectio
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
-                                     @SuppressWarnings({"UnusedParameters", "For future"}) @Nonnull LocalInspectionToolSession session) {
+                                     @SuppressWarnings({"UnusedParameters", "For future"}) @Nonnull LocalInspectionToolSession session,
+                                     Object inspectionState) {
     return new GoVisitor() {
       @Override
       public void visitAnonymousFieldDefinition(@Nonnull GoAnonymousFieldDefinition o) {

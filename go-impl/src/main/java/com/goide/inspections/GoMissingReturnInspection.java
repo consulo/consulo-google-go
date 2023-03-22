@@ -141,7 +141,7 @@ public class GoMissingReturnInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
       public void visitFunctionOrMethodDeclaration(@Nonnull GoFunctionOrMethodDeclaration o) { // todo: extract common interface

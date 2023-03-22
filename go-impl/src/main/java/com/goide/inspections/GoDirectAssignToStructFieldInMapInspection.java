@@ -31,7 +31,7 @@ import static consulo.language.editor.inspection.ProblemHighlightType.GENERIC_ER
 public class GoDirectAssignToStructFieldInMapInspection extends GoInspectionBase {
   @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
       public void visitLeftHandExprList(@Nonnull GoLeftHandExprList o) {

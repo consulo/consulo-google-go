@@ -48,7 +48,7 @@ import static consulo.language.editor.inspection.ProblemHighlightType.LIKE_UNKNO
 public class GoUnresolvedReferenceInspection extends GoGeneralInspectionBase {
   @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
       public void visitFieldName(@Nonnull GoFieldName o) {

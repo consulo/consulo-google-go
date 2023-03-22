@@ -37,7 +37,8 @@ public class GoStructTagInspection extends GoInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
-                                     @SuppressWarnings({"UnusedParameters", "For future"}) @Nonnull LocalInspectionToolSession session) {
+                                     @SuppressWarnings({"UnusedParameters", "For future"}) @Nonnull LocalInspectionToolSession session,
+                                     Object inspectionState) {
     return new GoVisitor() {
       @Override
       public void visitStructType(@Nonnull GoStructType o) {

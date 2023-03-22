@@ -52,10 +52,10 @@
           <option name="FIELD_NAME_PREFIX" value="my" />
           <option name="STATIC_FIELD_NAME_PREFIX" value="our" />
         </JavaCodeStyleSettings>
-        <ADDITIONAL_INDENT_OPTIONS fileType="gsp">
+        <ADDITIONAL_INDENT_OPTIONS fileType="haml">
           <option name="INDENT_SIZE" value="2" />
         </ADDITIONAL_INDENT_OPTIONS>
-        <ADDITIONAL_INDENT_OPTIONS fileType="haml">
+        <ADDITIONAL_INDENT_OPTIONS fileType="html">
           <option name="INDENT_SIZE" value="2" />
         </ADDITIONAL_INDENT_OPTIONS>
         <ADDITIONAL_INDENT_OPTIONS fileType="java">
@@ -233,6 +233,6 @@
         </codeStyleSettings>
       </value>
     </option>
-    <option name="PREFERRED_PROJECT_CODE_STYLE" value="intellij" />
+    <option name="PREFERRED_PROJECT_CODE_STYLE" value="IJ" />
   </component>
 </project>

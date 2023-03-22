@@ -32,7 +32,7 @@ import static consulo.language.editor.inspection.ProblemHighlightType.WEAK_WARNI
 public class GoAssignmentToReceiverInspection extends GoInspectionBase {
   @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
       public void visitReferenceExpression(@Nonnull GoReferenceExpression o) {

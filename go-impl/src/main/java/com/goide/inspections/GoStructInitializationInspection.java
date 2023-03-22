@@ -23,33 +23,25 @@ import com.goide.util.GoUtil;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.application.progress.ProgressManager;
 import consulo.language.editor.inspection.*;
-import consulo.language.editor.inspection.ui.SingleCheckboxOptionsPanel;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
-import consulo.util.xml.serializer.InvalidDataException;
-import consulo.util.xml.serializer.WriteExternalException;
-import org.jdom.Element;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.swing.*;
 import java.util.List;
 
 @ExtensionImpl
-public class GoStructInitializationInspection extends GoInspectionBase {
+public class GoStructInitializationInspection extends GoInspectionBase<GoStructInitializationInspectionState> {
   public static final String REPLACE_WITH_NAMED_STRUCT_FIELD_FIX_NAME = "Replace with named struct field";
-  public boolean reportLocalStructs;
-  /**
-   * @deprecated use reportLocalStructs
-   */
-  @SuppressWarnings("WeakerAccess") public Boolean reportImportedStructs;
 
   @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
+                                     @Nonnull LocalInspectionToolSession session,
+                                     GoStructInitializationInspectionState state) {
     return new GoVisitor() {
       @Override
       public void visitLiteralValue(@Nonnull GoLiteralValue o) {
@@ -59,10 +51,16 @@ public class GoStructInitializationInspection extends GoInspectionBase {
         PsiElement parent = o.getParent();
         GoType refType = GoPsiImplUtil.getLiteralType(parent, false);
         if (refType instanceof GoStructType) {
-          processStructType(holder, o, (GoStructType)refType);
+          processStructType(holder, o, (GoStructType)refType, state);
         }
       }
     };
+  }
+
+  @Nonnull
+  @Override
+  public InspectionToolState<?> createStateProvider() {
+    return new GoStructInitializationInspectionState();
   }
 
   @Nonnull
@@ -83,13 +81,11 @@ public class GoStructInitializationInspection extends GoInspectionBase {
     return HighlightDisplayLevel.WEAK_WARNING;
   }
 
-  @Override
-  public JComponent createOptionsPanel() {
-    return new SingleCheckboxOptionsPanel("Report for local type definitions as well", this, "reportLocalStructs");
-  }
-
-  private void processStructType(@Nonnull ProblemsHolder holder, @Nonnull GoLiteralValue element, @Nonnull GoStructType structType) {
-    if (reportLocalStructs || !GoUtil.inSamePackage(structType.getContainingFile(), element.getContainingFile())) {
+  private void processStructType(@Nonnull ProblemsHolder holder,
+                                 @Nonnull GoLiteralValue element,
+                                 @Nonnull GoStructType structType,
+                                 GoStructInitializationInspectionState state) {
+    if (state.reportLocalStructs || !GoUtil.inSamePackage(structType.getContainingFile(), element.getContainingFile())) {
       processLiteralValue(holder, element, structType.getFieldDeclarationList());
     }
   }
@@ -132,19 +128,5 @@ public class GoStructInitializationInspection extends GoInspectionBase {
         startElement.replace(GoElementFactory.createLiteralValueElement(project, myStructField, startElement.getText()));
       }
     }
-  }
-
-  @Override
-  public void readSettings(@Nonnull Element node) throws InvalidDataException {
-    super.readSettings(node);
-    if (reportImportedStructs != null) {
-      reportLocalStructs = reportImportedStructs;
-    }
-  }
-
-  @Override
-  public void writeSettings(@Nonnull Element node) throws WriteExternalException {
-    reportImportedStructs = null;
-    super.writeSettings(node);
   }
 }

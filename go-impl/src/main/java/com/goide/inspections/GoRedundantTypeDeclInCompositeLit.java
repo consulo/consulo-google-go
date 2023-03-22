@@ -36,7 +36,7 @@ public class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implemen
 
   @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
       public void visitCompositeLit(@Nonnull GoCompositeLit o) {

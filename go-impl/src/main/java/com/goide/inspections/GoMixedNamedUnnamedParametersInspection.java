@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 public class GoMixedNamedUnnamedParametersInspection extends GoGeneralInspectionBase {
   @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
       public void visitMethodDeclaration(@Nonnull GoMethodDeclaration o) {

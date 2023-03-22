@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
 public class GoRedeclareImportAsFunctionInspection extends GoInspectionBase {
   @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session) {
+  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
       public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration o) {

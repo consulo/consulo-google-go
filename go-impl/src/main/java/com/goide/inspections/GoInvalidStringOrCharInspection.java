@@ -33,7 +33,8 @@ public class GoInvalidStringOrCharInspection extends GoGeneralInspectionBase {
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
-                                     @SuppressWarnings({"UnusedParameters", "For future"}) @Nonnull LocalInspectionToolSession session) {
+                                     @SuppressWarnings({"UnusedParameters", "For future"}) @Nonnull LocalInspectionToolSession session,
+                                     Object inspectionState) {
     return new GoVisitor() {
 
       @Override
