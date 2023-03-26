@@ -81,12 +81,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>consulo.plugin</groupId>
-			<artifactId>com.intellij.spellchecker</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>consulo.plugin</groupId>
 			<artifactId>com.intellij.regexp</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>

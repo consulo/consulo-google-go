@@ -17,20 +17,14 @@
 package com.goide.inspections;
 
 import com.goide.GoLanguage;
-import com.intellij.spellchecker.tokenizer.SpellcheckingStrategy;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Language;
-import consulo.language.psi.PsiElement;
+import consulo.language.spellcheker.SpellcheckingStrategy;
 
 import javax.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoSpellcheckingStrategy extends SpellcheckingStrategy {
-  @Override
-  public boolean isMyContext(@Nonnull PsiElement element) {
-    return GoLanguage.INSTANCE.is(element.getLanguage());
-  }
-
   @Nonnull
   @Override
   public Language getLanguage() {

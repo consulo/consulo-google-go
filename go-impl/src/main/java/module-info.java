@@ -22,8 +22,7 @@ open module consulo.google.go {
   requires io.netty.transport;
   requires io.netty.codec;
 
-  requires static com.intellij.regexp;
-  requires static com.intellij.spellchecker;
+  requires com.intellij.regexp;
 
   exports com.goide;
   exports com.goide.actions.file;

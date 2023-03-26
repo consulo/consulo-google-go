@@ -24,7 +24,6 @@
 	</tags>
 
 	<depends>com.intellij.regexp</depends>
-	<depends optional="true">com.intellij.spellchecker</depends>
 
 	<actions>
 		<group id="GoTools" text="Go Tools" description="Go External Tools" icon="consulo.google.go.GoogleGoIconGroup@go" popup="true" require-module-extensions="google-go">
