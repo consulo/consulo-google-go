@@ -26,9 +26,11 @@ import consulo.execution.debug.DefaultDebugExecutor;
 import consulo.execution.runner.ExecutionEnvironment;
 import consulo.module.Module;
 import consulo.process.ExecutionException;
+import consulo.process.NopProcessHandler;
 import consulo.process.ProcessHandler;
 import consulo.process.event.ProcessAdapter;
 import consulo.process.event.ProcessEvent;
+import consulo.process.event.ProcessListener;
 import consulo.util.lang.StringUtil;
 
 import javax.annotation.Nonnull;
@@ -63,8 +65,8 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
   @Nonnull
   @Override
   protected ProcessHandler startProcess() throws ExecutionException {
-    ProcessHandler processHandler = myCompilationFailed ? new GoNopProcessHandler() : super.startProcess();
-    processHandler.addProcessListener(new ProcessAdapter() {
+    ProcessHandler processHandler = myCompilationFailed ? new NopProcessHandler() : super.startProcess();
+    processHandler.addProcessListener(new ProcessListener() {
       @Override
       public void startNotified(ProcessEvent event) {
         if (myHistoryProcessHandler != null) {
@@ -74,7 +76,6 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
 
       @Override
       public void processTerminated(ProcessEvent event) {
-        super.processTerminated(event);
         if (StringUtil.isEmpty(myConfiguration.getOutputFilePath())) {
           File file = new File(myOutputFilePath);
           if (file.exists()) {
