@@ -17,6 +17,7 @@
 package com.goide;
 
 import consulo.google.go.icon.GoogleGoIconGroup;
+import consulo.google.go.localize.GoLocalize;
 import consulo.language.file.LanguageFileType;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
@@ -27,6 +28,7 @@ import consulo.virtualFileSystem.VirtualFile;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class GoFileType extends LanguageFileType {
   public static final LanguageFileType INSTANCE = new GoFileType();
@@ -44,7 +46,7 @@ public class GoFileType extends LanguageFileType {
   @Nonnull
   @Override
   public LocalizeValue getDescription() {
-    return LocalizeValue.localizeTODO("Go files");
+    return GoLocalize.goFileDescription();
   }
 
   @Nonnull
@@ -66,6 +68,6 @@ public class GoFileType extends LanguageFileType {
 
   @Override
   public Charset extractCharsetFromFileContent(@Nullable Project project, @Nullable VirtualFile file, @Nonnull CharSequence content) {
-    return CharsetToolkit.UTF8_CHARSET;
+    return StandardCharsets.UTF_8;
   }
 }

@@ -1,0 +1,14 @@
+go.single.file.configuration.name:
+  text: Go Single File
+go.single.file.configuration.description:
+  text: Go single run file configuration
+go.test.configuration.name:
+  text:  Go Test
+go.test.configuration.description:
+  text: Go test run configuration
+go.application.configuration.name:
+  text: Go Application
+go.application.configuration.description:
+  text: Go application run configuration
+go.file.description:
+  text: Go files

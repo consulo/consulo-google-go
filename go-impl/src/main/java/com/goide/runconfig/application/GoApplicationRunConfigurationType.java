@@ -22,6 +22,7 @@ import com.goide.runconfig.GoConfigurationFactoryBase;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.execution.configuration.RunConfiguration;
+import consulo.google.go.localize.GoLocalize;
 import consulo.project.Project;
 
 import javax.annotation.Nonnull;
@@ -29,7 +30,7 @@ import javax.annotation.Nonnull;
 @ExtensionImpl
 public class GoApplicationRunConfigurationType extends ConfigurationTypeBase {
   public GoApplicationRunConfigurationType() {
-    super("GoApplicationRunConfiguration", "Go Application", "Go application run configuration", GoIcons.APPLICATION_RUN);
+    super("GoApplicationRunConfiguration", GoLocalize.goApplicationConfigurationName(), GoLocalize.goApplicationConfigurationDescription(), GoIcons.APPLICATION_RUN);
     addFactory(new GoConfigurationFactoryBase(this) {
       @Override
       @Nonnull

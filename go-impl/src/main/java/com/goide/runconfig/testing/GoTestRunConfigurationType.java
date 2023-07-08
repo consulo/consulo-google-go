@@ -20,6 +20,7 @@ import com.goide.GoIcons;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.execution.configuration.RunConfiguration;
+import consulo.google.go.localize.GoLocalize;
 import consulo.project.Project;
 
 import javax.annotation.Nonnull;
@@ -28,7 +29,7 @@ import javax.annotation.Nonnull;
 public class GoTestRunConfigurationType extends ConfigurationTypeBase {
 
   public GoTestRunConfigurationType() {
-    super("GoTestRunConfiguration", "Go Test", "Go test run configuration", GoIcons.TEST_RUN);
+    super("GoTestRunConfiguration", GoLocalize.goTestConfigurationName(), GoLocalize.goTestConfigurationDescription(), GoIcons.TEST_RUN);
     addFactory(new GoTestConfigurationFactoryBase(this) {
       @Override
       @Nonnull
