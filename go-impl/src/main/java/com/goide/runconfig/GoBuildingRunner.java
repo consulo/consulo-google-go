@@ -23,6 +23,7 @@ import com.goide.runconfig.application.GoApplicationConfiguration;
 import com.goide.runconfig.application.GoApplicationRunningState;
 import com.goide.util.GoHistoryProcessListener;
 import consulo.annotation.component.ExtensionImpl;
+import consulo.application.concurrent.ApplicationConcurrency;
 import consulo.document.FileDocumentManager;
 import consulo.execution.ExecutionResult;
 import consulo.execution.RunProfileStarter;
@@ -37,24 +38,33 @@ import consulo.execution.runner.RunContentBuilder;
 import consulo.execution.ui.RunContentDescriptor;
 import consulo.externalService.statistic.UsageTrigger;
 import consulo.process.ExecutionException;
-import consulo.process.event.ProcessAdapter;
 import consulo.process.event.ProcessEvent;
+import consulo.process.event.ProcessListener;
 import consulo.util.collection.ArrayUtil;
 import consulo.util.concurrent.AsyncResult;
 import consulo.util.io.FileUtil;
 import consulo.util.io.NetUtil;
 import consulo.util.lang.StringUtil;
+import jakarta.inject.Inject;
 import org.jetbrains.debugger.connection.RemoteVmConnection;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
 @ExtensionImpl(order = "before goRunner")
 public class GoBuildingRunner extends AsyncGenericProgramRunner {
   private static final String ID = "GoBuildingRunner";
+
+  private final ApplicationConcurrency myApplicationConcurrency;
+
+  @Inject
+  public GoBuildingRunner(ApplicationConcurrency applicationConcurrency) {
+    myApplicationConcurrency = applicationConcurrency;
+  }
 
   @Nonnull
   @Override
@@ -72,34 +82,46 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
 
   @Nonnull
   @Override
-  protected AsyncResult<RunProfileStarter> prepare(@Nonnull ExecutionEnvironment environment, @Nonnull RunProfileState state) throws ExecutionException {
-    File outputFile = getOutputFile(environment, (GoApplicationRunningState) state);
+  protected AsyncResult<RunProfileStarter> prepare(@Nonnull ExecutionEnvironment environment,
+                                                   @Nonnull RunProfileState state) throws ExecutionException {
+    File outputFile = getOutputFile(environment, (GoApplicationRunningState)state);
     FileDocumentManager.getInstance().saveAllDocuments();
 
     AsyncResult<RunProfileStarter> buildingPromise = new AsyncResult<>();
     GoHistoryProcessListener historyProcessListener = new GoHistoryProcessListener();
-    ((GoApplicationRunningState) state).createCommonExecutor().withParameters("build").withParameterString(((GoApplicationRunningState) state).getGoBuildParams())
-        .withParameters("-o", outputFile.getAbsolutePath())
-        .withParameters(((GoApplicationRunningState) state).isDebug() ? new String[]{"-gcflags", "-N -l"} : ArrayUtil.EMPTY_STRING_ARRAY)
-        .withParameters(((GoApplicationRunningState) state).getTarget()).withPresentableName("go build")
-        .withProcessListener(historyProcessListener).withProcessListener(new ProcessAdapter() {
+    ((GoApplicationRunningState)state).createCommonExecutor()
+                                      .withParameters("build")
+                                      .withParameterString(((GoApplicationRunningState)state).getGoBuildParams())
+                                      .withParameters("-o", outputFile.getAbsolutePath())
+                                      .withParameters(((GoApplicationRunningState)state).isDebug() ? new String[]{"-gcflags", "-N -l"} : ArrayUtil.EMPTY_STRING_ARRAY)
+                                      .withParameters(((GoApplicationRunningState)state).getTarget())
+                                      .withPresentableName("go build")
+                                      .withProcessListener(historyProcessListener)
+                                      .withProcessListener(new ProcessListener() {
 
-      @Override
-      public void processTerminated(ProcessEvent event) {
-        super.processTerminated(event);
-        boolean compilationFailed = event.getExitCode() != 0;
-        if (((GoApplicationRunningState) state).isDebug()) {
-          buildingPromise.setDone(new MyDebugStarter(outputFile.getAbsolutePath(), historyProcessListener, compilationFailed));
-        } else {
-          buildingPromise.setDone(new MyRunStarter(outputFile.getAbsolutePath(), historyProcessListener, compilationFailed));
-        }
-      }
-    }).executeWithProgress(false);
+                                        @Override
+                                        public void processTerminated(ProcessEvent event) {
+                                          boolean compilationFailed = event.getExitCode() != 0;
+                                          if (((GoApplicationRunningState)state).isDebug()) {
+                                            buildingPromise.setDone(new MyDebugStarter(myApplicationConcurrency,
+                                                                                       outputFile.getAbsolutePath(),
+                                                                                       historyProcessListener,
+                                                                                       compilationFailed));
+                                          }
+                                          else {
+                                            buildingPromise.setDone(new MyRunStarter(outputFile.getAbsolutePath(),
+                                                                                     historyProcessListener,
+                                                                                     compilationFailed));
+                                          }
+                                        }
+                                      })
+                                      .executeWithProgress(false);
     return buildingPromise;
   }
 
   @Nonnull
-  private static File getOutputFile(@Nonnull ExecutionEnvironment environment, @Nonnull GoApplicationRunningState state) throws ExecutionException {
+  private static File getOutputFile(@Nonnull ExecutionEnvironment environment,
+                                    @Nonnull GoApplicationRunningState state) throws ExecutionException {
     File outputFile;
     String outputDirectoryPath = state.getConfiguration().getOutputFilePath();
     RunnerAndConfigurationSettings settings = environment.getRunnerAndConfigurationSettings();
@@ -107,10 +129,12 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
     if (StringUtil.isEmpty(outputDirectoryPath)) {
       try {
         outputFile = FileUtil.createTempFile(configurationName, "go", true);
-      } catch (IOException e) {
+      }
+      catch (IOException e) {
         throw new ExecutionException("Cannot create temporary output file", e);
       }
-    } else {
+    }
+    else {
       File outputDirectory = new File(outputDirectoryPath);
       if (outputDirectory.isDirectory() || !outputDirectory.exists() && outputDirectory.mkdirs()) {
         outputFile = new File(outputDirectoryPath, GoEnvironmentUtil.getBinaryFileNameForPath(configurationName));
@@ -118,10 +142,12 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
           if (!outputFile.exists() && !outputFile.createNewFile()) {
             throw new ExecutionException("Cannot create output file " + outputFile.getAbsolutePath());
           }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
           throw new ExecutionException("Cannot create output file " + outputFile.getAbsolutePath());
         }
-      } else {
+      }
+      else {
         throw new ExecutionException("Cannot create output file in " + outputDirectory.getAbsolutePath());
       }
     }
@@ -134,19 +160,25 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
   private static boolean prepareFile(@Nonnull File file) {
     try {
       FileUtil.writeToFile(file, new byte[]{0x7F, 'E', 'L', 'F'});
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       return false;
     }
     return file.setExecutable(true);
   }
 
   private class MyDebugStarter extends RunProfileStarter {
+    private final ApplicationConcurrency myApplicationConcurrency;
     private final String myOutputFilePath;
     private final GoHistoryProcessListener myHistoryProcessListener;
     private final boolean myCompilationFailed;
 
 
-    private MyDebugStarter(@Nonnull String outputFilePath, @Nonnull GoHistoryProcessListener historyProcessListener, boolean compilationFailed) {
+    private MyDebugStarter(ApplicationConcurrency applicationConcurrency,
+                           @Nonnull String outputFilePath,
+                           @Nonnull GoHistoryProcessListener historyProcessListener,
+                           boolean compilationFailed) {
+      myApplicationConcurrency = applicationConcurrency;
       myOutputFilePath = outputFilePath;
       myHistoryProcessListener = historyProcessListener;
       myCompilationFailed = compilationFailed;
@@ -159,15 +191,16 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
         final int port;
         try {
           port = NetUtil.findAvailableSocketPort();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
           throw new ExecutionException(e);
         }
 
         FileDocumentManager.getInstance().saveAllDocuments();
-        ((GoApplicationRunningState) state).setHistoryProcessHandler(myHistoryProcessListener);
-        ((GoApplicationRunningState) state).setOutputFilePath(myOutputFilePath);
-        ((GoApplicationRunningState) state).setDebugPort(port);
-        ((GoApplicationRunningState) state).setCompilationFailed(myCompilationFailed);
+        ((GoApplicationRunningState)state).setHistoryProcessHandler(myHistoryProcessListener);
+        ((GoApplicationRunningState)state).setOutputFilePath(myOutputFilePath);
+        ((GoApplicationRunningState)state).setDebugPort(port);
+        ((GoApplicationRunningState)state).setCompilationFailed(myCompilationFailed);
 
         // start debugger
         ExecutionResult executionResult = state.execute(env.getExecutor(), GoBuildingRunner.this);
@@ -181,9 +214,9 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
           @Nonnull
           @Override
           public XDebugProcess start(@Nonnull XDebugSession session) throws ExecutionException {
-            RemoteVmConnection connection = new DlvRemoteVmConnection();
+            RemoteVmConnection connection = new DlvRemoteVmConnection(myApplicationConcurrency);
             DlvDebugProcess process = new DlvDebugProcess(session, connection, executionResult);
-            connection.open(new InetSocketAddress(NetUtil.getLoopbackAddress(), port));
+            connection.open(new InetSocketAddress(InetAddress.getLoopbackAddress(), port));
             return process;
           }
         }).getRunContentDescriptor();
@@ -198,7 +231,9 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
     private final boolean myCompilationFailed;
 
 
-    private MyRunStarter(@Nonnull String outputFilePath, @Nonnull GoHistoryProcessListener historyProcessListener, boolean compilationFailed) {
+    private MyRunStarter(@Nonnull String outputFilePath,
+                         @Nonnull GoHistoryProcessListener historyProcessListener,
+                         boolean compilationFailed) {
       myOutputFilePath = outputFilePath;
       myHistoryProcessListener = historyProcessListener;
       myCompilationFailed = compilationFailed;
@@ -209,9 +244,9 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
     public RunContentDescriptor execute(@Nonnull RunProfileState state, @Nonnull ExecutionEnvironment env) throws ExecutionException {
       if (state instanceof GoApplicationRunningState) {
         FileDocumentManager.getInstance().saveAllDocuments();
-        ((GoApplicationRunningState) state).setHistoryProcessHandler(myHistoryProcessListener);
-        ((GoApplicationRunningState) state).setOutputFilePath(myOutputFilePath);
-        ((GoApplicationRunningState) state).setCompilationFailed(myCompilationFailed);
+        ((GoApplicationRunningState)state).setHistoryProcessHandler(myHistoryProcessListener);
+        ((GoApplicationRunningState)state).setOutputFilePath(myOutputFilePath);
+        ((GoApplicationRunningState)state).setCompilationFailed(myCompilationFailed);
         ExecutionResult executionResult = state.execute(env.getExecutor(), GoBuildingRunner.this);
         return executionResult != null ? new RunContentBuilder(executionResult, env).showRunContent(env.getContentToReuse()) : null;
       }

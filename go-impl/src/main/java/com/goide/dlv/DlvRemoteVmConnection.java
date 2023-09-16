@@ -16,7 +16,7 @@
 
 package com.goide.dlv;
 
-import consulo.application.util.concurrent.PooledThreadExecutor;
+import consulo.application.concurrent.ApplicationConcurrency;
 import consulo.util.concurrent.AsyncResult;
 import consulo.util.netty.NettyKt;
 import io.netty.bootstrap.Bootstrap;
@@ -29,10 +29,16 @@ import javax.annotation.Nonnull;
 import java.net.InetSocketAddress;
 
 public class DlvRemoteVmConnection extends RemoteVmConnection {
+  private final ApplicationConcurrency myApplicationConcurrency;
+
+  public DlvRemoteVmConnection(ApplicationConcurrency applicationConcurrency) {
+    myApplicationConcurrency = applicationConcurrency;
+  }
+
   @Nonnull
   @Override
   public Bootstrap createBootstrap(@Nonnull InetSocketAddress address, @Nonnull AsyncResult<Vm> vmResult) {
-    return NettyKt.oioClientBootstrap(PooledThreadExecutor.INSTANCE).handler(new ChannelInitializer() {
+    return NettyKt.oioClientBootstrap(myApplicationConcurrency.getExecutorService()).handler(new ChannelInitializer() {
       @Override
       protected void initChannel(@Nonnull Channel channel) throws Exception {
         vmResult.setDone(new DlvVm(getDebugEventListener(), channel));
