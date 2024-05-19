@@ -40,6 +40,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.module.Module;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.project.Project;
 import consulo.ui.ex.ColoredTextContainer;
 import consulo.ui.ex.SimpleTextAttributes;
@@ -138,7 +139,7 @@ public class DlvStackFrame extends XStackFrame {
   public void customizePresentation(@Nonnull ColoredTextContainer component) {
     super.customizePresentation(component);
     component.append(" at " + myLocation.function.name, SimpleTextAttributes.REGULAR_ATTRIBUTES);
-    component.setIcon(AllIcons.Debugger.StackFrame);
+    component.setIcon(PlatformIconGroup.debuggerFrame());
   }
 
   @Nonnull
