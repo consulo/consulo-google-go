@@ -20,6 +20,7 @@ import com.goide.GoTypes;
 import com.goide.codeInsight.imports.GoImportPackageQuickFix;
 import com.goide.psi.*;
 import com.goide.psi.impl.GoReference;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.ast.ASTNode;
@@ -112,6 +113,7 @@ public class GoUnresolvedReferenceInspection extends GoGeneralInspectionBase {
       }
 
       @Override
+      @RequiredReadAction
       public void visitImportSpec(@Nonnull GoImportSpec o) {
         if (o.isCImport()) return;
         GoImportString string = o.getImportString();
@@ -122,7 +124,7 @@ public class GoUnresolvedReferenceInspection extends GoGeneralInspectionBase {
             ResolveResult[] resolveResults = ((FileReference)reference).multiResolve(false);
             if (resolveResults.length == 0) {
               ProblemHighlightType type = reference.getRangeInElement().isEmpty() ? GENERIC_ERROR_OR_WARNING : LIKE_UNKNOWN_SYMBOL;
-              holder.registerProblem(reference, ProblemsHolder.unresolvedReferenceMessage(reference), type);
+              holder.registerProblem(reference, ProblemsHolder.unresolvedReferenceMessage(reference).get(), type);
             }
           }
         }
