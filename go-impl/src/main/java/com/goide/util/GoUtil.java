@@ -69,9 +69,6 @@ public class GoUtil {
     if (SystemInfo.isLinux) {
       return GoConstants.LINUX_OS;
     }
-    if (SystemInfo.isSolaris) {
-      return "solaris";
-    }
     if (SystemInfo.isWindows) {
       return "windows";
     }
