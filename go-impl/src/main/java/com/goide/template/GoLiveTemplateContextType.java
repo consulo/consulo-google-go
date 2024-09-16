@@ -20,19 +20,21 @@ import com.goide.GoLanguage;
 import com.goide.GoTypes;
 import com.goide.highlighting.GoSyntaxHighlighter;
 import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.language.editor.template.context.BaseTemplateContextType;
 import consulo.language.editor.template.context.TemplateContextType;
 import consulo.language.impl.psi.LeafPsiElement;
 import consulo.language.psi.*;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import consulo.util.lang.ObjectUtil;
 import org.jetbrains.annotations.NonNls;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-abstract public class GoLiveTemplateContextType extends TemplateContextType {
+abstract public class GoLiveTemplateContextType extends BaseTemplateContextType {
   protected GoLiveTemplateContextType(@Nonnull @NonNls String id,
-                                      @Nonnull String presentableName,
+                                      @Nonnull LocalizeValue presentableName,
                                       @Nullable Class<? extends TemplateContextType> baseContextType) {
     super(id, presentableName, baseContextType);
   }

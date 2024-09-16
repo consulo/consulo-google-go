@@ -11,6 +11,7 @@ import consulo.language.psi.PsiComment;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiErrorElement;
 import consulo.language.psi.PsiWhiteSpace;
+import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
 import javax.annotation.Nonnull;
@@ -19,7 +20,7 @@ import javax.annotation.Nonnull;
 public class GoStatementLiveTemplateContextType extends GoLiveTemplateContextType {
   @Inject
   GoStatementLiveTemplateContextType() {
-    super("GO_STATEMENT", "Statement", GoEverywhereContextType.class);
+    super("GO_STATEMENT", LocalizeValue.localizeTODO("Statement"), GoEverywhereContextType.class);
   }
 
   public static boolean onStatementBeginning(@Nonnull PsiElement psiElement) {

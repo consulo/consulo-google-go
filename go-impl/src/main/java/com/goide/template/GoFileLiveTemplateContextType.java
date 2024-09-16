@@ -6,6 +6,7 @@ import com.goide.psi.GoTopLevelDeclaration;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiComment;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
 import javax.annotation.Nonnull;
@@ -14,7 +15,7 @@ import javax.annotation.Nonnull;
 public class GoFileLiveTemplateContextType extends GoLiveTemplateContextType {
   @Inject
   GoFileLiveTemplateContextType() {
-    super("GO_FILE", "File", GoEverywhereContextType.class);
+    super("GO_FILE", LocalizeValue.localizeTODO("File"), GoEverywhereContextType.class);
   }
 
   @Override

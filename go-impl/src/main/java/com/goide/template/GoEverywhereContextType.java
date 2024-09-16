@@ -16,13 +16,13 @@
 
 package com.goide.template;
 
-import com.goide.GoConstants;
 import com.goide.GoTypes;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.template.context.EverywhereContextType;
 import consulo.language.impl.psi.LeafPsiElement;
 import consulo.language.psi.PsiComment;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
 import javax.annotation.Nonnull;
@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
 public class GoEverywhereContextType extends GoLiveTemplateContextType {
   @Inject
   protected GoEverywhereContextType() {
-    super("GO", GoConstants.GO, EverywhereContextType.class);
+    super("GO", LocalizeValue.localizeTODO("Go"), EverywhereContextType.class);
   }
 
   @Override

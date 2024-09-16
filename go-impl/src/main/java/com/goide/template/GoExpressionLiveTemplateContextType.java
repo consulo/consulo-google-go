@@ -3,6 +3,7 @@ package com.goide.template;
 import com.goide.psi.GoExpression;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
 import javax.annotation.Nonnull;
@@ -11,7 +12,7 @@ import javax.annotation.Nonnull;
 public class GoExpressionLiveTemplateContextType extends GoLiveTemplateContextType {
   @Inject
   GoExpressionLiveTemplateContextType() {
-    super("GO_EXPRESSION", "Expression", GoEverywhereContextType.class);
+    super("GO_EXPRESSION", LocalizeValue.localizeTODO("Expression"), GoEverywhereContextType.class);
   }
 
   @Override

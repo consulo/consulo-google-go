@@ -6,6 +6,7 @@ import com.goide.psi.GoSimpleStatement;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
 import javax.annotation.Nonnull;
@@ -14,7 +15,7 @@ import javax.annotation.Nonnull;
 public class GoBlockLiveTemplateContextType extends GoLiveTemplateContextType {
   @Inject
   GoBlockLiveTemplateContextType() {
-    super("GO_BLOCK", "Block", GoEverywhereContextType.class);
+    super("GO_BLOCK", LocalizeValue.localizeTODO("Block"), GoEverywhereContextType.class);
   }
 
   @Override

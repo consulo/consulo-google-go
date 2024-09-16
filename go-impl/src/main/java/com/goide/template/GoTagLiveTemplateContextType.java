@@ -7,6 +7,7 @@ import com.goide.psi.GoTypeReferenceExpression;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
 import javax.annotation.Nonnull;
@@ -16,7 +17,7 @@ import javax.annotation.Nullable;
 public class GoTagLiveTemplateContextType extends GoLiveTemplateContextType {
   @Inject
   GoTagLiveTemplateContextType() {
-    super("GO_TAG", "Tag", GoEverywhereContextType.class);
+    super("GO_TAG", LocalizeValue.localizeTODO("Tag"), GoEverywhereContextType.class);
   }
 
   @Override

@@ -4,6 +4,7 @@ import com.goide.psi.GoStringLiteral;
 import com.goide.psi.GoTag;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
 import javax.annotation.Nonnull;
@@ -12,7 +13,7 @@ import javax.annotation.Nonnull;
 public class GoTagLiteralLiveTemplateContextType extends GoLiveTemplateContextType {
   @Inject
   GoTagLiteralLiveTemplateContextType() {
-    super("GO_TAG_LITERAL", "Tag literal", GoEverywhereContextType.class);
+    super("GO_TAG_LITERAL", LocalizeValue.localizeTODO("Tag literal"), GoEverywhereContextType.class);
   }
 
   @Override
