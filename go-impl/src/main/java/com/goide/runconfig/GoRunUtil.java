@@ -31,6 +31,7 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiFileSystemItem;
 import consulo.language.psi.PsiManager;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import consulo.process.ProcessHandler;
 import consulo.process.ProcessOutputTypes;
 import consulo.process.cmd.GeneralCommandLine;
@@ -136,9 +137,12 @@ public class GoRunUtil {
     }
     else {
       //noinspection unchecked
-      field.addBrowseFolderListener(project, new ComponentWithBrowseButton.BrowseFolderActionListener(null, null, field, project,
-                                                                                                      chooseDirectoryDescriptor,
-                                                                                                      TextComponentAccessor.TEXT_FIELD_WITH_HISTORY_WHOLE_TEXT));
+      field.addActionListener(new ComponentWithBrowseButton.BrowseFolderActionListener(LocalizeValue.of(),
+                                                                                       LocalizeValue.of(),
+                                                                                       field,
+                                                                                       project,
+                                                                                       chooseDirectoryDescriptor,
+                                                                                       TextComponentAccessor.TEXT_FIELD_WITH_HISTORY_WHOLE_TEXT));
     }
   }
 
