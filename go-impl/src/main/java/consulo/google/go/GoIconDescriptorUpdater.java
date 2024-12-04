@@ -27,7 +27,6 @@ import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.language.icon.IconDescriptor;
 import consulo.language.icon.IconDescriptorUpdater;
 import consulo.language.psi.PsiElement;
-import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
 import consulo.util.lang.BitUtil;
 
@@ -43,7 +42,7 @@ public class GoIconDescriptorUpdater implements IconDescriptorUpdater {
   @Override
   public void updateIcon(@Nonnull IconDescriptor iconDescriptor, @Nonnull PsiElement element, int flags) {
     if (element instanceof GoFile && element.isValid() && GoTestFinder.isTestFile((GoFile)element)) {
-      iconDescriptor.setMainIcon(GoogleGoIconGroup.gofiletype()).addLayerIcon(PlatformIconGroup.nodesJunittestmark());
+      iconDescriptor.setMainIcon(GoogleGoIconGroup.gotest());
       return;
     }
 

@@ -21,7 +21,6 @@ import com.goide.dlv.protocol.DlvApi;
 import com.goide.dlv.protocol.DlvRequest;
 import com.goide.psi.*;
 import com.goide.sdk.GoSdkService;
-import consulo.application.AllIcons;
 import consulo.application.dumb.IndexNotReadyException;
 import consulo.application.util.SystemInfo;
 import consulo.document.Document;
@@ -35,12 +34,12 @@ import consulo.execution.debug.frame.XCompositeNode;
 import consulo.execution.debug.frame.XStackFrame;
 import consulo.execution.debug.frame.XValue;
 import consulo.execution.debug.frame.XValueChildrenList;
+import consulo.execution.debug.icon.ExecutionDebugIconGroup;
 import consulo.language.psi.PsiDocumentManager;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.module.Module;
-import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.project.Project;
 import consulo.ui.ex.ColoredTextContainer;
 import consulo.ui.ex.SimpleTextAttributes;
@@ -77,7 +76,7 @@ public class DlvStackFrame extends XStackFrame {
       @Override
       public void evaluate(@Nonnull String expression, @Nonnull XEvaluationCallback callback, @Nullable XSourcePosition expressionPosition) {
         myProcessor.send(new DlvRequest.Eval(expression, myId, myGoroutineId))
-                .doWhenDone(variable -> callback.evaluated(createXValue(variable.Variable, AllIcons.Debugger.Watch)))
+                .doWhenDone(variable -> callback.evaluated(createXValue(variable.Variable, ExecutionDebugIconGroup.nodeWatch())))
                 .doWhenRejectedWithThrowable(throwable -> callback.errorOccurred(throwable.getMessage()));
       }
 
@@ -139,7 +138,7 @@ public class DlvStackFrame extends XStackFrame {
   public void customizePresentation(@Nonnull ColoredTextContainer component) {
     super.customizePresentation(component);
     component.append(" at " + myLocation.function.name, SimpleTextAttributes.REGULAR_ATTRIBUTES);
-    component.setIcon(PlatformIconGroup.debuggerFrame());
+    component.setIcon(ExecutionDebugIconGroup.nodeFrame());
   }
 
   @Nonnull

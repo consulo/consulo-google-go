@@ -23,7 +23,6 @@ import com.goide.dlv.breakpoint.DlvBreakpointType;
 import com.goide.dlv.protocol.DlvRequest;
 import com.goide.util.GoUtil;
 import consulo.application.AccessToken;
-import consulo.application.AllIcons;
 import consulo.application.ReadAction;
 import consulo.disposer.Disposable;
 import consulo.execution.ExecutionResult;
@@ -34,6 +33,7 @@ import consulo.execution.debug.breakpoint.XBreakpointHandler;
 import consulo.execution.debug.breakpoint.XLineBreakpoint;
 import consulo.execution.debug.evaluation.XDebuggerEditorsProviderBase;
 import consulo.execution.debug.frame.XSuspendContext;
+import consulo.execution.debug.icon.ExecutionDebugIconGroup;
 import consulo.execution.ui.ExecutionConsole;
 import consulo.google.go.run.dlv.DlvSuspendContext;
 import consulo.google.go.run.dlv.api.DlvRequests;
@@ -273,10 +273,10 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
 
       send(DlvRequests.CreateBreakpoint.build(new Breakpoint(line + 1, file.getPath()))).doWhenDone(b -> {
         myBreakpoints.put(breakpoint, b.Breakpoint.id);
-        getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_verified_breakpoint, null);
+        getSession().updateBreakpointPresentation(breakpoint, ExecutionDebugIconGroup.breakpointBreakpointvalid(), null);
       }).doWhenRejectedWithThrowable(t -> {
         String message = t == null ? null : t.getMessage();
-        getSession().updateBreakpointPresentation(breakpoint, AllIcons.Debugger.Db_invalid_breakpoint, message);
+        getSession().updateBreakpointPresentation(breakpoint, ExecutionDebugIconGroup.breakpointBreakpointinvalid(), message);
       });
 
     }

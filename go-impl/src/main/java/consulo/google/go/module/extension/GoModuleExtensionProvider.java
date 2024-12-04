@@ -32,7 +32,7 @@ public class GoModuleExtensionProvider implements ModuleExtensionProvider<GoModu
   @Nonnull
   @Override
   public Image getIcon() {
-    return GoogleGoIconGroup.gomodule();
+    return GoogleGoIconGroup.go();
   }
 
   @Nonnull

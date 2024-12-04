@@ -20,13 +20,13 @@ import consulo.application.AllIcons;
 import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
-import consulo.ui.image.ImageEffects;
 
+@Deprecated
 public interface GoIcons {
   Image ICON = GoogleGoIconGroup.go();
   Image TYPE = PlatformIconGroup.nodesTypealias();
-  Image APPLICATION_RUN = ImageEffects.layered(ICON, AllIcons.Nodes.RunnableMark);
-  Image TEST_RUN = ImageEffects.layered(ICON, AllIcons.Nodes.JunitTestMark);
+  Image APPLICATION_RUN = GoogleGoIconGroup.goapp();
+  Image TEST_RUN = GoogleGoIconGroup.gotest();
   Image METHOD = AllIcons.Nodes.Method;
   Image FUNCTION = AllIcons.Nodes.Function;
   Image VARIABLE = AllIcons.Nodes.Variable;
@@ -36,6 +36,5 @@ public interface GoIcons {
   Image LABEL = null; // todo: we need an icon here!
   Image RECEIVER = AllIcons.Nodes.Parameter;
   Image PACKAGE = AllIcons.Nodes.Package;
-  Image DEBUG = ICON;
   Image DIRECTORY = AllIcons.Nodes.TreeClosed;
 }

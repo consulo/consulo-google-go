@@ -1,8 +1,8 @@
 package org.jetbrains.debugger;
 
-import consulo.application.AllIcons;
 import consulo.execution.debug.frame.XExecutionStack;
 import consulo.execution.debug.frame.XStackFrame;
+import consulo.execution.debug.icon.ExecutionDebugIconGroup;
 
 import javax.annotation.Nullable;
 
@@ -15,7 +15,7 @@ public class ExecutionStackView extends XExecutionStack {
   private SuspendContext mySuspendContext;
 
   public ExecutionStackView(SuspendContext suspendContext) {
-    super("", AllIcons.Debugger.ThreadAtBreakpoint);
+    super("", ExecutionDebugIconGroup.threadThreadatbreakpoint());
     mySuspendContext = suspendContext;
   }
 

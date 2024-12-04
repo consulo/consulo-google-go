@@ -17,11 +17,11 @@
 package com.goide.runconfig.application;
 
 import com.goide.GoConstants;
-import com.goide.GoIcons;
 import com.goide.runconfig.GoConfigurationFactoryBase;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.execution.configuration.RunConfiguration;
+import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.google.go.localize.GoLocalize;
 import consulo.project.Project;
 
@@ -30,7 +30,8 @@ import javax.annotation.Nonnull;
 @ExtensionImpl
 public class GoApplicationRunConfigurationType extends ConfigurationTypeBase {
   public GoApplicationRunConfigurationType() {
-    super("GoApplicationRunConfiguration", GoLocalize.goApplicationConfigurationName(), GoLocalize.goApplicationConfigurationDescription(), GoIcons.APPLICATION_RUN);
+    super("GoApplicationRunConfiguration", GoLocalize.goApplicationConfigurationName(), GoLocalize.goApplicationConfigurationDescription(),
+          GoogleGoIconGroup.goapp());
     addFactory(new GoConfigurationFactoryBase(this) {
       @Override
       @Nonnull
