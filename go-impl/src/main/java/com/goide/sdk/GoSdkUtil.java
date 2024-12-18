@@ -33,6 +33,7 @@ import consulo.language.util.ModuleUtilCore;
 import consulo.module.Module;
 import consulo.module.ModuleManager;
 import consulo.module.content.ProjectRootManager;
+import consulo.platform.Platform;
 import consulo.process.PathEnvironmentVariableUtil;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
@@ -52,6 +53,7 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -301,15 +303,23 @@ public class GoSdkUtil {
 
   @Nonnull
   public static List<String> suggestSdkDirectory() {
+    Platform platform = Platform.current();
+
     List<String> list = new SmartList<>();
     String goRoot = System.getenv(GoConstants.GO_ROOT);
     if (goRoot != null) {
       list.add(goRoot);
     }
 
-    if (SystemInfo.isWindows) {
+    if (platform.os().isWindows()) {
       list.add("C:\\Go");
       list.add("C:\\cygwin");
+      list.add("C:\\cygwin");
+
+      String programFiles = platform.os().getEnvironmentVariable("ProgramFiles");
+      if (programFiles != null) {
+        list.add(programFiles + "\\Go");
+      }
     }
 
     if (SystemInfo.isMac || SystemInfo.isLinux) {
@@ -369,24 +379,24 @@ public class GoSdkUtil {
   @Nullable
   public static String retrieveGoVersion(@Nonnull String sdkPath) {
     try {
-      VirtualFile sdkRoot = VirtualFileManager.getInstance().findFileByUrl(VirtualFileUtil.pathToUrl(sdkPath));
+      Path sdkRoot = Path.of(sdkPath);
       if (sdkRoot != null) {
-        VirtualFile versionFile = sdkRoot.findFileByRelativePath("VERSION");
+        Path versionFile = sdkRoot.resolve("VERSION");
         if (versionFile == null) {
-          versionFile = sdkRoot.findFileByRelativePath("src/" + GoConstants.GO_VERSION_NEW_FILE_PATH);
+          versionFile = sdkRoot.resolve("src/" + GoConstants.GO_VERSION_NEW_FILE_PATH);
         }
         if (versionFile == null) {
-          versionFile = sdkRoot.findFileByRelativePath("src/" + GoConstants.GO_VERSION_FILE_PATH);
+          versionFile = sdkRoot.resolve("src/" + GoConstants.GO_VERSION_FILE_PATH);
         }
         if (versionFile == null) {
-          versionFile = sdkRoot.findFileByRelativePath("src/pkg/" + GoConstants.GO_VERSION_FILE_PATH);
+          versionFile = sdkRoot.resolve("src/pkg/" + GoConstants.GO_VERSION_FILE_PATH);
         }
 
         if (versionFile != null) {
-          String text = Files.readString(VirtualFileUtil.virtualToIoFile(versionFile).toPath());
-          String version = parseGoVersion(text);
+          List<String> lines = Files.readAllLines(versionFile);
+          String version = lines.isEmpty() ? null : parseGoVersion(lines.get(0));
           if (version == null) {
-            GoSdkService.LOG.debug("Cannot retrieve go version from zVersion file: " + text);
+            GoSdkService.LOG.debug("Cannot retrieve go version from zVersion file: " + String.join("\n", lines));
           }
           return version;
         }

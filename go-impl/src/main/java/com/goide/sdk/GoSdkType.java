@@ -63,18 +63,18 @@ public class GoSdkType extends SdkType {
 
   @Override
   public boolean isValidSdkHome(@Nonnull String path) {
-    GoSdkService.LOG.debug("Validating sdk path: " + path);
+    GoSdkService.LOG.error("Validating sdk path: " + path);
     String executablePath = GoSdkService.getGoExecutablePath(path);
     if (executablePath == null) {
-      GoSdkService.LOG.debug("Go executable is not found: ");
+      GoSdkService.LOG.error("Go executable is not found: ");
       return false;
     }
     if (!new File(executablePath).canExecute()) {
-      GoSdkService.LOG.debug("Go binary cannot be executed: " + path);
+      GoSdkService.LOG.error("Go binary cannot be executed: " + path);
       return false;
     }
     if (getVersionString(path) != null) {
-      GoSdkService.LOG.debug("Cannot retrieve version for sdk: " + path);
+      GoSdkService.LOG.error("Cannot retrieve version for sdk: " + path);
       return true;
     }
     return false;
