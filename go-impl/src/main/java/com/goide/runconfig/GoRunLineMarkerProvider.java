@@ -21,7 +21,7 @@ import com.goide.GoLanguage;
 import com.goide.GoTypes;
 import com.goide.psi.GoFunctionDeclaration;
 import consulo.annotation.component.ExtensionImpl;
-import consulo.application.AllIcons;
+import consulo.execution.icon.ExecutionIconGroup;
 import consulo.execution.lineMarker.ExecutorAction;
 import consulo.execution.lineMarker.RunLineMarkerContributor;
 import consulo.language.Language;
@@ -44,7 +44,7 @@ public class GoRunLineMarkerProvider extends RunLineMarkerContributor {
       PsiFile file = e.getContainingFile();
       if (GoRunUtil.isMainGoFile(file) && parent instanceof GoFunctionDeclaration) {
         if (GoConstants.MAIN.equals(((GoFunctionDeclaration)parent).getName())) {
-          return new Info(AllIcons.RunConfigurations.TestState.Run, TOOLTIP_PROVIDER, ExecutorAction.getActions(0));
+          return new Info(ExecutionIconGroup.gutterRun(), TOOLTIP_PROVIDER, ExecutorAction.getActions(0));
         }
       }
     }
