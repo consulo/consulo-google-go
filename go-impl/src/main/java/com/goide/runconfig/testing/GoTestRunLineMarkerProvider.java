@@ -23,8 +23,9 @@ import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.GoMethodDeclaration;
 import com.goide.psi.GoReceiver;
 import com.goide.runconfig.GoRunUtil;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
-import consulo.application.AllIcons;
+import consulo.execution.icon.ExecutionIconGroup;
 import consulo.execution.lineMarker.ExecutorAction;
 import consulo.execution.lineMarker.RunLineMarkerContributor;
 import consulo.execution.test.TestIconMapper;
@@ -44,6 +45,7 @@ import java.util.function.Function;
 public class GoTestRunLineMarkerProvider extends RunLineMarkerContributor {
   private static final Function<PsiElement, String> TOOLTIP_PROVIDER = element -> "Run Test";
 
+  @RequiredReadAction
   @Nullable
   @Override
   public Info getInfo(PsiElement e) {
@@ -54,7 +56,7 @@ public class GoTestRunLineMarkerProvider extends RunLineMarkerContributor {
         return null;
       }
       if (GoRunUtil.isPackageContext(e)) {
-        return new Info(AllIcons.RunConfigurations.TestState.Run_run, TOOLTIP_PROVIDER, ExecutorAction.getActions(0));
+        return new Info(ExecutionIconGroup.gutterRerun(), TOOLTIP_PROVIDER, ExecutorAction.getActions(0));
       }
       else if (parent instanceof GoFunctionOrMethodDeclaration) {
         GoTestFunctionType functionType = GoTestFunctionType.fromName(((GoFunctionOrMethodDeclaration)parent).getName());
@@ -88,15 +90,15 @@ public class GoTestRunLineMarkerProvider extends RunLineMarkerContributor {
         switch (magnitude) {
           case ERROR_INDEX:
           case FAILED_INDEX:
-            return AllIcons.RunConfigurations.TestState.Red2;
+            return ExecutionIconGroup.gutterRunerror();
           case PASSED_INDEX:
           case COMPLETE_INDEX:
-            return AllIcons.RunConfigurations.TestState.Green2;
+            return ExecutionIconGroup.gutterRunsuccess();
           default:
         }
       }
     }
-    return AllIcons.RunConfigurations.TestState.Run;
+    return ExecutionIconGroup.gutterRun();
   }
 
   @Nonnull
