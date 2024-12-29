@@ -22,7 +22,7 @@ import com.intellij.codeInsight.generation.surroundWith.SurroundWithHandler;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiFile;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import java.util.List;
 

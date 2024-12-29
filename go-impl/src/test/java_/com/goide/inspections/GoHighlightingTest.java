@@ -18,7 +18,7 @@ package com.goide.inspections;
 
 import java.io.IOException;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.SdkAware;
 import com.goide.codeInsight.imports.GoImportOptimizerTest;

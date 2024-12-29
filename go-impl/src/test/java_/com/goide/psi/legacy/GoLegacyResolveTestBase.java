@@ -18,8 +18,8 @@ package com.goide.psi.legacy;
 
 import java.io.File;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.psi.GoFile;

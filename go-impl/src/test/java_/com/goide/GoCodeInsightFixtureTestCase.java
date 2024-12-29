@@ -35,7 +35,7 @@ import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.FileContentImpl;
 import com.intellij.util.indexing.IndexingDataKeys;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;

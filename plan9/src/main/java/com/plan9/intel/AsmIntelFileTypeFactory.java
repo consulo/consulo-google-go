@@ -21,7 +21,7 @@ import consulo.virtualFileSystem.fileType.FileNameMatcherFactory;
 import consulo.virtualFileSystem.fileType.FileTypeConsumer;
 import consulo.virtualFileSystem.fileType.FileTypeFactory;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class AsmIntelFileTypeFactory extends FileTypeFactory {

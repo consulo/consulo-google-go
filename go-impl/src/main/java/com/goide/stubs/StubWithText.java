@@ -22,7 +22,7 @@ import consulo.language.psi.stub.IStubElementType;
 import consulo.language.psi.stub.StubBase;
 import consulo.language.psi.stub.StubElement;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 abstract public class StubWithText<T extends PsiElement> extends StubBase<T> implements TextHolder {
   @Nullable private final StringRef myText;

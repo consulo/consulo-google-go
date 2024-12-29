@@ -30,7 +30,7 @@ import consulo.language.editor.action.SimpleTokenSetQuoteHandler;
 import consulo.language.psi.PsiElement;
 import consulo.virtualFileSystem.fileType.FileType;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoQuoteHandler extends SimpleTokenSetQuoteHandler implements JavaLikeQuoteHandler, FileQuoteHandler {

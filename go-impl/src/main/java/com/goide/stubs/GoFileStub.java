@@ -25,8 +25,8 @@ import consulo.language.psi.stub.IStubFileElementType;
 import consulo.language.psi.stub.PsiFileStubImpl;
 import consulo.language.psi.stub.StubElement;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class GoFileStub extends PsiFileStubImpl<GoFile> {
   private final StringRef myBuildFlags;

@@ -27,7 +27,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiRecursiveElementVisitor;
 import com.intellij.psi.PsiReference;
 import com.intellij.testFramework.fixtures.impl.CodeInsightTestFixtureImpl;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @SdkAware
 public abstract class GoImportOptimizerTest extends GoQuickFixTestBase {

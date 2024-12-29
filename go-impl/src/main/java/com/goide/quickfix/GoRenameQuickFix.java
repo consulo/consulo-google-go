@@ -33,7 +33,7 @@ import consulo.project.Project;
 import consulo.usage.UsageViewTypeLocation;
 import consulo.util.concurrent.AsyncResult;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.function.Consumer;
 
 public class GoRenameQuickFix extends LocalQuickFixOnPsiElement {

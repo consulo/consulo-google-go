@@ -19,7 +19,7 @@ package com.goide.runconfig.testing.frameworks.gobench;
 import com.goide.runconfig.testing.GoTestRunConfigurationProducerBase;
 import consulo.annotation.component.ExtensionImpl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GobenchRunConfigurationProducer extends GoTestRunConfigurationProducerBase implements Cloneable {

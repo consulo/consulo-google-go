@@ -29,7 +29,7 @@ import consulo.language.psi.PsiComment;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoEmptyDeclarationInspection extends GoInspectionBase implements CleanupLocalInspectionTool {

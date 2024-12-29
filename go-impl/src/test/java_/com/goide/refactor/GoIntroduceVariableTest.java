@@ -19,7 +19,7 @@ package com.goide.refactor;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.refactoring.RefactoringBundle;
 import com.intellij.refactoring.util.CommonRefactoringUtil;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoIntroduceVariableTest extends GoCodeInsightFixtureTestCase {
   @Nonnull

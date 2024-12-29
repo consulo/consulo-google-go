@@ -21,7 +21,7 @@ import com.goide.psi.GoMethodDeclaration;
 import com.goide.runconfig.testing.GoTestRunConfigurationProducerBase;
 import consulo.annotation.component.ExtensionImpl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GocheckRunConfigurationProducer extends GoTestRunConfigurationProducerBase implements Cloneable {

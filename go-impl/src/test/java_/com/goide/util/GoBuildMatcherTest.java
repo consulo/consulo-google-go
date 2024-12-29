@@ -19,7 +19,7 @@ package com.goide.util;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.ThreeState;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoBuildMatcherTest extends GoCodeInsightFixtureTestCase {
   public void testMatchFile() {

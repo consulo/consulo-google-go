@@ -24,7 +24,7 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.stub.*;
 import consulo.util.lang.StringUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoFileElementType extends IStubFileElementType<GoFileStub> {

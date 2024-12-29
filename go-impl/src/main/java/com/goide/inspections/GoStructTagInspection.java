@@ -26,7 +26,7 @@ import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * Implements <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/issues/1983"/>, an

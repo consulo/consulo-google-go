@@ -30,8 +30,8 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.stub.StubIndex;
 import consulo.module.Module;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.regex.Pattern;
 
 public class GocheckFramework extends GoTestFramework {

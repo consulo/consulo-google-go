@@ -17,7 +17,7 @@
 package com.goide.quickfix;
 
 import com.goide.inspections.unresolved.GoUnusedFunctionInspection;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoRenameFunctionQuickFixTest extends GoQuickFixTestBase {
   @Override

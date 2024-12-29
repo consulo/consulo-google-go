@@ -16,7 +16,7 @@
 
 package com.goide.inspections;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.goide.SdkAware;
 import com.goide.quickfix.GoQuickFixTestBase;

@@ -55,8 +55,8 @@ import org.jetbrains.debugger.StepAction;
 import org.jetbrains.debugger.Vm;
 import org.jetbrains.debugger.connection.VmConnection;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 

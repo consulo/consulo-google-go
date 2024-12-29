@@ -22,7 +22,7 @@ import consulo.fileEditor.structureView.tree.Sorter;
 import consulo.ui.image.Image;
 import org.jetbrains.annotations.NonNls;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Comparator;
 
 public class ExportabilitySorter implements Sorter {

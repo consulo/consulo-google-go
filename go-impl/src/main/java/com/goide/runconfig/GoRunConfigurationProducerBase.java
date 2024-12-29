@@ -26,8 +26,8 @@ import consulo.module.Module;
 import consulo.util.io.FileUtil;
 import consulo.util.lang.ref.Ref;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public abstract class GoRunConfigurationProducerBase<T extends GoRunConfigurationWithMain> extends RunConfigurationProducer<T> implements Cloneable {
   protected GoRunConfigurationProducerBase(@Nonnull ConfigurationType configurationType) {

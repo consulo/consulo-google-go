@@ -29,7 +29,7 @@ import consulo.language.psi.stub.StubOutputStream;
 import consulo.util.collection.ArrayFactory;
 import consulo.util.collection.ContainerUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Collection;
 

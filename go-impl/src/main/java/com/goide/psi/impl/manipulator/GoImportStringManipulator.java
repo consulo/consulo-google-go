@@ -23,7 +23,7 @@ import consulo.document.util.TextRange;
 import consulo.language.psi.AbstractElementManipulator;
 import consulo.language.util.IncorrectOperationException;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoImportStringManipulator extends AbstractElementManipulator<GoImportString> {

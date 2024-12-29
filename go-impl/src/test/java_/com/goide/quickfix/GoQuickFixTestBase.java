@@ -18,7 +18,7 @@ package com.goide.quickfix;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.codeInsight.intention.IntentionAction;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import java.util.List;
 

@@ -19,7 +19,7 @@ package com.goide.dlv.protocol;
 import com.google.gson.annotations.SerializedName;
 import consulo.logging.Logger;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @SuppressWarnings("unused")

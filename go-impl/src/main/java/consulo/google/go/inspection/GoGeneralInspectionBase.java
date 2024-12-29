@@ -3,7 +3,7 @@ package consulo.google.go.inspection;
 import com.goide.inspections.GoInspectionBase;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL

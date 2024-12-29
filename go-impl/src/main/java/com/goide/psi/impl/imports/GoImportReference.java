@@ -30,8 +30,8 @@ import consulo.language.psi.path.FileReferenceSet;
 import consulo.language.util.IncorrectOperationException;
 import consulo.util.collection.ArrayUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.*;
 
 public class GoImportReference extends FileReference {

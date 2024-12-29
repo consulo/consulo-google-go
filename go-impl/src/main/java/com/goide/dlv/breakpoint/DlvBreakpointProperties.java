@@ -18,7 +18,7 @@ package com.goide.dlv.breakpoint;
 
 import consulo.execution.debug.breakpoint.XBreakpointProperties;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public class DlvBreakpointProperties extends XBreakpointProperties<DlvBreakpointProperties> {
   @Nullable

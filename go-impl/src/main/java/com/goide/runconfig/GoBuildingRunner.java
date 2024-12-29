@@ -48,8 +48,8 @@ import consulo.util.lang.StringUtil;
 import jakarta.inject.Inject;
 import org.jetbrains.debugger.connection.RemoteVmConnection;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;

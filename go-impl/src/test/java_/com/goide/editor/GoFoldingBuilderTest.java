@@ -18,7 +18,7 @@ package com.goide.editor;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoFoldingBuilderTest extends GoCodeInsightFixtureTestCase {
   @Nonnull

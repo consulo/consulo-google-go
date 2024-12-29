@@ -29,7 +29,7 @@ import consulo.util.collection.ArrayFactory;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.lazy.LazyValue;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;

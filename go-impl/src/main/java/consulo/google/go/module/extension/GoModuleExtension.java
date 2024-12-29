@@ -28,8 +28,8 @@ import consulo.util.lang.ThreeState;
 import consulo.util.xml.serializer.XmlSerializer;
 import org.jdom.Element;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * @author VISTALL

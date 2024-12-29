@@ -6,7 +6,7 @@ import consulo.language.psi.PsiElement;
 import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoExpressionLiveTemplateContextType extends GoLiveTemplateContextType {

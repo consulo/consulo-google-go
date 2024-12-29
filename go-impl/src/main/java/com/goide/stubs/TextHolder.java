@@ -16,7 +16,7 @@
 
 package com.goide.stubs;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public interface TextHolder {
   @Nullable

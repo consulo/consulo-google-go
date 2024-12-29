@@ -23,7 +23,7 @@ import com.goide.psi.GoExpression;
 import com.goide.psi.impl.GoExpressionUtil;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 

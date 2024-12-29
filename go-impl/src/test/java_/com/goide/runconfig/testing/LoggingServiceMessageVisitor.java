@@ -19,7 +19,7 @@ package com.goide.runconfig.testing;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.containers.ContainerUtil;
 import jetbrains.buildServer.messages.serviceMessages.*;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Map;
 

@@ -26,8 +26,8 @@ import consulo.util.lang.StringUtil;
 import org.jetbrains.rpc.CommandProcessor;
 import org.jetbrains.rpc.RequestCallback;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;

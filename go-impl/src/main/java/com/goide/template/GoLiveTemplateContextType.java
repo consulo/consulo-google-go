@@ -29,8 +29,8 @@ import consulo.localize.LocalizeValue;
 import consulo.util.lang.ObjectUtil;
 import org.jetbrains.annotations.NonNls;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 abstract public class GoLiveTemplateContextType extends BaseTemplateContextType {
   protected GoLiveTemplateContextType(@Nonnull @NonNls String id,

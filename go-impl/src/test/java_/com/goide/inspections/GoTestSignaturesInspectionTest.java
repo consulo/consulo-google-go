@@ -18,7 +18,7 @@ package com.goide.inspections;
 
 import com.goide.SdkAware;
 import com.goide.quickfix.GoQuickFixTestBase;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @SdkAware
 public abstract class GoTestSignaturesInspectionTest extends GoQuickFixTestBase {

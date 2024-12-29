@@ -19,7 +19,7 @@ package com.goide.psi;
 import com.goide.GoLanguage;
 import consulo.language.ast.IElementType;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class GoTokenType extends IElementType {
   public GoTokenType(@Nonnull String debug) {

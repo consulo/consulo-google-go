@@ -20,7 +20,7 @@ import com.goide.psi.GoStringLiteral;
 import consulo.document.util.TextRange;
 import consulo.language.psi.LiteralTextEscaper;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Locale;
 
 public class GoStringLiteralEscaper extends LiteralTextEscaper<GoStringLiteral> {

@@ -20,7 +20,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.util.lang.StringUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoUnusedExportedFunctionInspection extends GoUnusedFunctionInspection {

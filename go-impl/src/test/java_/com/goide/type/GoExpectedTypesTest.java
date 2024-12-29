@@ -16,7 +16,7 @@
 
 package com.goide.type;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.SdkAware;

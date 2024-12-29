@@ -23,7 +23,7 @@ import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.testFramework.LexerTestCase;
 import consulo.testFramework.util.TestUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;

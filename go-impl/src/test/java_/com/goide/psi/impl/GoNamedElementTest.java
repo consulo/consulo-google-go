@@ -16,7 +16,7 @@
 
 package com.goide.psi.impl;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.psi.GoVarDefinition;

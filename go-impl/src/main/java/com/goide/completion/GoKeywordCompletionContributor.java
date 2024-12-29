@@ -36,7 +36,7 @@ import consulo.language.psi.PsiErrorElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.language.util.ProcessingContext;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Collection;
 
 import static com.goide.completion.GoCompletionUtil.CONTEXT_KEYWORD_PRIORITY;

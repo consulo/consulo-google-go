@@ -30,7 +30,7 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiReference;
 import consulo.language.psi.search.ReferencesSearch;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @ExtensionImpl

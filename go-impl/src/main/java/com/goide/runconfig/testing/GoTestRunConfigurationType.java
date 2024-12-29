@@ -23,7 +23,7 @@ import consulo.execution.configuration.RunConfiguration;
 import consulo.google.go.localize.GoLocalize;
 import consulo.project.Project;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoTestRunConfigurationType extends ConfigurationTypeBase {

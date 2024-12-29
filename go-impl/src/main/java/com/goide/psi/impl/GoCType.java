@@ -19,7 +19,7 @@ package com.goide.psi.impl;
 import com.goide.psi.GoCompositeElement;
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class GoCType extends GoLightType<GoCompositeElement> {
   protected GoCType(@Nonnull GoCompositeElement expression) {

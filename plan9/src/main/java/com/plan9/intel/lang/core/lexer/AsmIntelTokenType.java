@@ -20,7 +20,7 @@ import com.plan9.intel.lang.AsmIntelLanguage;
 import consulo.language.ast.IElementType;
 import org.jetbrains.annotations.NonNls;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class AsmIntelTokenType extends IElementType {
   public AsmIntelTokenType(@Nonnull @NonNls String debugName) {

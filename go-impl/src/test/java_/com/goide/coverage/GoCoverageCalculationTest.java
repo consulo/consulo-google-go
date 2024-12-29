@@ -21,7 +21,7 @@ import com.goide.runconfig.testing.coverage.GoCoverageAnnotator;
 import com.goide.runconfig.testing.coverage.GoCoverageProjectData;
 import com.goide.runconfig.testing.coverage.GoCoverageRunner;
 import com.intellij.openapi.vfs.VirtualFile;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import java.io.BufferedReader;
 import java.io.File;

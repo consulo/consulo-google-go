@@ -21,7 +21,7 @@ import consulo.execution.test.TestConsoleProperties;
 import consulo.util.dataholder.Key;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

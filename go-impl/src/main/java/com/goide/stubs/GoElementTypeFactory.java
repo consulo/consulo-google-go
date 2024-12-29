@@ -23,7 +23,7 @@ import com.goide.stubs.types.*;
 import consulo.language.psi.stub.IStubElementType;
 import consulo.util.lang.reflect.ReflectionUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 

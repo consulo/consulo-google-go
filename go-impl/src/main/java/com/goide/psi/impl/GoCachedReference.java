@@ -24,8 +24,8 @@ import consulo.language.psi.resolve.ResolveCache;
 import consulo.language.util.IncorrectOperationException;
 import consulo.util.collection.ArrayUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public abstract class GoCachedReference<T extends PsiElement> extends PsiReferenceBase<T> {
   protected GoCachedReference(@Nonnull T element) {

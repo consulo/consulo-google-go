@@ -20,8 +20,8 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiNameIdentifierOwner;
 import consulo.navigation.NavigationItem;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public interface GoNamedElement extends GoCompositeElement, GoTypeOwner, PsiNameIdentifierOwner, NavigationItem {
   boolean isPublic();

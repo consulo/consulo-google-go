@@ -26,8 +26,8 @@ import consulo.util.dataholder.Key;
 import consulo.util.lang.StringUtil;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;

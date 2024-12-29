@@ -24,7 +24,7 @@ import com.intellij.testFramework.PlatformTestUtil;
 import com.intellij.testFramework.UsefulTestCase;
 import consulo.disposer.Disposer;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import java.io.File;
 import java.io.IOException;

@@ -37,8 +37,8 @@ import consulo.util.lang.ObjectUtil;
 import consulo.util.lang.StringUtil;
 import org.jetbrains.annotations.TestOnly;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class GoCompletionUtil {
   public static final int KEYWORD_PRIORITY = 20;

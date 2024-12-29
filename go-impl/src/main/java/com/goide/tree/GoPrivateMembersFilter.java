@@ -24,7 +24,7 @@ import consulo.fileEditor.structureView.tree.Filter;
 import consulo.fileEditor.structureView.tree.TreeElement;
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class GoPrivateMembersFilter implements Filter {
   private final static String PRIVATE_MEMBERS_FILTER_TEXT = "Show Private Members";

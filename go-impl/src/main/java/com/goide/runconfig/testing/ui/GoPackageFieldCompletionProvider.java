@@ -23,7 +23,7 @@ import consulo.language.editor.ui.awt.TextFieldCompletionProvider;
 import consulo.language.psi.scope.GlobalSearchScope;
 import consulo.module.Module;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public class GoPackageFieldCompletionProvider extends TextFieldCompletionProvider {

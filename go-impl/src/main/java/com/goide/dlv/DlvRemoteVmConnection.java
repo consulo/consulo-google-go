@@ -25,7 +25,7 @@ import io.netty.channel.ChannelInitializer;
 import org.jetbrains.debugger.Vm;
 import org.jetbrains.debugger.connection.RemoteVmConnection;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.net.InetSocketAddress;
 
 public class DlvRemoteVmConnection extends RemoteVmConnection {

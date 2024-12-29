@@ -36,8 +36,8 @@ import consulo.util.collection.primitive.ints.IntObjectMap;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.io.*;
 import java.util.List;
 

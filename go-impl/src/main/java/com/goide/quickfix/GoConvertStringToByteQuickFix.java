@@ -25,7 +25,7 @@ import consulo.language.psi.PsiElement;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Arrays;
 
 import static com.goide.psi.impl.GoElementFactory.createExpression;

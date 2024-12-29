@@ -14,7 +14,7 @@ import consulo.language.psi.PsiWhiteSpace;
 import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoStatementLiveTemplateContextType extends GoLiveTemplateContextType {

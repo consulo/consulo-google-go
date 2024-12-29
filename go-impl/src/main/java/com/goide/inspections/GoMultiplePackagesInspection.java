@@ -28,7 +28,7 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.scratch.ScratchUtil;
 import consulo.language.psi.PsiDirectory;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 

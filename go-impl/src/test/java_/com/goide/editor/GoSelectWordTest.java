@@ -16,7 +16,7 @@
 
 package com.goide.editor;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import com.goide.GoCodeInsightFixtureTestCase;
 
 public abstract class GoSelectWordTest extends GoCodeInsightFixtureTestCase {

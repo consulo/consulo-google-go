@@ -28,7 +28,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.testFramework.exceptionCases.AssertionErrorCase;
 import com.intellij.usageView.UsageInfo;
 import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.List;

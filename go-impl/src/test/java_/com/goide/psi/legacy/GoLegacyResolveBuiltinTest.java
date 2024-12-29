@@ -17,7 +17,7 @@
 package com.goide.psi.legacy;
 
 import com.goide.SdkAware;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @SdkAware
 public abstract class GoLegacyResolveBuiltinTest extends GoLegacyResolveTestBase {

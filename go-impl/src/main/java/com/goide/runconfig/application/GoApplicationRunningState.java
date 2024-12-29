@@ -33,8 +33,8 @@ import consulo.process.event.ProcessEvent;
 import consulo.process.event.ProcessListener;
 import consulo.util.lang.StringUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.io.File;
 
 public class GoApplicationRunningState extends GoRunningState<GoApplicationConfiguration> {

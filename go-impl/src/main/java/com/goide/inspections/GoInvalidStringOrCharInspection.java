@@ -26,7 +26,7 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.impl.psi.LeafPsiElement;
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoInvalidStringOrCharInspection extends GoGeneralInspectionBase {

@@ -28,8 +28,8 @@ import consulo.util.collection.ArrayUtil;
 import consulo.util.lang.ThreeState;
 import org.jetbrains.annotations.Contract;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;

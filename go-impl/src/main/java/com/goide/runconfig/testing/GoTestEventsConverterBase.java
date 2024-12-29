@@ -19,7 +19,7 @@ package com.goide.runconfig.testing;
 import consulo.util.dataholder.Key;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.text.ParseException;
 
 public interface GoTestEventsConverterBase {

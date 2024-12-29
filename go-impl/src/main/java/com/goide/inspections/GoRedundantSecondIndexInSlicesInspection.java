@@ -30,7 +30,7 @@ import consulo.language.psi.PsiReference;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Trinity;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @ExtensionImpl

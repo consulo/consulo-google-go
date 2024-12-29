@@ -16,7 +16,7 @@
 
 package com.goide.inspections.suppression;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.goide.inspections.GoMultiplePackagesInspection;
 import com.goide.inspections.GoUnusedImportInspection;

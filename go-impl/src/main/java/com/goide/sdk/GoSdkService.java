@@ -36,8 +36,8 @@ import consulo.virtualFileSystem.util.VirtualFileUtil;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.TestOnly;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.io.File;
 import java.util.Set;
 

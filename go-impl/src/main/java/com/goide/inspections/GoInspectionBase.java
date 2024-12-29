@@ -31,8 +31,8 @@ import consulo.language.psi.PsiFile;
 import consulo.language.util.ModuleUtilCore;
 import consulo.util.lang.ObjectUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 abstract public class GoInspectionBase<State> extends LocalInspectionTool {
   protected static final GoVisitor DUMMY_VISITOR = new GoVisitor() {

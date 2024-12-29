@@ -20,7 +20,7 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.codeInsight.highlighting.ReadWriteAccessDetector;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import static com.intellij.codeInsight.highlighting.ReadWriteAccessDetector.Access.*;
 

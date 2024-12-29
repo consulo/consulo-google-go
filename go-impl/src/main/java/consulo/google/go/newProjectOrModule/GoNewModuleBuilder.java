@@ -30,7 +30,7 @@ import consulo.module.content.layer.ModifiableModuleRootLayer;
 import consulo.module.content.layer.ModifiableRootModel;
 import consulo.ui.ex.wizard.WizardStep;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.function.Consumer;
 
 /**

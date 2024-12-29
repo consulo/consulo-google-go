@@ -27,8 +27,8 @@ import consulo.language.psi.resolve.ResolveState;
 import consulo.language.psi.stub.IStubElementType;
 import consulo.language.psi.stub.StubBase;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public abstract class GoStubbedElementImpl<T extends StubBase<?>> extends StubBasedPsiElementBase<T> implements GoCompositeElement {
   public GoStubbedElementImpl(@Nonnull T stub, @Nonnull IStubElementType nodeType) {

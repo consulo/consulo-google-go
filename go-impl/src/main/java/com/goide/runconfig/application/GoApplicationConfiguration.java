@@ -37,7 +37,7 @@ import consulo.util.xml.serializer.WriteExternalException;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jdom.Element;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class GoApplicationConfiguration extends GoRunConfigurationWithMain<GoApplicationRunningState> {
   private static final String PACKAGE_ATTRIBUTE_NAME = "package";

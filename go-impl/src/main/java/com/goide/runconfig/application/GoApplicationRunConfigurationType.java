@@ -25,7 +25,7 @@ import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.google.go.localize.GoLocalize;
 import consulo.project.Project;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoApplicationRunConfigurationType extends ConfigurationTypeBase {

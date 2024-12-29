@@ -20,7 +20,7 @@ import com.goide.SdkAware;
 import com.goide.project.GoExcludedPathsSettings;
 import com.intellij.util.ArrayUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @SdkAware
 public abstract class GoExcludedPackagesTest extends GoCompletionTestBase {

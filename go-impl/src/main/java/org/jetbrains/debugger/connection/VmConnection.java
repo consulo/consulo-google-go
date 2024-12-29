@@ -12,7 +12,7 @@ import consulo.util.socketConnection.SocketConnectionListener;
 import org.jetbrains.debugger.DebugEventListener;
 import org.jetbrains.debugger.Vm;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import javax.swing.event.HyperlinkListener;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;

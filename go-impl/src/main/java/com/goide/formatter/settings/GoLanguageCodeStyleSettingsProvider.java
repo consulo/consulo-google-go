@@ -24,7 +24,7 @@ import consulo.language.codeStyle.setting.IndentOptionsEditor;
 import consulo.language.codeStyle.setting.LanguageCodeStyleSettingsProvider;
 import consulo.language.codeStyle.ui.setting.SmartIndentOptionsEditor;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {

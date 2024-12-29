@@ -16,7 +16,7 @@
 
 package com.goide.runconfig.testing;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.goide.runconfig.testing.frameworks.gobench.GobenchFramework;
 

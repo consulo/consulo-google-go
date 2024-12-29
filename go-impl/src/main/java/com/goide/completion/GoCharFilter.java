@@ -22,8 +22,8 @@ import consulo.language.editor.completion.lookup.CharFilter;
 import consulo.language.editor.completion.lookup.Lookup;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @ExtensionImpl
 public class GoCharFilter extends CharFilter {

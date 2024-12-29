@@ -22,7 +22,7 @@ import consulo.language.Language;
 import consulo.language.editor.refactoring.unwrap.UnwrapDescriptorBase;
 import consulo.language.editor.refactoring.unwrap.Unwrapper;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoUnwrapDescriptor extends UnwrapDescriptorBase {

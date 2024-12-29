@@ -55,8 +55,8 @@ import consulo.util.lang.ThreeState;
 import consulo.util.lang.ref.Ref;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;

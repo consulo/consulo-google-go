@@ -31,8 +31,8 @@ import consulo.language.psi.PsiReference;
 import consulo.language.util.ModuleUtilCore;
 import consulo.util.lang.StringUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class GoAutoImportInsertHandler<T extends GoNamedElement> implements InsertHandler<LookupElement> {
   public static final InsertHandler<LookupElement> SIMPLE_INSERT_HANDLER = new GoAutoImportInsertHandler<>();

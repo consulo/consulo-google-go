@@ -20,7 +20,7 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.psi.GoType;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoUnderlyingTypeTest extends GoCodeInsightFixtureTestCase {
   private void doTest(@Nonnull String text, String expected) {

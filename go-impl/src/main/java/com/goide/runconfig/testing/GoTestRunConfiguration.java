@@ -43,7 +43,7 @@ import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jdom.Element;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class GoTestRunConfiguration extends GoRunConfigurationBase<GoTestRunningState> {
   private static final String PATTERN_ATTRIBUTE_NAME = "pattern";

@@ -24,8 +24,8 @@ import consulo.execution.debug.frame.XExecutionStack;
 import consulo.execution.debug.frame.XStackFrame;
 import consulo.google.go.run.dlv.api.DlvRequests;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 

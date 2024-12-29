@@ -16,7 +16,7 @@
 
 package com.goide.quickfix;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoContinueNotInLoopQuickFixTest extends GoQuickFixTestBase {
   @Nonnull

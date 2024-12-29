@@ -25,7 +25,7 @@ import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiDirectory;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoSelfImportInspection extends GoGeneralInspectionBase {

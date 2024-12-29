@@ -16,7 +16,7 @@
 
 package com.goide.marker;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import com.goide.GoCodeInsightFixtureTestCase;
 
 public abstract class GoRecursiveMethodCallMarkerInfoTest extends GoCodeInsightFixtureTestCase {

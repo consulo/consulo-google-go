@@ -23,7 +23,7 @@ import consulo.language.codeStyle.ui.setting.CodeStyleAbstractConfigurable;
 import consulo.language.codeStyle.ui.setting.CodeStyleAbstractPanel;
 import consulo.language.codeStyle.ui.setting.TabbedLanguageCodeStylePanel;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class GoCodeStyleConfigurable extends CodeStyleAbstractConfigurable {
   public GoCodeStyleConfigurable(@Nonnull CodeStyleSettings settings, CodeStyleSettings cloneSettings) {

@@ -16,7 +16,7 @@
 
 package com.goide.psi.legacy;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import com.goide.project.GoBuildTargetSettings;
 
 public abstract class GoLegacyResolveCallsTest extends GoLegacyResolveTestBase {

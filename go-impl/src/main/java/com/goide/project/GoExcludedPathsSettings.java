@@ -30,8 +30,8 @@ import consulo.util.collection.ArrayUtil;
 import consulo.util.io.FileUtil;
 import consulo.util.xml.serializer.XmlSerializerUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @State(
     name = "GoExcludedPaths",

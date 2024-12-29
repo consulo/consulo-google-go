@@ -17,7 +17,7 @@
 package com.goide.inspections;
 
 import com.goide.quickfix.GoQuickFixTestBase;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoRedundantTypeDeclInCompositeLitTest extends GoQuickFixTestBase {
   @Override

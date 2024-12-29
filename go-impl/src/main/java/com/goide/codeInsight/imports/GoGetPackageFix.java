@@ -29,8 +29,8 @@ import consulo.undoRedo.CommandProcessor;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFileManager;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.function.Consumer;
 
 public class GoGetPackageFix extends LocalQuickFixBase implements HighPriorityAction {

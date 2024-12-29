@@ -23,7 +23,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.ide.navigation.GotoClassOrTypeContributor;
 import consulo.navigation.NavigationItem;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 @ExtensionImpl
 public class GoTypeContributor extends GoGotoContributorBase<GoTypeSpec> implements GotoClassOrTypeContributor {

@@ -35,7 +35,7 @@ import consulo.project.Project;
 import consulo.ui.ex.action.Presentation;
 import consulo.util.lang.StringUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Locale;
 
 public class GotestGenerateAction extends GoGenerateTestActionBase {

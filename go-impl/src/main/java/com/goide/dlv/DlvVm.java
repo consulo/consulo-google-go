@@ -32,7 +32,7 @@ import org.jetbrains.debugger.StandaloneVmHelper;
 import org.jetbrains.debugger.VmBase;
 import org.jetbrains.jsonProtocol.Request;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class DlvVm extends VmBase {

@@ -28,7 +28,7 @@ import consulo.language.psi.PsiFile;
 import consulo.project.Project;
 import org.jetbrains.annotations.Nls;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class GoReplaceAssignmentWithDeclarationQuickFix extends LocalQuickFixOnPsiElement {
   public static final String QUICK_FIX_NAME = "Replace with ':='";

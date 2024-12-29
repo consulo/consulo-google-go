@@ -26,8 +26,8 @@ import consulo.language.psi.PsiFile;
 import consulo.project.Project;
 import org.jetbrains.annotations.Nls;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class GoReplaceWithReturnStatementQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
   public static final String QUICK_FIX_NAME = "Replace with 'return'";

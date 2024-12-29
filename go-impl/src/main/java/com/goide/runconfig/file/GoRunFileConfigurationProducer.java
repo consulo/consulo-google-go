@@ -20,7 +20,7 @@ import com.goide.runconfig.GoRunConfigurationProducerBase;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiFile;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoRunFileConfigurationProducer extends GoRunConfigurationProducerBase<GoRunFileConfiguration> implements Cloneable {

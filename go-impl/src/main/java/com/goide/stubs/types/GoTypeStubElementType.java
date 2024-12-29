@@ -25,7 +25,7 @@ import consulo.language.psi.stub.StubInputStream;
 import consulo.language.psi.stub.StubOutputStream;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public abstract class GoTypeStubElementType extends GoStubElementType<GoTypeStub, GoType> {

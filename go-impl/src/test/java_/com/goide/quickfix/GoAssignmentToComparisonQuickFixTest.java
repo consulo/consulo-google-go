@@ -17,7 +17,7 @@
 package com.goide.quickfix;
 
 import com.goide.inspections.GoUsedAsValueInCondition;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoAssignmentToComparisonQuickFixTest extends GoQuickFixTestBase {
   @Override

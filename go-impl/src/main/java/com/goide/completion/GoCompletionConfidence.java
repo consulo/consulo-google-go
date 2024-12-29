@@ -25,7 +25,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.util.lang.ThreeState;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl(order = "last")
 public class GoCompletionConfidence extends CompletionConfidence {

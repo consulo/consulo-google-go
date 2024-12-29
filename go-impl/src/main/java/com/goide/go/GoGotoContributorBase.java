@@ -28,7 +28,7 @@ import consulo.language.psi.stub.StubIndex;
 import consulo.language.psi.stub.StubIndexKey;
 import consulo.navigation.NavigationItem;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class GoGotoContributorBase<T extends GoNamedElement> implements ChooseByNameContributorEx {
   private final StubIndexKey<String, T>[] myIndexKeys;

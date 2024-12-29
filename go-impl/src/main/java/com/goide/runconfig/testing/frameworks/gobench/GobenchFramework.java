@@ -28,8 +28,8 @@ import consulo.execution.test.sm.runner.OutputToGeneralTestEventsConverter;
 import consulo.language.psi.PsiFile;
 import consulo.module.Module;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class GobenchFramework extends GoTestFramework {
   public static final String NAME = "gobench";

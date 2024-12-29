@@ -20,7 +20,7 @@ import consulo.util.collection.ArrayUtil;
 import consulo.util.lang.ThreeState;
 import consulo.util.xml.serializer.annotation.Tag;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Arrays;
 
 @Tag("buildTags")

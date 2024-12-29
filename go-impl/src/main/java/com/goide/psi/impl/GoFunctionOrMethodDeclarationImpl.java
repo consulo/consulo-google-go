@@ -23,8 +23,8 @@ import consulo.language.ast.ASTNode;
 import consulo.language.psi.resolve.ResolveState;
 import consulo.language.psi.stub.IStubElementType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 abstract public class GoFunctionOrMethodDeclarationImpl<T extends GoFunctionOrMethodDeclarationStub<?>> extends GoNamedElementImpl<T>
   implements GoFunctionOrMethodDeclaration {

@@ -27,7 +27,7 @@ import consulo.language.psi.stub.StubOutputStream;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.collection.ArrayFactory;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoConstDefinitionStubElementType extends GoNamedStubElementType<GoConstDefinitionStub, GoConstDefinition> {

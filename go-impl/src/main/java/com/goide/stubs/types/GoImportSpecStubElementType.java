@@ -26,7 +26,7 @@ import consulo.language.psi.stub.StubOutputStream;
 import consulo.util.collection.ArrayFactory;
 import consulo.util.lang.StringUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoImportSpecStubElementType extends GoNamedStubElementType<GoImportSpecStub, GoImportSpec> {

@@ -25,7 +25,7 @@ import consulo.module.extension.ModuleExtensionHelper;
 import consulo.project.Project;
 import consulo.util.dataholder.Key;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoConfigurationFactoryBase extends ConfigurationFactory {
   protected GoConfigurationFactoryBase(ConfigurationType type) {

@@ -35,7 +35,7 @@ import consulo.language.util.ModuleUtilCore;
 import consulo.module.Module;
 import consulo.util.lang.Comparing;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import static com.goide.GoConstants.INIT;
 import static com.goide.GoConstants.MAIN;

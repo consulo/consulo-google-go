@@ -21,7 +21,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Language;
 import consulo.language.spellcheker.SpellcheckingStrategy;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoSpellcheckingStrategy extends SpellcheckingStrategy {

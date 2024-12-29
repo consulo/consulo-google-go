@@ -37,8 +37,8 @@ import consulo.virtualFileSystem.util.VirtualFileVisitor;
 import jakarta.inject.Inject;
 import org.jetbrains.annotations.TestOnly;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.HashMap;

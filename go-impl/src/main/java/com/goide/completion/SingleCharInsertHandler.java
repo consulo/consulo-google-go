@@ -23,7 +23,7 @@ import consulo.language.editor.completion.lookup.InsertHandler;
 import consulo.language.editor.completion.lookup.InsertionContext;
 import consulo.language.editor.completion.lookup.LookupElement;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class SingleCharInsertHandler implements InsertHandler<LookupElement> {
   private final char myChar;

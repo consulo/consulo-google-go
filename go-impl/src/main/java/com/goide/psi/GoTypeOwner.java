@@ -18,7 +18,7 @@ package com.goide.psi;
 
 import consulo.language.psi.resolve.ResolveState;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 public interface GoTypeOwner extends GoCompositeElement {
   @Nullable

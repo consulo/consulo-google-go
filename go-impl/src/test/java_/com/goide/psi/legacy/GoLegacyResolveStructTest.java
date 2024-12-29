@@ -16,7 +16,7 @@
 
 package com.goide.psi.legacy;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoLegacyResolveStructTest extends GoLegacyResolveTestBase {
   @Nonnull

@@ -32,8 +32,8 @@ import consulo.util.collection.primitive.objects.ObjectMaps;
 import consulo.util.dataholder.Key;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.List;
 

@@ -23,7 +23,7 @@ import consulo.module.ui.awt.SdkComboBox;
 import consulo.ui.ex.awt.LabeledComponent;
 import consulo.util.lang.function.Conditions;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.awt.*;
 
 /**

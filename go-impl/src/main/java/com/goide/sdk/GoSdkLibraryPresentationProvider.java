@@ -24,8 +24,8 @@ import consulo.content.library.LibraryPresentationProvider;
 import consulo.ui.image.Image;
 import consulo.virtualFileSystem.VirtualFile;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.List;
 
 @ExtensionImpl

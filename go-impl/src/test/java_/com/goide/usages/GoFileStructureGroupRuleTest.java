@@ -26,7 +26,7 @@ import com.intellij.usages.Usage;
 import com.intellij.usages.UsageGroup;
 import com.intellij.usages.UsageInfo2UsageAdapter;
 import com.intellij.util.containers.ContainerUtil;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 

@@ -26,7 +26,7 @@ import consulo.process.ProcessHandler;
 import consulo.process.cmd.GeneralCommandLine;
 import consulo.process.local.ProcessHandlerFactory;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoRunningState<T extends GoRunConfigurationBase<?>> extends CommandLineState {
   @Nonnull

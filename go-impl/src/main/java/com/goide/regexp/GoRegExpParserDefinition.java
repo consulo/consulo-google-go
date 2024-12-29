@@ -26,7 +26,7 @@ import consulo.language.psi.PsiFile;
 import consulo.language.version.LanguageVersion;
 import org.intellij.lang.regexp.*;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.EnumSet;
 
 @ExtensionImpl

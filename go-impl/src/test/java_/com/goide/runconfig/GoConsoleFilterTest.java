@@ -19,7 +19,7 @@ package com.goide.runconfig;
 import java.io.IOException;
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.execution.filters.Filter;

@@ -25,7 +25,7 @@ import consulo.language.psi.stub.StubInputStream;
 import consulo.language.psi.stub.StubOutputStream;
 import consulo.util.lang.StringUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoReceiverStubElementType extends GoNamedStubElementType<GoReceiverStub, GoReceiver> {

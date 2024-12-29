@@ -17,7 +17,7 @@
 package com.goide.quickfix;
 
 import com.goide.inspections.GoExportedOwnDeclarationInspection;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoExportedOwnDeclarationQuickFixTest extends GoQuickFixTestBase {
   @Override

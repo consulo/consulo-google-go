@@ -19,8 +19,8 @@ package com.goide;
 import consulo.language.Language;
 import consulo.language.file.LanguageFileType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class GoLanguage extends Language {
   public static final Language INSTANCE = new GoLanguage();

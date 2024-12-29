@@ -23,8 +23,8 @@ import com.goide.psi.impl.GoTypeUtil;
 import consulo.document.util.TextRange;
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public abstract class GoBoolExpressionSurrounderBase extends GoExpressionSurrounder {
   @Override

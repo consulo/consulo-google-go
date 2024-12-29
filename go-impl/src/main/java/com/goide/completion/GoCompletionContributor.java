@@ -40,7 +40,7 @@ import consulo.language.util.ProcessingContext;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.function.Conditions;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Collection;
 
 import static consulo.language.editor.completion.lookup.PrioritizedLookupElement.withPriority;

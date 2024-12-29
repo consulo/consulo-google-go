@@ -18,7 +18,7 @@ package com.goide.editor;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.openapi.actionSystem.IdeActions;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoStatementMoverTest extends GoCodeInsightFixtureTestCase {
   public void testSimpleStatement() {

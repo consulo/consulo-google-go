@@ -19,7 +19,7 @@ package com.goide.generate;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.runconfig.testing.GoTestFunctionType;
 import com.goide.runconfig.testing.frameworks.gotest.GotestGenerateAction;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoGenerateTestActionTest extends GoCodeInsightFixtureTestCase {
   public void testTest() {

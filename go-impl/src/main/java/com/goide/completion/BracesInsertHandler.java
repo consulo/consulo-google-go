@@ -30,7 +30,7 @@ import consulo.project.Project;
 import consulo.ui.ex.action.IdeActions;
 import consulo.util.lang.StringUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 public class BracesInsertHandler implements InsertHandler<LookupElement> {
   public static final BracesInsertHandler ONE_LINER = new BracesInsertHandler(true);
   public static final BracesInsertHandler INSTANCE = new BracesInsertHandler(false);

@@ -24,7 +24,7 @@ import consulo.language.psi.PsiElement;
 import consulo.project.Project;
 import consulo.util.lang.ObjectUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class GoDeleteQuickFix extends LocalQuickFixBase {
   private final Class<? extends PsiElement> myClazz;

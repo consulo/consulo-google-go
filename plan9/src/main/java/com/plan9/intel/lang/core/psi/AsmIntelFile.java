@@ -20,7 +20,7 @@ import com.plan9.intel.lang.AsmIntelLanguage;
 import consulo.language.file.FileViewProvider;
 import consulo.language.impl.psi.PsiFileBase;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class AsmIntelFile extends PsiFileBase {
   public AsmIntelFile(@Nonnull FileViewProvider viewProvider) {

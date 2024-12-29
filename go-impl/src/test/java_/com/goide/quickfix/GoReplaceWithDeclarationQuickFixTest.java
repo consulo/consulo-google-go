@@ -18,7 +18,7 @@ package com.goide.quickfix;
 
 import com.goide.inspections.unresolved.GoReplaceAssignmentWithDeclarationQuickFix;
 import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoReplaceWithDeclarationQuickFixTest extends GoQuickFixTestBase {
   @Override

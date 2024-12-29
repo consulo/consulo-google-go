@@ -29,7 +29,7 @@ import consulo.language.psi.stub.StubIndexKey;
 import consulo.util.lang.StringUtil;
 import org.jetbrains.annotations.NonNls;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Collections;
 

@@ -23,8 +23,8 @@ import consulo.language.ast.IElementType;
 import consulo.language.editor.refactoring.NamesValidator;
 import consulo.project.Project;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @ExtensionImpl
 public class GoNamesValidator implements NamesValidator {

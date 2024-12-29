@@ -24,8 +24,8 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.language.util.ModuleUtilCore;
 import consulo.module.Module;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class GoFieldNameReference extends GoCachedReference<GoReferenceExpressionBase> {
   public GoFieldNameReference(@Nonnull GoReferenceExpressionBase element) {

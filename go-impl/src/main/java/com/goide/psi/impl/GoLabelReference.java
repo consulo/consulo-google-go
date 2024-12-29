@@ -21,8 +21,8 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.resolve.ResolveState;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Collection;
 
 public class GoLabelReference extends GoCachedReference<GoLabelRef> {

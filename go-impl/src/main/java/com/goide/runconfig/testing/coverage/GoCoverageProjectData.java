@@ -20,7 +20,7 @@ import com.intellij.rt.coverage.data.CoverageData;
 import com.intellij.rt.coverage.data.ProjectData;
 import consulo.application.util.function.Processor;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 

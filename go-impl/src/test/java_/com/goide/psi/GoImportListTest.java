@@ -18,7 +18,7 @@ package com.goide.psi;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.openapi.command.WriteCommandAction;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoImportListTest extends GoCodeInsightFixtureTestCase {
   public void testAddImportToEmptyList()                                { doAddImportTest(); }

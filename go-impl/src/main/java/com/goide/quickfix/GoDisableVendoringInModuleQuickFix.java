@@ -28,8 +28,8 @@ import consulo.module.content.layer.ModifiableRootModel;
 import consulo.project.Project;
 import consulo.util.lang.ThreeState;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import static com.goide.project.GoVendoringUtil.isVendoringEnabled;
 import static com.goide.project.GoVendoringUtil.vendoringCanBeDisabled;

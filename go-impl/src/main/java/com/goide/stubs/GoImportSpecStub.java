@@ -21,8 +21,8 @@ import consulo.index.io.StringRef;
 import consulo.language.psi.stub.IStubElementType;
 import consulo.language.psi.stub.StubElement;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class GoImportSpecStub extends GoNamedStub<GoImportSpec> {
   @Nullable

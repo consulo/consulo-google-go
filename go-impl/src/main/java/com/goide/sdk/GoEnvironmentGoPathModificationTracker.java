@@ -32,7 +32,7 @@ import consulo.virtualFileSystem.event.VirtualFileCopyEvent;
 import consulo.virtualFileSystem.event.VirtualFileEvent;
 import consulo.virtualFileSystem.event.VirtualFileMoveEvent;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashSet;

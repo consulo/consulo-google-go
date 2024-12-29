@@ -19,7 +19,7 @@ package com.goide.tree;
 import com.goide.psi.GoNamedElement;
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Comparator;
 
 public class ExportabilityComparator implements Comparator {

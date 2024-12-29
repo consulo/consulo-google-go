@@ -22,8 +22,8 @@ import com.goide.dlv.protocol.DlvApi;
 import consulo.execution.debug.frame.XExecutionStack;
 import consulo.execution.debug.frame.XSuspendContext;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class DlvSuspendContext extends XSuspendContext {
   @Nonnull

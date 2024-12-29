@@ -24,8 +24,8 @@ import consulo.language.psi.PsiElement;
 import consulo.util.collection.ArrayUtil;
 import consulo.util.lang.ObjectUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public abstract class GoExpressionSurrounder implements Surrounder {
   @Override

@@ -4,7 +4,7 @@ import consulo.execution.debug.frame.XExecutionStack;
 import consulo.execution.debug.frame.XStackFrame;
 import consulo.execution.debug.icon.ExecutionDebugIconGroup;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * @author VISTALL

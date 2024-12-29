@@ -18,7 +18,7 @@ package com.goide.rename;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.refactoring.util.CommonRefactoringUtil;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoRenameTest extends GoCodeInsightFixtureTestCase {
   public void testAnonymousField() {

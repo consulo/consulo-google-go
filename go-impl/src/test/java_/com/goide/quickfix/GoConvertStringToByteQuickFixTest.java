@@ -18,7 +18,7 @@ package com.goide.quickfix;
 
 import com.goide.SdkAware;
 import com.goide.inspections.GoStringAndByteTypeMismatchInspection;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @SdkAware
 public abstract class GoConvertStringToByteQuickFixTest extends GoQuickFixTestBase {

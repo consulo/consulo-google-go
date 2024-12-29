@@ -41,8 +41,8 @@ import consulo.ui.ex.popup.JBPopupFactory;
 import consulo.util.lang.StringUtil;
 import org.jetbrains.annotations.TestOnly;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 

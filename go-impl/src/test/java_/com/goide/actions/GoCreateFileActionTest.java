@@ -22,7 +22,7 @@ import com.intellij.ide.actions.CreateFileFromTemplateAction;
 import com.intellij.ide.fileTemplates.impl.CustomFileTemplate;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.psi.PsiDirectory;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import java.io.IOException;
 

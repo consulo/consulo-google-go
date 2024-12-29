@@ -22,7 +22,7 @@ import consulo.execution.runner.ExecutionEnvironment;
 import consulo.module.Module;
 import consulo.process.ExecutionException;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class GoRunFileRunningState extends GoRunningState<GoRunFileConfiguration> {
   public GoRunFileRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module, GoRunFileConfiguration configuration) {

@@ -23,8 +23,8 @@ import consulo.language.psi.PsiElement;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.Trinity;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class GoExpressionUtil {
 

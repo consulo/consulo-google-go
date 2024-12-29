@@ -1,6 +1,6 @@
 package org.jetbrains.debugger;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * @author VISTALL

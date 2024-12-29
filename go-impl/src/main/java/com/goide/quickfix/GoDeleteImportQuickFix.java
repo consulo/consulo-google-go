@@ -26,7 +26,7 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class GoDeleteImportQuickFix extends LocalQuickFixBase {
   public static final String QUICK_FIX_NAME = "Delete import";

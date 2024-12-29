@@ -32,8 +32,8 @@ import consulo.language.editor.template.TemplateSettings;
 import consulo.language.util.ProcessingContext;
 import consulo.util.lang.ObjectUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class GoKeywordCompletionProvider implements CompletionProvider {
   public static final InsertHandler<LookupElement> EMPTY_INSERT_HANDLER = (context, element) -> {

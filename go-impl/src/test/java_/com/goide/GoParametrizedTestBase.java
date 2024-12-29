@@ -16,7 +16,7 @@
 
 package com.goide;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

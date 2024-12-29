@@ -59,7 +59,7 @@ import consulo.virtualFileSystem.event.VirtualFileListener;
 import jakarta.inject.Inject;
 import org.jetbrains.annotations.TestOnly;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import javax.swing.event.HyperlinkEvent;
 import java.util.Collection;
 import java.util.HashSet;

@@ -20,7 +20,7 @@ import com.goide.psi.GoTypeReferenceExpression;
 import com.goide.psi.GoTypeSpec;
 import consulo.language.psi.PsiElement;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class GoTypeProcessor extends GoScopeProcessorBase {
   public GoTypeProcessor(@Nonnull GoTypeReferenceExpression origin, boolean completion) {

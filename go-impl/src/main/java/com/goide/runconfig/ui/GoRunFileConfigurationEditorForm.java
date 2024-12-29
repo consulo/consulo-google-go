@@ -24,7 +24,7 @@ import consulo.project.Project;
 import consulo.ui.ex.awt.FormBuilder;
 import consulo.ui.ex.awt.TextFieldWithBrowseButton;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import javax.swing.*;
 
 public class GoRunFileConfigurationEditorForm extends SettingsEditor<GoRunFileConfiguration> {

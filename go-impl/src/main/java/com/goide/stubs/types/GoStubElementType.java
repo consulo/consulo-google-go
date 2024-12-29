@@ -25,7 +25,7 @@ import consulo.language.psi.stub.IndexSink;
 import consulo.language.psi.stub.StubBase;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public abstract class GoStubElementType<S extends StubBase<T>, T extends GoCompositeElement> extends IStubElementType<S, T> {
   public GoStubElementType(@Nonnull String debugName) {

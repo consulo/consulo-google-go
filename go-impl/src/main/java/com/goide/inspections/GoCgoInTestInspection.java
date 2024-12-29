@@ -24,7 +24,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.ProblemsHolder;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoCgoInTestInspection extends GoGeneralInspectionBase {

@@ -30,8 +30,8 @@ import consulo.usage.rule.FileStructureGroupRuleProvider;
 import consulo.usage.rule.PsiElementUsage;
 import consulo.usage.rule.UsageGroupingRule;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @ExtensionImpl
 public class GoFileStructureGroupRuleProvider implements FileStructureGroupRuleProvider {

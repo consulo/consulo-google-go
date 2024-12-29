@@ -11,7 +11,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import org.jetbrains.debugger.Vm;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Future;
