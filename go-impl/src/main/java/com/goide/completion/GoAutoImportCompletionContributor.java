@@ -55,7 +55,7 @@ import static com.goide.psi.impl.GoPsiImplUtil.prevDot;
 import static com.goide.stubs.index.GoAllPublicNamesIndex.ALL_PUBLIC_NAMES;
 import static consulo.language.pattern.PlatformPatterns.psiElement;
 
-@ExtensionImpl(order = "last")
+@ExtensionImpl
 public class GoAutoImportCompletionContributor extends CompletionContributor {
   public GoAutoImportCompletionContributor() {
     extend(CompletionType.BASIC, inGoFile(), new CompletionProvider() {

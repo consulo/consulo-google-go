@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
 
 //todo @ExtensionImpl
 public class GoConsoleFilter implements Filter {
-  private static final Pattern MESSAGE_PATTERN = Pattern.compile("(?:^|\\s)(\\S+\\.\\w+):(\\d+)(:(\\d+))?(?=[:\\s]|$).*");
+  public static final Pattern MESSAGE_PATTERN = Pattern.compile("(?:^|\\s)(\\S+\\.\\w+):(\\d+)(:(\\d+))?(?=[:\\s]|$).*");
   private static final Pattern GO_GET_MESSAGE_PATTERN = Pattern.compile("^[ \t]*(go get (.*))\n?$");
   private static final Pattern APP_ENGINE_PATH_PATTERN = Pattern.compile("/tmp[A-z0-9]+appengine-go-bin/");
   private static final Pattern GO_FILE_PATTERN = Pattern.compile("\\((\\w+\\.go)\\)");

@@ -16,6 +16,7 @@
 
 package com.goide.runconfig;
 
+import com.goide.compiler.GoCompiler;
 import consulo.compiler.execution.CompileStepBeforeRun;
 import consulo.execution.BeforeRunTask;
 import consulo.execution.configuration.ConfigurationFactory;
@@ -24,24 +25,26 @@ import consulo.google.go.module.extension.GoModuleExtension;
 import consulo.module.extension.ModuleExtensionHelper;
 import consulo.project.Project;
 import consulo.util.dataholder.Key;
-
 import jakarta.annotation.Nonnull;
 
 public abstract class GoConfigurationFactoryBase extends ConfigurationFactory {
-  protected GoConfigurationFactoryBase(ConfigurationType type) {
-    super(type);
-  }
-
-  @Override
-  public void configureBeforeRunTaskDefaults(Key<? extends BeforeRunTask> providerID, BeforeRunTask task) {
-    super.configureBeforeRunTaskDefaults(providerID, task);
-    if (providerID == CompileStepBeforeRun.ID) {
-      task.setEnabled(false);
+    protected GoConfigurationFactoryBase(ConfigurationType type) {
+        super(type);
     }
-  }
 
-  @Override
-  public boolean isApplicable(@Nonnull Project project) {
-    return ModuleExtensionHelper.getInstance(project).hasModuleExtension(GoModuleExtension.class);
-  }
+    @Override
+    public void configureBeforeRunTaskDefaults(Key<? extends BeforeRunTask> providerID, BeforeRunTask task) {
+        super.configureBeforeRunTaskDefaults(providerID, task);
+
+        if (!GoCompiler.ENABLE_COMPILER) {
+            if (providerID == CompileStepBeforeRun.ID) {
+                task.setEnabled(false);
+            }
+        }
+    }
+
+    @Override
+    public boolean isApplicable(@Nonnull Project project) {
+        return ModuleExtensionHelper.getInstance(project).hasModuleExtension(GoModuleExtension.class);
+    }
 }

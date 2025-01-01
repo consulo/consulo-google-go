@@ -27,7 +27,7 @@ import consulo.util.lang.ThreeState;
 
 import jakarta.annotation.Nonnull;
 
-@ExtensionImpl(order = "last")
+@ExtensionImpl
 public class GoCompletionConfidence extends CompletionConfidence {
   @Nonnull
   @Override
