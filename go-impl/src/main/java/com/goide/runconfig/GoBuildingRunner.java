@@ -17,8 +17,6 @@
 package com.goide.runconfig;
 
 import com.goide.GoEnvironmentUtil;
-import com.goide.dlv.DlvDebugProcess;
-import com.goide.dlv.DlvRemoteVmConnection;
 import com.goide.runconfig.application.GoApplicationConfiguration;
 import com.goide.runconfig.application.GoApplicationRunningState;
 import com.goide.util.GoHistoryProcessListener;
@@ -37,6 +35,7 @@ import consulo.execution.runner.ExecutionEnvironment;
 import consulo.execution.runner.RunContentBuilder;
 import consulo.execution.ui.RunContentDescriptor;
 import consulo.externalService.statistic.UsageTrigger;
+import consulo.go.debug.GoDebugProcess;
 import consulo.process.ExecutionException;
 import consulo.process.event.ProcessEvent;
 import consulo.process.event.ProcessListener;
@@ -45,15 +44,12 @@ import consulo.util.concurrent.AsyncResult;
 import consulo.util.io.FileUtil;
 import consulo.util.io.NetUtil;
 import consulo.util.lang.StringUtil;
-import jakarta.inject.Inject;
-import org.jetbrains.debugger.connection.RemoteVmConnection;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
+
 import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 
 @ExtensionImpl(order = "before goRunner")
 public class GoBuildingRunner extends AsyncGenericProgramRunner {
@@ -75,7 +71,7 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
   @Override
   public boolean canRun(@Nonnull String executorId, @Nonnull RunProfile profile) {
     if (profile instanceof GoApplicationConfiguration) {
-      return DefaultRunExecutor.EXECUTOR_ID.equals(executorId) || DefaultDebugExecutor.EXECUTOR_ID.equals(executorId) && !DlvDebugProcess.IS_DLV_DISABLED;
+      return DefaultRunExecutor.EXECUTOR_ID.equals(executorId) || DefaultDebugExecutor.EXECUTOR_ID.equals(executorId);
     }
     return false;
   }
@@ -214,9 +210,8 @@ public class GoBuildingRunner extends AsyncGenericProgramRunner {
           @Nonnull
           @Override
           public XDebugProcess start(@Nonnull XDebugSession session) throws ExecutionException {
-            RemoteVmConnection connection = new DlvRemoteVmConnection(myApplicationConcurrency);
-            DlvDebugProcess process = new DlvDebugProcess(session, connection, executionResult);
-            connection.open(new InetSocketAddress(InetAddress.getLoopbackAddress(), port));
+            GoDebugProcess process = new GoDebugProcess(session, port, myOutputFilePath);
+            process.start();
             return process;
           }
         }).getRunContentDescriptor();

@@ -31,6 +31,7 @@ import java.io.IOException;
  * @param <T> type of callback
  * @see com.goide.dlv.DlvCommandProcessor#getResultType(String)
  */
+@Deprecated
 public abstract class DlvRequest<T> extends OutMessage implements Request<T> {
   private static final String BREAKPOINT = "Breakpoint";
   private static final String SCOPE = "Scope";

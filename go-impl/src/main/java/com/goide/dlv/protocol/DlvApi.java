@@ -23,6 +23,7 @@ import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @SuppressWarnings("unused")
+@Deprecated
 public class DlvApi {
   private final static Logger LOG = Logger.getInstance(DlvApi.class);
 

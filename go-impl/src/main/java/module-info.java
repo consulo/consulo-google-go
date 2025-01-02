@@ -8,6 +8,8 @@ open module consulo.google.go {
   requires consulo.language.impl;
   requires consulo.language.editor.impl;
 
+  requires consulo.execution.debugger.dap;
+
   // TODO remove in future
   requires java.desktop;
   requires forms.rt;
@@ -34,7 +36,6 @@ open module consulo.google.go {
   exports com.goide.completion;
   exports com.goide.configuration;
   exports com.goide.dlv;
-  exports com.goide.dlv.breakpoint;
   exports com.goide.dlv.protocol;
   exports com.goide.editor;
   exports com.goide.editor.marker;
@@ -86,9 +87,7 @@ open module consulo.google.go {
   exports consulo.google.go.module.extension.ui;
   exports consulo.google.go.module.orderEntry;
   exports consulo.google.go.newProjectOrModule;
-  exports consulo.google.go.run.dlv;
   exports consulo.google.go.run.dlv.api;
-  exports consulo.google.go.run.dlv.breakpoint;
   exports org.jetbrains.debugger;
   exports org.jetbrains.debugger.connection;
   exports org.jetbrains.debugger.values;

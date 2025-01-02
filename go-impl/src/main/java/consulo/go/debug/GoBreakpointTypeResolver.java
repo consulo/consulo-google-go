@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package consulo.google.go.run.dlv.breakpoint;
+package consulo.go.debug;
 
 import com.goide.GoFileType;
-import com.goide.dlv.DlvDebugProcess;
-import com.goide.dlv.breakpoint.DlvBreakpointType;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.execution.debug.breakpoint.XLineBreakpointType;
 import consulo.execution.debug.breakpoint.XLineBreakpointTypeResolver;
+import consulo.go.debug.breakpoint.GoLineBreakpointType;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.fileType.FileType;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -35,16 +33,13 @@ import jakarta.annotation.Nullable;
  * @since 06-May-17
  */
 @ExtensionImpl
-public class DlvBreakpointTypeResolver implements XLineBreakpointTypeResolver {
+public class GoBreakpointTypeResolver implements XLineBreakpointTypeResolver {
   @RequiredReadAction
   @Nullable
   @Override
   public XLineBreakpointType<?> resolveBreakpointType(@Nonnull Project project, @Nonnull VirtualFile file, int line) {
-    if (line < 0 || DlvDebugProcess.IS_DLV_DISABLED) {
-      return null;
-    }
-    if (DlvBreakpointType.isLineBreakpointAvailable(file, line, project)) {
-      return DlvBreakpointType.getInstance();
+    if (GoLineBreakpointType.isLineBreakpointAvailable(file, line, project)) {
+      return GoLineBreakpointType.getInstance();
     }
     return null;
   }

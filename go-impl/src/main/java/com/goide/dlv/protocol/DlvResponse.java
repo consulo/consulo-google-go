@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 @JsonType
+@Deprecated
 public interface DlvResponse {
   int id();
 

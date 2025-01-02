@@ -16,12 +16,8 @@
 
 package com.goide.dlv;
 
-import com.goide.GoConstants;
 import com.goide.GoFileType;
-import com.goide.dlv.breakpoint.DlvBreakpointProperties;
-import com.goide.dlv.breakpoint.DlvBreakpointType;
 import com.goide.dlv.protocol.DlvRequest;
-import com.goide.util.GoUtil;
 import consulo.application.AccessToken;
 import consulo.application.ReadAction;
 import consulo.disposer.Disposable;
@@ -35,7 +31,8 @@ import consulo.execution.debug.evaluation.XDebuggerEditorsProviderBase;
 import consulo.execution.debug.frame.XSuspendContext;
 import consulo.execution.debug.icon.ExecutionDebugIconGroup;
 import consulo.execution.ui.ExecutionConsole;
-import consulo.google.go.run.dlv.DlvSuspendContext;
+import consulo.go.debug.breakpoint.GoLineBreakpointProperties;
+import consulo.go.debug.breakpoint.GoLineBreakpointType;
 import consulo.google.go.run.dlv.api.DlvRequests;
 import consulo.google.go.run.dlv.api.SimpleInOutMessage;
 import consulo.language.plain.PlainTextLanguage;
@@ -49,14 +46,14 @@ import consulo.util.concurrent.AsyncResult;
 import consulo.util.socketConnection.ConnectionStatus;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.fileType.FileType;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.intellij.lang.annotations.MagicConstant;
 import org.jetbrains.debugger.DebugProcessImpl;
 import org.jetbrains.debugger.StepAction;
 import org.jetbrains.debugger.Vm;
 import org.jetbrains.debugger.connection.VmConnection;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -65,8 +62,6 @@ import static consulo.util.lang.ObjectUtil.assertNotNull;
 import static consulo.util.lang.ObjectUtil.tryCast;
 
 public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> implements Disposable {
-  public static final boolean IS_DLV_DISABLED = !GoConstants.AMD64.equals(GoUtil.systemArch());
-
   private final static Logger LOG = Logger.getInstance(DlvDebugProcess.class);
   private final AtomicBoolean breakpointsInitiated = new AtomicBoolean();
   private final AtomicBoolean connectedListenerAdded = new AtomicBoolean();
@@ -81,25 +76,15 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
         stop();
         return;
       }
-
-      final XBreakpoint<DlvBreakpointProperties> find = findBreak(o.currentThread.breakPoint);
-      DlvSuspendContext context = new DlvSuspendContext(DlvDebugProcess.this, o.currentThread, o.threads, getProcessor());
-      XDebugSession session = getSession();
-      if (find == null) {
-        session.positionReached(context);
-      }
-      else {
-        session.breakpointReached(find, null, context);
-      }
     }
 
     @Nullable
-    private XBreakpoint<DlvBreakpointProperties> findBreak(@Nullable Breakpoint point) {
+    private XBreakpoint<GoLineBreakpointProperties> findBreak(@Nullable Breakpoint point) {
       if (point == null) {
         return null;
       }
 
-      for (Map.Entry<XBreakpoint<DlvBreakpointProperties>, Integer> entry : myBreakpoints.entrySet()) {
+      for (Map.Entry<XBreakpoint<GoLineBreakpointProperties>, Integer> entry : myBreakpoints.entrySet()) {
         if (entry.getValue().equals(point.id)) {
           return entry.getKey();
         }
@@ -256,16 +241,16 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     }
   }
 
-  private final Map<XBreakpoint<DlvBreakpointProperties>, Integer> myBreakpoints = ContainerUtil.createConcurrentWeakMap();
+  private final Map<XBreakpoint<GoLineBreakpointProperties>, Integer> myBreakpoints = ContainerUtil.createConcurrentWeakMap();
 
-  private class MyBreakpointHandler extends XBreakpointHandler<XLineBreakpoint<DlvBreakpointProperties>> {
+  private class MyBreakpointHandler extends XBreakpointHandler<XLineBreakpoint<GoLineBreakpointProperties>> {
 
     public MyBreakpointHandler() {
-      super(DlvBreakpointType.class);
+      super(GoLineBreakpointType.class);
     }
 
     @Override
-    public void registerBreakpoint(@Nonnull XLineBreakpoint<DlvBreakpointProperties> breakpoint) {
+    public void registerBreakpoint(@Nonnull XLineBreakpoint<GoLineBreakpointProperties> breakpoint) {
       XSourcePosition breakpointPosition = breakpoint.getSourcePosition();
       if (breakpointPosition == null) return;
       VirtualFile file = breakpointPosition.getFile();
@@ -282,7 +267,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     }
 
     @Override
-    public void unregisterBreakpoint(@Nonnull XLineBreakpoint<DlvBreakpointProperties> breakpoint, boolean temporary) {
+    public void unregisterBreakpoint(@Nonnull XLineBreakpoint<GoLineBreakpointProperties> breakpoint, boolean temporary) {
       XSourcePosition breakpointPosition = breakpoint.getSourcePosition();
       if (breakpointPosition == null) return;
       Integer vmBreakpointId = myBreakpoints.remove(breakpoint);

@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package com.goide.dlv.breakpoint;
+package consulo.go.debug.breakpoint;
 
 import consulo.execution.debug.breakpoint.XBreakpointProperties;
-
 import jakarta.annotation.Nullable;
 
-public class DlvBreakpointProperties extends XBreakpointProperties<DlvBreakpointProperties> {
+public class GoLineBreakpointProperties extends XBreakpointProperties<GoLineBreakpointProperties> {
   @Nullable
   @Override
-  public DlvBreakpointProperties getState() {
+  public GoLineBreakpointProperties getState() {
     return this;
   }
 
   @Override
-  public void loadState(DlvBreakpointProperties state) {
+  public void loadState(GoLineBreakpointProperties state) {
   }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.goide.dlv.breakpoint;
+package consulo.go.debug.breakpoint;
 
 import com.goide.GoParserDefinition;
 import consulo.annotation.access.RequiredReadAction;
@@ -28,27 +28,26 @@ import consulo.language.ast.IElementType;
 import consulo.language.psi.PsiElement;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.inject.Inject;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
 
 @ExtensionImpl
-public class DlvBreakpointType extends XLineBreakpointType<DlvBreakpointProperties> {
+public class GoLineBreakpointType extends XLineBreakpointType<GoLineBreakpointProperties> {
   @Nonnull
-  public static DlvBreakpointType getInstance() {
-    return EXTENSION_POINT_NAME.findExtensionOrFail(DlvBreakpointType.class);
+  public static GoLineBreakpointType getInstance() {
+    return EXTENSION_POINT_NAME.findExtensionOrFail(GoLineBreakpointType.class);
   }
 
   @Inject
-  protected DlvBreakpointType() {
-    super("DlvLineBreakpoint", "Dlv breakpoint");
+  protected GoLineBreakpointType() {
+    super("GoLineBreakpoint", "Go Line Breakpoins");
   }
 
   @Nullable
   @Override
-  public DlvBreakpointProperties createBreakpointProperties(@Nonnull VirtualFile file, int line) {
-    return new DlvBreakpointProperties();
+  public GoLineBreakpointProperties createBreakpointProperties(@Nonnull VirtualFile file, int line) {
+    return new GoLineBreakpointProperties();
   }
 
   @RequiredReadAction
