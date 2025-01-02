@@ -8,6 +8,7 @@ import consulo.execution.debug.XBreakpointManager;
 import consulo.execution.debug.XDebugSession;
 import consulo.execution.debug.XDebuggerManager;
 import consulo.execution.debug.breakpoint.XLineBreakpoint;
+import consulo.execution.debug.breakpoint.XLineBreakpointType;
 import consulo.execution.debug.evaluation.XDebuggerEditorsProvider;
 import consulo.execution.debug.evaluation.XDebuggerEditorsProviderBase;
 import consulo.execution.debugger.dap.DAPDebugProcess;
@@ -38,6 +39,10 @@ public class GoDebugProcess extends DAPDebugProcess {
         super(session);
         myPort = port;
         myOutputFilePath = outputFilePath;
+    }
+
+    protected XLineBreakpointType<?> getLineBreakpointType() {
+        return GoLineBreakpointType.getInstance();
     }
 
     @Override
