@@ -18,33 +18,50 @@ package consulo.google.go.newProjectOrModule;
 
 import com.goide.sdk.GoSdkType;
 import consulo.content.bundle.SdkTable;
-import consulo.ide.newModule.ui.ProjectOrModuleNameStep;
-import consulo.module.ui.awt.SdkComboBox;
-import consulo.ui.ex.awt.LabeledComponent;
-import consulo.util.lang.function.Conditions;
-
+import consulo.disposer.Disposable;
+import consulo.ide.newModule.ui.UnifiedProjectOrModuleNameStep;
+import consulo.localize.LocalizeValue;
+import consulo.module.ui.BundleBox;
+import consulo.module.ui.BundleBoxBuilder;
+import consulo.ui.ComboBox;
+import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.util.FormBuilder;
 import jakarta.annotation.Nonnull;
-import java.awt.*;
 
 /**
  * @author VISTALL
  * @since 05-May-17
  */
-public class GoNewModuleSetupStep extends ProjectOrModuleNameStep<GoNewModuleContext> {
-  private final SdkComboBox myComboBox;
+public class GoNewModuleSetupStep extends UnifiedProjectOrModuleNameStep<GoNewModuleContext> {
+    private BundleBox myBundleBox;
 
-  public GoNewModuleSetupStep(GoNewModuleContext context) {
-    super(context);
+    public GoNewModuleSetupStep(GoNewModuleContext context) {
+        super(context);
+    }
 
-    myComboBox = new SdkComboBox(SdkTable.getInstance(), Conditions.equalTo(GoSdkType.getInstance()), false);
+    @RequiredUIAccess
+    @Override
+    protected void extend(@Nonnull FormBuilder builder, @Nonnull Disposable uiDisposable) {
+        super.extend(builder, uiDisposable);
 
-    myAdditionalContentPanel.add(LabeledComponent.create(myComboBox, "SDK"), BorderLayout.NORTH);
-  }
+        BundleBoxBuilder boxBuilder = BundleBoxBuilder.create(uiDisposable);
+        boxBuilder.withSdkTypeFilter(sdkTypeId -> sdkTypeId instanceof GoSdkType);
 
-  @Override
-  public void onStepLeave(@Nonnull GoNewModuleContext context) {
-    super.onStepLeave(context);
+        builder.addLabeled(LocalizeValue.localizeTODO("SDK:"), (myBundleBox = boxBuilder.build()).getComponent());
 
-    context.setSdk(myComboBox.getSelectedSdk());
-  }
+        ComboBox<BundleBox.BundleBoxItem> component = myBundleBox.getComponent();
+        if (component.getListModel().getSize() > 0) {
+            component.setValueByIndex(0);
+        }
+    }
+
+    @Override
+    public void onStepLeave(@Nonnull GoNewModuleContext context) {
+        super.onStepLeave(context);
+
+        String selectedBundleName = myBundleBox.getSelectedBundleName();
+        if (selectedBundleName != null) {
+            context.setSdk(SdkTable.getInstance().findSdk(selectedBundleName));
+        }
+    }
 }
