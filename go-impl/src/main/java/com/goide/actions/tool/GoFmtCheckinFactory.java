@@ -47,7 +47,7 @@ import java.awt.*;
 import java.util.Collection;
 import java.util.List;
 
-@ExtensionImpl(order = "last")
+@ExtensionImpl
 public class GoFmtCheckinFactory extends CheckinHandlerFactory {
   private static final String GO_FMT = "GO_FMT";
 
