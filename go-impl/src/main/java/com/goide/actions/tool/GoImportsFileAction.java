@@ -17,6 +17,7 @@
 package com.goide.actions.tool;
 
 import com.goide.util.GoExecutor;
+import consulo.annotation.component.ActionImpl;
 import consulo.module.Module;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
@@ -24,9 +25,10 @@ import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
+@ActionImpl(id = "GoImportsFileAction")
 public class GoImportsFileAction extends GoDownloadableFileAction {
   public GoImportsFileAction() {
-    super("goimports", "golang.org/x/tools/cmd/goimports");
+    super("Goimports file", "Optimizes imports for selected file with goimports util", "goimports", "golang.org/x/tools/cmd/goimports");
   }
 
   @Nonnull

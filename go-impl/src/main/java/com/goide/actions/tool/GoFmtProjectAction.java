@@ -16,44 +16,50 @@
 
 package com.goide.actions.tool;
 
-import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
 import com.goide.util.GoExecutor;
+import consulo.annotation.component.ActionImpl;
 import consulo.document.FileDocumentManager;
+import consulo.google.go.module.extension.GoModuleExtension;
 import consulo.module.Module;
 import consulo.module.content.ModuleRootManager;
+import consulo.module.extension.ModuleExtensionHelper;
 import consulo.project.Project;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.DumbAwareAction;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
+@ActionImpl(id = "GoFmtProjectAction")
 public class GoFmtProjectAction extends DumbAwareAction {
-  @Override
-  public void update(@Nonnull AnActionEvent e) {
-    Project project = e.getData(Project.KEY);
-    e.getPresentation().setEnabled(project != null && GoSdkService.getInstance(project).getSdkHomePath(null) != null);
-  }
-
-  @Override
-  public void actionPerformed(@Nonnull AnActionEvent e) {
-    Project project = e.getData(Project.KEY);
-    assert project != null;
-
-    FileDocumentManager.getInstance().saveAllDocuments();
-    for (Module module : GoSdkUtil.getGoModules(project)) {
-      for (VirtualFile file : ModuleRootManager.getInstance(module).getContentRoots()) {
-        fmt(project, module, "go fmt " + file.getPath(), file);
-      }
+    public GoFmtProjectAction() {
+        super("Go fmt projec", "Format project with go fmt util", null);
     }
-  }
 
-  private static void fmt(@Nonnull Project project, @Nullable Module module, @Nonnull String presentation, @Nonnull VirtualFile dir) {
-    GoExecutor.in(project, module).withPresentableName(presentation).withWorkDirectory(dir.getPath())
-      .withParameters("fmt", "./...").showOutputOnError().executeWithProgress(false,
-                                                                              result -> VirtualFileUtil.markDirtyAndRefresh(true, true, true, dir));
-  }
+    @Override
+    public void update(@Nonnull AnActionEvent e) {
+        Project project = e.getData(Project.KEY);
+        e.getPresentation().setEnabled(project != null && ModuleExtensionHelper.getInstance(project).hasModuleExtension(GoModuleExtension.class));
+    }
+
+    @Override
+    public void actionPerformed(@Nonnull AnActionEvent e) {
+        Project project = e.getData(Project.KEY);
+        assert project != null;
+
+        FileDocumentManager.getInstance().saveAllDocuments();
+        for (Module module : GoSdkUtil.getGoModules(project)) {
+            for (VirtualFile file : ModuleRootManager.getInstance(module).getContentRoots()) {
+                fmt(project, module, "go fmt " + file.getPath(), file);
+            }
+        }
+    }
+
+    private static void fmt(@Nonnull Project project, @Nullable Module module, @Nonnull String presentation, @Nonnull VirtualFile dir) {
+        GoExecutor.in(project, module).withPresentableName(presentation).withWorkDirectory(dir.getPath())
+            .withParameters("fmt", "./...").showOutputOnError().executeWithProgress(false,
+                result -> VirtualFileUtil.markDirtyAndRefresh(true, true, true, dir));
+    }
 }

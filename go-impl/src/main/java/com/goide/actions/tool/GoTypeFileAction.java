@@ -17,36 +17,37 @@
 package com.goide.actions.tool;
 
 import com.goide.util.GoExecutor;
+import consulo.annotation.component.ActionImpl;
 import consulo.module.Module;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
+@ActionImpl(id = "GoTypeFileAction")
 public class GoTypeFileAction extends GoDownloadableFileAction {
-  public GoTypeFileAction() {
-    super("gotype", "golang.org/x/tools/cmd/gotype");
-  }
+    public GoTypeFileAction() {
+        super("Gotype directory", "Analyze types for current directory with gotype util", "gotype", "golang.org/x/tools/cmd/gotype");
+    }
 
-  @Override
-  protected boolean isAvailableOnFile(VirtualFile file) {
-    return super.isAvailableOnFile(file) || file.isDirectory();
-  }
+    @Override
+    protected boolean isAvailableOnFile(VirtualFile file) {
+        return super.isAvailableOnFile(file) || file.isDirectory();
+    }
 
-  @Nonnull
-  @Override
-  protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull VirtualFile file) {
-    return super.createExecutor(project, module, title, file.isDirectory() ? file : file.getParent());
-  }
+    @Nonnull
+    @Override
+    protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull VirtualFile file) {
+        return super.createExecutor(project, module, title, file.isDirectory() ? file : file.getParent());
+    }
 
-  @Nonnull
-  @Override
-  protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull String filePath) {
-    VirtualFile executable = getExecutable(project, module);
-    assert executable != null;
+    @Nonnull
+    @Override
+    protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull String filePath) {
+        VirtualFile executable = getExecutable(project, module);
+        assert executable != null;
 
-    return GoExecutor.in(project, module).withExePath(executable.getPath()).withParameters("-e", "-a", "-v", filePath )
-      .showNotifications(false, true).showOutputOnError();
-  }
+        return GoExecutor.in(project, module).withExePath(executable.getPath()).withParameters("-e", "-a", "-v", filePath)
+            .showNotifications(false, true).showOutputOnError();
+    }
 }

@@ -24,115 +24,128 @@ import consulo.document.Document;
 import consulo.document.FileDocumentManager;
 import consulo.language.editor.CommonDataKeys;
 import consulo.language.util.ModuleUtilCore;
+import consulo.localize.LocalizeValue;
 import consulo.logging.Logger;
 import consulo.module.Module;
 import consulo.process.ExecutionException;
 import consulo.project.Project;
 import consulo.project.ui.notification.NotificationType;
 import consulo.project.ui.notification.Notifications;
+import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.DumbAwareAction;
 import consulo.util.lang.ExceptionUtil;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.util.function.Consumer;
 
 public abstract class GoExternalToolsAction extends DumbAwareAction {
-  private static final Logger LOG = Logger.getInstance(GoExternalToolsAction.class);
+    private static final Logger LOG = Logger.getInstance(GoExternalToolsAction.class);
 
-  private static void error(@Nonnull String title, @Nonnull Project project, @Nullable Exception ex) {
-    String message = ex == null ? "" : ExceptionUtil.getThrowableText(ex);
-    NotificationType type = NotificationType.ERROR;
-    Notifications.Bus.notify(GoConstants.GO_EXECUTION_NOTIFICATION_GROUP.createNotification(title, message, type, null), project);
-  }
-
-  @Override
-  public void update(@Nonnull AnActionEvent e) {
-    super.update(e);
-    Project project = e.getData(Project.KEY);
-    VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
-    if (project == null || file == null || !file.isInLocalFileSystem() || !isAvailableOnFile(file)) {
-      e.getPresentation().setEnabled(false);
-      return;
+    private static void error(@Nonnull String title, @Nonnull Project project, @Nullable Exception ex) {
+        String message = ex == null ? "" : ExceptionUtil.getThrowableText(ex);
+        NotificationType type = NotificationType.ERROR;
+        Notifications.Bus.notify(GoConstants.GO_EXECUTION_NOTIFICATION_GROUP.createNotification(title, message, type, null), project);
     }
-    Module module = ModuleUtilCore.findModuleForFile(file, project);
-    e.getPresentation().setEnabled(GoSdkService.getInstance(project).isGoModule(module));
-  }
 
-  protected boolean isAvailableOnFile(VirtualFile file) {
-    return file.getFileType() == GoFileType.INSTANCE;
-  }
-
-  @Override
-  public void actionPerformed(@Nonnull AnActionEvent e) {
-    Project project = e.getData(Project.KEY);
-    VirtualFile file = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE);
-    assert project != null;
-    String title = StringUtil.notNullize(e.getPresentation().getText());
-
-    Module module = ModuleUtilCore.findModuleForFile(file, project);
-    try {
-      doSomething(file, module, project, title);
+    protected GoExternalToolsAction(@Nullable String text, @Nullable String description) {
+        super(text, description, null);
     }
-    catch (ExecutionException ex) {
-      error(title, project, ex);
-      LOG.error(ex);
+
+    protected GoExternalToolsAction(@Nonnull LocalizeValue text, @Nonnull LocalizeValue description) {
+        super(text, description, null);
     }
-  }
 
-  protected boolean doSomething(@Nonnull VirtualFile virtualFile,
-                                @Nullable Module module,
-                                @Nonnull Project project,
-                                @Nonnull String title) throws ExecutionException {
-    return doSomething(virtualFile, module, project, title, false);
-  }
+    @RequiredUIAccess
+    @Override
+    public void update(@Nonnull AnActionEvent e) {
+        super.update(e);
+        Project project = e.getData(Project.KEY);
+        VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
+        if (project == null || file == null || !file.isInLocalFileSystem() || !isAvailableOnFile(file)) {
+            e.getPresentation().setEnabled(false);
+            return;
+        }
+        Module module = ModuleUtilCore.findModuleForFile(file, project);
+        e.getPresentation().setEnabledAndVisible(GoSdkService.getInstance(project).isGoModule(module));
+    }
 
-  private boolean doSomething(@Nonnull VirtualFile virtualFile,
-                              @Nullable Module module,
-                              @Nonnull Project project,
-                              @Nonnull String title,
-                              boolean withProgress) {
-    //noinspection unchecked
-    return doSomething(virtualFile, module, project, title, withProgress, c -> {});
-  }
+    protected boolean isAvailableOnFile(VirtualFile file) {
+        return file.getFileType() == GoFileType.INSTANCE;
+    }
 
-  protected boolean doSomething(@Nonnull VirtualFile virtualFile,
+    @RequiredUIAccess
+    @Override
+    public void actionPerformed(@Nonnull AnActionEvent e) {
+        Project project = e.getData(Project.KEY);
+        VirtualFile file = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE);
+        assert project != null;
+        String title = StringUtil.notNullize(e.getPresentation().getText());
+
+        Module module = ModuleUtilCore.findModuleForFile(file, project);
+        try {
+            doSomething(file, module, project, title);
+        }
+        catch (ExecutionException ex) {
+            error(title, project, ex);
+            LOG.error(ex);
+        }
+    }
+
+    protected boolean doSomething(@Nonnull VirtualFile virtualFile,
+                                  @Nullable Module module,
+                                  @Nonnull Project project,
+                                  @Nonnull String title) throws ExecutionException {
+        return doSomething(virtualFile, module, project, title, false);
+    }
+
+    private boolean doSomething(@Nonnull VirtualFile virtualFile,
                                 @Nullable Module module,
                                 @Nonnull Project project,
                                 @Nonnull String title,
-                                boolean withProgress,
-                                @Nonnull Consumer<Boolean> consumer) {
-    Document document = FileDocumentManager.getInstance().getDocument(virtualFile);
-    if (document != null) {
-      FileDocumentManager.getInstance().saveDocument(document);
-    }
-    else {
-      FileDocumentManager.getInstance().saveAllDocuments();
+                                boolean withProgress) {
+        //noinspection unchecked
+        return doSomething(virtualFile, module, project, title, withProgress, c -> {
+        });
     }
 
-    createExecutor(project, module, title, virtualFile).executeWithProgress(withProgress, result -> {
-      consumer.accept(result);
-      VirtualFileUtil.markDirtyAndRefresh(true, true, true, virtualFile);
-    });
-    return true;
-  }
+    protected boolean doSomething(@Nonnull VirtualFile virtualFile,
+                                  @Nullable Module module,
+                                  @Nonnull Project project,
+                                  @Nonnull String title,
+                                  boolean withProgress,
+                                  @Nonnull Consumer<Boolean> consumer) {
+        Document document = FileDocumentManager.getInstance().getDocument(virtualFile);
+        if (document != null) {
+            FileDocumentManager.getInstance().saveDocument(document);
+        }
+        else {
+            FileDocumentManager.getInstance().saveAllDocuments();
+        }
 
-  protected GoExecutor createExecutor(@Nonnull Project project,
-                                      @Nullable Module module,
-                                      @Nonnull String title,
-                                      @Nonnull VirtualFile virtualFile) {
-    String filePath = virtualFile.getCanonicalPath();
-    assert filePath != null;
-    return createExecutor(project, module, title, filePath);
-  }
+        createExecutor(project, module, title, virtualFile).executeWithProgress(withProgress, result -> {
+            consumer.accept(result);
+            VirtualFileUtil.markDirtyAndRefresh(true, true, true, virtualFile);
+        });
+        return true;
+    }
 
-  @Nonnull
-  protected abstract GoExecutor createExecutor(@Nonnull Project project,
-                                               @Nullable Module module,
-                                               @Nonnull String title,
-                                               @Nonnull String filePath);
+    protected GoExecutor createExecutor(@Nonnull Project project,
+                                        @Nullable Module module,
+                                        @Nonnull String title,
+                                        @Nonnull VirtualFile virtualFile) {
+        String filePath = virtualFile.getCanonicalPath();
+        assert filePath != null;
+        return createExecutor(project, module, title, filePath);
+    }
+
+    @Nonnull
+    protected abstract GoExecutor createExecutor(@Nonnull Project project,
+                                                 @Nullable Module module,
+                                                 @Nonnull String title,
+                                                 @Nonnull String filePath);
 }

@@ -92,6 +92,7 @@ public abstract class GoSdkService {
   public boolean isGoModule(@Nullable Module module) {
     return module != null && !module.isDisposed();
   }
+
   @Nullable
   public String getGoExecutablePath(@Nullable Module module) {
     return getGoExecutablePath(getSdkHomePath(module));

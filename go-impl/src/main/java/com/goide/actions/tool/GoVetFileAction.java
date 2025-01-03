@@ -17,23 +17,28 @@
 package com.goide.actions.tool;
 
 import com.goide.util.GoExecutor;
+import consulo.annotation.component.ActionImpl;
 import consulo.module.Module;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
+@ActionImpl(id = "GoVetFileAction")
 public class GoVetFileAction extends GoExternalToolsAction {
-  @Override
-  protected boolean isAvailableOnFile(VirtualFile file) {
-    return super.isAvailableOnFile(file) || file.isDirectory();
-  }
+    public GoVetFileAction() {
+        super("Go vet file", "Lint selected file or directory with go vet tool");
+    }
 
-  @Override
-  @Nonnull
-  protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull String filePath) {
-    return GoExecutor.in(project, module).withPresentableName(title).withParameters("tool", "vet", filePath)
-      .showNotifications(false, true).showOutputOnError();
-  }
+    @Override
+    protected boolean isAvailableOnFile(VirtualFile file) {
+        return super.isAvailableOnFile(file) || file.isDirectory();
+    }
+
+    @Override
+    @Nonnull
+    protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull String filePath) {
+        return GoExecutor.in(project, module).withPresentableName(title).withParameters("tool", "vet", filePath)
+            .showNotifications(false, true).showOutputOnError();
+    }
 }
