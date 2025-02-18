@@ -161,7 +161,7 @@ public class DlvApi {
     public String unreadable;
 
     @Nonnull
-    private Kind    getKind() {
+    private Kind getKind() {
       try {
         return Kind.values()[kind];
       }
