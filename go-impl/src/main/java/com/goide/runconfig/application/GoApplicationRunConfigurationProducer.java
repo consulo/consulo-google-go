@@ -31,8 +31,7 @@ import consulo.language.util.ModuleUtilCore;
 import consulo.module.Module;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.StringUtil;
-import consulo.util.lang.ref.Ref;
-
+import consulo.util.lang.ref.SimpleReference;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -45,7 +44,7 @@ public class GoApplicationRunConfigurationProducer extends GoRunConfigurationPro
   @Override
   protected boolean setupConfigurationFromContext(@Nonnull GoApplicationConfiguration configuration,
                                                   @Nonnull ConfigurationContext context,
-                                                  Ref<PsiElement> sourceElement) {
+                                                  SimpleReference<PsiElement> sourceElement) {
     PsiElement contextElement = GoRunUtil.getContextElement(context);
     if (contextElement != null && GoTestFinder.isTestFile(contextElement.getContainingFile())) {
       return false;

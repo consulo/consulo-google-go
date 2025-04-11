@@ -34,8 +34,7 @@ import consulo.project.Project;
 import consulo.util.io.FileUtil;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.StringUtil;
-import consulo.util.lang.ref.Ref;
-
+import consulo.util.lang.ref.SimpleReference;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -51,13 +50,13 @@ public abstract class GoTestRunConfigurationProducerBase extends RunConfiguratio
   @Override
   protected boolean setupConfigurationFromContext(@Nonnull GoTestRunConfiguration configuration,
                                                   ConfigurationContext context,
-                                                  Ref sourceElement) {
+                                                  SimpleReference<PsiElement> sourceElement) {
     PsiElement contextElement = GoRunUtil.getContextElement(context);
     if (contextElement == null) {
       return false;
     }
 
-    Module module = ModuleUtilCore.findModuleForPsiElement(contextElement);
+    Module module = contextElement.getModule();
     Project project = contextElement.getProject();
     if (module == null || !GoSdkService.getInstance(project).isGoModule(module)) return false;
     if (!myFramework.isAvailable(module)) return false;

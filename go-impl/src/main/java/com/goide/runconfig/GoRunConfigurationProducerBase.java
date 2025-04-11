@@ -24,8 +24,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.module.Module;
 import consulo.util.io.FileUtil;
-import consulo.util.lang.ref.Ref;
-
+import consulo.util.lang.ref.SimpleReference;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -35,7 +34,7 @@ public abstract class GoRunConfigurationProducerBase<T extends GoRunConfiguratio
   }
 
   @Override
-  protected boolean setupConfigurationFromContext(@Nonnull T configuration, @Nonnull ConfigurationContext context, Ref<PsiElement> sourceElement) {
+  protected boolean setupConfigurationFromContext(@Nonnull T configuration, @Nonnull ConfigurationContext context, SimpleReference<PsiElement> sourceElement) {
     PsiFile file = getFileFromContext(context);
     if (GoRunUtil.isMainGoFile(file)) {
       configuration.setName(getConfigurationName(file));
