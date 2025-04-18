@@ -28,9 +28,9 @@ import consulo.language.psi.PsiWhiteSpace;
 import consulo.language.psi.SyntaxTraverser;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.lang.StringUtil;
-import consulo.util.lang.function.Conditions;
-
+import consulo.util.lang.function.Predicates;
 import jakarta.annotation.Nonnull;
+
 import java.util.List;
 
 @ExtensionImpl
@@ -54,7 +54,7 @@ public class GoExpressionTypeProvider extends ExpressionTypeProvider<GoTypeOwner
     if (at instanceof PsiWhiteSpace && at.textMatches("\n")) {
       at = PsiTreeUtil.prevLeaf(at);
     }
-    return SyntaxTraverser.psiApi().parents(at).takeWhile(Conditions.notInstanceOf(GoTopLevelDeclaration.class))
+    return SyntaxTraverser.psiApi().parents(at).takeWhile(Predicates.notInstanceOf(GoTopLevelDeclaration.class))
       .filter(GoTypeOwner.class).toList();
   }
 

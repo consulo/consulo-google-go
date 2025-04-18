@@ -36,7 +36,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
 import consulo.util.collection.ArrayUtil;
 import consulo.util.collection.ContainerUtil;
-import consulo.util.lang.function.Conditions;
+import consulo.util.lang.function.Predicates;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -112,9 +112,9 @@ public class GoIntroduceVariableBase {
     if (PsiTreeUtil.getParentOfType(expression, GoStatement.class) == null) {
       return Collections.emptyList();
     }
-    return SyntaxTraverser.psiApi().parents(expression).takeWhile(Conditions.notInstanceOf(GoTopLevelDeclaration.class))
+    return SyntaxTraverser.psiApi().parents(expression).takeWhile(Predicates.notInstanceOf(GoTopLevelDeclaration.class))
       .filter(GoExpression.class)
-      .filter(Conditions.notInstanceOf(GoParenthesesExpr.class))
+      .filter(Predicates.notInstanceOf(GoParenthesesExpr.class))
       .filter(expression1 -> !(expression1 instanceof GoReferenceExpression && expression1.getParent() instanceof GoCallExpr))
       .toList();
   }

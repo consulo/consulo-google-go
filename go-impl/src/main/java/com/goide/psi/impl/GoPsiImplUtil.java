@@ -57,12 +57,12 @@ import consulo.util.lang.ObjectUtil;
 import consulo.util.lang.StringUtil;
 import consulo.util.lang.Trinity;
 import consulo.util.lang.function.Condition;
-import consulo.util.lang.function.Conditions;
+import consulo.util.lang.function.Predicates;
 import consulo.virtualFileSystem.VirtualFile;
-import org.jetbrains.annotations.Contract;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import org.jetbrains.annotations.Contract;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -678,7 +678,7 @@ public class GoPsiImplUtil {
 
   @Nullable
   private static GoTypeCaseClause getTypeCaseClause(@Nullable PsiElement context, @Nonnull GoTypeSwitchStatement switchStatement) {
-    return SyntaxTraverser.psiApi().parents(context).takeWhile(Conditions.notEqualTo(switchStatement))
+    return SyntaxTraverser.psiApi().parents(context).takeWhile(Predicates.notEqualTo(switchStatement))
         .filter(GoTypeCaseClause.class).last();
   }
 
@@ -772,7 +772,7 @@ public class GoPsiImplUtil {
 
   @Nonnull
   public static GoType getActualType(@Nonnull GoParType o) {
-    return ObjectUtil.notNull(SyntaxTraverser.psiTraverser(o).filter(Conditions.notInstanceOf(GoParType.class))
+    return ObjectUtil.notNull(SyntaxTraverser.psiTraverser(o).filter(Predicates.notInstanceOf(GoParType.class))
         .filter(GoType.class).first(), o.getType());
   }
 

@@ -38,9 +38,9 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.util.ProcessingContext;
 import consulo.util.collection.ContainerUtil;
-import consulo.util.lang.function.Conditions;
-
+import consulo.util.lang.function.Predicates;
 import jakarta.annotation.Nonnull;
+
 import java.util.Collection;
 
 import static consulo.language.editor.completion.lookup.PrioritizedLookupElement.withPriority;
@@ -83,7 +83,7 @@ public class GoCompletionContributor extends CompletionContributor {
         }
       }
 
-      if (directory != null && ContainerUtil.filter(directory.getFiles(), Conditions.instanceOf(GoFile.class)).size() == 1) {
+      if (directory != null && ContainerUtil.filter(directory.getFiles(), Predicates.instanceOf(GoFile.class)).size() == 1) {
         String packageFromDirectory = GoPsiImplUtil.getLocalPackageName(directory.getName());
         if (!packageFromDirectory.isEmpty()) {
           result.addElement(packageLookup(packageFromDirectory, GoCompletionUtil.PACKAGE_PRIORITY - 1));

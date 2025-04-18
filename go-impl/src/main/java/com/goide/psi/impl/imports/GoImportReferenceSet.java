@@ -29,15 +29,15 @@ import consulo.language.util.ModuleUtilCore;
 import consulo.module.Module;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
-import consulo.util.lang.function.Condition;
-import consulo.util.lang.function.Conditions;
+import consulo.util.lang.function.Predicates;
 import consulo.virtualFileSystem.VirtualFile;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.function.Predicate;
 
 public class GoImportReferenceSet extends FileReferenceSet {
   public GoImportReferenceSet(@Nonnull GoImportString importString) {
@@ -62,9 +62,9 @@ public class GoImportReferenceSet extends FileReferenceSet {
   }
 
   @Override
-  public Condition<PsiFileSystemItem> getReferenceCompletionFilter() {
+  public Predicate<PsiFileSystemItem> getReferenceCompletionFilter() {
     if (!isRelativeImport()) {
-      return Conditions.alwaysFalse();
+      return Predicates.alwaysFalse();
     }
     return super.getReferenceCompletionFilter();
   }
