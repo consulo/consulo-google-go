@@ -27,20 +27,24 @@ import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoTestRunConfigurationType extends ConfigurationTypeBase {
+    public GoTestRunConfigurationType() {
+        super(
+            "GoTestRunConfiguration",
+            GoLocalize.goTestConfigurationName(),
+            GoLocalize.goTestConfigurationDescription(),
+            GoIcons.TEST_RUN
+        );
+        addFactory(new GoTestConfigurationFactoryBase(this) {
+            @Override
+            @Nonnull
+            public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
+                return new GoTestRunConfiguration(project, "Go Test", getInstance());
+            }
+        });
+    }
 
-  public GoTestRunConfigurationType() {
-    super("GoTestRunConfiguration", GoLocalize.goTestConfigurationName(), GoLocalize.goTestConfigurationDescription(), GoIcons.TEST_RUN);
-    addFactory(new GoTestConfigurationFactoryBase(this) {
-      @Override
-      @Nonnull
-      public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
-        return new GoTestRunConfiguration(project, "Go Test", getInstance());
-      }
-    });
-  }
-
-  @Nonnull
-  public static GoTestRunConfigurationType getInstance() {
-    return EP_NAME.findExtensionOrFail(GoTestRunConfigurationType.class);
-  }
+    @Nonnull
+    public static GoTestRunConfigurationType getInstance() {
+        return EP_NAME.findExtensionOrFail(GoTestRunConfigurationType.class);
+    }
 }

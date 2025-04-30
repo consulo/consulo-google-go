@@ -29,19 +29,24 @@ import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoRunFileConfigurationType extends ConfigurationTypeBase {
-  public GoRunFileConfigurationType() {
-    super("GoRunFileConfiguration", GoLocalize.goSingleFileConfigurationName(), GoLocalize.goSingleFileConfigurationDescription(), GoIcons.APPLICATION_RUN);
-    addFactory(new GoConfigurationFactoryBase(this) {
-      @Override
-      @Nonnull
-      public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
-        return new GoRunFileConfiguration(project, GoConstants.GO, getInstance());
-      }
-    });
-  }
+    public GoRunFileConfigurationType() {
+        super(
+            "GoRunFileConfiguration",
+            GoLocalize.goSingleFileConfigurationName(),
+            GoLocalize.goSingleFileConfigurationDescription(),
+            GoIcons.APPLICATION_RUN
+        );
+        addFactory(new GoConfigurationFactoryBase(this) {
+            @Override
+            @Nonnull
+            public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
+                return new GoRunFileConfiguration(project, GoConstants.GO, getInstance());
+            }
+        });
+    }
 
-  @Nonnull
-  public static GoRunFileConfigurationType getInstance() {
-    return EP_NAME.findExtensionOrFail(GoRunFileConfigurationType.class);
-  }
+    @Nonnull
+    public static GoRunFileConfigurationType getInstance() {
+        return EP_NAME.findExtensionOrFail(GoRunFileConfigurationType.class);
+    }
 }
