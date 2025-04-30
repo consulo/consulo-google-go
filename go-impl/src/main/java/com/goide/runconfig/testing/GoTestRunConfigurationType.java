@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.runconfig.testing;
 
-import com.goide.GoIcons;
 import consulo.annotation.component.ExtensionImpl;
+import consulo.application.Application;
+import consulo.execution.configuration.ConfigurationType;
 import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.execution.configuration.RunConfiguration;
+import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.google.go.localize.GoLocalize;
 import consulo.project.Project;
 
@@ -32,7 +33,7 @@ public class GoTestRunConfigurationType extends ConfigurationTypeBase {
             "GoTestRunConfiguration",
             GoLocalize.goTestConfigurationName(),
             GoLocalize.goTestConfigurationDescription(),
-            GoIcons.TEST_RUN
+            GoogleGoIconGroup.gotest()
         );
         addFactory(new GoTestConfigurationFactoryBase(this) {
             @Override
@@ -45,6 +46,7 @@ public class GoTestRunConfigurationType extends ConfigurationTypeBase {
 
     @Nonnull
     public static GoTestRunConfigurationType getInstance() {
-        return EP_NAME.findExtensionOrFail(GoTestRunConfigurationType.class);
+        return Application.get().getExtensionPoint(ConfigurationType.class)
+            .findExtensionOrFail(GoTestRunConfigurationType.class);
     }
 }

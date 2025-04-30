@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.runconfig.file;
 
 import com.goide.GoConstants;
-import com.goide.GoIcons;
 import com.goide.runconfig.GoConfigurationFactoryBase;
 import consulo.annotation.component.ExtensionImpl;
+import consulo.application.Application;
+import consulo.execution.configuration.ConfigurationType;
 import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.execution.configuration.RunConfiguration;
+import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.google.go.localize.GoLocalize;
 import consulo.project.Project;
 
@@ -34,7 +35,7 @@ public class GoRunFileConfigurationType extends ConfigurationTypeBase {
             "GoRunFileConfiguration",
             GoLocalize.goSingleFileConfigurationName(),
             GoLocalize.goSingleFileConfigurationDescription(),
-            GoIcons.APPLICATION_RUN
+            GoogleGoIconGroup.goapp()
         );
         addFactory(new GoConfigurationFactoryBase(this) {
             @Override
@@ -47,6 +48,7 @@ public class GoRunFileConfigurationType extends ConfigurationTypeBase {
 
     @Nonnull
     public static GoRunFileConfigurationType getInstance() {
-        return EP_NAME.findExtensionOrFail(GoRunFileConfigurationType.class);
+        return Application.get().getExtensionPoint(ConfigurationType.class)
+            .findExtensionOrFail(GoRunFileConfigurationType.class);
     }
 }
