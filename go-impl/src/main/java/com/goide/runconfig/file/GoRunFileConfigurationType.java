@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.runconfig.file;
 
 import com.goide.GoConstants;
-import com.goide.GoIcons;
 import com.goide.runconfig.GoConfigurationFactoryBase;
 import consulo.annotation.component.ExtensionImpl;
+import consulo.application.Application;
+import consulo.execution.configuration.ConfigurationType;
 import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.execution.configuration.RunConfiguration;
+import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.google.go.localize.GoLocalize;
 import consulo.project.Project;
 
@@ -29,19 +30,25 @@ import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoRunFileConfigurationType extends ConfigurationTypeBase {
-  public GoRunFileConfigurationType() {
-    super("GoRunFileConfiguration", GoLocalize.goSingleFileConfigurationName(), GoLocalize.goSingleFileConfigurationDescription(), GoIcons.APPLICATION_RUN);
-    addFactory(new GoConfigurationFactoryBase(this) {
-      @Override
-      @Nonnull
-      public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
-        return new GoRunFileConfiguration(project, GoConstants.GO, getInstance());
-      }
-    });
-  }
+    public GoRunFileConfigurationType() {
+        super(
+            "GoRunFileConfiguration",
+            GoLocalize.goSingleFileConfigurationName(),
+            GoLocalize.goSingleFileConfigurationDescription(),
+            GoogleGoIconGroup.goapp()
+        );
+        addFactory(new GoConfigurationFactoryBase(this) {
+            @Override
+            @Nonnull
+            public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
+                return new GoRunFileConfiguration(project, GoConstants.GO, getInstance());
+            }
+        });
+    }
 
-  @Nonnull
-  public static GoRunFileConfigurationType getInstance() {
-    return EP_NAME.findExtensionOrFail(GoRunFileConfigurationType.class);
-  }
+    @Nonnull
+    public static GoRunFileConfigurationType getInstance() {
+        return Application.get().getExtensionPoint(ConfigurationType.class)
+            .findExtensionOrFail(GoRunFileConfigurationType.class);
+    }
 }
