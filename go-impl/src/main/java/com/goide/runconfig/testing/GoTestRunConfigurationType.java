@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.runconfig.testing;
 
-import com.goide.GoIcons;
 import consulo.annotation.component.ExtensionImpl;
+import consulo.application.Application;
+import consulo.execution.configuration.ConfigurationType;
 import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.execution.configuration.RunConfiguration;
+import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.google.go.localize.GoLocalize;
 import consulo.project.Project;
 
@@ -27,20 +28,25 @@ import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoTestRunConfigurationType extends ConfigurationTypeBase {
+    public GoTestRunConfigurationType() {
+        super(
+            "GoTestRunConfiguration",
+            GoLocalize.goTestConfigurationName(),
+            GoLocalize.goTestConfigurationDescription(),
+            GoogleGoIconGroup.gotest()
+        );
+        addFactory(new GoTestConfigurationFactoryBase(this) {
+            @Override
+            @Nonnull
+            public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
+                return new GoTestRunConfiguration(project, "Go Test", getInstance());
+            }
+        });
+    }
 
-  public GoTestRunConfigurationType() {
-    super("GoTestRunConfiguration", GoLocalize.goTestConfigurationName(), GoLocalize.goTestConfigurationDescription(), GoIcons.TEST_RUN);
-    addFactory(new GoTestConfigurationFactoryBase(this) {
-      @Override
-      @Nonnull
-      public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
-        return new GoTestRunConfiguration(project, "Go Test", getInstance());
-      }
-    });
-  }
-
-  @Nonnull
-  public static GoTestRunConfigurationType getInstance() {
-    return EP_NAME.findExtensionOrFail(GoTestRunConfigurationType.class);
-  }
+    @Nonnull
+    public static GoTestRunConfigurationType getInstance() {
+        return Application.get().getExtensionPoint(ConfigurationType.class)
+            .findExtensionOrFail(GoTestRunConfigurationType.class);
+    }
 }

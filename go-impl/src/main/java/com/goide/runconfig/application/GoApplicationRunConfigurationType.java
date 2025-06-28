@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.runconfig.application;
 
 import com.goide.GoConstants;
 import com.goide.runconfig.GoConfigurationFactoryBase;
 import consulo.annotation.component.ExtensionImpl;
+import consulo.application.Application;
+import consulo.execution.configuration.ConfigurationType;
 import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.execution.configuration.RunConfiguration;
 import consulo.google.go.icon.GoogleGoIconGroup;
@@ -29,20 +30,25 @@ import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoApplicationRunConfigurationType extends ConfigurationTypeBase {
-  public GoApplicationRunConfigurationType() {
-    super("GoApplicationRunConfiguration", GoLocalize.goApplicationConfigurationName(), GoLocalize.goApplicationConfigurationDescription(),
-          GoogleGoIconGroup.goapp());
-    addFactory(new GoConfigurationFactoryBase(this) {
-      @Override
-      @Nonnull
-      public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
-        return new GoApplicationConfiguration(project, GoConstants.GO, getInstance());
-      }
-    });
-  }
+    public GoApplicationRunConfigurationType() {
+        super(
+            "GoApplicationRunConfiguration",
+            GoLocalize.goApplicationConfigurationName(),
+            GoLocalize.goApplicationConfigurationDescription(),
+            GoogleGoIconGroup.goapp()
+        );
+        addFactory(new GoConfigurationFactoryBase(this) {
+            @Override
+            @Nonnull
+            public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
+                return new GoApplicationConfiguration(project, GoConstants.GO, getInstance());
+            }
+        });
+    }
 
-  @Nonnull
-  public static GoApplicationRunConfigurationType getInstance() {
-    return EP_NAME.findExtensionOrFail(GoApplicationRunConfigurationType.class);
-  }
+    @Nonnull
+    public static GoApplicationRunConfigurationType getInstance() {
+        return Application.get().getExtensionPoint(ConfigurationType.class)
+            .findExtensionOrFail(GoApplicationRunConfigurationType.class);
+    }
 }
