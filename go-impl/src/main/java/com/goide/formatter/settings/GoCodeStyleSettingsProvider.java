@@ -16,24 +16,26 @@
 
 package com.goide.formatter.settings;
 
-import com.goide.GoConstants;
+import com.goide.GoLanguage;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.configurable.Configurable;
+import consulo.language.Language;
 import consulo.language.codeStyle.CodeStyleSettings;
 import consulo.language.codeStyle.setting.CodeStyleSettingsProvider;
-
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @ExtensionImpl
 public class GoCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
-  @Override
-  public String getConfigurableDisplayName() {
-    return GoConstants.GO;
-  }
+    @Nullable
+    @Override
+    public Language getLanguage() {
+        return GoLanguage.INSTANCE;
+    }
 
-  @Nonnull
-  @Override
-  public Configurable createSettingsPage(@Nonnull CodeStyleSettings settings, CodeStyleSettings originalSettings) {
-    return new GoCodeStyleConfigurable(settings, originalSettings);
-  }
+    @Nonnull
+    @Override
+    public Configurable createSettingsPage(@Nonnull CodeStyleSettings settings, CodeStyleSettings originalSettings) {
+        return new GoCodeStyleConfigurable(settings, originalSettings);
+    }
 }

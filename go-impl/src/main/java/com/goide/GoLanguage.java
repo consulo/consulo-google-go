@@ -16,9 +16,11 @@
 
 package com.goide;
 
+import consulo.google.go.localize.GoLocalize;
 import consulo.language.Language;
 import consulo.language.file.LanguageFileType;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -31,8 +33,8 @@ public class GoLanguage extends Language {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return GoConstants.GO;
+  public LocalizeValue getDisplayName() {
+    return GoLocalize.goFileTypeDisplayName();
   }
 
   @Nullable

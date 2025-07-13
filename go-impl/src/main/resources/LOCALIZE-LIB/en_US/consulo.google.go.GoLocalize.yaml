@@ -1,14 +1,18 @@
-go.single.file.configuration.name:
-  text: Go Single File
-go.single.file.configuration.description:
-  text: Go single run file configuration
-go.test.configuration.name:
-  text:  Go Test
-go.test.configuration.description:
-  text: Go test run configuration
-go.application.configuration.name:
-  text: Go Application
 go.application.configuration.description:
-  text: Go application run configuration
+    text: Go application run configuration
+go.application.configuration.name:
+    text: Go Application
 go.file.description:
-  text: Go files
+    text: Go files
+go.file.type.display.name:
+    text: Go
+go.language.display.name:
+    text: Go
+go.single.file.configuration.description:
+    text: Go single run file configuration
+go.single.file.configuration.name:
+    text: Go Single File
+go.test.configuration.description:
+    text: Go test run configuration
+go.test.configuration.name:
+    text: Go Test

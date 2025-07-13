@@ -24,50 +24,56 @@ import consulo.project.Project;
 import consulo.ui.image.Image;
 import consulo.util.io.CharsetToolkit;
 import consulo.virtualFileSystem.VirtualFile;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class GoFileType extends LanguageFileType {
-  public static final LanguageFileType INSTANCE = new GoFileType();
+    public static final LanguageFileType INSTANCE = new GoFileType();
 
-  protected GoFileType() {
-    super(GoLanguage.INSTANCE);
-  }
+    protected GoFileType() {
+        super(GoLanguage.INSTANCE);
+    }
 
-  @Nonnull
-  @Override
-  public String getId() {
-    return GoConstants.GO;
-  }
+    @Nonnull
+    @Override
+    public String getId() {
+        return GoConstants.GO;
+    }
 
-  @Nonnull
-  @Override
-  public LocalizeValue getDescription() {
-    return GoLocalize.goFileDescription();
-  }
+    @Nonnull
+    @Override
+    public LocalizeValue getDisplayName() {
+        return GoLocalize.goFileTypeDisplayName();
+    }
 
-  @Nonnull
-  @Override
-  public String getDefaultExtension() {
-    return "go";
-  }
+    @Nonnull
+    @Override
+    public LocalizeValue getDescription() {
+        return GoLocalize.goFileDescription();
+    }
 
-  @Nullable
-  @Override
-  public Image getIcon() {
-    return GoogleGoIconGroup.gofiletype();
-  }
+    @Nonnull
+    @Override
+    public String getDefaultExtension() {
+        return "go";
+    }
 
-  @Override
-  public String getCharset(@Nonnull VirtualFile file, @Nonnull byte[] content) {
-    return CharsetToolkit.UTF8;
-  }
+    @Nullable
+    @Override
+    public Image getIcon() {
+        return GoogleGoIconGroup.gofiletype();
+    }
 
-  @Override
-  public Charset extractCharsetFromFileContent(@Nullable Project project, @Nullable VirtualFile file, @Nonnull CharSequence content) {
-    return StandardCharsets.UTF_8;
-  }
+    @Override
+    public String getCharset(@Nonnull VirtualFile file, @Nonnull byte[] content) {
+        return CharsetToolkit.UTF8;
+    }
+
+    @Override
+    public Charset extractCharsetFromFileContent(@Nullable Project project, @Nullable VirtualFile file, @Nonnull CharSequence content) {
+        return StandardCharsets.UTF_8;
+    }
 }

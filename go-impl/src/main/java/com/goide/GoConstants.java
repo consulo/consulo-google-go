@@ -87,10 +87,10 @@ public class GoConstants {
                                                                          "windows/amd64", "linux/ppc64le");
   public static final Set<String> KNOWN_COMPILERS = Set.of("gc", "gccgo");
 
-  @NonNls public static final String NIL = "nil";
+  public static final String NIL = "nil";
 
-  @NonNls public static final String GO = "Go";
-  @NonNls public static final String AMD64 = "amd64";
+  public static final String GO = "Go";
+  public static final String AMD64 = "amd64";
 
   private GoConstants() {
 
