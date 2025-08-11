@@ -16,18 +16,17 @@
 
 package com.goide.formatter.settings;
 
-import com.goide.GoConstants;
 import com.goide.GoLanguage;
+import consulo.google.go.localize.GoLocalize;
 import consulo.language.codeStyle.CodeStyleSettings;
 import consulo.language.codeStyle.ui.setting.CodeStyleAbstractConfigurable;
 import consulo.language.codeStyle.ui.setting.CodeStyleAbstractPanel;
 import consulo.language.codeStyle.ui.setting.TabbedLanguageCodeStylePanel;
-
 import jakarta.annotation.Nonnull;
 
 public class GoCodeStyleConfigurable extends CodeStyleAbstractConfigurable {
   public GoCodeStyleConfigurable(@Nonnull CodeStyleSettings settings, CodeStyleSettings cloneSettings) {
-    super(settings, cloneSettings, GoConstants.GO);
+    super(settings, cloneSettings, GoLocalize.goLanguageDisplayName());
   }
 
   @Nonnull

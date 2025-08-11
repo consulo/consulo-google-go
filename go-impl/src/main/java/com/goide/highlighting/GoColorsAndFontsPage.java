@@ -16,15 +16,15 @@
 
 package com.goide.highlighting;
 
-import com.goide.GoFileType;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.colorScheme.TextAttributesKey;
 import consulo.colorScheme.setting.AttributesDescriptor;
-import consulo.colorScheme.setting.ColorDescriptor;
+import consulo.google.go.localize.GoLocalize;
 import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
 import consulo.language.editor.highlight.SyntaxHighlighter;
-
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,20 +100,14 @@ public class GoColorsAndFontsPage implements ColorSettingsPage {
 
   @Override
   @Nonnull
-  public String getDisplayName() {
-    return GoFileType.INSTANCE.getName();
+  public LocalizeValue getDisplayName() {
+    return GoLocalize.goLanguageDisplayName();
   }
 
   @Override
   @Nonnull
   public AttributesDescriptor[] getAttributeDescriptors() {
     return DESCRIPTORS;
-  }
-
-  @Override
-  @Nonnull
-  public ColorDescriptor[] getColorDescriptors() {
-    return ColorDescriptor.EMPTY_ARRAY;
   }
 
   @Override

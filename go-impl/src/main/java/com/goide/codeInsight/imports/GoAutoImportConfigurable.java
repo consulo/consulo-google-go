@@ -22,15 +22,16 @@ import consulo.application.ApplicationBundle;
 import consulo.configurable.ConfigurationException;
 import consulo.configurable.ProjectConfigurable;
 import consulo.configurable.SearchableConfigurable;
+import consulo.google.go.localize.GoLocalize;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.awt.*;
 import consulo.util.lang.StringUtil;
-import jakarta.inject.Inject;
-import org.jetbrains.annotations.Nls;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
@@ -140,10 +141,9 @@ public class GoAutoImportConfigurable implements SearchableConfigurable, Project
     return null;
   }
 
-  @Nls
   @Override
-  public String getDisplayName() {
-    return "Go";
+  public LocalizeValue getDisplayName() {
+    return GoLocalize.goLanguageDisplayName();
   }
 
   @RequiredUIAccess
