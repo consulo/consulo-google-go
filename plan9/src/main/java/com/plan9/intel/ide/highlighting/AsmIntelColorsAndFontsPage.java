@@ -17,18 +17,15 @@
 package com.plan9.intel.ide.highlighting;
 
 import consulo.annotation.component.ExtensionImpl;
-import consulo.colorScheme.TextAttributesKey;
 import consulo.colorScheme.setting.AttributesDescriptor;
-import consulo.colorScheme.setting.ColorDescriptor;
 import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
 import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.localize.LocalizeValue;
 import consulo.util.io.ResourceUtil;
-
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
 
 import static com.plan9.intel.ide.highlighting.AsmIntelSyntaxHighlightingColors.*;
 
@@ -72,12 +69,6 @@ public class AsmIntelColorsAndFontsPage implements ColorSettingsPage {
     return DEMO_TEXT;
   }
 
-  @Nullable
-  @Override
-  public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
-    return null;
-  }
-
   @Nonnull
   @Override
   public AttributesDescriptor[] getAttributeDescriptors() {
@@ -86,13 +77,7 @@ public class AsmIntelColorsAndFontsPage implements ColorSettingsPage {
 
   @Nonnull
   @Override
-  public ColorDescriptor[] getColorDescriptors() {
-    return ColorDescriptor.EMPTY_ARRAY;
-  }
-
-  @Nonnull
-  @Override
-  public String getDisplayName() {
-    return "x86 Assembler";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("x86 Assembler");
   }
 }
