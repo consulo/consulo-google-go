@@ -32,6 +32,7 @@ import consulo.ide.action.CreateFileFromTemplateAction;
 import consulo.ide.action.CreateFileFromTemplateDialog;
 import consulo.language.psi.PsiDirectory;
 import consulo.language.psi.PsiFile;
+import consulo.localize.LocalizeValue;
 import consulo.module.extension.ModuleExtension;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
@@ -48,14 +49,14 @@ public class GoCreateFileAction extends CreateFileFromTemplateAction implements 
   private static final String DEFAULT_GO_TEMPLATE_PROPERTY = "DefaultGoTemplateProperty";
 
   public GoCreateFileAction() {
-    super("Go File", "", GoogleGoIconGroup.gofiletype());
+    super(LocalizeValue.localizeTODO("Go File"), LocalizeValue.empty(), GoogleGoIconGroup.gofiletype());
   }
 
   @Override
   protected void buildDialog(Project project, PsiDirectory directory, @Nonnull CreateFileFromTemplateDialog.Builder builder) {
-    builder.setTitle("New Go File")
-      .addKind("Empty file", GoogleGoIconGroup.gofiletype(), FILE_TEMPLATE)
-      .addKind("Simple Application", GoogleGoIconGroup.gofiletype(), APPLICATION_TEMPLATE);
+    builder.setTitle(LocalizeValue.localizeTODO("New Go File"))
+      .addKind(LocalizeValue.localizeTODO("Empty file"), GoogleGoIconGroup.gofiletype(), FILE_TEMPLATE)
+      .addKind(LocalizeValue.localizeTODO("Simple Application"), GoogleGoIconGroup.gofiletype(), APPLICATION_TEMPLATE);
   }
 
   @Nullable
@@ -66,8 +67,8 @@ public class GoCreateFileAction extends CreateFileFromTemplateAction implements 
 
   @Nonnull
   @Override
-  protected String getActionName(PsiDirectory directory, String newName, String templateName) {
-    return "New Go File";
+  protected LocalizeValue getActionName(PsiDirectory directory, String newName, String templateName) {
+    return LocalizeValue.localizeTODO("New Go File");
   }
 
   @Override
@@ -96,15 +97,5 @@ public class GoCreateFileAction extends CreateFileFromTemplateAction implements 
   @Override
   protected Class<? extends ModuleExtension> getModuleExtensionClass() {
     return GoModuleExtension.class;
-  }
-
-  @Override
-  public int hashCode() {
-    return getClass().hashCode();
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    return obj instanceof GoCreateFileAction;
   }
 }
