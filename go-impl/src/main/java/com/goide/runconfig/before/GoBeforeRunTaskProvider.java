@@ -26,6 +26,7 @@ import consulo.dataContext.DataContext;
 import consulo.execution.BeforeRunTaskProvider;
 import consulo.execution.configuration.RunConfiguration;
 import consulo.execution.runner.ExecutionEnvironment;
+import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.process.event.ProcessAdapter;
 import consulo.process.event.ProcessEvent;
@@ -53,13 +54,13 @@ public class GoBeforeRunTaskProvider extends BeforeRunTaskProvider<GoCommandBefo
   }
 
   @Override
-  public String getName() {
-    return "Go Command";
+  public LocalizeValue getName() {
+    return LocalizeValue.localizeTODO("Go Command");
   }
 
   @Override
-  public String getDescription(GoCommandBeforeRunTask task) {
-    return "Run `" + task + "`";
+  public LocalizeValue getDescription(GoCommandBeforeRunTask task) {
+    return LocalizeValue.localizeTODO("Run '" + task.getCommand() + "'");
   }
 
   @Nullable
