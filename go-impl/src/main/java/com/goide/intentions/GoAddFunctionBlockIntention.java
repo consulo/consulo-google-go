@@ -27,16 +27,15 @@ import consulo.language.editor.intention.IntentionMetaData;
 import consulo.language.psi.PsiDocumentManager;
 import consulo.language.psi.PsiElement;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.lang.ObjectUtil;
-import org.jetbrains.annotations.Nls;
-
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 @IntentionMetaData(ignoreId = "go.add.function.body", fileExtensions = "go", categories = "Go")
 public class GoAddFunctionBlockIntention extends BaseElementAtCaretIntentionAction {
-  public static final String NAME = "Add function body";
+  public static final LocalizeValue NAME = LocalizeValue.localizeTODO("Add function body");
 
   public GoAddFunctionBlockIntention() {
     setText(NAME);

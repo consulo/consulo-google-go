@@ -24,6 +24,7 @@ import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
@@ -46,7 +47,7 @@ public class GoAnonymousFieldDefinitionTypeInspection extends GoGeneralInspectio
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Invalid anonymous field definition type";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Invalid anonymous field definition type");
   }
 }

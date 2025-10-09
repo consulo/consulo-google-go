@@ -27,6 +27,7 @@ import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class GoAssignmentNilWithoutExplicitTypeInspection extends GoGeneralInspe
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Assignment nil without explicit type";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Assignment nil without explicit type");
   }
 }

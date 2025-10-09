@@ -21,6 +21,7 @@ import com.goide.psi.GoConstSpec;
 import consulo.language.editor.inspection.LocalQuickFixBase;
 import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
@@ -28,7 +29,7 @@ import jakarta.annotation.Nullable;
 
 public class GoDeleteConstDefinitionQuickFix extends LocalQuickFixBase {
   public GoDeleteConstDefinitionQuickFix(@Nullable String constName) {
-    super("Delete const " + (constName != null ? "'" + constName + "'" : ""), "Delete constant");
+    super(LocalizeValue.localizeTODO("Delete const " + (constName != null ? "'" + constName + "'" : "")));
   }
 
   @Override

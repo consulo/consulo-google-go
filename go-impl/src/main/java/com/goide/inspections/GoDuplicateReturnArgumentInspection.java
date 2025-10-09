@@ -20,6 +20,7 @@ import com.goide.psi.*;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 
 import jakarta.annotation.Nonnull;
@@ -63,13 +64,13 @@ public class GoDuplicateReturnArgumentInspection extends GoDuplicateArgumentInsp
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Duplicate return argument";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Duplicate return argument");
   }
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Redeclared symbols";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Redeclared symbols");
   }
 }

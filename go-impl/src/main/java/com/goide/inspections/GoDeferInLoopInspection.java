@@ -27,6 +27,7 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.util.PsiTreeUtil;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
@@ -47,14 +48,14 @@ public class GoDeferInLoopInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Control flow issues";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Control flow issues");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Defer in loop";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Defer in loop");
   }
 
   @Nonnull

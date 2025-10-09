@@ -21,6 +21,7 @@ import com.goide.psi.GoVarSpec;
 import consulo.language.editor.inspection.LocalQuickFixBase;
 import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
@@ -28,7 +29,7 @@ import jakarta.annotation.Nullable;
 
 public class GoDeleteVarDefinitionQuickFix extends LocalQuickFixBase {
   public GoDeleteVarDefinitionQuickFix(@Nullable String variableName) {
-    super("Delete variable " + (variableName != null ? "'" + variableName + "'" : ""), "Delete variable");
+    super(LocalizeValue.localizeTODO("Delete variable " + (variableName != null ? "'" + variableName + "'" : "")));
   }
 
   @Override

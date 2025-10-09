@@ -29,12 +29,13 @@ import consulo.language.psi.PsiComment;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoEmptyDeclarationInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
 
-  public final static String QUICK_FIX_NAME = "Delete empty declaration";
+  public final static LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Delete empty declaration");
 
   @Nonnull
   @Override
@@ -76,14 +77,14 @@ public class GoEmptyDeclarationInspection extends GoInspectionBase implements Cl
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Declaration redundancy";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Empty declaration inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Empty declaration inspection");
   }
 
   @Nonnull

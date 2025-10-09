@@ -28,6 +28,7 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.ArrayList;
@@ -116,14 +117,14 @@ public class GoBoolExpressionsInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Declaration redundancy";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Bool condition inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Bool condition inspection");
   }
 
   @Nonnull

@@ -30,6 +30,7 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.ElementManipulators;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 
@@ -328,14 +329,14 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Probable bugs";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Probable bugs");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Printf/Logf placeholder handler";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Printf/Logf placeholder handler");
   }
 
   @Nonnull

@@ -27,6 +27,7 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Trinity;
 
@@ -35,7 +36,7 @@ import java.util.List;
 
 @ExtensionImpl
 public class GoRedundantSecondIndexInSlicesInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
-  public final static String DELETE_REDUNDANT_INDEX_QUICK_FIX_NAME = "Delete redundant index";
+  public final static LocalizeValue DELETE_REDUNDANT_INDEX_QUICK_FIX_NAME = LocalizeValue.localizeTODO("Delete redundant index");
   private static final GoDeleteQuickFix DELETE_REDUNDANT_INDEX_QUICK_FIX =
     new GoDeleteQuickFix(DELETE_REDUNDANT_INDEX_QUICK_FIX_NAME, GoCallExpr.class);
 
@@ -82,14 +83,14 @@ public class GoRedundantSecondIndexInSlicesInspection extends GoInspectionBase i
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Declaration redundancy";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Redundant second index in slices inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Redundant second index in slices inspection");
   }
 
   @Nonnull

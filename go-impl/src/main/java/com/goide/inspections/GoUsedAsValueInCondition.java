@@ -29,6 +29,7 @@ import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
@@ -37,7 +38,7 @@ import static consulo.language.editor.inspection.ProblemHighlightType.GENERIC_ER
 
 @ExtensionImpl
 public class GoUsedAsValueInCondition extends GoInspectionBase {
-  public static final String QUICK_FIX_NAME = "Convert to '==''";
+  public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Convert to '==''");
 
   @Nonnull
   @Override
@@ -71,14 +72,14 @@ public class GoUsedAsValueInCondition extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Control flow issues";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Control flow issues");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Used as value in condition";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Used as value in condition");
   }
 
   @Nonnull

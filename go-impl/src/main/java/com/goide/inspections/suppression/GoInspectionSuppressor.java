@@ -29,6 +29,7 @@ import consulo.language.psi.PsiComment;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiWhiteSpace;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import consulo.usage.UsageViewTypeLocation;
 import consulo.util.lang.StringUtil;
 
@@ -99,16 +100,16 @@ public class GoInspectionSuppressor implements InspectionSuppressor {
   }
 
   public static class GoSuppressInspectionFix extends AbstractBatchSuppressByNoInspectionCommentFix {
+    private static String BASE_TEXT = "Suppress for ";
+
     private final Class<? extends GoCompositeElement> myContainerClass;
-    private final String myBaseText;
     private final boolean myTopMost;
 
     public GoSuppressInspectionFix(@Nonnull String elementDescription,
                                    Class<? extends GoCompositeElement> containerClass,
                                    boolean topMost) {
       super(SuppressionUtil.ALL, true);
-      myBaseText = "Suppress all inspections for ";
-      setText(myBaseText + elementDescription);
+      setText(LocalizeValue.localizeTODO(BASE_TEXT + elementDescription));
       myContainerClass = containerClass;
       myTopMost = topMost;
     }
@@ -118,8 +119,7 @@ public class GoInspectionSuppressor implements InspectionSuppressor {
                                    Class<? extends GoCompositeElement> containerClass,
                                    boolean topMost) {
       super(ID, false);
-      myBaseText = "Suppress for ";
-      setText(myBaseText + elementDescription);
+      setText(LocalizeValue.localizeTODO(BASE_TEXT + elementDescription));
       myTopMost = topMost;
       myContainerClass = containerClass;
     }
@@ -140,7 +140,7 @@ public class GoInspectionSuppressor implements InspectionSuppressor {
       if (container != null) {
         String description = ElementDescriptionUtil.getElementDescription(container, UsageViewTypeLocation.INSTANCE);
         if (StringUtil.isNotEmpty(description)) {
-          setText(myBaseText + description);
+          setText(LocalizeValue.localizeTODO(BASE_TEXT + description));
         }
       }
       return container;

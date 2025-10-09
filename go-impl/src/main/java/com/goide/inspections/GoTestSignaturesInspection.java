@@ -29,6 +29,7 @@ import consulo.language.editor.inspection.LocalQuickFixBase;
 import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.ObjectUtil;
@@ -72,15 +73,15 @@ public class GoTestSignaturesInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Wrong test declaration";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Wrong test declaration");
   }
 
   private static class GoTestSignaturesQuickFix extends LocalQuickFixBase {
     private final GoTestFunctionType myType;
 
     public GoTestSignaturesQuickFix(GoTestFunctionType type) {
-      super("Fix signature");
+      super(LocalizeValue.localizeTODO("Fix signature"));
       myType = type;
     }
 

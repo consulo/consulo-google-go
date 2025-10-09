@@ -23,6 +23,7 @@ import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.editor.intention.HighPriorityAction;
 import consulo.language.psi.PsiElement;
 import consulo.language.util.ModuleUtilCore;
+import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.project.Project;
 import consulo.undoRedo.CommandProcessor;
@@ -38,7 +39,7 @@ public class GoGetPackageFix extends LocalQuickFixBase implements HighPriorityAc
   private final String myPackage;
 
   public GoGetPackageFix(@Nonnull String packageName) {
-    super("go get -t " + packageName + "/...", "go get");
+    super(LocalizeValue.of("go get -t " + packageName + "/..."));
     myPackage = packageName;
   }
 

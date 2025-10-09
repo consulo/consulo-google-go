@@ -21,6 +21,7 @@ import consulo.language.editor.WriteCommandAction;
 import consulo.language.editor.inspection.LocalQuickFixBase;
 import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.lang.ObjectUtil;
 
@@ -30,13 +31,13 @@ public class GoDeleteQuickFix extends LocalQuickFixBase {
   private final Class<? extends PsiElement> myClazz;
   private final IElementType myElementType;
 
-  public GoDeleteQuickFix(@Nonnull String name, @Nonnull Class<? extends PsiElement> clazz) {
+  public GoDeleteQuickFix(@Nonnull LocalizeValue name, @Nonnull Class<? extends PsiElement> clazz) {
     super(name);
     myClazz = clazz;
     myElementType = null;
   }
-  
-  public GoDeleteQuickFix(@Nonnull String name, @Nonnull IElementType elementType) {
+
+  public GoDeleteQuickFix(@Nonnull LocalizeValue name, @Nonnull IElementType elementType) {
     super(name);
     myClazz = PsiElement.class;
     myElementType = elementType;

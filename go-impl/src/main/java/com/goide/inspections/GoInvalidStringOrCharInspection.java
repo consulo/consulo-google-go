@@ -26,6 +26,7 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.impl.psi.LeafPsiElement;
 import consulo.language.psi.PsiElement;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
@@ -66,7 +67,7 @@ public class GoInvalidStringOrCharInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Invalid strings and runes";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Invalid strings and runes");
   }
 }

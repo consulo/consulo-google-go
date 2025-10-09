@@ -28,6 +28,7 @@ import consulo.language.psi.*;
 import consulo.language.psi.path.FileReference;
 import consulo.language.psi.path.FileReferenceSet;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ArrayUtil;
 
 import jakarta.annotation.Nonnull;
@@ -139,8 +140,8 @@ public class GoImportReference extends FileReference {
           result.add(new CreateFileFix(true, fileNameToCreate, (PsiDirectory)context) {
             @Nonnull
             @Override
-            public String getText() {
-              return "Create Directory " + fileNameToCreate + " at " + targetPath;
+            public LocalizeValue getText() {
+              return LocalizeValue.localizeTODO("Create Directory " + fileNameToCreate + " at " + targetPath);
             }
           });
         }

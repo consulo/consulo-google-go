@@ -22,6 +22,7 @@ import consulo.application.WriteAction;
 import consulo.google.go.module.extension.GoMutableModuleExtension;
 import consulo.language.editor.inspection.LocalQuickFixBase;
 import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.module.content.ModuleRootManager;
 import consulo.module.content.layer.ModifiableRootModel;
@@ -39,7 +40,7 @@ public class GoDisableVendoringInModuleQuickFix extends LocalQuickFixBase {
   private final Module myModule;
 
   private GoDisableVendoringInModuleQuickFix(@Nonnull Module module) {
-    super("Disable vendoring experiment support in module '" + module.getName() + "'", "Disable vendoring experiment support in module");
+    super(LocalizeValue.localizeTODO("Disable vendoring experiment support in module '" + module.getName() + "'"));
     myModule = module;
   }
 

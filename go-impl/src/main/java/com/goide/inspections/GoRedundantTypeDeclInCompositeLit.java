@@ -26,12 +26,13 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 @ExtensionImpl
 public class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implements CleanupLocalInspectionTool {
-  public final static String DELETE_TYPE_DECLARATION_QUICK_FIX_NAME = "Delete redundant type declaration";
+  public final static LocalizeValue DELETE_TYPE_DECLARATION_QUICK_FIX_NAME = LocalizeValue.localizeTODO("Delete redundant type declaration");
   private static final GoDeleteAmpersandAndTypeInCompositeLitQuickFix QUICK_FIX = new GoDeleteAmpersandAndTypeInCompositeLitQuickFix();
 
   @Nonnull
@@ -109,14 +110,14 @@ public class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implemen
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Declaration redundancy";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Redundant type declaration in composite literals";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Redundant type declaration in composite literals");
   }
 
   @Nonnull

@@ -28,6 +28,7 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.ElementDescriptionUtil;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.usage.UsageViewTypeLocation;
 import consulo.util.lang.StringUtil;
 
@@ -103,14 +104,14 @@ public class GoReservedWordUsedAsNameInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Probable bugs";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Probable bugs");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Reserved word used as name";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Reserved word used as name");
   }
 
   @Nonnull

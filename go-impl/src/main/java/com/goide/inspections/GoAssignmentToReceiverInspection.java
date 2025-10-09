@@ -24,6 +24,7 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 import static consulo.language.editor.inspection.ProblemHighlightType.WEAK_WARNING;
@@ -60,14 +61,14 @@ public class GoAssignmentToReceiverInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Control flow issues";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Control flow issues");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Assignment to receiver";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Assignment to receiver");
   }
 
   @Nonnull

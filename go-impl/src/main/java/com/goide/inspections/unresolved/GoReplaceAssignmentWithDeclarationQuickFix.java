@@ -25,13 +25,14 @@ import com.goide.psi.impl.GoPsiImplUtil;
 import consulo.language.editor.inspection.LocalQuickFixOnPsiElement;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import org.jetbrains.annotations.Nls;
 
 import jakarta.annotation.Nonnull;
 
 public class GoReplaceAssignmentWithDeclarationQuickFix extends LocalQuickFixOnPsiElement {
-  public static final String QUICK_FIX_NAME = "Replace with ':='";
+  public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Replace with ':='");
 
   public GoReplaceAssignmentWithDeclarationQuickFix(@Nonnull PsiElement element) {
     super(element);
@@ -39,7 +40,7 @@ public class GoReplaceAssignmentWithDeclarationQuickFix extends LocalQuickFixOnP
 
   @Nonnull
   @Override
-  public String getText() {
+  public LocalizeValue getText() {
     return QUICK_FIX_NAME;
   }
 
@@ -65,12 +66,5 @@ public class GoReplaceAssignmentWithDeclarationQuickFix extends LocalQuickFixOnP
       String rightSide = recvExpression != null ? recvExpression.getText() : "";
       recvStatement.replace(GoElementFactory.createRecvStatement(project, leftSide, rightSide));
     }
-  }
-
-  @Nls
-  @Nonnull
-  @Override
-  public String getFamilyName() {
-    return QUICK_FIX_NAME;
   }
 }

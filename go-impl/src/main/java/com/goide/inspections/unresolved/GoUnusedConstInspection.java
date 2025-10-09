@@ -27,6 +27,7 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.search.ReferencesSearch;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
@@ -49,14 +50,14 @@ public class GoUnusedConstInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Declaration redundancy";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Unused constant inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Unused constant inspection");
   }
 
   @Nonnull

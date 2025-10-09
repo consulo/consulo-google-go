@@ -27,6 +27,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.language.util.AttachmentFactoryUtil;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
@@ -50,14 +51,8 @@ public abstract class GoUnresolvedFixBase extends LocalQuickFixAndIntentionActio
 
   @Nonnull
   @Override
-  public String getText() {
-    return "Create " + myWhat + " '" + myName + "'";
-  }
-
-  @Nonnull
-  @Override
-  public String getFamilyName() {
-    return "Create " + myWhat;
+  public LocalizeValue getText() {
+    return LocalizeValue.localizeTODO("Create " + myWhat + " '" + myName + "'");
   }
 
   @Override

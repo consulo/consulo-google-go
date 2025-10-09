@@ -35,6 +35,7 @@ import consulo.language.editor.annotation.Annotator;
 import consulo.language.psi.PsiDirectory;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 
 import jakarta.annotation.Nonnull;
@@ -215,7 +216,7 @@ public class GoAnnotator implements Annotator {
           PsiElement secondColon = colons[1].getPsi();
           TextRange r = TextRange.create(secondColon.getTextRange().getStartOffset(), thirdIndex.getTextRange().getEndOffset());
           Annotation annotation = holder.createErrorAnnotation(r, "Invalid operation " + slice.getText() + " (3-index slice of string)");
-          annotation.registerFix(new GoDeleteRangeQuickFix(secondColon, thirdIndex, "Delete third index"));
+          annotation.registerFix(new GoDeleteRangeQuickFix(secondColon, thirdIndex, LocalizeValue.localizeTODO("Delete third index")));
         }
       }
     }

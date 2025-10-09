@@ -28,6 +28,7 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.scratch.ScratchUtil;
 import consulo.language.psi.PsiDirectory;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,7 +62,7 @@ public class GoMultiplePackagesInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Multiple packages in directory declaration";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Multiple packages in directory declaration");
   }
 }

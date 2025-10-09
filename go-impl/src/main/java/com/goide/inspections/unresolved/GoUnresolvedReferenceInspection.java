@@ -35,6 +35,7 @@ import consulo.language.psi.PsiReference;
 import consulo.language.psi.ResolveResult;
 import consulo.language.psi.path.FileReference;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 
 import jakarta.annotation.Nonnull;
@@ -195,7 +196,7 @@ public class GoUnresolvedReferenceInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Unresolved reference inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Unresolved reference inspection");
   }
 }

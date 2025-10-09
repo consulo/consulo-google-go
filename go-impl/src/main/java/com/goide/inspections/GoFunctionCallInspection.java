@@ -23,6 +23,7 @@ import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 
 import jakarta.annotation.Nonnull;
@@ -82,7 +83,7 @@ public class GoFunctionCallInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Function call inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Function call inspection");
   }
 }

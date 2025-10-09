@@ -23,12 +23,13 @@ import com.goide.psi.GoVarSpec;
 import consulo.language.editor.inspection.LocalQuickFixOnPsiElement;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
 
 public class GoRenameToBlankQuickFix extends LocalQuickFixOnPsiElement {
-  public static final String NAME = "Rename to _";
+  public static final LocalizeValue NAME = LocalizeValue.localizeTODO("Rename to _");
 
   public GoRenameToBlankQuickFix(GoNamedElement o) {
     super(o);
@@ -36,7 +37,7 @@ public class GoRenameToBlankQuickFix extends LocalQuickFixOnPsiElement {
 
   @Nonnull
   @Override
-  public String getText() {
+  public LocalizeValue getText() {
     return NAME;
   }
 
@@ -54,11 +55,5 @@ public class GoRenameToBlankQuickFix extends LocalQuickFixOnPsiElement {
         }
       }
     }
-  }
-
-  @Nonnull
-  @Override
-  public String getFamilyName() {
-    return getName();
   }
 }

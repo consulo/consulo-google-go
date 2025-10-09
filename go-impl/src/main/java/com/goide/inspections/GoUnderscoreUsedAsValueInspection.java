@@ -25,6 +25,7 @@ import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
@@ -45,7 +46,7 @@ public class GoUnderscoreUsedAsValueInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Underscore used as value";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Underscore used as value");
   }
 }

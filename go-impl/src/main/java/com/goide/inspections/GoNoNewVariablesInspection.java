@@ -28,6 +28,7 @@ import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 
@@ -36,7 +37,7 @@ import java.util.List;
 
 @ExtensionImpl
 public class GoNoNewVariablesInspection extends GoGeneralInspectionBase {
-  public static final String QUICK_FIX_NAME = "Replace with '='";
+  public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Replace with '='");
 
   @Nonnull
   @Override
@@ -104,8 +105,8 @@ public class GoNoNewVariablesInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "No new variables on left side of :=";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("No new variables on left side of :=");
   }
 
   private static class MyLocalQuickFixBase extends LocalQuickFixBase {

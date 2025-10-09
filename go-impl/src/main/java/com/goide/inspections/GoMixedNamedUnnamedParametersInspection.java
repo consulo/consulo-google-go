@@ -24,6 +24,7 @@ import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -88,7 +89,7 @@ public class GoMixedNamedUnnamedParametersInspection extends GoGeneralInspection
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Mixed named and unnamed parameters";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Mixed named and unnamed parameters");
   }
 }

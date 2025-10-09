@@ -25,6 +25,7 @@ import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiDirectory;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
@@ -45,7 +46,7 @@ public class GoSelfImportInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Self import";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Self import");
   }
 }

@@ -27,6 +27,7 @@ import consulo.language.editor.inspection.*;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.search.ReferencesSearch;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
@@ -54,14 +55,14 @@ public class GoUnusedLabelInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Declaration redundancy";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Unused label inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Unused label inspection");
   }
 
   @Nonnull
@@ -72,7 +73,7 @@ public class GoUnusedLabelInspection extends GoInspectionBase {
 
   private static class GoDeleteLabelStatementQuickFix extends LocalQuickFixBase {
     public GoDeleteLabelStatementQuickFix(@Nullable String labelName) {
-      super("Delete label " + (labelName != null ? "'" + labelName + "'" : ""), "Delete label");
+      super(LocalizeValue.localizeTODO("Delete label " + (labelName != null ? "'" + labelName + "'" : "")));
     }
 
     @Override

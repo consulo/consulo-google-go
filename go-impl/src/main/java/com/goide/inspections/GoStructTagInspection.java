@@ -26,6 +26,7 @@ import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 /**
@@ -114,14 +115,14 @@ public class GoStructTagInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Probable bugs";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Probable bugs");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Malformed struct tag";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Malformed struct tag");
   }
 
   @Nonnull

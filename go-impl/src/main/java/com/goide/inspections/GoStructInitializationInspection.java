@@ -26,6 +26,7 @@ import consulo.language.editor.inspection.*;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 
@@ -35,7 +36,7 @@ import java.util.List;
 
 @ExtensionImpl
 public class GoStructInitializationInspection extends GoInspectionBase<GoStructInitializationInspectionState> {
-  public static final String REPLACE_WITH_NAMED_STRUCT_FIELD_FIX_NAME = "Replace with named struct field";
+  public static final LocalizeValue REPLACE_WITH_NAMED_STRUCT_FIELD_FIX_NAME = LocalizeValue.localizeTODO("Replace with named struct field");
 
   @Nonnull
   @Override
@@ -65,14 +66,14 @@ public class GoStructInitializationInspection extends GoInspectionBase<GoStructI
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Code style issues";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Code style issues");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Struct initialization without field names";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Struct initialization without field names");
   }
 
   @Nonnull

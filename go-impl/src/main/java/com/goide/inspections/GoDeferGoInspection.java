@@ -24,6 +24,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.*;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
@@ -31,9 +32,9 @@ import jakarta.annotation.Nullable;
 
 @ExtensionImpl
 public class GoDeferGoInspection extends GoGeneralInspectionBase {
-  public static final String ADD_CALL_QUICK_FIX_NAME = "Add function call";
-  public static final String UNWRAP_PARENTHESES_QUICK_FIX_NAME = "Unwrap parentheses";
-  public static final String REPLACE_WITH_CORRECT_DEFER_RECOVER = "Replace with correct defer construct";
+  public static final LocalizeValue ADD_CALL_QUICK_FIX_NAME = LocalizeValue.localizeTODO("Add function call");
+  public static final LocalizeValue UNWRAP_PARENTHESES_QUICK_FIX_NAME = LocalizeValue.localizeTODO("Unwrap parentheses");
+  public static final LocalizeValue REPLACE_WITH_CORRECT_DEFER_RECOVER = LocalizeValue.localizeTODO("Replace with correct defer construct");
 
   @Nonnull
   @Override
@@ -48,7 +49,7 @@ public class GoDeferGoInspection extends GoGeneralInspectionBase {
           GoCallExpr callExpr = (GoCallExpr)expression;
           if (GoPsiImplUtil.isPanic(callExpr)) {
             holder.registerProblem(o, "defer should not call panic() directly #loc", ProblemHighlightType.WEAK_WARNING,
-                                   new GoDeleteQuickFix("Delete statement", GoDeferStatement.class));
+                                   new GoDeleteQuickFix(LocalizeValue.localizeTODO("Delete statement"), GoDeferStatement.class));
             return;
           }
           if (GoPsiImplUtil.isRecover(callExpr)) {
@@ -69,12 +70,12 @@ public class GoDeferGoInspection extends GoGeneralInspectionBase {
           GoCallExpr callExpr = (GoCallExpr)expression;
           if (GoPsiImplUtil.isPanic(callExpr)) {
             holder.registerProblem(o, "go should not call panic() directly #loc", ProblemHighlightType.WEAK_WARNING,
-                                   new GoDeleteQuickFix("Delete statement", GoGoStatement.class));
+                                   new GoDeleteQuickFix(LocalizeValue.localizeTODO("Delete statement"), GoGoStatement.class));
             return;
           }
           if (GoPsiImplUtil.isRecover(callExpr)) {
             holder.registerProblem(o, "go should not call recover() directly #loc", ProblemHighlightType.WEAK_WARNING,
-                                   new GoDeleteQuickFix("Delete statement", GoGoStatement.class));
+                                   new GoDeleteQuickFix(LocalizeValue.localizeTODO("Delete statement"), GoGoStatement.class));
             return;
           }
         }
@@ -103,8 +104,8 @@ public class GoDeferGoInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Defer/go statements check";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Defer/go statements check");
   }
 
   public static class GoAddParensQuickFix extends LocalQuickFixBase {

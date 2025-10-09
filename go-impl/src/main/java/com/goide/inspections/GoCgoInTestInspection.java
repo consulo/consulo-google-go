@@ -24,6 +24,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.ProblemsHolder;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
@@ -40,7 +41,7 @@ public class GoCgoInTestInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Usage of cgo in tests is not supported";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Usage of cgo in tests is not supported");
   }
 }

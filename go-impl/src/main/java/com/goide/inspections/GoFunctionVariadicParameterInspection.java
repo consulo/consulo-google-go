@@ -25,6 +25,7 @@ import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import java.util.List;
 
@@ -32,7 +33,7 @@ import static com.goide.GoTypes.TRIPLE_DOT;
 
 @ExtensionImpl
 public class GoFunctionVariadicParameterInspection extends GoGeneralInspectionBase {
-  private static final GoDeleteQuickFix DELETE_QUICK_FIX = new GoDeleteQuickFix("Delete ...", TRIPLE_DOT);
+  private static final GoDeleteQuickFix DELETE_QUICK_FIX = new GoDeleteQuickFix(LocalizeValue.localizeTODO("Delete ..."), TRIPLE_DOT);
 
   @Nonnull
   @Override
@@ -83,7 +84,7 @@ public class GoFunctionVariadicParameterInspection extends GoGeneralInspectionBa
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Incorrect variadic parameter";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Incorrect variadic parameter");
   }
 }

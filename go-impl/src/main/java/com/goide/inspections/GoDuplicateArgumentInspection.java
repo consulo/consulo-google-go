@@ -23,6 +23,7 @@ import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.LinkedHashSet;
@@ -68,14 +69,14 @@ public class GoDuplicateArgumentInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Redeclared symbols";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Redeclared symbols");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Duplicate argument";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Duplicate argument");
   }
 
   @Nonnull

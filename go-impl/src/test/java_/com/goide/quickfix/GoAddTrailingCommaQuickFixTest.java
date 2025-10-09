@@ -33,5 +33,5 @@ public abstract class GoAddTrailingCommaQuickFixTest extends GoQuickFixTestBase 
     return "quickfixes/add-comma";
   }
 
-  public void testSimple() { doTest(GoAddTrailingCommaInspection.QUICK_FIX_NAME); }
+  public void testSimple() { doTest("Add comma"); }
 }

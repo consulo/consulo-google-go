@@ -30,6 +30,7 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiReference;
 import consulo.language.psi.search.ReferencesSearch;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import java.util.List;
 
@@ -87,14 +88,14 @@ public class GoUnusedParameterInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Declaration redundancy";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Unused parameter inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Unused parameter inspection");
   }
 
   @Nonnull

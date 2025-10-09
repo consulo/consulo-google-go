@@ -18,6 +18,7 @@ package com.goide.inspections.unresolved;
 
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.localize.LocalizeValue;
 import consulo.util.lang.StringUtil;
 
 import jakarta.annotation.Nonnull;
@@ -31,14 +32,14 @@ public class GoUnusedExportedFunctionInspection extends GoUnusedFunctionInspecti
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Declaration redundancy";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Unused exported function inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Unused exported function inspection");
   }
 
   @Nonnull

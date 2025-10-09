@@ -24,6 +24,7 @@ import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -61,14 +62,14 @@ public class GoInfiniteForInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Control flow issues";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Control flow issues");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Infinite for loop";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Infinite for loop");
   }
 
   @Nonnull

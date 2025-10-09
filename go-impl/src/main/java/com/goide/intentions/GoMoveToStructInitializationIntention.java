@@ -26,14 +26,14 @@ import consulo.language.editor.intention.IntentionMetaData;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.MultiMap;
 import consulo.util.lang.ObjectUtil;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nls;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import org.jetbrains.annotations.Contract;
+
 import java.util.List;
 import java.util.Set;
 
@@ -42,7 +42,7 @@ import static consulo.util.collection.ContainerUtil.*;
 @ExtensionImpl
 @IntentionMetaData(ignoreId = "go.move.to.struct.initializer", fileExtensions = "go", categories = "Go")
 public class GoMoveToStructInitializationIntention extends BaseElementAtCaretIntentionAction {
-  public static final String NAME = "Move field assignment to struct initialization";
+  public static final LocalizeValue NAME = LocalizeValue.localizeTODO("Move field assignment to struct initialization");
 
   public GoMoveToStructInitializationIntention() {
     setText(NAME);

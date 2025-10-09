@@ -27,6 +27,7 @@ import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
@@ -50,7 +51,7 @@ public class GoAssignmentToConstantInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Assignment to constant";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Assignment to constant");
   }
 }

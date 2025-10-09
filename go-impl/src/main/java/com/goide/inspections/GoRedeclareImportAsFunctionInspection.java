@@ -23,6 +23,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.localize.LocalizeValue;
 import consulo.util.lang.StringUtil;
 
 import jakarta.annotation.Nonnull;
@@ -47,14 +48,14 @@ public class GoRedeclareImportAsFunctionInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Redeclared symbols";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Redeclared symbols");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Redeclare import as function";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Redeclare import as function");
   }
 
   @Nonnull

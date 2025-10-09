@@ -25,6 +25,7 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import java.util.Set;
 
@@ -49,14 +50,14 @@ public class GoReceiverNamesInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Code style issues";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Code style issues");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Receiver has generic name";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Receiver has generic name");
   }
 
   @Nonnull

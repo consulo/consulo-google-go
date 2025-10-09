@@ -36,154 +36,160 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.language.util.ModuleUtilCore;
+import consulo.localize.LocalizeValue;
 import consulo.logging.attachment.AttachmentFactory;
 import consulo.module.Module;
 import consulo.project.Project;
 import consulo.undoRedo.CommandProcessor;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
-import org.jetbrains.annotations.Nls;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.util.List;
 import java.util.Map;
 
 public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsiElement implements HighPriorityAction {
-  private final String myName;
-  private static final String FAMILY_NAME = "Create function";
+    private final String myName;
 
-  public GoIntroduceFunctionFix(@Nonnull PsiElement element, @Nonnull String name) {
-    super(element);
-    myName = name;
-  }
+    public GoIntroduceFunctionFix(@Nonnull PsiElement element, @Nonnull String name) {
+        super(element);
+        myName = name;
+    }
 
-  @Override
-  public void invoke(@Nonnull Project project,
-                     @Nonnull PsiFile file,
-                     @Nullable Editor editor,
-                     @Nonnull PsiElement startElement,
-                     @Nonnull PsiElement endElement) {
-    if (editor == null) {
-      LOG.error("Cannot run quick fix without editor: " + getClass().getSimpleName(),
+    @Override
+    public void invoke(@Nonnull Project project,
+                       @Nonnull PsiFile file,
+                       @Nullable Editor editor,
+                       @Nonnull PsiElement startElement,
+                       @Nonnull PsiElement endElement) {
+        if (editor == null) {
+            LOG.error("Cannot run quick fix without editor: " + getClass().getSimpleName(),
                 AttachmentFactory.get().create(file.getVirtualFile().getName(), ""));
-      return;
-    }
-    if (!(startElement instanceof GoCallExpr)) return;
-
-    GoCallExpr call = (GoCallExpr)startElement;
-    List<GoExpression> args = call.getArgumentList().getExpressionList();
-    GoType resultType = ContainerUtil.getFirstItem(GoTypeUtil.getExpectedTypes(call));
-
-    PsiElement anchor = PsiTreeUtil.findPrevParent(file, call);
-
-    Template template = TemplateManager.getInstance(project).createTemplate("", "");
-    template.addTextSegment("\nfunc " + myName);
-
-    setupFunctionParameters(template, args, file);
-    setupFunctionResult(template, resultType);
-
-    template.addTextSegment(" {\n\t");
-    template.addEndVariable();
-    template.addTextSegment("\n}");
-
-    int offset = anchor.getTextRange().getEndOffset();
-    editor.getCaretModel().moveToOffset(offset);
-
-    startTemplate(editor, template, project);
-  }
-
-  @Nonnull
-  private static String convertType(@Nonnull PsiFile file, @Nullable GoType type, @Nonnull Map<String, GoImportSpec> importMap) {
-    if (type == null) return GoConstants.INTERFACE_TYPE;
-    Module module = ModuleUtilCore.findModuleForPsiElement(file);
-    boolean vendoringEnabled = GoVendoringUtil.isVendoringEnabled(module);
-    return GoDocumentationProvider.getTypePresentation(type, element -> {
-      if (element instanceof GoTypeSpec) {
-        GoTypeSpec spec = (GoTypeSpec)element;
-        if (GoPsiImplUtil.builtin(spec)) return spec.getIdentifier().getText();
-
-        GoFile typeFile = spec.getContainingFile();
-        if (file.isEquivalentTo(typeFile) || GoUtil.inSamePackage(typeFile, file)) {
-          return spec.getIdentifier().getText();
+            return;
         }
-        if (!spec.isPublic()) {
-          return GoConstants.INTERFACE_TYPE;
+        if (!(startElement instanceof GoCallExpr)) {
+            return;
         }
 
-        GoPathScopeHelper scopeHelper = GoPathScopeHelper.fromReferenceFile(file.getProject(), module, file.getVirtualFile());
-        boolean isAllowed = scopeHelper.couldBeReferenced(typeFile.getVirtualFile(), file.getVirtualFile());
-        if (!isAllowed) return GoConstants.INTERFACE_TYPE;
+        GoCallExpr call = (GoCallExpr) startElement;
+        List<GoExpression> args = call.getArgumentList().getExpressionList();
+        GoType resultType = ContainerUtil.getFirstItem(GoTypeUtil.getExpectedTypes(call));
 
-        String importPath = typeFile.getImportPath(vendoringEnabled);
+        PsiElement anchor = PsiTreeUtil.findPrevParent(file, call);
 
-        GoImportSpec importSpec = importMap.get(importPath);
-        String packageName = StringUtil.notNullize(typeFile.getPackageName());
-        String qualifier = StringUtil.notNullize(GoPsiImplUtil.getImportQualifierToUseInFile(importSpec, packageName), packageName);
+        Template template = TemplateManager.getInstance(project).createTemplate("", "");
+        template.addTextSegment("\nfunc " + myName);
 
-        // todo: add import package fix if getImportQualifierToUseInFile is null?
-        return GoPsiImplUtil.getFqn(qualifier, spec.getIdentifier().getText());
-      }
-      return GoConstants.INTERFACE_TYPE;
-    });
-  }
+        setupFunctionParameters(template, args, file);
+        setupFunctionResult(template, resultType);
 
-  private static void setupFunctionResult(@Nonnull Template template, @Nullable GoType type) {
-    if (type instanceof GoTypeList) {
-      template.addTextSegment(" (");
-      List<GoType> list = ((GoTypeList)type).getTypeList();
-      for (int i = 0; i < list.size(); i++) {
-        template.addVariable(new ConstantNode(list.get(i).getText()), true);
-        if (i < list.size() - 1) template.addTextSegment(", ");
-      }
-      template.addTextSegment(")");
-      return;
+        template.addTextSegment(" {\n\t");
+        template.addEndVariable();
+        template.addTextSegment("\n}");
+
+        int offset = anchor.getTextRange().getEndOffset();
+        editor.getCaretModel().moveToOffset(offset);
+
+        startTemplate(editor, template, project);
     }
-    if (type != null) {
-      template.addTextSegment(" ");
-      template.addVariable(new ConstantNode(type.getText()), true);
-    }
-  }
 
-  private static void setupFunctionParameters(@Nonnull Template template,
-                                              @Nonnull List<GoExpression> args, PsiFile file) {
-    Map<String, GoImportSpec> importMap = ((GoFile)file).getImportedPackagesMap();
-    template.addTextSegment("(");
-    for (int i = 0; i < args.size(); i++) {
-      GoExpression e = args.get(i);
-      template.addVariable(GoRefactoringUtil.createParameterNameSuggestedExpression(e), true);
-      template.addTextSegment(" ");
-      String type = convertType(file, e.getGoType(null), importMap);
-      template.addVariable(new ConstantNode(type), true);
-      if (i != args.size() - 1) template.addTextSegment(", ");
-    }
-    template.addTextSegment(")");
-  }
+    @Nonnull
+    private static String convertType(@Nonnull PsiFile file, @Nullable GoType type, @Nonnull Map<String, GoImportSpec> importMap) {
+        if (type == null) {
+            return GoConstants.INTERFACE_TYPE;
+        }
+        Module module = ModuleUtilCore.findModuleForPsiElement(file);
+        boolean vendoringEnabled = GoVendoringUtil.isVendoringEnabled(module);
+        return GoDocumentationProvider.getTypePresentation(type, element -> {
+            if (element instanceof GoTypeSpec) {
+                GoTypeSpec spec = (GoTypeSpec) element;
+                if (GoPsiImplUtil.builtin(spec)) {
+                    return spec.getIdentifier().getText();
+                }
 
-  private static void startTemplate(@Nonnull Editor editor, @Nonnull Template template, @Nonnull Project project) {
-    Runnable runnable = () -> {
-      if (project.isDisposed() || editor.isDisposed()) return;
-      CommandProcessor.getInstance().executeCommand(project, () ->
-        TemplateManager.getInstance(project).startTemplate(editor, template, null), "Introduce function", null);
-    };
-    if (ApplicationManager.getApplication().isUnitTestMode()) {
-      runnable.run();
-    }
-    else {
-      ApplicationManager.getApplication().invokeLater(runnable);
-    }
-  }
+                GoFile typeFile = spec.getContainingFile();
+                if (file.isEquivalentTo(typeFile) || GoUtil.inSamePackage(typeFile, file)) {
+                    return spec.getIdentifier().getText();
+                }
+                if (!spec.isPublic()) {
+                    return GoConstants.INTERFACE_TYPE;
+                }
 
-  @Nonnull
-  @Override
-  public String getText() {
-    return FAMILY_NAME + " " + myName;
-  }
+                GoPathScopeHelper scopeHelper = GoPathScopeHelper.fromReferenceFile(file.getProject(), module, file.getVirtualFile());
+                boolean isAllowed = scopeHelper.couldBeReferenced(typeFile.getVirtualFile(), file.getVirtualFile());
+                if (!isAllowed) {
+                    return GoConstants.INTERFACE_TYPE;
+                }
 
-  @Nls
-  @Nonnull
-  @Override
-  public String getFamilyName() {
-    return FAMILY_NAME;
-  }
+                String importPath = typeFile.getImportPath(vendoringEnabled);
+
+                GoImportSpec importSpec = importMap.get(importPath);
+                String packageName = StringUtil.notNullize(typeFile.getPackageName());
+                String qualifier = StringUtil.notNullize(GoPsiImplUtil.getImportQualifierToUseInFile(importSpec, packageName), packageName);
+
+                // todo: add import package fix if getImportQualifierToUseInFile is null?
+                return GoPsiImplUtil.getFqn(qualifier, spec.getIdentifier().getText());
+            }
+            return GoConstants.INTERFACE_TYPE;
+        });
+    }
+
+    private static void setupFunctionResult(@Nonnull Template template, @Nullable GoType type) {
+        if (type instanceof GoTypeList) {
+            template.addTextSegment(" (");
+            List<GoType> list = ((GoTypeList) type).getTypeList();
+            for (int i = 0; i < list.size(); i++) {
+                template.addVariable(new ConstantNode(list.get(i).getText()), true);
+                if (i < list.size() - 1) {
+                    template.addTextSegment(", ");
+                }
+            }
+            template.addTextSegment(")");
+            return;
+        }
+        if (type != null) {
+            template.addTextSegment(" ");
+            template.addVariable(new ConstantNode(type.getText()), true);
+        }
+    }
+
+    private static void setupFunctionParameters(@Nonnull Template template,
+                                                @Nonnull List<GoExpression> args, PsiFile file) {
+        Map<String, GoImportSpec> importMap = ((GoFile) file).getImportedPackagesMap();
+        template.addTextSegment("(");
+        for (int i = 0; i < args.size(); i++) {
+            GoExpression e = args.get(i);
+            template.addVariable(GoRefactoringUtil.createParameterNameSuggestedExpression(e), true);
+            template.addTextSegment(" ");
+            String type = convertType(file, e.getGoType(null), importMap);
+            template.addVariable(new ConstantNode(type), true);
+            if (i != args.size() - 1) {
+                template.addTextSegment(", ");
+            }
+        }
+        template.addTextSegment(")");
+    }
+
+    private static void startTemplate(@Nonnull Editor editor, @Nonnull Template template, @Nonnull Project project) {
+        Runnable runnable = () -> {
+            if (project.isDisposed() || editor.isDisposed()) {
+                return;
+            }
+            CommandProcessor.getInstance().executeCommand(project, () ->
+                TemplateManager.getInstance(project).startTemplate(editor, template, null), "Introduce function", null);
+        };
+        if (ApplicationManager.getApplication().isUnitTestMode()) {
+            runnable.run();
+        }
+        else {
+            ApplicationManager.getApplication().invokeLater(runnable);
+        }
+    }
+
+    @Nonnull
+    @Override
+    public LocalizeValue getText() {
+        return LocalizeValue.localizeTODO("Create function" + " " + myName);
+    }
 }

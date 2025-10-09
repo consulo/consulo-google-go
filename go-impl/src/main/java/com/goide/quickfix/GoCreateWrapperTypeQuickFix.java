@@ -27,10 +27,9 @@ import consulo.language.editor.template.*;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
-import org.jetbrains.annotations.Nls;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -39,7 +38,7 @@ public class GoCreateWrapperTypeQuickFix extends LocalQuickFixAndIntentionAction
   private static final String INPUT_NAME = "INPUTVAR";
   private static final String OTHER_NAME = "OTHERVAR";
 
-  public static final String QUICKFIX_NAME = "Create type";
+  public static final LocalizeValue QUICKFIX_NAME = LocalizeValue.localizeTODO("Create type");
 
   public GoCreateWrapperTypeQuickFix(@Nonnull GoType type) {
     super(type);
@@ -76,14 +75,7 @@ public class GoCreateWrapperTypeQuickFix extends LocalQuickFixAndIntentionAction
 
   @Nonnull
   @Override
-  public String getText() {
-    return QUICKFIX_NAME;
-  }
-
-  @Nls
-  @Nonnull
-  @Override
-  public String getFamilyName() {
+  public LocalizeValue getText() {
     return QUICKFIX_NAME;
   }
 }

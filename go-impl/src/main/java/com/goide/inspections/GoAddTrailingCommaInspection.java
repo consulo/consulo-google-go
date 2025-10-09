@@ -29,14 +29,13 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiErrorElement;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoAddTrailingCommaInspection extends GoGeneralInspectionBase {
-  public static final String QUICK_FIX_NAME = "Add comma";
-
   @Nonnull
   @Override
   protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
@@ -53,12 +52,12 @@ public class GoAddTrailingCommaInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Need trailing comma before newline in composite literal";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Need trailing comma before newline in composite literal");
   }
 
   private static class MyAddCommaFix extends LocalQuickFixBase {
-    private MyAddCommaFix() {super(QUICK_FIX_NAME, QUICK_FIX_NAME);}
+    private MyAddCommaFix() {super(LocalizeValue.localizeTODO("Add comma"));}
 
     @Override
     public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
@@ -66,7 +65,7 @@ public class GoAddTrailingCommaInspection extends GoGeneralInspectionBase {
       if (!(e instanceof GoElement)) return;
       PsiErrorElement error = PsiTreeUtil.getNextSiblingOfType(e, PsiErrorElement.class);
       if (error == null) return;
-      new WriteCommandAction.Simple(project, getName(), e.getContainingFile()) {
+      new WriteCommandAction.Simple(project, getName().get(), e.getContainingFile()) {
         @Override
         protected void run() {
           error.replace(GoElementFactory.createComma(project));

@@ -21,6 +21,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 
 import jakarta.annotation.Nonnull;
@@ -52,14 +53,14 @@ public class GoDirectAssignToStructFieldInMapInspection extends GoInspectionBase
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Control flow issues";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Control flow issues");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Direct assignment to struct field in map";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Direct assignment to struct field in map");
   }
 
   @Nonnull

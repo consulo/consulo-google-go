@@ -25,6 +25,7 @@ import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.util.lang.Pair;
 
 import jakarta.annotation.Nonnull;
@@ -133,7 +134,7 @@ public class GoVarDeclarationInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Incorrect variable declaration";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Incorrect variable declaration");
   }
 }

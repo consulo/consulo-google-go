@@ -33,6 +33,7 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.search.ReferencesSearch;
+import consulo.localize.LocalizeValue;
 import consulo.util.lang.StringUtil;
 
 import jakarta.annotation.Nonnull;
@@ -56,7 +57,7 @@ public class GoUnusedFunctionInspection extends GoInspectionBase {
           PsiElement id = o.getIdentifier();
           TextRange range = TextRange.from(id.getStartOffsetInParent(), id.getTextLength());
           holder.registerProblem(o, "Unused function <code>#ref</code> #loc", ProblemHighlightType.LIKE_UNUSED_SYMBOL, range,
-              new GoDeleteQuickFix("Delete function", GoFunctionDeclaration.class), new GoRenameToBlankQuickFix(o));
+              new GoDeleteQuickFix(LocalizeValue.localizeTODO("Delete function"), GoFunctionDeclaration.class), new GoRenameToBlankQuickFix(o));
         }
       }
     };
@@ -68,14 +69,14 @@ public class GoUnusedFunctionInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Declaration redundancy";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Unused function inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Unused function inspection");
   }
 
   @Nonnull

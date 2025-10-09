@@ -31,6 +31,7 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiReference;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.MultiMap;
 
@@ -41,7 +42,7 @@ import java.util.*;
 @ExtensionImpl
 public class GoUnusedImportInspection extends GoInspectionBase {
   @Nullable
-  private final static LocalQuickFix OPTIMIZE_QUICK_FIX = new LocalQuickFixBase("Optimize imports") {
+  private final static LocalQuickFix OPTIMIZE_QUICK_FIX = new LocalQuickFixBase(LocalizeValue.localizeTODO("Optimize imports")) {
     @Override
     public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
@@ -53,7 +54,7 @@ public class GoUnusedImportInspection extends GoInspectionBase {
     }
   };
 
-  @Nullable private final static LocalQuickFix IMPORT_FOR_SIDE_EFFECTS_QUICK_FIX = new LocalQuickFixBase("Import for side-effects") {
+  @Nullable private final static LocalQuickFix IMPORT_FOR_SIDE_EFFECTS_QUICK_FIX = new LocalQuickFixBase(LocalizeValue.localizeTODO("Import for side-effects")) {
     @Override
     public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
@@ -77,14 +78,14 @@ public class GoUnusedImportInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Unused import inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Unused import inspection");
   }
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Declaration redundancy";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
   @Nonnull

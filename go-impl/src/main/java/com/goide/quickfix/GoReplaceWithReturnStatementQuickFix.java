@@ -23,14 +23,13 @@ import consulo.language.editor.WriteCommandAction;
 import consulo.language.editor.inspection.LocalQuickFixAndIntentionActionOnPsiElement;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-import org.jetbrains.annotations.Nls;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 public class GoReplaceWithReturnStatementQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
-  public static final String QUICK_FIX_NAME = "Replace with 'return'";
+  public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Replace with 'return'");
 
   public GoReplaceWithReturnStatementQuickFix(@Nullable PsiElement element) {
     super(element);
@@ -38,14 +37,7 @@ public class GoReplaceWithReturnStatementQuickFix extends LocalQuickFixAndIntent
 
   @Nonnull
   @Override
-  public String getText() {
-    return QUICK_FIX_NAME;
-  }
-
-  @Nls
-  @Nonnull
-  @Override
-  public String getFamilyName() {
+  public LocalizeValue getText() {
     return QUICK_FIX_NAME;
   }
 

@@ -31,18 +31,18 @@ import consulo.language.psi.PsiDirectory;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.util.ModuleUtilCore;
+import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.project.Project;
 import consulo.ui.ex.awt.IdeBorderFactory;
 import consulo.ui.ex.awt.JBLabel;
-import consulo.ui.ex.awt.JBList;
 import consulo.ui.ex.popup.JBPopup;
 import consulo.ui.ex.popup.JBPopupFactory;
 import consulo.util.lang.StringUtil;
-import org.jetbrains.annotations.TestOnly;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import org.jetbrains.annotations.TestOnly;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -118,13 +118,7 @@ public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionO
 
   @Nonnull
   @Override
-  public String getText() {
-    return "Rename packages" + (myIsOneTheFly ? "" : " to " + myPackageName);
-  }
-
-  @Nonnull
-  @Override
-  public String getFamilyName() {
-    return "Rename packages";
+  public LocalizeValue getText() {
+    return LocalizeValue.localizeTODO("Rename packages" + (myIsOneTheFly ? "" : " to " + myPackageName));
   }
 }

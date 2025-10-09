@@ -39,6 +39,7 @@ import consulo.language.psi.PsiDirectory;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
 import consulo.language.util.ModuleUtilCore;
+import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.project.Project;
 import consulo.util.lang.ObjectUtil;
@@ -52,7 +53,7 @@ import java.util.Set;
 
 @ExtensionImpl
 public class GoInvalidPackageImportInspection extends GoGeneralInspectionBase {
-  public static final String DELETE_ALIAS_QUICK_FIX_NAME = "Delete alias";
+  public static final LocalizeValue DELETE_ALIAS_QUICK_FIX_NAME = LocalizeValue.localizeTODO("Delete alias");
 
   @Override
   protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
@@ -155,8 +156,8 @@ public class GoInvalidPackageImportInspection extends GoGeneralInspectionBase {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Invalid package import";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Invalid package import");
   }
 
   private static class GoDeleteImportSpecAlias extends LocalQuickFixBase {
@@ -186,10 +187,10 @@ public class GoInvalidPackageImportInspection extends GoGeneralInspectionBase {
 
   private static class GoReplaceImportPath extends LocalQuickFixBase implements HighPriorityAction {
     @Nonnull
-	private final String myNewImportPath;
+    private final String myNewImportPath;
 
     protected GoReplaceImportPath(@Nonnull String newImportPath) {
-      super("Replace with '" + newImportPath + "'");
+      super(LocalizeValue.localizeTODO("Replace with '" + newImportPath + "'"));
       myNewImportPath = newImportPath;
     }
 

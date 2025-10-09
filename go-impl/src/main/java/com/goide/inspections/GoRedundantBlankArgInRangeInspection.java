@@ -26,13 +26,14 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.List;
 
 @ExtensionImpl
 public class GoRedundantBlankArgInRangeInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
-  public final static String DELETE_BLANK_ARGUMENT_QUICK_FIX_NAME = "Delete blank argument";
+  public final static LocalizeValue DELETE_BLANK_ARGUMENT_QUICK_FIX_NAME = LocalizeValue.localizeTODO("Delete blank argument");
 
   @Nonnull
   @Override
@@ -81,14 +82,14 @@ public class GoRedundantBlankArgInRangeInspection extends GoInspectionBase imple
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Declaration redundancy";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Redundant blank argument in range inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Redundant blank argument in range inspection");
   }
 
   @Nonnull

@@ -23,6 +23,7 @@ import consulo.language.editor.inspection.*;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 import consulo.language.util.AttachmentFactoryUtil;
+import consulo.localize.LocalizeValue;
 import consulo.logging.Logger;
 import consulo.project.Project;
 import consulo.util.lang.StringUtil;
@@ -36,7 +37,7 @@ import jakarta.annotation.Nonnull;
  */
 @ExtensionImpl
 public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
-  public static final String QUICK_FIX_NAME = "Extract to own declaration";
+  public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Extract to own declaration");
 
   @Nonnull
   @Override
@@ -78,14 +79,14 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Code style issues";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Code style issues");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Exported element should have its own declaration";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Exported element should have its own declaration");
   }
 
   @Nonnull

@@ -23,6 +23,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -30,8 +31,8 @@ import jakarta.annotation.Nullable;
 public class GoUnusedGlobalVariableInspection extends GoUnusedVariableInspection {
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Unused global variable inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Unused global variable inspection");
   }
 
   @Override

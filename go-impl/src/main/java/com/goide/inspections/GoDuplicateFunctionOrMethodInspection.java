@@ -32,6 +32,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.scope.GlobalSearchScope;
 import consulo.language.psi.stub.IdFilter;
 import consulo.language.util.ModuleUtilCore;
+import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.util.lang.Comparing;
 
@@ -110,14 +111,14 @@ public class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Redeclared symbols";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Redeclared symbols");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Duplicate functions and methods inspection";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Duplicate functions and methods inspection");
   }
 
   @Nonnull

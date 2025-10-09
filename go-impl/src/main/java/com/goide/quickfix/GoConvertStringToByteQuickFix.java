@@ -22,6 +22,7 @@ import consulo.language.editor.inspection.LocalQuickFixBase;
 import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.psi.ElementManipulators;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 
@@ -32,7 +33,7 @@ import static com.goide.psi.impl.GoElementFactory.createExpression;
 import static com.goide.psi.impl.GoPsiImplUtil.isSingleCharLiteral;
 
 public class GoConvertStringToByteQuickFix extends LocalQuickFixBase {
-  public static final String NAME = "Convert string to byte";
+  public static final LocalizeValue NAME = LocalizeValue.localizeTODO("Convert string to byte");
 
   public GoConvertStringToByteQuickFix() {
     super(NAME);

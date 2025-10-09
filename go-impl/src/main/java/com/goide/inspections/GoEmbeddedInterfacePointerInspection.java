@@ -23,6 +23,7 @@ import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
@@ -47,7 +48,7 @@ public class GoEmbeddedInterfacePointerInspection extends GoGeneralInspectionBas
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Embedded interface pointer";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Embedded interface pointer");
   }
 }

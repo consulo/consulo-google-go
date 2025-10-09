@@ -27,6 +27,7 @@ import com.goide.psi.impl.GoPsiImplUtil;
 import consulo.language.editor.inspection.LocalQuickFixOnPsiElement;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.SmartList;
 import consulo.util.lang.StringUtil;
@@ -36,22 +37,16 @@ import java.util.List;
 
 public class GoSimplifyBoolExprQuickFix extends LocalQuickFixOnPsiElement {
 
-  public static final String QUICK_FIX_NAME = "Simplify expression";
+  public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Simplify expression");
 
   public GoSimplifyBoolExprQuickFix(@Nonnull PsiElement element) {
     super(element);
   }
 
-  @Override
-  @Nonnull
-  public String getFamilyName() {
-    return getName();
-  }
-
   @Nonnull
   @Override
-  public String getText() {
-    return "Simplify expression";
+  public LocalizeValue getText() {
+    return QUICK_FIX_NAME;
   }
 
   @Override

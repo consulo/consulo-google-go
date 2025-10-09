@@ -24,12 +24,13 @@ import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
 
 public class GoDeleteImportQuickFix extends LocalQuickFixBase {
-  public static final String QUICK_FIX_NAME = "Delete import";
+  public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Delete import");
 
   public GoDeleteImportQuickFix() {
     super(QUICK_FIX_NAME);

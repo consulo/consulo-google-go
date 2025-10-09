@@ -32,6 +32,7 @@ import consulo.language.editor.template.TemplateManager;
 import consulo.language.editor.template.TemplateSettings;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 
@@ -42,7 +43,7 @@ import java.util.List;
 
 @ExtensionImpl
 public class GoMissingReturnInspection extends GoInspectionBase {
-  public static final String ADD_RETURN_STATEMENT_QUICK_FIX_NAME = "Add return statement";
+  public static final LocalizeValue ADD_RETURN_STATEMENT_QUICK_FIX_NAME = LocalizeValue.localizeTODO("Add return statement");
 
   private static void check(@Nullable GoSignature signature, @Nullable GoBlock block, @Nonnull ProblemsHolder holder) {
     if (block == null) return;
@@ -157,14 +158,14 @@ public class GoMissingReturnInspection extends GoInspectionBase {
 
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "Control flow issues";
+  public LocalizeValue getGroupDisplayName() {
+    return LocalizeValue.localizeTODO("Control flow issues");
   }
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Missing return at end of function";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Missing return at end of function");
   }
 
   @Nonnull
@@ -180,14 +181,8 @@ public class GoMissingReturnInspection extends GoInspectionBase {
 
     @Nonnull
     @Override
-    public String getText() {
+    public LocalizeValue getText() {
       return ADD_RETURN_STATEMENT_QUICK_FIX_NAME;
-    }
-
-    @Nonnull
-    @Override
-    public String getFamilyName() {
-      return getName();
     }
 
     @Override

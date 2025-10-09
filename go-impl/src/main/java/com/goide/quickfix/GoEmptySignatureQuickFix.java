@@ -23,6 +23,7 @@ import consulo.codeEditor.Editor;
 import consulo.language.editor.inspection.LocalQuickFixAndIntentionActionOnPsiElement;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.lang.ObjectUtil;
 import org.jetbrains.annotations.Nls;
@@ -31,7 +32,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 public class GoEmptySignatureQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
-  public static final String QUICK_FIX_NAME = "Fix signature";
+  public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Fix signature");
 
   public GoEmptySignatureQuickFix(@Nonnull GoFunctionDeclaration functionDeclaration) {
     super(functionDeclaration);
@@ -39,14 +40,7 @@ public class GoEmptySignatureQuickFix extends LocalQuickFixAndIntentionActionOnP
 
   @Nonnull
   @Override
-  public String getText() {
-    return QUICK_FIX_NAME;
-  }
-
-  @Nls
-  @Nonnull
-  @Override
-  public String getFamilyName() {
+  public LocalizeValue getText() {
     return QUICK_FIX_NAME;
   }
 

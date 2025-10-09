@@ -1,8 +1,10 @@
 package consulo.google.go.inspection;
 
 import com.goide.inspections.GoInspectionBase;
+import consulo.language.editor.inspection.localize.InspectionLocalize;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 
 /**
@@ -12,8 +14,8 @@ import jakarta.annotation.Nonnull;
 public abstract class GoGeneralInspectionBase extends GoInspectionBase {
   @Nonnull
   @Override
-  public String getGroupDisplayName() {
-    return "General";
+  public LocalizeValue getGroupDisplayName() {
+    return InspectionLocalize.inspectionGeneralToolsGroupName();
   }
 
   @Nonnull

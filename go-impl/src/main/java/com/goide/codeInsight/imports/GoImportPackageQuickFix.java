@@ -45,6 +45,7 @@ import consulo.language.psi.scope.GlobalSearchScope;
 import consulo.language.psi.stub.StubIndex;
 import consulo.language.util.IncorrectOperationException;
 import consulo.language.util.ModuleUtilCore;
+import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.project.Project;
 import consulo.ui.ex.awt.ColoredListCellRenderer;
@@ -102,23 +103,17 @@ public class GoImportPackageQuickFix extends LocalQuickFixAndIntentionActionOnPs
 
   @Nonnull
   @Override
-  public String getText() {
+  public LocalizeValue getText() {
     PsiElement element = getStartElement();
     if (element != null) {
-      return "Import " + getText(getImportPathVariantsToImport(element));
+      return LocalizeValue.localizeTODO("Import " + getText(getImportPathVariantsToImport(element)));
     }
-    return "Import package";
+    return LocalizeValue.localizeTODO("Import package");
   }
 
   @Nonnull
   private static String getText(@Nonnull Collection<String> packagesToImport) {
     return getFirstItem(packagesToImport, "") + "? " + (packagesToImport.size() > 1 ? "(multiple choices...) " : "");
-  }
-
-  @Nonnull
-  @Override
-  public String getFamilyName() {
-    return "Import package";
   }
 
   @Override

@@ -28,17 +28,15 @@ import consulo.fileEditor.FileEditor;
 import consulo.ide.setting.ShowSettingsUtil;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiManager;
-import consulo.language.util.ModuleUtilCore;
-import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.project.Project;
-import consulo.project.ProjectBundle;
+import consulo.project.localize.ProjectLocalize;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.inject.Inject;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
+
 import java.util.function.Supplier;
 
 @ExtensionImpl
@@ -67,7 +65,7 @@ public class WrongSdkConfigurationNotificationProvider implements EditorNotifica
 
     if (psiFile.getLanguage() != GoLanguage.INSTANCE) return null;
 
-    Module module = ModuleUtilCore.findModuleForPsiElement(psiFile);
+    Module module = psiFile.getModule();
     if (module == null) return null;
 
     String sdkHomePath = GoSdkService.getInstance(myProject).getSdkHomePath(module);
@@ -80,8 +78,8 @@ public class WrongSdkConfigurationNotificationProvider implements EditorNotifica
 
   @Nonnull
   private static EditorNotificationBuilder createMissingSdkPanel(@Nonnull Project project, @Nonnull Module module, EditorNotificationBuilder builder) {
-    builder.withText(LocalizeValue.localizeTODO(ProjectBundle.message("module.sdk.not.defined")));
-    builder.withAction(LocalizeValue.localizeTODO(ProjectBundle.message("module.sdk.setup")), (e) -> ShowSettingsUtil.getInstance().showProjectStructureDialog(project, s -> s.select(module, true)));
+    builder.withText(ProjectLocalize.moduleSdkNotDefined());
+    builder.withAction(ProjectLocalize.moduleSdkSetup(), (e) -> ShowSettingsUtil.getInstance().showProjectStructureDialog(project, s -> s.select(module, true)));
     return builder;
   }
 }

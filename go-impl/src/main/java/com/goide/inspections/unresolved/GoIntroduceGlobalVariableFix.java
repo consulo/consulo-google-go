@@ -25,3 +25,4 @@ public class GoIntroduceGlobalVariableFix extends GoUnresolvedFixBase {
     super(element, name, "global variable", "go_lang_global_var_qf");
   }
 }
+

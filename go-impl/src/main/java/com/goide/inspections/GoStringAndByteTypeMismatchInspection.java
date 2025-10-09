@@ -28,6 +28,7 @@ import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.LocalQuickFix;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Trinity;
 
@@ -36,7 +37,7 @@ import java.util.Arrays;
 
 @ExtensionImpl
 public class GoStringAndByteTypeMismatchInspection extends GoGeneralInspectionBase {
-  private static final String TEXT_HINT = "Mismatched types: byte and string";
+  private static final LocalizeValue TEXT_HINT = LocalizeValue.localizeTODO("Mismatched types: byte and string");
   private static final GoConvertStringToByteQuickFix STRING_INDEX_IS_BYTE_QUICK_FIX = new GoConvertStringToByteQuickFix();
 
   @Nonnull
@@ -59,7 +60,7 @@ public class GoStringAndByteTypeMismatchInspection extends GoGeneralInspectionBa
         if (isStringIndexExpression(indexExpr)) {
           LocalQuickFix[] fixes = GoPsiImplUtil.isSingleCharLiteral(stringLiteral) ? new LocalQuickFix[]{STRING_INDEX_IS_BYTE_QUICK_FIX}
                                                                                    : LocalQuickFix.EMPTY_ARRAY;
-          holder.registerProblem(o, TEXT_HINT, ProblemHighlightType.GENERIC_ERROR, fixes);
+          holder.registerProblem(o, TEXT_HINT.get(), ProblemHighlightType.GENERIC_ERROR, fixes);
         }
       }
     };
@@ -79,7 +80,7 @@ public class GoStringAndByteTypeMismatchInspection extends GoGeneralInspectionBa
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return "Mismatched types: byte and string";
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("Mismatched types: byte and string");
   }
 }

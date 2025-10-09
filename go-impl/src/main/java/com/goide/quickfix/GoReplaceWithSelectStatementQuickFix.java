@@ -21,23 +21,17 @@ import com.goide.psi.impl.GoElementFactory;
 import consulo.language.editor.inspection.LocalQuickFixBase;
 import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import org.jetbrains.annotations.Nls;
 
 import jakarta.annotation.Nonnull;
 
 public class GoReplaceWithSelectStatementQuickFix extends LocalQuickFixBase {
-  public static final String QUICK_FIX_NAME = "Replace with 'select'";
+  public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Replace with 'select'");
 
   public GoReplaceWithSelectStatementQuickFix() {
     super(QUICK_FIX_NAME);
-  }
-
-  @Nls
-  @Nonnull
-  @Override
-  public String getFamilyName() {
-    return QUICK_FIX_NAME;
   }
 
   @Override

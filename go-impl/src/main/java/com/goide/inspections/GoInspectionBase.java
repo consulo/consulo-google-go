@@ -28,9 +28,7 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.inspection.scheme.InspectionManager;
 import consulo.language.psi.PsiElementVisitor;
 import consulo.language.psi.PsiFile;
-import consulo.language.util.ModuleUtilCore;
 import consulo.util.lang.ObjectUtil;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -53,7 +51,7 @@ abstract public class GoInspectionBase<State> extends LocalInspectionTool {
                                               Object state) {
     GoFile file = ObjectUtil.tryCast(session.getFile(), GoFile.class);
     State inspectionState = (State)state;
-    return file != null && GoPsiImplUtil.allowed(file, null, ModuleUtilCore.findModuleForPsiElement(file))
+    return file != null && GoPsiImplUtil.allowed(file, null, file.getModule())
       ? buildGoVisitor(holder, session, inspectionState)
       : DUMMY_VISITOR;
   }
