@@ -20,6 +20,7 @@ import consulo.codeEditor.Editor;
 import consulo.document.util.TextRange;
 import consulo.language.psi.PsiElement;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
@@ -27,8 +28,8 @@ import jakarta.annotation.Nullable;
 
 public class GoWithParenthesisSurrounder extends GoExpressionSurrounder {
   @Override
-  public String getTemplateDescription() {
-    return "(expression)";
+  public LocalizeValue getTemplateDescription() {
+    return LocalizeValue.localizeTODO("(expression)");
   }
 
   @Nullable

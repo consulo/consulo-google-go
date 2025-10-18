@@ -21,6 +21,7 @@ import com.goide.psi.impl.GoElementFactory;
 import consulo.document.util.TextRange;
 import consulo.language.psi.PsiElement;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.ArrayUtil;
 import consulo.util.lang.StringUtil;
@@ -30,8 +31,8 @@ import jakarta.annotation.Nullable;
 
 public class GoWithForSurrounder extends GoStatementsSurrounder {
   @Override
-  public String getTemplateDescription() {
-    return "for { statements }";
+  public LocalizeValue getTemplateDescription() {
+    return LocalizeValue.localizeTODO("for { statements }");
   }
 
   @Nullable

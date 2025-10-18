@@ -19,6 +19,7 @@ package com.goide.editor.surround;
 import consulo.document.util.TextRange;
 import consulo.language.psi.PsiElement;
 import consulo.language.util.IncorrectOperationException;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
 import jakarta.annotation.Nonnull;
@@ -26,8 +27,8 @@ import jakarta.annotation.Nullable;
 
 public class GoWithIfSurrounder extends GoStatementsSurrounder {
   @Override
-  public String getTemplateDescription() {
-    return "if { statements }";
+  public LocalizeValue getTemplateDescription() {
+    return LocalizeValue.localizeTODO("if { statements }");
   }
 
   @Nullable
