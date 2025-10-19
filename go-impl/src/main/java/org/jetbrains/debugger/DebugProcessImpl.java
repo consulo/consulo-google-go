@@ -9,6 +9,7 @@ import consulo.execution.debug.evaluation.XDebuggerEditorsProvider;
 import consulo.execution.debug.frame.XExecutionStack;
 import consulo.execution.debug.frame.XSuspendContext;
 import consulo.execution.debug.step.XSmartStepIntoHandler;
+import consulo.localize.LocalizeValue;
 import consulo.process.ProcessHandler;
 import consulo.util.concurrent.AsyncResult;
 import consulo.util.lang.lazy.LazyValue;
@@ -160,9 +161,10 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
     return myEditorsProvider;
   }
 
+  @Nonnull
   @Override
-  public String getCurrentStateMessage() {
-    return myConnection.getState().getMessage();
+  public LocalizeValue getCurrentStateMessage() {
+    return LocalizeValue.ofNullable(myConnection.getState().getMessage());
   }
 
   @Nullable
