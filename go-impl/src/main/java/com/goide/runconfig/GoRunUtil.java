@@ -137,8 +137,8 @@ public class GoRunUtil {
     }
     else {
       //noinspection unchecked
-      field.addActionListener(new ComponentWithBrowseButton.BrowseFolderActionListener(LocalizeValue.of(),
-                                                                                       LocalizeValue.of(),
+      field.addActionListener(new ComponentWithBrowseButton.BrowseFolderActionListener(LocalizeValue.empty(),
+                                                                                       LocalizeValue.empty(),
                                                                                        field,
                                                                                        project,
                                                                                        chooseDirectoryDescriptor,
