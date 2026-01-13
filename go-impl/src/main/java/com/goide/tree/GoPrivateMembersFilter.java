@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.tree;
 
 import com.goide.psi.GoNamedElement;
-import consulo.application.AllIcons;
 import consulo.fileEditor.structureView.tree.ActionPresentation;
 import consulo.fileEditor.structureView.tree.ActionPresentationData;
 import consulo.fileEditor.structureView.tree.Filter;
 import consulo.fileEditor.structureView.tree.TreeElement;
 import consulo.language.psi.PsiElement;
 
+import consulo.platform.base.icon.PlatformIconGroup;
 import jakarta.annotation.Nonnull;
 
 public class GoPrivateMembersFilter implements Filter {
@@ -46,7 +45,7 @@ public class GoPrivateMembersFilter implements Filter {
   @Nonnull
   @Override
   public ActionPresentation getPresentation() {
-    return new ActionPresentationData(PRIVATE_MEMBERS_FILTER_TEXT, null, AllIcons.Nodes.C_private);
+    return new ActionPresentationData(PRIVATE_MEMBERS_FILTER_TEXT, null, PlatformIconGroup.nodesC_private());
   }
 
   @Nonnull

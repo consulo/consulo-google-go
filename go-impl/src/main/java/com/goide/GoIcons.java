@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide;
 
-import consulo.application.AllIcons;
 import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
@@ -27,14 +25,14 @@ public interface GoIcons {
   Image TYPE = PlatformIconGroup.nodesTypealias();
   Image APPLICATION_RUN = GoogleGoIconGroup.goapp();
   Image TEST_RUN = GoogleGoIconGroup.gotest();
-  Image METHOD = AllIcons.Nodes.Method;
-  Image FUNCTION = AllIcons.Nodes.Function;
-  Image VARIABLE = AllIcons.Nodes.Variable;
+  Image METHOD = PlatformIconGroup.nodesMethod();
+  Image FUNCTION = PlatformIconGroup.nodesFunction();
+  Image VARIABLE = PlatformIconGroup.nodesVariable();
   Image CONSTANT = PlatformIconGroup.nodesConstant();
-  Image PARAMETER = AllIcons.Nodes.Parameter;
-  Image FIELD = AllIcons.Nodes.Field;
+  Image PARAMETER = PlatformIconGroup.nodesParameter();
+  Image FIELD = PlatformIconGroup.nodesField();
   Image LABEL = null; // todo: we need an icon here!
-  Image RECEIVER = AllIcons.Nodes.Parameter;
-  Image PACKAGE = AllIcons.Nodes.Package;
-  Image DIRECTORY = AllIcons.Nodes.TreeClosed;
+  Image RECEIVER = PlatformIconGroup.nodesParameter();
+  Image PACKAGE = PlatformIconGroup.nodesPackage();
+  Image DIRECTORY = PlatformIconGroup.nodesTreeclosed();
 }

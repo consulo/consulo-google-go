@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.configuration;
 
 import com.goide.project.GoVendoringUtil;
-import consulo.application.AllIcons;
 import consulo.content.bundle.Sdk;
 import consulo.google.go.module.extension.GoMutableModuleExtension;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.ex.awt.ComboBox;
 import consulo.ui.ex.awt.IdeBorderFactory;
 import consulo.ui.ex.awt.JBLabel;
 import consulo.ui.ex.awt.MutableCollectionComboBoxModel;
-import consulo.ui.image.Image;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.ThreeState;
 
@@ -61,13 +59,13 @@ public class GoVendoringUI {
     Sdk sdk = myModuleExtension.getSdk();
     String sdkVersion = sdk == null ? null : sdk.getVersionString();
     if (!GoVendoringUtil.vendoringCanBeDisabled(sdkVersion)) {
-      myErrorMessageLabel.setIcon((Image) AllIcons.General.BalloonWarning);
+      myErrorMessageLabel.setIcon(PlatformIconGroup.generalBalloonwarning());
       myErrorMessageLabel.setText("Go " + sdkVersion + " doesn't support disabling vendor experiment");
       myErrorMessageLabel.setVisible(true);
       myVendoringEnabledCombo.setEnabled(false);
     }
     else if (!GoVendoringUtil.supportsVendoring(sdkVersion) && sdkVersion != null) {
-      myErrorMessageLabel.setIcon((Image) AllIcons.General.BalloonWarning);
+      myErrorMessageLabel.setIcon(PlatformIconGroup.generalBalloonwarning());
       myErrorMessageLabel.setText("Go " + sdkVersion + " doesn't support vendor experiment");
       myErrorMessageLabel.setVisible(true);
       myVendoringEnabledCombo.setEnabled(true);

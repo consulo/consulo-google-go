@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package consulo.google.go.newProjectOrModule;
 
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
-import consulo.application.AllIcons;
 import consulo.content.bundle.Sdk;
 import consulo.google.go.module.extension.GoMutableModuleExtension;
 import consulo.google.go.module.orderEntry.GoPathOrderEntryModel;
@@ -28,9 +27,11 @@ import consulo.ide.newModule.UnzipNewModuleBuilderProcessor;
 import consulo.module.content.layer.ContentEntry;
 import consulo.module.content.layer.ModifiableModuleRootLayer;
 import consulo.module.content.layer.ModifiableRootModel;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.ex.wizard.WizardStep;
 
 import jakarta.annotation.Nonnull;
+
 import java.util.function.Consumer;
 
 /**
@@ -39,39 +40,49 @@ import java.util.function.Consumer;
  */
 @ExtensionImpl
 public class GoNewModuleBuilder implements NewModuleBuilder {
-  @Override
-  public void setupContext(@Nonnull NewModuleContext context) {
-    NewModuleContext.Group group = context.createGroup("go", "Go");
+    @Override
+    public void setupContext(@Nonnull NewModuleContext context) {
+        NewModuleContext.Group group = context.createGroup("go", "Go");
 
-    group.add("Console Application", AllIcons.RunConfigurations.Application, new UnzipNewModuleBuilderProcessor<GoNewModuleContext>("/moduleTemplates/GoHelloWorld.zip") {
-      @Nonnull
-      @Override
-      public GoNewModuleContext createContext(boolean isNewProject) {
-        return new GoNewModuleContext(isNewProject);
-      }
+        group.add(
+            "Console Application",
+            PlatformIconGroup.runconfigurationsApplication(),
+            new UnzipNewModuleBuilderProcessor<GoNewModuleContext>("/moduleTemplates/GoHelloWorld.zip") {
+                @Nonnull
+                @Override
+                public GoNewModuleContext createContext(boolean isNewProject) {
+                    return new GoNewModuleContext(isNewProject);
+                }
 
-      @Override
-      public void buildSteps(@Nonnull Consumer<WizardStep<GoNewModuleContext>> consumer, @Nonnull GoNewModuleContext context) {
-        consumer.accept(new GoNewModuleSetupStep(context));
-      }
+                @Override
+                public void buildSteps(@Nonnull Consumer<WizardStep<GoNewModuleContext>> consumer, @Nonnull GoNewModuleContext context) {
+                    consumer.accept(new GoNewModuleSetupStep(context));
+                }
 
-      @Override
-      public void process(@Nonnull GoNewModuleContext context, @Nonnull ContentEntry contentEntry, @Nonnull ModifiableRootModel modifiableRootModel) {
-        unzip(modifiableRootModel);
+                @Override
+                @RequiredReadAction
+                public void process(
+                    @Nonnull GoNewModuleContext context,
+                    @Nonnull ContentEntry contentEntry,
+                    @Nonnull ModifiableRootModel modifiableRootModel
+                ) {
+                    unzip(modifiableRootModel);
 
-        GoMutableModuleExtension goModuleExtension = modifiableRootModel.getExtensionWithoutCheck(GoMutableModuleExtension.class);
-        assert goModuleExtension != null;
+                    GoMutableModuleExtension goModuleExtension =
+                        modifiableRootModel.getExtensionWithoutCheck(GoMutableModuleExtension.class);
+                    assert goModuleExtension != null;
 
-        goModuleExtension.setEnabled(true);
+                    goModuleExtension.setEnabled(true);
 
-        ModifiableModuleRootLayer moduleRootLayer = (ModifiableModuleRootLayer) goModuleExtension.getModuleRootLayer();
-        moduleRootLayer.addCustomOderEntry(GoPathOrderEntryType.getInstance(), new GoPathOrderEntryModel());
-        Sdk sdk = context.getSdk();
-        if (sdk != null) {
-          goModuleExtension.getInheritableSdk().set(null, sdk);
-          modifiableRootModel.addModuleExtensionSdkEntry(goModuleExtension);
-        }
-      }
-    });
-  }
+                    ModifiableModuleRootLayer moduleRootLayer = (ModifiableModuleRootLayer) goModuleExtension.getModuleRootLayer();
+                    moduleRootLayer.addCustomOderEntry(GoPathOrderEntryType.getInstance(), new GoPathOrderEntryModel());
+                    Sdk sdk = context.getSdk();
+                    if (sdk != null) {
+                        goModuleExtension.getInheritableSdk().set(null, sdk);
+                        modifiableRootModel.addModuleExtensionSdkEntry(goModuleExtension);
+                    }
+                }
+            }
+        );
+    }
 }

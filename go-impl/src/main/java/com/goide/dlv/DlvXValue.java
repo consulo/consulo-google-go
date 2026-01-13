@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.dlv;
 
 import com.goide.dlv.protocol.DlvApi;
@@ -22,7 +21,6 @@ import com.goide.psi.GoNamedElement;
 import com.goide.psi.GoTopLevelDeclaration;
 import com.goide.psi.GoTypeSpec;
 import com.goide.stubs.index.GoTypesIndex;
-import consulo.application.AllIcons;
 import consulo.application.ApplicationManager;
 import consulo.codeEditor.Editor;
 import consulo.execution.debug.XDebugSession;
@@ -41,6 +39,7 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.SyntaxTraverser;
 import consulo.language.psi.scope.GlobalSearchScope;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.project.Project;
 import consulo.ui.image.Image;
 import consulo.util.collection.ContainerUtil;
@@ -51,6 +50,7 @@ import consulo.virtualFileSystem.VirtualFile;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -96,7 +96,7 @@ class DlvXValue extends XNamedValue {
     else {
       XValueChildrenList list = new XValueChildrenList();
       for (DlvApi.Variable child : children) {
-        list.add(child.name, new DlvXValue(myProcess, child, myProcessor, myFrameId, myGoroutineId, AllIcons.Nodes.Field));
+        list.add(child.name, new DlvXValue(myProcess, child, myProcessor, myFrameId, myGoroutineId, PlatformIconGroup.nodesField()));
       }
       node.addChildren(list, true);
     }

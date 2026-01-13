@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.tree;
 
-import consulo.application.AllIcons;
 import consulo.fileEditor.structureView.tree.ActionPresentation;
 import consulo.fileEditor.structureView.tree.Sorter;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
 import org.jetbrains.annotations.NonNls;
 
@@ -26,7 +25,6 @@ import jakarta.annotation.Nonnull;
 import java.util.Comparator;
 
 public class ExportabilitySorter implements Sorter {
-
   public static final Sorter INSTANCE = new ExportabilitySorter();
 
   private static final ActionPresentation PRESENTATION = new ActionPresentation() {
@@ -43,7 +41,7 @@ public class ExportabilitySorter implements Sorter {
 
     @Override
     public Image getIcon() {
-      return AllIcons.ObjectBrowser.VisibilitySort;
+      return PlatformIconGroup.objectbrowserVisibilitysort();
     }
   };
   @NonNls private static final String ID = "EXPORTABILITY_SORTER";
