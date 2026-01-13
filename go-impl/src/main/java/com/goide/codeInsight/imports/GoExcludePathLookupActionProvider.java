@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.codeInsight.imports;
 
 import com.goide.project.GoExcludedPathsSettings;
@@ -28,6 +27,7 @@ import consulo.language.editor.completion.lookup.LookupElement;
 import consulo.language.editor.completion.lookup.LookupElementAction;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 
@@ -66,7 +66,7 @@ public class GoExcludePathLookupActionProvider implements LookupActionProvider {
     Project myProject;
 
     protected EditExcludedAction(@Nonnull Project project) {
-      super(AllIcons.Actions.Edit, "Edit auto import settings");
+      super(PlatformIconGroup.actionsEdit(), "Edit auto import settings");
       myProject = project;
     }
 
@@ -84,7 +84,7 @@ public class GoExcludePathLookupActionProvider implements LookupActionProvider {
     private String myImportPath;
 
     protected ExcludePathAction(@Nonnull Project project, @Nonnull String importPath) {
-      super(AllIcons.Actions.Exclude, "Exclude '" + importPath + "'");
+      super(AllIcons.General.Remove, "Exclude '" + importPath + "'");
       myProject = project;
       myImportPath = importPath;
     }

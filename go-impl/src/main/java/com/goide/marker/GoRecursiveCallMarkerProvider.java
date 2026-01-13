@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.marker;
 
 import com.goide.GoLanguage;
@@ -21,7 +20,6 @@ import com.goide.psi.GoCallExpr;
 import com.goide.psi.GoFunctionOrMethodDeclaration;
 import com.goide.psi.impl.GoPsiImplUtil;
 import consulo.annotation.component.ExtensionImpl;
-import consulo.application.AllIcons;
 import consulo.codeEditor.markup.GutterIconRenderer;
 import consulo.document.Document;
 import consulo.language.Language;
@@ -31,6 +29,7 @@ import consulo.language.editor.gutter.LineMarkerProvider;
 import consulo.language.psi.PsiDocumentManager;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.util.lang.Comparing;
 
 import jakarta.annotation.Nonnull;
@@ -83,7 +82,7 @@ public class GoRecursiveCallMarkerProvider implements LineMarkerProvider {
     private RecursiveMethodCallMarkerInfo(@Nonnull PsiElement methodCall) {
       super(methodCall,
           methodCall.getTextRange(),
-          AllIcons.Gutter.RecursiveMethod,
+          PlatformIconGroup.gutterRecursivemethod(),
           Pass.LINE_MARKERS,
           (e) -> "Recursive call",
           null,

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package consulo.google.go;
 
 import com.goide.GoIcons;
@@ -21,12 +20,12 @@ import com.goide.psi.*;
 import com.goide.runconfig.testing.GoTestFinder;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
-import consulo.application.AllIcons;
 import consulo.component.util.Iconable;
 import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.language.icon.IconDescriptor;
 import consulo.language.icon.IconDescriptorUpdater;
 import consulo.language.psi.PsiElement;
+import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
 import consulo.util.lang.BitUtil;
 
@@ -34,7 +33,7 @@ import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
- * @since 03-May-17
+ * @since 2017-05-03
  */
 @ExtensionImpl
 public class GoIconDescriptorUpdater implements IconDescriptorUpdater {
@@ -83,7 +82,7 @@ public class GoIconDescriptorUpdater implements IconDescriptorUpdater {
 
       if (BitUtil.isSet(flags, Iconable.ICON_FLAG_VISIBILITY) && element instanceof GoNamedElement) {
         boolean aPublic = ((GoNamedElement)element).isPublic();
-        iconDescriptor.setRightIcon(aPublic ? AllIcons.Nodes.C_public : AllIcons.Nodes.C_private);
+        iconDescriptor.setRightIcon(aPublic ? PlatformIconGroup.nodesC_public() : PlatformIconGroup.nodesC_private());
       }
     }
   }
