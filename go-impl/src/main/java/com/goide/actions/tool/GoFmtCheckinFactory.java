@@ -159,7 +159,7 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
     @Nonnull
     private static LocalizeValue commitButtonMessage(@Nullable CommitExecutor executor, @Nonnull CheckinProjectPanel panel) {
         LocalizeValue message = executor != null ? executor.getActionText() : panel.getCommitActionName();
-        return message.map((localizeManager, string) -> StringUtil.trimEnd(string, "..."));
+        return message.map(s -> StringUtil.trimEnd(s, "…"));
     }
 
     private static boolean enabled(@Nonnull CheckinProjectPanel panel) {
