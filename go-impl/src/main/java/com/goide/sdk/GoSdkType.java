@@ -25,6 +25,7 @@ import consulo.content.bundle.Sdk;
 import consulo.content.bundle.SdkModificator;
 import consulo.content.bundle.SdkType;
 import consulo.google.go.icon.GoogleGoIconGroup;
+import consulo.google.go.localize.GoLocalize;
 import consulo.ui.image.Image;
 import consulo.virtualFileSystem.VirtualFile;
 import jakarta.annotation.Nonnull;
@@ -41,13 +42,7 @@ public class GoSdkType extends SdkType {
     }
 
     public GoSdkType() {
-        super("Google Go SDK");
-    }
-
-    @Nonnull
-    @Override
-    public Image getIcon() {
-        return GoogleGoIconGroup.go();
+        super("GO_SDK", GoLocalize.goLanguageDisplayName(), GoogleGoIconGroup.go());
     }
 
     @Nonnull
@@ -86,16 +81,6 @@ public class GoSdkType extends SdkType {
         return GoSdkUtil.adjustSdkPath(homePath);
     }
 
-    @Nonnull
-    @Override
-    public String suggestSdkName(@Nullable String currentSdkName, @Nonnull String sdkHome) {
-        String version = getVersionString(sdkHome);
-        if (version == null) {
-            return "Unknown Go version at " + sdkHome;
-        }
-        return "Go " + version;
-    }
-
     @Nullable
     @Override
     public String getVersionString(@Nonnull String sdkHome) {
@@ -105,12 +90,6 @@ public class GoSdkType extends SdkType {
     @Override
     public boolean isRootTypeApplicable(OrderRootType type) {
         return type == SourcesOrderRootType.getInstance() || type == BinariesOrderRootType.getInstance();
-    }
-
-    @Nonnull
-    @Override
-    public String getPresentableName() {
-        return "Go SDK";
     }
 
     @Override
