@@ -1,5 +1,4 @@
 {
-  version="3"
   parserClass='com.goide.parser.GoParser'
   classHeader='copyrightHeader.java.ft'
 

@@ -20,6 +20,7 @@ import com.goide.lexer.GoLexer;
 import com.goide.parser.GoParser;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoTokenType;
+import com.goide.psi.impl.GoTypesFactory;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Language;
 import consulo.language.ast.ASTNode;
@@ -33,7 +34,6 @@ import consulo.language.parser.PsiParser;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.version.LanguageVersion;
-
 import jakarta.annotation.Nonnull;
 
 import static com.goide.GoTypes.*;
@@ -104,7 +104,7 @@ public class GoParserDefinition implements ParserDefinition {
   @Nonnull
   @Override
   public PsiElement createElement(ASTNode node) {
-    return Factory.createElement(node);
+    return GoTypesFactory.createElement(node);
   }
 
   @Nonnull

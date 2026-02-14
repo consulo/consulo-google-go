@@ -20,6 +20,7 @@ import com.plan9.intel.lang.AsmIntelLanguage;
 import com.plan9.intel.lang.core.lexer.AsmIntelLexer;
 import com.plan9.intel.lang.core.lexer.AsmIntelTokenType;
 import com.plan9.intel.lang.core.psi.AsmIntelFile;
+import com.plan9.intel.lang.core.psi.impl.AsmIntelTypesFactory;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Language;
 import consulo.language.ast.*;
@@ -31,7 +32,6 @@ import consulo.language.parser.PsiParser;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.version.LanguageVersion;
-
 import jakarta.annotation.Nonnull;
 
 import static com.plan9.intel.lang.core.psi.AsmIntelTypes.*;
@@ -116,6 +116,6 @@ public class AsmIntelParserDefinition implements ParserDefinition {
   @Override
   @Nonnull
   public PsiElement createElement(ASTNode node) {
-    return Factory.createElement(node);
+    return AsmIntelTypesFactory.createElement(node);
   }
 }
