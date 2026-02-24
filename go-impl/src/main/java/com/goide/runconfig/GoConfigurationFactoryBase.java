@@ -16,8 +16,6 @@
 
 package com.goide.runconfig;
 
-import com.goide.compiler.GoCompiler;
-import consulo.compiler.execution.CompileStepBeforeRun;
 import consulo.execution.BeforeRunTask;
 import consulo.execution.configuration.ConfigurationFactory;
 import consulo.execution.configuration.ConfigurationType;
@@ -35,12 +33,6 @@ public abstract class GoConfigurationFactoryBase extends ConfigurationFactory {
     @Override
     public void configureBeforeRunTaskDefaults(Key<? extends BeforeRunTask> providerID, BeforeRunTask task) {
         super.configureBeforeRunTaskDefaults(providerID, task);
-
-        if (!GoCompiler.ENABLE_COMPILER) {
-            if (providerID == CompileStepBeforeRun.ID) {
-                task.setEnabled(false);
-            }
-        }
     }
 
     @Override

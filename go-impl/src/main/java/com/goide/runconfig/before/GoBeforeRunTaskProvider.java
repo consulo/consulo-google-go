@@ -16,7 +16,6 @@
 
 package com.goide.runconfig.before;
 
-import com.goide.GoIcons;
 import com.goide.runconfig.GoRunConfigurationBase;
 import com.goide.sdk.GoSdkService;
 import com.goide.util.GoExecutor;
@@ -26,6 +25,7 @@ import consulo.dataContext.DataContext;
 import consulo.execution.BeforeRunTaskProvider;
 import consulo.execution.configuration.RunConfiguration;
 import consulo.execution.runner.ExecutionEnvironment;
+import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.process.event.ProcessAdapter;
@@ -40,7 +40,6 @@ import consulo.util.dataholder.Key;
 import consulo.util.lang.StringUtil;
 import consulo.util.lang.ref.Ref;
 import consulo.virtualFileSystem.VirtualFileManager;
-
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -65,19 +64,13 @@ public class GoBeforeRunTaskProvider extends BeforeRunTaskProvider<GoCommandBefo
 
   @Nullable
   @Override
-  public Image getIcon() {
-    return GoIcons.APPLICATION_RUN;
+  public Image getIcon(RunConfiguration runConfiguration) {
+    return GoogleGoIconGroup.goapp();
   }
 
   @Override
   public boolean isConfigurable() {
     return true;
-  }
-
-  @Nullable
-  @Override
-  public Image getTaskIcon(GoCommandBeforeRunTask task) {
-    return getIcon();
   }
 
   @Nullable

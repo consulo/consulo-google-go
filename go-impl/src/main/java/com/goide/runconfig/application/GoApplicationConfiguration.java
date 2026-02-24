@@ -22,10 +22,7 @@ import com.goide.runconfig.GoRunUtil;
 import com.goide.runconfig.ui.GoApplicationConfigurationEditorForm;
 import com.goide.sdk.GoPackageUtil;
 import consulo.execution.RuntimeConfigurationException;
-import consulo.execution.configuration.ConfigurationType;
-import consulo.execution.configuration.ModuleBasedConfiguration;
-import consulo.execution.configuration.RunConfiguration;
-import consulo.execution.configuration.RuntimeConfigurationError;
+import consulo.execution.configuration.*;
 import consulo.execution.configuration.ui.SettingsEditor;
 import consulo.execution.runner.ExecutionEnvironment;
 import consulo.module.Module;
@@ -35,108 +32,113 @@ import consulo.util.xml.serializer.InvalidDataException;
 import consulo.util.xml.serializer.JDOMExternalizerUtil;
 import consulo.util.xml.serializer.WriteExternalException;
 import consulo.virtualFileSystem.VirtualFile;
+import jakarta.annotation.Nonnull;
 import org.jdom.Element;
 
-import jakarta.annotation.Nonnull;
+public class GoApplicationConfiguration extends GoRunConfigurationWithMain<GoApplicationRunningState> implements RunProfileWithCompileBeforeLaunchOption {
+    private static final String PACKAGE_ATTRIBUTE_NAME = "package";
+    private static final String KIND_ATTRIBUTE_NAME = "kind";
 
-public class GoApplicationConfiguration extends GoRunConfigurationWithMain<GoApplicationRunningState> {
-  private static final String PACKAGE_ATTRIBUTE_NAME = "package";
-  private static final String KIND_ATTRIBUTE_NAME = "kind";
+    @Nonnull
+    private String myPackage = "";
 
-  @Nonnull
-  private String myPackage = "";
+    @Nonnull
+    private Kind myKind = Kind.FILE;
 
-  @Nonnull
-  private Kind myKind = Kind.FILE;
-
-  public GoApplicationConfiguration(Project project, String name, @Nonnull ConfigurationType configurationType) {
-    super(name, new GoModuleBasedConfiguration(project), configurationType.getConfigurationFactories()[0]);
-  }
-
-  @Override
-  public void readExternal(@Nonnull Element element) throws InvalidDataException {
-    super.readExternal(element);
-    myPackage = StringUtil.notNullize(JDOMExternalizerUtil.getFirstChildValueAttribute(element, PACKAGE_ATTRIBUTE_NAME));
-    try {
-      String kindName = JDOMExternalizerUtil.getFirstChildValueAttribute(element, KIND_ATTRIBUTE_NAME);
-      myKind = kindName != null ? Kind.valueOf(kindName) : Kind.PACKAGE;
+    public GoApplicationConfiguration(Project project, String name, @Nonnull ConfigurationType configurationType) {
+        super(name, new GoModuleBasedConfiguration(project), configurationType.getConfigurationFactories()[0]);
     }
-    catch (IllegalArgumentException e) {
-      myKind = !myPackage.isEmpty() ? Kind.PACKAGE : Kind.FILE;
+
+    @Nonnull
+    public String getTarget() {
+        return getKind() == GoApplicationConfiguration.Kind.PACKAGE ? getPackage() : getFilePath();
     }
-  }
 
-  @Override
-  public void writeExternal(Element element) throws WriteExternalException {
-    super.writeExternal(element);
-    JDOMExternalizerUtil.addElementWithValueAttribute(element, KIND_ATTRIBUTE_NAME, myKind.name());
-    if (!myPackage.isEmpty()) {
-      JDOMExternalizerUtil.addElementWithValueAttribute(element, PACKAGE_ATTRIBUTE_NAME, myPackage);
-    }
-  }
-
-  @Nonnull
-  @Override
-  protected ModuleBasedConfiguration createInstance() {
-    return new GoApplicationConfiguration(getProject(), getName(), GoApplicationRunConfigurationType.getInstance());
-  }
-
-  @Nonnull
-  @Override
-  public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
-    return new GoApplicationConfigurationEditorForm(getProject());
-  }
-
-  @Nonnull
-  @Override
-  protected GoApplicationRunningState newRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module) {
-    return new GoApplicationRunningState(env, module, this);
-  }
-
-  @Override
-  public void checkConfiguration() throws RuntimeConfigurationException {
-    checkBaseConfiguration();
-    switch (myKind) {
-      case PACKAGE:
-        Module module = getConfigurationModule().getModule();
-        assert module != null;
-
-        if (StringUtil.isEmptyOrSpaces(myPackage)) {
-          throw new RuntimeConfigurationError("Package is not specified");
+    @Override
+    public void readExternal(@Nonnull Element element) throws InvalidDataException {
+        super.readExternal(element);
+        myPackage = StringUtil.notNullize(JDOMExternalizerUtil.getFirstChildValueAttribute(element, PACKAGE_ATTRIBUTE_NAME));
+        try {
+            String kindName = JDOMExternalizerUtil.getFirstChildValueAttribute(element, KIND_ATTRIBUTE_NAME);
+            myKind = kindName != null ? Kind.valueOf(kindName) : Kind.PACKAGE;
         }
-        VirtualFile packageDirectory = GoPackageUtil.findByImportPath(myPackage, module.getProject(), module);
-        if (packageDirectory == null || !packageDirectory.isDirectory()) {
-          throw new RuntimeConfigurationError("Cannot find package '" + myPackage + "'");
+        catch (IllegalArgumentException e) {
+            myKind = !myPackage.isEmpty() ? Kind.PACKAGE : Kind.FILE;
         }
-        if (GoRunUtil.findMainFileInDirectory(packageDirectory, getProject()) == null) {
-          throw new RuntimeConfigurationError("Cannot find Go file with main in '" + myPackage + "'");
-        }
-        break;
-      case FILE:
-        checkFileConfiguration();
-        break;
     }
-  }
 
-  @Nonnull
-  public String getPackage() {
-    return myPackage;
-  }
+    @Override
+    public void writeExternal(Element element) throws WriteExternalException {
+        super.writeExternal(element);
+        JDOMExternalizerUtil.addElementWithValueAttribute(element, KIND_ATTRIBUTE_NAME, myKind.name());
+        if (!myPackage.isEmpty()) {
+            JDOMExternalizerUtil.addElementWithValueAttribute(element, PACKAGE_ATTRIBUTE_NAME, myPackage);
+        }
+    }
 
-  public void setPackage(@Nonnull String aPackage) {
-    myPackage = aPackage;
-  }
+    @Nonnull
+    @Override
+    protected ModuleBasedConfiguration createInstance() {
+        return new GoApplicationConfiguration(getProject(), getName(), GoApplicationRunConfigurationType.getInstance());
+    }
 
-  @Nonnull
-  public Kind getKind() {
-    return myKind;
-  }
+    @Nonnull
+    @Override
+    public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
+        return new GoApplicationConfigurationEditorForm(getProject());
+    }
 
-  public void setKind(@Nonnull Kind aKind) {
-    myKind = aKind;
-  }
+    @Nonnull
+    @Override
+    protected GoApplicationRunningState newRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module) {
+        return new GoApplicationRunningState(env, module, this);
+    }
 
-  public enum Kind {
-    PACKAGE, FILE
-  }
+    @Override
+    public void checkConfiguration() throws RuntimeConfigurationException {
+        checkBaseConfiguration();
+        switch (myKind) {
+            case PACKAGE:
+                Module module = getConfigurationModule().getModule();
+                assert module != null;
+
+                if (StringUtil.isEmptyOrSpaces(myPackage)) {
+                    throw new RuntimeConfigurationError("Package is not specified");
+                }
+                VirtualFile packageDirectory = GoPackageUtil.findByImportPath(myPackage, module.getProject(), module);
+                if (packageDirectory == null || !packageDirectory.isDirectory()) {
+                    throw new RuntimeConfigurationError("Cannot find package '" + myPackage + "'");
+                }
+                if (GoRunUtil.findMainFileInDirectory(packageDirectory, getProject()) == null) {
+                    throw new RuntimeConfigurationError("Cannot find Go file with main in '" + myPackage + "'");
+                }
+                break;
+            case FILE:
+                checkFileConfiguration();
+                break;
+        }
+    }
+
+    @Nonnull
+    public String getPackage() {
+        return myPackage;
+    }
+
+    public void setPackage(@Nonnull String aPackage) {
+        myPackage = aPackage;
+    }
+
+    @Nonnull
+    public Kind getKind() {
+        return myKind;
+    }
+
+    public void setKind(@Nonnull Kind aKind) {
+        myKind = aKind;
+    }
+
+    public enum Kind {
+        PACKAGE,
+        FILE
+    }
 }
