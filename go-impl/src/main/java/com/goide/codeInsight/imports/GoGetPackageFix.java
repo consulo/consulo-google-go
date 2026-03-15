@@ -30,22 +30,20 @@ import consulo.undoRedo.CommandProcessor;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFileManager;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.function.Consumer;
 
 public class GoGetPackageFix extends LocalQuickFixBase implements HighPriorityAction {
-  @Nonnull
   private final String myPackage;
 
-  public GoGetPackageFix(@Nonnull String packageName) {
+  public GoGetPackageFix(String packageName) {
     super(LocalizeValue.of("go get -t " + packageName + "/..."));
     myPackage = packageName;
   }
 
-  public static void applyFix(@Nonnull Project project,
+  public static void applyFix(Project project,
                               @Nullable Module module,
-                              @Nonnull String packageName,
+                              String packageName,
                               boolean startInBackground) {
     String sdkPath = GoSdkService.getInstance(project).getSdkHomePath(module);
     if (StringUtil.isEmpty(sdkPath)) return;
@@ -58,7 +56,7 @@ public class GoGetPackageFix extends LocalQuickFixBase implements HighPriorityAc
   }
 
   @Override
-  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+  public void applyFix(Project project, ProblemDescriptor descriptor) {
     PsiElement element = descriptor.getPsiElement();
     if (element != null) {
       applyFix(project, ModuleUtilCore.findModuleForPsiElement(element.getContainingFile()), myPackage, true);

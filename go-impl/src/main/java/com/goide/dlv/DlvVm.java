@@ -32,24 +32,21 @@ import org.jetbrains.debugger.StandaloneVmHelper;
 import org.jetbrains.debugger.VmBase;
 import org.jetbrains.jsonProtocol.Request;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class DlvVm extends VmBase {
   private final static Logger LOG = Logger.getInstance(DlvVm.class);
 
-  @Nonnull
   private final DlvCommandProcessor commandProcessor;
-  @Nonnull
   private final StandaloneVmHelper vmHelper;
   // @NotNull private final DummyBreakpointManager breakpointManager = new DummyBreakpointManager();
 
-  public DlvVm(@Nonnull DebugEventListener tabListener, @Nonnull Channel channel) {
+  public DlvVm(DebugEventListener tabListener, Channel channel) {
     super(tabListener);
 
     commandProcessor = new DlvCommandProcessor() {
       @Override
-      public boolean write(@Nonnull Request message) throws IOException {
+      public boolean write(Request message) throws IOException {
         ByteBuf content = message.getBuffer();
         LOG.info("OUT: " + content.toString(CharsetToolkit.UTF8_CHARSET));
         return vmHelper.write(content);
@@ -70,13 +67,11 @@ public class DlvVm extends VmBase {
     });
   }
 
-  @Nonnull
   @Override
   public AttachStateManager getAttachStateManager() {
     return vmHelper;
   }
 
-  @Nonnull
   public final DlvCommandProcessor getCommandProcessor() {
     return commandProcessor;
   }

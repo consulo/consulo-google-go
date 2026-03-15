@@ -25,8 +25,7 @@ import consulo.language.editor.refactoring.rename.RenamePsiElementProcessor;
 import consulo.language.editor.refactoring.util.CommonRefactoringUtil;
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoRenameImportSpecProcessor extends RenamePsiElementProcessor {
@@ -43,7 +42,7 @@ public class GoRenameImportSpecProcessor extends RenamePsiElementProcessor {
   }
 
   @Override
-  public boolean canProcessElement(@Nonnull PsiElement element) {
+  public boolean canProcessElement(PsiElement element) {
     return element instanceof GoImportSpec;
   }
 }

@@ -23,7 +23,6 @@ import consulo.fileEditor.structureView.tree.TreeElement;
 import consulo.language.psi.PsiElement;
 
 import consulo.platform.base.icon.PlatformIconGroup;
-import jakarta.annotation.Nonnull;
 
 public class GoPrivateMembersFilter implements Filter {
   private final static String PRIVATE_MEMBERS_FILTER_TEXT = "Show Private Members";
@@ -42,13 +41,11 @@ public class GoPrivateMembersFilter implements Filter {
     return true;
   }
 
-  @Nonnull
   @Override
   public ActionPresentation getPresentation() {
     return new ActionPresentationData(PRIVATE_MEMBERS_FILTER_TEXT, null, PlatformIconGroup.nodesC_private());
   }
 
-  @Nonnull
   @Override
   public String getName() {
     return PRIVATE_MEMBERS_FILTER_TEXT;

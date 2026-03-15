@@ -27,7 +27,6 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 
 /**
  * Implements <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/issues/1983"/>, an
@@ -35,14 +34,13 @@ import jakarta.annotation.Nonnull;
  */
 @ExtensionImpl
 public class GoStructTagInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
-                                     @SuppressWarnings({"UnusedParameters", "For future"}) @Nonnull LocalInspectionToolSession session,
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder,
+                                     @SuppressWarnings({"UnusedParameters", "For future"}) LocalInspectionToolSession session,
                                      Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitStructType(@Nonnull GoStructType o) {
+      public void visitStructType(GoStructType o) {
         for (GoFieldDeclaration field : o.getFieldDeclarationList()) {
           GoTag tag = field.getTag();
           if (tag == null) continue;
@@ -56,7 +54,7 @@ public class GoStructTagInspection extends GoInspectionBase {
 
   // Implementation based on validateStructTag from the go vet tool:
   // https://github.com/golang/tools/blob/master/cmd/vet/structtag.go.
-  private static boolean isValidTag(@Nonnull GoTag tag) {
+  private static boolean isValidTag(GoTag tag) {
     StringBuilder tagText = new StringBuilder(GoPsiImplUtil.unquote(tag.getText()));
     if (tagText.length() != tag.getText().length() - 2) {
       // We already have a parsing error in this case, so no need to add an additional warning.
@@ -113,19 +111,16 @@ public class GoStructTagInspection extends GoInspectionBase {
     return true;
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Probable bugs");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Malformed struct tag");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WARNING;

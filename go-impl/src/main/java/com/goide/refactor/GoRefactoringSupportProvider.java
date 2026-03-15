@@ -24,13 +24,12 @@ import consulo.language.editor.refactoring.RefactoringSupportProvider;
 import consulo.language.editor.refactoring.action.RefactoringActionHandler;
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoRefactoringSupportProvider extends RefactoringSupportProvider {
   @Override
-  public boolean isMemberInplaceRenameAvailable(@Nonnull PsiElement element, PsiElement context) {
+  public boolean isMemberInplaceRenameAvailable(PsiElement element, PsiElement context) {
     return element instanceof GoNamedElement;
   }
 
@@ -40,7 +39,6 @@ public class GoRefactoringSupportProvider extends RefactoringSupportProvider {
     return new GoIntroduceVariableHandler();
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

@@ -16,7 +16,6 @@
 
 package com.goide.inspections;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.SdkAware;
 import com.goide.quickfix.GoQuickFixTestBase;
@@ -53,7 +52,6 @@ public abstract class GoRedundantSecondIndexInSlicesInspectionTest extends GoQui
     doTestNoFix(GoRedundantSecondIndexInSlicesInspection.DELETE_REDUNDANT_INDEX_QUICK_FIX_NAME, true);
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "inspections/go-simplify";

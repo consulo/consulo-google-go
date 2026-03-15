@@ -24,14 +24,13 @@ import consulo.project.Project;
 import consulo.ui.ex.awt.FormBuilder;
 import consulo.ui.ex.awt.TextFieldWithBrowseButton;
 
-import jakarta.annotation.Nonnull;
 import javax.swing.*;
 
 public class GoRunFileConfigurationEditorForm extends SettingsEditor<GoRunFileConfiguration> {
   private TextFieldWithBrowseButton myFileField;
   private GoCommonSettingsPanel myCommonSettingsPanel;
 
-  public GoRunFileConfigurationEditorForm(@Nonnull Project project) {
+  public GoRunFileConfigurationEditorForm(Project project) {
     myCommonSettingsPanel = new GoCommonSettingsPanel() {
       @Override
       protected void addBefore(FormBuilder builder) {
@@ -55,7 +54,6 @@ public class GoRunFileConfigurationEditorForm extends SettingsEditor<GoRunFileCo
     myCommonSettingsPanel.applyEditorTo(configuration);
   }
 
-  @Nonnull
   @Override
   protected JComponent createEditor() {
     return myCommonSettingsPanel;

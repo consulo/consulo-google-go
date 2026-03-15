@@ -23,8 +23,7 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +31,7 @@ import java.util.Set;
 @ExtensionImpl
 public class GoDuplicateReturnArgumentInspection extends GoDuplicateArgumentInspection {
   @Override
-  public void check(@Nullable GoSignature o, @Nonnull ProblemsHolder holder) {
+  public void check(@Nullable GoSignature o, ProblemsHolder holder) {
     if (o == null) return;
     Set<String> names = getParamNames(o);
     GoResult result = o.getResult();
@@ -43,8 +42,7 @@ public class GoDuplicateReturnArgumentInspection extends GoDuplicateArgumentInsp
     checkParameters(holder, parameters, names);
   }
 
-  @Nonnull
-  private static Set<String> getParamNames(@Nonnull GoSignature o) {
+  private static Set<String> getParamNames(GoSignature o) {
     List<GoParameterDeclaration> params = o.getParameters().getParameterDeclarationList();
     Set<String> names = new LinkedHashSet<>();
     for (GoParameterDeclaration fp : params) {
@@ -56,19 +54,16 @@ public class GoDuplicateReturnArgumentInspection extends GoDuplicateArgumentInsp
     return names;
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.ERROR;
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Duplicate return argument");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Redeclared symbols");

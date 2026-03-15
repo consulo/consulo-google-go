@@ -19,10 +19,8 @@ package com.goide.runconfig.before;
 import consulo.execution.BeforeRunTask;
 import consulo.util.lang.StringUtil;
 import org.jdom.Element;
-import org.jetbrains.annotations.NonNls;
 
 public class GoCommandBeforeRunTask extends BeforeRunTask<GoCommandBeforeRunTask> {
-  @NonNls
   private static final String COMMAND_ATTRIBUTE = "command";
 
   private String myCommand;

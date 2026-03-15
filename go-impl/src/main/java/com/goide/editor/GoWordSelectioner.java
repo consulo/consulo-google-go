@@ -25,18 +25,17 @@ import consulo.language.psi.ElementManipulators;
 import consulo.language.psi.PsiElement;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @ExtensionImpl
 public class GoWordSelectioner extends AbstractWordSelectioner {
   @Override
-  public boolean canSelect(@Nonnull PsiElement e) {
+  public boolean canSelect(PsiElement e) {
     return e.getContainingFile() instanceof GoFile;
   }
 
   @Override
-  public List<TextRange> select(@Nonnull PsiElement e, CharSequence editorText, int cursorOffset, Editor editor) {
+  public List<TextRange> select(PsiElement e, CharSequence editorText, int cursorOffset, Editor editor) {
     PsiElement parent = e.getParent();
     List<TextRange> result = super.select(e, editorText, cursorOffset, editor);
     if (parent instanceof GoImportString || parent instanceof GoStringLiteral) {
@@ -67,8 +66,7 @@ public class GoWordSelectioner extends AbstractWordSelectioner {
     return result;
   }
 
-  @Nonnull
-  private static List<TextRange> extend(@Nonnull CharSequence editorText, @Nonnull List<? extends PsiElement> list, boolean expand) {
+  private static List<TextRange> extend(CharSequence editorText, List<? extends PsiElement> list, boolean expand) {
     PsiElement first = ContainerUtil.getFirstItem(list);
     PsiElement last = ContainerUtil.getLastItem(list);
     if (first != null && last != null) {

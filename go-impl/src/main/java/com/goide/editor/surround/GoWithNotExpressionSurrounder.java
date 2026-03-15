@@ -23,8 +23,7 @@ import consulo.language.util.IncorrectOperationException;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoWithNotExpressionSurrounder extends GoBoolExpressionSurrounderBase {
   @Override
@@ -34,7 +33,7 @@ public class GoWithNotExpressionSurrounder extends GoBoolExpressionSurrounderBas
 
   @Nullable
   @Override
-  public TextRange surroundElements(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiElement[] elements)
+  public TextRange surroundElements(Project project, Editor editor, PsiElement[] elements)
     throws IncorrectOperationException {
     return surroundWithParenthesis(elements, true);
   }

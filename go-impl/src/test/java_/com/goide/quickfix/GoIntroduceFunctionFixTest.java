@@ -16,7 +16,6 @@
 
 package com.goide.quickfix;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.SdkAware;
 import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
@@ -185,7 +184,6 @@ public abstract class GoIntroduceFunctionFixTest extends GoQuickFixTestBase {
                           "func _() { asd(alias.CreateChanOfMyType());}\nfunc asd(myType struct {ch chan chan alias.MyType}) {\n\t<caret>\n};");
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/introduce-function";

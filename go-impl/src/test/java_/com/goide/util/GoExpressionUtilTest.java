@@ -23,7 +23,6 @@ import com.goide.psi.GoExpression;
 import com.goide.psi.impl.GoExpressionUtil;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
-import jakarta.annotation.Nonnull;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
@@ -68,7 +67,7 @@ public abstract class GoExpressionUtilTest extends GoParametrizedTestBase {
   }
 
   @SuppressWarnings("JUnitTestCaseWithNonTrivialConstructors")
-  public GoExpressionUtilTest(@Nonnull String vars, @Nonnull String left, @Nonnull String right, boolean ok) {
+  public GoExpressionUtilTest(String vars, String left, String right, boolean ok) {
     this.vars = vars;
     this.left = left;
     this.right = right;

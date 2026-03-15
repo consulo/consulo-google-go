@@ -27,20 +27,18 @@ import consulo.language.psi.*;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.localize.LocalizeValue;
 import consulo.util.lang.ObjectUtil;
-import org.jetbrains.annotations.NonNls;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 abstract public class GoLiveTemplateContextType extends BaseTemplateContextType {
-  protected GoLiveTemplateContextType(@Nonnull @NonNls String id,
-                                      @Nonnull LocalizeValue presentableName,
+  protected GoLiveTemplateContextType(String id,
+                                      LocalizeValue presentableName,
                                       @Nullable Class<? extends TemplateContextType> baseContextType) {
     super(id, presentableName, baseContextType);
   }
 
   @Override
-  public boolean isInContext(@Nonnull PsiFile file, int offset) {
+  public boolean isInContext(PsiFile file, int offset) {
     if (PsiUtilCore.getLanguageAtOffset(file, offset).isKindOf(GoLanguage.INSTANCE)) {
       PsiElement psiElement = ObjectUtil.notNull(file.findElementAt(offset), file);
       if (!acceptLeaf()) {
@@ -84,7 +82,7 @@ abstract public class GoLiveTemplateContextType extends BaseTemplateContextType 
     return result;
   }
 
-  protected abstract boolean isInContext(@Nonnull PsiElement element);
+  protected abstract boolean isInContext(PsiElement element);
 
   @Override
   public SyntaxHighlighter createHighlighter() {

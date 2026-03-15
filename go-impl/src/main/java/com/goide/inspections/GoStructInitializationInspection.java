@@ -30,22 +30,20 @@ import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 @ExtensionImpl
 public class GoStructInitializationInspection extends GoInspectionBase<GoStructInitializationInspectionState> {
   public static final LocalizeValue REPLACE_WITH_NAMED_STRUCT_FIELD_FIX_NAME = LocalizeValue.localizeTODO("Replace with named struct field");
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
-                                     @Nonnull LocalInspectionToolSession session,
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder,
+                                     LocalInspectionToolSession session,
                                      GoStructInitializationInspectionState state) {
     return new GoVisitor() {
       @Override
-      public void visitLiteralValue(@Nonnull GoLiteralValue o) {
+      public void visitLiteralValue(GoLiteralValue o) {
         if (PsiTreeUtil.getParentOfType(o, GoReturnStatement.class, GoShortVarDeclaration.class, GoAssignmentStatement.class) == null) {
           return;
         }
@@ -58,42 +56,38 @@ public class GoStructInitializationInspection extends GoInspectionBase<GoStructI
     };
   }
 
-  @Nonnull
   @Override
   public InspectionToolState<?> createStateProvider() {
     return new GoStructInitializationInspectionState();
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Code style issues");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Struct initialization without field names");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WEAK_WARNING;
   }
 
-  private void processStructType(@Nonnull ProblemsHolder holder,
-                                 @Nonnull GoLiteralValue element,
-                                 @Nonnull GoStructType structType,
+  private void processStructType(ProblemsHolder holder,
+                                 GoLiteralValue element,
+                                 GoStructType structType,
                                  GoStructInitializationInspectionState state) {
     if (state.reportLocalStructs || !GoUtil.inSamePackage(structType.getContainingFile(), element.getContainingFile())) {
       processLiteralValue(holder, element, structType.getFieldDeclarationList());
     }
   }
 
-  private static void processLiteralValue(@Nonnull ProblemsHolder holder,
-                                          @Nonnull GoLiteralValue o,
-                                          @Nonnull List<GoFieldDeclaration> fields) {
+  private static void processLiteralValue(ProblemsHolder holder,
+                                          GoLiteralValue o,
+                                          List<GoFieldDeclaration> fields) {
     List<GoElement> vals = o.getElementList();
     for (int elemId = 0; elemId < vals.size(); elemId++) {
       ProgressManager.checkCanceled();
@@ -108,7 +102,7 @@ public class GoStructInitializationInspection extends GoInspectionBase<GoStructI
   }
 
   @Nullable
-  private static String getFieldName(@Nonnull GoFieldDeclaration declaration) {
+  private static String getFieldName(GoFieldDeclaration declaration) {
     List<GoFieldDefinition> list = declaration.getFieldDefinitionList();
     GoFieldDefinition fieldDefinition = ContainerUtil.getFirstItem(list);
     return fieldDefinition != null ? fieldDefinition.getIdentifier().getText() : null;
@@ -117,13 +111,13 @@ public class GoStructInitializationInspection extends GoInspectionBase<GoStructI
   private static class GoReplaceWithNamedStructFieldQuickFix extends LocalQuickFixBase {
     private String myStructField;
 
-    public GoReplaceWithNamedStructFieldQuickFix(@Nonnull String structField) {
+    public GoReplaceWithNamedStructFieldQuickFix(String structField) {
       super(REPLACE_WITH_NAMED_STRUCT_FIELD_FIX_NAME);
       myStructField = structField;
     }
 
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       PsiElement startElement = descriptor.getStartElement();
       if (startElement instanceof GoElement) {
         startElement.replace(GoElementFactory.createLiteralValueElement(project, myStructField, startElement.getText()));

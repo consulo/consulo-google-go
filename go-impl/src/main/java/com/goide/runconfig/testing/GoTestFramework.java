@@ -28,8 +28,7 @@ import consulo.module.Module;
 import consulo.ui.ex.action.AnAction;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,7 +49,6 @@ public abstract class GoTestFramework {
     return Collections.emptyList();
   }
 
-  @Nonnull
   public static GoTestFramework fromName(@Nullable String name) {
     for (GoTestFramework framework : all()) {
       if (framework.getName().equals(name)) {
@@ -60,7 +58,6 @@ public abstract class GoTestFramework {
     return GotestFramework.INSTANCE;
   }
 
-  @Nonnull
   public abstract String getName();
 
   public abstract boolean isAvailable(@Nullable Module module);
@@ -69,10 +66,8 @@ public abstract class GoTestFramework {
 
   public abstract boolean isAvailableOnFunction(@Nullable GoFunctionOrMethodDeclaration functionOrMethodDeclaration);
 
-  @Nonnull
-  protected abstract GoTestRunningState newRunningState(@Nonnull ExecutionEnvironment env,
-                                                        @Nonnull Module module, @Nonnull GoTestRunConfiguration runConfiguration);
+  protected abstract GoTestRunningState newRunningState(ExecutionEnvironment env,
+                                                        Module module, GoTestRunConfiguration runConfiguration);
 
-  @Nonnull
-  public abstract OutputToGeneralTestEventsConverter createTestEventsConverter(@Nonnull TestConsoleProperties consoleProperties);
+  public abstract OutputToGeneralTestEventsConverter createTestEventsConverter(TestConsoleProperties consoleProperties);
 }

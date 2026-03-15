@@ -32,7 +32,6 @@ import consulo.language.parser.PsiParser;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.version.LanguageVersion;
-import jakarta.annotation.Nonnull;
 
 import static com.plan9.intel.lang.core.psi.AsmIntelTypes.*;
 
@@ -50,43 +49,36 @@ public class AsmIntelParserDefinition implements ParserDefinition {
 
   public static final IFileElementType FILE = new IFileElementType(Language.findInstance(AsmIntelLanguage.class));
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return AsmIntelLanguage.INSTANCE;
   }
 
-  @Nonnull
   @Override
   public Lexer createLexer(LanguageVersion languageVersion) {
     return new AsmIntelLexer();
   }
 
   @Override
-  @Nonnull
   public TokenSet getWhitespaceTokens(LanguageVersion languageVersion) {
     return WHITE_SPACES;
   }
 
   @Override
-  @Nonnull
   public TokenSet getCommentTokens(LanguageVersion languageVersion) {
     return COMMENTS;
   }
 
   @Override
-  @Nonnull
   public TokenSet getStringLiteralElements(LanguageVersion languageVersion) {
     return TokenSet.EMPTY;
   }
 
   @Override
-  @Nonnull
   public PsiParser createParser(LanguageVersion languageVersion) {
     return new PsiParser() {
-      @Nonnull
       @Override
-      public ASTNode parse(@Nonnull IElementType rootElement, @Nonnull PsiBuilder builder, @Nonnull LanguageVersion languageVersion) {
+      public ASTNode parse(IElementType rootElement, PsiBuilder builder, LanguageVersion languageVersion) {
         PsiBuilder.Marker mark = builder.mark();
         while (!builder.eof()) {
           builder.advanceLexer();
@@ -114,7 +106,6 @@ public class AsmIntelParserDefinition implements ParserDefinition {
   }
 
   @Override
-  @Nonnull
   public PsiElement createElement(ASTNode node) {
     return AsmIntelTypesFactory.createElement(node);
   }

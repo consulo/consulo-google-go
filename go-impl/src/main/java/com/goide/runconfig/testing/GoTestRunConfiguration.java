@@ -43,7 +43,6 @@ import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jdom.Element;
 
-import jakarta.annotation.Nonnull;
 
 public class GoTestRunConfiguration extends GoRunConfigurationBase<GoTestRunningState> {
   private static final String PATTERN_ATTRIBUTE_NAME = "pattern";
@@ -53,28 +52,22 @@ public class GoTestRunConfiguration extends GoRunConfigurationBase<GoTestRunning
   private static final String KIND_ATTRIBUTE_NAME = "kind";
   private static final String FRAMEWORK_ATTRIBUTE_NAME = "framework";
 
-  @Nonnull
   private String myPackage = "";
-  @Nonnull
   private String myFilePath = "";
-  @Nonnull
   private String myDirectoryPath = "";
 
-  @Nonnull
   private String myPattern = "";
-  @Nonnull
   private Kind myKind = Kind.DIRECTORY;
   private GoTestFramework myTestFramework = GotestFramework.INSTANCE;
 
-  public GoTestRunConfiguration(@Nonnull Project project, String name, @Nonnull ConfigurationType configurationType) {
+  public GoTestRunConfiguration(Project project, String name, ConfigurationType configurationType) {
     super(name, new GoModuleBasedConfiguration(project), configurationType.getConfigurationFactories()[0]);
   }
 
-  public OutputToGeneralTestEventsConverter createTestEventsConverter(@Nonnull TestConsoleProperties consoleProperties) {
+  public OutputToGeneralTestEventsConverter createTestEventsConverter(TestConsoleProperties consoleProperties) {
     return myTestFramework.createTestEventsConverter(consoleProperties);
   }
 
-  @Nonnull
   @Override
   protected GoTestRunningState newRunningState(ExecutionEnvironment env, Module module) {
     return myTestFramework.newRunningState(env, module, this);
@@ -85,7 +78,6 @@ public class GoTestRunConfiguration extends GoRunConfigurationBase<GoTestRunning
     return new GoTestRunConfiguration(getProject(), getName(), GoTestRunConfigurationType.getInstance());
   }
 
-  @Nonnull
   @Override
   public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
     return new GoTestRunConfigurationEditorForm(getProject());
@@ -162,7 +154,7 @@ public class GoTestRunConfiguration extends GoRunConfigurationBase<GoTestRunning
   }
 
   @Override
-  public void readExternal(@Nonnull Element element) throws InvalidDataException {
+  public void readExternal(Element element) throws InvalidDataException {
     super.readExternal(element);
     try {
       String kindName = JDOMExternalizerUtil.getFirstChildValueAttribute(element, KIND_ATTRIBUTE_NAME);
@@ -178,56 +170,50 @@ public class GoTestRunConfiguration extends GoRunConfigurationBase<GoTestRunning
     myTestFramework = GoTestFramework.fromName(JDOMExternalizerUtil.getFirstChildValueAttribute(element, FRAMEWORK_ATTRIBUTE_NAME));
   }
 
-  @Nonnull
   public String getPattern() {
     return myPattern;
   }
 
-  public void setPattern(@Nonnull String pattern) {
+  public void setPattern(String pattern) {
     myPattern = pattern;
   }
 
-  @Nonnull
   public Kind getKind() {
     return myKind;
   }
 
-  public void setKind(@Nonnull Kind kind) {
+  public void setKind(Kind kind) {
     myKind = kind;
   }
 
-  @Nonnull
   public String getPackage() {
     return myPackage;
   }
 
-  public void setPackage(@Nonnull String aPackage) {
+  public void setPackage(String aPackage) {
     myPackage = aPackage;
   }
 
-  @Nonnull
   public String getFilePath() {
     return myFilePath;
   }
 
-  public void setFilePath(@Nonnull String filePath) {
+  public void setFilePath(String filePath) {
     myFilePath = filePath;
   }
 
-  @Nonnull
   public String getDirectoryPath() {
     return myDirectoryPath;
   }
 
-  public void setDirectoryPath(@Nonnull String directoryPath) {
+  public void setDirectoryPath(String directoryPath) {
     myDirectoryPath = directoryPath;
   }
 
-  public void setTestFramework(@Nonnull GoTestFramework testFramework) {
+  public void setTestFramework(GoTestFramework testFramework) {
     myTestFramework = testFramework;
   }
 
-  @Nonnull
   public GoTestFramework getTestFramework() {
     return myTestFramework;
   }

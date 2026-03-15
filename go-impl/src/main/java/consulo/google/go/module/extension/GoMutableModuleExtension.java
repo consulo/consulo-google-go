@@ -29,8 +29,7 @@ import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.layout.VerticalLayout;
 import consulo.util.lang.ThreeState;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import javax.swing.*;
 
 /**
@@ -38,15 +37,14 @@ import javax.swing.*;
  * @since 12:44/30.05.13
  */
 public class GoMutableModuleExtension extends GoModuleExtension implements MutableModuleExtensionWithSdk<GoModuleExtension>, SwingMutableModuleExtension {
-  public GoMutableModuleExtension(@Nonnull String id, @Nonnull ModuleRootLayer module) {
+  public GoMutableModuleExtension(String id, ModuleRootLayer module) {
     super(id, module);
   }
 
-  public void setVendoringEnabled(@Nonnull ThreeState enabled) {
+  public void setVendoringEnabled(ThreeState enabled) {
     myVendoringEnabled = enabled;
   }
 
-  @Nonnull
   @Override
   public MutableModuleInheritableNamedPointer<Sdk> getInheritableSdk() {
     return (MutableModuleInheritableNamedPointer<Sdk>) super.getInheritableSdk();
@@ -55,14 +53,14 @@ public class GoMutableModuleExtension extends GoModuleExtension implements Mutab
   @RequiredUIAccess
   @Nullable
   @Override
-  public Component createConfigurationComponent(@Nonnull Disposable disposable, @Nonnull Runnable runnable) {
+  public Component createConfigurationComponent(Disposable disposable, Runnable runnable) {
     return VerticalLayout.create().add(Label.create("Unsupported platform"));
   }
 
   @RequiredUIAccess
   @Nullable
   @Override
-  public JComponent createConfigurablePanel(@Nonnull Disposable disposable, @Nonnull Runnable runnable) {
+  public JComponent createConfigurablePanel(Disposable disposable, Runnable runnable) {
     return new GoModuleExtensionPanel(this, runnable);
   }
 
@@ -72,7 +70,7 @@ public class GoMutableModuleExtension extends GoModuleExtension implements Mutab
   }
 
   @Override
-  public boolean isModified(@Nonnull GoModuleExtension extension) {
+  public boolean isModified(GoModuleExtension extension) {
     return isModifiedImpl(extension) ||
         myVendoringEnabled != extension.myVendoringEnabled ||
         !myBuildTargetSettings.equals(extension.myBuildTargetSettings);

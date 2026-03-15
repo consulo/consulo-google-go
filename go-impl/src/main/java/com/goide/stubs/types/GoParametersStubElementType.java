@@ -23,34 +23,30 @@ import consulo.language.psi.stub.StubElement;
 import consulo.language.psi.stub.StubInputStream;
 import consulo.language.psi.stub.StubOutputStream;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoParametersStubElementType extends GoStubElementType<GoParametersStub, GoParameters> {
-  public GoParametersStubElementType(@Nonnull String name) {
+  public GoParametersStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoParameters createPsi(@Nonnull GoParametersStub stub) {
+  public GoParameters createPsi(GoParametersStub stub) {
     return new GoParametersImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoParametersStub createStub(@Nonnull GoParameters psi, StubElement parentStub) {
+  public GoParametersStub createStub(GoParameters psi, StubElement parentStub) {
     return new GoParametersStub(parentStub, this, psi.getText());
   }
 
   @Override
-  public void serialize(@Nonnull GoParametersStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoParametersStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getText());
   }
 
-  @Nonnull
   @Override
-  public GoParametersStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoParametersStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoParametersStub(parentStub, this, dataStream.readName());
   }
 }

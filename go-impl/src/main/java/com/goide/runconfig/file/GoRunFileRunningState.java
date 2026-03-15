@@ -22,15 +22,14 @@ import consulo.execution.runner.ExecutionEnvironment;
 import consulo.module.Module;
 import consulo.process.ExecutionException;
 
-import jakarta.annotation.Nonnull;
 
 public class GoRunFileRunningState extends GoRunningState<GoRunFileConfiguration> {
-  public GoRunFileRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module, GoRunFileConfiguration configuration) {
+  public GoRunFileRunningState(ExecutionEnvironment env, Module module, GoRunFileConfiguration configuration) {
     super(env, module, configuration);
   }
 
   @Override
-  protected GoExecutor patchExecutor(@Nonnull GoExecutor executor) throws ExecutionException {
+  protected GoExecutor patchExecutor(GoExecutor executor) throws ExecutionException {
     return executor
         .withParameters("run")
         .withParameterString(myConfiguration.getGoToolParams())

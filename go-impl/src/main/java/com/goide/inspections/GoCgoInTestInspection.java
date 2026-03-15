@@ -25,12 +25,11 @@ import consulo.google.go.inspection.GoGeneralInspectionBase;
 import consulo.language.editor.inspection.ProblemsHolder;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoCgoInTestInspection extends GoGeneralInspectionBase {
   @Override
-  protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
+  protected void checkFile(GoFile file, ProblemsHolder problemsHolder) {
     if (!GoTestFinder.isTestFile(file)) return;
     for (GoImportSpec importSpec : file.getImports()) {
       if (importSpec.isCImport()) {
@@ -39,7 +38,6 @@ public class GoCgoInTestInspection extends GoGeneralInspectionBase {
     }
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Usage of cgo in tests is not supported");

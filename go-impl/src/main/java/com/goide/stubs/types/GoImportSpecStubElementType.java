@@ -26,45 +26,41 @@ import consulo.language.psi.stub.StubOutputStream;
 import consulo.util.collection.ArrayFactory;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoImportSpecStubElementType extends GoNamedStubElementType<GoImportSpecStub, GoImportSpec> {
   public static final GoImportSpec[] EMPTY_ARRAY = new GoImportSpec[0];
   public static final ArrayFactory<GoImportSpec> ARRAY_FACTORY = count -> count == 0 ? EMPTY_ARRAY : new GoImportSpec[count];
 
-  public GoImportSpecStubElementType(@Nonnull String name) {
+  public GoImportSpecStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoImportSpec createPsi(@Nonnull GoImportSpecStub stub) {
+  public GoImportSpec createPsi(GoImportSpecStub stub) {
     return new GoImportSpecImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoImportSpecStub createStub(@Nonnull GoImportSpec psi, StubElement parentStub) {
+  public GoImportSpecStub createStub(GoImportSpec psi, StubElement parentStub) {
     return new GoImportSpecStub(parentStub, this, psi.getAlias(), psi.getPath(), psi.isDot());
   }
 
   @Override
-  public void serialize(@Nonnull GoImportSpecStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoImportSpecStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeUTFFast(StringUtil.notNullize(stub.getAlias()));
     dataStream.writeUTFFast(stub.getPath());
     dataStream.writeBoolean(stub.isDot());
   }
 
-  @Nonnull
   @Override
-  public GoImportSpecStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoImportSpecStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoImportSpecStub(parentStub, this, StringUtil.nullize(dataStream.readUTFFast()), 
                                 dataStream.readUTFFast(), dataStream.readBoolean());
   }
 
   @Override
-  public boolean shouldCreateStub(@Nonnull ASTNode node) {
+  public boolean shouldCreateStub(ASTNode node) {
     return true;
   }
 }

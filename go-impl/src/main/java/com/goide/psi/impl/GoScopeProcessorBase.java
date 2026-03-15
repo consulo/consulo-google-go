@@ -24,31 +24,27 @@ import consulo.util.collection.ContainerUtil;
 import consulo.util.collection.OrderedSet;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 public abstract class GoScopeProcessorBase extends GoScopeProcessor {
-  @Nonnull
   private final OrderedSet<GoNamedElement> myResult = new OrderedSet<>();
-  @Nonnull
   protected final PsiElement myOrigin;
-  @Nonnull
   private final PsiElement myRequestedNameElement;
   protected final boolean myIsCompletion;
 
-  public GoScopeProcessorBase(@Nonnull PsiElement origin) {
+  public GoScopeProcessorBase(PsiElement origin) {
     this(origin, origin, false);
   }
 
-  public GoScopeProcessorBase(@Nonnull PsiElement requestedNameElement, @Nonnull PsiElement origin, boolean completion) {
+  public GoScopeProcessorBase(PsiElement requestedNameElement, PsiElement origin, boolean completion) {
     myRequestedNameElement = requestedNameElement;
     myOrigin = origin;
     myIsCompletion = completion;
   }
 
   @Override
-  public boolean execute(@Nonnull PsiElement e, @Nonnull ResolveState state) {
+  public boolean execute(PsiElement e, ResolveState state) {
     if (e instanceof GoFunctionOrMethodDeclaration) return false;
     if (!(e instanceof GoNamedElement)) return true;
     String name = ((GoNamedElement)e).getName();
@@ -58,7 +54,7 @@ public abstract class GoScopeProcessorBase extends GoScopeProcessor {
     return add((GoNamedElement)e) || myIsCompletion;
   }
 
-  protected boolean add(@Nonnull GoNamedElement psiElement) {
+  protected boolean add(GoNamedElement psiElement) {
     return !myResult.add(psiElement);
   }
 
@@ -67,10 +63,9 @@ public abstract class GoScopeProcessorBase extends GoScopeProcessor {
     return ContainerUtil.getFirstItem(myResult);
   }
 
-  @Nonnull
   public List<GoNamedElement> getVariants() {
     return myResult;
   }
 
-  protected abstract boolean crossOff(@Nonnull PsiElement e);
+  protected abstract boolean crossOff(PsiElement e);
 }

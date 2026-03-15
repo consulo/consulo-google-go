@@ -14,7 +14,6 @@ import consulo.language.psi.PsiWhiteSpace;
 import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoStatementLiveTemplateContextType extends GoLiveTemplateContextType {
@@ -23,7 +22,7 @@ public class GoStatementLiveTemplateContextType extends GoLiveTemplateContextTyp
     super("GO_STATEMENT", LocalizeValue.localizeTODO("Statement"), GoEverywhereContextType.class);
   }
 
-  public static boolean onStatementBeginning(@Nonnull PsiElement psiElement) {
+  public static boolean onStatementBeginning(PsiElement psiElement) {
     PsiElement prevLeaf = prevVisibleLeafOrNewLine(psiElement);
     if (prevLeaf == null) {
       return false;
@@ -36,7 +35,7 @@ public class GoStatementLiveTemplateContextType extends GoLiveTemplateContextTyp
   }
 
   @Override
-  protected boolean isInContext(@Nonnull PsiElement element) {
+  protected boolean isInContext(PsiElement element) {
     if (element instanceof PsiComment) {
       return false;
     }

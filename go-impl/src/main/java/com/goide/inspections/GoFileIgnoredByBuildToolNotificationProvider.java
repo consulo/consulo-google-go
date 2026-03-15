@@ -37,8 +37,7 @@ import consulo.virtualFileSystem.event.BulkFileListener;
 import consulo.virtualFileSystem.event.VFileEvent;
 import jakarta.inject.Inject;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -50,14 +49,14 @@ public class GoFileIgnoredByBuildToolNotificationProvider implements EditorNotif
   private final Project myProject;
 
   @Inject
-  public GoFileIgnoredByBuildToolNotificationProvider(@Nonnull Project project,
-                                                      @Nonnull EditorNotifications notifications,
-                                                      @Nonnull FileEditorManager fileEditorManager) {
+  public GoFileIgnoredByBuildToolNotificationProvider(Project project,
+                                                      EditorNotifications notifications,
+                                                      FileEditorManager fileEditorManager) {
     myProject = project;
     MessageBusConnection connection = myProject.getMessageBus().connect(myProject);
     connection.subscribe(BulkFileListener.class, new BulkFileListener.Adapter() {
       @Override
-      public void after(@Nonnull List<? extends VFileEvent> events) {
+      public void after(List<? extends VFileEvent> events) {
         if (!myProject.isDisposed()) {
           Set<VirtualFile> openFiles = Set.of(fileEditorManager.getSelectedFiles());
           for (VFileEvent event : events) {
@@ -71,7 +70,6 @@ public class GoFileIgnoredByBuildToolNotificationProvider implements EditorNotif
     });
   }
 
-  @Nonnull
   @Override
   public String getId() {
     return "go-file-ignored-by-build-tool";
@@ -80,7 +78,7 @@ public class GoFileIgnoredByBuildToolNotificationProvider implements EditorNotif
   @RequiredReadAction
   @Nullable
   @Override
-  public EditorNotificationBuilder buildNotification(@Nonnull VirtualFile file, @Nonnull FileEditor fileEditor, @Nonnull Supplier<EditorNotificationBuilder> factory) {
+  public EditorNotificationBuilder buildNotification(VirtualFile file, FileEditor fileEditor, Supplier<EditorNotificationBuilder> factory) {
     if (file.getFileType() == GoFileType.INSTANCE) {
       PsiFile psiFile = PsiManager.getInstance(myProject).findFile(file);
       if (InjectedLanguageManagerUtil.findInjectionHost(psiFile) != null) {
@@ -99,7 +97,7 @@ public class GoFileIgnoredByBuildToolNotificationProvider implements EditorNotif
     return null;
   }
 
-  private static EditorNotificationBuilder createIgnoredByBuildToolPanel(@Nonnull Project project, @Nonnull VirtualFile file, EditorNotificationBuilder builder) {
+  private static EditorNotificationBuilder createIgnoredByBuildToolPanel(Project project, VirtualFile file, EditorNotificationBuilder builder) {
     String fileName = file.getName();
     builder.withText(LocalizeValue.localizeTODO("'" + fileName + "' will be ignored by build tool since its name starts with '" + fileName.charAt(0) + "'"));
     builder.withAction(LocalizeValue.localizeTODO("Do not show again"), (e) -> {
@@ -109,8 +107,7 @@ public class GoFileIgnoredByBuildToolNotificationProvider implements EditorNotif
     return builder;
   }
 
-  @Nonnull
-  private static EditorNotificationBuilder createMismatchedTargetPanel(@Nonnull Module module, @Nonnull VirtualFile file, EditorNotificationBuilder builder) {
+  private static EditorNotificationBuilder createMismatchedTargetPanel(Module module, VirtualFile file, EditorNotificationBuilder builder) {
     builder.withText(LocalizeValue.localizeTODO("'" + file.getName() + "' doesn't match to target system. File will be ignored by build tool"));
     builder.withAction(LocalizeValue.localizeTODO("Edit Go project settings"), (e) -> {
       ShowSettingsUtil.getInstance().showProjectStructureDialog(module.getProject(), s -> s.select(module, true));

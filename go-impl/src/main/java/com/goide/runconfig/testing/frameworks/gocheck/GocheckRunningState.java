@@ -27,23 +27,21 @@ import consulo.process.ExecutionException;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
 public class GocheckRunningState extends GoTestRunningState {
-  public GocheckRunningState(@Nonnull ExecutionEnvironment env,
-                             @Nonnull Module module,
-                             @Nonnull GoTestRunConfiguration configuration) {
+  public GocheckRunningState(ExecutionEnvironment env,
+                             Module module,
+                             GoTestRunConfiguration configuration) {
     super(env, module, configuration);
   }
 
   @Override
-  protected GoExecutor patchExecutor(@Nonnull GoExecutor executor) throws ExecutionException {
+  protected GoExecutor patchExecutor(GoExecutor executor) throws ExecutionException {
     return super.patchExecutor(executor).withParameters("-check.vv");
   }
 
-  @Nonnull
   @Override
   protected String buildFilterPatternForFile(GoFile file) {
     Collection<String> testNames = new LinkedHashSet<>();
@@ -54,7 +52,7 @@ public class GocheckRunningState extends GoTestRunningState {
   }
 
   @Override
-  protected void addFilterParameter(@Nonnull GoExecutor executor, String pattern) {
+  protected void addFilterParameter(GoExecutor executor, String pattern) {
     if (StringUtil.isNotEmpty(pattern)) {
       executor.withParameters("-check.f", pattern);
     }

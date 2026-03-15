@@ -29,12 +29,10 @@ import consulo.util.xml.serializer.WriteExternalException;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jdom.Element;
 
-import jakarta.annotation.Nonnull;
 
 public abstract class GoRunConfigurationWithMain<T extends GoRunningState> extends GoRunConfigurationBase<T> {
   private static final String FILE_PATH_ATTRIBUTE_NAME = "filePath";
 
-  @Nonnull
   private String myFilePath = "";
 
   public GoRunConfigurationWithMain(String name, GoModuleBasedConfiguration configurationModule, ConfigurationFactory factory) {
@@ -43,7 +41,7 @@ public abstract class GoRunConfigurationWithMain<T extends GoRunningState> exten
   }
 
   @Override
-  public void readExternal(@Nonnull Element element) throws InvalidDataException {
+  public void readExternal(Element element) throws InvalidDataException {
     super.readExternal(element);
     myFilePath = StringUtil.notNullize(JDOMExternalizerUtil.getFirstChildValueAttribute(element, FILE_PATH_ATTRIBUTE_NAME));
   }
@@ -72,12 +70,11 @@ public abstract class GoRunConfigurationWithMain<T extends GoRunningState> exten
     super.checkConfiguration();
   }
 
-  @Nonnull
   public String getFilePath() {
     return myFilePath;
   }
 
-  public void setFilePath(@Nonnull String filePath) {
+  public void setFilePath(String filePath) {
     myFilePath = filePath;
   }
 }

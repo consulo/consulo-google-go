@@ -5,7 +5,6 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.project.ui.notification.NotificationGroup;
 import consulo.project.ui.notification.NotificationGroupContributor;
 
-import jakarta.annotation.Nonnull;
 import java.util.function.Consumer;
 
 /**
@@ -15,7 +14,7 @@ import java.util.function.Consumer;
 @ExtensionImpl
 public class GoNotificationGroupContributor implements NotificationGroupContributor {
   @Override
-  public void contribute(@Nonnull Consumer<NotificationGroup> consumer) {
+  public void contribute(Consumer<NotificationGroup> consumer) {
     consumer.accept(GoConstants.GO_NOTIFICATION_GROUP);
     consumer.accept(GoConstants.GO_EXECUTION_NOTIFICATION_GROUP);
   }

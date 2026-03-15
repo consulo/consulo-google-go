@@ -31,12 +31,11 @@ import consulo.language.util.IncorrectOperationException;
 import consulo.localize.LocalizeValue;
 import consulo.util.collection.ArrayUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.*;
 
 public class GoImportReference extends FileReference {
-  public GoImportReference(@Nonnull FileReferenceSet fileReferenceSet, TextRange range, int index, String text) {
+  public GoImportReference(FileReferenceSet fileReferenceSet, TextRange range, int index, String text) {
     super(fileReferenceSet, range, index, text);
   }
 
@@ -48,9 +47,8 @@ public class GoImportReference extends FileReference {
     return super.createLookupItem(candidate);
   }
 
-  @Nonnull
   @Override
-  protected ResolveResult[] innerResolve(boolean caseSensitive, @Nonnull PsiFile file) {
+  protected ResolveResult[] innerResolve(boolean caseSensitive, PsiFile file) {
     if (isFirst()) {
       if (".".equals(getCanonicalText())) {
         PsiDirectory directory = getDirectory();
@@ -99,7 +97,7 @@ public class GoImportReference extends FileReference {
   }
 
   @Override
-  public PsiElement bindToElement(@Nonnull PsiElement element, boolean absolute) throws IncorrectOperationException {
+  public PsiElement bindToElement(PsiElement element, boolean absolute) throws IncorrectOperationException {
     if (!absolute) {
       FileReference firstReference = ArrayUtil.getFirstElement(getFileReferenceSet().getAllReferences());
       if (firstReference != null) {
@@ -118,7 +116,6 @@ public class GoImportReference extends FileReference {
     return super.bindToElement(element, absolute);
   }
 
-  @Nonnull
   public LocalQuickFix[] getQuickFixes() {
     if (GoPackageUtil.isBuiltinPackage(resolve())) {
       return new LocalQuickFix[]{new GoDeleteImportQuickFix()};
@@ -138,7 +135,6 @@ public class GoImportReference extends FileReference {
           ((PsiDirectory)context).checkCreateSubdirectory(fileNameToCreate);
           String targetPath = context.getVirtualFile().getPath();
           result.add(new CreateFileFix(true, fileNameToCreate, (PsiDirectory)context) {
-            @Nonnull
             @Override
             public LocalizeValue getText() {
               return LocalizeValue.localizeTODO("Create Directory " + fileNameToCreate + " at " + targetPath);

@@ -32,8 +32,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -53,14 +52,14 @@ public class GoFieldNameMacro extends Macro {
 
   @Nullable
   @Override
-  public Result calculateResult(@Nonnull Expression[] params, ExpressionContext context) {
+  public Result calculateResult(Expression[] params, ExpressionContext context) {
     String name = ContainerUtil.getFirstItem(fieldNames(context));
     return StringUtil.isNotEmpty(name) ? new TextResult(name) : null;
   }
 
   @Nullable
   @Override
-  public LookupElement[] calculateLookupItems(@Nonnull Expression[] params, ExpressionContext context) {
+  public LookupElement[] calculateLookupItems(Expression[] params, ExpressionContext context) {
     return ContainerUtil.map2Array(fieldNames(context), LookupElement.class, LookupElementBuilder::create);
   }
 

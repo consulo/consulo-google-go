@@ -46,8 +46,7 @@ import consulo.util.concurrent.AsyncResult;
 import consulo.util.socketConnection.ConnectionStatus;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.fileType.FileType;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.intellij.lang.annotations.MagicConstant;
 import org.jetbrains.debugger.DebugProcessImpl;
 import org.jetbrains.debugger.StepAction;
@@ -67,10 +66,9 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   private final AtomicBoolean connectedListenerAdded = new AtomicBoolean();
   private static final java.util.function.Consumer<Throwable> THROWABLE_CONSUMER = LOG::warn;
 
-  @Nonnull
   private final java.util.function.Consumer<CommandOut> myStateConsumer = new java.util.function.Consumer<CommandOut>() {
     @Override
-    public void accept(@Nonnull final CommandOut so) {
+    public void accept(final CommandOut so) {
       DebuggerState o = so.State;
       if (o.exited) {
         stop();
@@ -93,46 +91,39 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     }
   };
 
-  @Nonnull
-  public <T> AsyncResult<T> send(@Nonnull SimpleInOutMessage<?, T> request) {
+  public <T> AsyncResult<T> send(SimpleInOutMessage<?, T> request) {
     return send(request, getProcessor());
   }
 
-  @Nonnull
-  public static <T> AsyncResult<T> send(@Nonnull SimpleInOutMessage<?, T> request, @Nonnull DlvCommandProcessor processor) {
+  public static <T> AsyncResult<T> send(SimpleInOutMessage<?, T> request, DlvCommandProcessor processor) {
     AsyncResult<T> send = processor.send(request);
     send.doWhenRejectedWithThrowable(THROWABLE_CONSUMER);
     return send;
   }
 
-  @Nonnull
-  public <T> AsyncResult<T> send(@Nonnull DlvRequest<T> request) {
+  public <T> AsyncResult<T> send(DlvRequest<T> request) {
     return send(request, getProcessor());
   }
 
-  @Nonnull
-  public static <T> AsyncResult<T> send(@Nonnull DlvRequest<T> request, @Nonnull DlvCommandProcessor processor) {
+  public static <T> AsyncResult<T> send(DlvRequest<T> request, DlvCommandProcessor processor) {
     AsyncResult<T> send = processor.send(request);
     send.doWhenRejectedWithThrowable(THROWABLE_CONSUMER);
     return send;
   }
 
-  @Nonnull
   private DlvCommandProcessor getProcessor() {
     return assertNotNull(tryCast(getVm(), DlvVm.class)).getCommandProcessor();
   }
 
-  public DlvDebugProcess(@Nonnull XDebugSession session, @Nonnull VmConnection<?> connection, @Nullable ExecutionResult er) {
+  public DlvDebugProcess(XDebugSession session, VmConnection<?> connection, @Nullable ExecutionResult er) {
     super(session, connection, new MyEditorsProvider(), null, er);
   }
 
-  @Nonnull
   @Override
   protected XBreakpointHandler<?>[] createBreakpointHandlers() {
     return new XBreakpointHandler[]{new MyBreakpointHandler()};
   }
 
-  @Nonnull
   @Override
   public ExecutionConsole createConsole() {
     ExecutionResult executionResult = getExecutionResult();
@@ -185,13 +176,13 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     }
   }
 
-  private void command(@Nonnull @MagicConstant(stringValues = {NEXT, CONTINUE, HALT, SWITCH_THREAD, STEP, STEPOUT}) String name) {
+  private void command(@MagicConstant(stringValues = {NEXT, CONTINUE, HALT, SWITCH_THREAD, STEP, STEPOUT}) String name) {
     send(new DlvRequest.Command(name)).doWhenDone(myStateConsumer).doWhenRejectedWithThrowable(LOG::warn);
   }
 
   @Nullable
   @Override
-  protected AsyncResult<?> continueVm(@Nonnull Vm vm, @Nonnull StepAction stepAction) {
+  protected AsyncResult<?> continueVm(Vm vm, StepAction stepAction) {
     switch (stepAction) {
       case CONTINUE:
         command(CONTINUE);
@@ -216,7 +207,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   }*/
 
   @Override
-  public void runToPosition(@Nonnull XSourcePosition position, @Nullable XSuspendContext context) {
+  public void runToPosition(XSourcePosition position, @Nullable XSuspendContext context) {
     // todo
   }
 
@@ -229,14 +220,13 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   }
 
   private static class MyEditorsProvider extends XDebuggerEditorsProviderBase {
-    @Nonnull
     @Override
     public FileType getFileType() {
       return GoFileType.INSTANCE;
     }
 
     @Override
-    protected PsiFile createExpressionCodeFragment(@Nonnull Project project, @Nonnull String text, @Nullable PsiElement context, boolean isPhysical) {
+    protected PsiFile createExpressionCodeFragment(Project project, String text, @Nullable PsiElement context, boolean isPhysical) {
       return PsiFileFactory.getInstance(project).createFileFromText("dlv-debug.txt", PlainTextLanguage.INSTANCE, text);
     }
   }
@@ -250,7 +240,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     }
 
     @Override
-    public void registerBreakpoint(@Nonnull XLineBreakpoint<GoLineBreakpointProperties> breakpoint) {
+    public void registerBreakpoint(XLineBreakpoint<GoLineBreakpointProperties> breakpoint) {
       XSourcePosition breakpointPosition = breakpoint.getSourcePosition();
       if (breakpointPosition == null) return;
       VirtualFile file = breakpointPosition.getFile();
@@ -267,7 +257,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
     }
 
     @Override
-    public void unregisterBreakpoint(@Nonnull XLineBreakpoint<GoLineBreakpointProperties> breakpoint, boolean temporary) {
+    public void unregisterBreakpoint(XLineBreakpoint<GoLineBreakpointProperties> breakpoint, boolean temporary) {
       XSourcePosition breakpointPosition = breakpoint.getSourcePosition();
       if (breakpointPosition == null) return;
       Integer vmBreakpointId = myBreakpoints.remove(breakpoint);

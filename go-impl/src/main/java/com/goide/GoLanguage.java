@@ -21,8 +21,7 @@ import consulo.language.Language;
 import consulo.language.file.LanguageFileType;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoLanguage extends Language {
   public static final Language INSTANCE = new GoLanguage();
@@ -31,7 +30,6 @@ public class GoLanguage extends Language {
     super("go", "text/go", "text/x-go", "application/x-go");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return GoLocalize.goFileTypeDisplayName();

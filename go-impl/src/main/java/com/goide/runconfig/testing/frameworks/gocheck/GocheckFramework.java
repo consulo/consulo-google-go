@@ -30,8 +30,7 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.stub.StubIndex;
 import consulo.module.Module;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.regex.Pattern;
 
 public class GocheckFramework extends GoTestFramework {
@@ -44,7 +43,7 @@ public class GocheckFramework extends GoTestFramework {
   }
 
   @Nullable
-  public static String getGocheckTestName(@Nonnull GoMethodDeclaration method) {
+  public static String getGocheckTestName(GoMethodDeclaration method) {
     String methodName = GoTestFunctionType.fromName(method.getName()) == GoTestFunctionType.TEST ? method.getName() : null;
     if (methodName != null) {
       String suiteName = GoPsiImplUtil.getText(method.getReceiverType());
@@ -55,7 +54,6 @@ public class GocheckFramework extends GoTestFramework {
     return null;
   }
 
-  @Nonnull
   @Override
   public String getName() {
     return NAME;
@@ -92,17 +90,15 @@ public class GocheckFramework extends GoTestFramework {
     return functionOrMethodDeclaration instanceof GoMethodDeclaration && GoTestFinder.isTestOrExampleFunction(functionOrMethodDeclaration);
   }
 
-  @Nonnull
   @Override
-  protected GoTestRunningState newRunningState(@Nonnull ExecutionEnvironment env,
-                                               @Nonnull Module module,
-                                               @Nonnull GoTestRunConfiguration runConfiguration) {
+  protected GoTestRunningState newRunningState(ExecutionEnvironment env,
+                                               Module module,
+                                               GoTestRunConfiguration runConfiguration) {
     return new GocheckRunningState(env, module, runConfiguration);
   }
 
-  @Nonnull
   @Override
-  public OutputToGeneralTestEventsConverter createTestEventsConverter(@Nonnull TestConsoleProperties consoleProperties) {
+  public OutputToGeneralTestEventsConverter createTestEventsConverter(TestConsoleProperties consoleProperties) {
     return new GocheckEventsConverter(consoleProperties);
   }
 }

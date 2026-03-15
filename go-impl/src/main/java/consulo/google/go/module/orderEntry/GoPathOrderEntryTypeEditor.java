@@ -23,7 +23,6 @@ import consulo.module.content.layer.orderEntry.CustomOrderEntry;
 import consulo.ui.ex.ColoredTextContainer;
 import consulo.ui.ex.SimpleTextAttributes;
 
-import jakarta.annotation.Nonnull;
 import java.util.function.Consumer;
 
 /**
@@ -32,16 +31,14 @@ import java.util.function.Consumer;
  */
 @ExtensionImpl
 public class GoPathOrderEntryTypeEditor implements CustomOrderEntryTypeEditor<GoPathOrderEntryModel> {
-  @Nonnull
   @Override
-  public Consumer<ColoredTextContainer> getRender(@Nonnull CustomOrderEntry<GoPathOrderEntryModel> orderEntry) {
+  public Consumer<ColoredTextContainer> getRender(CustomOrderEntry<GoPathOrderEntryModel> orderEntry) {
     return c -> {
       c.setIcon(GoIcons.ICON);
       c.append(orderEntry.getPresentableName(), SimpleTextAttributes.SYNTHETIC_ATTRIBUTES);
     };
   }
 
-  @Nonnull
   @Override
   public String getOrderTypeId() {
     return "gopath";

@@ -20,15 +20,13 @@ import com.intellij.rt.coverage.data.CoverageData;
 import com.intellij.rt.coverage.data.ProjectData;
 import consulo.application.util.function.Processor;
 
-import jakarta.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GoCoverageProjectData extends ProjectData {
-  @Nonnull
   private final Map<String, FileData> myFilesData = new HashMap<>();
 
-  public void processFiles(@Nonnull Processor<FileData> processor) {
+  public void processFiles(Processor<FileData> processor) {
     for (FileData fileData : myFilesData.values()) {
       if (!processor.process(fileData)) {
         return;
@@ -36,7 +34,7 @@ public class GoCoverageProjectData extends ProjectData {
     }
   }
 
-  public void processFile(@Nonnull String filePath, @Nonnull Processor<RangeData> processor) {
+  public void processFile(String filePath, Processor<RangeData> processor) {
     FileData fileData = myFilesData.get(filePath);
     if (fileData != null) {
       for (RangeData rangeData : fileData.myRangesData.values()) {
@@ -94,12 +92,10 @@ public class GoCoverageProjectData extends ProjectData {
   }
 
   public static class FileData {
-    @Nonnull
     public final String myFilePath;
-    @Nonnull
     public final Map<String, RangeData> myRangesData = new HashMap<>();
 
-    public FileData(@Nonnull String filePath) {
+    public FileData(String filePath) {
       myFilePath = filePath;
     }
 

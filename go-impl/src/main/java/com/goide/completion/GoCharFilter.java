@@ -22,14 +22,13 @@ import consulo.language.editor.completion.lookup.CharFilter;
 import consulo.language.editor.completion.lookup.Lookup;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoCharFilter extends CharFilter {
   @Nullable
   @Override
-  public Result acceptChar(char c, int prefixLength, @Nonnull Lookup lookup) {
+  public Result acceptChar(char c, int prefixLength, Lookup lookup) {
     if (lookup.isCompletion() && '/' == c && PsiTreeUtil.getParentOfType(lookup.getPsiElement(), GoImportString.class) != null) {
       return Result.ADD_TO_PREFIX;
     }

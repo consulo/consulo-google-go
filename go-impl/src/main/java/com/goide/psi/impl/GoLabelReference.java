@@ -21,23 +21,21 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.resolve.ResolveState;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collection;
 
 public class GoLabelReference extends GoCachedReference<GoLabelRef> {
   private final GoScopeProcessorBase myProcessor = new GoScopeProcessorBase(myElement) {
     @Override
-    protected boolean crossOff(@Nonnull PsiElement e) {
+    protected boolean crossOff(PsiElement e) {
       return !(e instanceof GoLabelDefinition) || ((GoLabelDefinition)e).isBlank();
     }
   };
 
-  public GoLabelReference(@Nonnull GoLabelRef element) {
+  public GoLabelReference(GoLabelRef element) {
     super(element);
   }
 
-  @Nonnull
   private Collection<GoLabelDefinition> getLabelDefinitions() {
     GoFunctionLit functionLit = PsiTreeUtil.getParentOfType(myElement, GoFunctionLit.class);
     PsiElement blockToSearch = functionLit != null ? functionLit.getBlock() : PsiTreeUtil.getTopmostParentOfType(myElement, GoBlock.class); 
@@ -51,7 +49,7 @@ public class GoLabelReference extends GoCachedReference<GoLabelRef> {
   }
 
   @Override
-  public boolean processResolveVariants(@Nonnull GoScopeProcessor processor) {
+  public boolean processResolveVariants(GoScopeProcessor processor) {
     GoBreakStatement breakStatement = PsiTreeUtil.getParentOfType(myElement, GoBreakStatement.class);
     if (breakStatement != null) {
       return processDefinitionsForBreakReference(breakStatement, processor);
@@ -59,7 +57,7 @@ public class GoLabelReference extends GoCachedReference<GoLabelRef> {
     return processAllDefinitions(processor);
   }
 
-  private boolean processAllDefinitions(@Nonnull GoScopeProcessor processor) {
+  private boolean processAllDefinitions(GoScopeProcessor processor) {
     Collection<GoLabelDefinition> defs = getLabelDefinitions();
     for (GoLabelDefinition def : defs) {
       if (!processor.execute(def, ResolveState.initial())) {
@@ -69,8 +67,8 @@ public class GoLabelReference extends GoCachedReference<GoLabelRef> {
     return true;
   }
 
-  private static boolean processDefinitionsForBreakReference(@Nonnull GoBreakStatement breakStatement,
-                                                             @Nonnull GoScopeProcessor processor) {
+  private static boolean processDefinitionsForBreakReference(GoBreakStatement breakStatement,
+                                                             GoScopeProcessor processor) {
     PsiElement breakStatementOwner = GoPsiImplUtil.getBreakStatementOwner(breakStatement);
     while (breakStatementOwner != null) {
       PsiElement parent = breakStatementOwner.getParent();

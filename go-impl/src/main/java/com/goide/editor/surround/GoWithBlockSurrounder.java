@@ -26,8 +26,7 @@ import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.ArrayUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoWithBlockSurrounder extends GoStatementsSurrounder {
   @Override
@@ -37,9 +36,9 @@ public class GoWithBlockSurrounder extends GoStatementsSurrounder {
 
   @Nullable
   @Override
-  protected TextRange surroundStatements(@Nonnull Project project,
-                                         @Nonnull PsiElement container,
-                                         @Nonnull PsiElement[] statements) throws IncorrectOperationException {
+  protected TextRange surroundStatements(Project project,
+                                         PsiElement container,
+                                         PsiElement[] statements) throws IncorrectOperationException {
     GoBlock block = GoElementFactory.createBlock(project);
     PsiElement first = ArrayUtil.getFirstElement(statements);
     PsiElement last = ArrayUtil.getLastElement(statements);

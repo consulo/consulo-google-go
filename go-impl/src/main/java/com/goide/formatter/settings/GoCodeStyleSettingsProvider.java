@@ -22,8 +22,7 @@ import consulo.configurable.Configurable;
 import consulo.language.Language;
 import consulo.language.codeStyle.CodeStyleSettings;
 import consulo.language.codeStyle.setting.CodeStyleSettingsProvider;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
@@ -33,9 +32,8 @@ public class GoCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
         return GoLanguage.INSTANCE;
     }
 
-    @Nonnull
     @Override
-    public Configurable createSettingsPage(@Nonnull CodeStyleSettings settings, CodeStyleSettings originalSettings) {
+    public Configurable createSettingsPage(CodeStyleSettings settings, CodeStyleSettings originalSettings) {
         return new GoCodeStyleConfigurable(settings, originalSettings);
     }
 }

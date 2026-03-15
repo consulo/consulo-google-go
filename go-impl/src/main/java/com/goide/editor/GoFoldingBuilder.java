@@ -37,15 +37,14 @@ import consulo.language.psi.PsiWhiteSpace;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @ExtensionImpl
 public class GoFoldingBuilder extends CustomFoldingBuilder implements DumbAware {
-  private static void foldTypes(@Nullable PsiElement e, @Nonnull List<FoldingDescriptor> result) {
+  private static void foldTypes(@Nullable PsiElement e, List<FoldingDescriptor> result) {
     if (e instanceof GoStructType) {
       if (((GoStructType)e).getFieldDeclarationList().isEmpty()) return;
       fold(e, ((GoStructType)e).getLbrace(), ((GoStructType)e).getRbrace(), "{...}", result);
@@ -56,20 +55,20 @@ public class GoFoldingBuilder extends CustomFoldingBuilder implements DumbAware 
     }
   }
 
-  private static void fold(@Nonnull PsiElement e,
+  private static void fold(PsiElement e,
                            @Nullable PsiElement l,
                            @Nullable PsiElement r,
-                           @Nonnull String placeholderText,
-                           @Nonnull List<FoldingDescriptor> result) {
+                           String placeholderText,
+                           List<FoldingDescriptor> result) {
     if (l != null && r != null) {
       result.add(new NamedFoldingDescriptor(e, l.getTextRange().getStartOffset(), r.getTextRange().getEndOffset(), null, placeholderText));
     }
   }
 
   // com.intellij.codeInsight.folding.impl.JavaFoldingBuilderBase.addCodeBlockFolds()
-  private static void addCommentFolds(@Nonnull PsiElement comment,
-                                      @Nonnull Set<PsiElement> processedComments,
-                                      @Nonnull List<FoldingDescriptor> result) {
+  private static void addCommentFolds(PsiElement comment,
+                                      Set<PsiElement> processedComments,
+                                      List<FoldingDescriptor> result) {
     if (processedComments.contains(comment)) return;
 
     PsiElement end = null;
@@ -94,9 +93,9 @@ public class GoFoldingBuilder extends CustomFoldingBuilder implements DumbAware 
   }
 
   @Override
-  protected void buildLanguageFoldRegions(@Nonnull List<FoldingDescriptor> result,
-                                          @Nonnull PsiElement root,
-                                          @Nonnull Document document,
+  protected void buildLanguageFoldRegions(List<FoldingDescriptor> result,
+                                          PsiElement root,
+                                          Document document,
                                           boolean quick) {
     if (!(root instanceof GoFile)) return;
     GoFile file = (GoFile)root;
@@ -193,12 +192,12 @@ public class GoFoldingBuilder extends CustomFoldingBuilder implements DumbAware 
 
   @Nullable
   @Override
-  protected String getLanguagePlaceholderText(@Nonnull ASTNode node, @Nonnull TextRange range) {
+  protected String getLanguagePlaceholderText(ASTNode node, TextRange range) {
     return "...";
   }
 
   @Override
-  protected boolean isRegionCollapsedByDefault(@Nonnull ASTNode node) {
+  protected boolean isRegionCollapsedByDefault(ASTNode node) {
     IElementType type = node.getElementType();
     if (type == GoParserDefinition.LINE_COMMENT || type == GoParserDefinition.MULTILINE_COMMENT) {
       return CodeFoldingSettings.getInstance().COLLAPSE_DOC_COMMENTS;
@@ -210,7 +209,6 @@ public class GoFoldingBuilder extends CustomFoldingBuilder implements DumbAware 
     return CodeFoldingSettings.getInstance().COLLAPSE_IMPORTS && node.getElementType() == GoTypes.IMPORT_LIST;
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

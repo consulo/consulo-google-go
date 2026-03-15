@@ -29,14 +29,13 @@ import consulo.language.editor.scratch.ScratchUtil;
 import consulo.language.psi.PsiDirectory;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @ExtensionImpl
 public class GoMultiplePackagesInspection extends GoGeneralInspectionBase {
   @Override
-  protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
+  protected void checkFile(GoFile file, ProblemsHolder problemsHolder) {
     if (ScratchUtil.isScratch(file.getVirtualFile())) return;
     GoPackageClause packageClause = file.getPackage();
     if (packageClause != null) {
@@ -60,7 +59,6 @@ public class GoMultiplePackagesInspection extends GoGeneralInspectionBase {
     }
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Multiple packages in directory declaration");

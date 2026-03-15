@@ -26,7 +26,6 @@ import consulo.language.psi.PsiFile;
 import consulo.language.version.LanguageVersion;
 import org.intellij.lang.regexp.*;
 
-import jakarta.annotation.Nonnull;
 import java.util.EnumSet;
 
 @ExtensionImpl
@@ -38,14 +37,12 @@ public class GoRegExpParserDefinition extends RegExpParserDefinition {
                                                                     RegExpCapability.OCTAL_NO_LEADING_ZERO,
                                                                     RegExpCapability.POSIX_BRACKET_EXPRESSIONS);
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoRegExpLanguage.INSTANCE;
   }
 
   @Override
-  @Nonnull
   public Lexer createLexer(LanguageVersion languageVersion) {
     return new RegExpLexer(CAPABILITIES);
   }
@@ -55,7 +52,6 @@ public class GoRegExpParserDefinition extends RegExpParserDefinition {
     return new RegExpParser(CAPABILITIES);
   }
 
-  @Nonnull
   @Override
   public IFileElementType getFileNodeType() {
     return GO_REGEXP_FILE;

@@ -18,12 +18,10 @@ package com.plan9.intel.lang.core.psi;
 
 import com.plan9.intel.lang.AsmIntelLanguage;
 import consulo.language.ast.IElementType;
-import org.jetbrains.annotations.NonNls;
 
-import jakarta.annotation.Nonnull;
 
 public class AsmIntelElementType extends IElementType {
-  public AsmIntelElementType(@Nonnull @NonNls String debugName) {
+  public AsmIntelElementType(String debugName) {
     super(debugName, AsmIntelLanguage.INSTANCE);
   }
 }

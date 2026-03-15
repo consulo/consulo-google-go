@@ -10,8 +10,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoTagLiveTemplateContextType extends GoLiveTemplateContextType {
@@ -21,7 +20,7 @@ public class GoTagLiveTemplateContextType extends GoLiveTemplateContextType {
   }
 
   @Override
-  protected boolean isInContext(@Nonnull PsiElement element) {
+  protected boolean isInContext(PsiElement element) {
     if (element.getNode().getElementType() == GoTypes.IDENTIFIER) {
       if (isInsideFieldTypeDeclaration(element)) {
         return true;

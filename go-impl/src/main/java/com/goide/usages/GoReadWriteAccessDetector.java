@@ -23,8 +23,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl(id = "go")
 public class GoReadWriteAccessDetector extends ReadWriteAccessDetector {
@@ -42,13 +41,11 @@ public class GoReadWriteAccessDetector extends ReadWriteAccessDetector {
     return e instanceof GoVarDefinition || e instanceof GoConstDefinition;
   }
 
-  @Nonnull
   @Override
-  public Access getReferenceAccess(@Nullable PsiElement referencedElement, @Nonnull PsiReference reference) {
+  public Access getReferenceAccess(@Nullable PsiElement referencedElement, PsiReference reference) {
     return getExpressionAccess(reference.getElement());
   }
 
-  @Nonnull
   @Override
   public Access getExpressionAccess(@Nullable PsiElement e) {
     if (e instanceof GoFieldName) {

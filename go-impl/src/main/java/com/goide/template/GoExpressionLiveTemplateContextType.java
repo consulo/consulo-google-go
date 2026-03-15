@@ -6,7 +6,6 @@ import consulo.language.psi.PsiElement;
 import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoExpressionLiveTemplateContextType extends GoLiveTemplateContextType {
@@ -16,7 +15,7 @@ public class GoExpressionLiveTemplateContextType extends GoLiveTemplateContextTy
   }
 
   @Override
-  protected boolean isInContext(@Nonnull PsiElement element) {
+  protected boolean isInContext(PsiElement element) {
     return element instanceof GoExpression;
   }
 }

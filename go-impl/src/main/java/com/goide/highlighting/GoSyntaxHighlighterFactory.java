@@ -24,18 +24,15 @@ import consulo.language.editor.highlight.SyntaxHighlighterFactory;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoSyntaxHighlighterFactory extends SyntaxHighlighterFactory {
-  @Nonnull
   @Override
   public SyntaxHighlighter getSyntaxHighlighter(@Nullable Project project, @Nullable VirtualFile virtualFile) {
     return new GoSyntaxHighlighter();
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

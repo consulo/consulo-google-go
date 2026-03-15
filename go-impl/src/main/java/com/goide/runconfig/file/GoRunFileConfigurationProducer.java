@@ -18,7 +18,6 @@ package com.goide.runconfig.file;
 
 import com.goide.runconfig.GoRunConfigurationProducerBase;
 import consulo.language.psi.PsiFile;
-import jakarta.annotation.Nonnull;
 
 public class GoRunFileConfigurationProducer extends GoRunConfigurationProducerBase<GoRunFileConfiguration> implements Cloneable {
   public GoRunFileConfigurationProducer() {
@@ -26,8 +25,7 @@ public class GoRunFileConfigurationProducer extends GoRunConfigurationProducerBa
   }
 
   @Override
-  @Nonnull
-  protected String getConfigurationName(@Nonnull PsiFile file) {
+  protected String getConfigurationName(PsiFile file) {
     return "go run " + file.getName();
   }
 }

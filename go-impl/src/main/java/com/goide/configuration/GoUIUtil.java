@@ -21,7 +21,6 @@ import consulo.ui.ex.awt.JBHtmlEditorKit;
 import consulo.ui.ex.awt.UIUtil;
 import consulo.ui.ex.awt.util.ColorUtil;
 
-import jakarta.annotation.Nonnull;
 import javax.swing.*;
 import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
@@ -29,7 +28,6 @@ import java.awt.*;
 public class GoUIUtil {
   private GoUIUtil() {}
 
-  @Nonnull
   public static JTextPane createDescriptionPane() {
     JTextPane result = new JTextPane();
     result.addHyperlinkListener(new BrowserHyperlinkListener());

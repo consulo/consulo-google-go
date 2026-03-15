@@ -23,35 +23,31 @@ import consulo.language.psi.stub.StubElement;
 import consulo.language.psi.stub.StubInputStream;
 import consulo.language.psi.stub.StubOutputStream;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoParameterDeclarationStubElementType extends GoStubElementType<GoParameterDeclarationStub, GoParameterDeclaration> {
-  public GoParameterDeclarationStubElementType(@Nonnull String name) {
+  public GoParameterDeclarationStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoParameterDeclaration createPsi(@Nonnull GoParameterDeclarationStub stub) {
+  public GoParameterDeclaration createPsi(GoParameterDeclarationStub stub) {
     return new GoParameterDeclarationImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoParameterDeclarationStub createStub(@Nonnull GoParameterDeclaration psi, StubElement parentStub) {
+  public GoParameterDeclarationStub createStub(GoParameterDeclaration psi, StubElement parentStub) {
     return new GoParameterDeclarationStub(parentStub, this, psi.getText(), psi.isVariadic());
   }
 
   @Override
-  public void serialize(@Nonnull GoParameterDeclarationStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoParameterDeclarationStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getText());
     dataStream.writeBoolean(stub.isVariadic());
   }
 
-  @Nonnull
   @Override
-  public GoParameterDeclarationStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoParameterDeclarationStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoParameterDeclarationStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 }

@@ -25,40 +25,36 @@ import consulo.language.psi.stub.StubInputStream;
 import consulo.language.psi.stub.StubOutputStream;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoReceiverStubElementType extends GoNamedStubElementType<GoReceiverStub, GoReceiver> {
-  public GoReceiverStubElementType(@Nonnull String name) {
+  public GoReceiverStubElementType(String name) {
     super(name);
   }
 
   @Override
-  public boolean shouldCreateStub(@Nonnull ASTNode node) {
+  public boolean shouldCreateStub(ASTNode node) {
     return true;
   }
 
-  @Nonnull
   @Override
-  public GoReceiver createPsi(@Nonnull GoReceiverStub stub) {
+  public GoReceiver createPsi(GoReceiverStub stub) {
     return new GoReceiverImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoReceiverStub createStub(@Nonnull GoReceiver psi, StubElement parentStub) {
+  public GoReceiverStub createStub(GoReceiver psi, StubElement parentStub) {
     return new GoReceiverStub(parentStub, this, StringUtil.notNullize(psi.getName()), psi.isPublic());
   }
 
   @Override
-  public void serialize(@Nonnull GoReceiverStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoReceiverStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
-  @Nonnull
   @Override
-  public GoReceiverStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoReceiverStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoReceiverStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 

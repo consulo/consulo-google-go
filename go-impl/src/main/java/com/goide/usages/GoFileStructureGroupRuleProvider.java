@@ -30,15 +30,14 @@ import consulo.usage.rule.FileStructureGroupRuleProvider;
 import consulo.usage.rule.PsiElementUsage;
 import consulo.usage.rule.UsageGroupingRule;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoFileStructureGroupRuleProvider implements FileStructureGroupRuleProvider {
   public static final UsageGroupingRule USAGE_GROUPING_RULE = new UsageGroupingRule() {
     @Nullable
     @Override
-    public UsageGroup groupUsage(@Nonnull Usage usage) {
+    public UsageGroup groupUsage(Usage usage) {
       PsiElement psiElement = usage instanceof PsiElementUsage ? ((PsiElementUsage)usage).getElement() : null;
       GoNamedElement topmostElement = PsiTreeUtil.getParentOfType(psiElement, GoTypeSpec.class, GoFunctionOrMethodDeclaration.class);
       if (topmostElement != null) {

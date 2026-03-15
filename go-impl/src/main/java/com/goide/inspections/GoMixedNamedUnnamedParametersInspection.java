@@ -25,36 +25,34 @@ import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoMixedNamedUnnamedParametersInspection extends GoGeneralInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitMethodDeclaration(@Nonnull GoMethodDeclaration o) {
+      public void visitMethodDeclaration(GoMethodDeclaration o) {
         super.visitMethodDeclaration(o);
         visitDeclaration(holder, o.getSignature(), "Method");
       }
 
       @Override
-      public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration o) {
+      public void visitFunctionDeclaration(GoFunctionDeclaration o) {
         super.visitFunctionDeclaration(o);
         visitDeclaration(holder, o.getSignature(), "Function");
       }
 
       @Override
-      public void visitFunctionLit(@Nonnull GoFunctionLit o) {
+      public void visitFunctionLit(GoFunctionLit o) {
         super.visitFunctionLit(o);
         visitDeclaration(holder, o.getSignature(), "Closure");
       }
     };
   }
 
-  private static void visitDeclaration(@Nonnull ProblemsHolder holder, @Nullable GoSignature signature, @Nonnull String ownerType) {
+  private static void visitDeclaration(ProblemsHolder holder, @Nullable GoSignature signature, String ownerType) {
     if (signature == null) return;
     GoParameters parameters = signature.getParameters();
     visitParameterList(holder, parameters, ownerType, "parameters");
@@ -64,8 +62,8 @@ public class GoMixedNamedUnnamedParametersInspection extends GoGeneralInspection
     visitParameterList(holder, parameters, ownerType, "return parameters");
   }
 
-  private static void visitParameterList(@Nonnull ProblemsHolder holder, @Nullable GoParameters parameters,
-                                         @Nonnull String ownerType, @Nonnull String what) {
+  private static void visitParameterList(ProblemsHolder holder, @Nullable GoParameters parameters,
+                                         String ownerType, String what) {
 
     if (parameters == null || parameters.getParameterDeclarationList().isEmpty()) return;
     boolean hasNamed = false;
@@ -87,7 +85,6 @@ public class GoMixedNamedUnnamedParametersInspection extends GoGeneralInspection
     }
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Mixed named and unnamed parameters");

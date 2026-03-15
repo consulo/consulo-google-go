@@ -28,21 +28,19 @@ import consulo.language.psi.stub.StubIndex;
 import consulo.language.psi.stub.StubIndexKey;
 import consulo.navigation.NavigationItem;
 
-import jakarta.annotation.Nonnull;
 
 public class GoGotoContributorBase<T extends GoNamedElement> implements ChooseByNameContributorEx {
   private final StubIndexKey<String, T>[] myIndexKeys;
-  @Nonnull
   private final Class<T> myClazz;
 
   @SafeVarargs
-  public GoGotoContributorBase(@Nonnull Class<T> clazz, @Nonnull StubIndexKey<String, T>... key) {
+  public GoGotoContributorBase(Class<T> clazz, StubIndexKey<String, T>... key) {
     myIndexKeys = key;
     myClazz = clazz;
   }
 
   @Override
-  public void processNames(@Nonnull Processor<String> processor, @Nonnull SearchScope scope, IdFilter filter) {
+  public void processNames(Processor<String> processor, SearchScope scope, IdFilter filter) {
     for (StubIndexKey<String, T> key : myIndexKeys) {
       ProgressManager.checkCanceled();
       StubIndex.getInstance().processAllKeys(key, processor, (GlobalSearchScope) scope, filter);
@@ -50,9 +48,9 @@ public class GoGotoContributorBase<T extends GoNamedElement> implements ChooseBy
   }
 
   @Override
-  public void processElementsWithName(@Nonnull String s,
-                                      @Nonnull Processor<NavigationItem> processor,
-                                      @Nonnull FindSymbolParameters parameters) {
+  public void processElementsWithName(String s,
+                                      Processor<NavigationItem> processor,
+                                      FindSymbolParameters parameters) {
     for (StubIndexKey<String, T> key : myIndexKeys) {
       ProgressManager.checkCanceled();
       StubIndex.getInstance().processElements(key, s, parameters.getProject(), (GlobalSearchScope) parameters.getSearchScope(), parameters.getIdFilter(),

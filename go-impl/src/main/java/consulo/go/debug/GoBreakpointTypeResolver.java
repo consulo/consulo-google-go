@@ -25,8 +25,7 @@ import consulo.go.debug.breakpoint.GoLineBreakpointType;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.fileType.FileType;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author VISTALL
@@ -37,14 +36,13 @@ public class GoBreakpointTypeResolver implements XLineBreakpointTypeResolver {
   @RequiredReadAction
   @Nullable
   @Override
-  public XLineBreakpointType<?> resolveBreakpointType(@Nonnull Project project, @Nonnull VirtualFile file, int line) {
+  public XLineBreakpointType<?> resolveBreakpointType(Project project, VirtualFile file, int line) {
     if (GoLineBreakpointType.isLineBreakpointAvailable(file, line, project)) {
       return GoLineBreakpointType.getInstance();
     }
     return null;
   }
 
-  @Nonnull
   @Override
   public FileType getFileType() {
     return GoFileType.INSTANCE;

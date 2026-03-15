@@ -27,8 +27,7 @@ import consulo.util.lang.StringUtil;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageTypes;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.text.ParseException;
 
 public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestEventsConverter implements GoTestEventsConverterBase {
@@ -42,11 +41,11 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
   private TestResult myCurrentTestResult;
   private long myCurrentTestStart;
 
-  public GoTestEventsConverterBaseImpl(@Nonnull String testFrameworkName, @Nonnull TestConsoleProperties consoleProperties) {
+  public GoTestEventsConverterBaseImpl(String testFrameworkName, TestConsoleProperties consoleProperties) {
     super(testFrameworkName, consoleProperties);
   }
 
-  protected abstract int processLine(@Nonnull String line, int start, Key outputType, ServiceMessageVisitor visitor)
+  protected abstract int processLine(String line, int start, Key outputType, ServiceMessageVisitor visitor)
     throws ParseException;
   
   @Nullable
@@ -55,7 +54,7 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
   }
 
   @Override
-  public final boolean processServiceMessages(@Nonnull String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  public final boolean processServiceMessages(String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     if (myVisitor == null && visitor != null) {
       myVisitor = visitor;
     }
@@ -75,7 +74,7 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
     return true;
   }
 
-  protected void processOutput(@Nonnull String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  protected void processOutput(String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     if (text.isEmpty()) {
       return;
     }
@@ -103,7 +102,7 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
     super.dispose();
   }
 
-  protected void startTest(@Nonnull String testName, @Nullable ServiceMessageVisitor visitor) throws ParseException {
+  protected void startTest(String testName, @Nullable ServiceMessageVisitor visitor) throws ParseException {
     if (isCurrentlyRunningTest(testName)) {
       return;
     }
@@ -131,7 +130,7 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
     super.flushBufferBeforeTerminating();
   }
 
-  protected void finishTest(@Nonnull String name, @Nonnull TestResult result, @Nullable ServiceMessageVisitor visitor)
+  protected void finishTest(String name, TestResult result, @Nullable ServiceMessageVisitor visitor)
     throws ParseException {
     if (isCurrentlyRunningTest(name)) {
       if (myCurrentTestResult == null) {
@@ -151,12 +150,12 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
     return false;
   }
 
-  private boolean isCurrentlyRunningTest(@Nonnull String testName) {
+  private boolean isCurrentlyRunningTest(String testName) {
     return testName.equals(myCurrentTestName);
   }
 
-  private void finishTestInner(@Nonnull String name,
-                               @Nonnull TestResult result,
+  private void finishTestInner(String name,
+                               TestResult result,
                                @Nullable ServiceMessageVisitor visitor) throws ParseException {
     if (isCurrentlyRunningTest(name)) {
       myCurrentTestName = null;
@@ -179,8 +178,7 @@ public abstract class GoTestEventsConverterBaseImpl extends OutputToGeneralTestE
     super.processServiceMessages(finishedMessage, null, visitor);
   }
 
-  @Nonnull
-  private static String testUrl(@Nonnull String testName) {
+  private static String testUrl(String testName) {
     return GoTestLocator.PROTOCOL + "://" + testName;
   }
 }

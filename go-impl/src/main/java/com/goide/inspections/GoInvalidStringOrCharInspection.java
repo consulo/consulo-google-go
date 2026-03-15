@@ -27,19 +27,17 @@ import consulo.language.impl.psi.LeafPsiElement;
 import consulo.language.psi.PsiElement;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoInvalidStringOrCharInspection extends GoGeneralInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
-                                     @SuppressWarnings({"UnusedParameters", "For future"}) @Nonnull LocalInspectionToolSession session,
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder,
+                                     @SuppressWarnings({"UnusedParameters", "For future"}) LocalInspectionToolSession session,
                                      Object inspectionState) {
     return new GoVisitor() {
 
       @Override
-      public void visitStringLiteral(@Nonnull GoStringLiteral o) {
+      public void visitStringLiteral(GoStringLiteral o) {
         PsiElement s = o.getString();
         if (s instanceof LeafPsiElement) {
           int length = ((LeafPsiElement)s).getCachedLength();
@@ -50,7 +48,7 @@ public class GoInvalidStringOrCharInspection extends GoGeneralInspectionBase {
       }
 
       @Override
-      public void visitLiteral(@Nonnull GoLiteral o) {
+      public void visitLiteral(GoLiteral o) {
         PsiElement c = o.getChar();
         if (c instanceof LeafPsiElement) {
           int length = ((LeafPsiElement)c).getCachedLength();
@@ -65,7 +63,6 @@ public class GoInvalidStringOrCharInspection extends GoGeneralInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Invalid strings and runes");

@@ -28,7 +28,6 @@ import consulo.language.psi.stub.StubOutputStream;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.collection.ArrayFactory;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoVarSpecStubElementType extends GoStubElementType<GoVarSpecStub, GoVarSpec> {
@@ -36,19 +35,17 @@ public class GoVarSpecStubElementType extends GoStubElementType<GoVarSpecStub, G
 
   public static final ArrayFactory<GoVarSpec> ARRAY_FACTORY = count -> count == 0 ? EMPTY_ARRAY : new GoVarSpec[count];
   
-  public GoVarSpecStubElementType(@Nonnull String name) {
+  public GoVarSpecStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoVarSpec createPsi(@Nonnull GoVarSpecStub stub) {
+  public GoVarSpec createPsi(GoVarSpecStub stub) {
     return new GoVarSpecImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoVarSpecStub createStub(@Nonnull GoVarSpec psi, StubElement parentStub) {
+  public GoVarSpecStub createStub(GoVarSpec psi, StubElement parentStub) {
     return new GoVarSpecStub(parentStub, this);
   }
 
@@ -60,12 +57,11 @@ public class GoVarSpecStubElementType extends GoStubElementType<GoVarSpecStub, G
   }
 
   @Override
-  public void serialize(@Nonnull GoVarSpecStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoVarSpecStub stub, StubOutputStream dataStream) throws IOException {
   }
 
-  @Nonnull
   @Override
-  public GoVarSpecStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoVarSpecStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoVarSpecStub(parentStub, this);
   }
 }

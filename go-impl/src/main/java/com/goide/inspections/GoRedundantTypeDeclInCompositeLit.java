@@ -27,20 +27,18 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implements CleanupLocalInspectionTool {
   public final static LocalizeValue DELETE_TYPE_DECLARATION_QUICK_FIX_NAME = LocalizeValue.localizeTODO("Delete redundant type declaration");
   private static final GoDeleteAmpersandAndTypeInCompositeLitQuickFix QUICK_FIX = new GoDeleteAmpersandAndTypeInCompositeLitQuickFix();
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitCompositeLit(@Nonnull GoCompositeLit o) {
+      public void visitCompositeLit(GoCompositeLit o) {
         GoLiteralValue literalValue = o.getLiteralValue();
         if (literalValue == null) return;
 
@@ -82,7 +80,7 @@ public class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implemen
   }
 
   @Nullable
-  private static GoType getExpectedType(@Nonnull GoCompositeLit o) {
+  private static GoType getExpectedType(GoCompositeLit o) {
     if (o.getType() instanceof GoArrayOrSliceType && ((GoArrayOrSliceType)o.getType()).getType() != null) {
       return ((GoArrayOrSliceType)o.getType()).getType();
     }
@@ -92,7 +90,7 @@ public class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implemen
     return null;
   }
 
-  private static boolean isTypeReferencesEquals(@Nullable GoType pattern, @Nonnull GoCompositeLit value) {
+  private static boolean isTypeReferencesEquals(@Nullable GoType pattern, GoCompositeLit value) {
     if (pattern == null || !pattern.isValid() || !value.isValid()) {
       return false;
     }
@@ -108,19 +106,16 @@ public class GoRedundantTypeDeclInCompositeLit extends GoInspectionBase implemen
     return true;
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Redundant type declaration in composite literals");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WARNING;

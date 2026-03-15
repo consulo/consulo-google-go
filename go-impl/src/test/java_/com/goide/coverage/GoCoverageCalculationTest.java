@@ -21,7 +21,6 @@ import com.goide.runconfig.testing.coverage.GoCoverageAnnotator;
 import com.goide.runconfig.testing.coverage.GoCoverageProjectData;
 import com.goide.runconfig.testing.coverage.GoCoverageRunner;
 import com.intellij.openapi.vfs.VirtualFile;
-import jakarta.annotation.Nonnull;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -77,8 +76,7 @@ public abstract class GoCoverageCalculationTest extends GoCodeInsightFixtureTest
     return annotate(file());
   }
 
-  @Nonnull
-  private GoCoverageAnnotator annotate(@Nonnull String fileName, @Nonnull String... fileNames) throws IOException {
+  private GoCoverageAnnotator annotate(String fileName, String... fileNames) throws IOException {
     myFixture.getTempDirFixture().createFile(fileName);
     for (String name : fileNames) {
       myFixture.getTempDirFixture().createFile(name);
@@ -86,15 +84,13 @@ public abstract class GoCoverageCalculationTest extends GoCodeInsightFixtureTest
     return annotate(parseData("coverage.out"));
   }
 
-  @Nonnull
-  private GoCoverageAnnotator annotate(@Nonnull GoCoverageProjectData data) {
+  private GoCoverageAnnotator annotate(GoCoverageProjectData data) {
     GoCoverageAnnotator annotator = new GoCoverageAnnotator(myFixture.getProject());
     annotator.annotateAllFiles(data, getRoot());
     return annotator;
   }
 
-  @Nonnull
-  private GoCoverageProjectData parseData(@Nonnull String coverageSource) throws IOException {
+  private GoCoverageProjectData parseData(String coverageSource) throws IOException {
     try (BufferedReader reader = new BufferedReader(new FileReader(new File(getTestDataPath(), coverageSource)))) {
       GoCoverageProjectData data = GoCoverageRunner.parseCoverage(reader, myFixture.getProject(), myModule);
       assertNotNull(data);
@@ -102,18 +98,15 @@ public abstract class GoCoverageCalculationTest extends GoCodeInsightFixtureTest
     }
   }
 
-  @Nonnull
   private String file() {
     return getTestName(true) + ".go";
   }
 
   @Override
-  @Nonnull
   protected String getBasePath() {
     return "coverage";
   }
 
-  @Nonnull
   private VirtualFile getRoot() {
     VirtualFile root = myFixture.getTempDirFixture().getFile("");
     assertNotNull(root);

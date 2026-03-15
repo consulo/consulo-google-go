@@ -7,8 +7,7 @@ import consulo.language.Language;
 import consulo.language.editor.annotation.Annotator;
 import consulo.language.editor.annotation.AnnotatorFactory;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author VISTALL
@@ -22,7 +21,6 @@ public class GoAnnotatorFactory implements AnnotatorFactory {
     return new GoAnnotator();
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

@@ -31,8 +31,7 @@ import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.function.Predicates;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -40,11 +39,10 @@ import java.util.LinkedHashSet;
 import java.util.function.Predicate;
 
 public class GoImportReferenceSet extends FileReferenceSet {
-  public GoImportReferenceSet(@Nonnull GoImportString importString) {
+  public GoImportReferenceSet(GoImportString importString) {
     super(importString.getPath(), importString, importString.getPathTextRange().getStartOffset(), null, true);
   }
 
-  @Nonnull
   @Override
   public Collection<PsiFileSystemItem> computeDefaultContexts() {
     PsiFile file = getContainingFile();
@@ -85,7 +83,6 @@ public class GoImportReferenceSet extends FileReferenceSet {
     return !isRelativeImport();
   }
 
-  @Nonnull
   @Override
   public FileReference createFileReference(TextRange range, int index, String text) {
     return new GoImportReference(this, range, index, text);
@@ -95,7 +92,7 @@ public class GoImportReferenceSet extends FileReferenceSet {
     return isRelativeImport(getPathString());
   }
 
-  public static boolean isRelativeImport(@Nonnull String pathString) {
+  public static boolean isRelativeImport(String pathString) {
     return pathString.startsWith("./") || pathString.startsWith("../");
   }
 

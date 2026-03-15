@@ -20,8 +20,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiNameIdentifierOwner;
 import consulo.navigation.NavigationItem;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public interface GoNamedElement extends GoCompositeElement, GoTypeOwner, PsiNameIdentifierOwner, NavigationItem {
   boolean isPublic();
@@ -33,7 +32,6 @@ public interface GoNamedElement extends GoCompositeElement, GoTypeOwner, PsiName
   String getQualifiedName();
 
   @Override
-  @Nonnull
   GoFile getContainingFile();
 
   @Nullable

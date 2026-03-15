@@ -26,16 +26,14 @@ import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoUnderscoreUsedAsValueInspection extends GoGeneralInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitReferenceExpression(@Nonnull GoReferenceExpression o) {
+      public void visitReferenceExpression(GoReferenceExpression o) {
         super.visitReferenceExpression(o);
         if (o.getIdentifier().textMatches("_") && o.getReadWriteAccess() != ReadWriteAccessDetector.Access.Write) {
           holder.registerProblem(o, "Cannot use <code>#ref</code> as value #loc", ProblemHighlightType.ERROR);
@@ -44,7 +42,6 @@ public class GoUnderscoreUsedAsValueInspection extends GoGeneralInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Underscore used as value");

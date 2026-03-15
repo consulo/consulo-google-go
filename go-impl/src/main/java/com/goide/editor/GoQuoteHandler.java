@@ -30,7 +30,6 @@ import consulo.language.editor.action.SimpleTokenSetQuoteHandler;
 import consulo.language.psi.PsiElement;
 import consulo.virtualFileSystem.fileType.FileType;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoQuoteHandler extends SimpleTokenSetQuoteHandler implements JavaLikeQuoteHandler, FileQuoteHandler {
@@ -61,7 +60,7 @@ public class GoQuoteHandler extends SimpleTokenSetQuoteHandler implements JavaLi
   }
 
   @Override
-  public boolean isAppropriateElementTypeForLiteral(@Nonnull IElementType tokenType) {
+  public boolean isAppropriateElementTypeForLiteral(IElementType tokenType) {
     return true;
   }
 
@@ -70,7 +69,6 @@ public class GoQuoteHandler extends SimpleTokenSetQuoteHandler implements JavaLi
     return false;
   }
 
-  @Nonnull
   @Override
   public FileType getFileType() {
     return GoFileType.INSTANCE;

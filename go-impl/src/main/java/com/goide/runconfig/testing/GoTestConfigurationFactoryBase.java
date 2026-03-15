@@ -23,10 +23,9 @@ import consulo.execution.BeforeRunTask;
 import consulo.execution.configuration.ConfigurationTypeBase;
 import consulo.util.dataholder.Key;
 
-import jakarta.annotation.Nonnull;
 
 public abstract class GoTestConfigurationFactoryBase extends GoConfigurationFactoryBase {
-  public GoTestConfigurationFactoryBase(@Nonnull ConfigurationTypeBase type) {
+  public GoTestConfigurationFactoryBase(ConfigurationTypeBase type) {
     super(type);
   }
 

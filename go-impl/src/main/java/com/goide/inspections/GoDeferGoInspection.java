@@ -27,8 +27,7 @@ import consulo.language.psi.PsiElement;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoDeferGoInspection extends GoGeneralInspectionBase {
@@ -36,13 +35,12 @@ public class GoDeferGoInspection extends GoGeneralInspectionBase {
   public static final LocalizeValue UNWRAP_PARENTHESES_QUICK_FIX_NAME = LocalizeValue.localizeTODO("Unwrap parentheses");
   public static final LocalizeValue REPLACE_WITH_CORRECT_DEFER_RECOVER = LocalizeValue.localizeTODO("Replace with correct defer construct");
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @SuppressWarnings("DialogTitleCapitalization")
       @Override
-      public void visitDeferStatement(@Nonnull GoDeferStatement o) {
+      public void visitDeferStatement(GoDeferStatement o) {
         super.visitDeferStatement(o);
         GoExpression expression = o.getExpression();
         if (expression instanceof GoCallExpr) {
@@ -63,7 +61,7 @@ public class GoDeferGoInspection extends GoGeneralInspectionBase {
 
       @SuppressWarnings("DialogTitleCapitalization")
       @Override
-      public void visitGoStatement(@Nonnull GoGoStatement o) {
+      public void visitGoStatement(GoGoStatement o) {
         super.visitGoStatement(o);
         GoExpression expression = o.getExpression();
         if (expression instanceof GoCallExpr) {
@@ -82,7 +80,7 @@ public class GoDeferGoInspection extends GoGeneralInspectionBase {
         checkExpression(expression, "go");
       }
 
-      private void checkExpression(@Nullable GoExpression o, @Nonnull String who) {
+      private void checkExpression(@Nullable GoExpression o, String who) {
         if (o == null) return;
         if (o instanceof GoCallExpr || o instanceof GoBuiltinCallExpr) {
           if (GoPsiImplUtil.isConversionExpression(o)) {
@@ -102,7 +100,6 @@ public class GoDeferGoInspection extends GoGeneralInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Defer/go statements check");
@@ -114,11 +111,11 @@ public class GoDeferGoInspection extends GoGeneralInspectionBase {
     }
 
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       addParensIfNeeded(project, descriptor.getStartElement());
     }
 
-    public static PsiElement addParensIfNeeded(@Nonnull Project project, @Nullable PsiElement element) {
+    public static PsiElement addParensIfNeeded(Project project, @Nullable PsiElement element) {
       if (element instanceof GoExpression && !(element instanceof GoCallExpr || element instanceof GoBuiltinCallExpr)) {
         if (((GoExpression)element).getGoType(null) instanceof GoFunctionType) {
           return element.replace(GoElementFactory.createExpression(project, element.getText() + "()"));
@@ -134,7 +131,7 @@ public class GoDeferGoInspection extends GoGeneralInspectionBase {
     }
 
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getStartElement();
       if (element instanceof GoParenthesesExpr) {
         GoExpression innerExpression = ((GoParenthesesExpr)element).getExpression();
@@ -154,7 +151,7 @@ public class GoDeferGoInspection extends GoGeneralInspectionBase {
     }
 
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (element == null || !element.isValid()) return;
 

@@ -34,7 +34,6 @@ import consulo.language.parser.PsiParser;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.version.LanguageVersion;
-import jakarta.annotation.Nonnull;
 
 import static com.goide.GoTypes.*;
 
@@ -59,61 +58,51 @@ public class GoParserDefinition implements ParserDefinition {
     LESS, BIT_XOR_ASSIGN, BIT_XOR, MUL_ASSIGN, MUL, QUOTIENT_ASSIGN, QUOTIENT, REMAINDER_ASSIGN, REMAINDER, SHIFT_RIGHT_ASSIGN,
     SHIFT_RIGHT, GREATER_OR_EQUAL, GREATER, VAR_ASSIGN);
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;
   }
 
-  @Nonnull
   @Override
   public Lexer createLexer(LanguageVersion languageVersion) {
     return new GoLexer();
   }
 
-  @Nonnull
   @Override
   public PsiParser createParser(LanguageVersion languageVersion) {
     return new GoParser();
   }
 
-  @Nonnull
   @Override
   public IFileElementType getFileNodeType() {
     return GoFileElementType.INSTANCE;
   }
 
-  @Nonnull
   @Override
   public TokenSet getWhitespaceTokens(LanguageVersion languageVersion) {
     return WHITESPACES;
   }
 
-  @Nonnull
   @Override
   public TokenSet getCommentTokens(LanguageVersion languageVersion) {
     return COMMENTS;
   }
 
-  @Nonnull
   @Override
   public TokenSet getStringLiteralElements(LanguageVersion languageVersion) {
     return STRING_LITERALS;
   }
 
-  @Nonnull
   @Override
   public PsiElement createElement(ASTNode node) {
     return GoTypesFactory.createElement(node);
   }
 
-  @Nonnull
   @Override
-  public PsiFile createFile(@Nonnull FileViewProvider viewProvider) {
+  public PsiFile createFile(FileViewProvider viewProvider) {
     return new GoFile(viewProvider);
   }
 
-  @Nonnull
   @Override
   public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right) {
     return SpaceRequirements.MAY;

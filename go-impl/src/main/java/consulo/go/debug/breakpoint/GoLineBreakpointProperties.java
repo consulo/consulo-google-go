@@ -17,7 +17,7 @@
 package consulo.go.debug.breakpoint;
 
 import consulo.execution.debug.breakpoint.XBreakpointProperties;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoLineBreakpointProperties extends XBreakpointProperties<GoLineBreakpointProperties> {
   @Nullable

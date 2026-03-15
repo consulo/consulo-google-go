@@ -24,7 +24,6 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.stub.*;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoFileElementType extends IStubFileElementType<GoFileStub> {
@@ -40,13 +39,11 @@ public class GoFileElementType extends IStubFileElementType<GoFileStub> {
     return VERSION;
   }
 
-  @Nonnull
   @Override
   public StubBuilder getBuilder() {
     return new DefaultStubBuilder() {
-      @Nonnull
       @Override
-      protected StubElement createStubForFile(@Nonnull PsiFile file) {
+      protected StubElement createStubForFile(PsiFile file) {
         if (file instanceof GoFile) {
           return new GoFileStub((GoFile)file);
         }
@@ -56,7 +53,7 @@ public class GoFileElementType extends IStubFileElementType<GoFileStub> {
   }
 
   @Override
-  public void indexStub(@Nonnull GoFileStub stub, @Nonnull IndexSink sink) {
+  public void indexStub(GoFileStub stub, IndexSink sink) {
     String packageName = stub.getPackageName();
     if (StringUtil.isNotEmpty(packageName)) {
       sink.occurrence(GoPackagesIndex.KEY, packageName);
@@ -64,17 +61,15 @@ public class GoFileElementType extends IStubFileElementType<GoFileStub> {
   }
 
   @Override
-  public void serialize(@Nonnull GoFileStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoFileStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeUTF(StringUtil.notNullize(stub.getBuildFlags()));
   }
 
-  @Nonnull
   @Override
-  public GoFileStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoFileStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoFileStub(null, StringRef.fromNullableString(StringUtil.nullize(dataStream.readUTF())));
   }
 
-  @Nonnull
   @Override
   public String getExternalId() {
     return "go.FILE";

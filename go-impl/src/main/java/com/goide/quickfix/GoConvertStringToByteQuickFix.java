@@ -26,7 +26,6 @@ import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.Arrays;
 
 import static com.goide.psi.impl.GoElementFactory.createExpression;
@@ -40,7 +39,7 @@ public class GoConvertStringToByteQuickFix extends LocalQuickFixBase {
   }
 
   @Override
-  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+  public void applyFix(Project project, ProblemDescriptor descriptor) {
     PsiElement element = descriptor.getPsiElement();
     if (!(element instanceof GoConditionalExpr) || !element.isValid()) {
       return;
@@ -54,8 +53,7 @@ public class GoConvertStringToByteQuickFix extends LocalQuickFixBase {
     literal.replace(createExpression(project, extractSingleCharFromText(literal)));
   }
 
-  @Nonnull
-  private static String extractSingleCharFromText(@Nonnull GoStringLiteral element) {
+  private static String extractSingleCharFromText(GoStringLiteral element) {
     return String.format("'%s'", ElementManipulators.getValueText(element));
   }
 }

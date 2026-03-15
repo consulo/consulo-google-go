@@ -25,7 +25,6 @@ import consulo.language.ast.TokenType;
 import consulo.language.editor.highlight.SyntaxHighlighterBase;
 import consulo.language.lexer.Lexer;
 
-import jakarta.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,12 +51,10 @@ public class GoSyntaxHighlighter extends SyntaxHighlighterBase {
     fillMap(ATTRIBUTES, GoParserDefinition.STRING_LITERALS, STRING);
   }
 
-  @Nonnull
   public Lexer getHighlightingLexer() {
     return new GoLexer();
   }
 
-  @Nonnull
   public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
     return pack(ATTRIBUTES.get(tokenType));
   }

@@ -16,7 +16,6 @@
 
 package com.goide.editor;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.SdkAware;
@@ -62,7 +61,6 @@ public abstract class GoHighlightingAnnotatorTest extends GoCodeInsightFixtureTe
     myFixture.testHighlighting(false, true, false, getTestName(true) + ".go");
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "colorHighlighting";

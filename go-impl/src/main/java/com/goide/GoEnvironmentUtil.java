@@ -23,19 +23,16 @@ import consulo.process.local.EnvironmentUtil;
 import consulo.util.io.FileUtil;
 import consulo.util.io.PathUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoEnvironmentUtil {
   private GoEnvironmentUtil() {}
 
-  @Nonnull
-  public static String getBinaryFileNameForPath(@Nonnull String path) {
+  public static String getBinaryFileNameForPath(String path) {
     String resultBinaryName = FileUtil.getNameWithoutExtension(PathUtil.getFileName(path));
     return SystemInfo.isWindows ? resultBinaryName + ".exe" : resultBinaryName;
   }
 
-  @Nonnull
   public static String getGaeExecutableFileName(boolean gcloudInstallation) {
     if (SystemInfo.isWindows) {
       return gcloudInstallation ? GoConstants.GAE_CMD_EXECUTABLE_NAME : GoConstants.GAE_BAT_EXECUTABLE_NAME;

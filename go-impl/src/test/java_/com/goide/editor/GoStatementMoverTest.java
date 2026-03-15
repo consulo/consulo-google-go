@@ -18,7 +18,6 @@ package com.goide.editor;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.openapi.actionSystem.IdeActions;
-import jakarta.annotation.Nonnull;
 
 public abstract class GoStatementMoverTest extends GoCodeInsightFixtureTestCase {
   public void testSimpleStatement() {
@@ -113,7 +112,6 @@ public abstract class GoStatementMoverTest extends GoCodeInsightFixtureTestCase 
     }
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "editor/statement-mover";

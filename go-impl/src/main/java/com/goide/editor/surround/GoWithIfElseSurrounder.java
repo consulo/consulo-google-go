@@ -22,8 +22,7 @@ import consulo.language.util.IncorrectOperationException;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoWithIfElseSurrounder extends GoStatementsSurrounder {
   @Override
@@ -33,9 +32,9 @@ public class GoWithIfElseSurrounder extends GoStatementsSurrounder {
 
   @Nullable
   @Override
-  protected TextRange surroundStatements(@Nonnull Project project,
-                                         @Nonnull PsiElement container,
-                                         @Nonnull PsiElement[] statements) throws IncorrectOperationException {
+  protected TextRange surroundStatements(Project project,
+                                         PsiElement container,
+                                         PsiElement[] statements) throws IncorrectOperationException {
     return surroundStatementsWithIfElse(project, container, statements, true);
   }
 }

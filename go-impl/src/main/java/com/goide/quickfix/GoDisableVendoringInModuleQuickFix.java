@@ -29,24 +29,22 @@ import consulo.module.content.layer.ModifiableRootModel;
 import consulo.project.Project;
 import consulo.util.lang.ThreeState;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import static com.goide.project.GoVendoringUtil.isVendoringEnabled;
 import static com.goide.project.GoVendoringUtil.vendoringCanBeDisabled;
 
 public class GoDisableVendoringInModuleQuickFix extends LocalQuickFixBase {
-  @Nonnull
   private final Module myModule;
 
-  private GoDisableVendoringInModuleQuickFix(@Nonnull Module module) {
+  private GoDisableVendoringInModuleQuickFix(Module module) {
     super(LocalizeValue.localizeTODO("Disable vendoring experiment support in module '" + module.getName() + "'"));
     myModule = module;
   }
 
   @Override
   @RequiredReadAction
-  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+  public void applyFix(Project project, ProblemDescriptor descriptor) {
     if (myModule.isDisposed()) {
       return;
     }

@@ -24,18 +24,16 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
 
 import static consulo.language.editor.inspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
 
 @ExtensionImpl
 public class GoDirectAssignToStructFieldInMapInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitLeftHandExprList(@Nonnull GoLeftHandExprList o) {
+      public void visitLeftHandExprList(GoLeftHandExprList o) {
         super.visitLeftHandExprList(o);
         for (GoExpression expression : o.getExpressionList()) {
           if (!(expression instanceof GoSelectorExpr)) continue;
@@ -51,19 +49,16 @@ public class GoDirectAssignToStructFieldInMapInspection extends GoInspectionBase
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Control flow issues");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Direct assignment to struct field in map");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.ERROR;

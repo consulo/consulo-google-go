@@ -34,22 +34,21 @@ import consulo.project.Project;
 import consulo.usage.UsageViewTypeLocation;
 import consulo.util.concurrent.AsyncResult;
 
-import jakarta.annotation.Nonnull;
 import java.util.function.Consumer;
 
 public class GoRenameQuickFix extends LocalQuickFixOnPsiElement {
   private final LocalizeValue myText;
 
-  public GoRenameQuickFix(@Nonnull GoNamedElement element) {
+  public GoRenameQuickFix(GoNamedElement element) {
     super(element);
     myText = LocalizeValue.localizeTODO("Rename " + ElementDescriptionUtil.getElementDescription(element, UsageViewTypeLocation.INSTANCE));
   }
 
   @Override
-  public void invoke(@Nonnull Project project,
-                     @Nonnull PsiFile file,
-                     @Nonnull PsiElement startElement,
-                     @Nonnull PsiElement endElement) {
+  public void invoke(Project project,
+                     PsiFile file,
+                     PsiElement startElement,
+                     PsiElement endElement) {
     if (!FileModificationService.getInstance().preparePsiElementsForWrite(startElement)) return;
 
     Runnable runnable = () -> {
@@ -71,7 +70,6 @@ public class GoRenameQuickFix extends LocalQuickFixOnPsiElement {
     ApplicationManager.getApplication().invokeLater(runnable, project.getDisposed());
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getText() {
     return myText;

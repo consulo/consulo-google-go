@@ -27,8 +27,7 @@ import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 public class GoConstSpecStub extends StubBase<GoConstSpec> {
@@ -45,7 +44,6 @@ public class GoConstSpecStub extends StubBase<GoConstSpec> {
     return myExpressionsRef == null? null : myExpressionsRef.getString();
   }
 
-  @Nonnull
   public List<GoExpression> getExpressionList() {
     if (myList == null) {
       String text = getExpressionsText();

@@ -25,22 +25,20 @@ import consulo.language.psi.stub.StubInputStream;
 import consulo.language.psi.stub.StubOutputStream;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public abstract class GoTypeStubElementType extends GoStubElementType<GoTypeStub, GoType> {
-  protected GoTypeStubElementType(@Nonnull String name) {
+  protected GoTypeStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoTypeStub createStub(@Nonnull GoType psi, StubElement parentStub) {
+  public GoTypeStub createStub(GoType psi, StubElement parentStub) {
     return new GoTypeStub(parentStub, this, psi.getText());
   }
 
   @Override
-  public void serialize(@Nonnull GoTypeStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoTypeStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getText());
   }
 
@@ -49,9 +47,8 @@ public abstract class GoTypeStubElementType extends GoStubElementType<GoTypeStub
     return PsiTreeUtil.getParentOfType(node.getPsi(), GoTypeSpec.class) != null || super.shouldCreateStubInBlock(node);
   }
 
-  @Nonnull
   @Override
-  public GoTypeStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoTypeStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoTypeStub(parentStub, this, dataStream.readName());
   }
 }

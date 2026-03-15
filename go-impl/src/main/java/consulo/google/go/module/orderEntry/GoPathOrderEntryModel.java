@@ -8,8 +8,7 @@ import consulo.module.content.layer.ModuleRootLayer;
 import consulo.module.content.layer.orderEntry.CustomOrderEntryModel;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collection;
 
 /**
@@ -18,13 +17,11 @@ import java.util.Collection;
  */
 public class GoPathOrderEntryModel implements CustomOrderEntryModel {
   private final RootProvider myRootProvider = new RootProviderBase() {
-    @Nonnull
     public String[] getUrls(OrderRootType orderRootType) {
       Collection<VirtualFile> goEnvironmentGoPathRoots = GoEnvironmentGoPathModificationTracker.getGoEnvironmentGoPathRoots();
       return goEnvironmentGoPathRoots.stream().map(VirtualFile::getUrl).toArray(String[]::new);
     }
 
-    @Nonnull
     @Override
     public VirtualFile[] getFiles(OrderRootType orderRootType) {
       return GoEnvironmentGoPathModificationTracker.getGoEnvironmentGoPathRoots().toArray(VirtualFile.EMPTY_ARRAY);
@@ -32,10 +29,9 @@ public class GoPathOrderEntryModel implements CustomOrderEntryModel {
   };
 
   @Override
-  public void bind(@Nonnull ModuleRootLayer moduleRootLayer) {
+  public void bind(ModuleRootLayer moduleRootLayer) {
   }
 
-  @Nonnull
   @Override
   public String getPresentableName() {
     return "GOPATH";
@@ -46,13 +42,11 @@ public class GoPathOrderEntryModel implements CustomOrderEntryModel {
     return true;
   }
 
-  @Nonnull
   @Override
   public RootProvider getRootProvider() {
     return myRootProvider;
   }
 
-  @Nonnull
   @Override
   public CustomOrderEntryModel clone() {
     return new GoPathOrderEntryModel();
@@ -65,7 +59,7 @@ public class GoPathOrderEntryModel implements CustomOrderEntryModel {
   }
 
   @Override
-  public boolean isEquivalentTo(@Nonnull CustomOrderEntryModel otherModel) {
+  public boolean isEquivalentTo(CustomOrderEntryModel otherModel) {
     return otherModel instanceof GoPathOrderEntryModel;
   }
 }

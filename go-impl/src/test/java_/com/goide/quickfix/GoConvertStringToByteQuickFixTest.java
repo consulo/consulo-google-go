@@ -18,7 +18,6 @@ package com.goide.quickfix;
 
 import com.goide.SdkAware;
 import com.goide.inspections.GoStringAndByteTypeMismatchInspection;
-import jakarta.annotation.Nonnull;
 
 @SdkAware
 public abstract class GoConvertStringToByteQuickFixTest extends GoQuickFixTestBase {
@@ -28,7 +27,6 @@ public abstract class GoConvertStringToByteQuickFixTest extends GoQuickFixTestBa
     myFixture.enableInspections(GoStringAndByteTypeMismatchInspection.class);
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/string-index-is-byte";

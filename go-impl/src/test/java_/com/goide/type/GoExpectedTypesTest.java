@@ -16,7 +16,6 @@
 
 package com.goide.type;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.SdkAware;
@@ -156,7 +155,7 @@ public abstract class GoExpectedTypesTest extends GoCodeInsightFixtureTestCase {
     doStatementTest("select { case i := <selection>asd()</selection> : }", "interface{}");
   }
 
-  private void doTopLevelTest(@Nonnull String text, @Nonnull String expectedTypeText) {
+  private void doTopLevelTest(String text, String expectedTypeText) {
     myFixture.configureByText("a.go", "package a;" + text);
     PsiElement elementAt = findElementAtCaretOrInSelection();
 
@@ -166,7 +165,7 @@ public abstract class GoExpectedTypesTest extends GoCodeInsightFixtureTestCase {
     assertEquals(expectedTypeText, StringUtil.join(GoTypeUtil.getExpectedTypes(typeOwner), PsiElement::getText, "; "));
   }
 
-  private void doStatementTest(@Nonnull String text, @Nonnull String expectedTypeText) {
+  private void doStatementTest(String text, String expectedTypeText) {
     doTopLevelTest("func _() {\n" + text + "\n}", expectedTypeText);
   }
 }

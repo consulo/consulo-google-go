@@ -19,7 +19,6 @@ package com.goide.runconfig;
 import java.io.IOException;
 import java.util.List;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.execution.filters.Filter;
@@ -91,7 +90,7 @@ public abstract class GoConsoleFilterTest extends GoCodeInsightFixtureTestCase {
     doGoGetTest("\tgo get golang.org/x/tools/cmd/cover", 1, 36, "golang.org/x/tools/cmd/cover");
   }
 
-  private void doGoGetTest(@Nonnull String line, int startOffset, int endOffset, @Nonnull String packageName) {
+  private void doGoGetTest(String line, int startOffset, int endOffset, String packageName) {
     Filter.Result result = myFilter.applyFilter(line, line.length());
     assertNotNull(result);
     HyperlinkInfo info = assertResultAndGetHyperlink(result, startOffset, endOffset);
@@ -99,7 +98,7 @@ public abstract class GoConsoleFilterTest extends GoCodeInsightFixtureTestCase {
     assertEquals(packageName, ((GoConsoleFilter.GoGetHyperlinkInfo)info).getPackageName());
   }
 
-  private void doFileLineTest(@Nonnull String line, int startOffset, int endOffset, String targetPath, int targetLine, int targetColumn) {
+  private void doFileLineTest(String line, int startOffset, int endOffset, String targetPath, int targetLine, int targetColumn) {
     Filter.Result result = myFilter.applyFilter(line, line.length());
     assertNotNull(result);
     HyperlinkInfo info = assertResultAndGetHyperlink(result, startOffset, endOffset);
@@ -111,8 +110,7 @@ public abstract class GoConsoleFilterTest extends GoCodeInsightFixtureTestCase {
     assertEquals("column", targetColumn, fileDescriptor.getColumn() + 1);
   }
 
-  @Nonnull
-  private static HyperlinkInfo assertResultAndGetHyperlink(@Nonnull Filter.Result result, int startOffset, int endOffset) {
+  private static HyperlinkInfo assertResultAndGetHyperlink(Filter.Result result, int startOffset, int endOffset) {
     List<Filter.ResultItem> items = result.getResultItems();
     assertSize(1, items);
     Filter.ResultItem item = ContainerUtil.getFirstItem(items);
@@ -124,10 +122,8 @@ public abstract class GoConsoleFilterTest extends GoCodeInsightFixtureTestCase {
     return hyperlinkInfo;
   }
 
-  @Nonnull
-  private VirtualFile createTestRoot(@Nonnull String rootName) throws IOException {
+  private VirtualFile createTestRoot(String rootName) throws IOException {
     return ApplicationManager.getApplication().runWriteAction(new ThrowableComputable<VirtualFile, IOException>() {
-      @Nonnull
       @Override
       public VirtualFile compute() throws IOException {
         VirtualFile workingDirectory = myFixture.getTempDirFixture().findOrCreateDir(rootName);

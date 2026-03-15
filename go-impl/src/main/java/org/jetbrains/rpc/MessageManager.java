@@ -4,7 +4,6 @@ import consulo.logging.Logger;
 import consulo.util.collection.primitive.ints.ConcurrentIntObjectMap;
 import consulo.util.collection.primitive.ints.IntMaps;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -68,7 +67,6 @@ public class MessageManager<REQUEST, INCOMING, INCOMING_WITH_SEQ, SUCCESS> exten
     }
   }
 
-  @Nonnull
   public RequestCallback<SUCCESS> getCallbackAndRemove(int id) {
     RequestCallback<SUCCESS> callback = callbackMap.remove(id);
 

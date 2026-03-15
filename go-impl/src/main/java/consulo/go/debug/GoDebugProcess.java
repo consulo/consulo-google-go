@@ -22,8 +22,7 @@ import consulo.language.psi.PsiFileFactory;
 import consulo.platform.Platform;
 import consulo.project.Project;
 import consulo.virtualFileSystem.fileType.FileType;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -35,7 +34,7 @@ public class GoDebugProcess extends DAPDebugProcess {
     private final int myPort;
     private final String myOutputFilePath;
 
-    public GoDebugProcess(@Nonnull XDebugSession session, int port, String outputFilePath) {
+    public GoDebugProcess(XDebugSession session, int port, String outputFilePath) {
         super(session);
         myPort = port;
         myOutputFilePath = outputFilePath;
@@ -55,7 +54,6 @@ public class GoDebugProcess extends DAPDebugProcess {
         return "delve";
     }
 
-    @Nonnull
     @Override
     protected Collection<? extends XLineBreakpoint<?>> getLineBreakpoints() {
         XBreakpointManager manager = XDebuggerManager.getInstance(getSession().getProject()).getBreakpointManager();
@@ -63,7 +61,6 @@ public class GoDebugProcess extends DAPDebugProcess {
     }
 
     @Override
-    @Nonnull
     protected LaunchRequestArguments createLaunchRequestArguments() {
         GoLaunchRequestArguments launch = new GoLaunchRequestArguments();
         launch.mode = "exec";
@@ -72,18 +69,16 @@ public class GoDebugProcess extends DAPDebugProcess {
         return launch;
     }
 
-    @Nonnull
     @Override
     public XDebuggerEditorsProvider getEditorsProvider() {
         return new XDebuggerEditorsProviderBase() {
-            @Nonnull
             @Override
             public FileType getFileType() {
                 return GoFileType.INSTANCE;
             }
 
             @Override
-            protected PsiFile createExpressionCodeFragment(@Nonnull Project project, @Nonnull String text, @Nullable PsiElement context, boolean isPhysical) {
+            protected PsiFile createExpressionCodeFragment(Project project, String text, @Nullable PsiElement context, boolean isPhysical) {
                 return PsiFileFactory.getInstance(project).createFileFromText("fragment.go", GoLanguage.INSTANCE, text);
             }
         };

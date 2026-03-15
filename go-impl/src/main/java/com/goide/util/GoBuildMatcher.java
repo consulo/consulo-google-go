@@ -24,8 +24,7 @@ import consulo.util.io.FileUtil;
 import consulo.util.lang.StringUtil;
 import consulo.util.lang.ThreeState;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -35,21 +34,20 @@ import java.util.regex.Pattern;
 public class GoBuildMatcher {
   private static final Pattern WHITESPACES = Pattern.compile("\\s+");
 
-  @Nonnull
   private final GoTargetSystem myTarget;
 
-  public GoBuildMatcher(@Nonnull GoTargetSystem target) {
+  public GoBuildMatcher(GoTargetSystem target) {
     myTarget = target;
   }
 
-  public boolean matchFile(@Nonnull PsiFile file) {
+  public boolean matchFile(PsiFile file) {
     return matchFile(file, true);
   }
 
   /**
    * @param checkBuildFlags should be false for directly used files: go run gen.go
    */
-  private boolean matchFile(@Nonnull PsiFile file, boolean checkBuildFlags) {
+  private boolean matchFile(PsiFile file, boolean checkBuildFlags) {
     if (!(file instanceof GoFile)) {
       // TODO support .c, .cpp and other
       return false;
@@ -59,7 +57,7 @@ public class GoBuildMatcher {
     return match(file.getName(), ((GoFile)file).getBuildFlags(), checkBuildFlags);
   }
 
-  private boolean match(@Nonnull String fileName, @Nullable String buildFlags, boolean checkBuildFlags) {
+  private boolean match(String fileName, @Nullable String buildFlags, boolean checkBuildFlags) {
     if (!matchFileName(fileName)) return false;
 
     if (!checkBuildFlags || buildFlags == null) return true;
@@ -69,14 +67,14 @@ public class GoBuildMatcher {
     return true;
   }
 
-  private boolean matchBuildFlagsLine(@Nonnull String line) {
+  private boolean matchBuildFlagsLine(String line) {
     for (String tag : WHITESPACES.split(line)) {
       if (matchBuildFlag(tag)) return true;
     }
     return false;
   }
 
-  public boolean matchBuildFlag(@Nonnull String name) {
+  public boolean matchBuildFlag(String name) {
     if (name.isEmpty()) return false;
 
     if (StringUtil.containsChar(name, ',')) { // comma separated list
@@ -107,7 +105,7 @@ public class GoBuildMatcher {
     return myTarget.supportsFlag(name);
   }
 
-  public boolean matchFileName(@Nonnull String fileName) {
+  public boolean matchFileName(String fileName) {
     String name = StringUtil.substringAfter(fileName, "_");
     if (StringUtil.isEmpty(name)) {
       return true;
@@ -139,7 +137,7 @@ public class GoBuildMatcher {
     return true;
   }
 
-  private boolean matchOS(@Nonnull String name) {
+  private boolean matchOS(String name) {
     if (myTarget.os.equals(name) || myTarget.arch.equals(name)) {
       return true;
     }

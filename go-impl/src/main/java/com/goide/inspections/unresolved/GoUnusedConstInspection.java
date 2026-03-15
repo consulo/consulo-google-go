@@ -28,16 +28,14 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.search.ReferencesSearch;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoUnusedConstInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitConstDefinition(@Nonnull GoConstDefinition o) {
+      public void visitConstDefinition(GoConstDefinition o) {
         if (o.isBlank()) return;
         if (ReferencesSearch.search(o, o.getUseScope()).findFirst() == null) {
           String constName = o.getName();
@@ -48,19 +46,16 @@ public class GoUnusedConstInspection extends GoInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Unused constant inspection");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WARNING;

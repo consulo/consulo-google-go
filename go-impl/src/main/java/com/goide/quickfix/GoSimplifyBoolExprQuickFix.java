@@ -32,25 +32,23 @@ import consulo.project.Project;
 import consulo.util.collection.SmartList;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 public class GoSimplifyBoolExprQuickFix extends LocalQuickFixOnPsiElement {
 
   public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Simplify expression");
 
-  public GoSimplifyBoolExprQuickFix(@Nonnull PsiElement element) {
+  public GoSimplifyBoolExprQuickFix(PsiElement element) {
     super(element);
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getText() {
     return QUICK_FIX_NAME;
   }
 
   @Override
-  public void invoke(@Nonnull Project project, @Nonnull PsiFile file, @Nonnull PsiElement startElement, @Nonnull PsiElement endElement) {
+  public void invoke(Project project, PsiFile file, PsiElement startElement, PsiElement endElement) {
     if (!(startElement instanceof GoBinaryExpr)) return;
     GoBinaryExpr o = (GoBinaryExpr)startElement;
     boolean and = o instanceof GoAndExpr;
@@ -87,10 +85,10 @@ public class GoSimplifyBoolExprQuickFix extends LocalQuickFixOnPsiElement {
     }
   }
 
-  private static void removeRedundantExpressions(@Nonnull GoBinaryExpr binaryExpr,
-                                          @Nonnull Project project,
-                                          @Nonnull List<GoExpression> expressions,
-                                          @Nonnull List<GoExpression> toRemove,
+  private static void removeRedundantExpressions(GoBinaryExpr binaryExpr,
+                                          Project project,
+                                          List<GoExpression> expressions,
+                                          List<GoExpression> toRemove,
                                           boolean and) {
     for (GoExpression e : toRemove) {
       expressions.remove(e);
@@ -102,7 +100,7 @@ public class GoSimplifyBoolExprQuickFix extends LocalQuickFixOnPsiElement {
   }
 
 
-  private static void replaceExpressionByBoolConst(@Nonnull GoBinaryExpr binaryExpr, @Nonnull Project project, boolean value) {
+  private static void replaceExpressionByBoolConst(GoBinaryExpr binaryExpr, Project project, boolean value) {
     GoExpression expression = GoElementFactory.createExpression(project, value ? "true" : "false");
     binaryExpr.replace(expression);
   }

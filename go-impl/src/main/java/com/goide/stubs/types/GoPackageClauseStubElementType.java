@@ -23,7 +23,6 @@ import consulo.language.psi.stub.StubElement;
 import consulo.language.psi.stub.StubInputStream;
 import consulo.language.psi.stub.StubOutputStream;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoPackageClauseStubElementType extends GoStubElementType<GoPackageClauseStub, GoPackageClause> {
@@ -33,26 +32,23 @@ public class GoPackageClauseStubElementType extends GoStubElementType<GoPackageC
     super("PACKAGE_CLAUSE");
   }
 
-  @Nonnull
   @Override
-  public GoPackageClause createPsi(@Nonnull GoPackageClauseStub stub) {
+  public GoPackageClause createPsi(GoPackageClauseStub stub) {
     return new GoPackageClauseImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoPackageClauseStub createStub(@Nonnull GoPackageClause psi, StubElement parentStub) {
+  public GoPackageClauseStub createStub(GoPackageClause psi, StubElement parentStub) {
     return new GoPackageClauseStub(parentStub, this, psi.getName());
   }
 
   @Override
-  public void serialize(@Nonnull GoPackageClauseStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoPackageClauseStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
   }
 
-  @Nonnull
   @Override
-  public GoPackageClauseStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoPackageClauseStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoPackageClauseStub(parentStub, this, dataStream.readName());
   }
 }

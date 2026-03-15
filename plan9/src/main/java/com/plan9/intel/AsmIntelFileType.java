@@ -22,8 +22,7 @@ import consulo.language.file.LanguageFileType;
 import consulo.localize.LocalizeValue;
 import consulo.ui.image.Image;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class AsmIntelFileType extends LanguageFileType {
 
@@ -33,19 +32,16 @@ public class AsmIntelFileType extends LanguageFileType {
     super(AsmIntelLanguage.INSTANCE);
   }
 
-  @Nonnull
   @Override
   public String getId() {
     return "x86 Plan9 Assembly";
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDescription() {
     return LocalizeValue.localizeTODO("x86 Plan9 Assembly file");
   }
 
-  @Nonnull
   @Override
   public String getDefaultExtension() {
     return "s";

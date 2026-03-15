@@ -12,7 +12,6 @@ import consulo.util.socketConnection.SocketConnectionListener;
 import org.jetbrains.debugger.DebugEventListener;
 import org.jetbrains.debugger.Vm;
 
-import jakarta.annotation.Nonnull;
 import javax.swing.event.HyperlinkListener;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -78,7 +77,6 @@ public abstract class VmConnection<T extends Vm> implements Disposable
     myDispatcher.addListener(listener);
   }
 
-  @Nonnull
   public DebugEventListener getDebugEventListener() {
     return myDispatcher.getMulticaster();
   }

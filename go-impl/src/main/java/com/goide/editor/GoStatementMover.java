@@ -30,13 +30,12 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.lang.Couple;
 import consulo.util.lang.Pair;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoStatementMover extends LineMover {
   @Override
-  public boolean checkAvailable(@Nonnull Editor editor, @Nonnull PsiFile file, @Nonnull MoveInfo info, boolean down) {
+  public boolean checkAvailable(Editor editor, PsiFile file, MoveInfo info, boolean down) {
     if (!(file instanceof GoFile && super.checkAvailable(editor, file, info, down))) return false;
 
     Couple<PsiElement> primeElementRange = getElementRange(editor, file);
@@ -66,7 +65,7 @@ public class GoStatementMover extends LineMover {
     return setUpInfo(info, elementRange, commonParent, down);
   }
 
-  private static Couple<PsiElement> getElementRange(@Nonnull Editor editor, @Nonnull PsiFile file) {
+  private static Couple<PsiElement> getElementRange(Editor editor, PsiFile file) {
     Pair<PsiElement, PsiElement> primeElementRangePair = getElementRange(editor, file, getLineRangeFromSelection(editor));
     if (primeElementRangePair == null) return null;
     ASTNode firstNode = TreeUtil.findFirstLeaf(primeElementRangePair.first.getNode());
@@ -80,7 +79,7 @@ public class GoStatementMover extends LineMover {
    * common parent of elements is straight parent for each element
    */
   @Nullable
-  private static Couple<PsiElement> getTopmostElementRange(@Nonnull Couple<PsiElement> elementRange, @Nonnull PsiElement commonParent) {
+  private static Couple<PsiElement> getTopmostElementRange(Couple<PsiElement> elementRange, PsiElement commonParent) {
     if (elementRange.first == null || elementRange.second == null) return null;
     int start = elementRange.first.getTextOffset();
     int end = elementRange.second.getTextRange().getEndOffset();
@@ -109,9 +108,9 @@ public class GoStatementMover extends LineMover {
     return startElement.getParent().isEquivalentTo(endElement.getParent()) ? Couple.of(startElement, endElement) : null;
   }
 
-  private static boolean setUpInfo(@Nonnull MoveInfo info,
-                                   @Nonnull Couple<PsiElement> range,
-                                   @Nonnull PsiElement commonParent,
+  private static boolean setUpInfo(MoveInfo info,
+                                   Couple<PsiElement> range,
+                                   PsiElement commonParent,
                                    boolean down) {
     info.toMove = new LineRange(range.first, range.second);
     info.toMove2 = null;
@@ -131,8 +130,8 @@ public class GoStatementMover extends LineMover {
   }
 
   @Nullable
-  private static PsiElement getNeighborOfType(@Nonnull Couple<PsiElement> range,
-                                              @Nonnull Class<? extends PsiElement> clazz,
+  private static PsiElement getNeighborOfType(Couple<PsiElement> range,
+                                              Class<? extends PsiElement> clazz,
                                               boolean rightNeighbor) {
     return rightNeighbor ? PsiTreeUtil.getNextSiblingOfType(range.second, clazz) : PsiTreeUtil.getPrevSiblingOfType(range.first, clazz);
   }

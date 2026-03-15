@@ -51,8 +51,7 @@ import consulo.util.lang.StringUtil;
 import consulo.util.lang.xml.XmlStringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -62,12 +61,10 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider imple
   private static final Logger LOG = Logger.getInstance(GoDocumentationProvider.class);
   private static final GoCommentsConverter COMMENTS_CONVERTER = new GoCommentsConverter();
 
-  @Nonnull
-  public static String getCommentText(@Nonnull List<PsiComment> comments, boolean withHtml) {
+  public static String getCommentText(List<PsiComment> comments, boolean withHtml) {
     return withHtml ? COMMENTS_CONVERTER.toHtml(comments) : COMMENTS_CONVERTER.toText(comments);
   }
 
-  @Nonnull
   public static List<PsiComment> getCommentsForElement(@Nullable PsiElement element) {
     List<PsiComment> comments = getCommentsInner(element);
     if (comments.isEmpty()) {
@@ -85,7 +82,6 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider imple
     return comments;
   }
 
-  @Nonnull
   private static List<PsiComment> getCommentsInner(@Nullable PsiElement element) {
     if (element == null) {
       return List.of();
@@ -108,7 +104,7 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider imple
   }
 
   @Nullable
-  private static GoFile findDocFileForDirectory(@Nonnull PsiDirectory directory) {
+  private static GoFile findDocFileForDirectory(PsiDirectory directory) {
     PsiFile file = directory.findFile("doc.go");
     if (file instanceof GoFile) {
       return (GoFile)file;
@@ -135,7 +131,6 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider imple
     return element instanceof GoImportSpec ? ((GoImportSpec)element).getImportString().resolve() : element;
   }
 
-  @Nonnull
   private static String getSignature(PsiElement element, PsiElement context) {
     if (element instanceof GoTypeSpec) {
       String name = ((GoTypeSpec)element).getName();
@@ -177,9 +172,8 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider imple
     return element instanceof GoSignatureOwner ? getSignatureOwnerTypePresentation((GoSignatureOwner)element, presentationFunction) : "";
   }
 
-  @Nonnull
-  private static String getSignatureOwnerTypePresentation(@Nonnull GoSignatureOwner signatureOwner,
-                                                          @Nonnull Function<PsiElement, String> presentationFunction) {
+  private static String getSignatureOwnerTypePresentation(GoSignatureOwner signatureOwner,
+                                                          Function<PsiElement, String> presentationFunction) {
     PsiElement identifier = null;
     if (signatureOwner instanceof GoNamedSignatureOwner) {
       identifier = ((GoNamedSignatureOwner)signatureOwner).getIdentifier();
@@ -212,8 +206,7 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider imple
     return builder.toString();
   }
 
-  @Nonnull
-  private static String getParametersAsString(@Nonnull GoParameters parameters) {
+  private static String getParametersAsString(GoParameters parameters) {
     String contextImportPath = getImportPathForElement(parameters);
     return StringUtil.join(GoParameterInfoHandler.getParameterPresentations(parameters, element -> getTypePresentation(element, new GoDocumentationPresentationFunction(contextImportPath))), ", ");
   }
@@ -224,8 +217,7 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider imple
     return file instanceof GoFile ? ((GoFile)file).getImportPath(false) : null;
   }
 
-  @Nonnull
-  public static String getTypePresentation(@Nullable PsiElement element, @Nonnull Function<PsiElement, String> presentationFunction) {
+  public static String getTypePresentation(@Nullable PsiElement element, Function<PsiElement, String> presentationFunction) {
     if (element instanceof GoType) {
       GoType type = (GoType)element;
       if (type instanceof GoMapType) {
@@ -304,7 +296,7 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider imple
   }
 
   @Nullable
-  public static String getLocalUrlToElement(@Nonnull PsiElement element) {
+  public static String getLocalUrlToElement(PsiElement element) {
     if (element instanceof GoTypeSpec || element instanceof PsiDirectory) {
       return getReferenceText(element, true);
     }
@@ -351,8 +343,7 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider imple
     return type.getText();
   }
 
-  @Nonnull
-  private static String getElementFqn(@Nonnull GoNamedElement element, @Nonnull String name, boolean includePackageName) {
+  private static String getElementFqn(GoNamedElement element, String name, boolean includePackageName) {
     if (includePackageName) {
       String packageName = element.getContainingFile().getPackageName();
       if (!StringUtil.isEmpty(packageName)) {
@@ -425,7 +416,6 @@ public class GoDocumentationProvider extends AbstractDocumentationProvider imple
     return super.getDocumentationElementForLink(psiManager, link, context);
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

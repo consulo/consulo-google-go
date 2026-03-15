@@ -24,11 +24,10 @@ import consulo.language.psi.resolve.ResolveCache;
 import consulo.language.util.IncorrectOperationException;
 import consulo.util.collection.ArrayUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class GoCachedReference<T extends PsiElement> extends PsiReferenceBase<T> {
-  protected GoCachedReference(@Nonnull T element) {
+  protected GoCachedReference(T element) {
     super(element, TextRange.from(0, element.getTextLength()));
   }
 
@@ -46,7 +45,7 @@ public abstract class GoCachedReference<T extends PsiElement> extends PsiReferen
            : null;
   }
 
-  public abstract boolean processResolveVariants(@Nonnull GoScopeProcessor processor);
+  public abstract boolean processResolveVariants(GoScopeProcessor processor);
 
   @Override
   public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException {
@@ -59,7 +58,6 @@ public abstract class GoCachedReference<T extends PsiElement> extends PsiReferen
     return GoUtil.couldBeReferenceTo(element, myElement) && super.isReferenceTo(element);
   }
   
-  @Nonnull
   @Override
   public Object[] getVariants() {
     return ArrayUtil.EMPTY_OBJECT_ARRAY;

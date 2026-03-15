@@ -27,7 +27,6 @@ import consulo.language.editor.surroundWith.Surrounder;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoStatementsSurroundDescriptor implements SurroundDescriptor {
@@ -38,13 +37,11 @@ public class GoStatementsSurroundDescriptor implements SurroundDescriptor {
     new GoWithBlockSurrounder()
   };
 
-  @Nonnull
   @Override
   public Surrounder[] getSurrounders() {
     return SURROUNDERS;
   }
 
-  @Nonnull
   @Override
   public PsiElement[] getElementsToSurround(PsiFile file, int startOffset, int endOffset) {
     return file instanceof GoFile
@@ -57,7 +54,6 @@ public class GoStatementsSurroundDescriptor implements SurroundDescriptor {
     return false;
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

@@ -21,7 +21,6 @@ import consulo.execution.test.TestConsoleProperties;
 import consulo.util.dataholder.Key;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
 
-import jakarta.annotation.Nonnull;
 import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,12 +32,12 @@ public class GotestEventsConverter extends GoTestEventsConverterBaseImpl {
   private static final Pattern FAILED = Pattern.compile("--- FAIL:\\s+(" + GoConstants.TEST_NAME_REGEX + ")");
   private static final Pattern FINISHED = Pattern.compile("^(PASS)|(FAIL)$");
 
-  public GotestEventsConverter(@Nonnull TestConsoleProperties consoleProperties) {
+  public GotestEventsConverter(TestConsoleProperties consoleProperties) {
     super(GotestFramework.NAME, consoleProperties);
   }
 
   @Override
-  protected int processLine(@Nonnull String line, int start, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  protected int processLine(String line, int start, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     Matcher matcher;
     if ((matcher = RUN.matcher(line)).find(start)) {
       startTest(matcher.group(1), visitor);

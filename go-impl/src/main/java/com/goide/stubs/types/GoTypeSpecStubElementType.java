@@ -29,7 +29,6 @@ import consulo.language.psi.stub.StubOutputStream;
 import consulo.util.collection.ArrayFactory;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -38,35 +37,31 @@ public class GoTypeSpecStubElementType extends GoNamedStubElementType<GoTypeSpec
 
   public static final ArrayFactory<GoTypeSpec> ARRAY_FACTORY = count -> count == 0 ? EMPTY_ARRAY : new GoTypeSpec[count];
   
-  public GoTypeSpecStubElementType(@Nonnull String name) {
+  public GoTypeSpecStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoTypeSpec createPsi(@Nonnull GoTypeSpecStub stub) {
+  public GoTypeSpec createPsi(GoTypeSpecStub stub) {
     return new GoTypeSpecImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoTypeSpecStub createStub(@Nonnull GoTypeSpec psi, StubElement parentStub) {
+  public GoTypeSpecStub createStub(GoTypeSpec psi, StubElement parentStub) {
     return new GoTypeSpecStub(parentStub, this, psi.getName(), psi.isPublic());
   }
 
   @Override
-  public void serialize(@Nonnull GoTypeSpecStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoTypeSpecStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
-  @Nonnull
   @Override
-  public GoTypeSpecStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoTypeSpecStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoTypeSpecStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 
-  @Nonnull
   @Override
   protected Collection<StubIndexKey<String, ? extends GoNamedElement>> getExtraIndexKeys() {
     return ContainerUtil.list(GoTypesIndex.KEY);

@@ -16,7 +16,7 @@
 
 package com.goide.psi;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public interface GoSignatureOwner extends GoCompositeElement {
   @Nullable

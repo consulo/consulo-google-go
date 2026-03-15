@@ -26,16 +26,14 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.localize.LocalizeValue;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoRedeclareImportAsFunctionInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration o) {
+      public void visitFunctionDeclaration(GoFunctionDeclaration o) {
         String functionName = o.getName();
         if (StringUtil.isNotEmpty(functionName) &&
             !"_".equals(functionName) &&
@@ -46,19 +44,16 @@ public class GoRedeclareImportAsFunctionInspection extends GoInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Redeclared symbols");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Redeclare import as function");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.ERROR;

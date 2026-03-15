@@ -43,12 +43,11 @@ import consulo.project.Project;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoImportPathsCompletionProvider implements CompletionProvider {
   @Override
-  public void addCompletions(@Nonnull CompletionParameters parameters, ProcessingContext context, @Nonnull CompletionResultSet result) {
+  public void addCompletions(CompletionParameters parameters, ProcessingContext context, CompletionResultSet result) {
     GoImportString importString = PsiTreeUtil.getParentOfType(parameters.getPosition(), GoImportString.class);
     if (importString == null) return;
     String path = importString.getPath();
@@ -64,10 +63,10 @@ public class GoImportPathsCompletionProvider implements CompletionProvider {
     }
   }
 
-  public static void addCompletions(@Nonnull CompletionResultSet result,
-                                    @Nonnull Module module,
+  public static void addCompletions(CompletionResultSet result,
+                                    Module module,
                                     @Nullable PsiElement context,
-                                    @Nonnull GlobalSearchScope scope,
+                                    GlobalSearchScope scope,
                                     boolean allowMain) {
     Project project = module.getProject();
     boolean vendoringEnabled = GoVendoringUtil.isVendoringEnabled(module);

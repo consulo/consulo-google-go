@@ -16,7 +16,6 @@
 
 package com.goide.quickfix;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.inspections.GoMultiplePackagesInspection;
 
@@ -27,7 +26,6 @@ public abstract class GoMultiplePackagesQuickFixTest extends GoQuickFixTestBase 
     myFixture.enableInspections(GoMultiplePackagesInspection.class);
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/multiple-packages";

@@ -23,35 +23,31 @@ import consulo.language.psi.stub.StubElement;
 import consulo.language.psi.stub.StubInputStream;
 import consulo.language.psi.stub.StubOutputStream;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoAnonymousFieldDefinitionStubElementType extends GoNamedStubElementType<GoAnonymousFieldDefinitionStub, GoAnonymousFieldDefinition> {
-  public GoAnonymousFieldDefinitionStubElementType(@Nonnull String name) {
+  public GoAnonymousFieldDefinitionStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoAnonymousFieldDefinition createPsi(@Nonnull GoAnonymousFieldDefinitionStub stub) {
+  public GoAnonymousFieldDefinition createPsi(GoAnonymousFieldDefinitionStub stub) {
     return new GoAnonymousFieldDefinitionImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoAnonymousFieldDefinitionStub createStub(@Nonnull GoAnonymousFieldDefinition psi, StubElement parentStub) {
+  public GoAnonymousFieldDefinitionStub createStub(GoAnonymousFieldDefinition psi, StubElement parentStub) {
     return new GoAnonymousFieldDefinitionStub(parentStub, this, psi.getName(), psi.isPublic());
   }
 
   @Override
-  public void serialize(@Nonnull GoAnonymousFieldDefinitionStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoAnonymousFieldDefinitionStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
-  @Nonnull
   @Override
-  public GoAnonymousFieldDefinitionStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoAnonymousFieldDefinitionStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoAnonymousFieldDefinitionStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 }

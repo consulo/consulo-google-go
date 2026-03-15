@@ -7,26 +7,23 @@ import com.goide.template.GoTypeLiveTemplateContextType;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.template.LiveTemplateContributor;
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 import java.lang.Override;
 import java.lang.String;
 
 @ExtensionImpl
 public class GoLiveTemplateContributor implements LiveTemplateContributor {
   @Override
-  @Nonnull
   public String groupId() {
     return "go";
   }
 
   @Override
-  @Nonnull
   public LocalizeValue groupName() {
     return LocalizeValue.localizeTODO("Go");
   }
 
   @Override
-  public void contribute(@Nonnull LiveTemplateContributor.Factory factory) {
+  public void contribute(LiveTemplateContributor.Factory factory) {
     try(Builder builder = factory.newBuilder("goImp", "imp", "import (\n"
         + " \"$END$\"\n"
         + ")\n", LocalizeValue.localizeTODO("Import declaration"))) {

@@ -40,26 +40,23 @@ import consulo.util.collection.ArrayUtil;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.*;
 
 public class GoRefactoringUtil {
   private GoRefactoringUtil() {
   }
 
-  @Nonnull
-  public static List<PsiElement> getLocalOccurrences(@Nonnull PsiElement element) {
+  public static List<PsiElement> getLocalOccurrences(PsiElement element) {
     return getOccurrences(element, PsiTreeUtil.getTopmostParentOfType(element, GoBlock.class));
   }
 
-  @Nonnull
-  public static List<PsiElement> getOccurrences(@Nonnull PsiElement pattern, @Nullable PsiElement context) {
+  public static List<PsiElement> getOccurrences(PsiElement pattern, @Nullable PsiElement context) {
     if (context == null) return Collections.emptyList();
     List<PsiElement> occurrences = ContainerUtil.newArrayList();
     PsiRecursiveElementVisitor visitor = new PsiRecursiveElementVisitor() {
       @Override
-      public void visitElement(@Nonnull PsiElement element) {
+      public void visitElement(PsiElement element) {
         if (PsiEquivalenceUtil.areElementsEquivalent(element, pattern)) {
           occurrences.add(element);
           return;
@@ -72,12 +69,12 @@ public class GoRefactoringUtil {
   }
 
   @Nullable
-  public static PsiElement findLocalAnchor(@Nonnull List<PsiElement> occurrences) {
+  public static PsiElement findLocalAnchor(List<PsiElement> occurrences) {
     return findAnchor(occurrences, PsiTreeUtil.getNonStrictParentOfType(PsiTreeUtil.findCommonParent(occurrences), GoBlock.class));
   }
 
   @Nullable
-  public static PsiElement findAnchor(@Nonnull List<PsiElement> occurrences, @Nullable PsiElement context) {
+  public static PsiElement findAnchor(List<PsiElement> occurrences, @Nullable PsiElement context) {
     PsiElement first = ContainerUtil.getFirstItem(occurrences);
     PsiElement statement = PsiTreeUtil.getNonStrictParentOfType(first, GoStatement.class);
     while (statement != null && statement.getParent() != context) {
@@ -90,7 +87,6 @@ public class GoRefactoringUtil {
     return getSuggestedNames(expression, expression);
   }
 
-  @Nonnull
   public static Expression createParameterNameSuggestedExpression(GoExpression expression) {
     GoTopLevelDeclaration topLevelDecl = PsiTreeUtil.getParentOfType(expression, GoTopLevelDeclaration.class);
     return new ParameterNameExpression(getSuggestedNames(expression, topLevelDecl != null ? topLevelDecl.getNextSibling() : null));
@@ -99,7 +95,7 @@ public class GoRefactoringUtil {
   private static class ParameterNameExpression extends Expression {
     private final Set<String> myNames;
 
-    public ParameterNameExpression(@Nonnull Set<String> names) {
+    public ParameterNameExpression(Set<String> names) {
       myNames = names;
     }
 
@@ -116,7 +112,6 @@ public class GoRefactoringUtil {
       return null;
     }
 
-    @Nonnull
     @Override
     public LookupElement[] calculateLookupItems(ExpressionContext context) {
       int offset = context.getStartOffset();
@@ -148,7 +143,6 @@ public class GoRefactoringUtil {
     }
   }
 
-  @Nonnull
   private static LinkedHashSet<String> getSuggestedNames(GoExpression expression, PsiElement context) {
     // todo rewrite with names resolve; check occurrences contexts
     if (expression.isEquivalentTo(context)) {
@@ -191,7 +185,6 @@ public class GoRefactoringUtil {
     return namesValidator != null && !namesValidator.isKeyword(candidate, null) && namesValidator.isIdentifier(candidate, null);
   }
 
-  @Nonnull
   private static LinkedHashSet<String> getNamesInContext(PsiElement context) {
     if (context == null) return new LinkedHashSet<>();
     LinkedHashSet<String> names = new LinkedHashSet<>();

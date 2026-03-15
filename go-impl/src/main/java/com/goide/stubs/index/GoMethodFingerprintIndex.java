@@ -25,7 +25,6 @@ import consulo.language.psi.stub.StubIndex;
 import consulo.language.psi.stub.StubIndexKey;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
 import java.util.Collection;
 
 @ExtensionImpl
@@ -37,13 +36,12 @@ public class GoMethodFingerprintIndex extends StringStubIndexExtension<GoMethodS
     return GoFileElementType.VERSION + 1;
   }
 
-  @Nonnull
   @Override
   public StubIndexKey<String, GoMethodSpec> getKey() {
     return KEY;
   }
 
-  public static Collection<GoMethodSpec> find(@Nonnull String name, @Nonnull Project project, GlobalSearchScope scope) {
+  public static Collection<GoMethodSpec> find(String name, Project project, GlobalSearchScope scope) {
     return StubIndex.getElements(KEY, name, project, scope, GoMethodSpec.class);
   }
 }

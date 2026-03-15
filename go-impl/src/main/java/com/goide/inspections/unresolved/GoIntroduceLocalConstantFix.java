@@ -19,17 +19,16 @@ package com.goide.inspections.unresolved;
 import com.goide.refactor.GoRefactoringUtil;
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoIntroduceLocalConstantFix extends GoUnresolvedFixBase {
-  public GoIntroduceLocalConstantFix(@Nonnull PsiElement element, @Nonnull String name) {
+  public GoIntroduceLocalConstantFix(PsiElement element, String name) {
     super(element, name, "local constant", "go_lang_const_qf");
   }
 
   @Nullable
   @Override
-  protected PsiElement findAnchor(@Nonnull PsiElement reference) {
+  protected PsiElement findAnchor(PsiElement reference) {
     return GoRefactoringUtil.findLocalAnchor(GoRefactoringUtil.getLocalOccurrences(reference));
   }
 }

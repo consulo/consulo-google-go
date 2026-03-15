@@ -26,16 +26,15 @@ import consulo.language.psi.stub.StubElement;
 import consulo.language.psi.stub.StubInputStream;
 import consulo.language.psi.stub.StubOutputStream;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoMethodSpecStubElementType extends GoNamedStubElementType<GoMethodSpecStub, GoMethodSpec> {
-  public GoMethodSpecStubElementType(@Nonnull String name) {
+  public GoMethodSpecStubElementType(String name) {
     super(name);
   }
 
   @Override
-  public void indexStub(@Nonnull GoMethodSpecStub stub, @Nonnull IndexSink sink) {
+  public void indexStub(GoMethodSpecStub stub, IndexSink sink) {
     super.indexStub(stub, sink);
     String name = stub.getName();
     int arity = stub.getArity();
@@ -44,29 +43,26 @@ public class GoMethodSpecStubElementType extends GoNamedStubElementType<GoMethod
     }
   }
 
-  @Nonnull
   @Override
-  public GoMethodSpec createPsi(@Nonnull GoMethodSpecStub stub) {
+  public GoMethodSpec createPsi(GoMethodSpecStub stub) {
     return new GoMethodSpecImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoMethodSpecStub createStub(@Nonnull GoMethodSpec psi, StubElement parentStub) {
+  public GoMethodSpecStub createStub(GoMethodSpec psi, StubElement parentStub) {
     int arity = GoPsiImplUtil.getArity(psi.getSignature());
     return new GoMethodSpecStub(parentStub, this, psi.getName(), psi.isPublic(), arity);
   }
 
   @Override
-  public void serialize(@Nonnull GoMethodSpecStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoMethodSpecStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
     dataStream.writeVarInt(stub.getArity());
   }
 
-  @Nonnull
   @Override
-  public GoMethodSpecStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoMethodSpecStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoMethodSpecStub(parentStub, this, dataStream.readName(), dataStream.readBoolean(), dataStream.readVarInt());
   }
 }

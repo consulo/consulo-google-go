@@ -24,7 +24,6 @@ import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.google.go.localize.GoLocalize;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoTestRunConfigurationType extends ConfigurationTypeBase {
@@ -37,14 +36,12 @@ public class GoTestRunConfigurationType extends ConfigurationTypeBase {
         );
         addFactory(new GoTestConfigurationFactoryBase(this) {
             @Override
-            @Nonnull
-            public RunConfiguration createTemplateConfiguration(@Nonnull Project project) {
+            public RunConfiguration createTemplateConfiguration(Project project) {
                 return new GoTestRunConfiguration(project, "Go Test", getInstance());
             }
         });
     }
 
-    @Nonnull
     public static GoTestRunConfigurationType getInstance() {
         return Application.get().getExtensionPoint(ConfigurationType.class)
             .findExtensionOrFail(GoTestRunConfigurationType.class);

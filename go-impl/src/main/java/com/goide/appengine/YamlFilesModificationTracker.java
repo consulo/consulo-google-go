@@ -41,8 +41,7 @@ import consulo.virtualFileSystem.event.VirtualFileMoveEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collection;
 
 @Singleton
@@ -50,29 +49,29 @@ import java.util.Collection;
 @ServiceImpl
 public class YamlFilesModificationTracker extends SimpleModificationTracker {
   @Inject
-  public YamlFilesModificationTracker(@Nonnull Project project) {
+  public YamlFilesModificationTracker(Project project) {
     VirtualFileManager.getInstance().addVirtualFileListener(new VirtualFileAdapter() {
       @Override
-      public void fileCreated(@Nonnull VirtualFileEvent event) {
+      public void fileCreated(VirtualFileEvent event) {
         handleEvent(event);
       }
 
       @Override
-      public void fileDeleted(@Nonnull VirtualFileEvent event) {
+      public void fileDeleted(VirtualFileEvent event) {
         handleEvent(event);
       }
 
       @Override
-      public void fileMoved(@Nonnull VirtualFileMoveEvent event) {
+      public void fileMoved(VirtualFileMoveEvent event) {
         handleEvent(event);
       }
 
       @Override
-      public void fileCopied(@Nonnull VirtualFileCopyEvent event) {
+      public void fileCopied(VirtualFileCopyEvent event) {
         handleEvent(event);
       }
 
-      private void handleEvent(@Nonnull VirtualFileEvent event) {
+      private void handleEvent(VirtualFileEvent event) {
         if ("yaml".equals(PathUtil.getFileExtension(event.getFileName()))) {
           incModificationCount();
         }
@@ -80,12 +79,11 @@ public class YamlFilesModificationTracker extends SimpleModificationTracker {
     }, project);
   }
 
-  public static YamlFilesModificationTracker getInstance(@Nonnull Project project) {
+  public static YamlFilesModificationTracker getInstance(Project project) {
     return ServiceManager.getService(project, YamlFilesModificationTracker.class);
   }
 
-  @Nonnull
-  public static Collection<VirtualFile> getYamlFiles(@Nonnull Project project, @Nullable Module module) {
+  public static Collection<VirtualFile> getYamlFiles(Project project, @Nullable Module module) {
     UserDataHolder dataHolder = ObjectUtil.notNull(module, project);
     return CachedValuesManager.getManager(project).getCachedValue(dataHolder, () -> {
       Collection<VirtualFile> yamlFiles = ApplicationManager.getApplication().runReadAction(new Computable<Collection<VirtualFile>>() {

@@ -16,10 +16,8 @@
 
 package com.goide.psi.legacy;
 
-import jakarta.annotation.Nonnull;
 
 public abstract class GoLegacyResolvePackageTest extends GoLegacyResolveTestBase {
-  @Nonnull
   @Override
   protected String getBasePath() { return "psi/resolve/package"; }
 

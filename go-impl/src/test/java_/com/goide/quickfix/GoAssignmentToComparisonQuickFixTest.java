@@ -17,7 +17,6 @@
 package com.goide.quickfix;
 
 import com.goide.inspections.GoUsedAsValueInCondition;
-import jakarta.annotation.Nonnull;
 
 public abstract class GoAssignmentToComparisonQuickFixTest extends GoQuickFixTestBase {
   @Override
@@ -26,7 +25,6 @@ public abstract class GoAssignmentToComparisonQuickFixTest extends GoQuickFixTes
     myFixture.enableInspections(GoUsedAsValueInCondition.class);
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/assignment-to-comparison";

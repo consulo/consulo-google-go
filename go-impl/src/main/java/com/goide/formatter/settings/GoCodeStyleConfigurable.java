@@ -22,14 +22,12 @@ import consulo.language.codeStyle.CodeStyleSettings;
 import consulo.language.codeStyle.ui.setting.CodeStyleAbstractConfigurable;
 import consulo.language.codeStyle.ui.setting.CodeStyleAbstractPanel;
 import consulo.language.codeStyle.ui.setting.TabbedLanguageCodeStylePanel;
-import jakarta.annotation.Nonnull;
 
 public class GoCodeStyleConfigurable extends CodeStyleAbstractConfigurable {
-  public GoCodeStyleConfigurable(@Nonnull CodeStyleSettings settings, CodeStyleSettings cloneSettings) {
+  public GoCodeStyleConfigurable(CodeStyleSettings settings, CodeStyleSettings cloneSettings) {
     super(settings, cloneSettings, GoLocalize.goLanguageDisplayName());
   }
 
-  @Nonnull
   @Override
   protected CodeStyleAbstractPanel createPanel(CodeStyleSettings settings) {
     return new GoCodeStyleMainPanel(getCurrentSettings(), settings);

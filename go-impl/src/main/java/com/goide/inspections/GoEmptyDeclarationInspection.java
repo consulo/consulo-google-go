@@ -30,36 +30,34 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoEmptyDeclarationInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
 
   public final static LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Delete empty declaration");
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitConstDeclaration(@Nonnull GoConstDeclaration o) {
+      public void visitConstDeclaration(GoConstDeclaration o) {
         visitDeclaration(o);
       }
 
       @Override
-      public void visitVarDeclaration(@Nonnull GoVarDeclaration o) {
+      public void visitVarDeclaration(GoVarDeclaration o) {
         if (o.getParent() instanceof GoFile) {
           visitDeclaration(o);
         }
       }
 
       @Override
-      public void visitTypeDeclaration(@Nonnull GoTypeDeclaration o) {
+      public void visitTypeDeclaration(GoTypeDeclaration o) {
         visitDeclaration(o);
       }
 
       @Override
-      public void visitImportDeclaration(@Nonnull GoImportDeclaration o) {
+      public void visitImportDeclaration(GoImportDeclaration o) {
         visitDeclaration(o);
       }
 
@@ -75,19 +73,16 @@ public class GoEmptyDeclarationInspection extends GoInspectionBase implements Cl
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Empty declaration inspection");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WARNING;

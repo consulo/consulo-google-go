@@ -25,8 +25,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoReplaceWithReturnStatementQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
   public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Replace with 'return'");
@@ -35,18 +34,17 @@ public class GoReplaceWithReturnStatementQuickFix extends LocalQuickFixAndIntent
     super(element);
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getText() {
     return QUICK_FIX_NAME;
   }
 
   @Override
-  public void invoke(@Nonnull Project project,
-                     @Nonnull PsiFile file,
+  public void invoke(Project project,
+                     PsiFile file,
                      @Nullable Editor editor,
-                     @Nonnull PsiElement startElement,
-                     @Nonnull PsiElement endElement) {
+                     PsiElement startElement,
+                     PsiElement endElement) {
     WriteCommandAction.runWriteCommandAction(project, () -> {
       if (startElement instanceof GoStatement) {
         startElement.replace(GoElementFactory.createReturnStatement(project));

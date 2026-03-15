@@ -30,8 +30,7 @@ import consulo.util.io.FileUtil;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -44,16 +43,16 @@ public class GoTestFinder implements TestFinder {
     return file instanceof GoFile && file.getName().endsWith(GoConstants.TEST_SUFFIX_WITH_EXTENSION);
   }
 
-  public static boolean isTestFile(@Nonnull VirtualFile file) {
+  public static boolean isTestFile(VirtualFile file) {
     return file.getName().endsWith(GoConstants.TEST_SUFFIX_WITH_EXTENSION);
   }
 
-  public static boolean isTestOrExampleFunction(@Nonnull GoFunctionOrMethodDeclaration function) {
+  public static boolean isTestOrExampleFunction(GoFunctionOrMethodDeclaration function) {
     GoTestFunctionType type = GoTestFunctionType.fromName(function.getName());
     return type == GoTestFunctionType.EXAMPLE || type == GoTestFunctionType.TEST;
   }
 
-  public static boolean isBenchmarkFunction(@Nonnull GoFunctionOrMethodDeclaration function) {
+  public static boolean isBenchmarkFunction(GoFunctionOrMethodDeclaration function) {
     GoTestFunctionType type = GoTestFunctionType.fromName(function.getName());
     return type == GoTestFunctionType.BENCHMARK;
   }
@@ -75,13 +74,12 @@ public class GoTestFinder implements TestFinder {
 
   @Nullable
   @Override
-  public PsiElement findSourceElement(@Nonnull PsiElement from) {
+  public PsiElement findSourceElement(PsiElement from) {
     return InjectedLanguageManager.getInstance(from.getProject()).getTopLevelFile(from);
   }
 
-  @Nonnull
   @Override
-  public Collection<PsiElement> findTestsForClass(@Nonnull PsiElement element) {
+  public Collection<PsiElement> findTestsForClass(PsiElement element) {
     PsiFile file = InjectedLanguageManager.getInstance(element.getProject()).getTopLevelFile(element);
     if (file instanceof GoFile) {
       PsiDirectory directory = file.getContainingDirectory();
@@ -93,9 +91,8 @@ public class GoTestFinder implements TestFinder {
     return Collections.emptyList();
   }
 
-  @Nonnull
   @Override
-  public Collection<PsiElement> findClassesForTest(@Nonnull PsiElement element) {
+  public Collection<PsiElement> findClassesForTest(PsiElement element) {
     PsiFile testFile = InjectedLanguageManager.getInstance(element.getProject()).getTopLevelFile(element);
     if (testFile instanceof GoFile) {
       PsiDirectory directory = testFile.getContainingDirectory();
@@ -108,7 +105,7 @@ public class GoTestFinder implements TestFinder {
   }
 
   @Override
-  public boolean isTest(@Nonnull PsiElement element) {
+  public boolean isTest(PsiElement element) {
     return isTestFile(InjectedLanguageManager.getInstance(element.getProject()).getTopLevelFile(element));
   }
 }

@@ -16,7 +16,6 @@
 
 package com.goide.runconfig.testing;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.runconfig.testing.frameworks.gocheck.GocheckFramework;
 
@@ -36,13 +35,11 @@ public abstract class GocheckEventsConverterTest extends GoEventsConverterTestCa
   public void testTestBothFixturesError()     { doTest(); }
   public void testSkippingTests()             { doTest(); }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "testing/gocheck";
   }
   
-  @Nonnull
   @Override
   protected GoTestFramework getTestFramework() {
     return GocheckFramework.INSTANCE;

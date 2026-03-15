@@ -23,35 +23,31 @@ import consulo.language.psi.stub.StubElement;
 import consulo.language.psi.stub.StubInputStream;
 import consulo.language.psi.stub.StubOutputStream;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoParamDefinitionStubElementType extends GoNamedStubElementType<GoParamDefinitionStub, GoParamDefinition> {
-  public GoParamDefinitionStubElementType(@Nonnull String name) {
+  public GoParamDefinitionStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoParamDefinition createPsi(@Nonnull GoParamDefinitionStub stub) {
+  public GoParamDefinition createPsi(GoParamDefinitionStub stub) {
     return new GoParamDefinitionImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoParamDefinitionStub createStub(@Nonnull GoParamDefinition psi, StubElement parentStub) {
+  public GoParamDefinitionStub createStub(GoParamDefinition psi, StubElement parentStub) {
     return new GoParamDefinitionStub(parentStub, this, psi.getName(), psi.isPublic());
   }
 
   @Override
-  public void serialize(@Nonnull GoParamDefinitionStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoParamDefinitionStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
-  @Nonnull
   @Override
-  public GoParamDefinitionStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoParamDefinitionStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoParamDefinitionStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 

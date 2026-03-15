@@ -27,7 +27,6 @@ import consulo.module.Module;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -36,7 +35,6 @@ public class GobenchRunningState extends GoTestRunningState {
     super(env, module, configuration);
   }
 
-  @Nonnull
   @Override
   protected String buildFilterPatternForFile(GoFile file) {
     Collection<String> benchmarkNames = new LinkedList<>();
@@ -47,7 +45,7 @@ public class GobenchRunningState extends GoTestRunningState {
   }
 
   @Override
-  protected void addFilterParameter(@Nonnull GoExecutor executor, String pattern) {
+  protected void addFilterParameter(GoExecutor executor, String pattern) {
     executor.withParameters("-bench", StringUtil.isEmpty(pattern) ? "." : pattern);
     executor.withParameters("-run", "^$");
   }

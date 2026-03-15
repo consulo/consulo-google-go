@@ -28,8 +28,7 @@ import consulo.language.Language;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.function.Function;
 
 @ExtensionImpl
@@ -51,7 +50,6 @@ public class GoRunLineMarkerProvider extends RunLineMarkerContributor {
     return null;
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

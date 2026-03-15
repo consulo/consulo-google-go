@@ -26,39 +26,37 @@ import consulo.language.psi.PsiElement;
 import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @ExtensionImpl
 public class GoDuplicateFieldsOrMethodsInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder,
-                                     @SuppressWarnings({"UnusedParameters", "For future"}) @Nonnull LocalInspectionToolSession session,
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder,
+                                     @SuppressWarnings({"UnusedParameters", "For future"}) LocalInspectionToolSession session,
                                      Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitStructType(@Nonnull GoStructType type) {
+      public void visitStructType(GoStructType type) {
         List<GoNamedElement> fields = ContainerUtil.newArrayList();
         type.accept(new GoRecursiveVisitor() {
           @Override
-          public void visitFieldDefinition(@Nonnull GoFieldDefinition o) {
+          public void visitFieldDefinition(GoFieldDefinition o) {
             addField(o);
           }
 
           @Override
-          public void visitAnonymousFieldDefinition(@Nonnull GoAnonymousFieldDefinition o) {
+          public void visitAnonymousFieldDefinition(GoAnonymousFieldDefinition o) {
             addField(o);
           }
 
-          private void addField(@Nonnull GoNamedElement o) {
+          private void addField(GoNamedElement o) {
             if (!o.isBlank()) fields.add(o);
           }
 
           @Override
-          public void visitType(@Nonnull GoType o) {
+          public void visitType(GoType o) {
             if (o == type) super.visitType(o);
           }
         });
@@ -67,14 +65,14 @@ public class GoDuplicateFieldsOrMethodsInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitInterfaceType(@Nonnull GoInterfaceType o) {
+      public void visitInterfaceType(GoInterfaceType o) {
         check(o.getMethodSpecList(), holder, "method");
         super.visitInterfaceType(o);
       }
     };
   }
 
-  private static void check(@Nonnull List<? extends GoNamedElement> fields, @Nonnull ProblemsHolder problemsHolder, @Nonnull String what) {
+  private static void check(List<? extends GoNamedElement> fields, ProblemsHolder problemsHolder, String what) {
     Set<String> names = new HashSet<>();
     for (GoCompositeElement field : fields) {
       if (field instanceof GoMethodSpec && ((GoMethodSpec) field).getSignature() == null) {
@@ -95,19 +93,16 @@ public class GoDuplicateFieldsOrMethodsInspection extends GoInspectionBase {
     }
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Redeclared symbols");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Duplicate fields and methods inspection");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.ERROR;

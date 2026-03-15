@@ -28,7 +28,6 @@ import consulo.logging.Logger;
 import consulo.project.Project;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * Part of the golint tool
@@ -39,12 +38,11 @@ import jakarta.annotation.Nonnull;
 public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
   public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Extract to own declaration");
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitConstDeclaration(@Nonnull GoConstDeclaration o) {
+      public void visitConstDeclaration(GoConstDeclaration o) {
         if (o.getParent() instanceof GoFile) {
           for (GoConstSpec spec : o.getConstSpecList()) {
             boolean first = true;
@@ -60,7 +58,7 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitVarDeclaration(@Nonnull GoVarDeclaration o) {
+      public void visitVarDeclaration(GoVarDeclaration o) {
         if (o.getParent() instanceof GoFile) {
           for (GoVarSpec spec : o.getVarSpecList()) {
             boolean first = true;
@@ -77,19 +75,16 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Code style issues");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Exported element should have its own declaration");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WEAK_WARNING;
@@ -103,7 +98,7 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (!element.isValid() || !(element instanceof GoConstDefinition)) {
         return;
@@ -142,7 +137,7 @@ public class GoExportedOwnDeclarationInspection extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (!element.isValid() || !(element instanceof GoVarDefinition)) {
         return;

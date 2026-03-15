@@ -21,13 +21,12 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.resolve.PsiScopeProcessor;
 import consulo.language.psi.resolve.ResolveState;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public final class ResolveUtil {
   private ResolveUtil() {}
 
-  public static boolean treeWalkUp(@Nullable PsiElement place, @Nonnull PsiScopeProcessor processor) {
+  public static boolean treeWalkUp(@Nullable PsiElement place, PsiScopeProcessor processor) {
     PsiElement lastParent = null;
     PsiElement run = place;
     while (run != null) {
@@ -38,11 +37,11 @@ public final class ResolveUtil {
     return true;
   }
 
-  public static boolean processChildren(@Nonnull PsiElement element,
-                                        @Nonnull PsiScopeProcessor processor,
-                                        @Nonnull ResolveState substitutor,
+  public static boolean processChildren(PsiElement element,
+                                        PsiScopeProcessor processor,
+                                        ResolveState substitutor,
                                         @Nullable PsiElement lastParent,
-                                        @Nonnull PsiElement place) {
+                                        PsiElement place) {
     PsiElement run = lastParent == null ? element.getLastChild() : lastParent.getPrevSibling();
     while (run != null) {
       if (run instanceof GoCompositeElement && !run.processDeclarations(processor, substitutor, null, place)) return false;
@@ -51,11 +50,11 @@ public final class ResolveUtil {
     return true;
   }
 
-  public static boolean processChildrenFromTop(@Nonnull PsiElement element,
-                                               @Nonnull PsiScopeProcessor processor,
-                                               @Nonnull ResolveState substitutor,
+  public static boolean processChildrenFromTop(PsiElement element,
+                                               PsiScopeProcessor processor,
+                                               ResolveState substitutor,
                                                @Nullable PsiElement lastParent,
-                                               @Nonnull PsiElement place) {
+                                               PsiElement place) {
     PsiElement run = element.getFirstChild();
     while (run != null) {
       if (run instanceof GoCompositeElement) {

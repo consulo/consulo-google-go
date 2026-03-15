@@ -16,10 +16,8 @@
 
 package com.goide.quickfix;
 
-import jakarta.annotation.Nonnull;
 
 public abstract class GoContinueNotInLoopQuickFixTest extends GoQuickFixTestBase {
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/continue-outside-loop";

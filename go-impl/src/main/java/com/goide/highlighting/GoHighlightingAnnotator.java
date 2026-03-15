@@ -28,8 +28,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiReference;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,9 +36,9 @@ import java.util.stream.Collectors;
 import static com.goide.highlighting.GoSyntaxHighlightingColors.*;
 
 public class GoHighlightingAnnotator implements Annotator {
-  private static void highlightRefIfNeeded(@Nonnull GoReferenceExpressionBase o,
+  private static void highlightRefIfNeeded(GoReferenceExpressionBase o,
                                            @Nullable PsiElement resolve,
-                                           @Nonnull AnnotationHolder holder) {
+                                           AnnotationHolder holder) {
 
     if (resolve instanceof GoTypeSpec) {
       TextAttributesKey key = GoPsiImplUtil.builtin(resolve) ? BUILTIN_TYPE_REFERENCE : getColor((GoTypeSpec)resolve);
@@ -118,23 +117,23 @@ public class GoHighlightingAnnotator implements Annotator {
     return TYPE_SPECIFICATION;
   }
 
-  private static void setHighlighting(@Nonnull PsiElement element, @Nonnull AnnotationHolder holder, @Nonnull TextAttributesKey key) {
+  private static void setHighlighting(PsiElement element, AnnotationHolder holder, TextAttributesKey key) {
     holder.newSilentAnnotation(HighlightSeverity.INFORMATION).range(element).enforcedTextAttributes(TextAttributes.ERASE_MARKER).create();
     holder.newSilentAnnotation(HighlightSeverity.INFORMATION).range(element).textAttributes(key).create();
   }
 
-  private static boolean isPackageWide(@Nonnull GoVarDefinition o) {
+  private static boolean isPackageWide(GoVarDefinition o) {
     GoVarDeclaration declaration = PsiTreeUtil.getParentOfType(o, GoVarDeclaration.class);
     return declaration != null && declaration.getParent() instanceof GoFile;
   }
 
-  private static boolean isPackageWide(@Nonnull GoConstDefinition o) {
+  private static boolean isPackageWide(GoConstDefinition o) {
     GoConstDeclaration declaration = PsiTreeUtil.getParentOfType(o, GoConstDeclaration.class);
     return declaration != null && declaration.getParent() instanceof GoFile;
   }
 
   @Override
-  public void annotate(@Nonnull PsiElement o, @Nonnull AnnotationHolder holder) {
+  public void annotate(PsiElement o, AnnotationHolder holder) {
     if (!o.isValid()) return;
     if (o instanceof GoImportSpec && ((GoImportSpec)o).isDot()) {
       //noinspection SynchronizationOnLocalVariableOrMethodParameter

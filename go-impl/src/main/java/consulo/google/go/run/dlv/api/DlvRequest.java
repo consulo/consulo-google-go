@@ -22,8 +22,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import consulo.util.lang.reflect.ReflectionUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
@@ -35,7 +34,6 @@ import java.util.function.BiConsumer;
 public class DlvRequest<In, Out> {
   private static final Map<String, DlvRequest<?, ?>> ourRegistry = new ConcurrentHashMap<>();
 
-  @Nonnull
   protected static <In, Out> DlvRequest<In, Out> paramized(String name, Class<In> inObject, Class<Out> outObject, BiConsumer<In, Object[]> args) {
     DlvRequest<In, Out> request = new DlvRequest<>(name, inObject, outObject, args, true);
     ourRegistry.put(request.myName, request);
@@ -68,7 +66,6 @@ public class DlvRequest<In, Out> {
     myParamized = paramized;
   }
 
-  @Nonnull
   public final SimpleInOutMessage<In, Out> build(Object... args) {
     In in = ReflectionUtil.newInstance(myInObject);
 

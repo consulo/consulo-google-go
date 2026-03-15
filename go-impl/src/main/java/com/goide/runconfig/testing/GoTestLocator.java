@@ -30,7 +30,6 @@ import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,12 +41,11 @@ public class GoTestLocator implements SMTestLocator {
 
   private GoTestLocator() {}
 
-  @Nonnull
   @Override
-  public List<Location> getLocation(@Nonnull String protocolId,
-                                    @Nonnull String path,
-                                    @Nonnull Project project,
-                                    @Nonnull GlobalSearchScope scope) {
+  public List<Location> getLocation(String protocolId,
+                                    String path,
+                                    Project project,
+                                    GlobalSearchScope scope) {
     if (PROTOCOL.equals(protocolId)) {
       IdFilter idFilter = GoIdFilter.getTestsFilter(project);
       List<String> locationDataItems = StringUtil.split(path, ".");

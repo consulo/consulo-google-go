@@ -27,7 +27,7 @@ import consulo.component.persist.StoragePathMacros;
 import consulo.ide.ServiceManager;
 import consulo.util.xml.serializer.XmlSerializerUtil;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @State(
     name = GoConstants.GO,

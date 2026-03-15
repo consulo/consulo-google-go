@@ -20,7 +20,6 @@ import com.goide.psi.*;
 import com.goide.psi.impl.GoPsiImplUtil;
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 public class GoInspectionUtil {
@@ -54,7 +53,7 @@ public class GoInspectionUtil {
     return UNKNOWN_COUNT;
   }
 
-  private static int getTypeAssertionResultCount(@Nonnull GoTypeAssertionExpr expression) { // todo: ???
+  private static int getTypeAssertionResultCount(GoTypeAssertionExpr expression) { // todo: ???
     PsiElement parent = expression.getParent();
     if (parent instanceof GoAssignmentStatement) {
       // TODO: get expressions and identifiers of assign statement
@@ -76,12 +75,12 @@ public class GoInspectionUtil {
     return 1;
   }
 
-  public static int getFunctionResultCount(@Nonnull GoCallExpr call) {
+  public static int getFunctionResultCount(GoCallExpr call) {
     GoSignatureOwner signatureOwner = GoPsiImplUtil.resolveCall(call);
     return signatureOwner == null ? UNKNOWN_COUNT : getFunctionResultCount(signatureOwner);
   }
   
-  public static int getFunctionResultCount(@Nonnull GoSignatureOwner function) {
+  public static int getFunctionResultCount(GoSignatureOwner function) {
     int count = 0;
     GoSignature signature = function.getSignature();
     GoResult result = signature != null ? signature.getResult() : null;

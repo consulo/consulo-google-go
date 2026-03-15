@@ -18,8 +18,7 @@ package com.goide.psi.legacy;
 
 import java.io.File;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.psi.GoFile;
@@ -32,11 +31,8 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.FilteringProcessor;
 
 public abstract class GoLegacyResolveTestBase extends GoCodeInsightFixtureTestCase {
-  @Nonnull
   private static final String REF_MARK = "/*ref*/";
-  @Nonnull
   private static final String NO_REF_MARK = "/*no ref*/";
-  @Nonnull
   private static final String DEF_MARK = "/*def*/";
 
   @Nullable
@@ -94,8 +90,7 @@ public abstract class GoLegacyResolveTestBase extends GoCodeInsightFixtureTestCa
       }
   }
 
-  @Nonnull
-  private static String getFileName(@Nonnull PsiElement resolve) {
+  private static String getFileName(PsiElement resolve) {
     return resolve instanceof PsiFile ? ((PsiFile)resolve).getName() : resolve.getContainingFile().getName();
   }
 
@@ -103,7 +98,7 @@ public abstract class GoLegacyResolveTestBase extends GoCodeInsightFixtureTestCa
     return false;
   }
   
-  private void processPsiFile(@Nonnull GoFile file) {
+  private void processPsiFile(GoFile file) {
     String fileContent = loadText(file.getVirtualFile());
 
     String fileName = file.getName();
@@ -128,15 +123,14 @@ public abstract class GoLegacyResolveTestBase extends GoCodeInsightFixtureTestCa
     }
   }
 
-  @Nonnull
-  private PsiReference findReference(@Nonnull GoFile file, int offset) {
+  private PsiReference findReference(GoFile file, int offset) {
     if (myReference != null) fail("only one reference should be declared in a test case, see file: " + file.getName());
     PsiReference result = file.findReferenceAt(offset);
     if (result == null) fail("no reference was found at mark in file: " + file.getName() + ", offset: " + offset);
     return result;
   }
 
-  private void doDirectoryTest(@Nonnull VirtualFile file) {
+  private void doDirectoryTest(VirtualFile file) {
     VfsUtilCore.processFilesRecursively(file, new FilteringProcessor<>(
                                           virtualFile -> !virtualFile.isDirectory() && virtualFile.getName().endsWith(".go"),
                                           virtualFile -> {

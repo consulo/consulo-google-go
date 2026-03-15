@@ -32,30 +32,26 @@ import consulo.util.xml.serializer.InvalidDataException;
 import consulo.util.xml.serializer.JDOMExternalizerUtil;
 import consulo.util.xml.serializer.WriteExternalException;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
 import org.jdom.Element;
 
 public class GoApplicationConfiguration extends GoRunConfigurationWithMain<GoApplicationRunningState> implements RunProfileWithCompileBeforeLaunchOption {
     private static final String PACKAGE_ATTRIBUTE_NAME = "package";
     private static final String KIND_ATTRIBUTE_NAME = "kind";
 
-    @Nonnull
     private String myPackage = "";
 
-    @Nonnull
     private Kind myKind = Kind.FILE;
 
-    public GoApplicationConfiguration(Project project, String name, @Nonnull ConfigurationType configurationType) {
+    public GoApplicationConfiguration(Project project, String name, ConfigurationType configurationType) {
         super(name, new GoModuleBasedConfiguration(project), configurationType.getConfigurationFactories()[0]);
     }
 
-    @Nonnull
     public String getTarget() {
         return getKind() == GoApplicationConfiguration.Kind.PACKAGE ? getPackage() : getFilePath();
     }
 
     @Override
-    public void readExternal(@Nonnull Element element) throws InvalidDataException {
+    public void readExternal(Element element) throws InvalidDataException {
         super.readExternal(element);
         myPackage = StringUtil.notNullize(JDOMExternalizerUtil.getFirstChildValueAttribute(element, PACKAGE_ATTRIBUTE_NAME));
         try {
@@ -76,21 +72,18 @@ public class GoApplicationConfiguration extends GoRunConfigurationWithMain<GoApp
         }
     }
 
-    @Nonnull
     @Override
     protected ModuleBasedConfiguration createInstance() {
         return new GoApplicationConfiguration(getProject(), getName(), GoApplicationRunConfigurationType.getInstance());
     }
 
-    @Nonnull
     @Override
     public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
         return new GoApplicationConfigurationEditorForm(getProject());
     }
 
-    @Nonnull
     @Override
-    protected GoApplicationRunningState newRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module) {
+    protected GoApplicationRunningState newRunningState(ExecutionEnvironment env, Module module) {
         return new GoApplicationRunningState(env, module, this);
     }
 
@@ -119,21 +112,19 @@ public class GoApplicationConfiguration extends GoRunConfigurationWithMain<GoApp
         }
     }
 
-    @Nonnull
     public String getPackage() {
         return myPackage;
     }
 
-    public void setPackage(@Nonnull String aPackage) {
+    public void setPackage(String aPackage) {
         myPackage = aPackage;
     }
 
-    @Nonnull
     public Kind getKind() {
         return myKind;
     }
 
-    public void setKind(@Nonnull Kind aKind) {
+    public void setKind(Kind aKind) {
         myKind = aKind;
     }
 

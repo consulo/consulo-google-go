@@ -59,7 +59,6 @@ import consulo.virtualFileSystem.event.VirtualFileListener;
 import jakarta.inject.Inject;
 import org.jetbrains.annotations.TestOnly;
 
-import jakarta.annotation.Nonnull;
 import javax.swing.event.HyperlinkEvent;
 import java.util.Collection;
 import java.util.HashSet;
@@ -78,19 +77,14 @@ public class GoModuleLibrariesInitializer implements Disposable {
   private final MessageBusConnection myConnection;
   private boolean myModuleInitialized;
 
-  @Nonnull
   private final Set<VirtualFile> myLastHandledGoPathSourcesRoots = new HashSet<>();
-  @Nonnull
   private final Set<VirtualFile> myLastHandledExclusions = new HashSet<>();
-  @Nonnull
   private final Set<LocalFileSystem.WatchRequest> myWatchedRequests = new HashSet<>();
 
-  @Nonnull
   private final Module myModule;
-  @Nonnull
   private final VirtualFileListener myFilesListener = new VirtualFileListener() {
     @Override
-    public void fileCreated(@Nonnull VirtualFileEvent event) {
+    public void fileCreated(VirtualFileEvent event) {
       if (GoConstants.VENDOR.equals(event.getFileName()) && event.getFile().isDirectory()) {
         showVendoringNotification();
       }
@@ -98,7 +92,7 @@ public class GoModuleLibrariesInitializer implements Disposable {
   };
 
   @TestOnly
-  public static void setTestingMode(@Nonnull Disposable disposable) {
+  public static void setTestingMode(Disposable disposable) {
     isTestingMode = true;
     Disposer.register(disposable, () ->
     {
@@ -108,7 +102,7 @@ public class GoModuleLibrariesInitializer implements Disposable {
   }
 
   @Inject
-  public GoModuleLibrariesInitializer(@Nonnull Application application, @Nonnull Module module) {
+  public GoModuleLibrariesInitializer(Application application, Module module) {
     myModule = module;
     myAlarm = new Alarm(Alarm.ThreadToUse.POOLED_THREAD, myModule);
     myConnection = myModule.getMessageBus().connect();
@@ -191,7 +185,7 @@ public class GoModuleLibrariesInitializer implements Disposable {
     if (!shownAlready) {
       NotificationListener.Adapter notificationListener = new NotificationListener.Adapter() {
         @Override
-        protected void hyperlinkActivated(@Nonnull Notification notification, @Nonnull HyperlinkEvent event) {
+        protected void hyperlinkActivated(Notification notification, HyperlinkEvent event) {
           if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED && "configure".equals(event.getDescription())) {
             ShowSettingsUtil.getInstance().showProjectStructureDialog(project);
           }

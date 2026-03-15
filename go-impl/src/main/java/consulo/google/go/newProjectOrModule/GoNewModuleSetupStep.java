@@ -26,7 +26,6 @@ import consulo.module.ui.BundleBoxBuilder;
 import consulo.ui.ComboBox;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.util.FormBuilder;
-import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -41,7 +40,7 @@ public class GoNewModuleSetupStep extends UnifiedProjectOrModuleNameStep<GoNewMo
 
     @RequiredUIAccess
     @Override
-    protected void extend(@Nonnull FormBuilder builder, @Nonnull Disposable uiDisposable) {
+    protected void extend(FormBuilder builder, Disposable uiDisposable) {
         super.extend(builder, uiDisposable);
 
         BundleBoxBuilder boxBuilder = BundleBoxBuilder.create(uiDisposable);
@@ -56,7 +55,7 @@ public class GoNewModuleSetupStep extends UnifiedProjectOrModuleNameStep<GoNewMo
     }
 
     @Override
-    public void onStepLeave(@Nonnull GoNewModuleContext context) {
+    public void onStepLeave(GoNewModuleContext context) {
         super.onStepLeave(context);
 
         String selectedBundleName = myBundleBox.getSelectedBundleName();

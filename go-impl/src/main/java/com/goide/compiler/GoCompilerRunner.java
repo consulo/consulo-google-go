@@ -39,8 +39,7 @@ import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileManager;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,15 +58,13 @@ public class GoCompilerRunner implements CompilerRunner {
 
     private static final YesResult YES = new YesResult(PlatformIconGroup.actionsCompile());
 
-    @Nonnull
     @Override
     public LocalizeValue getName() {
         return LocalizeValue.localizeTODO("Go Build");
     }
 
-    @Nonnull
     @Override
-    public Result checkAvailable(@Nonnull DataContext dataContext) {
+    public Result checkAvailable(DataContext dataContext) {
         RunConfiguration runConfiguration = dataContext.getData(RunConfiguration.KEY);
         if (runConfiguration instanceof GoApplicationConfiguration) {
             return YES;
@@ -153,8 +150,7 @@ public class GoCompilerRunner implements CompilerRunner {
         return result;
     }
 
-    @Nonnull
-    private static File getOutputFile(@Nonnull GoRunConfigurationBase goRunConfiguration) throws ExecutionException {
+    private static File getOutputFile(GoRunConfigurationBase goRunConfiguration) throws ExecutionException {
         File outputFile;
         String outputDirectoryPath = goRunConfiguration.getOutputFilePath();
         String configurationName = goRunConfiguration.getName();
@@ -189,7 +185,7 @@ public class GoCompilerRunner implements CompilerRunner {
         return outputFile;
     }
 
-    private static boolean prepareFile(@Nonnull File file) {
+    private static boolean prepareFile(File file) {
         try {
             FileUtil.writeToFile(file, new byte[]{0x7F, 'E', 'L', 'F'});
         }
@@ -263,12 +259,12 @@ public class GoCompilerRunner implements CompilerRunner {
     }
 
     @Nullable
-    private static VirtualFile findInGoPath(@Nonnull String fileName, @Nonnull Module module) {
+    private static VirtualFile findInGoPath(String fileName, Module module) {
         return GoPackageUtil.findByImportPath(fileName, module.getProject(), module);
     }
 
     @Nullable
-    private static VirtualFile findSingleFile(@Nonnull String fileName, @Nonnull Module module) {
+    private static VirtualFile findSingleFile(String fileName, Module module) {
         Project project = module.getProject();
         if (PathUtil.isValidFileName(fileName)) {
             Collection<VirtualFile> files = FilenameIndex.getVirtualFilesByName(project, fileName, GlobalSearchScope.allScope(project));

@@ -23,8 +23,7 @@ import consulo.language.psi.PsiElement;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.Trinity;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoExpressionUtil {
 
@@ -90,8 +89,8 @@ public class GoExpressionUtil {
     return lText != null && lText.equals(r.getText());
   }
 
-  private static boolean isIndicesIdentical(@Nonnull Trinity<GoExpression, GoExpression, GoExpression> l,
-                                            @Nonnull Trinity<GoExpression, GoExpression, GoExpression> r) {
+  private static boolean isIndicesIdentical(Trinity<GoExpression, GoExpression, GoExpression> l,
+                                            Trinity<GoExpression, GoExpression, GoExpression> r) {
     return identical(l.first, r.first) && identical(l.second, r.second) && identical(l.third, r.third);
   }
 
@@ -107,7 +106,7 @@ public class GoExpressionUtil {
     return lNode instanceof LeafElement && lNode.getElementType().equals(rNode.getElementType());
   }
 
-  private static boolean isOrderImportant(@Nonnull GoBinaryExpr o) {
+  private static boolean isOrderImportant(GoBinaryExpr o) {
     if (o instanceof GoConversionExpr || o instanceof GoSelectorExpr) return true;
     if (o instanceof GoMulExpr) {
       GoMulExpr m = (GoMulExpr)o;
@@ -120,7 +119,7 @@ public class GoExpressionUtil {
     return false;
   }
 
-  private static boolean isChildrenExprEquals(@Nonnull GoBinaryExpr left, @Nonnull GoBinaryExpr right) {
+  private static boolean isChildrenExprEquals(GoBinaryExpr left, GoBinaryExpr right) {
     GoExpression l1 = left.getLeft();
     GoExpression l2 = left.getRight();
     GoExpression r1 = right.getLeft();

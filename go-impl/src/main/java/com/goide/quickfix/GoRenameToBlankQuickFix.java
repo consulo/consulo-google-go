@@ -26,7 +26,6 @@ import consulo.language.psi.PsiFile;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
 
 public class GoRenameToBlankQuickFix extends LocalQuickFixOnPsiElement {
   public static final LocalizeValue NAME = LocalizeValue.localizeTODO("Rename to _");
@@ -35,14 +34,13 @@ public class GoRenameToBlankQuickFix extends LocalQuickFixOnPsiElement {
     super(o);
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getText() {
     return NAME;
   }
 
   @Override
-  public void invoke(@Nonnull Project project, @Nonnull PsiFile file, @Nonnull PsiElement startElement, @Nonnull PsiElement endElement) {
+  public void invoke(Project project, PsiFile file, PsiElement startElement, PsiElement endElement) {
     if (startElement.isValid() && startElement instanceof GoNamedElement) {
       ((GoNamedElement)startElement).setName("_");
 

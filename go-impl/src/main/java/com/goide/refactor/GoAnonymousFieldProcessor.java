@@ -26,20 +26,19 @@ import consulo.language.psi.PsiReference;
 import consulo.language.psi.search.ReferencesSearch;
 import consulo.util.lang.ObjectUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.Map;
 
 @ExtensionImpl
 public class GoAnonymousFieldProcessor extends RenamePsiElementProcessor {
   @Override
-  public boolean canProcessElement(@Nonnull PsiElement element) {
+  public boolean canProcessElement(PsiElement element) {
     return
       element instanceof GoTypeSpec ||
       element instanceof GoAnonymousFieldDefinition;
   }
 
   @Override
-  public void prepareRenaming(PsiElement element, String newName, @Nonnull Map<PsiElement, String> allRenames, @Nonnull SearchScope scope) {
+  public void prepareRenaming(PsiElement element, String newName, Map<PsiElement, String> allRenames, SearchScope scope) {
     if (element instanceof GoTypeSpec) {
       Query<PsiReference> search = ReferencesSearch.search(element, scope);
       for (PsiReference ref : search) {

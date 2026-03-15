@@ -28,45 +28,43 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @ExtensionImpl
 public class GoAssignmentNilWithoutExplicitTypeInspection extends GoGeneralInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitVarDeclaration(@Nonnull GoVarDeclaration o) {
+      public void visitVarDeclaration(GoVarDeclaration o) {
         for (GoVarSpec spec : o.getVarSpecList()) {
           checkVar(spec);
         }
       }
 
       @Override
-      public void visitShortVarDeclaration(@Nonnull GoShortVarDeclaration o) {
+      public void visitShortVarDeclaration(GoShortVarDeclaration o) {
         checkVar(o);
       }
 
       @Override
-      public void visitConstDeclaration(@Nonnull GoConstDeclaration o) {
+      public void visitConstDeclaration(GoConstDeclaration o) {
         for (GoConstSpec spec : o.getConstSpecList()) {
           checkConst(spec);
         }
       }
 
-      private void checkVar(@Nonnull GoVarSpec spec) {
+      private void checkVar(GoVarSpec spec) {
         if (spec.getType() != null) return;
         checkExpressions(spec.getRightExpressionsList());
       }
 
-      private void checkConst(@Nonnull GoConstSpec spec) {
+      private void checkConst(GoConstSpec spec) {
         if (spec.getType() != null) return;
         checkExpressions(spec.getExpressionList());
       }
 
-      private void checkExpressions(@Nonnull List<GoExpression> expressions) {
+      private void checkExpressions(List<GoExpression> expressions) {
         for (GoExpression expr : expressions) {
           if (expr instanceof GoReferenceExpressionImpl) {
             GoReferenceExpressionImpl ref = (GoReferenceExpressionImpl) expr;
@@ -80,7 +78,6 @@ public class GoAssignmentNilWithoutExplicitTypeInspection extends GoGeneralInspe
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Assignment nil without explicit type");

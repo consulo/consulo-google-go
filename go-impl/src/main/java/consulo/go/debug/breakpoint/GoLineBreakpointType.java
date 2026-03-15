@@ -28,13 +28,11 @@ import consulo.language.ast.IElementType;
 import consulo.language.psi.PsiElement;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import jakarta.inject.Inject;
 
 @ExtensionImpl
 public class GoLineBreakpointType extends XLineBreakpointType<GoLineBreakpointProperties> {
-  @Nonnull
   public static GoLineBreakpointType getInstance() {
     return EXTENSION_POINT_NAME.findExtensionOrFail(GoLineBreakpointType.class);
   }
@@ -46,12 +44,12 @@ public class GoLineBreakpointType extends XLineBreakpointType<GoLineBreakpointPr
 
   @Nullable
   @Override
-  public GoLineBreakpointProperties createBreakpointProperties(@Nonnull VirtualFile file, int line) {
+  public GoLineBreakpointProperties createBreakpointProperties(VirtualFile file, int line) {
     return new GoLineBreakpointProperties();
   }
 
   @RequiredReadAction
-  public static boolean isLineBreakpointAvailable(@Nonnull VirtualFile file, int line, @Nonnull Project project) {
+  public static boolean isLineBreakpointAvailable(VirtualFile file, int line, Project project) {
     Document document = FileDocumentManager.getInstance().getDocument(file);
     if (document == null || document.getLineEndOffset(line) == document.getLineStartOffset(line)) return false;
     Checker canPutAtChecker = new Checker();
@@ -63,7 +61,7 @@ public class GoLineBreakpointType extends XLineBreakpointType<GoLineBreakpointPr
     private boolean myIsLineBreakpointAvailable;
 
     @Override
-    public boolean process(@Nonnull PsiElement o) {
+    public boolean process(PsiElement o) {
       IElementType type = o.getNode().getElementType();
       if (GoParserDefinition.COMMENTS.contains(type) || GoParserDefinition.WHITESPACES.contains(type)) {
         return true;

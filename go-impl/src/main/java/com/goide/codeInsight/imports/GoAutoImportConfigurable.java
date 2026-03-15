@@ -28,8 +28,7 @@ import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.awt.*;
 import consulo.util.lang.StringUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import jakarta.inject.Inject;
 
 import javax.swing.*;
@@ -43,14 +42,12 @@ public class GoAutoImportConfigurable implements SearchableConfigurable, Project
   private JBList myExcludePackagesList;
   private DefaultListModel myExcludePackagesModel;
 
-  @Nonnull
   private final GoCodeInsightSettings myCodeInsightSettings;
-  @Nonnull
   private final GoExcludedPathsSettings myExcludedSettings;
   private final boolean myIsDefaultProject;
 
   @Inject
-  public GoAutoImportConfigurable(@Nonnull Project project) {
+  public GoAutoImportConfigurable(Project project) {
     myCodeInsightSettings = GoCodeInsightSettings.getInstance();
     myExcludedSettings = GoExcludedPathsSettings.getInstance(project);
     myIsDefaultProject = project.isDefault();
@@ -123,7 +120,6 @@ public class GoAutoImportConfigurable implements SearchableConfigurable, Project
     myExcludePackagesList.setModel(myExcludePackagesModel);
   }
 
-  @Nonnull
   @Override
   public String getId() {
     return "go.autoimport";

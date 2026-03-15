@@ -25,16 +25,15 @@ import consulo.language.psi.PsiFile;
 import consulo.module.Module;
 import consulo.util.io.FileUtil;
 import consulo.util.lang.ref.SimpleReference;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class GoRunConfigurationProducerBase<T extends GoRunConfigurationWithMain> extends RunConfigurationProducer<T> implements Cloneable {
-  protected GoRunConfigurationProducerBase(@Nonnull ConfigurationType configurationType) {
+  protected GoRunConfigurationProducerBase(ConfigurationType configurationType) {
     super(configurationType);
   }
 
   @Override
-  protected boolean setupConfigurationFromContext(@Nonnull T configuration, @Nonnull ConfigurationContext context, SimpleReference<PsiElement> sourceElement) {
+  protected boolean setupConfigurationFromContext(T configuration, ConfigurationContext context, SimpleReference<PsiElement> sourceElement) {
     PsiFile file = getFileFromContext(context);
     if (GoRunUtil.isMainGoFile(file)) {
       configuration.setName(getConfigurationName(file));
@@ -48,11 +47,10 @@ public abstract class GoRunConfigurationProducerBase<T extends GoRunConfiguratio
     return false;
   }
 
-  @Nonnull
-  protected abstract String getConfigurationName(@Nonnull PsiFile file);
+  protected abstract String getConfigurationName(PsiFile file);
 
   @Override
-  public boolean isConfigurationFromContext(@Nonnull T configuration, ConfigurationContext context) {
+  public boolean isConfigurationFromContext(T configuration, ConfigurationContext context) {
     GoFile file = getFileFromContext(context);
     return file != null && FileUtil.pathsEqual(configuration.getFilePath(), file.getVirtualFile().getPath());
   }

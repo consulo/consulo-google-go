@@ -31,8 +31,7 @@ import consulo.language.psi.PsiReference;
 import consulo.language.util.ModuleUtilCore;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoAutoImportInsertHandler<T extends GoNamedElement> implements InsertHandler<LookupElement> {
   public static final InsertHandler<LookupElement> SIMPLE_INSERT_HANDLER = new GoAutoImportInsertHandler<>();
@@ -54,7 +53,7 @@ public class GoAutoImportInsertHandler<T extends GoNamedElement> implements Inse
   }
 
   @Override
-  public void handleInsert(@Nonnull InsertionContext context, @Nonnull LookupElement item) {
+  public void handleInsert(InsertionContext context, LookupElement item) {
     PsiElement element = item.getPsiElement();
     if (element instanceof GoNamedElement) {
       if (myClass != null && myDelegate != null && myClass.isInstance(element)) {
@@ -64,7 +63,7 @@ public class GoAutoImportInsertHandler<T extends GoNamedElement> implements Inse
     }
   }
 
-  private static void autoImport(@Nonnull InsertionContext context, @Nonnull GoNamedElement element) {
+  private static void autoImport(InsertionContext context, GoNamedElement element) {
     PsiFile file = context.getFile();
     boolean vendoringEnabled = GoVendoringUtil.isVendoringEnabled(ModuleUtilCore.findModuleForPsiElement(file));
     String importPath = element.getContainingFile().getImportPath(vendoringEnabled);

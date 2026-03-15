@@ -36,8 +36,7 @@ import consulo.util.collection.primitive.ints.IntObjectMap;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.io.*;
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class GoCoverageRunner extends CoverageRunner {
   private static final String PRESENTABLE_NAME = GoConstants.GO;
 
   @Override
-  public ProjectData loadCoverageData(@Nonnull File sessionDataFile, @Nullable CoverageSuite baseCoverageSuite) {
+  public ProjectData loadCoverageData(File sessionDataFile, @Nullable CoverageSuite baseCoverageSuite) {
     if (!(baseCoverageSuite instanceof BaseCoverageSuite)) {
       return null;
     }
@@ -88,8 +87,8 @@ public class GoCoverageRunner extends CoverageRunner {
   }
 
   @Nullable
-  public static GoCoverageProjectData parseCoverage(@Nonnull BufferedReader dataReader,
-                                                    @Nonnull Project project,
+  public static GoCoverageProjectData parseCoverage(BufferedReader dataReader,
+                                                    Project project,
                                                     @Nullable Module module) throws IOException {
     GoCoverageProjectData result = new GoCoverageProjectData();
     String line;
@@ -171,7 +170,7 @@ public class GoCoverageRunner extends CoverageRunner {
   }
 
   @Override
-  public boolean acceptsCoverageEngine(@Nonnull CoverageEngine engine) {
+  public boolean acceptsCoverageEngine(CoverageEngine engine) {
     return engine instanceof GoCoverageEngine;
   }
 }

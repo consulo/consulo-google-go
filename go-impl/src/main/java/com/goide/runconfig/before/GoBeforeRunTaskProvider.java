@@ -40,8 +40,7 @@ import consulo.util.dataholder.Key;
 import consulo.util.lang.StringUtil;
 import consulo.util.lang.ref.Ref;
 import consulo.virtualFileSystem.VirtualFileManager;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoBeforeRunTaskProvider extends BeforeRunTaskProvider<GoCommandBeforeRunTask> {
@@ -80,7 +79,6 @@ public class GoBeforeRunTaskProvider extends BeforeRunTaskProvider<GoCommandBefo
   }
 
   @RequiredUIAccess
-  @Nonnull
   @Override
   public AsyncResult<Void> configureTask(RunConfiguration configuration, GoCommandBeforeRunTask task) {
     Project project = configuration.getProject();

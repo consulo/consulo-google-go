@@ -29,13 +29,12 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiReference;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @ExtensionImpl
 public class GoReferenceImporter implements ReferenceImporter {
   @Override
-  public boolean autoImportReferenceAtCursor(@Nonnull Editor editor, @Nonnull PsiFile file) {
+  public boolean autoImportReferenceAtCursor(Editor editor, PsiFile file) {
     AutoImportHelper importHelper = AutoImportHelper.getInstance(file.getProject());
     if (!file.getViewProvider().getLanguages().contains(GoLanguage.INSTANCE) || !importHelper.canChangeFileSilently(file)) {
       return false;
@@ -62,7 +61,7 @@ public class GoReferenceImporter implements ReferenceImporter {
   }
 
   @Override
-  public boolean autoImportReferenceAt(@Nonnull Editor editor, @Nonnull PsiFile file, int offset) {
+  public boolean autoImportReferenceAt(Editor editor, PsiFile file, int offset) {
     if (!file.getViewProvider().getLanguages().contains(GoLanguage.INSTANCE)) {
       return false;
     }

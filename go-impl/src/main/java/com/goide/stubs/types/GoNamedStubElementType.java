@@ -27,26 +27,24 @@ import consulo.language.psi.stub.IndexSink;
 import consulo.language.psi.stub.StubElement;
 import consulo.language.psi.stub.StubIndexKey;
 import consulo.util.lang.StringUtil;
-import org.jetbrains.annotations.NonNls;
 
-import jakarta.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Collections;
 
 public abstract class GoNamedStubElementType<S extends GoNamedStub<T>, T extends GoNamedElement> extends GoStubElementType<S, T> {
-  public GoNamedStubElementType(@NonNls @Nonnull String debugName) {
+  public GoNamedStubElementType(String debugName) {
     super(debugName);
   }
 
   @Override
-  public boolean shouldCreateStub(@Nonnull ASTNode node) {
+  public boolean shouldCreateStub(ASTNode node) {
     if (!super.shouldCreateStub(node)) return false;
     PsiElement psi = node.getPsi();
     return psi instanceof GoNamedElement && StringUtil.isNotEmpty(((GoNamedElement)psi).getName());
   }
 
   @Override
-  public void indexStub(@Nonnull S stub, @Nonnull IndexSink sink) {
+  public void indexStub(S stub, IndexSink sink) {
     String name = stub.getName();
     if (shouldIndex() && StringUtil.isNotEmpty(name)) {
       String packageName = null;
@@ -76,7 +74,6 @@ public abstract class GoNamedStubElementType<S extends GoNamedStub<T>, T extends
     return true;
   }
 
-  @Nonnull
   protected Collection<StubIndexKey<String, ? extends GoNamedElement>> getExtraIndexKeys() {
     return Collections.emptyList();
   }

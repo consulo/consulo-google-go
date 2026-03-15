@@ -20,8 +20,7 @@ import com.goide.GoConstants;
 import com.goide.psi.impl.GoPsiImplUtil;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Locale;
 
 public enum GoTestFunctionType {
@@ -43,17 +42,14 @@ public enum GoTestFunctionType {
     return myParamType;
   }
 
-  @Nonnull
   public String getPrefix() {
     return myPrefix;
   }
 
-  @Nonnull
   public String getQualifiedParamType(@Nullable String testingQualifier) {
     return myParamType != null ? "*" + GoPsiImplUtil.getFqn(testingQualifier, myParamType) : "";
   }
   
-  @Nonnull
   public String getSignature(@Nullable String testingQualifier) {
     if (myParamType == null) {
       return "";
@@ -71,7 +67,7 @@ public enum GoTestFunctionType {
     return null;
   }
 
-  private static boolean checkPrefix(@Nullable String name, @Nonnull String prefix) {
+  private static boolean checkPrefix(@Nullable String name, String prefix) {
     // https://github.com/golang/go/blob/master/src/cmd/go/test.go#L1161 – isTest()
     if (name == null || !name.startsWith(prefix)) return false;
     if (prefix.length() == name.length()) return true;

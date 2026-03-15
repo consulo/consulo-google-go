@@ -22,7 +22,6 @@ import consulo.language.Language;
 import consulo.language.editor.refactoring.unwrap.UnwrapDescriptorBase;
 import consulo.language.editor.refactoring.unwrap.Unwrapper;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoUnwrapDescriptor extends UnwrapDescriptorBase {
@@ -38,7 +37,6 @@ public class GoUnwrapDescriptor extends UnwrapDescriptorBase {
     };
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

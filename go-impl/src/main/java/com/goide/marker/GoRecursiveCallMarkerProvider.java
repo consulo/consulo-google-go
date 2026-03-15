@@ -32,7 +32,6 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.util.lang.Comparing;
 
-import jakarta.annotation.Nonnull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -41,12 +40,12 @@ import java.util.Set;
 @ExtensionImpl
 public class GoRecursiveCallMarkerProvider implements LineMarkerProvider {
   @Override
-  public LineMarkerInfo getLineMarkerInfo(@Nonnull PsiElement element) {
+  public LineMarkerInfo getLineMarkerInfo(PsiElement element) {
     return null;
   }
 
   @Override
-  public void collectSlowLineMarkers(@Nonnull List<PsiElement> elements, @Nonnull Collection<LineMarkerInfo> result) {
+  public void collectSlowLineMarkers(List<PsiElement> elements, Collection<LineMarkerInfo> result) {
     Set<Integer> lines = new HashSet<>();
     for (PsiElement element : elements) {
       if (element instanceof GoCallExpr) {
@@ -72,14 +71,13 @@ public class GoRecursiveCallMarkerProvider implements LineMarkerProvider {
     return Comparing.equal(PsiTreeUtil.getParentOfType(element, GoFunctionOrMethodDeclaration.class), function);
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;
   }
 
   private static class RecursiveMethodCallMarkerInfo extends LineMarkerInfo<PsiElement> {
-    private RecursiveMethodCallMarkerInfo(@Nonnull PsiElement methodCall) {
+    private RecursiveMethodCallMarkerInfo(PsiElement methodCall) {
       super(methodCall,
           methodCall.getTextRange(),
           PlatformIconGroup.gutterRecursivemethod(),

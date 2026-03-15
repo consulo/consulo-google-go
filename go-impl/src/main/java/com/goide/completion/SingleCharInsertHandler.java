@@ -23,7 +23,6 @@ import consulo.language.editor.completion.lookup.InsertHandler;
 import consulo.language.editor.completion.lookup.InsertionContext;
 import consulo.language.editor.completion.lookup.LookupElement;
 
-import jakarta.annotation.Nonnull;
 
 public class SingleCharInsertHandler implements InsertHandler<LookupElement> {
   private final char myChar;
@@ -33,7 +32,7 @@ public class SingleCharInsertHandler implements InsertHandler<LookupElement> {
   }
 
   @Override
-  public void handleInsert(@Nonnull InsertionContext context, LookupElement item) {
+  public void handleInsert(InsertionContext context, LookupElement item) {
     Editor editor = context.getEditor();
     int tailOffset = context.getTailOffset();
     Document document = editor.getDocument();

@@ -23,16 +23,14 @@ import consulo.language.psi.PsiFile;
 import consulo.localize.LocalizeValue;
 import consulo.logging.Logger;
 import consulo.project.Project;
-import org.jetbrains.annotations.Nls;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoDeleteRangeQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
   private static final Logger LOG = Logger.getInstance(GoDeleteRangeQuickFix.class);
   private final LocalizeValue myName;
   
-  public GoDeleteRangeQuickFix(@Nonnull PsiElement startElement, @Nonnull PsiElement endElement, @Nonnull LocalizeValue name) {
+  public GoDeleteRangeQuickFix(PsiElement startElement, PsiElement endElement, LocalizeValue name) {
     super(startElement, endElement);
     if (!startElement.getParent().equals(endElement.getParent())) {
       LOG.error("Cannot delete range of elements with different parents");
@@ -40,18 +38,17 @@ public class GoDeleteRangeQuickFix extends LocalQuickFixAndIntentionActionOnPsiE
     myName = name;
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getText() {
     return myName;
   }
 
   @Override
-  public void invoke(@Nonnull Project project,
-                     @Nonnull PsiFile file,
+  public void invoke(Project project,
+                     PsiFile file,
                      @Nullable Editor editor,
-                     @Nonnull PsiElement start,
-                     @Nonnull PsiElement end) {
+                     PsiElement start,
+                     PsiElement end) {
     if (start.isValid() && end.isValid()) {
       PsiElement parent = start.getParent();
       if (parent != null && parent.equals(end.getParent())) {

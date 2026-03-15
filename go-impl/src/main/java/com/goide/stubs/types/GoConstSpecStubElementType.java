@@ -30,7 +30,6 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.collection.ArrayFactory;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoConstSpecStubElementType extends GoStubElementType<GoConstSpecStub, GoConstSpec> {
@@ -38,25 +37,23 @@ public class GoConstSpecStubElementType extends GoStubElementType<GoConstSpecStu
 
   public static final ArrayFactory<GoConstSpec> ARRAY_FACTORY = count -> count == 0 ? EMPTY_ARRAY : new GoConstSpec[count];
   
-  public GoConstSpecStubElementType(@Nonnull String name) {
+  public GoConstSpecStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoConstSpec createPsi(@Nonnull GoConstSpecStub stub) {
+  public GoConstSpec createPsi(GoConstSpecStub stub) {
     return new GoConstSpecImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoConstSpecStub createStub(@Nonnull GoConstSpec psi, StubElement parentStub) {
+  public GoConstSpecStub createStub(GoConstSpec psi, StubElement parentStub) {
     String join = StringUtil.join(psi.getExpressionList(), PsiElement::getText, ";");
     return new GoConstSpecStub(parentStub, this, StringRef.fromString(join));
   }
 
   @Override
-  public void serialize(@Nonnull GoConstSpecStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoConstSpecStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getExpressionsText());
   }
 
@@ -65,9 +62,8 @@ public class GoConstSpecStubElementType extends GoStubElementType<GoConstSpecStu
     return super.shouldCreateStub(node) && PsiTreeUtil.getParentOfType(node.getPsi(), GoFunctionOrMethodDeclaration.class) == null;
   }
 
-  @Nonnull
   @Override
-  public GoConstSpecStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoConstSpecStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoConstSpecStub(parentStub, this, dataStream.readName());
   }
 }

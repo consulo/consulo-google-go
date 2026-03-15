@@ -32,8 +32,7 @@ import consulo.module.Module;
 import consulo.util.lang.Comparing;
 import consulo.util.lang.StringUtil;
 import consulo.util.lang.ref.SimpleReference;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoApplicationRunConfigurationProducer extends GoRunConfigurationProducerBase<GoApplicationConfiguration> implements Cloneable {
@@ -42,8 +41,8 @@ public class GoApplicationRunConfigurationProducer extends GoRunConfigurationPro
   }
 
   @Override
-  protected boolean setupConfigurationFromContext(@Nonnull GoApplicationConfiguration configuration,
-                                                  @Nonnull ConfigurationContext context,
+  protected boolean setupConfigurationFromContext(GoApplicationConfiguration configuration,
+                                                  ConfigurationContext context,
                                                   SimpleReference<PsiElement> sourceElement) {
     PsiElement contextElement = GoRunUtil.getContextElement(context);
     if (contextElement != null && GoTestFinder.isTestFile(contextElement.getContainingFile())) {
@@ -85,7 +84,7 @@ public class GoApplicationRunConfigurationProducer extends GoRunConfigurationPro
   }
 
   @Override
-  public boolean isConfigurationFromContext(@Nonnull GoApplicationConfiguration configuration, ConfigurationContext context) {
+  public boolean isConfigurationFromContext(GoApplicationConfiguration configuration, ConfigurationContext context) {
     PsiElement contextElement = GoRunUtil.getContextElement(context);
     if (contextElement == null) return false;
 
@@ -99,9 +98,8 @@ public class GoApplicationRunConfigurationProducer extends GoRunConfigurationPro
     return super.isConfigurationFromContext(configuration, context);
   }
 
-  @Nonnull
   @Override
-  protected String getConfigurationName(@Nonnull PsiFile file) {
+  protected String getConfigurationName(PsiFile file) {
     return "Build " + file.getName() + " and run";
   }
 }

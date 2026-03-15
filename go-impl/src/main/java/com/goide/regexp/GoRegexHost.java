@@ -27,14 +27,12 @@ import org.intellij.lang.regexp.psi.RegExpGroup;
 import org.intellij.lang.regexp.psi.RegExpNamedGroupRef;
 import org.intellij.lang.regexp.psi.RegExpSimpleClass;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Set;
 
 // see https://golang.org/pkg/regexp/syntax/
 @ExtensionImpl
 public class GoRegexHost implements RegExpLanguageHost {
-  @Nonnull
   @Override
   public Class getHostClass() {
     return GoStringLiteral.class;
@@ -76,11 +74,10 @@ public class GoRegexHost implements RegExpLanguageHost {
   }
 
   @Override
-  public boolean isValidCategory(@Nonnull String category) {
+  public boolean isValidCategory(String category) {
     return Lazy.KNOWN_PROPERTIES.contains(category);
   }
 
-  @Nonnull
   @Override
   public String[][] getAllKnownProperties() {
     return Lazy.KNOWN_PROPERTIES_ARRAY;
@@ -92,7 +89,6 @@ public class GoRegexHost implements RegExpLanguageHost {
     return name;
   }
 
-  @Nonnull
   @Override
   public String[][] getKnownCharacterClasses() {
     return Lazy.CHARACTER_CLASSES;

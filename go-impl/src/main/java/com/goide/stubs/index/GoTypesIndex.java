@@ -26,8 +26,7 @@ import consulo.language.psi.stub.StubIndex;
 import consulo.language.psi.stub.StubIndexKey;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collection;
 
 @ExtensionImpl
@@ -39,15 +38,13 @@ public class GoTypesIndex extends StringStubIndexExtension<GoTypeSpec> {
     return GoFileElementType.VERSION + 2;
   }
 
-  @Nonnull
   @Override
   public StubIndexKey<String, GoTypeSpec> getKey() {
     return KEY;
   }
 
-  @Nonnull
-  public static Collection<GoTypeSpec> find(@Nonnull String name,
-                                            @Nonnull Project project,
+  public static Collection<GoTypeSpec> find(String name,
+                                            Project project,
                                             @Nullable GlobalSearchScope scope,
                                             @Nullable IdFilter idFilter) {
     return StubIndex.getElements(KEY, name, project, scope, idFilter, GoTypeSpec.class);

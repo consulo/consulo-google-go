@@ -34,8 +34,7 @@ import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileManager;
 import consulo.virtualFileSystem.VirtualFileWithId;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.BitSet;
 
 public class GoIdFilter extends IdFilter {
@@ -45,7 +44,7 @@ public class GoIdFilter extends IdFilter {
 
   private final BitSet myIdSet;
 
-  private GoIdFilter(@Nonnull BitSet idSet) {
+  private GoIdFilter(BitSet idSet) {
     myIdSet = idSet;
   }
 
@@ -54,17 +53,17 @@ public class GoIdFilter extends IdFilter {
     return id >= 0 && myIdSet.get(id);
   }
 
-  public static IdFilter getProductionFilter(@Nonnull Project project) {
+  public static IdFilter getProductionFilter(Project project) {
     return createIdFilter(project, PRODUCTION_FILTER, file -> !file.isDirectory() && !GoTestFinder.isTestFile(file));
   }
 
-  public static IdFilter getTestsFilter(@Nonnull Project project) {
+  public static IdFilter getTestsFilter(Project project) {
     return createIdFilter(project, TESTS_FILTER, file -> !file.isDirectory() && GoTestFinder.isTestFile(file));
   }
 
-  private static IdFilter createIdFilter(@Nonnull Project project,
-                                         @Nonnull Key<CachedValue<IdFilter>> cacheKey,
-                                         @Nonnull Condition<VirtualFile> filterCondition) {
+  private static IdFilter createIdFilter(Project project,
+                                         Key<CachedValue<IdFilter>> cacheKey,
+                                         Condition<VirtualFile> filterCondition) {
     return CachedValuesManager.getManager(project).getCachedValue(project, cacheKey, () -> {
       BitSet bitSet = new BitSet();
       ContentIterator iterator = fileOrDir -> {
@@ -81,7 +80,7 @@ public class GoIdFilter extends IdFilter {
   }
 
   @Nullable
-  public static IdFilter getFilesFilter(@Nonnull GlobalSearchScope scope) {
+  public static IdFilter getFilesFilter(GlobalSearchScope scope) {
     if (scope instanceof GlobalSearchScope.FilesScope) {
       BitSet bitSet = new BitSet();
       for (VirtualFile file : (GlobalSearchScope.FilesScope)scope) {
@@ -92,7 +91,7 @@ public class GoIdFilter extends IdFilter {
     return null;
   }
 
-  private static void addToBitSet(@Nonnull BitSet set, @Nonnull VirtualFile file) {
+  private static void addToBitSet(BitSet set, VirtualFile file) {
     if (file instanceof VirtualFileWithId) {
       int id = ((VirtualFileWithId)file).getId();
       if (id < 0) id = -id; // workaround for encountering invalid files, see EA-49915, EA-50599

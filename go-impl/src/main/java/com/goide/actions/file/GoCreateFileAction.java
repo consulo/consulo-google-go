@@ -37,8 +37,7 @@ import consulo.module.extension.ModuleExtension;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Map;
 
 @ActionImpl(id = "Go.NewGoFile", parents = @ActionParentRef(value = @ActionRef(id = "NewGroup"), anchor = ActionRefAnchor.BEFORE, relatedToAction = @ActionRef(id = "NewFile")))
@@ -53,7 +52,7 @@ public class GoCreateFileAction extends CreateFileFromTemplateAction implements 
   }
 
   @Override
-  protected void buildDialog(Project project, PsiDirectory directory, @Nonnull CreateFileFromTemplateDialog.Builder builder) {
+  protected void buildDialog(Project project, PsiDirectory directory, CreateFileFromTemplateDialog.Builder builder) {
     builder.setTitle(LocalizeValue.localizeTODO("New Go File"))
       .addKind(LocalizeValue.localizeTODO("Empty file"), GoogleGoIconGroup.gofiletype(), FILE_TEMPLATE)
       .addKind(LocalizeValue.localizeTODO("Simple Application"), GoogleGoIconGroup.gofiletype(), APPLICATION_TEMPLATE);
@@ -65,7 +64,6 @@ public class GoCreateFileAction extends CreateFileFromTemplateAction implements 
     return DEFAULT_GO_TEMPLATE_PROPERTY;
   }
 
-  @Nonnull
   @Override
   protected LocalizeValue getActionName(PsiDirectory directory, String newName, String templateName) {
     return LocalizeValue.localizeTODO("New Go File");

@@ -23,27 +23,23 @@ import consulo.language.editor.action.CodeInsightActionHandler;
 import consulo.language.psi.PsiFile;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
 
 abstract public class GoGenerateTestActionBase extends CodeInsightAction {
-  @Nonnull
   private final GoTestFramework myFramework;
-  @Nonnull
   private final CodeInsightActionHandler myHandler;
 
-  protected GoGenerateTestActionBase(@Nonnull GoTestFramework framework, @Nonnull CodeInsightActionHandler handler) {
+  protected GoGenerateTestActionBase(GoTestFramework framework, CodeInsightActionHandler handler) {
     myFramework = framework;
     myHandler = handler;
   }
 
-  @Nonnull
   @Override
   protected CodeInsightActionHandler getHandler() {
     return myHandler;
   }
 
   @Override
-  protected boolean isValidForFile(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
+  protected boolean isValidForFile(Project project, Editor editor, PsiFile file) {
     return myFramework.isAvailableOnFile(file);
   }
 }

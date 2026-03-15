@@ -32,8 +32,7 @@ import consulo.language.editor.template.TemplateSettings;
 import consulo.language.util.ProcessingContext;
 import consulo.util.lang.ObjectUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoKeywordCompletionProvider implements CompletionProvider {
   public static final InsertHandler<LookupElement> EMPTY_INSERT_HANDLER = (context, element) -> {
@@ -44,25 +43,24 @@ public class GoKeywordCompletionProvider implements CompletionProvider {
   @Nullable
   private final InsertHandler<LookupElement> myInsertHandler;
   @Nullable private final AutoCompletionPolicy myCompletionPolicy;
-  @Nonnull
   private final String[] myKeywords;
 
   public GoKeywordCompletionProvider(int priority, String... keywords) {
     this(priority, null, null, keywords);
   }
 
-  public GoKeywordCompletionProvider(int priority, @Nullable AutoCompletionPolicy completionPolicy, @Nonnull String... keywords) {
+  public GoKeywordCompletionProvider(int priority, @Nullable AutoCompletionPolicy completionPolicy, String... keywords) {
     this(priority, null, completionPolicy, keywords);
   }
 
-  public GoKeywordCompletionProvider(int priority, @Nullable InsertHandler<LookupElement> insertHandler, @Nonnull String... keywords) {
+  public GoKeywordCompletionProvider(int priority, @Nullable InsertHandler<LookupElement> insertHandler, String... keywords) {
     this(priority, insertHandler, null, keywords);
   }
 
   private GoKeywordCompletionProvider(int priority,
                                       @Nullable InsertHandler<LookupElement> insertHandler,
                                       @Nullable AutoCompletionPolicy completionPolicy,
-                                      @Nonnull String... keywords) {
+                                      String... keywords) {
     myPriority = priority;
     myInsertHandler = insertHandler;
     myCompletionPolicy = completionPolicy;
@@ -70,21 +68,20 @@ public class GoKeywordCompletionProvider implements CompletionProvider {
   }
 
   @Override
-  public void addCompletions(@Nonnull CompletionParameters parameters, ProcessingContext context, @Nonnull CompletionResultSet result) {
+  public void addCompletions(CompletionParameters parameters, ProcessingContext context, CompletionResultSet result) {
     for (String keyword : myKeywords) {
       result.addElement(createKeywordLookupElement(keyword));
     }
   }
 
-  @Nonnull
-  private LookupElement createKeywordLookupElement(@Nonnull String keyword) {
+  private LookupElement createKeywordLookupElement(String keyword) {
     InsertHandler<LookupElement> insertHandler = ObjectUtil.chooseNotNull(myInsertHandler,
                                                                                  createTemplateBasedInsertHandler("go_lang_" + keyword));
     LookupElement result = createKeywordLookupElement(keyword, myPriority, insertHandler);
     return myCompletionPolicy != null ? myCompletionPolicy.applyPolicy(result) : result;
   }
 
-  public static LookupElement createKeywordLookupElement(@Nonnull String keyword,
+  public static LookupElement createKeywordLookupElement(String keyword,
                                                          int priority,
                                                          @Nullable InsertHandler<LookupElement> insertHandler) {
     LookupElementBuilder builder = LookupElementBuilder.create(keyword).withBoldness(true).withInsertHandler(insertHandler);
@@ -92,7 +89,7 @@ public class GoKeywordCompletionProvider implements CompletionProvider {
   }
 
   @Nullable
-  public static InsertHandler<LookupElement> createTemplateBasedInsertHandler(@Nonnull String templateId) {
+  public static InsertHandler<LookupElement> createTemplateBasedInsertHandler(String templateId) {
     return (context, item) -> {
       Template template = TemplateSettings.getInstance().getTemplateById(templateId);
       Editor editor = context.getEditor();

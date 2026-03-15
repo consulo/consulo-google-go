@@ -19,7 +19,6 @@ package com.goide.dlv.protocol;
 import com.google.gson.annotations.SerializedName;
 import consulo.logging.Logger;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -160,7 +159,6 @@ public class DlvApi {
     // Unreadable addresses will have this field set
     public String unreadable;
 
-    @Nonnull
     private Kind getKind() {
       try {
         return Kind.values()[kind];

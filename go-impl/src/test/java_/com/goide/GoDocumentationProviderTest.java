@@ -23,7 +23,6 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import jakarta.annotation.Nonnull;
 
 import java.io.IOException;
 import java.util.List;
@@ -71,7 +70,6 @@ public abstract class GoDocumentationProviderTest extends GoCodeInsightFixtureTe
   public void testQuotedStrings()                     { doConverterTest(); }
   public void testLinks()                             { doConverterTest(); }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "doc";

@@ -29,28 +29,24 @@ import consulo.language.psi.SyntaxTraverser;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.lang.StringUtil;
 import consulo.util.lang.function.Predicates;
-import jakarta.annotation.Nonnull;
 
 import java.util.List;
 
 @ExtensionImpl
 public class GoExpressionTypeProvider extends ExpressionTypeProvider<GoTypeOwner> {
-  @Nonnull
   @Override
-  public String getInformationHint(@Nonnull GoTypeOwner element) {
+  public String getInformationHint(GoTypeOwner element) {
     GoType type = element.getGoType(null);
     return StringUtil.escapeXml(StringUtil.notNullize(type != null ? type.getText() : null, "<unknown>"));
   }
 
-  @Nonnull
   @Override
   public String getErrorHint() {
     return "Selection doesn't contain a Go expression";
   }
 
-  @Nonnull
   @Override
-  public List<GoTypeOwner> getExpressionsAt(@Nonnull PsiElement at) {
+  public List<GoTypeOwner> getExpressionsAt(PsiElement at) {
     if (at instanceof PsiWhiteSpace && at.textMatches("\n")) {
       at = PsiTreeUtil.prevLeaf(at);
     }
@@ -58,7 +54,6 @@ public class GoExpressionTypeProvider extends ExpressionTypeProvider<GoTypeOwner
       .filter(GoTypeOwner.class).toList();
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

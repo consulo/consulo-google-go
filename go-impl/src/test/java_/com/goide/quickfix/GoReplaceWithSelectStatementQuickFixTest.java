@@ -16,7 +16,6 @@
 
 package com.goide.quickfix;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.inspections.GoInfiniteForInspection;
 
@@ -27,7 +26,6 @@ public abstract class GoReplaceWithSelectStatementQuickFixTest extends GoQuickFi
     myFixture.enableInspections(GoInfiniteForInspection.class);
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/replace-with-select";

@@ -43,18 +43,16 @@ import consulo.ui.image.Image;
 import consulo.usage.UsageViewUtil;
 import consulo.util.lang.ObjectUtil;
 import consulo.util.lang.StringUtil;
-import org.jetbrains.annotations.NonNls;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStubbedElementImpl<T> implements GoCompositeElement, GoNamedElement {
 
-  public GoNamedElementImpl(@Nonnull T stub, @Nonnull IStubElementType nodeType) {
+  public GoNamedElementImpl(T stub, IStubElementType nodeType) {
     super(stub, nodeType);
   }
 
-  public GoNamedElementImpl(@Nonnull ASTNode node) {
+  public GoNamedElementImpl(ASTNode node) {
     super(node);
   }
 
@@ -97,9 +95,8 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
     return identifier != null ? identifier.getTextOffset() : super.getTextOffset();
   }
 
-  @Nonnull
   @Override
-  public PsiElement setName(@NonNls @Nonnull String newName) throws IncorrectOperationException {
+  public PsiElement setName(String newName) throws IncorrectOperationException {
     PsiElement identifier = getIdentifier();
     if (identifier != null) {
       identifier.replace(GoElementFactory.createIdentifierFromText(getProject(), newName));
@@ -131,7 +128,7 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
   }
 
   @Override
-  public boolean processDeclarations(@Nonnull PsiScopeProcessor processor, @Nonnull ResolveState state, PsiElement lastParent, @Nonnull PsiElement place) {
+  public boolean processDeclarations(PsiScopeProcessor processor, ResolveState state, PsiElement lastParent, PsiElement place) {
     return GoCompositeElementImpl.processDeclarationsDefault(this, processor, state, lastParent, place);
   }
 
@@ -166,13 +163,11 @@ public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStu
     return super.getPresentation();
   }
 
-  @Nonnull
   @Override
   public GlobalSearchScope getResolveScope() {
     return isPublic() ? GoUtil.goPathResolveScope(this) : GoPackageUtil.packageScope(getContainingFile());
   }
 
-  @Nonnull
   @Override
   public SearchScope getUseScope() {
     if (this instanceof GoVarDefinition || this instanceof GoConstDefinition || this instanceof GoLabelDefinition) {

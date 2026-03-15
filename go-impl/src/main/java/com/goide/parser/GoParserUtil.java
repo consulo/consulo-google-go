@@ -32,16 +32,14 @@ import consulo.util.collection.primitive.objects.ObjectMaps;
 import consulo.util.dataholder.Key;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.lang.reflect.Field;
 import java.util.List;
 
 public class GoParserUtil extends GeneratedParserUtilBase {
   private static final Key<ObjectIntMap<String>> MODES_KEY = Key.create("MODES_KEY");
 
-  @Nonnull
-  private static ObjectIntMap<String> getParsingModes(@Nonnull PsiBuilder builder_) {
+  private static ObjectIntMap<String> getParsingModes(PsiBuilder builder_) {
     ObjectIntMap<String> flags = builder_.getUserData(MODES_KEY);
     if (flags == null) builder_.putUserData(MODES_KEY, flags = ObjectMaps.newObjectIntHashMap());
     return flags;
@@ -90,7 +88,7 @@ public class GoParserUtil extends GeneratedParserUtilBase {
     return true;
   }
 
-  public static boolean isModeOn(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
+  public static boolean isModeOn(PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
     return getParsingModes(builder_).getInt(mode) > 0;
   }
 
@@ -128,17 +126,17 @@ public class GoParserUtil extends GeneratedParserUtilBase {
     return result;
   }
 
-  public static boolean isModeOff(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
+  public static boolean isModeOff(PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
     return getParsingModes(builder_).getInt(mode) == 0;
   }
 
-  public static boolean prevIsType(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level) {
+  public static boolean prevIsType(PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level) {
     LighterASTNode marker = builder_.getLatestDoneMarker();
     IElementType type = marker != null ? marker.getTokenType() : null;
     return type == GoTypes.ARRAY_OR_SLICE_TYPE || type == GoTypes.MAP_TYPE || type == GoTypes.STRUCT_TYPE;
   }
   
-  public static boolean keyOrValueExpression(@Nonnull PsiBuilder builder_, int level) {
+  public static boolean keyOrValueExpression(PsiBuilder builder_, int level) {
     PsiBuilder.Marker m = enter_section_(builder_);
     boolean r = GoParser.Expression(builder_, level + 1, -1);
     if (!r) r = GoParser.LiteralValue(builder_, level + 1);
@@ -147,7 +145,7 @@ public class GoParserUtil extends GeneratedParserUtilBase {
     return r;
   }
 
-  public static boolean enterMode(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
+  public static boolean enterMode(PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
     ObjectIntMap<String> flags = getParsingModes(builder_);
     if(flags.containsKey(mode)) {
         flags.putInt(mode, flags.getInt(mode) + 1);
@@ -157,7 +155,7 @@ public class GoParserUtil extends GeneratedParserUtilBase {
     return true;
   }
 
-  private static boolean exitMode(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode, boolean safe) {
+  private static boolean exitMode(PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode, boolean safe) {
     ObjectIntMap<String> flags = getParsingModes(builder_);
     int count = flags.getInt(mode);
     if (count == 1) flags.remove(mode);
@@ -166,23 +164,22 @@ public class GoParserUtil extends GeneratedParserUtilBase {
     return true;
   }
 
-  public static boolean exitMode(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
+  public static boolean exitMode(PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
     return exitMode(builder_, level,mode, false);
   }
   
-  public static boolean exitModeSafe(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
+  public static boolean exitModeSafe(PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level, String mode) {
     return exitMode(builder_, level,mode, true);
   }
 
-  public static boolean isBuiltin(@Nonnull PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level) {
+  public static boolean isBuiltin(PsiBuilder builder_, @SuppressWarnings("UnusedParameters") int level) {
     LighterASTNode marker = builder_.getLatestDoneMarker();
     if (marker == null) return false;
     String text = String.valueOf(builder_.getOriginalText().subSequence(marker.getStartOffset(), marker.getEndOffset())).trim();
     return "make".equals(text) || "new".equals(text);
   }
 
-  @Nullable
-  private static PsiBuilder.Marker getCurrentMarker(@Nonnull PsiBuilder builder_) {
+  private static PsiBuilder.@Nullable Marker getCurrentMarker(PsiBuilder builder_) {
     try {
       for (Field field : builder_.getClass().getDeclaredFields()) {
         if ("MyList".equals(field.getType().getSimpleName())) {

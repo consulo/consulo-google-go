@@ -27,22 +27,19 @@ import consulo.project.ui.notification.NotificationType;
 import consulo.project.ui.notification.Notifications;
 import consulo.project.ui.notification.event.NotificationListener;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import javax.swing.event.HyperlinkEvent;
 
 public abstract class GoDownloadableFileAction extends GoExternalToolsAction {
     private static final String GO_GET_LINK = "goGetLink";
-    @Nonnull
     private final String myGoGetImportPath;
-    @Nonnull
     private final String myExecutableName;
 
-    public GoDownloadableFileAction(@Nonnull String text,
-                                    @Nonnull String description,
-                                    @Nonnull String executableName,
-                                    @Nonnull String goGetImportPath) {
+    public GoDownloadableFileAction(String text,
+                                    String description,
+                                    String executableName,
+                                    String goGetImportPath) {
         super(text, description);
         
         myExecutableName = executableName;
@@ -50,7 +47,7 @@ public abstract class GoDownloadableFileAction extends GoExternalToolsAction {
     }
 
     @Override
-    protected boolean doSomething(@Nonnull VirtualFile virtualFile, @Nullable Module module, @Nonnull Project project, @Nonnull String title)
+    protected boolean doSomething(VirtualFile virtualFile, @Nullable Module module, Project project, String title)
         throws ExecutionException {
         VirtualFile executable = getExecutable(project, module);
         if (executable == null) {
@@ -65,7 +62,7 @@ public abstract class GoDownloadableFileAction extends GoExternalToolsAction {
     }
 
     @Nullable
-    protected VirtualFile getExecutable(@Nonnull Project project, @Nullable Module module) {
+    protected VirtualFile getExecutable(Project project, @Nullable Module module) {
         return GoSdkUtil.findExecutableInGoPath(myExecutableName, project, module);
     }
 
@@ -73,13 +70,13 @@ public abstract class GoDownloadableFileAction extends GoExternalToolsAction {
         private final Project myProject;
         private final Module myModule;
 
-        private MyNotificationListener(@Nonnull Project project, @Nullable Module module) {
+        private MyNotificationListener(Project project, @Nullable Module module) {
             myProject = project;
             myModule = module;
         }
 
         @Override
-        public void hyperlinkUpdate(@Nonnull Notification notification, @Nonnull HyperlinkEvent event) {
+        public void hyperlinkUpdate(Notification notification, HyperlinkEvent event) {
             if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                 String description = event.getDescription();
                 if (GO_GET_LINK.equals(description)) {

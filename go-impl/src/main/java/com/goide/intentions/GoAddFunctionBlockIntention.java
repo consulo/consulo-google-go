@@ -30,7 +30,6 @@ import consulo.language.util.IncorrectOperationException;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.lang.ObjectUtil;
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 @IntentionMetaData(ignoreId = "go.add.function.body", fileExtensions = "go", categories = "Go")
@@ -42,13 +41,13 @@ public class GoAddFunctionBlockIntention extends BaseElementAtCaretIntentionActi
   }
 
   @Override
-  public boolean isAvailable(@Nonnull Project project, Editor editor, @Nonnull PsiElement element) {
+  public boolean isAvailable(Project project, Editor editor, PsiElement element) {
     PsiElement parent = element.getParent();
     return parent instanceof GoFunctionOrMethodDeclaration && ((GoFunctionOrMethodDeclaration)parent).getBlock() == null;
   }
 
   @Override
-  public void invoke(@Nonnull Project project, Editor editor, @Nonnull PsiElement element) throws IncorrectOperationException {
+  public void invoke(Project project, Editor editor, PsiElement element) throws IncorrectOperationException {
     PsiElement parent = element.getParent();
     if (parent instanceof GoFunctionOrMethodDeclaration) {
       GoBlock block = ((GoFunctionOrMethodDeclaration)parent).getBlock();

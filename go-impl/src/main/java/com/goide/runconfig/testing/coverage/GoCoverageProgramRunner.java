@@ -36,21 +36,19 @@ import consulo.execution.ui.RunContentDescriptor;
 import consulo.process.ExecutionException;
 import consulo.util.lang.ObjectUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoCoverageProgramRunner extends GenericProgramRunner {
   private static final String ID = "GoCoverageProgramRunner";
 
-  @Nonnull
   @Override
   public String getRunnerId() {
     return ID;
   }
 
   @Override
-  public boolean canRun(@Nonnull String executorId, @Nonnull RunProfile profile) {
+  public boolean canRun(String executorId, RunProfile profile) {
     return executorId.equals(CoverageExecutor.EXECUTOR_ID) && profile instanceof GoTestRunConfiguration;
   }
 
@@ -61,7 +59,7 @@ public class GoCoverageProgramRunner extends GenericProgramRunner {
 
   @Nullable
   @Override
-  protected RunContentDescriptor doExecute(@Nonnull RunProfileState state, @Nonnull ExecutionEnvironment environment)
+  protected RunContentDescriptor doExecute(RunProfileState state, ExecutionEnvironment environment)
     throws ExecutionException {
     assert state instanceof GoTestRunningState;
     GoTestRunningState runningState = (GoTestRunningState)state;

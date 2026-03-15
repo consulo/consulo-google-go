@@ -24,19 +24,17 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @ExtensionImpl
 public class GoDuplicateArgumentInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitCompositeElement(@Nonnull GoCompositeElement o) {
+      public void visitCompositeElement(GoCompositeElement o) {
         if (o instanceof GoSignatureOwner) {
           check(((GoSignatureOwner)o).getSignature(), holder);
         }
@@ -44,15 +42,15 @@ public class GoDuplicateArgumentInspection extends GoInspectionBase {
     };
   }
 
-  protected void check(@Nullable GoSignature o, @Nonnull ProblemsHolder holder) {
+  protected void check(@Nullable GoSignature o, ProblemsHolder holder) {
     if (o != null) {
       checkParameters(holder, o.getParameters(), new LinkedHashSet<>());
     }
   }
 
-  protected static void checkParameters(@Nonnull ProblemsHolder holder,
-                                        @Nonnull GoParameters parameters,
-                                        @Nonnull Set<String> parameterNames) {
+  protected static void checkParameters(ProblemsHolder holder,
+                                        GoParameters parameters,
+                                        Set<String> parameterNames) {
     for (GoParameterDeclaration fp : parameters.getParameterDeclarationList()) {
       for (GoParamDefinition parameter : fp.getParamDefinitionList()) {
         if (parameter.isBlank()) continue;
@@ -67,19 +65,16 @@ public class GoDuplicateArgumentInspection extends GoInspectionBase {
     }
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Redeclared symbols");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Duplicate argument");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.ERROR;

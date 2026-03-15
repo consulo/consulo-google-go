@@ -24,32 +24,28 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
 public class GoFunctionExitPointHandler extends HighlightUsagesHandlerBase<PsiElement> {
-  @Nonnull
   private final PsiElement myTarget;
-  @Nonnull
   private final GoTypeOwner myFunction;
 
-  private GoFunctionExitPointHandler(Editor editor, PsiFile file, @Nonnull PsiElement target, @Nonnull GoTypeOwner function) {
+  private GoFunctionExitPointHandler(Editor editor, PsiFile file, PsiElement target, GoTypeOwner function) {
     super(editor, file);
     myTarget = target;
     myFunction = function;
   }
 
-  @Nonnull
   @Override
   public List<PsiElement> getTargets() {
     return Collections.singletonList(myTarget);
   }
 
   @Override
-  protected void selectTargets(List<PsiElement> targets, @Nonnull Consumer<List<PsiElement>> selectionConsumer) {
+  protected void selectTargets(List<PsiElement> targets, Consumer<List<PsiElement>> selectionConsumer) {
     selectionConsumer.accept(targets);
   }
 
@@ -60,16 +56,16 @@ public class GoFunctionExitPointHandler extends HighlightUsagesHandlerBase<PsiEl
     }
     new GoRecursiveVisitor() {
       @Override
-      public void visitFunctionLit(@Nonnull GoFunctionLit literal) {
+      public void visitFunctionLit(GoFunctionLit literal) {
       }
 
       @Override
-      public void visitReturnStatement(@Nonnull GoReturnStatement statement) {
+      public void visitReturnStatement(GoReturnStatement statement) {
         addOccurrence(statement);
       }
 
       @Override
-      public void visitCallExpr(@Nonnull GoCallExpr o) {
+      public void visitCallExpr(GoCallExpr o) {
         if (GoPsiImplUtil.isPanic(o)) addOccurrence(o);
         super.visitCallExpr(o);
       }
@@ -77,7 +73,7 @@ public class GoFunctionExitPointHandler extends HighlightUsagesHandlerBase<PsiEl
   }
 
   @Nullable
-  public static GoFunctionExitPointHandler createForElement(@Nonnull Editor editor, @Nonnull PsiFile file, @Nonnull PsiElement element) {
+  public static GoFunctionExitPointHandler createForElement(Editor editor, PsiFile file, PsiElement element) {
     GoTypeOwner function = PsiTreeUtil.getParentOfType(element, GoFunctionLit.class, GoFunctionOrMethodDeclaration.class);
     return function != null ? new GoFunctionExitPointHandler(editor, file, element, function) : null;
   }

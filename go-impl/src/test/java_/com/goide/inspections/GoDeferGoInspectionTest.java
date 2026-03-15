@@ -16,7 +16,6 @@
 
 package com.goide.inspections;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.SdkAware;
 import com.goide.quickfix.GoQuickFixTestBase;
@@ -59,7 +58,6 @@ public abstract class GoDeferGoInspectionTest extends GoQuickFixTestBase {
 
   public void testDeferRecover() { doTest(GoDeferGoInspection.REPLACE_WITH_CORRECT_DEFER_RECOVER, true); }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "inspections/go-defer-function-call";

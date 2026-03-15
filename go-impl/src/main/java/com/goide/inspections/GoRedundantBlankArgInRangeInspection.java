@@ -27,20 +27,18 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 @ExtensionImpl
 public class GoRedundantBlankArgInRangeInspection extends GoInspectionBase implements CleanupLocalInspectionTool {
   public final static LocalizeValue DELETE_BLANK_ARGUMENT_QUICK_FIX_NAME = LocalizeValue.localizeTODO("Delete blank argument");
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitRangeClause(@Nonnull GoRangeClause o) {
+      public void visitRangeClause(GoRangeClause o) {
         List<GoExpression> leftExpressions = o.getLeftExpressionsList();
         PsiElement range = o.getRange();
         if (range == null) return;
@@ -64,9 +62,9 @@ public class GoRedundantBlankArgInRangeInspection extends GoInspectionBase imple
     };
   }
 
-  private static void registerBlankArgumentProblem(@Nonnull ProblemsHolder holder,
-                                                   @Nonnull PsiElement start,
-                                                   @Nonnull PsiElement end) {
+  private static void registerBlankArgumentProblem(ProblemsHolder holder,
+                                                   PsiElement start,
+                                                   PsiElement end) {
     GoDeleteRangeQuickFix fix = new GoDeleteRangeQuickFix(start, end, DELETE_BLANK_ARGUMENT_QUICK_FIX_NAME);
     holder.registerProblem(holder.getManager().createProblemDescriptor(start, end, "Redundant <code>_</code> expression",
                                                                        ProblemHighlightType.LIKE_UNUSED_SYMBOL, holder.isOnTheFly(), fix));
@@ -80,19 +78,16 @@ public class GoRedundantBlankArgInRangeInspection extends GoInspectionBase imple
     return o instanceof GoReferenceExpression && o.textMatches("_");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Redundant blank argument in range inspection");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WARNING;

@@ -29,7 +29,6 @@ import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
 import consulo.util.lang.BitUtil;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -39,7 +38,7 @@ import jakarta.annotation.Nonnull;
 public class GoIconDescriptorUpdater implements IconDescriptorUpdater {
   @RequiredReadAction
   @Override
-  public void updateIcon(@Nonnull IconDescriptor iconDescriptor, @Nonnull PsiElement element, int flags) {
+  public void updateIcon(IconDescriptor iconDescriptor, PsiElement element, int flags) {
     if (element instanceof GoFile && element.isValid() && GoTestFinder.isTestFile((GoFile)element)) {
       iconDescriptor.setMainIcon(GoogleGoIconGroup.gotest());
       return;

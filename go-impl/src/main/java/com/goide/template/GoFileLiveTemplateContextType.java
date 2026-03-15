@@ -9,7 +9,6 @@ import consulo.language.psi.PsiElement;
 import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoFileLiveTemplateContextType extends GoLiveTemplateContextType {
@@ -19,7 +18,7 @@ public class GoFileLiveTemplateContextType extends GoLiveTemplateContextType {
   }
 
   @Override
-  protected boolean isInContext(@Nonnull PsiElement element) {
+  protected boolean isInContext(PsiElement element) {
     if (element instanceof PsiComment || element instanceof GoPackageClause) {
       return false;
     }

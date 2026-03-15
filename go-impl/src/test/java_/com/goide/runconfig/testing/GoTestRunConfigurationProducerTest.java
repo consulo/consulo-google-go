@@ -16,7 +16,6 @@
 
 package com.goide.runconfig.testing;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.runconfig.GoRunConfigurationTestCase;
 import com.goide.runconfig.testing.frameworks.gobench.GobenchFramework;
@@ -190,7 +189,6 @@ public abstract class GoTestRunConfigurationProducerTest extends GoRunConfigurat
     assertFalse(producer.isConfigurationFromContext(runConfiguration, configurationContext));
   }
 
-  @Nonnull
   private ConfigurationContext createConfigurationContext() {
     PsiElement at = myFixture.getFile().findElementAt(myFixture.getCaretOffset());
     assertNotNull(at);
@@ -198,7 +196,6 @@ public abstract class GoTestRunConfigurationProducerTest extends GoRunConfigurat
     return null;
   }
 
-  @Nonnull
   private GoTestRunConfiguration createPackageConfiguration(GoTestFramework framework, String pattern, String importPath) {
     GoTestRunConfigurationType configurationType = GoTestRunConfigurationType.getInstance();
     GoTestRunConfiguration runConfiguration = new GoTestRunConfiguration(myFixture.getProject(), "name", configurationType);
@@ -209,7 +206,6 @@ public abstract class GoTestRunConfigurationProducerTest extends GoRunConfigurat
     return runConfiguration;
   }
 
-  @Nonnull
   private GoTestRunConfiguration createFileConfiguration(GoTestFramework framework, String path) {
     GoTestRunConfigurationType configurationType = GoTestRunConfigurationType.getInstance();
     GoTestRunConfiguration runConfiguration = new GoTestRunConfiguration(myFixture.getProject(), "name", configurationType);
@@ -219,7 +215,6 @@ public abstract class GoTestRunConfigurationProducerTest extends GoRunConfigurat
     return runConfiguration;
   }
 
-  @Nonnull
   private GoTestRunConfiguration createDirectoryConfiguration(GoTestFramework framework, String path, String workingDirectoryPath) {
     GoTestRunConfigurationType configurationType = GoTestRunConfigurationType.getInstance();
     GoTestRunConfiguration runConfiguration = new GoTestRunConfiguration(myFixture.getProject(), "name", configurationType);

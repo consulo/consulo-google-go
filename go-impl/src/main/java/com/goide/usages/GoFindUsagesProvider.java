@@ -32,8 +32,7 @@ import consulo.language.psi.PsiElement;
 import consulo.usage.UsageViewLongNameLocation;
 import consulo.usage.UsageViewShortNameLocation;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoFindUsagesProvider implements FindUsagesProvider {
@@ -45,7 +44,7 @@ public class GoFindUsagesProvider implements FindUsagesProvider {
   }
 
   @Override
-  public boolean canFindUsagesFor(@Nonnull PsiElement element) {
+  public boolean canFindUsagesFor(PsiElement element) {
     if (element instanceof GoImportSpec) {
       GoImportSpec importSpec = (GoImportSpec)element;
       return importSpec.getAlias() != null && !importSpec.isDot() && !importSpec.isForSideEffects();
@@ -53,9 +52,8 @@ public class GoFindUsagesProvider implements FindUsagesProvider {
     return element instanceof GoNamedElement;
   }
 
-  @Nonnull
   @Override
-  public String getType(@Nonnull PsiElement element) {
+  public String getType(PsiElement element) {
     if (element instanceof GoMethodDeclaration) return "method";
     if (element instanceof GoFunctionDeclaration) return "function";
     if (element instanceof GoConstDefinition || element instanceof GoConstDeclaration) return "constant";
@@ -78,19 +76,16 @@ public class GoFindUsagesProvider implements FindUsagesProvider {
     return "";
   }
 
-  @Nonnull
   @Override
-  public String getDescriptiveName(@Nonnull PsiElement element) {
+  public String getDescriptiveName(PsiElement element) {
     return ElementDescriptionUtil.getElementDescription(element, UsageViewLongNameLocation.INSTANCE);
   }
 
-  @Nonnull
   @Override
-  public String getNodeText(@Nonnull PsiElement element, boolean useFullName) {
+  public String getNodeText(PsiElement element, boolean useFullName) {
     return ElementDescriptionUtil.getElementDescription(element, UsageViewShortNameLocation.INSTANCE);
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

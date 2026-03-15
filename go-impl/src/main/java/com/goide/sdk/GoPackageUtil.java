@@ -41,8 +41,7 @@ import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jetbrains.annotations.Contract;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -61,15 +60,13 @@ public class GoPackageUtil {
            && GoConstants.BUILTIN_PACKAGE_NAME.equals(GoSdkUtil.getImportPath((PsiDirectory)directory, false));
   }
 
-  @Nonnull
-  public static List<GoFile> getAllPackageFiles(@Nonnull GoFile file) {
+  public static List<GoFile> getAllPackageFiles(GoFile file) {
     String packageName = file.getPackageName();
     PsiDirectory parent = file.getParent();
     if (parent == null || StringUtil.isEmpty(packageName)) return ContainerUtil.list(file);
     return getAllPackageFiles(parent, packageName);
   }
   
-  @Nonnull
   public static List<GoFile> getAllPackageFiles(@Nullable PsiDirectory directory, @Nullable String packageName) {
     if (directory == null) {
       return Collections.emptyList();
@@ -84,19 +81,16 @@ public class GoPackageUtil {
     return files;
   }
 
-  @Nonnull
-  public static GlobalSearchScope packageScope(@Nonnull GoFile file) {
+  public static GlobalSearchScope packageScope(GoFile file) {
     List<GoFile> files = getAllPackageFiles(file);
     return GlobalSearchScope.filesWithLibrariesScope(file.getProject(), ContainerUtil.map(files, PsiFile::getVirtualFile));
   }
   
-  @Nonnull
-  public static GlobalSearchScope packageScope(@Nonnull PsiDirectory psiDirectory, @Nullable String packageName) {
+  public static GlobalSearchScope packageScope(PsiDirectory psiDirectory, @Nullable String packageName) {
     List<GoFile> files = getAllPackageFiles(psiDirectory, packageName);
     return GlobalSearchScope.filesWithLibrariesScope(psiDirectory.getProject(), ContainerUtil.map(files, PsiFile::getVirtualFile));
   }
 
-  @Nonnull
   public static Collection<String> getAllPackagesInDirectory(@Nullable PsiDirectory dir,
                                                              @Nullable Module contextModule,
                                                              boolean trimTestSuffices) {
@@ -116,8 +110,7 @@ public class GoPackageUtil {
     }, false);
   }
 
-  @Nonnull
-  private static Collection<String> getAllPackagesInDirectoryInner(@Nonnull PsiDirectory dir,
+  private static Collection<String> getAllPackagesInDirectoryInner(PsiDirectory dir,
                                                                    @Nullable Module contextModule,
                                                                    boolean trimTestSuffices) {
     Collection<String> set = new LinkedHashSet<>();
@@ -133,7 +126,7 @@ public class GoPackageUtil {
   }
 
   @Nullable
-  public static VirtualFile findByImportPath(@Nonnull String importPath, @Nonnull Project project, @Nullable Module module) {
+  public static VirtualFile findByImportPath(String importPath, Project project, @Nullable Module module) {
     if (importPath.isEmpty()) {
       return null;
     }

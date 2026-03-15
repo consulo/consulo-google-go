@@ -25,26 +25,25 @@ import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.lang.ObjectUtil;
 
-import jakarta.annotation.Nonnull;
 
 public class GoDeleteQuickFix extends LocalQuickFixBase {
   private final Class<? extends PsiElement> myClazz;
   private final IElementType myElementType;
 
-  public GoDeleteQuickFix(@Nonnull LocalizeValue name, @Nonnull Class<? extends PsiElement> clazz) {
+  public GoDeleteQuickFix(LocalizeValue name, Class<? extends PsiElement> clazz) {
     super(name);
     myClazz = clazz;
     myElementType = null;
   }
 
-  public GoDeleteQuickFix(@Nonnull LocalizeValue name, @Nonnull IElementType elementType) {
+  public GoDeleteQuickFix(LocalizeValue name, IElementType elementType) {
     super(name);
     myClazz = PsiElement.class;
     myElementType = elementType;
   }
 
   @Override
-  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+  public void applyFix(Project project, ProblemDescriptor descriptor) {
     WriteCommandAction.runWriteCommandAction(project, () -> {
       PsiElement element = ObjectUtil.tryCast(descriptor.getStartElement(), myClazz);
       if (element != null && (myElementType == null || element.getNode().getElementType() == myElementType)) {

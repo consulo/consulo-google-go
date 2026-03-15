@@ -32,7 +32,6 @@ import consulo.language.psi.PsiElement;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
 
 import static consulo.language.editor.inspection.ProblemHighlightType.GENERIC_ERROR_OR_WARNING;
 
@@ -40,12 +39,11 @@ import static consulo.language.editor.inspection.ProblemHighlightType.GENERIC_ER
 public class GoUsedAsValueInCondition extends GoInspectionBase {
   public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Convert to '==''");
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitAssignmentStatement(@Nonnull GoAssignmentStatement o) {
+      public void visitAssignmentStatement(GoAssignmentStatement o) {
         if (o.getParent() != null && o.getParent() instanceof GoIfStatement && ((GoIfStatement)o.getParent()).getExpression() == null) {
           String left = GoPsiImplUtil.joinPsiElementText(o.getLeftHandExprList().getExpressionList());
           String right = GoPsiImplUtil.joinPsiElementText(o.getExpressionList());
@@ -55,7 +53,7 @@ public class GoUsedAsValueInCondition extends GoInspectionBase {
       }
 
       @Override
-      public void visitShortVarDeclaration(@Nonnull GoShortVarDeclaration o) {
+      public void visitShortVarDeclaration(GoShortVarDeclaration o) {
         PsiElement parent = o.getParent();
         if (parent != null) {
           PsiElement gradParent = parent.getParent();
@@ -70,19 +68,16 @@ public class GoUsedAsValueInCondition extends GoInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Control flow issues");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Used as value in condition");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.ERROR;
@@ -94,7 +89,7 @@ public class GoUsedAsValueInCondition extends GoInspectionBase {
     }
 
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (element instanceof GoAssignmentStatement) {
         String left = GoPsiImplUtil.joinPsiElementText(((GoAssignmentStatement)element).getLeftHandExprList().getExpressionList());

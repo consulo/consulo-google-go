@@ -16,14 +16,12 @@
 
 package com.goide.marker;
 
-import jakarta.annotation.Nonnull;
 import com.goide.GoCodeInsightFixtureTestCase;
 
 public abstract class GoRecursiveMethodCallMarkerInfoTest extends GoCodeInsightFixtureTestCase {
   public void testRecursive() { doTest(); }
   public void testGo()        { doTest(); }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "marker";

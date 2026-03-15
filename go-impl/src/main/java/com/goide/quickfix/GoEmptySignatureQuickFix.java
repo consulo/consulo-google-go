@@ -26,30 +26,27 @@ import consulo.language.psi.PsiFile;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.lang.ObjectUtil;
-import org.jetbrains.annotations.Nls;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoEmptySignatureQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
   public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Fix signature");
 
-  public GoEmptySignatureQuickFix(@Nonnull GoFunctionDeclaration functionDeclaration) {
+  public GoEmptySignatureQuickFix(GoFunctionDeclaration functionDeclaration) {
     super(functionDeclaration);
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getText() {
     return QUICK_FIX_NAME;
   }
 
   @Override
-  public void invoke(@Nonnull Project project,
-                     @Nonnull PsiFile file,
+  public void invoke(Project project,
+                     PsiFile file,
                      @Nullable Editor editor,
-                     @Nonnull PsiElement startElement,
-                     @Nonnull PsiElement endElement) {
+                     PsiElement startElement,
+                     PsiElement endElement) {
     GoFunctionDeclaration function = ObjectUtil.tryCast(startElement, GoFunctionDeclaration.class);
     GoSignature signature = function != null ? function.getSignature() : null;
     if (signature == null) return;

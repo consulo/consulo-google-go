@@ -18,7 +18,6 @@ package com.goide;
 
 import consulo.project.ui.notification.NotificationGroup;
 import consulo.project.ui.wm.ToolWindowId;
-import org.jetbrains.annotations.NonNls;
 
 import java.util.Set;
 
@@ -50,22 +49,22 @@ public class GoConstants {
   public static final NotificationGroup GO_NOTIFICATION_GROUP = NotificationGroup.balloonGroup("Go plugin notifications");
   public static final NotificationGroup GO_EXECUTION_NOTIFICATION_GROUP = NotificationGroup.toolWindowGroup("Go Execution", ToolWindowId.RUN);
 
-  @NonNls public static final String LIB_EXEC_DIRECTORY = "libexec";
-  @NonNls public static final String GO_VERSION_FILE_PATH = "runtime/zversion.go";
-  @NonNls public static final String GO_VERSION_NEW_FILE_PATH = "runtime/internal/sys/zversion.go";
+  public static final String LIB_EXEC_DIRECTORY = "libexec";
+  public static final String GO_VERSION_FILE_PATH = "runtime/zversion.go";
+  public static final String GO_VERSION_NEW_FILE_PATH = "runtime/internal/sys/zversion.go";
   public static final String BUILTIN_FILE_NAME = "builtin.go";
   public static final String BUILTIN_PACKAGE_NAME = "builtin";
   public static final String BUILTIN_FILE_PATH = BUILTIN_PACKAGE_NAME + "/" + BUILTIN_FILE_NAME;
 
-  @NonNls public static final String APP_ENGINE_MARKER_FILE = "appcfg.py";
-  @NonNls public static final String APP_ENGINE_GO_ROOT_DIRECTORY_PATH = "/goroot";
-  @NonNls public static final String GCLOUD_APP_ENGINE_DIRECTORY_PATH = "/platform/google_appengine";
-  @NonNls public static final String GAE_EXECUTABLE_NAME = "goapp";
-  @NonNls public static final String GAE_BAT_EXECUTABLE_NAME = "goapp.bat";
-  @NonNls public static final String GAE_CMD_EXECUTABLE_NAME = "goapp.cmd";
-  @NonNls public static final String DELVE_EXECUTABLE_NAME = "dlv";
+  public static final String APP_ENGINE_MARKER_FILE = "appcfg.py";
+  public static final String APP_ENGINE_GO_ROOT_DIRECTORY_PATH = "/goroot";
+  public static final String GCLOUD_APP_ENGINE_DIRECTORY_PATH = "/platform/google_appengine";
+  public static final String GAE_EXECUTABLE_NAME = "goapp";
+  public static final String GAE_BAT_EXECUTABLE_NAME = "goapp.bat";
+  public static final String GAE_CMD_EXECUTABLE_NAME = "goapp.cmd";
+  public static final String DELVE_EXECUTABLE_NAME = "dlv";
 
-  @NonNls public static final String GO_EXECUTABLE_NAME = "go";
+  public static final String GO_EXECUTABLE_NAME = "go";
   public static final String BUILD_FLAG = "+build";
 
   public static final String LINUX_OS = "linux";

@@ -40,8 +40,7 @@ import consulo.virtualFileSystem.VirtualFileManager;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
 import jakarta.inject.Inject;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -54,7 +53,6 @@ public class GoConsoleFilter implements Filter {
   private static final Pattern APP_ENGINE_PATH_PATTERN = Pattern.compile("/tmp[A-z0-9]+appengine-go-bin/");
   private static final Pattern GO_FILE_PATTERN = Pattern.compile("\\((\\w+\\.go)\\)");
 
-  @Nonnull
   private final Project myProject;
   @Nullable
   private final Module myModule;
@@ -62,18 +60,18 @@ public class GoConsoleFilter implements Filter {
   private final String myWorkingDirectoryUrl;
 
   @Inject
-  public GoConsoleFilter(@Nonnull Project project) {
+  public GoConsoleFilter(Project project) {
     this(project, null, null);
   }
 
-  public GoConsoleFilter(@Nonnull Project project, @Nullable Module module, @Nullable String workingDirectoryUrl) {
+  public GoConsoleFilter(Project project, @Nullable Module module, @Nullable String workingDirectoryUrl) {
     myProject = project;
     myModule = module;
     myWorkingDirectoryUrl = ObjectUtil.chooseNotNull(workingDirectoryUrl, VirtualFileUtil.pathToUrl(System.getProperty("user.dir")));
   }
 
   @Override
-  public Result applyFilter(@Nonnull String line, int entireLength) {
+  public Result applyFilter(String line, int entireLength) {
     Matcher goGetMatcher = GO_GET_MESSAGE_PATTERN.matcher(line);
     if (goGetMatcher.find() && myModule != null) {
       String packageName = goGetMatcher.group(2).trim();
@@ -150,21 +148,20 @@ public class GoConsoleFilter implements Filter {
     return createResult(line, entireLength, startOffset, endOffset, lineNumber, columnNumber, virtualFile);
   }
 
-  @Nonnull
-  private Result createResult(@Nonnull String line,
+  private Result createResult(String line,
                               int entireLength,
                               int startOffset,
                               int endOffset,
                               int lineNumber,
                               int columnNumber,
-                              @Nonnull VirtualFile virtualFile) {
+                              VirtualFile virtualFile) {
     HyperlinkInfo hyperlinkInfo = new OpenFileHyperlinkInfo(myProject, virtualFile, lineNumber, columnNumber);
     int lineStart = entireLength - line.length();
     return new Result(lineStart + startOffset, lineStart + endOffset, hyperlinkInfo);
   }
 
   @Nullable
-  private VirtualFile findSingleFile(@Nonnull String fileName) {
+  private VirtualFile findSingleFile(String fileName) {
     if (PathUtil.isValidFileName(fileName)) {
       Collection<VirtualFile> files = FilenameIndex.getVirtualFilesByName(myProject, fileName, GlobalSearchScope.allScope(myProject));
       if (files.size() == 1) {
@@ -189,7 +186,7 @@ public class GoConsoleFilter implements Filter {
   }
 
   @Nullable
-  private VirtualFile findInGoPath(@Nonnull String fileName) {
+  private VirtualFile findInGoPath(String fileName) {
     return GoPackageUtil.findByImportPath(fileName, myProject, myModule);
   }
 
@@ -197,12 +194,11 @@ public class GoConsoleFilter implements Filter {
     private final String myPackageName;
     private final Module myModule;
 
-    public GoGetHyperlinkInfo(@Nonnull String packageName, @Nonnull Module module) {
+    public GoGetHyperlinkInfo(String packageName, Module module) {
       myPackageName = packageName;
       myModule = module;
     }
 
-    @Nonnull
     public String getPackageName() {
       return myPackageName;
     }

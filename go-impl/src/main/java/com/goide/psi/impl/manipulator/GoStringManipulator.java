@@ -22,20 +22,18 @@ import consulo.document.util.TextRange;
 import consulo.language.psi.AbstractElementManipulator;
 import consulo.language.util.IncorrectOperationException;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoStringManipulator extends AbstractElementManipulator<GoStringLiteralImpl> {
   @Override
-  public GoStringLiteralImpl handleContentChange(@Nonnull GoStringLiteralImpl literal, @Nonnull TextRange range, String newContent)
+  public GoStringLiteralImpl handleContentChange(GoStringLiteralImpl literal, TextRange range, String newContent)
     throws IncorrectOperationException {
     String newText = range.replace(literal.getText(), newContent);
     return literal.updateText(newText);
   }
 
-  @Nonnull
   @Override
-  public TextRange getRangeInElement(@Nonnull GoStringLiteralImpl element) {
+  public TextRange getRangeInElement(GoStringLiteralImpl element) {
     if (element.getTextLength() == 0) {
       return TextRange.EMPTY_RANGE;
     }
@@ -55,7 +53,6 @@ public class GoStringManipulator extends AbstractElementManipulator<GoStringLite
     return TextRange.create(startOffset, endOffset);
   }
 
-  @Nonnull
   @Override
   public Class<GoStringLiteralImpl> getElementClass() {
     return GoStringLiteralImpl.class;

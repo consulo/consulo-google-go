@@ -28,16 +28,14 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoAssignmentToConstantInspection extends GoGeneralInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitReferenceExpression(@Nonnull GoReferenceExpression o) {
+      public void visitReferenceExpression(GoReferenceExpression o) {
         super.visitReferenceExpression(o);
         if (o.getReadWriteAccess() != ReadWriteAccessDetector.Access.Read) {
           PsiElement resolve = o.resolve();
@@ -49,7 +47,6 @@ public class GoAssignmentToConstantInspection extends GoGeneralInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Assignment to constant");

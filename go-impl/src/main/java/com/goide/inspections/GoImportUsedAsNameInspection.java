@@ -29,41 +29,39 @@ import consulo.localize.LocalizeValue;
 import consulo.usage.UsageViewTypeLocation;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoImportUsedAsNameInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitTypeSpec(@Nonnull GoTypeSpec o) {
+      public void visitTypeSpec(GoTypeSpec o) {
         super.visitTypeSpec(o);
         check(o, holder);
       }
 
       @Override
-      public void visitConstDefinition(@Nonnull GoConstDefinition o) {
+      public void visitConstDefinition(GoConstDefinition o) {
         super.visitConstDefinition(o);
         check(o, holder);
       }
 
       @Override
-      public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration o) {
+      public void visitFunctionDeclaration(GoFunctionDeclaration o) {
         super.visitFunctionDeclaration(o);
         check(o, holder);
       }
 
       @Override
-      public void visitVarDefinition(@Nonnull GoVarDefinition o) {
+      public void visitVarDefinition(GoVarDefinition o) {
         super.visitVarDefinition(o);
         check(o, holder);
       }
     };
   }
 
-  private static void check(@Nonnull GoNamedElement element, @Nonnull ProblemsHolder holder) {
+  private static void check(GoNamedElement element, ProblemsHolder holder) {
     String name = element.getName();
     if (StringUtil.isNotEmpty(name) &&
         !"_".equals(name) &&
@@ -72,7 +70,7 @@ public class GoImportUsedAsNameInspection extends GoInspectionBase {
     }
   }
 
-  private static void registerProblem(@Nonnull ProblemsHolder holder, @Nonnull GoNamedElement element) {
+  private static void registerProblem(ProblemsHolder holder, GoNamedElement element) {
     PsiElement identifier = element.getIdentifier();
     if (identifier != null) {
       String elementDescription = ElementDescriptionUtil.getElementDescription(element, UsageViewTypeLocation.INSTANCE);
@@ -81,19 +79,16 @@ public class GoImportUsedAsNameInspection extends GoInspectionBase {
     }
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Probable bugs");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Imported package name as name identifier");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WARNING;

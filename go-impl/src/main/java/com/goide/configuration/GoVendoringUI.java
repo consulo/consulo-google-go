@@ -26,7 +26,6 @@ import consulo.ui.ex.awt.MutableCollectionComboBoxModel;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.ThreeState;
 
-import jakarta.annotation.Nonnull;
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -34,9 +33,7 @@ public class GoVendoringUI {
   private static final String ENABLED = "Enabled";
   private static final String DISABLED = "Disabled";
 
-  @Nonnull
   private final MutableCollectionComboBoxModel myVendoringEnabledComboModel = new MutableCollectionComboBoxModel<String>(new ArrayList<>());
-  @Nonnull
   private String myDefaultComboText = "";
 
   private JPanel myPanel;

@@ -32,44 +32,42 @@ import consulo.localize.LocalizeValue;
 import consulo.usage.UsageViewTypeLocation;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoReservedWordUsedAsNameInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     GoFile builtinFile = GoSdkUtil.findBuiltinFile(session.getFile());
     if (builtinFile == null) return DUMMY_VISITOR;
 
     return new GoVisitor() {
       @Override
-      public void visitTypeSpec(@Nonnull GoTypeSpec o) {
+      public void visitTypeSpec(GoTypeSpec o) {
         super.visitTypeSpec(o);
         check(o, builtinFile, holder);
       }
 
       @Override
-      public void visitConstDefinition(@Nonnull GoConstDefinition o) {
+      public void visitConstDefinition(GoConstDefinition o) {
         super.visitConstDefinition(o);
         check(o, builtinFile, holder);
       }
 
       @Override
-      public void visitFunctionOrMethodDeclaration(@Nonnull GoFunctionOrMethodDeclaration o) {
+      public void visitFunctionOrMethodDeclaration(GoFunctionOrMethodDeclaration o) {
         super.visitFunctionOrMethodDeclaration(o);
         check(o, builtinFile, holder);
       }
 
       @Override
-      public void visitVarDefinition(@Nonnull GoVarDefinition o) {
+      public void visitVarDefinition(GoVarDefinition o) {
         super.visitVarDefinition(o);
         check(o, builtinFile, holder);
       }
     };
   }
 
-  private static void check(@Nonnull GoNamedElement element, @Nonnull GoFile builtinFile, @Nonnull ProblemsHolder holder) {
+  private static void check(GoNamedElement element, GoFile builtinFile, ProblemsHolder holder) {
     String name = element.getName();
     if (name == null || GoTypeReference.DOC_ONLY_TYPES.contains(name)) return;
 
@@ -90,9 +88,9 @@ public class GoReservedWordUsedAsNameInspection extends GoInspectionBase {
     }
   }
 
-  private static void registerProblem(@Nonnull ProblemsHolder holder,
-                                      @Nonnull GoNamedElement element,
-                                      @Nonnull GoNamedElement builtinElement) {
+  private static void registerProblem(ProblemsHolder holder,
+                                      GoNamedElement element,
+                                      GoNamedElement builtinElement) {
     PsiElement identifier = element.getIdentifier();
     if (identifier == null) return;
 
@@ -102,19 +100,16 @@ public class GoReservedWordUsedAsNameInspection extends GoInspectionBase {
     holder.registerProblem(identifier, message, ProblemHighlightType.GENERIC_ERROR_OR_WARNING, new GoRenameQuickFix(element));
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Probable bugs");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Reserved word used as name");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WARNING;

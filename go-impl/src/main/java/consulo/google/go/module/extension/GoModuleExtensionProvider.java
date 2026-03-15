@@ -9,7 +9,6 @@ import consulo.module.extension.ModuleExtension;
 import consulo.module.extension.MutableModuleExtension;
 import consulo.ui.image.Image;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -17,33 +16,28 @@ import jakarta.annotation.Nonnull;
  */
 @ExtensionImpl
 public class GoModuleExtensionProvider implements ModuleExtensionProvider<GoModuleExtension> {
-  @Nonnull
   @Override
   public String getId() {
     return "google-go";
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getName() {
     return LocalizeValue.localizeTODO("Go");
   }
 
-  @Nonnull
   @Override
   public Image getIcon() {
     return GoogleGoIconGroup.go();
   }
 
-  @Nonnull
   @Override
-  public ModuleExtension<GoModuleExtension> createImmutableExtension(@Nonnull ModuleRootLayer moduleRootLayer) {
+  public ModuleExtension<GoModuleExtension> createImmutableExtension(ModuleRootLayer moduleRootLayer) {
     return new GoModuleExtension(getId(), moduleRootLayer);
   }
 
-  @Nonnull
   @Override
-  public MutableModuleExtension<GoModuleExtension> createMutableExtension(@Nonnull ModuleRootLayer moduleRootLayer) {
+  public MutableModuleExtension<GoModuleExtension> createMutableExtension(ModuleRootLayer moduleRootLayer) {
     return new GoMutableModuleExtension(getId(), moduleRootLayer);
   }
 }

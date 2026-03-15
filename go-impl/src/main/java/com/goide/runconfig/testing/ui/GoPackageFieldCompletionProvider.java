@@ -23,22 +23,20 @@ import consulo.language.editor.ui.awt.TextFieldCompletionProvider;
 import consulo.language.psi.scope.GlobalSearchScope;
 import consulo.module.Module;
 
-import jakarta.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public class GoPackageFieldCompletionProvider extends TextFieldCompletionProvider {
-  @Nonnull
   private final Supplier<Module> myModuleProducer;
 
-  public GoPackageFieldCompletionProvider(@Nonnull Supplier<Module> moduleProducer) {
+  public GoPackageFieldCompletionProvider(Supplier<Module> moduleProducer) {
     myModuleProducer = moduleProducer;
   }
 
   @Override
-  public void addCompletionVariants(@Nonnull String text,
+  public void addCompletionVariants(String text,
                                        int offset,
-                                       @Nonnull String prefix,
-                                       @Nonnull CompletionResultSet result) {
+                                       String prefix,
+                                       CompletionResultSet result) {
     Module module = myModuleProducer.get();
     if (module != null) {
       GlobalSearchScope scope = GoUtil.moduleScopeWithoutLibraries(module.getProject(), module);

@@ -31,23 +31,21 @@ import consulo.language.psi.PsiReference;
 import consulo.language.psi.search.ReferencesSearch;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @ExtensionImpl
 public class GoUnusedParameterInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitMethodDeclaration(@Nonnull GoMethodDeclaration o) {
+      public void visitMethodDeclaration(GoMethodDeclaration o) {
         super.visitMethodDeclaration(o);
         visitDeclaration(o, false);
       }
 
       @Override
-      public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration o) {
+      public void visitFunctionDeclaration(GoFunctionDeclaration o) {
         super.visitFunctionDeclaration(o);
         if (GoTestFinder.isTestFile(o.getContainingFile()) && GoTestFunctionType.fromName(o.getName()) != null) {
           return;
@@ -55,7 +53,7 @@ public class GoUnusedParameterInspection extends GoInspectionBase {
         visitDeclaration(o, true);
       }
 
-      private void visitDeclaration(@Nonnull GoFunctionOrMethodDeclaration o, boolean checkParameters) {
+      private void visitDeclaration(GoFunctionOrMethodDeclaration o, boolean checkParameters) {
         GoSignature signature = o.getSignature();
         if (signature == null) return;
         if (checkParameters) {
@@ -86,19 +84,16 @@ public class GoUnusedParameterInspection extends GoInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Unused parameter inspection");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WARNING;

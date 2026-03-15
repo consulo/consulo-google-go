@@ -18,7 +18,7 @@ package com.goide.runconfig;
 
 import java.util.List;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import org.jdom.Element;
 import com.goide.GoCodeInsightFixtureTestCase;

@@ -47,7 +47,6 @@ import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Set;
 
@@ -56,7 +55,7 @@ public class GoInvalidPackageImportInspection extends GoGeneralInspectionBase {
   public static final LocalizeValue DELETE_ALIAS_QUICK_FIX_NAME = LocalizeValue.localizeTODO("Delete alias");
 
   @Override
-  protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
+  protected void checkFile(GoFile file, ProblemsHolder problemsHolder) {
     Module module = ModuleUtilCore.findModuleForPsiElement(file);
     VirtualFile sdkHome = GoSdkUtil.getSdkSrcDir(file.getProject(), module);
     boolean supportsVendoring = GoVendoringUtil.isVendoringEnabled(module);
@@ -154,7 +153,6 @@ public class GoInvalidPackageImportInspection extends GoGeneralInspectionBase {
     }
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Invalid package import");
@@ -166,7 +164,7 @@ public class GoInvalidPackageImportInspection extends GoGeneralInspectionBase {
     }
 
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       GoImportSpec element = ObjectUtil.tryCast(descriptor.getPsiElement(), GoImportSpec.class);
       if (element != null) {
         WriteCommandAction.runWriteCommandAction(project, () -> {
@@ -186,16 +184,15 @@ public class GoInvalidPackageImportInspection extends GoGeneralInspectionBase {
   }
 
   private static class GoReplaceImportPath extends LocalQuickFixBase implements HighPriorityAction {
-    @Nonnull
     private final String myNewImportPath;
 
-    protected GoReplaceImportPath(@Nonnull String newImportPath) {
+    protected GoReplaceImportPath(String newImportPath) {
       super(LocalizeValue.localizeTODO("Replace with '" + newImportPath + "'"));
       myNewImportPath = newImportPath;
     }
 
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       GoImportSpec element = ObjectUtil.tryCast(descriptor.getPsiElement(), GoImportSpec.class);
       if (element != null) {
         ElementManipulators.handleContentChange(element.getImportString(), myNewImportPath);

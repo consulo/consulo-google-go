@@ -30,13 +30,11 @@ import consulo.ui.ex.awt.*;
 import consulo.util.lang.StringUtil;
 import org.intellij.lang.regexp.RegExpLanguage;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import javax.swing.*;
 import java.util.Locale;
 
 public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunConfiguration> {
-  @Nonnull
   private final Project myProject;
   private EditorTextField myPatternEditor;
 
@@ -53,7 +51,7 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
   private JRadioButton myGocheckFrameworkRadioButton;
   private JRadioButton myGobenchRadioButton;
 
-  public GoTestRunConfigurationEditorForm(@Nonnull Project project) {
+  public GoTestRunConfigurationEditorForm(Project project) {
     super(null);
     myProject = project;
     myCommonSettingsPanel = new GoCommonSettingsPanel() {
@@ -106,7 +104,7 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
   }
 
   @Override
-  protected void resetEditorFrom(@Nonnull GoTestRunConfiguration configuration) {
+  protected void resetEditorFrom(GoTestRunConfiguration configuration) {
     myGotestFrameworkRadioButton.setSelected(configuration.getTestFramework() == GotestFramework.INSTANCE);
     myGocheckFrameworkRadioButton.setSelected(configuration.getTestFramework() == GocheckFramework.INSTANCE);
     myGobenchRadioButton.setSelected(configuration.getTestFramework() == GobenchFramework.INSTANCE);
@@ -125,7 +123,7 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
   }
 
   @Override
-  protected void applyEditorTo(@Nonnull GoTestRunConfiguration configuration) throws ConfigurationException {
+  protected void applyEditorTo(GoTestRunConfiguration configuration) throws ConfigurationException {
     if (myGocheckFrameworkRadioButton.isSelected()) {
       configuration.setTestFramework(GocheckFramework.INSTANCE);
     } else if (myGobenchRadioButton.isSelected()) {
@@ -142,7 +140,6 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
     myCommonSettingsPanel.applyEditorTo(configuration);
   }
 
-  @Nonnull
   @Override
   protected JComponent createEditor() {
     return myCommonSettingsPanel;
@@ -156,7 +153,7 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
   private static ListCellRendererWrapper<GoTestRunConfiguration.Kind> getTestKindListCellRendererWrapper() {
     return new ListCellRendererWrapper<GoTestRunConfiguration.Kind>() {
       @Override
-      public void customize(JList list, @Nullable GoTestRunConfiguration.Kind kind, int index, boolean selected, boolean hasFocus) {
+      public void customize(JList list, GoTestRunConfiguration.@Nullable Kind kind, int index, boolean selected, boolean hasFocus) {
         if (kind != null) {
           String kindName = StringUtil.capitalize(kind.toString().toLowerCase(Locale.US));
           setText(kindName);
@@ -165,7 +162,7 @@ public class GoTestRunConfigurationEditorForm extends SettingsEditor<GoTestRunCo
     };
   }
 
-  private void installFileChoosers(@Nonnull Project project) {
+  private void installFileChoosers(Project project) {
     GoRunUtil.installFileChooser(project, myFileField, false);
     GoRunUtil.installFileChooser(project, myDirectoryField, true);
   }

@@ -34,22 +34,19 @@ import consulo.util.io.PathUtil;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.util.UUID;
 
 public class GoRunFileConfiguration extends GoRunConfigurationWithMain<GoRunFileRunningState> {
-  public GoRunFileConfiguration(Project project, String name, @Nonnull ConfigurationType configurationType) {
+  public GoRunFileConfiguration(Project project, String name, ConfigurationType configurationType) {
     super(name, new GoModuleBasedConfiguration(project), configurationType.getConfigurationFactories()[0]);
   }
 
-  @Nonnull
   @Override
   protected ModuleBasedConfiguration createInstance() {
     return new GoRunFileConfiguration(getProject(), getName(), GoRunFileConfigurationType.getInstance());
   }
 
-  @Nonnull
   @Override
   public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
     return new GoRunFileConfigurationEditorForm(getProject());
@@ -61,9 +58,8 @@ public class GoRunFileConfiguration extends GoRunConfigurationWithMain<GoRunFile
     super.checkFileConfiguration();
   }
 
-  @Nonnull
   @Override
-  protected GoRunFileRunningState newRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module) {
+  protected GoRunFileRunningState newRunningState(ExecutionEnvironment env, Module module) {
     String path = getFilePath();
     if (!"go".equals(PathUtil.getFileExtension(path))) {
       VirtualFile f = LocalFileSystem.getInstance().refreshAndFindFileByPath(path);

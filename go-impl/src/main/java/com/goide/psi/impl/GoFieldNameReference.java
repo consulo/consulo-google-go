@@ -24,19 +24,18 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.language.util.ModuleUtilCore;
 import consulo.module.Module;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoFieldNameReference extends GoCachedReference<GoReferenceExpressionBase> {
-  public GoFieldNameReference(@Nonnull GoReferenceExpressionBase element) {
+  public GoFieldNameReference(GoReferenceExpressionBase element) {
     super(element);
   }
 
   @Override
-  public boolean processResolveVariants(@Nonnull GoScopeProcessor processor) {
+  public boolean processResolveVariants(GoScopeProcessor processor) {
     GoScopeProcessor fieldProcessor = processor instanceof GoFieldProcessor ? processor : new GoFieldProcessor(myElement) {
       @Override
-      public boolean execute(@Nonnull PsiElement e, @Nonnull ResolveState state) {
+      public boolean execute(PsiElement e, ResolveState state) {
         return super.execute(e, state) && processor.execute(e, state);
       }
     };
@@ -49,7 +48,7 @@ public class GoFieldNameReference extends GoCachedReference<GoReferenceExpressio
     return !(type instanceof GoPointerType && !processStructType(fieldProcessor, ((GoPointerType)type).getType()));
   }
 
-  private boolean processStructType(@Nonnull GoScopeProcessor fieldProcessor, @Nullable GoType type) {
+  private boolean processStructType(GoScopeProcessor fieldProcessor, @Nullable GoType type) {
     return !(type instanceof GoStructType && !type.processDeclarations(fieldProcessor, ResolveState.initial(), null, myElement));
   }
 
@@ -68,14 +67,14 @@ public class GoFieldNameReference extends GoCachedReference<GoReferenceExpressio
   private static class GoFieldProcessor extends GoScopeProcessorBase {
     private final Module myModule;
 
-    public GoFieldProcessor(@Nonnull PsiElement element) {
+    public GoFieldProcessor(PsiElement element) {
       super(element);
       PsiFile containingFile = myOrigin.getContainingFile();
       myModule = containingFile != null ? ModuleUtilCore.findModuleForPsiElement(containingFile.getOriginalFile()) : null;
     }
 
     @Override
-    protected boolean crossOff(@Nonnull PsiElement e) {
+    protected boolean crossOff(PsiElement e) {
       if (!(e instanceof GoFieldDefinition) && !(e instanceof GoAnonymousFieldDefinition)) return true;
       GoNamedElement named = (GoNamedElement)e;
       PsiFile myFile = myOrigin.getContainingFile();

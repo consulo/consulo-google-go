@@ -26,19 +26,17 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 import java.util.Set;
 
 @ExtensionImpl
 public class GoReceiverNamesInspection extends GoInspectionBase {
   private static final Set<String> genericNamesSet = Set.of("me", "this", "self");
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitReceiver(@Nonnull GoReceiver o) {
+      public void visitReceiver(GoReceiver o) {
         if (genericNamesSet.contains(o.getName())) {
           PsiElement identifier = o.getIdentifier();
           if (identifier == null) return;
@@ -48,19 +46,16 @@ public class GoReceiverNamesInspection extends GoInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Code style issues");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Receiver has generic name");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WEAK_WARNING;

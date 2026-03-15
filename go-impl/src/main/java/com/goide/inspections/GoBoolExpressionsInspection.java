@@ -29,25 +29,23 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @ExtensionImpl
 public class GoBoolExpressionsInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitAndExpr(@Nonnull GoAndExpr o) {
+      public void visitAndExpr(GoAndExpr o) {
         visitExpr(o, true);
       }
 
       @Override
-      public void visitOrExpr(@Nonnull GoOrExpr o) {
+      public void visitOrExpr(GoOrExpr o) {
         visitExpr(o, false);
       }
 
@@ -81,7 +79,7 @@ public class GoBoolExpressionsInspection extends GoInspectionBase {
     };
   }
 
-  private static void registerProblem(@Nonnull GoBinaryExpr o, @Nonnull ProblemsHolder holder) {
+  private static void registerProblem(GoBinaryExpr o, ProblemsHolder holder) {
     holder.registerProblem(o, "Simplify", new GoSimplifyBoolExprQuickFix(o));
   }
 
@@ -91,7 +89,6 @@ public class GoBoolExpressionsInspection extends GoInspectionBase {
            GoExpressionUtil.identical(((GoUnaryExpr)not).getExpression(), expr);
   }
 
-  @Nonnull
   public static List<GoExpression> collect(GoBinaryExpr o, boolean and) {
     List<GoExpression> result = new ArrayList<>();
     result.addAll(processExpr(o.getLeft(), and));
@@ -99,7 +96,6 @@ public class GoBoolExpressionsInspection extends GoInspectionBase {
     return result;
   }
 
-  @Nonnull
   private static List<GoExpression> processExpr(@Nullable GoExpression e, boolean and) {
     if (e == null) return List.of();
     if (isSameOp(e, and)) {
@@ -115,19 +111,16 @@ public class GoBoolExpressionsInspection extends GoInspectionBase {
     return and ? expr instanceof GoAndExpr : expr instanceof GoOrExpr;
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Bool condition inspection");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WARNING;

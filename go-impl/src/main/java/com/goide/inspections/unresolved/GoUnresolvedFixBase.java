@@ -30,37 +30,32 @@ import consulo.language.util.AttachmentFactoryUtil;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Map;
 
 public abstract class GoUnresolvedFixBase extends LocalQuickFixAndIntentionActionOnPsiElement {
-  @Nonnull
   private final String myName;
-  @Nonnull
   private final String myWhat;
-  @Nonnull
   private final String myTemplateId;
 
-  public GoUnresolvedFixBase(@Nonnull PsiElement element, @Nonnull String name, @Nonnull String what, @Nonnull String templateId) {
+  public GoUnresolvedFixBase(PsiElement element, String name, String what, String templateId) {
     super(element);
     myName = name;
     myWhat = what;
     myTemplateId = templateId;
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getText() {
     return LocalizeValue.localizeTODO("Create " + myWhat + " '" + myName + "'");
   }
 
   @Override
-  public void invoke(@Nonnull Project project,
-                     @Nonnull PsiFile file,
+  public void invoke(Project project,
+                     PsiFile file,
                      @Nullable Editor editor,
-                     @Nonnull PsiElement startElement,
-                     @Nonnull PsiElement endElement) {
+                     PsiElement startElement,
+                     PsiElement endElement) {
     if (editor == null) {
       LOG.error("Cannot run quick fix without editor: " + getClass().getSimpleName(),
           AttachmentFactoryUtil.createAttachment(file.getVirtualFile()));
@@ -86,7 +81,7 @@ public abstract class GoUnresolvedFixBase extends LocalQuickFixAndIntentionActio
   }
 
   @Nullable
-  protected PsiElement findAnchor(@Nonnull PsiElement reference) {
+  protected PsiElement findAnchor(PsiElement reference) {
     PsiFile file = reference.getContainingFile();
     return GoRefactoringUtil.findAnchor(GoRefactoringUtil.getOccurrences(reference, file), file);
   }

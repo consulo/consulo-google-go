@@ -33,8 +33,7 @@ import consulo.util.lang.Comparing;
 import consulo.util.lang.EmptyRunnable;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.*;
 
 @ExtensionImpl
@@ -44,9 +43,8 @@ public class GoImportOptimizer implements ImportOptimizer {
     return file instanceof GoFile;
   }
 
-  @Nonnull
   @Override
-  public Runnable processFile(@Nonnull PsiFile file) {
+  public Runnable processFile(PsiFile file) {
     if (!(file instanceof GoFile)) {
       return EmptyRunnable.getInstance();
     }
@@ -102,8 +100,7 @@ public class GoImportOptimizer implements ImportOptimizer {
     };
   }
 
-  @Nonnull
-  public static Set<PsiElement> findRedundantImportIdentifiers(@Nonnull MultiMap<String, GoImportSpec> importMap) {
+  public static Set<PsiElement> findRedundantImportIdentifiers(MultiMap<String, GoImportSpec> importMap) {
     Set<PsiElement> importIdentifiersToDelete = new LinkedHashSet<>();
     for (PsiElement importEntry : importMap.values()) {
       GoImportSpec importSpec = getImportSpec(importEntry);
@@ -119,8 +116,8 @@ public class GoImportOptimizer implements ImportOptimizer {
     return importIdentifiersToDelete;
   }
 
-  public static MultiMap<String, GoImportSpec> filterUnusedImports(@Nonnull PsiFile file,
-                                                                   @Nonnull MultiMap<String, GoImportSpec> importMap) {
+  public static MultiMap<String, GoImportSpec> filterUnusedImports(PsiFile file,
+                                                                   MultiMap<String, GoImportSpec> importMap) {
     MultiMap<String, GoImportSpec> result = MultiMap.create();
     result.putAllValues(importMap);
     result.remove("_"); // imports for side effects are always used
@@ -135,7 +132,7 @@ public class GoImportOptimizer implements ImportOptimizer {
     
     file.accept(new GoRecursiveVisitor() {
       @Override
-      public void visitTypeReferenceExpression(@Nonnull GoTypeReferenceExpression o) {
+      public void visitTypeReferenceExpression(GoTypeReferenceExpression o) {
         GoTypeReferenceExpression lastQualifier = o.getQualifier();
         if (lastQualifier != null) {
           GoTypeReferenceExpression previousQualifier;
@@ -147,7 +144,7 @@ public class GoImportOptimizer implements ImportOptimizer {
       }
 
       @Override
-      public void visitReferenceExpression(@Nonnull GoReferenceExpression o) {
+      public void visitReferenceExpression(GoReferenceExpression o) {
         GoReferenceExpression lastQualifier = o.getQualifier();
         if (lastQualifier != null) {
           GoReferenceExpression previousQualifier;
@@ -158,7 +155,7 @@ public class GoImportOptimizer implements ImportOptimizer {
         }
       }
 
-      private void markAsUsed(@Nonnull PsiElement qualifier, @Nonnull PsiReference reference) {
+      private void markAsUsed(PsiElement qualifier, PsiReference reference) {
         String qualifierText = qualifier.getText();
         if (!result.containsKey(qualifierText)) {
           // already marked
@@ -186,7 +183,7 @@ public class GoImportOptimizer implements ImportOptimizer {
     return result;
   }
 
-  private static boolean hasImportUsers(@Nonnull GoImportSpec spec) {
+  private static boolean hasImportUsers(GoImportSpec spec) {
     //noinspection SynchronizationOnLocalVariableOrMethodParameter
     synchronized (spec) {
       List<PsiElement> list = spec.getUserData(GoReferenceBase.IMPORT_USERS);
@@ -202,8 +199,7 @@ public class GoImportOptimizer implements ImportOptimizer {
     return false;
   }
 
-  @Nonnull
-  public static Set<GoImportSpec> findDuplicatedEntries(@Nonnull MultiMap<String, GoImportSpec> importMap) {
+  public static Set<GoImportSpec> findDuplicatedEntries(MultiMap<String, GoImportSpec> importMap) {
     Set<GoImportSpec> duplicatedEntries = new LinkedHashSet<>();
     for (Map.Entry<String, Collection<GoImportSpec>> imports : importMap.entrySet()) {
       Collection<GoImportSpec> importsWithSameName = imports.getValue();
@@ -244,8 +240,7 @@ public class GoImportOptimizer implements ImportOptimizer {
     }
   }
 
-  @Nonnull
-  private static MultiMap<String, GoImportSpec> collectImportsWithSameString(@Nonnull Collection<GoImportSpec> importsWithSameName) {
+  private static MultiMap<String, GoImportSpec> collectImportsWithSameString(Collection<GoImportSpec> importsWithSameName) {
     MultiMap<String, GoImportSpec> importsWithSameString = MultiMap.create();
     for (PsiElement duplicateCandidate : importsWithSameName) {
       GoImportSpec importSpec = getImportSpec(duplicateCandidate);
@@ -257,11 +252,10 @@ public class GoImportOptimizer implements ImportOptimizer {
   }
 
   @Nullable
-  public static GoImportSpec getImportSpec(@Nonnull PsiElement importEntry) {
+  public static GoImportSpec getImportSpec(PsiElement importEntry) {
     return PsiTreeUtil.getNonStrictParentOfType(importEntry, GoImportSpec.class);
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

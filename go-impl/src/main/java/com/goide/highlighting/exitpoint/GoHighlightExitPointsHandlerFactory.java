@@ -31,8 +31,7 @@ import consulo.language.impl.psi.LeafPsiElement;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoHighlightExitPointsHandlerFactory extends HighlightUsagesHandlerFactoryBase {
@@ -41,9 +40,9 @@ public class GoHighlightExitPointsHandlerFactory extends HighlightUsagesHandlerF
   @RequiredReadAction
   @Nullable
   @Override
-  public HighlightUsagesHandlerBase createHighlightUsagesHandler(@Nonnull Editor editor,
-                                                                 @Nonnull PsiFile file,
-                                                                 @Nonnull PsiElement target) {
+  public HighlightUsagesHandlerBase createHighlightUsagesHandler(Editor editor,
+                                                                 PsiFile file,
+                                                                 PsiElement target) {
     if (target instanceof LeafPsiElement) {
       IElementType elementType = ((LeafPsiElement) target).getElementType();
       if (elementType == GoTypes.RETURN || elementType == GoTypes.FUNC || isPanicCall(target)) {
@@ -55,7 +54,7 @@ public class GoHighlightExitPointsHandlerFactory extends HighlightUsagesHandlerF
     return null;
   }
 
-  private static boolean isPanicCall(@Nonnull PsiElement e) {
+  private static boolean isPanicCall(PsiElement e) {
     PsiElement parent = e.getParent();
     if (parent instanceof GoReferenceExpression) {
       PsiElement grandPa = parent.getParent();

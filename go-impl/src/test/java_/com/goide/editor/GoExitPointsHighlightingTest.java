@@ -22,7 +22,6 @@ import com.intellij.codeInsight.highlighting.HighlightUsagesHandler;
 import com.intellij.codeInsight.highlighting.HighlightUsagesHandlerBase;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.containers.ContainerUtil;
-import jakarta.annotation.Nonnull;
 
 import java.util.List;
 
@@ -167,7 +166,7 @@ public abstract class GoExitPointsHighlightingTest extends GoCodeInsightFixtureT
     doTest(text, "L", "break L", "break L");
   }
 
-  private void doTest(@Nonnull String text, String... usages) {
+  private void doTest(String text, String... usages) {
     myFixture.configureByText("foo.go", text);
     @SuppressWarnings("unchecked")
     HighlightUsagesHandlerBase<PsiElement> handler = HighlightUsagesHandler.createCustomHandler(myFixture.getEditor(), myFixture.getFile());

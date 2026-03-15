@@ -21,7 +21,6 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.virtualFileSystem.fileType.FileNameMatcherFactory;
 import consulo.virtualFileSystem.fileType.FileTypeConsumer;
 import consulo.virtualFileSystem.fileType.FileTypeFactory;
-import jakarta.annotation.Nonnull;
 import jakarta.inject.Inject;
 
 @ExtensionImpl
@@ -34,7 +33,7 @@ public class GoFileTypeFactory extends FileTypeFactory {
     }
 
     @Override
-    public void createFileTypes(@Nonnull FileTypeConsumer consumer) {
+    public void createFileTypes(FileTypeConsumer consumer) {
         consumer.consume(GoFileType.INSTANCE, GoFileType.INSTANCE.getDefaultExtension());
         consumer.consume(GoModFileType.INSTANCE, myMatcherFactory.createExactFileNameMatcher("go.mod"));
     }

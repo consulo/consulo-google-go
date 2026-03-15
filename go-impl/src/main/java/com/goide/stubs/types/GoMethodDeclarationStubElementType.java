@@ -30,8 +30,7 @@ import consulo.language.psi.stub.StubOutputStream;
 import consulo.util.collection.ArrayFactory;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.io.IOException;
 
 public class GoMethodDeclarationStubElementType extends GoNamedStubElementType<GoMethodDeclarationStub, GoMethodDeclaration> {
@@ -39,37 +38,35 @@ public class GoMethodDeclarationStubElementType extends GoNamedStubElementType<G
 
   public static final ArrayFactory<GoMethodDeclaration> ARRAY_FACTORY = count -> count == 0 ? EMPTY_ARRAY : new GoMethodDeclaration[count];
   
-  public GoMethodDeclarationStubElementType(@Nonnull String name) {
+  public GoMethodDeclarationStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoMethodDeclaration createPsi(@Nonnull GoMethodDeclarationStub stub) {
+  public GoMethodDeclaration createPsi(GoMethodDeclarationStub stub) {
     return new GoMethodDeclarationImpl(stub, this);
   }
 
   @Nullable
   @Override
-  public GoMethodDeclarationStub createStub(@Nonnull GoMethodDeclaration psi, StubElement parentStub) {
+  public GoMethodDeclarationStub createStub(GoMethodDeclaration psi, StubElement parentStub) {
     return new GoMethodDeclarationStub(parentStub, this, psi.getName(), psi.isPublic(), calcTypeText(psi));
   }
 
   @Override
-  public void serialize(@Nonnull GoMethodDeclarationStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoMethodDeclarationStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
     dataStream.writeName(stub.getTypeName());
   }
 
-  @Nonnull
   @Override
-  public GoMethodDeclarationStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoMethodDeclarationStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoMethodDeclarationStub(parentStub, this, dataStream.readName(), dataStream.readBoolean(), dataStream.readName());
   }
 
   @Override
-  public void indexStub(@Nonnull GoMethodDeclarationStub stub, @Nonnull IndexSink sink) {
+  public void indexStub(GoMethodDeclarationStub stub, IndexSink sink) {
     super.indexStub(stub, sink);
     String typeName = stub.getTypeName();
     if (!StringUtil.isEmpty(typeName)) {
@@ -84,7 +81,7 @@ public class GoMethodDeclarationStubElementType extends GoNamedStubElementType<G
   }
 
   @Nullable
-  public static String calcTypeText(@Nonnull GoMethodDeclaration psi) {
+  public static String calcTypeText(GoMethodDeclaration psi) {
     GoTypeReferenceExpression reference = GoPsiImplUtil.getTypeReference(psi.getReceiverType());
     return reference != null ? reference.getIdentifier().getText() : null;
   }

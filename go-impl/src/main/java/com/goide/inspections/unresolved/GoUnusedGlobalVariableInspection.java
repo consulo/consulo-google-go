@@ -24,19 +24,17 @@ import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoUnusedGlobalVariableInspection extends GoUnusedVariableInspection {
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Unused global variable inspection");
   }
 
   @Override
-  protected void reportError(@Nonnull GoVarDefinition varDefinition, @Nonnull ProblemsHolder holder) {
+  protected void reportError(GoVarDefinition varDefinition, ProblemsHolder holder) {
     holder.registerProblem(varDefinition, "Unused variable <code>#ref</code> #loc", ProblemHighlightType.LIKE_UNUSED_SYMBOL,
         new GoDeleteVarDefinitionQuickFix(varDefinition.getName()));
   }

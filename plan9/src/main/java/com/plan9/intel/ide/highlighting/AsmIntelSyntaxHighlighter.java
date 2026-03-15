@@ -22,7 +22,6 @@ import consulo.language.editor.highlight.SyntaxHighlighterBase;
 import consulo.language.lexer.Lexer;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,14 +48,12 @@ public class AsmIntelSyntaxHighlighter extends SyntaxHighlighterBase {
     fillMap(ATTRIBUTES, AsmIntelLexerTokens.REGISTERS, REGISTER);
   }
 
-  @Nonnull
   @Override
   public Lexer getHighlightingLexer() {
     return new AsmIntelHighlightingLexer();
   }
 
   @Override
-  @Nonnull
   public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
     return pack(ATTRIBUTES.get(tokenType));
   }

@@ -23,7 +23,6 @@ import consulo.google.go.localize.GoLocalize;
 import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
 import consulo.language.editor.highlight.SyntaxHighlighter;
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -99,25 +98,21 @@ public class GoColorsAndFontsPage implements ColorSettingsPage {
   }
 
   @Override
-  @Nonnull
   public LocalizeValue getDisplayName() {
     return GoLocalize.goLanguageDisplayName();
   }
 
   @Override
-  @Nonnull
   public AttributesDescriptor[] getAttributeDescriptors() {
     return DESCRIPTORS;
   }
 
   @Override
-  @Nonnull
   public SyntaxHighlighter getHighlighter() {
     return new GoSyntaxHighlighter();
   }
 
   @Override
-  @Nonnull
   public String getDemoText() {
     return "/*\n" +
            " * Go highlight sample \n" +
@@ -237,7 +232,6 @@ public class GoColorsAndFontsPage implements ColorSettingsPage {
   }
 
   @Override
-  @Nonnull
   public Map<String, TextAttributesKey> getAdditionalHighlightingTagToDescriptorMap() {
     return ATTRIBUTES_KEY_MAP;
   }

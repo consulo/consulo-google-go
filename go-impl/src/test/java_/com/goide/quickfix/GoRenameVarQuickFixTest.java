@@ -17,7 +17,6 @@
 package com.goide.quickfix;
 
 import com.goide.inspections.unresolved.GoUnusedVariableInspection;
-import jakarta.annotation.Nonnull;
 
 public abstract class GoRenameVarQuickFixTest extends GoQuickFixTestBase {
   @Override
@@ -26,7 +25,6 @@ public abstract class GoRenameVarQuickFixTest extends GoQuickFixTestBase {
     myFixture.enableInspections(GoUnusedVariableInspection.class);
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/rename-var";

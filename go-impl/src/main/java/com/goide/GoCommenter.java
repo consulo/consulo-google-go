@@ -22,8 +22,7 @@ import consulo.language.Language;
 import consulo.language.ast.IElementType;
 import consulo.language.psi.PsiComment;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoCommenter implements CodeDocumentationAwareCommenter {
@@ -98,7 +97,6 @@ public class GoCommenter implements CodeDocumentationAwareCommenter {
     return false;
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

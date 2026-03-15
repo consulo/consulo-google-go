@@ -23,9 +23,7 @@ import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.psi.PsiElement;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-import org.jetbrains.annotations.Nls;
 
-import jakarta.annotation.Nonnull;
 
 public class GoReplaceWithSelectStatementQuickFix extends LocalQuickFixBase {
   public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Replace with 'select'");
@@ -35,7 +33,7 @@ public class GoReplaceWithSelectStatementQuickFix extends LocalQuickFixBase {
   }
 
   @Override
-  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+  public void applyFix(Project project, ProblemDescriptor descriptor) {
     PsiElement element = descriptor.getPsiElement();
     if (element instanceof GoForStatement) {
       element.replace(GoElementFactory.createSelectStatement(project));

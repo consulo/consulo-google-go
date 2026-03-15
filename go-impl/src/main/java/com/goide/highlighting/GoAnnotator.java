@@ -38,8 +38,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Set;
 
@@ -50,7 +49,7 @@ public class GoAnnotator implements Annotator {
   ); // todo: unify with DlvApi.Variable.Kind
 
   @Override
-  public void annotate(@Nonnull PsiElement element, @Nonnull AnnotationHolder holder) {
+  public void annotate(PsiElement element, AnnotationHolder holder) {
     if (!(element instanceof GoCompositeElement) || !element.isValid()) return;
 
     if (element instanceof GoPackageClause) {
@@ -222,7 +221,7 @@ public class GoAnnotator implements Annotator {
     }
   }
 
-  private static void checkCapCall(@Nonnull GoCallExpr capCall, @Nonnull AnnotationHolder holder) {
+  private static void checkCapCall(GoCallExpr capCall, AnnotationHolder holder) {
     List<GoExpression> exprs = capCall.getArgumentList().getExpressionList();
     if (exprs.size() != 1) return;
     GoExpression first = ContainerUtil.getFirstItem(exprs);
@@ -234,7 +233,7 @@ public class GoAnnotator implements Annotator {
     holder.createErrorAnnotation(first, "Invalid argument for cap");
   }
 
-  private static void checkMakeCall(@Nonnull GoBuiltinCallExpr call, @Nonnull AnnotationHolder holder) {
+  private static void checkMakeCall(GoBuiltinCallExpr call, AnnotationHolder holder) {
     GoBuiltinArgumentList args = call.getBuiltinArgumentList();
     if (args == null) {
       holder.createErrorAnnotation(call, "Missing argument to make");
@@ -271,10 +270,10 @@ public class GoAnnotator implements Annotator {
     return type instanceof GoChannelType || type instanceof GoMapType;
   }
 
-  private static void checkMakeArgs(@Nonnull GoBuiltinCallExpr call,
+  private static void checkMakeArgs(GoBuiltinCallExpr call,
                                     @Nullable GoType baseType,
-                                    @Nonnull List<GoExpression> list,
-                                    @Nonnull AnnotationHolder holder) {
+                                    List<GoExpression> list,
+                                    AnnotationHolder holder) {
     if (baseType instanceof GoArrayOrSliceType) {
       if (list.isEmpty()) {
         holder.createErrorAnnotation(call, "Missing len argument to make");
@@ -317,7 +316,7 @@ public class GoAnnotator implements Annotator {
     return INT_TYPE_NAMES.contains(ref.getText()) && GoPsiImplUtil.builtin(ref.resolve());
   }
 
-  private static void checkSelfReference(@Nonnull GoReferenceExpression o, PsiElement definition, AnnotationHolder holder) {
+  private static void checkSelfReference(GoReferenceExpression o, PsiElement definition, AnnotationHolder holder) {
     GoExpression value = null;
     if (definition instanceof GoVarDefinition) {
       value = ((GoVarDefinition)definition).getValue();
@@ -334,7 +333,7 @@ public class GoAnnotator implements Annotator {
   /**
    * Returns {@code true} if the given element is in an invalid location for a type literal or type reference.
    */
-  private static boolean isIllegalUseOfTypeAsExpression(@Nonnull PsiElement e) {
+  private static boolean isIllegalUseOfTypeAsExpression(PsiElement e) {
     PsiElement parent = PsiTreeUtil.skipParentsOfType(e, GoParenthesesExpr.class, GoUnaryExpr.class);
     // Part of a selector such as T.method
     if (parent instanceof GoReferenceExpression || parent instanceof GoSelectorExpr) return false;

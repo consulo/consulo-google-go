@@ -18,10 +18,9 @@ package com.goide.inspections.unresolved;
 
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
 
 public class GoIntroduceTypeFix extends GoUnresolvedFixBase {
-  public GoIntroduceTypeFix(@Nonnull PsiElement element, @Nonnull String name) {
+  public GoIntroduceTypeFix(PsiElement element, String name) {
     super(element, name, "type", "go_lang_type_qf");
   }
 }

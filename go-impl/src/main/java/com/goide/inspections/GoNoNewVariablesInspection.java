@@ -32,33 +32,31 @@ import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @ExtensionImpl
 public class GoNoNewVariablesInspection extends GoGeneralInspectionBase {
   public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Replace with '='");
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitShortVarDeclaration(@Nonnull GoShortVarDeclaration o) {
+      public void visitShortVarDeclaration(GoShortVarDeclaration o) {
         visitVarDefinitionList(o, o.getVarDefinitionList());
       }
 
       @Override
-      public void visitRecvStatement(@Nonnull GoRecvStatement o) {
+      public void visitRecvStatement(GoRecvStatement o) {
         visitVarDefinitionList(o, o.getVarDefinitionList());
       }
 
       @Override
-      public void visitRangeClause(@Nonnull GoRangeClause o) {
+      public void visitRangeClause(GoRangeClause o) {
         visitVarDefinitionList(o, o.getVarDefinitionList());
       }
 
-      private void visitVarDefinitionList(@Nonnull PsiElement o, @Nonnull List<GoVarDefinition> list) {
+      private void visitVarDefinitionList(PsiElement o, List<GoVarDefinition> list) {
         GoVarDefinition first = ContainerUtil.getFirstItem(list);
         GoVarDefinition last = ContainerUtil.getLastItem(list);
         if (first == null || last == null) return;
@@ -70,7 +68,7 @@ public class GoNoNewVariablesInspection extends GoGeneralInspectionBase {
     };
   }
 
-  public static boolean hasNonNewVariables(@Nonnull List<GoVarDefinition> list) {
+  public static boolean hasNonNewVariables(List<GoVarDefinition> list) {
     if (list.isEmpty()) return false;
     for (GoVarDefinition def : list) {
       if (def.isBlank()) continue;
@@ -80,7 +78,7 @@ public class GoNoNewVariablesInspection extends GoGeneralInspectionBase {
     return true;
   }
 
-  public static void replaceWithAssignment(@Nonnull Project project, @Nonnull PsiElement element) {
+  public static void replaceWithAssignment(Project project, PsiElement element) {
     if (element instanceof GoShortVarDeclaration) {
       PsiElement parent = element.getParent();
       if (parent instanceof GoSimpleStatement) {
@@ -103,7 +101,6 @@ public class GoNoNewVariablesInspection extends GoGeneralInspectionBase {
     }
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("No new variables on left side of :=");
@@ -115,7 +112,7 @@ public class GoNoNewVariablesInspection extends GoGeneralInspectionBase {
     }
 
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getStartElement();
       if (element.isValid()) {
         replaceWithAssignment(project, element);

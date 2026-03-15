@@ -26,8 +26,7 @@ import consulo.project.Project;
 import consulo.util.collection.ArrayUtil;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoWithForSurrounder extends GoStatementsSurrounder {
   @Override
@@ -37,9 +36,9 @@ public class GoWithForSurrounder extends GoStatementsSurrounder {
 
   @Nullable
   @Override
-  protected TextRange surroundStatements(@Nonnull Project project,
-                                         @Nonnull PsiElement container,
-                                         @Nonnull PsiElement[] statements) throws IncorrectOperationException {
+  protected TextRange surroundStatements(Project project,
+                                         PsiElement container,
+                                         PsiElement[] statements) throws IncorrectOperationException {
     String text = StringUtil.join(statements, PsiElement::getText, "\n");
     GoForStatement forStatement = GoElementFactory.createForStatement(project, text);
     PsiElement first = ArrayUtil.getFirstElement(statements);

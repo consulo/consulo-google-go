@@ -59,8 +59,7 @@ import consulo.util.lang.Trinity;
 import consulo.util.lang.function.Condition;
 import consulo.util.lang.function.Predicates;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.jetbrains.annotations.Contract;
 
 import java.util.Collection;
@@ -75,7 +74,6 @@ public class GoPsiImplUtil {
   private static final Logger LOG = Logger.getInstance(GoPsiImplUtil.class);
   private static final Key<SmartPsiElementPointer<PsiElement>> CONTEXT = Key.create("CONTEXT");
 
-  @Nonnull
   public static SyntaxTraverser<PsiElement> goTraverser() {
     return SyntaxTraverser.psiTraverser().forceDisregardTypes(equalTo(GeneratedParserUtilBase.DUMMY_BLOCK));
   }
@@ -97,15 +95,15 @@ public class GoPsiImplUtil {
     return referenceExpression != null && referenceExpression.resolve() instanceof GoTypeSpec;
   }
 
-  public static boolean isPanic(@Nonnull GoCallExpr o) {
+  public static boolean isPanic(GoCallExpr o) {
     return stdLibCall(o, "panic");
   }
 
-  public static boolean isRecover(@Nonnull GoCallExpr o) {
+  public static boolean isRecover(GoCallExpr o) {
     return stdLibCall(o, "recover");
   }
 
-  private static boolean stdLibCall(@Nonnull GoCallExpr o, @Nonnull String name) {
+  private static boolean stdLibCall(GoCallExpr o, String name) {
     GoExpression e = o.getExpression();
     if (e.textMatches(name) && e instanceof GoReferenceExpression) {
       PsiReference reference = e.getReference();
@@ -140,18 +138,17 @@ public class GoPsiImplUtil {
     return context != null ? context.getElement() : null;
   }
 
-  @Nonnull
-  public static ResolveState createContextOnElement(@Nonnull PsiElement element) {
+  public static ResolveState createContextOnElement(PsiElement element) {
     return ResolveState.initial().put(CONTEXT, SmartPointerManager.getInstance(element.getProject()).createSmartPsiElementPointer(element));
   }
 
   @Nullable
-  public static GoTypeReferenceExpression getQualifier(@Nonnull GoTypeReferenceExpression o) {
+  public static GoTypeReferenceExpression getQualifier(GoTypeReferenceExpression o) {
     return PsiTreeUtil.getChildOfType(o, GoTypeReferenceExpression.class);
   }
 
   @Nullable
-  public static PsiDirectory resolve(@Nonnull GoImportString importString) {
+  public static PsiDirectory resolve(GoImportString importString) {
     PsiReference[] references = importString.getReferences();
     for (PsiReference reference : references) {
       if (reference instanceof FileReferenceOwner) {
@@ -163,31 +160,27 @@ public class GoPsiImplUtil {
     return null;
   }
 
-  @Nonnull
-  public static PsiReference getReference(@Nonnull GoTypeReferenceExpression o) {
+  public static PsiReference getReference(GoTypeReferenceExpression o) {
     return new GoTypeReference(o);
   }
 
-  @Nonnull
-  public static PsiReference getReference(@Nonnull GoLabelRef o) {
+  public static PsiReference getReference(GoLabelRef o) {
     return new GoLabelReference(o);
   }
 
   @Nullable
-  public static PsiReference getReference(@Nonnull GoVarDefinition o) {
+  public static PsiReference getReference(GoVarDefinition o) {
     GoShortVarDeclaration shortDeclaration = PsiTreeUtil.getParentOfType(o, GoShortVarDeclaration.class);
     boolean createRef = PsiTreeUtil.getParentOfType(shortDeclaration, GoBlock.class, GoForStatement.class, GoIfStatement.class,
         GoSwitchStatement.class, GoSelectStatement.class) instanceof GoBlock;
     return createRef ? new GoVarReference(o) : null;
   }
 
-  @Nonnull
-  public static GoReference getReference(@Nonnull GoReferenceExpression o) {
+  public static GoReference getReference(GoReferenceExpression o) {
     return new GoReference(o);
   }
 
-  @Nonnull
-  public static PsiReference getReference(@Nonnull GoFieldName o) {
+  public static PsiReference getReference(GoFieldName o) {
     GoFieldNameReference field = new GoFieldNameReference(o);
     GoReference ordinal = new GoReference(o);
     return new PsiMultiReference(new PsiReference[]{field, ordinal}, o) {
@@ -205,26 +198,25 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static GoReferenceExpression getQualifier(@SuppressWarnings("UnusedParameters") @Nonnull GoFieldName o) {
+  public static GoReferenceExpression getQualifier(@SuppressWarnings("UnusedParameters") GoFieldName o) {
     return null;
   }
 
-  @Nonnull
-  public static PsiReference[] getReferences(@Nonnull GoImportString o) {
+  public static PsiReference[] getReferences(GoImportString o) {
     if (o.getTextLength() < 2) return PsiReference.EMPTY_ARRAY;
     return new GoImportReferenceSet(o).getAllReferences();
   }
 
   @Nullable
-  public static GoReferenceExpression getQualifier(@Nonnull GoReferenceExpression o) {
+  public static GoReferenceExpression getQualifier(GoReferenceExpression o) {
     return PsiTreeUtil.getChildOfType(o, GoReferenceExpression.class);
   }
 
-  public static boolean processDeclarations(@Nonnull GoCompositeElement o,
-                                            @Nonnull PsiScopeProcessor processor,
-                                            @Nonnull ResolveState state,
+  public static boolean processDeclarations(GoCompositeElement o,
+                                            PsiScopeProcessor processor,
+                                            ResolveState state,
                                             PsiElement lastParent,
-                                            @Nonnull PsiElement place) {
+                                            PsiElement place) {
     boolean isAncestor = PsiTreeUtil.isAncestor(o, place, false);
     if (o instanceof GoVarSpec) {
       return isAncestor || GoCompositeElementImpl.processDeclarationsDefault(o, processor, state, lastParent, place);
@@ -245,18 +237,18 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static GoType getGoTypeInner(@Nonnull GoReceiver o, @SuppressWarnings("UnusedParameters") @Nullable ResolveState context) {
+  public static GoType getGoTypeInner(GoReceiver o, @SuppressWarnings("UnusedParameters") @Nullable ResolveState context) {
     return o.getType();
   }
 
   @Nullable
-  public static PsiElement getIdentifier(@SuppressWarnings("UnusedParameters") @Nonnull GoAnonymousFieldDefinition o) {
+  public static PsiElement getIdentifier(@SuppressWarnings("UnusedParameters") GoAnonymousFieldDefinition o) {
     GoTypeReferenceExpression expression = o.getTypeReferenceExpression();
     return expression != null ? expression.getIdentifier() : null;
   }
 
   @Nullable
-  public static String getName(@Nonnull GoPackageClause packageClause) {
+  public static String getName(GoPackageClause packageClause) {
     GoPackageClauseStub stub = packageClause.getStub();
     if (stub != null) return stub.getName();
     PsiElement packageIdentifier = packageClause.getIdentifier();
@@ -264,24 +256,24 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static String getName(@Nonnull GoAnonymousFieldDefinition o) {
+  public static String getName(GoAnonymousFieldDefinition o) {
     PsiElement identifier = o.getIdentifier();
     return identifier != null ? identifier.getText() : null;
   }
 
   @Nullable
-  public static GoTypeReferenceExpression getTypeReferenceExpression(@Nonnull GoAnonymousFieldDefinition o) {
+  public static GoTypeReferenceExpression getTypeReferenceExpression(GoAnonymousFieldDefinition o) {
     return getTypeRefExpression(o.getType());
   }
 
   @Nullable
-  public static GoType getGoTypeInner(@Nonnull GoAnonymousFieldDefinition o,
+  public static GoType getGoTypeInner(GoAnonymousFieldDefinition o,
                                       @SuppressWarnings("UnusedParameters") @Nullable ResolveState context) {
     return o.getType();
   }
 
   @Nullable
-  public static String getName(@Nonnull GoMethodSpec o) {
+  public static String getName(GoMethodSpec o) {
     GoNamedStub<GoMethodSpec> stub = o.getStub();
     if (stub != null) {
       return stub.getName();
@@ -293,7 +285,7 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static GoType getReceiverType(@Nonnull GoMethodDeclaration o) {
+  public static GoType getReceiverType(GoMethodDeclaration o) {
     GoReceiver receiver = o.getReceiver();
     return receiver == null ? null : receiver.getType();
   }
@@ -315,7 +307,7 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static GoType getGoTypeInner(@Nonnull GoConstDefinition o, @Nullable ResolveState context) {
+  public static GoType getGoTypeInner(GoConstDefinition o, @Nullable ResolveState context) {
     GoType fromSpec = findTypeInConstSpec(o);
     if (fromSpec != null) return fromSpec;
     // todo: stubs 
@@ -333,7 +325,7 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  private static GoType findTypeInConstSpec(@Nonnull GoConstDefinition o) {
+  private static GoType findTypeInConstSpec(GoConstDefinition o) {
     GoConstDefinitionStub stub = o.getStub();
     PsiElement parent = PsiTreeUtil.getStubOrPsiParent(o);
     if (!(parent instanceof GoConstSpec)) return null;
@@ -350,13 +342,13 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  private static GoType unwrapParType(@Nonnull GoExpression o, @Nullable ResolveState c) {
+  private static GoType unwrapParType(GoExpression o, @Nullable ResolveState c) {
     GoType inner = getGoTypeInner(o, c);
     return inner instanceof GoParType ? ((GoParType) inner).getActualType() : inner;
   }
 
   @Nullable
-  public static GoType getGoType(@Nonnull GoExpression o, @Nullable ResolveState context) {
+  public static GoType getGoType(GoExpression o, @Nullable ResolveState context) {
     return RecursionManager.doPreventingRecursion(o, true, () -> {
       if (context != null) return unwrapParType(o, context);
       return LanguageCachedValueUtil.getCachedValue(o, () -> CachedValueProvider.Result
@@ -365,7 +357,7 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  private static GoType getGoTypeInner(@Nonnull GoExpression o, @Nullable ResolveState context) {
+  private static GoType getGoTypeInner(GoExpression o, @Nullable ResolveState context) {
     if (o instanceof GoUnaryExpr) {
       GoUnaryExpr u = (GoUnaryExpr) o;
       GoExpression e = u.getExpression();
@@ -470,7 +462,7 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static GoType getIndexedExpressionReferenceType(@Nonnull GoIndexOrSliceExpr o, @Nullable ResolveState context) {
+  public static GoType getIndexedExpressionReferenceType(GoIndexOrSliceExpr o, @Nullable ResolveState context) {
     GoExpression first = ContainerUtil.getFirstItem(o.getExpressionList());
     // todo: calculate type for indexed expressions only
     // https://golang.org/ref/spec#Index_expressions – a[x] is shorthand for (*a)[x]
@@ -483,7 +475,7 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static GoType getBuiltinType(@Nonnull String name, @Nonnull PsiElement context) {
+  public static GoType getBuiltinType(String name, PsiElement context) {
     GoFile builtin = GoSdkUtil.findBuiltinFile(context);
     if (builtin != null) {
       GoTypeSpec spec = ContainerUtil.find(builtin.getTypes(), spec1 -> name.equals(spec1.getName()));
@@ -502,7 +494,7 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static GoType typeOrParameterType(@Nonnull GoTypeOwner resolve, @Nullable ResolveState context) {
+  public static GoType typeOrParameterType(GoTypeOwner resolve, @Nullable ResolveState context) {
     GoType type = resolve.getGoType(context);
     if (resolve instanceof GoParamDefinition && ((GoParamDefinition) resolve).isVariadic()) {
       return type == null ? null : new LightArrayType(type);
@@ -514,17 +506,17 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static PsiElement resolve(@Nonnull GoReferenceExpression o) { // todo: replace with default method in GoReferenceExpressionBase
+  public static PsiElement resolve(GoReferenceExpression o) { // todo: replace with default method in GoReferenceExpressionBase
     return o.getReference().resolve();
   }
 
   @Nullable
-  public static PsiElement resolve(@Nonnull GoTypeReferenceExpression o) { // todo: replace with default method in GoReferenceExpressionBase
+  public static PsiElement resolve(GoTypeReferenceExpression o) { // todo: replace with default method in GoReferenceExpressionBase
     return o.getReference().resolve();
   }
 
   @Nullable
-  public static PsiElement resolve(@Nonnull GoFieldName o) { // todo: replace with default method in GoReferenceExpressionBase
+  public static PsiElement resolve(GoFieldName o) { // todo: replace with default method in GoReferenceExpressionBase
     return o.getReference().resolve();
   }
 
@@ -556,7 +548,7 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static GoValue getParentGoValue(@Nonnull PsiElement element) {
+  public static GoValue getParentGoValue(PsiElement element) {
     PsiElement place = element;
     while ((place = PsiTreeUtil.getParentOfType(place, GoLiteralValue.class)) != null) {
       if (place.getParent() instanceof GoValue) {
@@ -613,34 +605,34 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static GoType resolveType(@Nonnull GoTypeReferenceExpression expression) {
+  public static GoType resolveType(GoTypeReferenceExpression expression) {
     PsiElement resolve = expression.resolve();
     if (resolve instanceof GoTypeSpec) return ((GoTypeSpec) resolve).getSpecType();
     // hacky C resolve
     return resolve == expression ? new GoCType(expression) : null;
   }
 
-  public static boolean isVariadic(@Nonnull GoParamDefinition o) {
+  public static boolean isVariadic(GoParamDefinition o) {
     PsiElement parent = o.getParent();
     return parent instanceof GoParameterDeclaration && ((GoParameterDeclaration) parent).isVariadic();
   }
 
-  public static boolean isVariadic(@Nonnull GoParameterDeclaration o) {
+  public static boolean isVariadic(GoParameterDeclaration o) {
     GoParameterDeclarationStub stub = o.getStub();
     return stub != null ? stub.isVariadic() : o.getTripleDot() != null;
   }
 
-  public static boolean hasVariadic(@Nonnull GoArgumentList argumentList) {
+  public static boolean hasVariadic(GoArgumentList argumentList) {
     return argumentList.getTripleDot() != null;
   }
 
   @Nullable
-  public static GoType getGoTypeInner(@Nonnull GoTypeSpec o, @SuppressWarnings("UnusedParameters") @Nullable ResolveState context) {
+  public static GoType getGoTypeInner(GoTypeSpec o, @SuppressWarnings("UnusedParameters") @Nullable ResolveState context) {
     return o.getSpecType();
   }
 
   @Nullable
-  public static GoType getGoTypeInner(@Nonnull GoVarDefinition o, @Nullable ResolveState context) {
+  public static GoType getGoTypeInner(GoVarDefinition o, @Nullable ResolveState context) {
     // see http://golang.org/ref/spec#RangeClause
     PsiElement parent = PsiTreeUtil.getStubOrPsiParent(o);
     if (parent instanceof GoRangeClause) {
@@ -669,7 +661,7 @@ public class GoPsiImplUtil {
     return null;
   }
 
-  public static boolean isVoid(@Nonnull GoResult result) {
+  public static boolean isVoid(GoResult result) {
     GoType type = result.getType();
     if (type != null) return false;
     GoParameters parameters = result.getParameters();
@@ -677,13 +669,13 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  private static GoTypeCaseClause getTypeCaseClause(@Nullable PsiElement context, @Nonnull GoTypeSwitchStatement switchStatement) {
+  private static GoTypeCaseClause getTypeCaseClause(@Nullable PsiElement context, GoTypeSwitchStatement switchStatement) {
     return SyntaxTraverser.psiApi().parents(context).takeWhile(Predicates.notEqualTo(switchStatement))
         .filter(GoTypeCaseClause.class).last();
   }
 
   @Nullable
-  private static GoType findTypeInVarSpec(@Nonnull GoVarDefinition o, @Nullable ResolveState context) {
+  private static GoType findTypeInVarSpec(GoVarDefinition o, @Nullable ResolveState context) {
     GoVarSpec parent = (GoVarSpec) PsiTreeUtil.getStubOrPsiParent(o);
     if (parent == null) return null;
     GoType commonType = parent.getType();
@@ -743,7 +735,7 @@ public class GoPsiImplUtil {
    * https://golang.org/ref/spec#RangeClause
    */
   @Nullable
-  private static GoType processRangeClause(@Nonnull GoVarDefinition o, @Nonnull GoRangeClause parent, @Nullable ResolveState context) {
+  private static GoType processRangeClause(GoVarDefinition o, GoRangeClause parent, @Nullable ResolveState context) {
     GoExpression rangeExpression = parent.getRangeExpression();
     if (rangeExpression != null) {
       List<GoVarDefinition> varList = parent.getVarDefinitionList();
@@ -770,13 +762,11 @@ public class GoPsiImplUtil {
     return type != null ? type.getUnderlyingType() : null;
   }
 
-  @Nonnull
-  public static GoType getActualType(@Nonnull GoParType o) {
+  public static GoType getActualType(GoParType o) {
     return ObjectUtil.notNull(SyntaxTraverser.psiTraverser(o).filter(Predicates.notInstanceOf(GoParType.class))
         .filter(GoType.class).first(), o.getType());
   }
 
-  @Nonnull
   public static String getText(@Nullable GoType o) {
     if (o == null) return "";
     if (o instanceof GoPointerType && ((GoPointerType) o).getType() instanceof GoSpecType) {
@@ -809,29 +799,26 @@ public class GoPsiImplUtil {
     return null;
   }
 
-  public static String getFqn(@Nullable String packageName, @Nonnull String elementName) {
+  public static String getFqn(@Nullable String packageName, String elementName) {
     return StringUtil.isNotEmpty(packageName) ? packageName + "." + elementName : elementName;
   }
 
-  @Nonnull
-  public static List<GoMethodSpec> getMethods(@Nonnull GoInterfaceType o) {
+  public static List<GoMethodSpec> getMethods(GoInterfaceType o) {
     return ContainerUtil.filter(o.getMethodSpecList(), spec -> spec.getIdentifier() != null);
   }
 
-  @Nonnull
-  public static List<GoTypeReferenceExpression> getBaseTypesReferences(@Nonnull GoInterfaceType o) {
+  public static List<GoTypeReferenceExpression> getBaseTypesReferences(GoInterfaceType o) {
     List<GoTypeReferenceExpression> refs = ContainerUtil.newArrayList();
     o.accept(new GoRecursiveVisitor() {
       @Override
-      public void visitMethodSpec(@Nonnull GoMethodSpec o) {
+      public void visitMethodSpec(GoMethodSpec o) {
         ContainerUtil.addIfNotNull(refs, o.getTypeReferenceExpression());
       }
     });
     return refs;
   }
 
-  @Nonnull
-  public static List<GoMethodDeclaration> getMethods(@Nonnull GoTypeSpec o) {
+  public static List<GoMethodDeclaration> getMethods(GoTypeSpec o) {
     return LanguageCachedValueUtil.getCachedValue(o, () -> {
       // todo[zolotov]: implement package modification tracker
       return CachedValueProvider.Result.create(calcMethods(o), PsiModificationTracker.MODIFICATION_COUNT);
@@ -839,13 +826,12 @@ public class GoPsiImplUtil {
   }
 
   // for binary comp with golang
-  @Nonnull
-  public static List<GoNamedSignatureOwner> getAllMethods(@Nonnull GoTypeSpec o) {
+  public static List<GoNamedSignatureOwner> getAllMethods(GoTypeSpec o) {
     List methods = getMethods(o);
     return methods;
   }
 
-  public static boolean allowed(@Nonnull PsiFile declarationFile, @Nullable PsiFile referenceFile, @Nullable Module contextModule) {
+  public static boolean allowed(PsiFile declarationFile, @Nullable PsiFile referenceFile, @Nullable Module contextModule) {
     if (!(declarationFile instanceof GoFile)) {
       return false;
     }
@@ -872,27 +858,27 @@ public class GoPsiImplUtil {
         || GoTestFinder.isTestFile(referenceFile) && Comparing.equal(referenceFile.getParent(), declarationFile.getParent());
   }
 
-  static boolean processNamedElements(@Nonnull PsiScopeProcessor processor,
-                                      @Nonnull ResolveState state,
-                                      @Nonnull Collection<? extends GoNamedElement> elements,
+  static boolean processNamedElements(PsiScopeProcessor processor,
+                                      ResolveState state,
+                                      Collection<? extends GoNamedElement> elements,
                                       boolean localResolve) {
     //noinspection unchecked
     return processNamedElements(processor, state, elements, Condition.TRUE, localResolve, false);
   }
 
-  static boolean processNamedElements(@Nonnull PsiScopeProcessor processor,
-                                      @Nonnull ResolveState state,
-                                      @Nonnull Collection<? extends GoNamedElement> elements,
+  static boolean processNamedElements(PsiScopeProcessor processor,
+                                      ResolveState state,
+                                      Collection<? extends GoNamedElement> elements,
                                       boolean localResolve,
                                       boolean checkContainingFile) {
     //noinspection unchecked
     return processNamedElements(processor, state, elements, Condition.TRUE, localResolve, checkContainingFile);
   }
 
-  static boolean processNamedElements(@Nonnull PsiScopeProcessor processor,
-                                      @Nonnull ResolveState state,
-                                      @Nonnull Collection<? extends GoNamedElement> elements,
-                                      @Nonnull Condition<GoNamedElement> condition,
+  static boolean processNamedElements(PsiScopeProcessor processor,
+                                      ResolveState state,
+                                      Collection<? extends GoNamedElement> elements,
+                                      Condition<GoNamedElement> condition,
                                       boolean localResolve,
                                       boolean checkContainingFile) {
     PsiFile contextFile = checkContainingFile ? GoReference.getContextFile(state) : null;
@@ -906,7 +892,7 @@ public class GoPsiImplUtil {
     return true;
   }
 
-  public static boolean processSignatureOwner(@Nonnull GoSignatureOwner o, @Nonnull GoScopeProcessorBase processor) {
+  public static boolean processSignatureOwner(GoSignatureOwner o, GoScopeProcessorBase processor) {
     GoSignature signature = o.getSignature();
     if (signature == null) return true;
     if (!processParameters(processor, signature.getParameters())) return false;
@@ -915,7 +901,7 @@ public class GoPsiImplUtil {
     return resultParameters == null || processParameters(processor, resultParameters);
   }
 
-  private static boolean processParameters(@Nonnull GoScopeProcessorBase processor, @Nonnull GoParameters parameters) {
+  private static boolean processParameters(GoScopeProcessorBase processor, GoParameters parameters) {
     for (GoParameterDeclaration declaration : parameters.getParameterDeclarationList()) {
       if (!processNamedElements(processor, ResolveState.initial(), declaration.getParamDefinitionList(), true))
         return false;
@@ -923,20 +909,18 @@ public class GoPsiImplUtil {
     return true;
   }
 
-  @Nonnull
   public static String joinPsiElementText(List<? extends PsiElement> items) {
     return StringUtil.join(items, PsiElement::getText, ", ");
   }
 
   @Nullable
-  public static PsiElement getBreakStatementOwner(@Nonnull PsiElement breakStatement) {
+  public static PsiElement getBreakStatementOwner(PsiElement breakStatement) {
     GoCompositeElement owner = PsiTreeUtil.getParentOfType(breakStatement, GoSwitchStatement.class, GoForStatement.class,
         GoSelectStatement.class, GoFunctionLit.class);
     return owner instanceof GoFunctionLit ? null : owner;
   }
 
-  @Nonnull
-  private static List<GoMethodDeclaration> calcMethods(@Nonnull GoTypeSpec o) {
+  private static List<GoMethodDeclaration> calcMethods(GoTypeSpec o) {
     PsiFile file = o.getContainingFile().getOriginalFile();
     if (file instanceof GoFile) {
       String packageName = ((GoFile) file).getPackageName();
@@ -951,14 +935,12 @@ public class GoPsiImplUtil {
     return Collections.emptyList();
   }
 
-  @Nonnull
-  public static GoType getUnderlyingType(@Nonnull GoType o) {
+  public static GoType getUnderlyingType(GoType o) {
     GoType type = RecursionManager.doPreventingRecursion(o, true, () -> getTypeInner(o));
     return ObjectUtil.notNull(type, o);
   }
 
-  @Nonnull
-  private static GoType getTypeInner(@Nonnull GoType o) {
+  private static GoType getTypeInner(GoType o) {
     if (o instanceof GoArrayOrSliceType
         | o instanceof GoStructType
         | o instanceof GoPointerType
@@ -988,7 +970,7 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static GoType getGoTypeInner(@Nonnull GoSignatureOwner o, @SuppressWarnings("UnusedParameters") @Nullable ResolveState context) {
+  public static GoType getGoTypeInner(GoSignatureOwner o, @SuppressWarnings("UnusedParameters") @Nullable ResolveState context) {
     GoSignature signature = o.getSignature();
     GoResult result = signature != null ? signature.getResult() : null;
     if (result != null) {
@@ -1014,8 +996,7 @@ public class GoPsiImplUtil {
     return null;
   }
 
-  @Nonnull
-  public static GoImportSpec addImport(@Nonnull GoImportList importList, @Nonnull String packagePath, @Nullable String alias) {
+  public static GoImportSpec addImport(GoImportList importList, String packagePath, @Nullable String alias) {
     Project project = importList.getProject();
     GoImportDeclaration newDeclaration = GoElementFactory.createImportDeclaration(project, packagePath, alias, false);
     List<GoImportDeclaration> existingImports = importList.getImportDeclarationList();
@@ -1033,8 +1014,7 @@ public class GoPsiImplUtil {
     return addImportDeclaration(importList, newDeclaration);
   }
 
-  @Nonnull
-  private static GoImportSpec addImportDeclaration(@Nonnull GoImportList importList, @Nonnull GoImportDeclaration newImportDeclaration) {
+  private static GoImportSpec addImportDeclaration(GoImportList importList, GoImportDeclaration newImportDeclaration) {
     GoImportDeclaration lastImport = ContainerUtil.getLastItem(importList.getImportDeclarationList());
     GoImportDeclaration importDeclaration = (GoImportDeclaration) importList.addAfter(newImportDeclaration, lastImport);
     PsiElement importListNextSibling = importList.getNextSibling();
@@ -1051,8 +1031,7 @@ public class GoPsiImplUtil {
     return result;
   }
 
-  @Nonnull
-  public static GoImportSpec addImportSpec(@Nonnull GoImportDeclaration declaration, @Nonnull String packagePath, @Nullable String alias) {
+  public static GoImportSpec addImportSpec(GoImportDeclaration declaration, String packagePath, @Nullable String alias) {
     PsiElement rParen = declaration.getRparen();
     if (rParen == null) {
       GoImportDeclaration newDeclaration = GoElementFactory.createEmptyImportDeclaration(declaration.getProject());
@@ -1070,7 +1049,7 @@ public class GoPsiImplUtil {
     return spec;
   }
 
-  public static String getLocalPackageName(@Nonnull String importPath) {
+  public static String getLocalPackageName(String importPath) {
     String fileName = !StringUtil.endsWithChar(importPath, '/') && !StringUtil.endsWithChar(importPath, '\\')
         ? PathUtil.getFileName(importPath)
         : "";
@@ -1090,30 +1069,29 @@ public class GoPsiImplUtil {
     return name == null ? fileName : name.toString();
   }
 
-  public static String getLocalPackageName(@Nonnull GoImportSpec importSpec) {
+  public static String getLocalPackageName(GoImportSpec importSpec) {
     return getLocalPackageName(importSpec.getPath());
   }
 
-  public static boolean isCImport(@Nonnull GoImportSpec importSpec) {
+  public static boolean isCImport(GoImportSpec importSpec) {
     return GoConstants.C_PATH.equals(importSpec.getPath());
   }
 
-  public static boolean isDot(@Nonnull GoImportSpec importSpec) {
+  public static boolean isDot(GoImportSpec importSpec) {
     GoImportSpecStub stub = importSpec.getStub();
     return stub != null ? stub.isDot() : importSpec.getDot() != null;
   }
 
-  @Nonnull
-  public static String getPath(@Nonnull GoImportSpec importSpec) {
+  public static String getPath(GoImportSpec importSpec) {
     GoImportSpecStub stub = importSpec.getStub();
     return stub != null ? stub.getPath() : importSpec.getImportString().getPath();
   }
 
-  public static String getName(@Nonnull GoImportSpec importSpec) {
+  public static String getName(GoImportSpec importSpec) {
     return getAlias(importSpec);
   }
 
-  public static String getAlias(@Nonnull GoImportSpec importSpec) {
+  public static String getAlias(GoImportSpec importSpec) {
     GoImportSpecStub stub = importSpec.getStub();
     if (stub != null) {
       return stub.getAlias();
@@ -1149,26 +1127,24 @@ public class GoPsiImplUtil {
     return false;
   }
 
-  public static boolean shouldGoDeeper(@Nonnull GoType o) {
+  public static boolean shouldGoDeeper(GoType o) {
     return o instanceof GoInterfaceType || o instanceof GoStructType;
   }
 
   @Nullable
-  public static PsiElement contextlessResolve(@Nonnull GoType o) {
+  public static PsiElement contextlessResolve(GoType o) {
     GoTypeReferenceExpression typeReferenceExpression = o.getTypeReferenceExpression();
     return typeReferenceExpression == null ? null : typeReferenceExpression.resolve();
   }
 
-  public static boolean isForSideEffects(@Nonnull GoImportSpec o) {
+  public static boolean isForSideEffects(GoImportSpec o) {
     return "_".equals(o.getAlias());
   }
 
-  @Nonnull
-  public static String getPath(@Nonnull GoImportString o) {
+  public static String getPath(GoImportString o) {
     return o.getStringLiteral().getDecodedText();
   }
 
-  @Nonnull
   public static String unquote(@Nullable String s) {
     if (StringUtil.isEmpty(s)) return "";
     char quote = s.charAt(0);
@@ -1186,13 +1162,12 @@ public class GoPsiImplUtil {
     return s.substring(startOffset, endOffset);
   }
 
-  @Nonnull
-  public static TextRange getPathTextRange(@Nonnull GoImportString importString) {
+  public static TextRange getPathTextRange(GoImportString importString) {
     String text = importString.getText();
     return !text.isEmpty() && isQuote(text.charAt(0)) ? TextRange.create(1, text.length() - 1) : TextRange.EMPTY_RANGE;
   }
 
-  public static boolean isQuotedImportString(@Nonnull String s) {
+  public static boolean isQuotedImportString(String s) {
     return s.length() > 1 && isQuote(s.charAt(0)) && s.charAt(0) == s.charAt(s.length() - 1);
   }
 
@@ -1200,12 +1175,11 @@ public class GoPsiImplUtil {
     return ch == '"' || ch == '\'' || ch == '`';
   }
 
-  public static boolean isValidHost(@Nonnull GoStringLiteral o) {
+  public static boolean isValidHost(GoStringLiteral o) {
     return PsiTreeUtil.getParentOfType(o, GoImportString.class) == null;
   }
 
-  @Nonnull
-  public static GoStringLiteralImpl updateText(@Nonnull GoStringLiteral o, @Nonnull String text) {
+  public static GoStringLiteralImpl updateText(GoStringLiteral o, String text) {
     if (text.length() > 2) {
       if (o.getString() != null) {
         StringBuilder outChars = new StringBuilder();
@@ -1223,8 +1197,7 @@ public class GoPsiImplUtil {
     return (GoStringLiteralImpl) o;
   }
 
-  @Nonnull
-  public static GoStringLiteralEscaper createLiteralTextEscaper(@Nonnull GoStringLiteral o) {
+  public static GoStringLiteralEscaper createLiteralTextEscaper(GoStringLiteral o) {
     return new GoStringLiteralEscaper(o);
   }
 
@@ -1270,9 +1243,8 @@ public class GoPsiImplUtil {
     return grandParent instanceof GoUnaryExpr && ((GoUnaryExpr) grandParent).getBitAnd() != null;
   }
 
-  @Nonnull
-  public static GoVarSpec addSpec(@Nonnull GoVarDeclaration declaration,
-                                  @Nonnull String name,
+  public static GoVarSpec addSpec(GoVarDeclaration declaration,
+                                  String name,
                                   @Nullable String type,
                                   @Nullable String value,
                                   @Nullable GoVarSpec specAnchor) {
@@ -1300,9 +1272,8 @@ public class GoPsiImplUtil {
     return spec;
   }
 
-  @Nonnull
-  public static GoConstSpec addSpec(@Nonnull GoConstDeclaration declaration,
-                                    @Nonnull String name,
+  public static GoConstSpec addSpec(GoConstDeclaration declaration,
+                                    String name,
                                     @Nullable String type,
                                     @Nullable String value,
                                     @Nullable GoConstSpec specAnchor) {
@@ -1330,7 +1301,7 @@ public class GoPsiImplUtil {
     return spec;
   }
 
-  public static void deleteSpec(@Nonnull GoVarDeclaration declaration, @Nonnull GoVarSpec specToDelete) {
+  public static void deleteSpec(GoVarDeclaration declaration, GoVarSpec specToDelete) {
     List<GoVarSpec> specList = declaration.getVarSpecList();
     int index = specList.indexOf(specToDelete);
     assert index >= 0;
@@ -1341,7 +1312,7 @@ public class GoPsiImplUtil {
     specToDelete.delete();
   }
 
-  public static void deleteSpec(@Nonnull GoConstDeclaration declaration, @Nonnull GoConstSpec specToDelete) {
+  public static void deleteSpec(GoConstDeclaration declaration, GoConstSpec specToDelete) {
     List<GoConstSpec> specList = declaration.getConstSpecList();
     int index = specList.indexOf(specToDelete);
     assert index >= 0;
@@ -1352,8 +1323,8 @@ public class GoPsiImplUtil {
     specToDelete.delete();
   }
 
-  public static void deleteExpressionFromAssignment(@Nonnull GoAssignmentStatement assignment,
-                                                    @Nonnull GoExpression expressionToDelete) {
+  public static void deleteExpressionFromAssignment(GoAssignmentStatement assignment,
+                                                    GoExpression expressionToDelete) {
     GoExpression expressionValue = getRightExpression(assignment, expressionToDelete);
     if (expressionValue != null) {
       if (assignment.getExpressionList().size() == 1) {
@@ -1365,7 +1336,7 @@ public class GoPsiImplUtil {
     }
   }
 
-  public static void deleteDefinition(@Nonnull GoVarSpec spec, @Nonnull GoVarDefinition definitionToDelete) {
+  public static void deleteDefinition(GoVarSpec spec, GoVarDefinition definitionToDelete) {
     List<GoVarDefinition> definitionList = spec.getVarDefinitionList();
     int index = definitionList.indexOf(definitionToDelete);
     assert index >= 0;
@@ -1390,7 +1361,7 @@ public class GoPsiImplUtil {
     deleteElementFromCommaSeparatedList(definitionToDelete);
   }
 
-  public static void deleteDefinition(@Nonnull GoConstSpec spec, @Nonnull GoConstDefinition definitionToDelete) {
+  public static void deleteDefinition(GoConstSpec spec, GoConstDefinition definitionToDelete) {
     List<GoConstDefinition> definitionList = spec.getConstDefinitionList();
     int index = definitionList.indexOf(definitionToDelete);
     assert index >= 0;
@@ -1428,7 +1399,7 @@ public class GoPsiImplUtil {
     element.delete();
   }
 
-  private static boolean hasNewLineBefore(@Nonnull PsiElement anchor) {
+  private static boolean hasNewLineBefore(PsiElement anchor) {
     PsiElement prevSibling = anchor.getPrevSibling();
     while (prevSibling instanceof PsiWhiteSpace) {
       if (prevSibling.textContains('\n')) {
@@ -1440,7 +1411,7 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static GoExpression getValue(@Nonnull GoVarDefinition definition) {
+  public static GoExpression getValue(GoVarDefinition definition) {
     PsiElement parent = definition.getParent();
     if (parent instanceof GoVarSpec) {
       int index = ((GoVarSpec) parent).getVarDefinitionList().indexOf(definition);
@@ -1454,25 +1425,25 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static GoExpression getValue(@Nonnull GoConstDefinition definition) {
+  public static GoExpression getValue(GoConstDefinition definition) {
     PsiElement parent = definition.getParent();
     assert parent instanceof GoConstSpec;
     int index = ((GoConstSpec) parent).getConstDefinitionList().indexOf(definition);
     return getByIndex(((GoConstSpec) parent).getExpressionList(), index);
   }
 
-  private static <T> T getByIndex(@Nonnull List<T> list, int index) {
+  private static <T> T getByIndex(List<T> list, int index) {
     return 0 <= index && index < list.size() ? list.get(index) : null;
   }
 
   @Nullable
-  public static GoTypeSpec getTypeSpecSafe(@Nonnull GoType type) {
+  public static GoTypeSpec getTypeSpecSafe(GoType type) {
     GoTypeStub stub = type.getStub();
     PsiElement parent = stub == null ? type.getParent() : stub.getParentStub().getPsi();
     return ObjectUtil.tryCast(parent, GoTypeSpec.class);
   }
 
-  public static boolean canBeAutoImported(@Nonnull GoFile file, boolean allowMain, @Nullable Module module) {
+  public static boolean canBeAutoImported(GoFile file, boolean allowMain, @Nullable Module module) {
     if (isBuiltinFile(file) || !allowMain && StringUtil.equals(file.getPackageName(), GoConstants.MAIN)) {
       return false;
     }
@@ -1481,30 +1452,27 @@ public class GoPsiImplUtil {
 
   @Nullable
   @Contract("null, _ -> null")
-  public static <T extends PsiElement> T getNonStrictTopmostParentOfType(@Nullable PsiElement element, @Nonnull Class<T> aClass) {
+  public static <T extends PsiElement> T getNonStrictTopmostParentOfType(@Nullable PsiElement element, Class<T> aClass) {
     T first = PsiTreeUtil.getNonStrictParentOfType(element, aClass);
     T topMost = PsiTreeUtil.getTopmostParentOfType(first, aClass);
     return ObjectUtil.chooseNotNull(topMost, first);
   }
 
   @Nullable
-  public static GoExpression getExpression(@Nonnull GoIndexOrSliceExpr slice) {
+  public static GoExpression getExpression(GoIndexOrSliceExpr slice) {
     return ContainerUtil.getFirstItem(getExpressionsBefore(slice.getExpressionList(), slice.getLbrack()));
   }
 
-  @Nonnull
-  public static List<GoExpression> getLeftExpressionsList(@Nonnull GoRangeClause rangeClause) {
+  public static List<GoExpression> getLeftExpressionsList(GoRangeClause rangeClause) {
     return getExpressionsBefore(rangeClause.getExpressionList(), rangeClause.getRange());
   }
 
-  @Nonnull
-  public static List<GoExpression> getLeftExpressionsList(@Nonnull GoRecvStatement recvStatement) {
+  public static List<GoExpression> getLeftExpressionsList(GoRecvStatement recvStatement) {
     return getExpressionsBefore(recvStatement.getExpressionList(),
         ObjectUtil.chooseNotNull(recvStatement.getAssign(), recvStatement.getVarAssign()));
   }
 
-  @Nonnull
-  public static Trinity<GoExpression, GoExpression, GoExpression> getIndices(@Nonnull GoIndexOrSliceExpr slice) {
+  public static Trinity<GoExpression, GoExpression, GoExpression> getIndices(GoIndexOrSliceExpr slice) {
     GoExpression start;
     GoExpression end = null;
     GoExpression max = null;
@@ -1523,46 +1491,42 @@ public class GoPsiImplUtil {
     return Trinity.create(start, end, max);
   }
 
-  @Nonnull
-  public static List<GoExpression> getRightExpressionsList(@Nonnull GoVarSpec varSpec) {
+  public static List<GoExpression> getRightExpressionsList(GoVarSpec varSpec) {
     return varSpec.getExpressionList();
   }
 
-  @Nonnull
-  public static List<GoExpression> getRightExpressionsList(@Nonnull GoRangeClause rangeClause) {
+  public static List<GoExpression> getRightExpressionsList(GoRangeClause rangeClause) {
     return ContainerUtil.createMaybeSingletonList(rangeClause.getRangeExpression());
   }
 
-  @Nonnull
-  public static List<GoExpression> getRightExpressionsList(@Nonnull GoRecvStatement recvStatement) {
+  public static List<GoExpression> getRightExpressionsList(GoRecvStatement recvStatement) {
     return ContainerUtil.createMaybeSingletonList(recvStatement.getRecvExpression());
   }
 
   @Nullable
-  public static GoExpression getRangeExpression(@Nonnull GoRangeClause rangeClause) {
+  public static GoExpression getRangeExpression(GoRangeClause rangeClause) {
     return getLastExpressionAfter(rangeClause.getExpressionList(), rangeClause.getRange());
   }
 
   @Nullable
-  public static GoExpression getRecvExpression(@Nonnull GoRecvStatement recvStatement) {
+  public static GoExpression getRecvExpression(GoRecvStatement recvStatement) {
     return getLastExpressionAfter(recvStatement.getExpressionList(),
         ObjectUtil.chooseNotNull(recvStatement.getAssign(), recvStatement.getVarAssign()));
   }
 
   @Nullable
-  public static GoExpression getSendExpression(@Nonnull GoSendStatement sendStatement) {
+  public static GoExpression getSendExpression(GoSendStatement sendStatement) {
     return getLastExpressionAfter(sendStatement.getExpressionList(), sendStatement.getSendChannel());
   }
 
   @Nullable
-  private static GoExpression getLastExpressionAfter(@Nonnull List<GoExpression> list, @Nullable PsiElement anchor) {
+  private static GoExpression getLastExpressionAfter(List<GoExpression> list, @Nullable PsiElement anchor) {
     if (anchor == null) return null;
     GoExpression last = ContainerUtil.getLastItem(list);
     return last != null && last.getTextRange().getStartOffset() >= anchor.getTextRange().getEndOffset() ? last : null;
   }
 
-  @Nonnull
-  private static List<GoExpression> getExpressionsInRange(@Nonnull List<GoExpression> list,
+  private static List<GoExpression> getExpressionsInRange(List<GoExpression> list,
                                                           @Nullable PsiElement start,
                                                           @Nullable PsiElement end) {
     if (start == null && end == null) {
@@ -1572,13 +1536,11 @@ public class GoPsiImplUtil {
         (start == null || expression.getTextRange().getStartOffset() >= start.getTextRange().getEndOffset()));
   }
 
-  @Nonnull
-  private static List<GoExpression> getExpressionsBefore(@Nonnull List<GoExpression> list, @Nullable PsiElement anchor) {
+  private static List<GoExpression> getExpressionsBefore(List<GoExpression> list, @Nullable PsiElement anchor) {
     return getExpressionsInRange(list, null, anchor);
   }
 
-  @Nonnull
-  public static ReadWriteAccessDetector.Access getReadWriteAccess(@Nonnull GoReferenceExpression referenceExpression) {
+  public static ReadWriteAccessDetector.Access getReadWriteAccess(GoReferenceExpression referenceExpression) {
     GoExpression expression = getConsiderableExpression(referenceExpression);
     PsiElement parent = expression.getParent();
     if (parent instanceof GoSelectorExpr) {
@@ -1614,8 +1576,7 @@ public class GoPsiImplUtil {
     return Read;
   }
 
-  @Nonnull
-  private static GoExpression getConsiderableExpression(@Nonnull GoExpression element) {
+  private static GoExpression getConsiderableExpression(GoExpression element) {
     GoExpression result = element;
     while (true) {
       PsiElement parent = result.getParent();
@@ -1637,8 +1598,7 @@ public class GoPsiImplUtil {
     }
   }
 
-  @Nonnull
-  public static String getDecodedText(@Nonnull GoStringLiteral o) {
+  public static String getDecodedText(GoStringLiteral o) {
     StringBuilder builder = new StringBuilder();
     TextRange range = ElementManipulators.getManipulator(o).getRangeInElement(o);
     o.createLiteralTextEscaper().decode(range, builder);
@@ -1646,12 +1606,12 @@ public class GoPsiImplUtil {
   }
 
   @Nullable
-  public static PsiElement getOperator(@Nonnull GoUnaryExpr o) {
+  public static PsiElement getOperator(GoUnaryExpr o) {
     return getNotNullElement(o.getNot(), o.getMinus(), o.getPlus(), o.getBitAnd(), o.getBitXor(), o.getMul(), o.getSendChannel());
   }
 
   @Nullable
-  public static PsiElement getOperator(@Nonnull GoBinaryExpr o) {
+  public static PsiElement getOperator(GoBinaryExpr o) {
     if (o instanceof GoAndExpr) return ((GoAndExpr) o).getCondAnd();
     if (o instanceof GoOrExpr) return ((GoOrExpr) o).getCondOr();
     if (o instanceof GoSelectorExpr) return ((GoSelectorExpr) o).getDot();
@@ -1682,12 +1642,12 @@ public class GoPsiImplUtil {
     return null;
   }
 
-  public static boolean isSingleCharLiteral(@Nonnull GoStringLiteral literal) {
+  public static boolean isSingleCharLiteral(GoStringLiteral literal) {
     return literal.getDecodedText().length() == 1;
   }
 
   @Nullable
-  public static GoExpression getRightExpression(@Nonnull GoAssignmentStatement assignment, @Nonnull GoExpression leftExpression) {
+  public static GoExpression getRightExpression(GoAssignmentStatement assignment, GoExpression leftExpression) {
     int fieldIndex = assignment.getLeftHandExprList().getExpressionList().indexOf(leftExpression);
     return getByIndex(assignment.getExpressionList(), fieldIndex);
   }

@@ -20,8 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import org.junit.experimental.categories.Category;
 import com.goide.categories.Performance;
@@ -109,7 +108,7 @@ public abstract class GoPerformanceTest extends GoCodeInsightFixtureTestCase {
     doCompletionTest("package main; func main() { slee<caret> }", 1, TimeUnit.SECONDS.toMillis(5));
   }
 
-  private void doCompletionTest(@Nonnull String source, int invocationCount, long expectation) {
+  private void doCompletionTest(String source, int invocationCount, long expectation) {
     VirtualFile go = installTestData("go");
     if (go == null) return;
     
@@ -123,7 +122,7 @@ public abstract class GoPerformanceTest extends GoCodeInsightFixtureTestCase {
                                           () -> myFixture.testHighlighting(true, false, false, getTestName(true) + ".go")).cpuBound().usesAllCPUCores().assertTiming();
   }
 
-  private void doInspectionTest(@Nonnull InspectionProfileEntry tool, long expected) {
+  private void doInspectionTest(InspectionProfileEntry tool, long expected) {
     VirtualFile sourceDir = installTestData("docker");
     if (sourceDir == null) return;
     //noinspection ConstantConditions
@@ -141,7 +140,7 @@ public abstract class GoPerformanceTest extends GoCodeInsightFixtureTestCase {
   }
 
   @Nullable
-  private VirtualFile installTestData(@Nonnull String testData) {
+  private VirtualFile installTestData(String testData) {
     if (!new File(myFixture.getTestDataPath(), testData).exists()) {
       System.err.println("For performance tests you need to have a docker project inside testData/" + getBasePath() + " directory");
       return null;
@@ -164,9 +163,8 @@ public abstract class GoPerformanceTest extends GoCodeInsightFixtureTestCase {
       VirtualFile root = LocalFileSystem.getInstance().findFileByIoFile(go);
       assertNotNull(root);
       VfsUtilCore.visitChildrenRecursively(root, new VirtualFileVisitor() {
-        @Nonnull
         @Override
-        public Result visitFileEx(@Nonnull VirtualFile file) {
+        public Result visitFileEx(VirtualFile file) {
           if (file.isDirectory() && "testdata".equals(file.getName())) return SKIP_CHILDREN;
           if (file.isDirectory() && "test".equals(file.getName()) && file.getParent().equals(root)) return SKIP_CHILDREN;
           if (file.getFileType() != GoFileType.INSTANCE) return CONTINUE;
@@ -182,7 +180,6 @@ public abstract class GoPerformanceTest extends GoCodeInsightFixtureTestCase {
     }).usesAllCPUCores().assertTiming();
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "performance";

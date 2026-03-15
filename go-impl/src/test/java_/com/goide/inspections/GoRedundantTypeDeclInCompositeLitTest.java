@@ -17,7 +17,6 @@
 package com.goide.inspections;
 
 import com.goide.quickfix.GoQuickFixTestBase;
-import jakarta.annotation.Nonnull;
 
 public abstract class GoRedundantTypeDeclInCompositeLitTest extends GoQuickFixTestBase {
   @Override
@@ -89,7 +88,6 @@ public abstract class GoRedundantTypeDeclInCompositeLitTest extends GoQuickFixTe
     doTest(GoRedundantTypeDeclInCompositeLit.DELETE_TYPE_DECLARATION_QUICK_FIX_NAME, true);
   }*/
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "inspections/go-simplify";

@@ -31,8 +31,7 @@ import consulo.process.ProcessHandler;
 import consulo.process.event.ProcessEvent;
 import consulo.process.event.ProcessListener;
 import consulo.util.lang.StringUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.File;
 import java.util.Objects;
@@ -42,16 +41,14 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
     private GoHistoryProcessListener myHistoryProcessHandler;
     private int myDebugPort = 59090;
 
-    public GoApplicationRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module, @Nonnull GoApplicationConfiguration configuration) {
+    public GoApplicationRunningState(ExecutionEnvironment env, Module module, GoApplicationConfiguration configuration) {
         super(env, module, configuration);
     }
 
-    @Nonnull
     public String getTarget() {
         return myConfiguration.getKind() == GoApplicationConfiguration.Kind.PACKAGE ? myConfiguration.getPackage() : myConfiguration.getFilePath();
     }
 
-    @Nonnull
     public String getGoBuildParams() {
         return myConfiguration.getGoToolParams();
     }
@@ -60,7 +57,6 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
         return DefaultDebugExecutor.EXECUTOR_ID.equals(getEnvironment().getExecutor().getId());
     }
 
-    @Nonnull
     @Override
     protected ProcessHandler startProcess() throws ExecutionException {
         File outputFile = Objects.requireNonNull(getEnvironment().getUserData(GoCompilerRunner.OUTPUT_FILE), "Output File must be set");
@@ -88,7 +84,7 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
     }
 
     @Override
-    protected GoExecutor patchExecutor(@Nonnull GoExecutor executor) throws ExecutionException {
+    protected GoExecutor patchExecutor(GoExecutor executor) throws ExecutionException {
         File outputFile = Objects.requireNonNull(getEnvironment().getUserData(GoCompilerRunner.OUTPUT_FILE), "Output File must be set");
 
         if (isDebug()) {
@@ -106,7 +102,6 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
         return executor.showGoEnvVariables(false).withExePath(outputFile.getAbsolutePath());
     }
 
-    @Nonnull
     private static File dlv() {
         Platform platform = Platform.current();
 

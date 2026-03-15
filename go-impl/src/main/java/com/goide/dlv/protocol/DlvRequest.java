@@ -21,8 +21,7 @@ import consulo.execution.debug.frame.XValueNode;
 import org.jetbrains.jsonProtocol.OutMessage;
 import org.jetbrains.jsonProtocol.Request;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.io.IOException;
 
 /**
@@ -48,7 +47,6 @@ public abstract class DlvRequest<T> extends OutMessage implements Request<T> {
     }
   }
 
-  @Nonnull
   @Override
   public String getMethodName() {
     return "RPCServer." + getClass().getSimpleName();
@@ -167,7 +165,7 @@ public abstract class DlvRequest<T> extends OutMessage implements Request<T> {
   }
 
   public final static class Eval extends DlvRequest<DlvApi.EvalVariableOut> {
-    public Eval(@Nonnull String expr, int frameId, int goroutineId) {
+    public Eval(String expr, int frameId, int goroutineId) {
       try {
         beginArguments();
         writeScope(frameId, goroutineId, getWriter()).name("Expr").value(expr);
@@ -178,8 +176,7 @@ public abstract class DlvRequest<T> extends OutMessage implements Request<T> {
     }
   }
 
-  @Nonnull
-  private static JsonWriter writeScope(int frameId, int goroutineId, @Nonnull JsonWriter writer) throws IOException {
+  private static JsonWriter writeScope(int frameId, int goroutineId, JsonWriter writer) throws IOException {
     // todo: ask vladimir how to simplify this
     return writer.name("Cfg").beginObject().name("FollowPointers").value(true).name("MaxStringLen").value(XValueNode.MAX_VALUE_LENGTH)
             .name("MaxVariableRecurse").value(1).name("MaxArrayValues").value(64).name("MaxStructFields").value(-1).endObject().name("Scope").beginObject()
@@ -187,7 +184,7 @@ public abstract class DlvRequest<T> extends OutMessage implements Request<T> {
   }
 
   public final static class Set extends DlvRequest<Object> {
-    public Set(@Nonnull String symbol, @Nonnull String value, int frameId, int goroutineId) {
+    public Set(String symbol, String value, int frameId, int goroutineId) {
       try {
         beginArguments();
         writeScope(frameId, goroutineId, getWriter()).name("Symbol").value(symbol).name("Value").value(value);

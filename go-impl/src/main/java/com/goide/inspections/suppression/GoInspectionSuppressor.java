@@ -33,14 +33,13 @@ import consulo.localize.LocalizeValue;
 import consulo.usage.UsageViewTypeLocation;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.regex.Matcher;
 
 @ExtensionImpl
 public class GoInspectionSuppressor implements InspectionSuppressor {
   @Override
-  public boolean isSuppressedFor(@Nonnull PsiElement element, @Nonnull String toolId) {
+  public boolean isSuppressedFor(PsiElement element, String toolId) {
     GoTopLevelDeclaration topLevelDeclaration = PsiTreeUtil.getTopmostParentOfType(element, GoTopLevelDeclaration.class);
     if (topLevelDeclaration != null && isSuppressedInStatement(toolId, topLevelDeclaration)) {
       return true;
@@ -54,9 +53,8 @@ public class GoInspectionSuppressor implements InspectionSuppressor {
                                    GoTopLevelDeclaration.class, GoImportDeclaration.class);
   }
 
-  @Nonnull
   @Override
-  public SuppressQuickFix[] getSuppressActions(PsiElement element, @Nonnull String toolId) {
+  public SuppressQuickFix[] getSuppressActions(PsiElement element, String toolId) {
     return new SuppressQuickFix[]{
       new GoSuppressInspectionFix("comm case", GoCommClause.class, false),
       new GoSuppressInspectionFix(toolId, "comm case", GoCommClause.class, false),
@@ -73,7 +71,6 @@ public class GoInspectionSuppressor implements InspectionSuppressor {
     };
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;
@@ -84,7 +81,7 @@ public class GoInspectionSuppressor implements InspectionSuppressor {
       super("statement", GoStatement.class, false);
     }
 
-    public GoSuppressForStatementFix(@Nonnull String ID) {
+    public GoSuppressForStatementFix(String ID) {
       super(ID, "statement", GoStatement.class, false);
     }
 
@@ -105,7 +102,7 @@ public class GoInspectionSuppressor implements InspectionSuppressor {
     private final Class<? extends GoCompositeElement> myContainerClass;
     private final boolean myTopMost;
 
-    public GoSuppressInspectionFix(@Nonnull String elementDescription,
+    public GoSuppressInspectionFix(String elementDescription,
                                    Class<? extends GoCompositeElement> containerClass,
                                    boolean topMost) {
       super(SuppressionUtil.ALL, true);
@@ -114,8 +111,8 @@ public class GoInspectionSuppressor implements InspectionSuppressor {
       myTopMost = topMost;
     }
 
-    public GoSuppressInspectionFix(@Nonnull String ID,
-                                   @Nonnull String elementDescription,
+    public GoSuppressInspectionFix(String ID,
+                                   String elementDescription,
                                    Class<? extends GoCompositeElement> containerClass,
                                    boolean topMost) {
       super(ID, false);
@@ -147,9 +144,9 @@ public class GoInspectionSuppressor implements InspectionSuppressor {
     }
   }
 
-  private static boolean isSuppressedInStatement(@Nonnull PsiElement place,
-                                                 @Nonnull String toolId,
-                                                 @Nonnull Class<? extends PsiElement>... statementClasses) {
+  private static boolean isSuppressedInStatement(PsiElement place,
+                                                 String toolId,
+                                                 Class<? extends PsiElement>... statementClasses) {
     PsiElement statement = PsiTreeUtil.getNonStrictParentOfType(place, statementClasses);
     while (statement != null) {
       if (isSuppressedInStatement(toolId, statement)) {
@@ -160,7 +157,7 @@ public class GoInspectionSuppressor implements InspectionSuppressor {
     return false;
   }
 
-  private static boolean isSuppressedInStatement(@Nonnull String toolId, @Nullable PsiElement statement) {
+  private static boolean isSuppressedInStatement(String toolId, @Nullable PsiElement statement) {
     if (statement != null) {
       PsiElement prev = PsiTreeUtil.skipSiblingsBackward(statement, PsiWhiteSpace.class);
       if (prev instanceof PsiComment) {

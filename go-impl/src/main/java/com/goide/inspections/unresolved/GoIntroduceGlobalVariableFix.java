@@ -18,10 +18,9 @@ package com.goide.inspections.unresolved;
 
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
 
 public class GoIntroduceGlobalVariableFix extends GoUnresolvedFixBase {
-  public GoIntroduceGlobalVariableFix(@Nonnull PsiElement element, @Nonnull String name) {
+  public GoIntroduceGlobalVariableFix(PsiElement element, String name) {
     super(element, name, "global variable", "go_lang_global_var_qf");
   }
 }

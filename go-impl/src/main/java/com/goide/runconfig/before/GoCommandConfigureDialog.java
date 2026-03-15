@@ -21,8 +21,7 @@ import consulo.project.Project;
 import consulo.ui.ex.awt.DialogWrapper;
 import consulo.ui.ex.awt.ValidationInfo;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
@@ -33,7 +32,7 @@ public class GoCommandConfigureDialog extends DialogWrapper {
 
   private final TextFieldWithAutoCompletion<String> myCommandTextField;
 
-  public GoCommandConfigureDialog(@Nonnull Project project) {
+  public GoCommandConfigureDialog(Project project) {
     super(project);
     setTitle("Edit Go Command Task");
     setModal(true);
@@ -68,7 +67,6 @@ public class GoCommandConfigureDialog extends DialogWrapper {
     return panel;
   }
 
-  @Nonnull
   public String getCommand() {
     return myCommandTextField.getText().trim();
   }

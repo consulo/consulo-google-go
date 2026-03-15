@@ -39,8 +39,7 @@ import consulo.ui.ex.awt.JBLabel;
 import consulo.ui.ex.popup.JBPopup;
 import consulo.ui.ex.popup.JBPopupFactory;
 import consulo.util.lang.StringUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
@@ -52,9 +51,9 @@ public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionO
   private final String myPackageName;
   private final boolean myIsOneTheFly;
 
-  public GoMultiplePackagesQuickFix(@Nonnull PsiElement element,
-                                    @Nonnull String packageName,
-                                    @Nonnull Collection<String> packages,
+  public GoMultiplePackagesQuickFix(PsiElement element,
+                                    String packageName,
+                                    Collection<String> packages,
                                     boolean isOnTheFly) {
     super(element);
     myPackages = packages;
@@ -62,9 +61,9 @@ public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionO
     myIsOneTheFly = isOnTheFly;
   }
 
-  private static void renamePackagesInDirectory(@Nonnull Project project,
-                                                @Nonnull PsiDirectory dir,
-                                                @Nonnull String newName) {
+  private static void renamePackagesInDirectory(Project project,
+                                                PsiDirectory dir,
+                                                String newName) {
     WriteCommandAction.runWriteCommandAction(project, () -> {
       Module module = ModuleUtilCore.findModuleForPsiElement(dir);
       for (PsiFile file : dir.getFiles()) {
@@ -83,7 +82,7 @@ public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionO
   }
 
   @TestOnly
-  public static void setTestingPackageName(@Nonnull String packageName, @Nonnull Disposable disposable) {
+  public static void setTestingPackageName(String packageName, Disposable disposable) {
     myTestingPackageName = packageName;
     Disposer.register(disposable, () -> {
       //noinspection AssignmentToStaticFieldFromInstanceMethod
@@ -92,11 +91,11 @@ public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionO
   }
 
   @Override
-  public void invoke(@Nonnull Project project,
-                     @Nonnull PsiFile file,
+  public void invoke(Project project,
+                     PsiFile file,
                      @Nullable Editor editor,
-                     @Nonnull PsiElement startElement,
-                     @Nonnull PsiElement endElement) {
+                     PsiElement startElement,
+                     PsiElement endElement) {
     if (editor == null || myTestingPackageName != null) {
       renamePackagesInDirectory(project, file.getContainingDirectory(),
                                 myTestingPackageName != null ? myTestingPackageName : myPackageName);
@@ -116,7 +115,6 @@ public class GoMultiplePackagesQuickFix extends LocalQuickFixAndIntentionActionO
     editor.showPopupInBestPositionFor(popup);
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getText() {
     return LocalizeValue.localizeTODO("Rename packages" + (myIsOneTheFly ? "" : " to " + myPackageName));

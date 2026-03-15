@@ -55,8 +55,7 @@ import consulo.util.lang.ThreeState;
 import consulo.util.lang.ref.Ref;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
@@ -66,13 +65,9 @@ import java.util.function.Consumer;
 
 public class GoExecutor {
   private static final Logger LOGGER = Logger.getInstance(GoExecutor.class);
-  @Nonnull
   private final Map<String, String> myExtraEnvironment = new HashMap<>();
-  @Nonnull
   private final ParametersList myParameterList = new ParametersList();
-  @Nonnull
   private final ProcessOutput myProcessOutput = new ProcessOutput();
-  @Nonnull
   private final Project myProject;
   @Nullable
   private Boolean myVendoringEnabled;
@@ -98,23 +93,21 @@ public class GoExecutor {
   private ProcessHandler myProcessHandler;
   private final Collection<ProcessListener> myProcessListeners = ContainerUtil.newArrayList();
 
-  private GoExecutor(@Nonnull Project project, @Nullable Module module) {
+  private GoExecutor(Project project, @Nullable Module module) {
     myProject = project;
     myModule = module;
   }
 
-  public static GoExecutor in(@Nonnull Project project, @Nullable Module module) {
+  public static GoExecutor in(Project project, @Nullable Module module) {
     return module != null ? in(module) : in(project);
   }
 
-  @Nonnull
-  private static GoExecutor in(@Nonnull Project project) {
+  private static GoExecutor in(Project project) {
     return new GoExecutor(project, null).withGoRoot(GoSdkService.getInstance(project).getSdkHomePath(null)).withGoPath(GoSdkUtil.retrieveGoPath(project, null))
             .withGoPath(GoSdkUtil.retrieveEnvironmentPathForGo(project, null));
   }
 
-  @Nonnull
-  public static GoExecutor in(@Nonnull Module module) {
+  public static GoExecutor in(Module module) {
     Project project = module.getProject();
     ThreeState vendoringEnabled = GoModuleExtension.getVendoringEnabled(module);
     return new GoExecutor(project, module).withGoRoot(GoSdkService.getInstance(project).getSdkHomePath(module))
@@ -122,73 +115,62 @@ public class GoExecutor {
             .withVendoring(vendoringEnabled != ThreeState.UNSURE ? vendoringEnabled.toBoolean() : null);
   }
 
-  @Nonnull
   public GoExecutor withPresentableName(@Nullable String presentableName) {
     myPresentableName = presentableName;
     return this;
   }
 
-  @Nonnull
   public GoExecutor withExePath(@Nullable String exePath) {
     myExePath = exePath;
     return this;
   }
 
-  @Nonnull
   public GoExecutor withWorkDirectory(@Nullable String workDirectory) {
     myWorkDirectory = workDirectory;
     return this;
   }
 
-  @Nonnull
   public GoExecutor withGoRoot(@Nullable String goRoot) {
     myGoRoot = goRoot;
     return this;
   }
 
-  @Nonnull
   public GoExecutor withGoPath(@Nullable String goPath) {
     myGoPath = goPath;
     return this;
   }
 
-  @Nonnull
   public GoExecutor withEnvPath(@Nullable String envPath) {
     myEnvPath = envPath;
     return this;
   }
 
-  @Nonnull
   public GoExecutor withVendoring(@Nullable Boolean enabled) {
     myVendoringEnabled = enabled;
     return this;
   }
 
-  public GoExecutor withProcessListener(@Nonnull ProcessListener listener) {
+  public GoExecutor withProcessListener(ProcessListener listener) {
     myProcessListeners.add(listener);
     return this;
   }
 
-  @Nonnull
-  public GoExecutor withExtraEnvironment(@Nonnull Map<String, String> environment) {
+  public GoExecutor withExtraEnvironment(Map<String, String> environment) {
     myExtraEnvironment.putAll(environment);
     return this;
   }
 
-  @Nonnull
   public GoExecutor withPassParentEnvironment(boolean passParentEnvironment) {
     myParentEnvironmentType = passParentEnvironment ? GeneralCommandLine.ParentEnvironmentType.CONSOLE : GeneralCommandLine.ParentEnvironmentType.NONE;
     return this;
   }
 
-  @Nonnull
-  public GoExecutor withParameterString(@Nonnull String parameterString) {
+  public GoExecutor withParameterString(String parameterString) {
     myParameterList.addParametersString(parameterString);
     return this;
   }
 
-  @Nonnull
-  public GoExecutor withParameters(@Nonnull String... parameters) {
+  public GoExecutor withParameters(String... parameters) {
     myParameterList.addAll(parameters);
     return this;
   }
@@ -198,13 +180,11 @@ public class GoExecutor {
     return this;
   }
 
-  @Nonnull
   public GoExecutor showOutputOnError() {
     myShowOutputOnError = true;
     return this;
   }
 
-  @Nonnull
   public GoExecutor showNotifications(boolean onError, boolean onSuccess) {
     myShowNotificationsOnError = onError;
     myShowNotificationsOnSuccess = onSuccess;
@@ -236,7 +216,7 @@ public class GoExecutor {
 
       CapturingProcessAdapter processAdapter = new CapturingProcessAdapter(myProcessOutput) {
         @Override
-        public void processTerminated(@Nonnull ProcessEvent event) {
+        public void processTerminated(ProcessEvent event) {
           super.processTerminated(event);
           boolean success = event.getExitCode() == 0 && myProcessOutput.getStderr().isEmpty();
           boolean nothingToShow = myProcessOutput.getStdout().isEmpty() && myProcessOutput.getStderr().isEmpty();
@@ -284,7 +264,7 @@ public class GoExecutor {
     executeWithProgress(modal, c -> {});
   }
 
-  public void executeWithProgress(boolean modal, @Nonnull Consumer<Boolean> consumer) {
+  public void executeWithProgress(boolean modal, Consumer<Boolean> consumer) {
     ProgressManager.getInstance().run(new Task.Backgroundable(myProject, getPresentableName(), true) {
       private boolean doNotStart;
 
@@ -308,7 +288,7 @@ public class GoExecutor {
       }
 
       @Override
-      public void run(@Nonnull ProgressIndicator indicator) {
+      public void run(ProgressIndicator indicator) {
         if (doNotStart || myProject == null || myProject.isDisposed()) {
           return;
         }
@@ -323,14 +303,14 @@ public class GoExecutor {
     return myProcessHandler;
   }
 
-  private void showNotification(@Nonnull String message, NotificationType type) {
+  private void showNotification(String message, NotificationType type) {
     ApplicationManager.getApplication().invokeLater(() -> {
       String title = getPresentableName();
       Notifications.Bus.notify(GoConstants.GO_EXECUTION_NOTIFICATION_GROUP.createNotification(title, message, type, null), myProject);
     });
   }
 
-  private void showOutput(@Nonnull ProcessHandler originalHandler, @Nonnull GoHistoryProcessListener historyProcessListener) {
+  private void showOutput(ProcessHandler originalHandler, GoHistoryProcessListener historyProcessListener) {
     if (myShowOutputOnError) {
       NopProcessHandler process = new NopProcessHandler();
       RunContentExecutor runContentExecutor =
@@ -345,7 +325,6 @@ public class GoExecutor {
     }
   }
 
-  @Nonnull
   public GeneralCommandLine createCommandLine() throws ExecutionException {
     if (myGoRoot == null) {
       throw new ExecutionException("Sdk is not set or Sdk home path is empty for module");
@@ -373,7 +352,6 @@ public class GoExecutor {
     return commandLine;
   }
 
-  @Nonnull
   private String getPresentableName() {
     return ObjectUtil.notNull(myPresentableName, "go");
   }

@@ -22,7 +22,6 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.stub.StringStubIndexExtension;
 import consulo.language.psi.stub.StubIndexKey;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoPackagesIndex extends StringStubIndexExtension<GoFile> {
@@ -33,7 +32,6 @@ public class GoPackagesIndex extends StringStubIndexExtension<GoFile> {
     return GoFileElementType.VERSION + 2;
   }
 
-  @Nonnull
   @Override
   public StubIndexKey<String, GoFile> getKey() {
     return KEY;

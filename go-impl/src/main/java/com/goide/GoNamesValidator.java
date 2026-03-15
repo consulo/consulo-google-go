@@ -23,29 +23,27 @@ import consulo.language.ast.IElementType;
 import consulo.language.editor.refactoring.NamesValidator;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoNamesValidator implements NamesValidator {
   @Override
-  public boolean isKeyword(@Nonnull String name, Project project) {
+  public boolean isKeyword(String name, Project project) {
     return GoParserDefinition.KEYWORDS.contains(getLexerType(name));
   }
 
   @Override
-  public boolean isIdentifier(@Nonnull String name, Project project) {
+  public boolean isIdentifier(String name, Project project) {
     return getLexerType(name) == GoTypes.IDENTIFIER;
   }
 
   @Nullable
-  private static IElementType getLexerType(@Nonnull String text) {
+  private static IElementType getLexerType(String text) {
     GoLexer lexer = new GoLexer();
     lexer.start(text);
     return lexer.getTokenEnd() == text.length() ? lexer.getTokenType() : null;
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

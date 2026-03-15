@@ -20,11 +20,10 @@ import consulo.application.progress.ProgressIndicatorProvider;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 
-import jakarta.annotation.Nonnull;
 
 public class GoRecursiveVisitor extends GoVisitor {
   @Override
-  public void visitCompositeElement(@Nonnull GoCompositeElement o) {
+  public void visitCompositeElement(GoCompositeElement o) {
     super.visitCompositeElement(o);
     for (PsiElement psiElement : o.getChildren()) {
       psiElement.accept(this);
@@ -33,7 +32,7 @@ public class GoRecursiveVisitor extends GoVisitor {
   }
 
   @Override
-  public void visitFile(@Nonnull PsiFile file) {
+  public void visitFile(PsiFile file) {
     super.visitFile(file);
     for (PsiElement psiElement : file.getChildren()) {
       psiElement.accept(this);

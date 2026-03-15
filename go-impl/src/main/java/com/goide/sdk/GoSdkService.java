@@ -36,8 +36,7 @@ import consulo.virtualFileSystem.util.VirtualFileUtil;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.TestOnly;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.io.File;
 import java.util.Set;
 
@@ -49,22 +48,20 @@ public abstract class GoSdkService {
   private static final Set<String> FEDORA_SUBDIRECTORIES = Set.of("linux_amd64", "linux_386", "linux_arm");
   private static String ourTestSdkVersion;
 
-  @Nonnull
   protected final Project myProject;
 
-  protected GoSdkService(@Nonnull Project project) {
+  protected GoSdkService(Project project) {
     myProject = project;
   }
 
-  public static GoSdkService getInstance(@Nonnull Project project) {
+  public static GoSdkService getInstance(Project project) {
     return ServiceManager.getService(project, GoSdkService.class);
   }
 
   @Nullable
   public abstract String getSdkHomePath(@Nullable Module module);
 
-  @Nonnull
-  public static String libraryRootToSdkPath(@Nonnull VirtualFile root) {
+  public static String libraryRootToSdkPath(VirtualFile root) {
     return VirtualFileUtil.urlToPath(StringUtil.trimEnd(StringUtil.trimEnd(StringUtil.trimEnd(root.getUrl(), "src/pkg"), "src"), "/"));
   }
 
@@ -138,7 +135,7 @@ public abstract class GoSdkService {
   }
 
   @Nullable
-  private static String getGaeExecutablePath(@Nonnull String sdkHomePath) {
+  private static String getGaeExecutablePath(String sdkHomePath) {
     String goExecutablePath = PathUtil.toSystemIndependentName(sdkHomePath);
     goExecutablePath = StringUtil.trimEnd(goExecutablePath, GoConstants.APP_ENGINE_GO_ROOT_DIRECTORY_PATH);
 
@@ -152,7 +149,7 @@ public abstract class GoSdkService {
   }
 
   @TestOnly
-  public static void setTestingSdkVersion(@Nullable String version, @Nonnull Disposable disposable) {
+  public static void setTestingSdkVersion(@Nullable String version, Disposable disposable) {
     ourTestSdkVersion = version;
     Disposer.register(disposable, () -> {
       //noinspection AssignmentToStaticFieldFromInstanceMethod
@@ -160,7 +157,7 @@ public abstract class GoSdkService {
     });
   }
 
-  public static boolean isGoSdkLibRoot(@Nonnull VirtualFile root) {
+  public static boolean isGoSdkLibRoot(VirtualFile root) {
     return root.isInLocalFileSystem() &&
            root.isDirectory() &&
            (VirtualFileUtil.findRelativeFile(GoConstants.GO_VERSION_FILE_PATH, root) != null ||

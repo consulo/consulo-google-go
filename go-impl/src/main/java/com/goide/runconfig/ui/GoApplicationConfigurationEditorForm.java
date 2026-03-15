@@ -26,13 +26,11 @@ import consulo.project.Project;
 import consulo.ui.ex.awt.*;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import javax.swing.*;
 import java.util.Locale;
 
 public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoApplicationConfiguration> {
-  @Nonnull
   private final Project myProject;
   private TextFieldWithBrowseButton myFileField;
   private GoCommonSettingsPanel myCommonSettingsPanel;
@@ -42,7 +40,7 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
   private JLabel myFileLabel;
   private TextFieldWithBrowseButton myOutputFilePathField;
 
-  public GoApplicationConfigurationEditorForm(@Nonnull Project project) {
+  public GoApplicationConfigurationEditorForm(Project project) {
     super(null);
     myCommonSettingsPanel = new GoCommonSettingsPanel() {
       @Override
@@ -77,7 +75,7 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
   }
 
   @Override
-  protected void resetEditorFrom(@Nonnull GoApplicationConfiguration configuration) {
+  protected void resetEditorFrom(GoApplicationConfiguration configuration) {
     myFileField.setText(configuration.getFilePath());
     myPackageField.setText(configuration.getPackage());
     myRunKindComboBox.setSelectedItem(configuration.getKind());
@@ -86,7 +84,7 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
   }
 
   @Override
-  protected void applyEditorTo(@Nonnull GoApplicationConfiguration configuration) throws ConfigurationException {
+  protected void applyEditorTo(GoApplicationConfiguration configuration) throws ConfigurationException {
     configuration.setFilePath(myFileField.getText());
     configuration.setPackage(myPackageField.getText());
     configuration.setKind((GoApplicationConfiguration.Kind) myRunKindComboBox.getSelectedItem());
@@ -102,7 +100,7 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
   private static ListCellRendererWrapper<GoApplicationConfiguration.Kind> getRunKindListCellRendererWrapper() {
     return new ListCellRendererWrapper<GoApplicationConfiguration.Kind>() {
       @Override
-      public void customize(JList list, @Nullable GoApplicationConfiguration.Kind kind, int index, boolean selected, boolean hasFocus) {
+      public void customize(JList list, GoApplicationConfiguration.@Nullable Kind kind, int index, boolean selected, boolean hasFocus) {
         if (kind != null) {
           String kindName = StringUtil.capitalize(kind.toString().toLowerCase(Locale.US));
           setText(kindName);
@@ -120,7 +118,6 @@ public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoAppli
     myRunKindComboBox.addActionListener(e -> onRunKindChanged());
   }
 
-  @Nonnull
   @Override
   protected JComponent createEditor() {
     return myCommonSettingsPanel;

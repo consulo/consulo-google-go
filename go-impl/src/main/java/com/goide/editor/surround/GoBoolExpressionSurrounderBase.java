@@ -23,18 +23,17 @@ import com.goide.psi.impl.GoTypeUtil;
 import consulo.document.util.TextRange;
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class GoBoolExpressionSurrounderBase extends GoExpressionSurrounder {
   @Override
-  public boolean isApplicable(@Nonnull PsiElement[] elements) {
+  public boolean isApplicable(PsiElement[] elements) {
     GoExpression expression = getExpression(elements);
     return expression != null && GoTypeUtil.isBoolean(expression.getGoType(null));
   }
 
   @Nullable
-  protected TextRange surroundExpressionWithIfElse(@Nonnull PsiElement[] elements, boolean withElse) {
+  protected TextRange surroundExpressionWithIfElse(PsiElement[] elements, boolean withElse) {
     GoExpression expression = getExpression(elements);
     if (expression == null) return null;
     String condition = expression.getText();

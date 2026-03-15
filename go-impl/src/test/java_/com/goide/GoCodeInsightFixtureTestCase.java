@@ -35,15 +35,14 @@ import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.indexing.FileContentImpl;
 import com.intellij.util.indexing.IndexingDataKeys;
 
-import jakarta.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 public abstract class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsightFixtureTestCase {
-  protected static String buildStubTreeText(@Nonnull Project project,
-                                            @Nonnull VirtualFile file,
-                                            @Nonnull String fileContent,
+  protected static String buildStubTreeText(Project project,
+                                            VirtualFile file,
+                                            String fileContent,
                                             boolean checkErrors) throws IOException {
     String path = file.getPath();
     PsiFile psi = PsiFileFactory.getInstance(project).createFileFromText(file.getName(), file.getFileType(), fileContent);
@@ -62,7 +61,6 @@ public abstract class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsi
     return fast;
   }
 
-  @Nonnull
   protected PsiElement findElementAtCaretOrInSelection() {
     SelectionModel selectionModel = myFixture.getEditor().getSelectionModel();
     if (selectionModel.hasSelection()) {
@@ -139,8 +137,7 @@ public abstract class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsi
     return sdk;
   }*/
 
-  @Nonnull
-  protected static String loadText(@Nonnull VirtualFile file) {
+  protected static String loadText(VirtualFile file) {
     try {
       return StringUtil.convertLineSeparators(VfsUtilCore.loadText(file));
     }
@@ -153,7 +150,7 @@ public abstract class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsi
     //GoModuleSettings.getInstance(myFixture.getModule()).setVendoringEnabled(ThreeState.NO);
   }
 
-  protected static String normalizeCode(@Nonnull String codeBefore) {
+  protected static String normalizeCode(String codeBefore) {
     StringBuilder result = new StringBuilder("package main\nfunc main() {\n");
     if ("\n".equals(codeBefore)) {
       result.append(codeBefore);
@@ -173,7 +170,7 @@ public abstract class GoCodeInsightFixtureTestCase extends LightPlatformCodeInsi
 
   private boolean isSdkAware() {return annotatedWith(SdkAware.class);}
 
-  protected void applySingleQuickFix(@Nonnull String quickFixName) {
+  protected void applySingleQuickFix(String quickFixName) {
     List<IntentionAction> availableIntentions = myFixture.filterAvailableIntentions(quickFixName);
     IntentionAction action = ContainerUtil.getFirstItem(availableIntentions);
     assertNotNull(action);

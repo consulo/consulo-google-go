@@ -21,7 +21,6 @@ import com.goide.psi.GoMethodDeclaration;
 import com.goide.runconfig.testing.GoTestRunConfigurationProducerBase;
 import consulo.annotation.component.ExtensionImpl;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GocheckRunConfigurationProducer extends GoTestRunConfigurationProducerBase implements Cloneable {
@@ -29,23 +28,20 @@ public class GocheckRunConfigurationProducer extends GoTestRunConfigurationProdu
     super(GocheckFramework.INSTANCE);
   }
 
-  @Nonnull
   @Override
-  protected String getPackageConfigurationName(@Nonnull String packageName) {
+  protected String getPackageConfigurationName(String packageName) {
     return "gocheck package '" + packageName + "'";
   }
 
-  @Nonnull
   @Override
-  protected String getFunctionConfigurationName(@Nonnull GoFunctionOrMethodDeclaration function, @Nonnull String fileName) {
+  protected String getFunctionConfigurationName(GoFunctionOrMethodDeclaration function, String fileName) {
     return function instanceof GoMethodDeclaration
            ? GocheckFramework.getGocheckTestName((GoMethodDeclaration)function) + " in " + fileName
            : super.getFunctionConfigurationName(function, fileName);
   }
 
-  @Nonnull
   @Override
-  protected String getFileConfigurationName(@Nonnull String fileName) {
+  protected String getFileConfigurationName(String fileName) {
     return "gocheck " + super.getFileConfigurationName(fileName);
   }
 }

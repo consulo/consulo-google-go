@@ -24,22 +24,20 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
 public class GoBreakStatementExitPointHandler extends HighlightUsagesHandlerBase<PsiElement> {
-  @Nonnull
   private final PsiElement myTarget;
   @Nullable private final GoBreakStatement myBreakStatement;
   @Nullable
   private final PsiElement myOwner;
 
-  private GoBreakStatementExitPointHandler(@Nonnull Editor editor,
-                                           @Nonnull PsiFile file,
-                                           @Nonnull PsiElement target,
+  private GoBreakStatementExitPointHandler(Editor editor,
+                                           PsiFile file,
+                                           PsiElement target,
                                            @Nullable GoBreakStatement breakStatement,
                                            @Nullable PsiElement owner) {
     super(editor, file);
@@ -48,14 +46,13 @@ public class GoBreakStatementExitPointHandler extends HighlightUsagesHandlerBase
     myOwner = owner;
   }
 
-  @Nonnull
   @Override
   public List<PsiElement> getTargets() {
     return Collections.singletonList(myTarget);
   }
 
   @Override
-  protected void selectTargets(List<PsiElement> targets, @Nonnull Consumer<List<PsiElement>> selectionConsumer) {
+  protected void selectTargets(List<PsiElement> targets, Consumer<List<PsiElement>> selectionConsumer) {
     selectionConsumer.accept(targets);
   }
 
@@ -64,7 +61,7 @@ public class GoBreakStatementExitPointHandler extends HighlightUsagesHandlerBase
     PsiElement breakStmtOwner = findBreakStatementOwner();
     GoRecursiveVisitor visitor = new GoRecursiveVisitor() {
       @Override
-      public void visitLabelDefinition(@Nonnull GoLabelDefinition o) {
+      public void visitLabelDefinition(GoLabelDefinition o) {
         if (o == breakStmtOwner) {
           addOccurrence(o);
         }
@@ -72,7 +69,7 @@ public class GoBreakStatementExitPointHandler extends HighlightUsagesHandlerBase
       }
 
       @Override
-      public void visitBreakStatement(@Nonnull GoBreakStatement o) {
+      public void visitBreakStatement(GoBreakStatement o) {
         if (o == myBreakStatement || getBreakStatementOwnerOrResolve(o) == breakStmtOwner) {
           addOccurrence(o);
         }
@@ -80,7 +77,7 @@ public class GoBreakStatementExitPointHandler extends HighlightUsagesHandlerBase
       }
 
       @Override
-      public void visitSwitchStatement(@Nonnull GoSwitchStatement o) {
+      public void visitSwitchStatement(GoSwitchStatement o) {
         if (o == breakStmtOwner) {
           GoSwitchStart switchStart = o.getSwitchStart();
           if (switchStart != null) {
@@ -91,7 +88,7 @@ public class GoBreakStatementExitPointHandler extends HighlightUsagesHandlerBase
       }
 
       @Override
-      public void visitForStatement(@Nonnull GoForStatement o) {
+      public void visitForStatement(GoForStatement o) {
         if (o == breakStmtOwner) {
           addOccurrence(o.getFor());
         }
@@ -99,7 +96,7 @@ public class GoBreakStatementExitPointHandler extends HighlightUsagesHandlerBase
       }
 
       @Override
-      public void visitSelectStatement(@Nonnull GoSelectStatement o) {
+      public void visitSelectStatement(GoSelectStatement o) {
         if (o == breakStmtOwner) {
           addOccurrence(o.getSelect());
         }
@@ -122,7 +119,7 @@ public class GoBreakStatementExitPointHandler extends HighlightUsagesHandlerBase
   }
 
   @Nullable
-  public static PsiElement getBreakStatementOwnerOrResolve(@Nonnull GoBreakStatement breakStatement) {
+  public static PsiElement getBreakStatementOwnerOrResolve(GoBreakStatement breakStatement) {
     GoLabelRef label = breakStatement.getLabelRef();
     if (label != null) {
       return label.getReference().resolve();
@@ -131,9 +128,9 @@ public class GoBreakStatementExitPointHandler extends HighlightUsagesHandlerBase
   }
 
   @Nullable
-  public static GoBreakStatementExitPointHandler createForElement(@Nonnull Editor editor,
-                                                                  @Nonnull PsiFile file,
-                                                                  @Nonnull PsiElement element) {
+  public static GoBreakStatementExitPointHandler createForElement(Editor editor,
+                                                                  PsiFile file,
+                                                                  PsiElement element) {
     PsiElement target = PsiTreeUtil.getParentOfType(element, GoBreakStatement.class, GoSwitchStatement.class, GoSelectStatement.class,
                                                     GoForStatement.class);
     if (target == null) {

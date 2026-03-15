@@ -26,17 +26,15 @@ import consulo.language.psi.PsiElement;
 import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @ExtensionImpl
 public class GoFunctionCallInspection extends GoGeneralInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitCallExpr(@Nonnull GoCallExpr o) {
+      public void visitCallExpr(GoCallExpr o) {
         super.visitCallExpr(o);
         PsiElement resolve = GoPsiImplUtil.resolveCallRaw(o);
         GoExpression expression = o.getExpression();
@@ -81,7 +79,6 @@ public class GoFunctionCallInspection extends GoGeneralInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Function call inspection");

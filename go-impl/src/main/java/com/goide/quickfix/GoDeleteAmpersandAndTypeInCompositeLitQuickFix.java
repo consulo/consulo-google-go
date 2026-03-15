@@ -23,7 +23,6 @@ import consulo.language.editor.inspection.ProblemDescriptor;
 import consulo.language.psi.PsiElement;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
 
 public class GoDeleteAmpersandAndTypeInCompositeLitQuickFix extends LocalQuickFixBase {
 
@@ -32,7 +31,7 @@ public class GoDeleteAmpersandAndTypeInCompositeLitQuickFix extends LocalQuickFi
   }
 
   @Override
-  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+  public void applyFix(Project project, ProblemDescriptor descriptor) {
     PsiElement element = descriptor.getPsiElement();
     if (element != null && element.isValid()) {
       if (element instanceof GoUnaryExpr) {

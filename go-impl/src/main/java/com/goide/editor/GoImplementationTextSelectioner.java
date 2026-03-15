@@ -26,26 +26,23 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.lang.ObjectUtil;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoImplementationTextSelectioner implements ImplementationTextSelectioner {
   @Override
-  public int getTextStartOffset(@Nonnull PsiElement o) {
+  public int getTextStartOffset(PsiElement o) {
     return getTextRange(o).getStartOffset();
   }
 
   @Override
-  public int getTextEndOffset(@Nonnull PsiElement o) {
+  public int getTextEndOffset(PsiElement o) {
     return getTextRange(o).getEndOffset();
   }
 
-  @Nonnull
-  private static TextRange getTextRange(@Nonnull PsiElement o) {
+  private static TextRange getTextRange(PsiElement o) {
     return ObjectUtil.notNull(PsiTreeUtil.getParentOfType(o, GoTopLevelDeclaration.class), o).getTextRange();
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

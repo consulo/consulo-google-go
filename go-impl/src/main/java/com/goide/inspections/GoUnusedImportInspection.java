@@ -35,8 +35,7 @@ import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.MultiMap;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.*;
 
 @ExtensionImpl
@@ -44,7 +43,7 @@ public class GoUnusedImportInspection extends GoInspectionBase {
   @Nullable
   private final static LocalQuickFix OPTIMIZE_QUICK_FIX = new LocalQuickFixBase(LocalizeValue.localizeTODO("Optimize imports")) {
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (element == null) {
         return;
@@ -56,7 +55,7 @@ public class GoUnusedImportInspection extends GoInspectionBase {
 
   @Nullable private final static LocalQuickFix IMPORT_FOR_SIDE_EFFECTS_QUICK_FIX = new LocalQuickFixBase(LocalizeValue.localizeTODO("Import for side-effects")) {
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getPsiElement();
       if (!(element instanceof GoImportSpec)) {
         return;
@@ -65,10 +64,10 @@ public class GoUnusedImportInspection extends GoInspectionBase {
     }
   };
 
-  private static void resolveAllReferences(@Nonnull GoFile file) {
+  private static void resolveAllReferences(GoFile file) {
     file.accept(new GoRecursiveVisitor() {
       @Override
-      public void visitElement(@Nonnull PsiElement o) {
+      public void visitElement(PsiElement o) {
         for (PsiReference reference : o.getReferences()) {
           reference.resolve();
         }
@@ -76,26 +75,23 @@ public class GoUnusedImportInspection extends GoInspectionBase {
     });
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Unused import inspection");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.ERROR;
   }
 
   @Override
-  protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
+  protected void checkFile(GoFile file, ProblemsHolder problemsHolder) {
     MultiMap<String, GoImportSpec> importMap = file.getImportMap();
 
     for (PsiElement importIdentifier : GoImportOptimizer.findRedundantImportIdentifiers(importMap)) {

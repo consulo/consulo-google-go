@@ -25,14 +25,13 @@ import consulo.language.psi.PsiElement;
 import consulo.usage.UsageViewLongNameLocation;
 import consulo.usage.UsageViewShortNameLocation;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoDescriptionProvider implements ElementDescriptionProvider {
   @Nullable
   @Override
-  public String getElementDescription(@Nonnull PsiElement o, @Nonnull ElementDescriptionLocation location) {
+  public String getElementDescription(PsiElement o, ElementDescriptionLocation location) {
     if (location == UsageViewShortNameLocation.INSTANCE ||
         location == UsageViewLongNameLocation.INSTANCE ||
         location == HighlightUsagesDescriptionLocation.INSTANCE) {

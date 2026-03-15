@@ -19,9 +19,7 @@ import consulo.fileEditor.structureView.tree.ActionPresentation;
 import consulo.fileEditor.structureView.tree.Sorter;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
-import org.jetbrains.annotations.NonNls;
 
-import jakarta.annotation.Nonnull;
 import java.util.Comparator;
 
 public class ExportabilitySorter implements Sorter {
@@ -29,7 +27,6 @@ public class ExportabilitySorter implements Sorter {
 
   private static final ActionPresentation PRESENTATION = new ActionPresentation() {
     @Override
-    @Nonnull
     public String getText() {
       return "Sort by Exportability";
     }
@@ -44,10 +41,9 @@ public class ExportabilitySorter implements Sorter {
       return PlatformIconGroup.objectbrowserVisibilitysort();
     }
   };
-  @NonNls private static final String ID = "EXPORTABILITY_SORTER";
+  private static final String ID = "EXPORTABILITY_SORTER";
 
   @Override
-  @Nonnull
   public Comparator getComparator() {
     return ExportabilityComparator.INSTANCE;
   }
@@ -58,13 +54,11 @@ public class ExportabilitySorter implements Sorter {
   }
 
   @Override
-  @Nonnull
   public ActionPresentation getPresentation() {
     return PRESENTATION;
   }
 
   @Override
-  @Nonnull
   public String getName() {
     return ID;
   }

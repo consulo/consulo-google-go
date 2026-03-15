@@ -22,7 +22,6 @@ import com.intellij.ide.actions.CreateFileFromTemplateAction;
 import com.intellij.ide.fileTemplates.impl.CustomFileTemplate;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.psi.PsiDirectory;
-import jakarta.annotation.Nonnull;
 
 import java.io.IOException;
 
@@ -51,17 +50,17 @@ public abstract class GoCreateFileActionTest extends GoCodeInsightFixtureTestCas
     doTestWithExistingPackage("a_test.go", "a", "a_test");
   }
 
-  private void doTestWithExistingPackage(@Nonnull String fileName,
-                                         @Nonnull String expectedPackage,
-                                         @Nonnull String expectedPackageWithTestSuffix) {
+  private void doTestWithExistingPackage(String fileName,
+                                         String expectedPackage,
+                                         String expectedPackageWithTestSuffix) {
     myFixture.configureByText("a.go", "package a");
     doTest(myFixture.getFile().getContainingDirectory(), fileName, expectedPackage, expectedPackageWithTestSuffix);
   }
 
-  private void doTestInEmptyDirectory(@Nonnull String directoryName,
-                                      @Nonnull String newFileName,
-                                      @Nonnull String expectedPackage,
-                                      @Nonnull String expectedPackageWithTestSuffix) {
+  private void doTestInEmptyDirectory(String directoryName,
+                                      String newFileName,
+                                      String expectedPackage,
+                                      String expectedPackageWithTestSuffix) {
     try {
       PsiDirectory dir = myFixture.getPsiManager().findDirectory(myFixture.getTempDirFixture().findOrCreateDir(directoryName));
       assertNotNull(dir);
@@ -72,10 +71,10 @@ public abstract class GoCreateFileActionTest extends GoCodeInsightFixtureTestCas
     }
   }
 
-  private static void doTest(@Nonnull PsiDirectory dir,
-                             @Nonnull String newFileName,
-                             @Nonnull String expectedPackage,
-                             @Nonnull String expectedPackageWithTestSuffix) {
+  private static void doTest(PsiDirectory dir,
+                             String newFileName,
+                             String expectedPackage,
+                             String expectedPackageWithTestSuffix) {
     CustomFileTemplate template = new CustomFileTemplate("testTemplate", "go");
     template.setText("package ${GO_PACKAGE_NAME}");
 
@@ -86,7 +85,7 @@ public abstract class GoCreateFileActionTest extends GoCodeInsightFixtureTestCas
     doTemplateTest(dir, newFileName, expectedPackageWithTestSuffix, templateWithSuffix);
   }
 
-  private static void doTemplateTest(@Nonnull PsiDirectory dir, @Nonnull String newFileName, @Nonnull String expectedPackage, @Nonnull CustomFileTemplate template) {
+  private static void doTemplateTest(PsiDirectory dir, String newFileName, String expectedPackage, CustomFileTemplate template) {
     GoFile file = (GoFile)CreateFileFromTemplateAction.createFileFromTemplate(newFileName, template, dir, null, true);
     assertNotNull(file);
     assertEquals(expectedPackage, file.getPackageName());

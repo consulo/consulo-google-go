@@ -24,17 +24,16 @@ import consulo.language.psi.PsiElement;
 import consulo.util.collection.ArrayUtil;
 import consulo.util.lang.ObjectUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class GoExpressionSurrounder implements Surrounder {
   @Override
-  public boolean isApplicable(@Nonnull PsiElement[] elements) {
+  public boolean isApplicable(PsiElement[] elements) {
     return getExpression(elements) != null;
   }
 
   @Nullable
-  protected TextRange surroundWithParenthesis(@Nonnull PsiElement[] elements, boolean withNot) {
+  protected TextRange surroundWithParenthesis(PsiElement[] elements, boolean withNot) {
     GoExpression expression = getExpression(elements);
     if (expression == null) return null;
 
@@ -46,7 +45,7 @@ public abstract class GoExpressionSurrounder implements Surrounder {
   }
 
   @Nullable
-  protected GoExpression getExpression(@Nonnull PsiElement[] elements) {
+  protected GoExpression getExpression(PsiElement[] elements) {
     return ObjectUtil.tryCast(ArrayUtil.getFirstElement(elements), GoExpression.class);
   }
 }

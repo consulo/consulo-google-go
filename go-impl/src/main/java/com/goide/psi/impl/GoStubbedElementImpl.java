@@ -27,15 +27,14 @@ import consulo.language.psi.resolve.ResolveState;
 import consulo.language.psi.stub.IStubElementType;
 import consulo.language.psi.stub.StubBase;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class GoStubbedElementImpl<T extends StubBase<?>> extends StubBasedPsiElementBase<T> implements GoCompositeElement {
-  public GoStubbedElementImpl(@Nonnull T stub, @Nonnull IStubElementType nodeType) {
+  public GoStubbedElementImpl(T stub, IStubElementType nodeType) {
     super(stub, nodeType);
   }
 
-  public GoStubbedElementImpl(@Nonnull ASTNode node) {
+  public GoStubbedElementImpl(ASTNode node) {
     super(node);
   }
 
@@ -61,14 +60,13 @@ public abstract class GoStubbedElementImpl<T extends StubBase<?>> extends StubBa
   }
 
   @Override
-  public boolean processDeclarations(@Nonnull PsiScopeProcessor processor,
-                                     @Nonnull ResolveState state,
+  public boolean processDeclarations(PsiScopeProcessor processor,
+                                     ResolveState state,
                                      PsiElement lastParent,
-                                     @Nonnull PsiElement place) {
+                                     PsiElement place) {
     return GoCompositeElementImpl.processDeclarationsDefault(this, processor, state, lastParent, place);
   }
 
-  @Nonnull
   @Override
   public GoFile getContainingFile() {
     return (GoFile)super.getContainingFile();

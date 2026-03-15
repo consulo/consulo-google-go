@@ -31,7 +31,6 @@ import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -62,10 +61,9 @@ public class GoExcludePathLookupActionProvider implements LookupActionProvider {
   }
 
   private static class EditExcludedAction extends LookupElementAction {
-    @Nonnull
     Project myProject;
 
-    protected EditExcludedAction(@Nonnull Project project) {
+    protected EditExcludedAction(Project project) {
       super(PlatformIconGroup.actionsEdit(), "Edit auto import settings");
       myProject = project;
     }
@@ -83,7 +81,7 @@ public class GoExcludePathLookupActionProvider implements LookupActionProvider {
     private Project myProject;
     private String myImportPath;
 
-    protected ExcludePathAction(@Nonnull Project project, @Nonnull String importPath) {
+    protected ExcludePathAction(Project project, String importPath) {
       super(AllIcons.General.Remove, "Exclude '" + importPath + "'");
       myProject = project;
       myImportPath = importPath;

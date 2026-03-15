@@ -29,7 +29,6 @@ import consulo.util.collection.ArrayFactory;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.lazy.LazyValue;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -43,35 +42,31 @@ public class GoFunctionDeclarationStubElementType extends GoNamedStubElementType
   
   private static final Supplier<List<StubIndexKey<String, ? extends GoNamedElement>>> EXTRA_KEYS = LazyValue.notNull(() -> ContainerUtil.newArrayList(GoFunctionIndex.KEY));
 
-  public GoFunctionDeclarationStubElementType(@Nonnull String name) {
+  public GoFunctionDeclarationStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoFunctionDeclaration createPsi(@Nonnull GoFunctionDeclarationStub stub) {
+  public GoFunctionDeclaration createPsi(GoFunctionDeclarationStub stub) {
     return new GoFunctionDeclarationImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoFunctionDeclarationStub createStub(@Nonnull GoFunctionDeclaration psi, StubElement parentStub) {
+  public GoFunctionDeclarationStub createStub(GoFunctionDeclaration psi, StubElement parentStub) {
     return new GoFunctionDeclarationStub(parentStub, this, psi.getName(), psi.isPublic());
   }
 
   @Override
-  public void serialize(@Nonnull GoFunctionDeclarationStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoFunctionDeclarationStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
-  @Nonnull
   @Override
-  public GoFunctionDeclarationStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoFunctionDeclarationStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoFunctionDeclarationStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 
-  @Nonnull
   @Override
   protected Collection<StubIndexKey<String, ? extends GoNamedElement>> getExtraIndexKeys() {
     return EXTRA_KEYS.get();

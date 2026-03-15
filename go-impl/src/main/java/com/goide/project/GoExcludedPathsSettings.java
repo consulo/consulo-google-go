@@ -30,8 +30,7 @@ import consulo.util.collection.ArrayUtil;
 import consulo.util.io.FileUtil;
 import consulo.util.xml.serializer.XmlSerializerUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @State(
     name = "GoExcludedPaths",
@@ -78,7 +77,7 @@ public class GoExcludedPathsSettings extends SimpleModificationTracker implement
     return false;
   }
 
-  public void excludePath(@Nonnull String importPath) {
+  public void excludePath(String importPath) {
     setExcludedPackages(ArrayUtil.append(myExcludedPackages, importPath));
   }
 }

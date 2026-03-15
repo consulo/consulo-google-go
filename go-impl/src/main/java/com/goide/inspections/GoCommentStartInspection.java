@@ -30,7 +30,6 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiComment;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 /**
@@ -39,13 +38,12 @@ import java.util.List;
  */
 @ExtensionImpl
 public class GoCommentStartInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
 
       @Override
-      public void visitPackageClause(@Nonnull GoPackageClause o) {
+      public void visitPackageClause(GoPackageClause o) {
         String packageName = o.getName();
         if (GoConstants.MAIN.equals(packageName)) {
           return;
@@ -58,7 +56,7 @@ public class GoCommentStartInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitCompositeElement(@Nonnull GoCompositeElement o) {
+      public void visitCompositeElement(GoCompositeElement o) {
         if (!(o instanceof GoNamedElement) || !((GoNamedElement)o).isPublic()) {
           return;
         }
@@ -78,7 +76,7 @@ public class GoCommentStartInspection extends GoInspectionBase {
     };
   }
 
-  private static void registerProblem(List<PsiComment> comments, String description, @Nonnull ProblemsHolder holder) {
+  private static void registerProblem(List<PsiComment> comments, String description, ProblemsHolder holder) {
     for (PsiComment comment : comments) {
       holder.registerProblem(comment, description, ProblemHighlightType.WEAK_WARNING);
     }
@@ -96,19 +94,16 @@ public class GoCommentStartInspection extends GoInspectionBase {
     return false;
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Code style issues");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Comment of exported element starts with incorrect name");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WEAK_WARNING;

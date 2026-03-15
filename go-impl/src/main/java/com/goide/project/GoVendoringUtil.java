@@ -23,7 +23,7 @@ import consulo.util.lang.StringUtil;
 import consulo.util.lang.ThreeState;
 import org.jetbrains.annotations.Contract;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoVendoringUtil {
   public static boolean supportsVendoringByDefault(@Nullable String sdkVersion) {

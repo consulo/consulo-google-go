@@ -24,16 +24,14 @@ import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoEmbeddedInterfacePointerInspection extends GoGeneralInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitAnonymousFieldDefinition(@Nonnull GoAnonymousFieldDefinition o) {
+      public void visitAnonymousFieldDefinition(GoAnonymousFieldDefinition o) {
         if (!(o.getType() instanceof GoPointerType)) return;
         GoTypeReferenceExpression reference = o.getTypeReferenceExpression();
         GoType goType = reference != null ? reference.resolveType() : null;
@@ -46,7 +44,6 @@ public class GoEmbeddedInterfacePointerInspection extends GoGeneralInspectionBas
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Embedded interface pointer");

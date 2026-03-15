@@ -20,8 +20,7 @@ import com.goide.util.GoExecutor;
 import consulo.annotation.component.ActionImpl;
 import consulo.module.Module;
 import consulo.project.Project;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ActionImpl(id = "GoFmtFileAction")
 public class GoFmtFileAction extends GoExternalToolsAction {
@@ -30,8 +29,7 @@ public class GoFmtFileAction extends GoExternalToolsAction {
     }
 
     @Override
-    @Nonnull
-    protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull String filePath) {
+    protected GoExecutor createExecutor(Project project, @Nullable Module module, String title, String filePath) {
         return GoExecutor.in(project, module).withPresentableName(title).withParameters("fmt", filePath).showOutputOnError();
     }
 }

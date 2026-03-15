@@ -32,7 +32,6 @@ import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Trinity;
 
-import jakarta.annotation.Nonnull;
 import java.util.Arrays;
 
 @ExtensionImpl
@@ -40,13 +39,12 @@ public class GoStringAndByteTypeMismatchInspection extends GoGeneralInspectionBa
   private static final LocalizeValue TEXT_HINT = LocalizeValue.localizeTODO("Mismatched types: byte and string");
   private static final GoConvertStringToByteQuickFix STRING_INDEX_IS_BYTE_QUICK_FIX = new GoConvertStringToByteQuickFix();
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
 
       @Override
-      public void visitConditionalExpr(@Nonnull GoConditionalExpr o) {
+      public void visitConditionalExpr(GoConditionalExpr o) {
         GoExpression left = o.getLeft();
         GoExpression right = o.getRight();
 
@@ -66,7 +64,7 @@ public class GoStringAndByteTypeMismatchInspection extends GoGeneralInspectionBa
     };
   }
 
-  private static boolean isStringIndexExpression(@Nonnull GoIndexOrSliceExpr expr) {
+  private static boolean isStringIndexExpression(GoIndexOrSliceExpr expr) {
     GoExpression expression = expr.getExpression();
     if (expression == null || !GoTypeUtil.isString(expression.getGoType(null))) {
       return false;
@@ -78,7 +76,6 @@ public class GoStringAndByteTypeMismatchInspection extends GoGeneralInspectionBa
            && expr.getNode().getChildren(TokenSet.create(GoTypes.COLON)).length == 0;
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Mismatched types: byte and string");

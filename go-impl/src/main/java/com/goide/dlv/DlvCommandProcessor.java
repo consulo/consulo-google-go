@@ -26,8 +26,7 @@ import consulo.util.lang.StringUtil;
 import org.jetbrains.rpc.CommandProcessor;
 import org.jetbrains.rpc.RequestCallback;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -37,12 +36,12 @@ public abstract class DlvCommandProcessor extends CommandProcessor<JsonElement, 
 
   @Nullable
   @Override
-  public DlvResponse readIfHasSequence(@Nonnull JsonElement message) {
+  public DlvResponse readIfHasSequence(JsonElement message) {
     return new DlvResponse.CommandResponseImpl(message);
   }
 
   @Override
-  public int getSequence(@Nonnull DlvResponse response) {
+  public int getSequence(DlvResponse response) {
     return response.id();
   }
 
@@ -50,12 +49,12 @@ public abstract class DlvCommandProcessor extends CommandProcessor<JsonElement, 
   public void acceptNonSequence(JsonElement message) {
   }
 
-  public void processIncomingJson(@Nonnull JsonElement reader) {
+  public void processIncomingJson(JsonElement reader) {
     getMessageManager().processIncoming(reader);
   }
 
   @Override
-  public void call(@Nonnull DlvResponse response, @Nonnull RequestCallback<DlvResponse> callback) {
+  public void call(DlvResponse response, RequestCallback<DlvResponse> callback) {
     if (response.result() != null) {
       callback.onSuccess(response, this);
     }
@@ -64,8 +63,7 @@ public abstract class DlvCommandProcessor extends CommandProcessor<JsonElement, 
     }
   }
 
-  @Nonnull
-  private static String createMessage(@Nonnull DlvResponse r) {
+  private static String createMessage(DlvResponse r) {
     DlvResponse.ErrorInfo e = r.error();
     if (e == null) return "Internal messaging error";
     List<String> data = e.data();
@@ -76,9 +74,8 @@ public abstract class DlvCommandProcessor extends CommandProcessor<JsonElement, 
     return list.toString();
   }
 
-  @Nonnull
   @Override
-  public <RESULT> RESULT readResult(@Nonnull String method, @Nonnull DlvResponse successResponse) {
+  public <RESULT> RESULT readResult(String method, DlvResponse successResponse) {
     JsonElement result = successResponse.result();
     assert result != null : "success result should be not null";
 
@@ -92,8 +89,7 @@ public abstract class DlvCommandProcessor extends CommandProcessor<JsonElement, 
     return (RESULT)o;
   }
 
-  @Nonnull
-  private static Type getResultType(@Nonnull String method) {
+  private static Type getResultType(String method) {
     for (Class<?> c : DlvRequest.class.getDeclaredClasses()) {
       if (method.equals(c.getSimpleName())) {
         Type s = c.getGenericSuperclass();

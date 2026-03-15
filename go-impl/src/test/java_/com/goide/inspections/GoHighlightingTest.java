@@ -18,7 +18,6 @@ package com.goide.inspections;
 
 import java.io.IOException;
 
-import jakarta.annotation.Nonnull;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.SdkAware;
 import com.goide.codeInsight.imports.GoImportOptimizerTest;
@@ -90,7 +89,6 @@ public abstract class GoHighlightingTest extends GoCodeInsightFixtureTestCase {
     myFixture.testHighlighting(true, false, false, getTestName(true) + ".go");
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "highlighting";

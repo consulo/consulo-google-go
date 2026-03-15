@@ -18,7 +18,6 @@ package com.goide.inspections;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.spellchecker.inspections.SpellCheckingInspection;
-import jakarta.annotation.Nonnull;
 
 public abstract class GoSpellcheckingTest extends GoCodeInsightFixtureTestCase {
   @Override
@@ -35,7 +34,6 @@ public abstract class GoSpellcheckingTest extends GoCodeInsightFixtureTestCase {
     myFixture.testHighlighting(false, false, true, getTestName(true) + ".go");
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "spellchecker";

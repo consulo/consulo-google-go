@@ -24,8 +24,7 @@ import consulo.content.library.LibraryPresentationProvider;
 import consulo.ui.image.Image;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 @ExtensionImpl
@@ -44,7 +43,7 @@ public class GoSdkLibraryPresentationProvider extends LibraryPresentationProvide
 
   @Override
   @Nullable
-  public DummyLibraryProperties detect(@Nonnull List<VirtualFile> classesRoots) {
+  public DummyLibraryProperties detect(List<VirtualFile> classesRoots) {
     for (VirtualFile root : classesRoots) {
       if (GoSdkService.isGoSdkLibRoot(root) && !GoSdkService.isAppEngineSdkPath(GoSdkService.libraryRootToSdkPath(root))) {
         return DummyLibraryProperties.INSTANCE;

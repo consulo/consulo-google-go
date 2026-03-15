@@ -21,12 +21,11 @@ import consulo.virtualFileSystem.fileType.FileNameMatcherFactory;
 import consulo.virtualFileSystem.fileType.FileTypeConsumer;
 import consulo.virtualFileSystem.fileType.FileTypeFactory;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class AsmIntelFileTypeFactory extends FileTypeFactory {
   @Override
-  public void createFileTypes(@Nonnull FileTypeConsumer consumer) {
+  public void createFileTypes(FileTypeConsumer consumer) {
     FileNameMatcherFactory nameMatcherFactory = FileNameMatcherFactory.getInstance();
 
     consumer.consume(AsmIntelFileType.INSTANCE,

@@ -30,7 +30,6 @@ import consulo.project.Project;
 import consulo.ui.ex.action.IdeActions;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 public class BracesInsertHandler implements InsertHandler<LookupElement> {
   public static final BracesInsertHandler ONE_LINER = new BracesInsertHandler(true);
   public static final BracesInsertHandler INSTANCE = new BracesInsertHandler(false);
@@ -42,7 +41,7 @@ public class BracesInsertHandler implements InsertHandler<LookupElement> {
   }
 
   @Override
-  public void handleInsert(@Nonnull InsertionContext context, LookupElement item) {
+  public void handleInsert(InsertionContext context, LookupElement item) {
     Editor editor = context.getEditor();
     CharSequence documentText = context.getDocument().getImmutableCharSequence();
     int offset = skipWhiteSpaces(editor.getCaretModel().getOffset(), documentText);
@@ -61,7 +60,7 @@ public class BracesInsertHandler implements InsertHandler<LookupElement> {
     }
   }
 
-  private static int skipWhiteSpaces(int offset, @Nonnull CharSequence documentText) {
+  private static int skipWhiteSpaces(int offset, CharSequence documentText) {
     while (offset < documentText.length() && StringUtil.isWhiteSpace(documentText.charAt(offset))) {
       offset += 1;
     }

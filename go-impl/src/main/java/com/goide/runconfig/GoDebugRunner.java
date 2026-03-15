@@ -15,7 +15,6 @@ import consulo.externalService.statistic.UsageTrigger;
 import consulo.go.debug.GoDebugProcess;
 import consulo.process.ExecutionException;
 import consulo.util.io.NetUtil;
-import jakarta.annotation.Nonnull;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,14 +25,13 @@ import java.io.IOException;
  */
 @ExtensionImpl
 public class GoDebugRunner extends DefaultProgramRunner {
-    @Nonnull
     @Override
     public String getRunnerId() {
         return "GoDebug";
     }
 
     @Override
-    public boolean canRun(@Nonnull String executorId, @Nonnull RunProfile profile) {
+    public boolean canRun(String executorId, RunProfile profile) {
         if (profile instanceof GoApplicationConfiguration) {
             return DefaultDebugExecutor.EXECUTOR_ID.equals(executorId);
         }
@@ -41,7 +39,7 @@ public class GoDebugRunner extends DefaultProgramRunner {
     }
 
     @Override
-    protected RunContentDescriptor doExecute(@Nonnull RunProfileState state, @Nonnull ExecutionEnvironment env) throws ExecutionException {
+    protected RunContentDescriptor doExecute(RunProfileState state, ExecutionEnvironment env) throws ExecutionException {
         final int port;
         try {
             port = NetUtil.findAvailableSocketPort();
@@ -61,9 +59,8 @@ public class GoDebugRunner extends DefaultProgramRunner {
         UsageTrigger.trigger("go.dlv.debugger");
 
         XDebugSession session = XDebuggerManager.getInstance(env.getProject()).startSession(env, new XDebugProcessStarter() {
-            @Nonnull
             @Override
-            public XDebugProcess start(@Nonnull XDebugSession session) throws ExecutionException {
+            public XDebugProcess start(XDebugSession session) throws ExecutionException {
                 GoDebugProcess process = new GoDebugProcess(session, port, outputFilePath.getAbsolutePath());
                 process.start();
                 return process;

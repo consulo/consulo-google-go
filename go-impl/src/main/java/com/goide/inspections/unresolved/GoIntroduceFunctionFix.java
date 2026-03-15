@@ -43,8 +43,7 @@ import consulo.project.Project;
 import consulo.undoRedo.CommandProcessor;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -52,17 +51,17 @@ import java.util.Map;
 public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsiElement implements HighPriorityAction {
     private final String myName;
 
-    public GoIntroduceFunctionFix(@Nonnull PsiElement element, @Nonnull String name) {
+    public GoIntroduceFunctionFix(PsiElement element, String name) {
         super(element);
         myName = name;
     }
 
     @Override
-    public void invoke(@Nonnull Project project,
-                       @Nonnull PsiFile file,
+    public void invoke(Project project,
+                       PsiFile file,
                        @Nullable Editor editor,
-                       @Nonnull PsiElement startElement,
-                       @Nonnull PsiElement endElement) {
+                       PsiElement startElement,
+                       PsiElement endElement) {
         if (editor == null) {
             LOG.error("Cannot run quick fix without editor: " + getClass().getSimpleName(),
                 AttachmentFactory.get().create(file.getVirtualFile().getName(), ""));
@@ -94,8 +93,7 @@ public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsi
         startTemplate(editor, template, project);
     }
 
-    @Nonnull
-    private static String convertType(@Nonnull PsiFile file, @Nullable GoType type, @Nonnull Map<String, GoImportSpec> importMap) {
+    private static String convertType(PsiFile file, @Nullable GoType type, Map<String, GoImportSpec> importMap) {
         if (type == null) {
             return GoConstants.INTERFACE_TYPE;
         }
@@ -135,7 +133,7 @@ public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsi
         });
     }
 
-    private static void setupFunctionResult(@Nonnull Template template, @Nullable GoType type) {
+    private static void setupFunctionResult(Template template, @Nullable GoType type) {
         if (type instanceof GoTypeList) {
             template.addTextSegment(" (");
             List<GoType> list = ((GoTypeList) type).getTypeList();
@@ -154,8 +152,8 @@ public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsi
         }
     }
 
-    private static void setupFunctionParameters(@Nonnull Template template,
-                                                @Nonnull List<GoExpression> args, PsiFile file) {
+    private static void setupFunctionParameters(Template template,
+                                                List<GoExpression> args, PsiFile file) {
         Map<String, GoImportSpec> importMap = ((GoFile) file).getImportedPackagesMap();
         template.addTextSegment("(");
         for (int i = 0; i < args.size(); i++) {
@@ -171,7 +169,7 @@ public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsi
         template.addTextSegment(")");
     }
 
-    private static void startTemplate(@Nonnull Editor editor, @Nonnull Template template, @Nonnull Project project) {
+    private static void startTemplate(Editor editor, Template template, Project project) {
         Runnable runnable = () -> {
             if (project.isDisposed() || editor.isDisposed()) {
                 return;
@@ -187,7 +185,6 @@ public class GoIntroduceFunctionFix extends LocalQuickFixAndIntentionActionOnPsi
         }
     }
 
-    @Nonnull
     @Override
     public LocalizeValue getText() {
         return LocalizeValue.localizeTODO("Create function" + " " + myName);

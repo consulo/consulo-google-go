@@ -19,11 +19,9 @@ package com.goide.formatter;
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.psi.codeStyle.CodeStyleManager;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class GoFormatterTest extends GoCodeInsightFixtureTestCase {
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "formatting";

@@ -34,20 +34,18 @@ import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
 @ExtensionImpl
 public class GoPlaceholderCountInspection extends GoInspectionBase {
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitCallExpr(@Nonnull GoCallExpr o) {
+      public void visitCallExpr(GoCallExpr o) {
         PsiReference psiReference = o.getExpression().getReference();
         PsiElement resolved = psiReference != null ? psiReference.resolve() : null;
         if (!(resolved instanceof GoFunctionOrMethodDeclaration)) return;
@@ -65,9 +63,9 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     };
   }
 
-  private static void checkPrint(@Nonnull ProblemsHolder holder,
-                                 @Nonnull GoCallExpr callExpr,
-                                 @Nonnull GoFunctionOrMethodDeclaration declaration) {
+  private static void checkPrint(ProblemsHolder holder,
+                                 GoCallExpr callExpr,
+                                 GoFunctionOrMethodDeclaration declaration) {
     List<GoExpression> arguments = callExpr.getArgumentList().getExpressionList();
     GoExpression firstArg = ContainerUtil.getFirstItem(arguments);
     if (firstArg == null) return;
@@ -107,9 +105,9 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     }
   }
 
-  private static void checkPrintf(@Nonnull ProblemsHolder holder,
-                                  @Nonnull GoCallExpr callExpr,
-                                  @Nonnull GoFunctionOrMethodDeclaration declaration) {
+  private static void checkPrintf(ProblemsHolder holder,
+                                  GoCallExpr callExpr,
+                                  GoFunctionOrMethodDeclaration declaration) {
 
     int placeholderPosition = GoPlaceholderChecker.getPlaceholderPosition(declaration);
     List<GoExpression> arguments = callExpr.getArgumentList().getExpressionList();
@@ -157,7 +155,7 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     // TODO florin: check if all arguments are strings and add quickfix to replace with Println and string concat
   }
 
-  private static int computeMaxArgsNum(@Nonnull List<Placeholder> placeholders, int firstArg) {
+  private static int computeMaxArgsNum(List<Placeholder> placeholders, int firstArg) {
     int maxArgsNum = 0;
     for (Placeholder placeholder : placeholders) {
       List<Integer> arguments = placeholder.getArguments();
@@ -172,9 +170,9 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     return maxArgsNum + firstArg;
   }
 
-  private static boolean hasErrors(@Nonnull ProblemsHolder holder,
-                                   @Nonnull GoExpression formatPlaceholder,
-                                   @Nonnull List<Placeholder> placeholders) {
+  private static boolean hasErrors(ProblemsHolder holder,
+                                   GoExpression formatPlaceholder,
+                                   List<Placeholder> placeholders) {
 
     for (Placeholder placeholder : placeholders) {
       Placeholder.State state = placeholder.getState();
@@ -194,13 +192,13 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     return false;
   }
 
-  private static boolean checkPrintfArgument(@Nonnull ProblemsHolder holder,
-                                             @Nonnull GoExpression placeholder,
-                                             @Nonnull GoCallExpr callExpr,
-                                             @Nonnull List<GoExpression> arguments,
+  private static boolean checkPrintfArgument(ProblemsHolder holder,
+                                             GoExpression placeholder,
+                                             GoCallExpr callExpr,
+                                             List<GoExpression> arguments,
                                              int callArgsNum,
                                              int firstArg,
-                                             @Nonnull Placeholder fmtPlaceholder) {
+                                             Placeholder fmtPlaceholder) {
 
     PrintVerb v = fmtPlaceholder.getVerb();
     if (v == null) {
@@ -257,10 +255,10 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     return true;
   }
 
-  private static boolean checkArgumentIndex(@Nonnull ProblemsHolder holder,
-                                            @Nonnull GoExpression placeholder,
-                                            @Nonnull GoCallExpr callExpr,
-                                            @Nonnull Placeholder fmtPlaceholder,
+  private static boolean checkArgumentIndex(ProblemsHolder holder,
+                                            GoExpression placeholder,
+                                            GoCallExpr callExpr,
+                                            Placeholder fmtPlaceholder,
                                             int callArgsNum) {
 
     int argNum = fmtPlaceholder.getPosition();
@@ -286,7 +284,7 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
   }
 
   @Nullable
-  private static String resolve(@Nonnull GoExpression argument) {
+  private static String resolve(GoExpression argument) {
     String argumentValue = getValue(argument);
     if (argumentValue != null) {
       return argumentValue;
@@ -327,19 +325,16 @@ public class GoPlaceholderCountInspection extends GoInspectionBase {
     return null;
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Probable bugs");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Printf/Logf placeholder handler");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WARNING;

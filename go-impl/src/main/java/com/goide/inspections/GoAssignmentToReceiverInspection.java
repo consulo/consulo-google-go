@@ -25,18 +25,16 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElement;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 
 import static consulo.language.editor.inspection.ProblemHighlightType.WEAK_WARNING;
 
 @ExtensionImpl
 public class GoAssignmentToReceiverInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitReferenceExpression(@Nonnull GoReferenceExpression o) {
+      public void visitReferenceExpression(GoReferenceExpression o) {
         super.visitReferenceExpression(o);
         if (o.getReadWriteAccess() == ReadWriteAccessDetector.Access.Write) {
           PsiElement resolve = o.resolve();
@@ -59,19 +57,16 @@ public class GoAssignmentToReceiverInspection extends GoInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Control flow issues");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Assignment to receiver");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.ERROR;

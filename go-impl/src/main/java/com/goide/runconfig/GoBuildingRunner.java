@@ -44,7 +44,6 @@ import consulo.util.collection.ArrayUtil;
 import consulo.util.io.FileUtil;
 import consulo.util.io.NetUtil;
 import consulo.util.lang.StringUtil;
-import jakarta.annotation.Nonnull;
 import jakarta.inject.Inject;
 
 import java.io.File;
@@ -58,14 +57,13 @@ public class GoBuildingRunner extends BaseProgramRunner<RunnerSettings> {
     public GoBuildingRunner() {
     }
 
-    @Nonnull
     @Override
     public String getRunnerId() {
         return ID;
     }
 
     @Override
-    public boolean canRun(@Nonnull String executorId, @Nonnull RunProfile profile) {
+    public boolean canRun(String executorId, RunProfile profile) {
         if (profile instanceof GoApplicationConfiguration) {
             return DefaultRunExecutor.EXECUTOR_ID.equals(executorId) || DefaultDebugExecutor.EXECUTOR_ID.equals(executorId);
         }
@@ -74,15 +72,14 @@ public class GoBuildingRunner extends BaseProgramRunner<RunnerSettings> {
 
     @RequiredUIAccess
     @Override
-    protected void execute(@Nonnull ExecutionEnvironment environment, @Nonnull RunProfileState state) throws ExecutionException {
+    protected void execute(ExecutionEnvironment environment, RunProfileState state) throws ExecutionException {
         prepare(environment, state).whenComplete((starter, throwable) -> {
             ExecutionManager.getInstance(environment.getProject()).startRunProfile(starter, state, environment);
         });
     }
 
-    @Nonnull
-    private CompletableFuture<RunProfileStarter> prepare(@Nonnull ExecutionEnvironment environment,
-                                                         @Nonnull RunProfileState state) throws ExecutionException {
+    private CompletableFuture<RunProfileStarter> prepare(ExecutionEnvironment environment,
+                                                         RunProfileState state) throws ExecutionException {
         File outputFile = getOutputFile(environment, (GoApplicationRunningState) state);
         FileDocumentManager.getInstance().saveAllDocuments();
 
@@ -118,9 +115,8 @@ public class GoBuildingRunner extends BaseProgramRunner<RunnerSettings> {
         return future;
     }
 
-    @Nonnull
-    private static File getOutputFile(@Nonnull ExecutionEnvironment environment,
-                                      @Nonnull GoApplicationRunningState state) throws ExecutionException {
+    private static File getOutputFile(ExecutionEnvironment environment,
+                                      GoApplicationRunningState state) throws ExecutionException {
         File outputFile;
         String outputDirectoryPath = state.getConfiguration().getOutputFilePath();
         RunnerAndConfigurationSettings settings = environment.getRunnerAndConfigurationSettings();
@@ -156,7 +152,7 @@ public class GoBuildingRunner extends BaseProgramRunner<RunnerSettings> {
         return outputFile;
     }
 
-    private static boolean prepareFile(@Nonnull File file) {
+    private static boolean prepareFile(File file) {
         try {
             FileUtil.writeToFile(file, new byte[]{0x7F, 'E', 'L', 'F'});
         }
@@ -172,8 +168,8 @@ public class GoBuildingRunner extends BaseProgramRunner<RunnerSettings> {
         private final boolean myCompilationFailed;
 
 
-        private MyDebugStarter(@Nonnull String outputFilePath,
-                               @Nonnull GoHistoryProcessListener historyProcessListener,
+        private MyDebugStarter(String outputFilePath,
+                               GoHistoryProcessListener historyProcessListener,
                                boolean compilationFailed) {
             myOutputFilePath = outputFilePath;
             myHistoryProcessListener = historyProcessListener;
@@ -181,7 +177,7 @@ public class GoBuildingRunner extends BaseProgramRunner<RunnerSettings> {
         }
 
         @Override
-        public CompletableFuture<RunContentDescriptor> executeAsync(@Nonnull RunProfileState state, @Nonnull ExecutionEnvironment env) throws ExecutionException {
+        public CompletableFuture<RunContentDescriptor> executeAsync(RunProfileState state, ExecutionEnvironment env) throws ExecutionException {
             if (state instanceof GoApplicationRunningState) {
                 final int port;
                 try {
@@ -201,9 +197,8 @@ public class GoBuildingRunner extends BaseProgramRunner<RunnerSettings> {
                 UsageTrigger.trigger("go.dlv.debugger");
 
                 XDebugSession session = XDebuggerManager.getInstance(env.getProject()).startSession(env, new XDebugProcessStarter() {
-                    @Nonnull
                     @Override
-                    public XDebugProcess start(@Nonnull XDebugSession session) throws ExecutionException {
+                    public XDebugProcess start(XDebugSession session) throws ExecutionException {
                         GoDebugProcess process = new GoDebugProcess(session, port, myOutputFilePath);
                         process.start();
                         return process;
@@ -220,15 +215,15 @@ public class GoBuildingRunner extends BaseProgramRunner<RunnerSettings> {
         private final GoHistoryProcessListener myHistoryProcessListener;
 
 
-        private MyRunStarter(@Nonnull String outputFilePath,
-                             @Nonnull GoHistoryProcessListener historyProcessListener,
+        private MyRunStarter(String outputFilePath,
+                             GoHistoryProcessListener historyProcessListener,
                              boolean compilationFailed) {
             myOutputFilePath = outputFilePath;
             myHistoryProcessListener = historyProcessListener;
         }
 
         @Override
-        public CompletableFuture<RunContentDescriptor> executeAsync(@Nonnull RunProfileState state, @Nonnull ExecutionEnvironment env) throws ExecutionException {
+        public CompletableFuture<RunContentDescriptor> executeAsync(RunProfileState state, ExecutionEnvironment env) throws ExecutionException {
             if (state instanceof GoApplicationRunningState) {
                 FileDocumentManager.getInstance().saveAllDocuments();
                 ((GoApplicationRunningState) state).setHistoryProcessHandler(myHistoryProcessListener);

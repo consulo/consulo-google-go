@@ -31,7 +31,6 @@ import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Trinity;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @ExtensionImpl
@@ -40,12 +39,11 @@ public class GoRedundantSecondIndexInSlicesInspection extends GoInspectionBase i
   private static final GoDeleteQuickFix DELETE_REDUNDANT_INDEX_QUICK_FIX =
     new GoDeleteQuickFix(DELETE_REDUNDANT_INDEX_QUICK_FIX_NAME, GoCallExpr.class);
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitIndexOrSliceExpr(@Nonnull GoIndexOrSliceExpr o) {
+      public void visitIndexOrSliceExpr(GoIndexOrSliceExpr o) {
         GoExpression expression = o.getExpression();
         PsiReference reference = expression != null ? expression.getReference() : null;
         PsiElement resolvedArrayReference = reference != null ? reference.resolve() : null;
@@ -69,7 +67,7 @@ public class GoRedundantSecondIndexInSlicesInspection extends GoInspectionBase i
     };
   }
 
-  private static boolean isLenFunctionCall(@Nonnull GoCallExpr callExpr) {
+  private static boolean isLenFunctionCall(GoCallExpr callExpr) {
     GoExpression functionReferenceExpression = callExpr.getExpression();
     if (!(functionReferenceExpression instanceof GoReferenceExpression) || !functionReferenceExpression.textMatches("len")) {
       return false;
@@ -81,19 +79,16 @@ public class GoRedundantSecondIndexInSlicesInspection extends GoInspectionBase i
     return GoPsiImplUtil.builtin(((GoReferenceExpression)functionReferenceExpression).resolve());
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Redundant second index in slices inspection");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WARNING;

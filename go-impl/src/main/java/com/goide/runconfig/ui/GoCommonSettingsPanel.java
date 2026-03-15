@@ -29,8 +29,7 @@ import consulo.ui.ex.awt.MutableCollectionComboBoxModel;
 import consulo.ui.ex.awt.TextFieldWithBrowseButton;
 import consulo.ui.ex.awtUnsafe.TargetAWT;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -71,14 +70,14 @@ public class GoCommonSettingsPanel extends JPanel {
   protected void addAfter(FormBuilder builder) {
   }
 
-  public void init(@Nonnull Project project) {
+  public void init(Project project) {
     GoRunUtil.installFileChooser(project, myWorkingDirectoryField, true);
     myGoToolParamsField.setDialogCaption("Go tool arguments");
     myParamsField.setDialogCaption("Program arguments");
     myModulesComboBox.setRenderer(new ModuleListCellRenderer());
   }
 
-  public void resetEditorFrom(@Nonnull GoRunConfigurationBase<?> configuration) {
+  public void resetEditorFrom(GoRunConfigurationBase<?> configuration) {
     myModulesComboBox.setModel(new MutableCollectionComboBoxModel<>(new ArrayList<>(configuration.getValidModules())));
     myModulesComboBox.setSelectedItem(configuration.getConfigurationModule().getModule());
     myGoToolParamsField.setText(configuration.getGoToolParams());
@@ -88,7 +87,7 @@ public class GoCommonSettingsPanel extends JPanel {
     myEnvironmentField.setPassParentEnvs(configuration.isPassParentEnvironment());
   }
 
-  public void applyEditorTo(@Nonnull GoRunConfigurationBase<?> configuration) {
+  public void applyEditorTo(GoRunConfigurationBase<?> configuration) {
     configuration.setModule((Module) myModulesComboBox.getSelectedItem());
     configuration.setGoParams(myGoToolParamsField.getText());
     configuration.setParams(myParamsField.getText());

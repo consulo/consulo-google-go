@@ -29,8 +29,7 @@ import consulo.util.lang.Comparing;
 import consulo.util.lang.ObjectUtil;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +51,7 @@ public abstract class GoReferenceBase<T extends GoReferenceExpressionBase> exten
     return virtualFile == null ? null : virtualFile.getPath();
   }
 
-  private static void putIfAbsent(@Nonnull GoImportSpec importSpec, @Nonnull PsiElement usage) {
+  private static void putIfAbsent(GoImportSpec importSpec, PsiElement usage) {
     //noinspection SynchronizationOnLocalVariableOrMethodParameter
     synchronized (importSpec) {
       List<PsiElement> newUsages = new SmartList<>(usage);
@@ -64,8 +63,8 @@ public abstract class GoReferenceBase<T extends GoReferenceExpressionBase> exten
   protected boolean processDirectory(@Nullable PsiDirectory dir,
                                      @Nullable GoFile file,
                                      @Nullable String packageName,
-                                     @Nonnull GoScopeProcessor processor,
-                                     @Nonnull ResolveState state,
+                                     GoScopeProcessor processor,
+                                     ResolveState state,
                                      boolean localProcessing) {
     if (dir == null) return true;
     String filePath = getPath(file);
@@ -79,15 +78,15 @@ public abstract class GoReferenceBase<T extends GoReferenceExpressionBase> exten
     return true;
   }
 
-  protected boolean processBuiltin(@Nonnull GoScopeProcessor processor, @Nonnull ResolveState state, @Nonnull GoCompositeElement element) {
+  protected boolean processBuiltin(GoScopeProcessor processor, ResolveState state, GoCompositeElement element) {
     GoFile builtin = GoSdkUtil.findBuiltinFile(element);
     return builtin == null || processFileEntities(builtin, processor, state, true);
   }
 
-  protected boolean processImports(@Nonnull GoFile file,
-                                   @Nonnull GoScopeProcessor processor,
-                                   @Nonnull ResolveState state,
-                                   @Nonnull GoCompositeElement element) {
+  protected boolean processImports(GoFile file,
+                                   GoScopeProcessor processor,
+                                   ResolveState state,
+                                   GoCompositeElement element) {
     for (Map.Entry<String, Collection<GoImportSpec>> entry : file.getImportMap().entrySet()) {
       for (GoImportSpec o : entry.getValue()) {
         if (o.isForSideEffects()) continue;
@@ -114,12 +113,11 @@ public abstract class GoReferenceBase<T extends GoReferenceExpressionBase> exten
     return true;
   }
 
-  @Nonnull
-  protected GoScopeProcessor createResolveProcessor(@Nonnull Collection<ResolveResult> result,
-                                                    @Nonnull GoReferenceExpressionBase o) {
+  protected GoScopeProcessor createResolveProcessor(Collection<ResolveResult> result,
+                                                    GoReferenceExpressionBase o) {
     return new GoScopeProcessor() {
       @Override
-      public boolean execute(@Nonnull PsiElement element, @Nonnull ResolveState state) {
+      public boolean execute(PsiElement element, ResolveState state) {
         if (element.equals(o)) return !result.add(new PsiElementResolveResult(element));
         String name = ObjectUtil.chooseNotNull(state.get(ACTUAL_NAME),
                                                 element instanceof PsiNamedElement ? ((PsiNamedElement)element).getName() : null);
@@ -132,8 +130,8 @@ public abstract class GoReferenceBase<T extends GoReferenceExpressionBase> exten
     };
   }
 
-  protected abstract boolean processFileEntities(@Nonnull GoFile file,
-                                                 @Nonnull GoScopeProcessor processor,
-                                                 @Nonnull ResolveState state,
+  protected abstract boolean processFileEntities(GoFile file,
+                                                 GoScopeProcessor processor,
+                                                 ResolveState state,
                                                  boolean localProcessing);
 }

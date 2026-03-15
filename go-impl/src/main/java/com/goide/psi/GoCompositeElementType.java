@@ -19,10 +19,9 @@ package com.goide.psi;
 import com.goide.GoLanguage;
 import consulo.language.ast.IElementType;
 
-import jakarta.annotation.Nonnull;
 
 public class GoCompositeElementType extends IElementType {
-  public GoCompositeElementType(@Nonnull String debug) {
+  public GoCompositeElementType(String debug) {
     super(debug, GoLanguage.INSTANCE);
   }
 }

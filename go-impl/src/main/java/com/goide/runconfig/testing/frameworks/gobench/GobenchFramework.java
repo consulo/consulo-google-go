@@ -28,14 +28,12 @@ import consulo.execution.test.sm.runner.OutputToGeneralTestEventsConverter;
 import consulo.language.psi.PsiFile;
 import consulo.module.Module;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GobenchFramework extends GoTestFramework {
   public static final String NAME = "gobench";
   public static final GobenchFramework INSTANCE = new GobenchFramework();
 
-  @Nonnull
   @Override
   public String getName() {
     return NAME;
@@ -56,17 +54,15 @@ public class GobenchFramework extends GoTestFramework {
     return functionOrMethodDeclaration instanceof GoFunctionDeclaration && GoTestFinder.isBenchmarkFunction(functionOrMethodDeclaration);
   }
 
-  @Nonnull
   @Override
-  protected GoTestRunningState newRunningState(@Nonnull ExecutionEnvironment env,
-                                               @Nonnull Module module,
-                                               @Nonnull GoTestRunConfiguration runConfiguration) {
+  protected GoTestRunningState newRunningState(ExecutionEnvironment env,
+                                               Module module,
+                                               GoTestRunConfiguration runConfiguration) {
     return new GobenchRunningState(env, module, runConfiguration);
   }
 
-  @Nonnull
   @Override
-  public OutputToGeneralTestEventsConverter createTestEventsConverter(@Nonnull TestConsoleProperties consoleProperties) {
+  public OutputToGeneralTestEventsConverter createTestEventsConverter(TestConsoleProperties consoleProperties) {
     return new GobenchEventsConverter(consoleProperties);
   }
 }

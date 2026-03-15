@@ -23,7 +23,6 @@ import consulo.module.content.layer.orderEntry.CustomOrderEntryTypeProvider;
 import consulo.util.xml.serializer.InvalidDataException;
 import org.jdom.Element;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -35,19 +34,17 @@ public class GoPathOrderEntryType implements CustomOrderEntryTypeProvider<GoPath
     return EP.findExtensionOrFail(Application.get(), GoPathOrderEntryType.class);
   }
 
-  @Nonnull
   @Override
   public String getId() {
     return "gopath";
   }
 
-  @Nonnull
   @Override
-  public GoPathOrderEntryModel loadOrderEntry(@Nonnull Element element, @Nonnull ModuleRootLayer moduleRootLayer) throws InvalidDataException {
+  public GoPathOrderEntryModel loadOrderEntry(Element element, ModuleRootLayer moduleRootLayer) throws InvalidDataException {
     return new GoPathOrderEntryModel();
   }
 
   @Override
-  public void storeOrderEntry(@Nonnull Element element, @Nonnull GoPathOrderEntryModel goPathOrderEntryModel) {
+  public void storeOrderEntry(Element element, GoPathOrderEntryModel goPathOrderEntryModel) {
   }
 }

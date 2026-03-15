@@ -16,7 +16,6 @@
 
 package com.goide.editor;
 
-import jakarta.annotation.Nonnull;
 import com.goide.GoCodeInsightFixtureTestCase;
 
 public abstract class GoSelectWordTest extends GoCodeInsightFixtureTestCase {
@@ -33,7 +32,6 @@ public abstract class GoSelectWordTest extends GoCodeInsightFixtureTestCase {
     //CodeInsightTestUtil.doWordSelectionTestOnDirectory(myFixture, getTestName(true), "go");
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "selectWord";

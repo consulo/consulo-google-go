@@ -30,7 +30,6 @@ import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 import consulo.util.lang.ThreeState;
 
-import jakarta.annotation.Nonnull;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.Collection;
@@ -50,16 +49,11 @@ public class GoBuildTagsUI {
   @SuppressWarnings("unused")
   private JTextPane myDescriptionPane;
 
-  @Nonnull
   private final MutableCollectionComboBoxModel<String> myCgoComboModel;
 
-  @Nonnull
   private final String myDefaultOSValue;
-  @Nonnull
   private final String myDefaultArchValue;
-  @Nonnull
   private String myDefaultCgo;
-  @Nonnull
   private String myDefaultGoVersion = "";
 
   private GoMutableModuleExtension myExtension;
@@ -119,18 +113,15 @@ public class GoBuildTagsUI {
     myGoVersionCombo.setModel(createModel(GoConstants.KNOWN_VERSIONS, myDefaultGoVersion));
   }
 
-  @Nonnull
   private String selectedCompiler() {
     Object item = myCompilerCombo.getSelectedItem();
     return item instanceof String ? (String) item : GoBuildTargetSettings.ANY_COMPILER;
   }
 
-  @Nonnull
   private String[] selectedCustomTags() {
     return ArrayUtil.toStringArray(StringUtil.split(myCustomTagsField.getText(), " "));
   }
 
-  @Nonnull
   private ThreeState selectedCgo() {
     String string = myCgoComboModel.getSelected();
     if (ENABLED.equals(string)) {
@@ -142,8 +133,7 @@ public class GoBuildTagsUI {
     return ThreeState.UNSURE;
   }
 
-  @Nonnull
-  private static String selected(@Nonnull ComboBox comboBox, @Nonnull String defaultValue) {
+  private static String selected(ComboBox comboBox, String defaultValue) {
     Object item = comboBox.getSelectedItem();
     if (item instanceof String) {
       return defaultValue.equals(item) ? GoBuildTargetSettings.DEFAULT : (String) item;
@@ -151,25 +141,21 @@ public class GoBuildTagsUI {
     return GoBuildTargetSettings.DEFAULT;
   }
 
-  @Nonnull
-  private static String expandDefault(@Nonnull String value, @Nonnull String defaultValue) {
+  private static String expandDefault(String value, String defaultValue) {
     return GoBuildTargetSettings.DEFAULT.equals(value) ? defaultValue : value;
   }
 
-  @Nonnull
-  private static MutableCollectionComboBoxModel<String> createModel(@Nonnull Collection<String> values, @Nonnull String defaultValue) {
+  private static MutableCollectionComboBoxModel<String> createModel(Collection<String> values, String defaultValue) {
     List<String> items = ContainerUtil.newArrayList(defaultValue);
     items.addAll(ContainerUtil.sorted(values));
     return new MutableCollectionComboBoxModel<>(items, defaultValue);
   }
 
-  @Nonnull
   public JPanel getPanel() {
     return myPanel;
   }
 
-  @Nonnull
-  private static String cgo(@Nonnull ThreeState threeState) {
+  private static String cgo(ThreeState threeState) {
     if (threeState == ThreeState.YES) {
       return ENABLED;
     }

@@ -25,21 +25,19 @@ import consulo.language.psi.stub.IndexSink;
 import consulo.language.psi.stub.StubBase;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import jakarta.annotation.Nonnull;
 
 public abstract class GoStubElementType<S extends StubBase<T>, T extends GoCompositeElement> extends IStubElementType<S, T> {
-  public GoStubElementType(@Nonnull String debugName) {
+  public GoStubElementType(String debugName) {
     super(debugName, GoLanguage.INSTANCE);
   }
 
   @Override
-  @Nonnull
   public String getExternalId() {
     return "go." + super.toString();
   }
 
   @Override
-  public void indexStub(@Nonnull S stub, @Nonnull IndexSink sink) {
+  public void indexStub(S stub, IndexSink sink) {
   }
 
   @Override

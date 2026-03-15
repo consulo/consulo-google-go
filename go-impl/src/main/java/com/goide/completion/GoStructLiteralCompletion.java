@@ -23,8 +23,7 @@ import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.ObjectUtil;
 import org.jetbrains.annotations.Contract;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -59,7 +58,6 @@ class GoStructLiteralCompletion {
     NONE
   }
 
-  @Nonnull
   static Variants allowedVariants(@Nullable GoReferenceExpression structFieldReference) {
     GoValue value = parent(structFieldReference, GoValue.class);
     GoElement element = parent(value, GoElement.class);
@@ -92,7 +90,6 @@ class GoStructLiteralCompletion {
            Variants.BOTH;
   }
 
-  @Nonnull
   static Set<String> alreadyAssignedFields(@Nullable GoLiteralValue literal) {
     if (literal == null) {
       return Collections.emptySet();
@@ -107,7 +104,7 @@ class GoStructLiteralCompletion {
   }
 
   @Contract("null,_->null")
-  private static <T> T parent(@Nullable PsiElement of, @Nonnull Class<T> parentClass) {
+  private static <T> T parent(@Nullable PsiElement of, Class<T> parentClass) {
     return ObjectUtil.tryCast(of != null ? of.getParent() : null, parentClass);
   }
 }

@@ -19,17 +19,16 @@ package com.goide.inspections.unresolved;
 import com.goide.refactor.GoRefactoringUtil;
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoIntroduceLocalVariableFix extends GoUnresolvedFixBase {
-  public GoIntroduceLocalVariableFix(@Nonnull PsiElement element, @Nonnull String name) {
+  public GoIntroduceLocalVariableFix(PsiElement element, String name) {
     super(element, name, "local variable", "go_lang_local_var_qf");
   }
 
   @Nullable
   @Override
-  protected PsiElement findAnchor(@Nonnull PsiElement reference) {
+  protected PsiElement findAnchor(PsiElement reference) {
     return GoRefactoringUtil.findLocalAnchor(GoRefactoringUtil.getLocalOccurrences(reference));
   }
 }

@@ -21,7 +21,6 @@ import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.localize.LocalizeValue;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoUnusedExportedFunctionInspection extends GoUnusedFunctionInspection {
@@ -30,19 +29,16 @@ public class GoUnusedExportedFunctionInspection extends GoUnusedFunctionInspecti
     return StringUtil.isCapitalized(name);
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Declaration redundancy");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Unused exported function inspection");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.WARNING;

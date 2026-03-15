@@ -22,7 +22,6 @@ import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
 import consulo.language.editor.highlight.SyntaxHighlighter;
 import consulo.localize.LocalizeValue;
 import consulo.util.io.ResourceUtil;
-import jakarta.annotation.Nonnull;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,7 +44,6 @@ public class AsmIntelColorsAndFontsPage implements ColorSettingsPage {
     new AttributesDescriptor("Identifier", IDENTIFIER),
   };
 
-  @Nonnull
   @Override
   public SyntaxHighlighter getHighlighter() {
     return new AsmIntelSyntaxHighlighter();
@@ -53,7 +51,6 @@ public class AsmIntelColorsAndFontsPage implements ColorSettingsPage {
 
   private String DEMO_TEXT;
 
-  @Nonnull
   @Override
   public String getDemoText() {
     if (DEMO_TEXT == null) {
@@ -69,13 +66,11 @@ public class AsmIntelColorsAndFontsPage implements ColorSettingsPage {
     return DEMO_TEXT;
   }
 
-  @Nonnull
   @Override
   public AttributesDescriptor[] getAttributeDescriptors() {
     return DESCRIPTORS;
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("x86 Assembler");

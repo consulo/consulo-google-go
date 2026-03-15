@@ -21,8 +21,7 @@ import consulo.annotation.component.ActionImpl;
 import consulo.module.Module;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ActionImpl(id = "GoTypeFileAction")
 public class GoTypeFileAction extends GoDownloadableFileAction {
@@ -35,15 +34,13 @@ public class GoTypeFileAction extends GoDownloadableFileAction {
         return super.isAvailableOnFile(file) || file.isDirectory();
     }
 
-    @Nonnull
     @Override
-    protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull VirtualFile file) {
+    protected GoExecutor createExecutor(Project project, @Nullable Module module, String title, VirtualFile file) {
         return super.createExecutor(project, module, title, file.isDirectory() ? file : file.getParent());
     }
 
-    @Nonnull
     @Override
-    protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull String filePath) {
+    protected GoExecutor createExecutor(Project project, @Nullable Module module, String title, String filePath) {
         VirtualFile executable = getExecutable(project, module);
         assert executable != null;
 

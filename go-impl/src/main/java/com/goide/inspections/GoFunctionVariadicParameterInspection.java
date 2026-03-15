@@ -26,7 +26,6 @@ import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
 
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 import static com.goide.GoTypes.TRIPLE_DOT;
@@ -35,12 +34,11 @@ import static com.goide.GoTypes.TRIPLE_DOT;
 public class GoFunctionVariadicParameterInspection extends GoGeneralInspectionBase {
   private static final GoDeleteQuickFix DELETE_QUICK_FIX = new GoDeleteQuickFix(LocalizeValue.localizeTODO("Delete ..."), TRIPLE_DOT);
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitCompositeElement(@Nonnull GoCompositeElement o) {
+      public void visitCompositeElement(GoCompositeElement o) {
         if (o instanceof GoSignatureOwner) {
           GoSignature signature = ((GoSignatureOwner)o).getSignature();
           if (signature != null) {
@@ -52,7 +50,7 @@ public class GoFunctionVariadicParameterInspection extends GoGeneralInspectionBa
     };
   }
 
-  private static void checkResult(@Nonnull GoSignature o, @Nonnull ProblemsHolder holder) {
+  private static void checkResult(GoSignature o, ProblemsHolder holder) {
     GoResult result = o.getResult();
     if (result == null) return;
     GoParameters parameters = result.getParameters();
@@ -66,7 +64,7 @@ public class GoFunctionVariadicParameterInspection extends GoGeneralInspectionBa
     }
   }
 
-  private static void checkParameters(@Nonnull GoSignature o, @Nonnull ProblemsHolder holder) {
+  private static void checkParameters(GoSignature o, ProblemsHolder holder) {
     GoParameters parameters = o.getParameters();
     List<GoParameterDeclaration> list = parameters.getParameterDeclarationList();
     int size = list.size();
@@ -82,7 +80,6 @@ public class GoFunctionVariadicParameterInspection extends GoGeneralInspectionBa
     }
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Incorrect variadic parameter");

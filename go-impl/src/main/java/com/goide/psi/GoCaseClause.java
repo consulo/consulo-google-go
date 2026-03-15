@@ -18,15 +18,13 @@ package com.goide.psi;
 
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 public interface GoCaseClause extends GoCompositeElement {
   @Nullable
   PsiElement getColon();
 
-  @Nonnull
   List<GoStatement> getStatementList();
 
   @Nullable

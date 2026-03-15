@@ -25,7 +25,6 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import consulo.disposer.Disposer;
 
-import jakarta.annotation.Nonnull;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +53,6 @@ public abstract class GoEventsConverterTestCase extends GoCodeInsightFixtureTest
     assertSameLinesWithFile(getTestDataPath() + "/" + getTestName(true) + "-expected.txt", serviceMessageVisitor.getLog());
   }
 
-  @Nonnull
   protected abstract GoTestFramework getTestFramework();
 }
 

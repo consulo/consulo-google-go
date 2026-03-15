@@ -15,8 +15,7 @@
  */
 package org.jetbrains.debugger;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.EventListener;
 
@@ -26,7 +25,7 @@ public interface DebugEventListener extends EventListener {
    * breakpoints or a step end). The {@code context} can be used to access the
    * current backtrace.
    */
-  default void suspended(@Nonnull SuspendContext<?> context) {
+  default void suspended(SuspendContext<?> context) {
   }
 
   /**
@@ -39,13 +38,13 @@ public interface DebugEventListener extends EventListener {
   /**
    * Reports that a new script has been loaded.
    */
-  default void scriptAdded(@Nonnull Vm vm, @Nonnull Script script, @Nullable String sourceMapUrl) {
+  default void scriptAdded(Vm vm, Script script, @Nullable String sourceMapUrl) {
   }
 
   /**
    * Reports that the script has been collected and is no longer used in VM.
    */
-  default void scriptRemoved(@Nonnull Script script) {
+  default void scriptRemoved(Script script) {
   }
 
   default void scriptsCleared() {
@@ -54,7 +53,7 @@ public interface DebugEventListener extends EventListener {
   /**
    * Reports that script source has been altered in remote VM.
    */
-  default void scriptContentChanged(@Nonnull Script newScript) {
+  default void scriptContentChanged(Script newScript) {
   }
 
   /**
@@ -65,6 +64,6 @@ public interface DebugEventListener extends EventListener {
   default void navigated(String newUrl) {
   }
 
-  default void errorOccurred(@Nonnull String errorMessage) {
+  default void errorOccurred(String errorMessage) {
   }
 }

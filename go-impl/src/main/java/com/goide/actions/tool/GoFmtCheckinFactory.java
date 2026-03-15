@@ -37,8 +37,7 @@ import consulo.versionControlSystem.checkin.CheckinHandlerFactory;
 import consulo.versionControlSystem.checkin.CheckinProjectPanel;
 import consulo.versionControlSystem.ui.RefreshableOnComponent;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,7 +52,7 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
 
     @Override
     @Nullable
-    public CheckinHandler createHandler(@Nonnull CheckinProjectPanel panel, @Nonnull CommitContext commitContext) {
+    public CheckinHandler createHandler(CheckinProjectPanel panel, CommitContext commitContext) {
         if (!ModuleExtensionHelper.getInstance(panel.getProject()).hasModuleExtension(GoModuleExtension.class)) {
             return null;
         }
@@ -63,7 +62,6 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
                 JCheckBox checkBox = new JCheckBox("Go fmt");
                 return new RefreshableOnComponent() {
                     @Override
-                    @Nonnull
                     public JComponent getComponent() {
                         JPanel panel = new JPanel(new BorderLayout());
                         panel.add(checkBox, BorderLayout.WEST);
@@ -115,7 +113,6 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
                 return super.beforeCheckin();
             }
 
-            @Nonnull
             @RequiredUIAccess
             private ReturnResult showErrorMessage(@Nullable CommitExecutor executor) {
                 String[] buttons =
@@ -140,7 +137,6 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
                 return ReturnResult.CANCEL;
             }
 
-            @Nonnull
             private List<PsiFile> getPsiFiles() {
                 Collection<VirtualFile> files = panel.getVirtualFiles();
                 List<PsiFile> psiFiles = new ArrayList<>();
@@ -156,13 +152,12 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
         };
     }
 
-    @Nonnull
-    private static LocalizeValue commitButtonMessage(@Nullable CommitExecutor executor, @Nonnull CheckinProjectPanel panel) {
+    private static LocalizeValue commitButtonMessage(@Nullable CommitExecutor executor, CheckinProjectPanel panel) {
         LocalizeValue message = executor != null ? executor.getActionText() : panel.getCommitActionName();
         return message.map(s -> StringUtil.trimEnd(s, "…"));
     }
 
-    private static boolean enabled(@Nonnull CheckinProjectPanel panel) {
+    private static boolean enabled(CheckinProjectPanel panel) {
         return ProjectPropertiesComponent.getInstance(panel.getProject()).getBoolean(GO_FMT, false);
     }
 }

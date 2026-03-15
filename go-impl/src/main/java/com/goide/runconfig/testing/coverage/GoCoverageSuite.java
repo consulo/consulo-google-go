@@ -22,8 +22,7 @@ import consulo.execution.coverage.CoverageFileProvider;
 import consulo.execution.coverage.CoverageRunner;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoCoverageSuite extends BaseCoverageSuite {
   public GoCoverageSuite() {
@@ -37,7 +36,6 @@ public class GoCoverageSuite extends BaseCoverageSuite {
     super(name, fileProvider, lastCoverageTimeStamp, false, false, false, coverageRunner, project);
   }
 
-  @Nonnull
   @Override
   public CoverageEngine getCoverageEngine() {
     return GoCoverageEngine.INSTANCE;

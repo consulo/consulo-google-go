@@ -34,13 +34,12 @@ import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.ObjectUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 @ExtensionImpl
 public class GoTestSignaturesInspection extends GoGeneralInspectionBase {
   @Override
-  protected void checkFile(@Nonnull GoFile file, @Nonnull ProblemsHolder problemsHolder) {
+  protected void checkFile(GoFile file, ProblemsHolder problemsHolder) {
     if (!GoTestFinder.isTestFile(file)) return;
     for (GoFunctionDeclaration function : file.getFunctions()) {
       GoTestFunctionType type = GoTestFunctionType.fromName(function.getName());
@@ -71,7 +70,6 @@ public class GoTestSignaturesInspection extends GoGeneralInspectionBase {
     }
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Wrong test declaration");
@@ -86,7 +84,7 @@ public class GoTestSignaturesInspection extends GoGeneralInspectionBase {
     }
 
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       PsiElement element = descriptor.getStartElement();
       if (element == null) return;
       GoFunctionDeclaration function = ObjectUtil.tryCast(element.getParent(), GoFunctionDeclaration.class);

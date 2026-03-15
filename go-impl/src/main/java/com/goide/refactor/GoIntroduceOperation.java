@@ -24,7 +24,6 @@ import consulo.language.psi.PsiFile;
 import consulo.project.Project;
 import org.jetbrains.annotations.TestOnly;
 
-import jakarta.annotation.Nonnull;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -39,77 +38,69 @@ public class GoIntroduceOperation {
   private GoVarDefinition myVar;
   private boolean myReplaceAll;
 
-  public GoIntroduceOperation(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
+  public GoIntroduceOperation(Project project, Editor editor, PsiFile file) {
     myProject = project;
     myEditor = editor;
     myFile = file;
   }
 
   @TestOnly
-  public GoIntroduceOperation(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file, boolean replaceAll) {
+  public GoIntroduceOperation(Project project, Editor editor, PsiFile file, boolean replaceAll) {
     myProject = project;
     myEditor = editor;
     myFile = file;
     myReplaceAll = replaceAll;
   }
 
-  @Nonnull
   public Project getProject() {
     return myProject;
   }
 
-  @Nonnull
   public Editor getEditor() {
     return myEditor;
   }
 
-  @Nonnull
   public PsiFile getFile() {
     return myFile;
   }
 
-  @Nonnull
   public GoExpression getExpression() {
     return myExpression;
   }
 
-  public void setExpression(@Nonnull GoExpression expression) {
+  public void setExpression(GoExpression expression) {
     myExpression = expression;
   }
 
-  @Nonnull
   public List<PsiElement> getOccurrences() {
     return myOccurrences;
   }
 
-  public void setOccurrences(@Nonnull List<PsiElement> occurrences) {
+  public void setOccurrences(List<PsiElement> occurrences) {
     myOccurrences = occurrences;
   }
 
-  @Nonnull
   public LinkedHashSet<String> getSuggestedNames() {
     return mySuggestedNames;
   }
 
-  public void setSuggestedNames(@Nonnull LinkedHashSet<String> suggestedNames) {
+  public void setSuggestedNames(LinkedHashSet<String> suggestedNames) {
     mySuggestedNames = suggestedNames;
   }
 
-  @Nonnull
   public String getName() {
     return myName;
   }
 
-  public void setName(@Nonnull String name) {
+  public void setName(String name) {
     myName = name;
   }
 
-  @Nonnull
   public GoVarDefinition getVar() {
     return myVar;
   }
 
-  public void setVar(@Nonnull GoVarDefinition var) {
+  public void setVar(GoVarDefinition var) {
     myVar = var;
   }
 

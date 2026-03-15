@@ -23,7 +23,6 @@ import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.testFramework.LexerTestCase;
 import consulo.testFramework.util.TestUtil;
 
-import jakarta.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -158,14 +157,12 @@ public abstract class GoLexerTest extends LexerTestCase
 		return null;
 	}
 
-	@Nonnull
 	@Override
 	protected Lexer createLexer()
 	{
 		return new GoLexer();
 	}
 
-	@Nonnull
 	@Override
 	protected String getDirPath()
 	{

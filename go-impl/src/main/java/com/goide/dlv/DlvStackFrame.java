@@ -50,8 +50,7 @@ import consulo.util.lang.ref.Ref;
 import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 public class DlvStackFrame extends XStackFrame {
@@ -61,7 +60,7 @@ public class DlvStackFrame extends XStackFrame {
   private final int myId;
   private final int myGoroutineId;
 
-  public DlvStackFrame(@Nonnull DlvDebugProcess process, @Nonnull DlvApi.Location location, @Nonnull DlvCommandProcessor processor, int id, int goroutineId) {
+  public DlvStackFrame(DlvDebugProcess process, DlvApi.Location location, DlvCommandProcessor processor, int id, int goroutineId) {
     myProcess = process;
     myLocation = location;
     myProcessor = processor;
@@ -74,7 +73,7 @@ public class DlvStackFrame extends XStackFrame {
   public XDebuggerEvaluator getEvaluator() {
     return new XDebuggerEvaluator() {
       @Override
-      public void evaluate(@Nonnull String expression, @Nonnull XEvaluationCallback callback, @Nullable XSourcePosition expressionPosition) {
+      public void evaluate(String expression, XEvaluationCallback callback, @Nullable XSourcePosition expressionPosition) {
         myProcessor.send(new DlvRequest.Eval(expression, myId, myGoroutineId))
                 .doWhenDone(variable -> callback.evaluated(createXValue(variable.Variable, ExecutionDebugIconGroup.nodeWatch())))
                 .doWhenRejectedWithThrowable(throwable -> callback.errorOccurred(throwable.getMessage()));
@@ -87,7 +86,7 @@ public class DlvStackFrame extends XStackFrame {
 
       @Nullable
       @Override
-      public TextRange getExpressionRangeAtOffset(@Nonnull Project project, @Nonnull Document document, int offset, boolean sideEffectsAllowed) {
+      public TextRange getExpressionRangeAtOffset(Project project, Document document, int offset, boolean sideEffectsAllowed) {
         Ref<TextRange> currentRange = Ref.create(null);
         PsiDocumentManager.getInstance(project).commitAndRunReadAction(() -> {
           try {
@@ -106,8 +105,7 @@ public class DlvStackFrame extends XStackFrame {
     };
   }
 
-  @Nonnull
-  private XValue createXValue(@Nonnull DlvApi.Variable variable, @Nullable Image icon) {
+  private XValue createXValue(DlvApi.Variable variable, @Nullable Image icon) {
     return new DlvXValue(myProcess, variable, myProcessor, myId, myGoroutineId, icon);
   }
 
@@ -135,19 +133,18 @@ public class DlvStackFrame extends XStackFrame {
   }
 
   @Override
-  public void customizePresentation(@Nonnull ColoredTextContainer component) {
+  public void customizePresentation(ColoredTextContainer component) {
     super.customizePresentation(component);
     component.append(" at " + myLocation.function.name, SimpleTextAttributes.REGULAR_ATTRIBUTES);
     component.setIcon(ExecutionDebugIconGroup.nodeFrame());
   }
 
-  @Nonnull
-  private <T> AsyncResult<T> send(@Nonnull DlvRequest<T> request) {
+  private <T> AsyncResult<T> send(DlvRequest<T> request) {
     return DlvDebugProcess.send(request, myProcessor);
   }
 
   @Override
-  public void computeChildren(@Nonnull XCompositeNode node) {
+  public void computeChildren(XCompositeNode node) {
     send(new DlvRequest.ListLocalVars(myId, myGoroutineId)).doWhenDone(variablesOut -> {
       List<DlvApi.Variable> variables = variablesOut.Variables;
       XValueChildrenList xVars = new XValueChildrenList(variables.size());

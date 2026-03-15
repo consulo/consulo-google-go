@@ -24,13 +24,12 @@ import consulo.module.Module;
 import consulo.project.Project;
 import jakarta.inject.Inject;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ServiceImpl
 public class GoIdeaSdkService extends GoSdkService {
   @Inject
-  public GoIdeaSdkService(@Nonnull Project project) {
+  public GoIdeaSdkService(Project project) {
     super(project);
   }
 

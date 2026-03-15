@@ -21,19 +21,18 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.lang.Comparing;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoVarProcessor extends GoScopeProcessorBase {
   private final boolean myImShortVarDeclaration;
   private final PsiElement myParentGuard;
   @Nullable private final GoCompositeElement myScope;
   
-  public GoVarProcessor(@Nonnull PsiElement origin, boolean completion) {
+  public GoVarProcessor(PsiElement origin, boolean completion) {
     this(origin, origin, completion, false);
   }
 
-  public GoVarProcessor(@Nonnull PsiElement requestedName, @Nonnull PsiElement origin, boolean completion, boolean delegate) {
+  public GoVarProcessor(PsiElement requestedName, PsiElement origin, boolean completion, boolean delegate) {
     super(requestedName, origin, completion);
     myImShortVarDeclaration = PsiTreeUtil.getParentOfType(origin, GoShortVarDeclaration.class) != null && !delegate;
     myParentGuard = origin.getParent() instanceof GoTypeSwitchGuard ? origin.getParent() : null;
@@ -41,7 +40,7 @@ public class GoVarProcessor extends GoScopeProcessorBase {
   }
 
   @Override
-  protected boolean add(@Nonnull GoNamedElement o) {
+  protected boolean add(GoNamedElement o) {
     PsiElement commonParent = PsiTreeUtil.findCommonParent(o, myOrigin);
     if (commonParent instanceof GoRangeClause || commonParent instanceof GoTypeSwitchGuard) return true;
     PsiElement p = o.getParent();
@@ -55,7 +54,7 @@ public class GoVarProcessor extends GoScopeProcessorBase {
     return super.add(o);
   }
 
-  private boolean fromNotAncestorBlock(@Nonnull GoNamedElement o) {
+  private boolean fromNotAncestorBlock(GoNamedElement o) {
     return (myScope instanceof GoExprCaseClause || myScope instanceof GoCommClause) &&
            !PsiTreeUtil.isAncestor(getScope(o), myOrigin, false);
   }
@@ -80,7 +79,7 @@ public class GoVarProcessor extends GoScopeProcessorBase {
   }
 
   @Override
-  protected boolean crossOff(@Nonnull PsiElement e) {
+  protected boolean crossOff(PsiElement e) {
     return !(e instanceof GoVarDefinition) &&
            !(e instanceof GoParamDefinition) &&
            !(e instanceof GoReceiver) &&

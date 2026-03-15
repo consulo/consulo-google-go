@@ -35,11 +35,10 @@ import consulo.project.Project;
 import consulo.ui.ex.action.Presentation;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.Locale;
 
 public class GotestGenerateAction extends GoGenerateTestActionBase {
-  public GotestGenerateAction(@Nonnull GoTestFunctionType type) {
+  public GotestGenerateAction(GoTestFunctionType type) {
     super(GotestFramework.INSTANCE, new GenerateActionHandler(type));
     String presentationName = StringUtil.capitalize(type.toString().toLowerCase(Locale.US));
     Presentation presentation = getTemplatePresentation();
@@ -48,14 +47,13 @@ public class GotestGenerateAction extends GoGenerateTestActionBase {
   }
 
   @Override
-  protected boolean isValidForFile(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
+  protected boolean isValidForFile(Project project, Editor editor, PsiFile file) {
     GoFileLiveTemplateContextType fileContextType =
       TemplateContextType.EP_NAME.findExtension(GoFileLiveTemplateContextType.class);
     return fileContextType != null && fileContextType.isInContext(file, editor.getCaretModel().getOffset());
   }
 
-  @Nonnull
-  public static String importTestingPackageIfNeeded(@Nonnull GoFile file) {
+  public static String importTestingPackageIfNeeded(GoFile file) {
     GoImportSpec alreadyImportedPackage = file.getImportedPackagesMap().get(GoConstants.TESTING_PATH);
     String qualifier = GoPsiImplUtil.getImportQualifierToUseInFile(alreadyImportedPackage, GoConstants.TESTING_PATH);
     if (qualifier != null) {
@@ -69,15 +67,14 @@ public class GotestGenerateAction extends GoGenerateTestActionBase {
 
   private static class GenerateActionHandler implements CodeInsightActionHandler {
 
-    @Nonnull
 	private final GoTestFunctionType myType;
 
-    public GenerateActionHandler(@Nonnull GoTestFunctionType type) {
+    public GenerateActionHandler(GoTestFunctionType type) {
       myType = type;
     }
 
     @Override
-    public void invoke(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
+    public void invoke(Project project, Editor editor, PsiFile file) {
       if (!(file instanceof GoFile)) {
         return;
       }

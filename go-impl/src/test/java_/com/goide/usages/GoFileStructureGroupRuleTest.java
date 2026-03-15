@@ -26,7 +26,6 @@ import com.intellij.usages.Usage;
 import com.intellij.usages.UsageGroup;
 import com.intellij.usages.UsageInfo2UsageAdapter;
 import com.intellij.util.containers.ContainerUtil;
-import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 
@@ -39,7 +38,6 @@ public abstract class GoFileStructureGroupRuleTest extends GoCodeInsightFixtureT
     assertInstanceOf(getGroupElement(), GoTypeSpec.class);
   }
 
-  @Nonnull
   private PsiElement getGroupElement() {
     UsageGroup group = GoFileStructureGroupRuleProvider.USAGE_GROUPING_RULE.groupUsage(findSingleUsage());
     assertNotNull(group);
@@ -47,7 +45,6 @@ public abstract class GoFileStructureGroupRuleTest extends GoCodeInsightFixtureT
     return ((PsiElementUsageGroupBase)group).getElement();
   }
 
-  @Nonnull
   private Usage findSingleUsage() {
     Collection<UsageInfo> infos = myFixture.testFindUsages(getTestName(true) + ".go");
     assertEquals(1, infos.size());

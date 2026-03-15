@@ -20,15 +20,14 @@ import com.goide.psi.GoTypeReferenceExpression;
 import com.goide.psi.GoTypeSpec;
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
 
 public class GoTypeProcessor extends GoScopeProcessorBase {
-  public GoTypeProcessor(@Nonnull GoTypeReferenceExpression origin, boolean completion) {
+  public GoTypeProcessor(GoTypeReferenceExpression origin, boolean completion) {
     super(origin.getIdentifier(), origin, completion);
   }
 
   @Override
-  protected boolean crossOff(@Nonnull PsiElement e) {
+  protected boolean crossOff(PsiElement e) {
     return !(e instanceof GoTypeSpec);
   }
 }

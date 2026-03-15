@@ -28,34 +28,33 @@ import consulo.project.Project;
 import consulo.util.collection.ArrayUtil;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class GoStatementsSurrounder implements Surrounder {
   @Override
-  public boolean isApplicable(@Nonnull PsiElement[] elements) {
+  public boolean isApplicable(PsiElement[] elements) {
     return true;
   }
 
   @Override
   @Nullable
-  public TextRange surroundElements(@Nonnull Project project,
-                                    @Nonnull Editor editor,
-                                    @Nonnull PsiElement[] elements) throws IncorrectOperationException {
+  public TextRange surroundElements(Project project,
+                                    Editor editor,
+                                    PsiElement[] elements) throws IncorrectOperationException {
     PsiElement container = elements[0].getParent();
     if (container == null) return null;
     return surroundStatements(project, container, elements);
   }
 
   @Nullable
-  protected abstract TextRange surroundStatements(@Nonnull Project project,
-                                                  @Nonnull PsiElement container,
-                                                  @Nonnull PsiElement[] statements) throws IncorrectOperationException;
+  protected abstract TextRange surroundStatements(Project project,
+                                                  PsiElement container,
+                                                  PsiElement[] statements) throws IncorrectOperationException;
 
   @Nullable
-  protected TextRange surroundStatementsWithIfElse(@Nonnull Project project,
-                                                   @Nonnull PsiElement container,
-                                                   @Nonnull PsiElement[] statements,
+  protected TextRange surroundStatementsWithIfElse(Project project,
+                                                   PsiElement container,
+                                                   PsiElement[] statements,
                                                    boolean withElse) {
     PsiElement first = ArrayUtil.getFirstElement(statements);
     PsiElement last = ArrayUtil.getLastElement(statements);

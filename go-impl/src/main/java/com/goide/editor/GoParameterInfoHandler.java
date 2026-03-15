@@ -30,8 +30,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.collection.ArrayUtil;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -39,37 +38,31 @@ import java.util.function.Function;
 
 @ExtensionImpl
 public class GoParameterInfoHandler implements ParameterInfoHandlerWithTabActionSupport<GoArgumentList, Object, GoExpression> {
-  @Nonnull
   @Override
-  public GoExpression[] getActualParameters(@Nonnull GoArgumentList o) {
+  public GoExpression[] getActualParameters(GoArgumentList o) {
     return ArrayUtil.toObjectArray(o.getExpressionList(), GoExpression.class);
   }
 
-  @Nonnull
   @Override
   public IElementType getActualParameterDelimiterType() {
     return GoTypes.COMMA;
   }
 
-  @Nonnull
   @Override
   public IElementType getActualParametersRBraceType() {
     return GoTypes.RPAREN;
   }
 
-  @Nonnull
   @Override
   public Set<Class<?>> getArgumentListAllowedParentClasses() {
 	  return Collections.emptySet();
   }
 
-  @Nonnull
   @Override
   public Set<? extends Class<?>> getArgListStopSearchClasses() {
     return Collections.emptySet();
   }
 
-  @Nonnull
   @Override
   public Class<GoArgumentList> getArgumentListClass() {
     return GoArgumentList.class;
@@ -88,19 +81,19 @@ public class GoParameterInfoHandler implements ParameterInfoHandlerWithTabAction
 
   @Nullable
   @Override
-  public GoArgumentList findElementForParameterInfo(@Nonnull CreateParameterInfoContext context) {
+  public GoArgumentList findElementForParameterInfo(CreateParameterInfoContext context) {
     // todo: see ParameterInfoUtils.findArgumentList
     return getList(context);
   }
 
   @Nullable
-  private static GoArgumentList getList(@Nonnull ParameterInfoContext context) {
+  private static GoArgumentList getList(ParameterInfoContext context) {
     PsiElement at = context.getFile().findElementAt(context.getOffset());
     return PsiTreeUtil.getParentOfType(at, GoArgumentList.class);
   }
 
   @Override
-  public void showParameterInfo(@Nonnull GoArgumentList argList, @Nonnull CreateParameterInfoContext context) {
+  public void showParameterInfo(GoArgumentList argList, CreateParameterInfoContext context) {
     PsiElement parent = argList.getParent();
     if (!(parent instanceof GoCallExpr)) return;
     GoFunctionType type = findFunctionType(((GoCallExpr)parent).getExpression().getGoType(null));
@@ -119,21 +112,21 @@ public class GoParameterInfoHandler implements ParameterInfoHandlerWithTabAction
 
   @Nullable
   @Override
-  public GoArgumentList findElementForUpdatingParameterInfo(@Nonnull UpdateParameterInfoContext context) {
+  public GoArgumentList findElementForUpdatingParameterInfo(UpdateParameterInfoContext context) {
     return getList(context);
   }
 
   @Override
-  public void updateParameterInfo(@Nonnull GoArgumentList list, @Nonnull UpdateParameterInfoContext context) {
+  public void updateParameterInfo(GoArgumentList list, UpdateParameterInfoContext context) {
     context.setCurrentParameter(ParameterInfoUtils.getCurrentParameterIndex(list.getNode(), context.getOffset(), GoTypes.COMMA));
   }
 
   @Override
-  public void updateUI(@Nullable Object p, @Nonnull ParameterInfoUIContext context) {
+  public void updateUI(@Nullable Object p, ParameterInfoUIContext context) {
     updatePresentation(p, context);
   }
 
-  static String updatePresentation(@Nullable Object p, @Nonnull ParameterInfoUIContext context) {
+  static String updatePresentation(@Nullable Object p, ParameterInfoUIContext context) {
     if (p == null) {
       context.setUIComponentEnabled(false);
       return null;
@@ -176,9 +169,8 @@ public class GoParameterInfoHandler implements ParameterInfoHandlerWithTabAction
   /**
    * Creates a list of parameter presentations. For clarity we expand parameters declared as `a, b, c int` into `a int, b int, c int`.
    */
-  @Nonnull
-  public static List<String> getParameterPresentations(@Nonnull GoParameters parameters,
-                                                       @Nonnull Function<PsiElement, String> typePresentationFunction) {
+  public static List<String> getParameterPresentations(GoParameters parameters,
+                                                       Function<PsiElement, String> typePresentationFunction) {
     List<GoParameterDeclaration> paramDeclarations = parameters.getParameterDeclarationList();
     List<String> paramPresentations = ContainerUtil.newArrayListWithCapacity(2 * paramDeclarations.size());
     for (GoParameterDeclaration paramDeclaration : paramDeclarations) {
@@ -196,12 +188,11 @@ public class GoParameterInfoHandler implements ParameterInfoHandlerWithTabAction
     return paramPresentations;
   }
 
-  private static boolean isLastParameterVariadic(@Nonnull List<GoParameterDeclaration> declarations) {
+  private static boolean isLastParameterVariadic(List<GoParameterDeclaration> declarations) {
     GoParameterDeclaration lastItem = ContainerUtil.getLastItem(declarations);
     return lastItem != null && lastItem.isVariadic();
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

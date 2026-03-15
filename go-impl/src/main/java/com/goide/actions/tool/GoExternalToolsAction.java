@@ -38,15 +38,14 @@ import consulo.util.lang.ExceptionUtil;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.function.Consumer;
 
 public abstract class GoExternalToolsAction extends DumbAwareAction {
     private static final Logger LOG = Logger.getInstance(GoExternalToolsAction.class);
 
-    private static void error(@Nonnull String title, @Nonnull Project project, @Nullable Exception ex) {
+    private static void error(String title, Project project, @Nullable Exception ex) {
         String message = ex == null ? "" : ExceptionUtil.getThrowableText(ex);
         NotificationType type = NotificationType.ERROR;
         Notifications.Bus.notify(GoConstants.GO_EXECUTION_NOTIFICATION_GROUP.createNotification(title, message, type, null), project);
@@ -56,13 +55,13 @@ public abstract class GoExternalToolsAction extends DumbAwareAction {
         super(text, description, null);
     }
 
-    protected GoExternalToolsAction(@Nonnull LocalizeValue text, @Nonnull LocalizeValue description) {
+    protected GoExternalToolsAction(LocalizeValue text, LocalizeValue description) {
         super(text, description, null);
     }
 
     @RequiredUIAccess
     @Override
-    public void update(@Nonnull AnActionEvent e) {
+    public void update(AnActionEvent e) {
         super.update(e);
         Project project = e.getData(Project.KEY);
         VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
@@ -80,7 +79,7 @@ public abstract class GoExternalToolsAction extends DumbAwareAction {
 
     @RequiredUIAccess
     @Override
-    public void actionPerformed(@Nonnull AnActionEvent e) {
+    public void actionPerformed(AnActionEvent e) {
         Project project = e.getData(Project.KEY);
         VirtualFile file = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE);
         assert project != null;
@@ -96,29 +95,29 @@ public abstract class GoExternalToolsAction extends DumbAwareAction {
         }
     }
 
-    protected boolean doSomething(@Nonnull VirtualFile virtualFile,
+    protected boolean doSomething(VirtualFile virtualFile,
                                   @Nullable Module module,
-                                  @Nonnull Project project,
-                                  @Nonnull String title) throws ExecutionException {
+                                  Project project,
+                                  String title) throws ExecutionException {
         return doSomething(virtualFile, module, project, title, false);
     }
 
-    private boolean doSomething(@Nonnull VirtualFile virtualFile,
+    private boolean doSomething(VirtualFile virtualFile,
                                 @Nullable Module module,
-                                @Nonnull Project project,
-                                @Nonnull String title,
+                                Project project,
+                                String title,
                                 boolean withProgress) {
         //noinspection unchecked
         return doSomething(virtualFile, module, project, title, withProgress, c -> {
         });
     }
 
-    protected boolean doSomething(@Nonnull VirtualFile virtualFile,
+    protected boolean doSomething(VirtualFile virtualFile,
                                   @Nullable Module module,
-                                  @Nonnull Project project,
-                                  @Nonnull String title,
+                                  Project project,
+                                  String title,
                                   boolean withProgress,
-                                  @Nonnull Consumer<Boolean> consumer) {
+                                  Consumer<Boolean> consumer) {
         Document document = FileDocumentManager.getInstance().getDocument(virtualFile);
         if (document != null) {
             FileDocumentManager.getInstance().saveDocument(document);
@@ -134,18 +133,17 @@ public abstract class GoExternalToolsAction extends DumbAwareAction {
         return true;
     }
 
-    protected GoExecutor createExecutor(@Nonnull Project project,
+    protected GoExecutor createExecutor(Project project,
                                         @Nullable Module module,
-                                        @Nonnull String title,
-                                        @Nonnull VirtualFile virtualFile) {
+                                        String title,
+                                        VirtualFile virtualFile) {
         String filePath = virtualFile.getCanonicalPath();
         assert filePath != null;
         return createExecutor(project, module, title, filePath);
     }
 
-    @Nonnull
-    protected abstract GoExecutor createExecutor(@Nonnull Project project,
+    protected abstract GoExecutor createExecutor(Project project,
                                                  @Nullable Module module,
-                                                 @Nonnull String title,
-                                                 @Nonnull String filePath);
+                                                 String title,
+                                                 String filePath);
 }

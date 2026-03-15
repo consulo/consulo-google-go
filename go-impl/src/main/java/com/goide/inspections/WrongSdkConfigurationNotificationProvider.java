@@ -33,8 +33,7 @@ import consulo.project.Project;
 import consulo.project.localize.ProjectLocalize;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import jakarta.inject.Inject;
 
 import java.util.function.Supplier;
@@ -44,11 +43,10 @@ public class WrongSdkConfigurationNotificationProvider implements EditorNotifica
   private final Project myProject;
 
   @Inject
-  public WrongSdkConfigurationNotificationProvider(@Nonnull Project project) {
+  public WrongSdkConfigurationNotificationProvider(Project project) {
     myProject = project;
   }
 
-  @Nonnull
   @Override
   public String getId() {
     return "go-wrong-sdk-configuration";
@@ -57,7 +55,7 @@ public class WrongSdkConfigurationNotificationProvider implements EditorNotifica
   @RequiredReadAction
   @Nullable
   @Override
-  public EditorNotificationBuilder buildNotification(@Nonnull VirtualFile file, @Nonnull FileEditor fileEditor, @Nonnull Supplier<EditorNotificationBuilder> builderFactory) {
+  public EditorNotificationBuilder buildNotification(VirtualFile file, FileEditor fileEditor, Supplier<EditorNotificationBuilder> builderFactory) {
     if (file.getFileType() != GoFileType.INSTANCE) return null;
 
     PsiFile psiFile = PsiManager.getInstance(myProject).findFile(file);
@@ -76,8 +74,7 @@ public class WrongSdkConfigurationNotificationProvider implements EditorNotifica
     return null;
   }
 
-  @Nonnull
-  private static EditorNotificationBuilder createMissingSdkPanel(@Nonnull Project project, @Nonnull Module module, EditorNotificationBuilder builder) {
+  private static EditorNotificationBuilder createMissingSdkPanel(Project project, Module module, EditorNotificationBuilder builder) {
     builder.withText(ProjectLocalize.moduleSdkNotDefined());
     builder.withAction(ProjectLocalize.moduleSdkSetup(), (e) -> ShowSettingsUtil.getInstance().showProjectStructureDialog(project, s -> s.select(module, true)));
     return builder;

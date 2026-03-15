@@ -21,8 +21,7 @@ import consulo.annotation.component.ActionImpl;
 import consulo.module.Module;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ActionImpl(id = "GoVetFileAction")
 public class GoVetFileAction extends GoExternalToolsAction {
@@ -36,8 +35,7 @@ public class GoVetFileAction extends GoExternalToolsAction {
     }
 
     @Override
-    @Nonnull
-    protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull String filePath) {
+    protected GoExecutor createExecutor(Project project, @Nullable Module module, String title, String filePath) {
         return GoExecutor.in(project, module).withPresentableName(title).withParameters("tool", "vet", filePath)
             .showNotifications(false, true).showOutputOnError();
     }

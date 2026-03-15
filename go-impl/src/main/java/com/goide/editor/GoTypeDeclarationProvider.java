@@ -24,14 +24,13 @@ import consulo.codeEditor.Editor;
 import consulo.language.editor.action.TypeDeclarationProvider;
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoTypeDeclarationProvider extends TypeDeclarationProvider {
   @Nullable
   @Override
-  public PsiElement[] getSymbolTypeDeclarations(@Nonnull PsiElement element, @Nullable Editor editor, int offset) {
+  public PsiElement[] getSymbolTypeDeclarations(PsiElement element, @Nullable Editor editor, int offset) {
     if (!(element instanceof GoNamedElement)) return PsiElement.EMPTY_ARRAY;
     GoType type = ((GoNamedElement)element).getGoType(null);
     GoTypeReferenceExpression ref = type != null ? type.getTypeReferenceExpression() : null;

@@ -24,30 +24,28 @@ import consulo.project.Project;
 import consulo.util.lang.ObjectUtil;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoPathResolveScope extends GlobalSearchScope {
   @Nullable
   private final VirtualFile myReferenceFile;
-  @Nonnull
   private final GoPathScopeHelper myScopeHelper;
 
-  public static GlobalSearchScope create(@Nonnull Project project, @Nullable Module module, @Nullable PsiElement context) {
+  public static GlobalSearchScope create(Project project, @Nullable Module module, @Nullable PsiElement context) {
     VirtualFile referenceFile = context != null ? context.getContainingFile().getVirtualFile() : null;
     return new GoPathResolveScope(project, referenceFile, GoPathScopeHelper.fromReferenceFile(project, module, referenceFile));
   }
 
-  private GoPathResolveScope(@Nonnull Project project,
+  private GoPathResolveScope(Project project,
                              @Nullable VirtualFile referenceFile,
-                             @Nonnull GoPathScopeHelper scopeHelper) {
+                             GoPathScopeHelper scopeHelper) {
     super(project);
     myScopeHelper = scopeHelper;
     myReferenceFile = referenceFile;
   }
 
   @Override
-  public boolean contains(@Nonnull VirtualFile declarationFile) {
+  public boolean contains(VirtualFile declarationFile) {
     VirtualFile declarationDirectory = declarationFile.isDirectory() ? declarationFile : declarationFile.getParent();
     if (declarationDirectory == null) {
       return false;
@@ -60,12 +58,12 @@ public class GoPathResolveScope extends GlobalSearchScope {
 
 
   @Override
-  public int compare(@Nonnull VirtualFile file1, @Nonnull VirtualFile file2) {
+  public int compare(VirtualFile file1, VirtualFile file2) {
     return 0;
   }
 
   @Override
-  public boolean isSearchInModuleContent(@Nonnull Module aModule) {
+  public boolean isSearchInModuleContent(Module aModule) {
     return GoSdkService.getInstance(ObjectUtil.assertNotNull(getProject())).isGoModule(aModule);
   }
 

@@ -17,11 +17,9 @@
 package com.goide.psi.legacy;
 
 import com.goide.SdkAware;
-import jakarta.annotation.Nonnull;
 
 @SdkAware
 public abstract class GoLegacyResolveBuiltinTest extends GoLegacyResolveTestBase {
-  @Nonnull
   @Override
   protected String getBasePath() { return "psi/resolve/builtin"; }
 

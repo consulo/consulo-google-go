@@ -27,13 +27,11 @@ import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collection;
 import java.util.Set;
 
 public class GoPathScopeHelper {
-  @Nonnull
   private final Set<VirtualFile> myRoots;
   @Nullable
   private final VirtualFile mySdkHome;
@@ -41,7 +39,7 @@ public class GoPathScopeHelper {
   private final boolean mySupportsSdkInternalPackages;
   private final boolean myVendoringEnabled;
 
-  public static GoPathScopeHelper fromReferenceFile(@Nonnull Project project,
+  public static GoPathScopeHelper fromReferenceFile(Project project,
                                                     @Nullable Module module,
                                                     @Nullable VirtualFile referenceFile) {
     VirtualFile sdkHome = GoSdkUtil.getSdkSrcDir(project, module);
@@ -54,7 +52,7 @@ public class GoPathScopeHelper {
     return new GoPathScopeHelper(sourceRoots, sdkHome, supportsInternalPackages, supportsSdkInternalPackages, vendoringEnabled);
   }
 
-  private GoPathScopeHelper(@Nonnull Set<VirtualFile> roots,
+  private GoPathScopeHelper(Set<VirtualFile> roots,
                             @Nullable VirtualFile sdkHome,
                             boolean supportsInternalPackages,
                             boolean supportsSdkInternalPackages,
@@ -66,7 +64,7 @@ public class GoPathScopeHelper {
     myVendoringEnabled = vendoringEnabled;
   }
 
-  public boolean couldBeReferenced(@Nonnull VirtualFile declarationFile, @Nullable VirtualFile referenceFile) {
+  public boolean couldBeReferenced(VirtualFile declarationFile, @Nullable VirtualFile referenceFile) {
     VirtualFile declarationDirectory = declarationFile.getParent();
     if (declarationDirectory == null) {
       return true;
@@ -108,9 +106,9 @@ public class GoPathScopeHelper {
     return GoPsiImplUtil.allowed(declarationFile, referenceFile) && !isShadowedImportPath(declarationDirectory, importPath, myRoots);
   }
 
-  private static boolean isShadowedImportPath(@Nonnull VirtualFile targetDirectory,
-                                              @Nonnull String targetImportPath,
-                                              @Nonnull Collection<VirtualFile> roots) {
+  private static boolean isShadowedImportPath(VirtualFile targetDirectory,
+                                              String targetImportPath,
+                                              Collection<VirtualFile> roots) {
     assert targetDirectory.isDirectory();
     for (VirtualFile root : roots) {
       VirtualFile realDirectoryToResolve = root.findFileByRelativePath(targetImportPath);
@@ -121,7 +119,6 @@ public class GoPathScopeHelper {
     return false;
   }
 
-  @Nonnull
   public Set<VirtualFile> getRoots() {
     return myRoots;
   }

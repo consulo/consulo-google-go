@@ -21,8 +21,7 @@ import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.Pair;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -118,7 +117,6 @@ public class GoPlaceholderChecker {
       return myVerb;
     }
 
-    @Nonnull
     public String getFlags() {
       return myFlags;
     }
@@ -196,8 +194,7 @@ public class GoPlaceholderChecker {
     }
   }
 
-  @Nonnull
-  public static List<Placeholder> parsePrintf(@Nonnull String placeholderText) {
+  public static List<Placeholder> parsePrintf(String placeholderText) {
     List<Placeholder> placeholders = ContainerUtil.newArrayList();
     int argNum = 1;
     int w;
@@ -236,7 +233,7 @@ public class GoPlaceholderChecker {
     return placeholders;
   }
 
-  protected static int getPlaceholderPosition(@Nonnull GoFunctionOrMethodDeclaration function) {
+  protected static int getPlaceholderPosition(GoFunctionOrMethodDeclaration function) {
     Integer position = FORMATTING_FUNCTIONS.get(StringUtil.toLowerCase(function.getName()));
     if (position != null) {
       String importPath = function.getContainingFile().getImportPath(false);
@@ -251,7 +248,6 @@ public class GoPlaceholderChecker {
     @Nullable
 	private PrintVerb verb;   // the format verb: 'd' for "%d"
     private String format;              // the full format directive from % through verb, "%.3d"
-    @Nonnull
 	private String flags = ""; // the list of # + etc
     private boolean indexed;            // whether an indexing expression appears: %[1]d
     private final int startPos;         // index of the first character of the placeholder in the formatting string
@@ -272,14 +268,12 @@ public class GoPlaceholderChecker {
       this.argNum = argNum;
     }
 
-    @Nonnull
     private Placeholder toPlaceholder() {
       return new Placeholder(state, startPos, format, flags, argNums, verb);
     }
   }
 
-  @Nonnull
-  private static FormatState parsePrintfVerb(@Nonnull String format, int startPos, int argNum) {
+  private static FormatState parsePrintfVerb(String format, int startPos, int argNum) {
     FormatState state = new FormatState(format, startPos, argNum);
 
     parseFlags(state);
@@ -312,7 +306,7 @@ public class GoPlaceholderChecker {
     return formatString != null && StringUtil.containsChar(formatString, '%');
   }
 
-  private static void parseFlags(@Nonnull FormatState state) {
+  private static void parseFlags(FormatState state) {
     String knownFlags = "#0+- ";
     StringBuilder flags = new StringBuilder(state.flags);
     while (state.nBytes < state.format.length()) {
@@ -328,7 +322,7 @@ public class GoPlaceholderChecker {
     state.flags = flags.toString();
   }
 
-  private static void scanNum(@Nonnull FormatState state) {
+  private static void scanNum(FormatState state) {
     while (state.nBytes < state.format.length()) {
       if (!StringUtil.isDecimalDigit(state.format.charAt(state.nBytes))) {
         return;
@@ -337,7 +331,7 @@ public class GoPlaceholderChecker {
     }
   }
 
-  private static boolean parseIndex(@Nonnull FormatState state) {
+  private static boolean parseIndex(FormatState state) {
     if (state.nBytes == state.format.length() || state.format.charAt(state.nBytes) != '[') return true;
 
     state.indexed = true;
@@ -364,7 +358,7 @@ public class GoPlaceholderChecker {
     return true;
   }
 
-  private static boolean parseNum(@Nonnull FormatState state) {
+  private static boolean parseNum(FormatState state) {
     if (state.nBytes < state.format.length() && state.format.charAt(state.nBytes) == '*') {
       state.nBytes++;
       state.argNums.add(state.argNum);
@@ -377,7 +371,7 @@ public class GoPlaceholderChecker {
     return true;
   }
 
-  private static boolean parsePrecision(@Nonnull FormatState state) {
+  private static boolean parsePrecision(FormatState state) {
     if (state.nBytes < state.format.length() && state.format.charAt(state.nBytes) == '.') {
       state.flags += '.';
       state.nBytes++;

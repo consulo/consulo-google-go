@@ -2,7 +2,6 @@ package org.jetbrains.debugger;
 
 import consulo.util.dataholder.UserDataHolderBase;
 
-import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -15,7 +14,6 @@ public class VmBase extends UserDataHolderBase implements Vm, AttachStateManager
     this.debugListener = debugListener;
   }
 
-  @Nonnull
   public AttachStateManager getAttachStateManager() {
     return this;
   }

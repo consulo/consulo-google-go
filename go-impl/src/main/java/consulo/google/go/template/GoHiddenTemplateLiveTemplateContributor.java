@@ -4,7 +4,6 @@ import com.goide.template.GoEverywhereContextType;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.template.LiveTemplateContributor;
 import consulo.localize.LocalizeValue;
-import jakarta.annotation.Nonnull;
 import java.lang.Override;
 import java.lang.String;
 
@@ -14,19 +13,17 @@ import java.lang.String;
 @ExtensionImpl
 public class GoHiddenTemplateLiveTemplateContributor implements LiveTemplateContributor {
   @Override
-  @Nonnull
   public String groupId() {
     return "gohiddentemplate";
   }
 
   @Override
-  @Nonnull
   public LocalizeValue groupName() {
     return LocalizeValue.localizeTODO("Go Hidden Templates");
   }
 
   @Override
-  public void contribute(@Nonnull LiveTemplateContributor.Factory factory) {
+  public void contribute(LiveTemplateContributor.Factory factory) {
     try(Builder builder = factory.newBuilder("gohiddentemplateGo_lang_package", "go_lang_package", "package $NAME$", LocalizeValue.localizeTODO("Package declaration"))) {
       builder.withReformat();
 

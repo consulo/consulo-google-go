@@ -20,8 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.jetbrains.jsonProtocol.JsonType;
 import org.jetbrains.jsonProtocol.Optional;
 
@@ -46,7 +45,6 @@ public interface DlvResponse {
     @Nullable
     String message();
 
-    @Nonnull
     @Optional
     List<String> data();
 
@@ -54,13 +52,12 @@ public interface DlvResponse {
   }
 
   final class CommandResponseImpl implements DlvResponse {
-    @Nullable
-    private DlvResponse.ErrorInfo myErrorInfo;
+    private DlvResponse.@Nullable ErrorInfo myErrorInfo;
     private int myId = -1;
     @Nullable
     private JsonElement myResult;
 
-    public CommandResponseImpl(@Nonnull JsonElement element) {
+    public CommandResponseImpl(JsonElement element) {
       if (element instanceof JsonObject) {
         JsonPrimitive idElement = ((JsonObject)element).getAsJsonPrimitive("id");
         if (idElement != null) {
@@ -75,9 +72,8 @@ public interface DlvResponse {
       }
     }
 
-    @Nullable
     @Override
-    public DlvResponse.ErrorInfo error() {
+    public DlvResponse.@Nullable ErrorInfo error() {
       return myErrorInfo;
     }
 
@@ -95,12 +91,11 @@ public interface DlvResponse {
 
   final class ErrorInfoImpl implements DlvResponse.ErrorInfo {
     private static final int ourId = -1;
-    @Nonnull
     private final List<String> _data = Collections.emptyList();
     @Nullable
     private final String _message;
 
-    ErrorInfoImpl(@Nonnull JsonElement element) {
+    ErrorInfoImpl(JsonElement element) {
       _message = element instanceof JsonNull ? null : element instanceof JsonPrimitive ? element.getAsString() : null;
     }
 
@@ -109,7 +104,6 @@ public interface DlvResponse {
       return ourId;
     }
 
-    @Nonnull
     @Override
     public List<String> data() {
       return _data;

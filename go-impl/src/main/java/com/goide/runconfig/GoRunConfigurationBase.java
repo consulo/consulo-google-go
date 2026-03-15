@@ -39,8 +39,7 @@ import consulo.util.xml.serializer.WriteExternalException;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileManager;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.jdom.Element;
 
 import java.util.Collection;
@@ -54,13 +53,9 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
     private static final String PARAMETERS_NAME = "parameters";
     private static final String PASS_PARENT_ENV = "pass_parent_env";
 
-    @Nonnull
     private String myWorkingDirectory = "";
-    @Nonnull
     private String myGoParams = "";
-    @Nonnull
     private String myParams = "";
-    @Nonnull
     private final Map<String, String> myCustomEnvironment = new HashMap<>();
     private boolean myPassParentEnvironment = true;
 
@@ -86,11 +81,10 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
 
     @Nullable
     @Override
-    public RunProfileState getState(@Nonnull Executor executor, @Nonnull ExecutionEnvironment environment) throws ExecutionException {
+    public RunProfileState getState(Executor executor, ExecutionEnvironment environment) throws ExecutionException {
         return createRunningState(environment);
     }
 
-    @Nonnull
     @Override
     public Collection<Module> getValidModules() {
         return GoSdkUtil.getGoModules(getProject());
@@ -132,14 +126,14 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
         }
     }
 
-    protected void addNonEmptyElement(@Nonnull Element element, @Nonnull String attributeName, @Nullable String value) {
+    protected void addNonEmptyElement(Element element, String attributeName, @Nullable String value) {
         if (StringUtil.isNotEmpty(value)) {
             JDOMExternalizerUtil.addElementWithValueAttribute(element, attributeName, value);
         }
     }
 
     @Override
-    public void readExternal(@Nonnull Element element) throws InvalidDataException {
+    public void readExternal(Element element) throws InvalidDataException {
         super.readExternal(element);
         readModule(element);
         myGoParams = StringUtil.notNullize(JDOMExternalizerUtil.getFirstChildValueAttribute(element, GO_PARAMETERS_NAME));
@@ -155,7 +149,6 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
         myPassParentEnvironment = passEnvValue == null || Boolean.valueOf(passEnvValue);
     }
 
-    @Nonnull
     private RunningState createRunningState(ExecutionEnvironment env) throws ExecutionException {
         GoModuleBasedConfiguration configuration = getConfigurationModule();
         Module module = configuration.getModule();
@@ -166,7 +159,7 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
     }
 
     @Nullable
-    protected VirtualFile findFile(@Nonnull String filePath) {
+    protected VirtualFile findFile(String filePath) {
         VirtualFile virtualFile = VirtualFileManager.getInstance().findFileByUrl(VirtualFileUtil.pathToUrl(filePath));
         if (virtualFile == null) {
             String path = FileUtil.join(getWorkingDirectory(), filePath);
@@ -175,33 +168,29 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
         return virtualFile;
     }
 
-    @Nonnull
     protected abstract RunningState newRunningState(ExecutionEnvironment env, Module module);
 
-    @Nonnull
     public String getGoToolParams() {
         return myGoParams;
     }
 
-    @Nonnull
     public String getParams() {
         return myParams;
     }
 
-    public void setGoParams(@Nonnull String params) {
+    public void setGoParams(String params) {
         myGoParams = params;
     }
 
-    public void setParams(@Nonnull String params) {
+    public void setParams(String params) {
         myParams = params;
     }
 
-    @Nonnull
     public Map<String, String> getCustomEnvironment() {
         return myCustomEnvironment;
     }
 
-    public void setCustomEnvironment(@Nonnull Map<String, String> customEnvironment) {
+    public void setCustomEnvironment(Map<String, String> customEnvironment) {
         myCustomEnvironment.clear();
         myCustomEnvironment.putAll(customEnvironment);
     }
@@ -214,17 +203,15 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
         return myPassParentEnvironment;
     }
 
-    @Nonnull
     public String getWorkingDirectory() {
         return myWorkingDirectory;
     }
 
-    @Nonnull
     public String getWorkingDirectoryUrl() {
         return VirtualFileUtil.pathToUrl(myWorkingDirectory);
     }
 
-    public void setWorkingDirectory(@Nonnull String workingDirectory) {
+    public void setWorkingDirectory(String workingDirectory) {
         myWorkingDirectory = workingDirectory;
     }
 }

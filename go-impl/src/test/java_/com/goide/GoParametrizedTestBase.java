@@ -16,7 +16,6 @@
 
 package com.goide;
 
-import jakarta.annotation.Nonnull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +46,7 @@ public abstract class GoParametrizedTestBase extends GoCodeInsightFixtureTestCas
     safeEdt(super::tearDown);
   }
 
-  private void safeEdt(@Nonnull ThrowableRunnable<Throwable> r) {
+  private void safeEdt(ThrowableRunnable<Throwable> r) {
     if (runInDispatchThread()) {
       //TestRunnerUtil.replaceIdeEventQueueSafely();
       //EdtTestUtil.runInEdtAndWait(r);

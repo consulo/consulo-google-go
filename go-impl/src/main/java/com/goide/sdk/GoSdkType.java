@@ -28,15 +28,13 @@ import consulo.google.go.icon.GoogleGoIconGroup;
 import consulo.google.go.localize.GoLocalize;
 import consulo.ui.image.Image;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.io.File;
 import java.util.Collection;
 
 @ExtensionImpl
 public class GoSdkType extends SdkType {
-    @Nonnull
     public static GoSdkType getInstance() {
         return Application.get().getExtensionPoint(SdkType.class).findExtensionOrFail(GoSdkType.class);
     }
@@ -45,7 +43,6 @@ public class GoSdkType extends SdkType {
         super("GO_SDK", GoLocalize.goLanguageDisplayName(), GoogleGoIconGroup.go());
     }
 
-    @Nonnull
     @Override
     public Collection<String> suggestHomePaths() {
         return GoSdkUtil.suggestSdkDirectory();
@@ -57,7 +54,7 @@ public class GoSdkType extends SdkType {
     }
 
     @Override
-    public boolean isValidSdkHome(@Nonnull String path) {
+    public boolean isValidSdkHome(String path) {
         GoSdkService.LOG.debug("Validating sdk path: " + path);
         String executablePath = GoSdkService.getGoExecutablePath(path);
         if (executablePath == null) {
@@ -75,15 +72,14 @@ public class GoSdkType extends SdkType {
         return false;
     }
 
-    @Nonnull
     @Override
-    public String adjustSelectedSdkHome(@Nonnull String homePath) {
+    public String adjustSelectedSdkHome(String homePath) {
         return GoSdkUtil.adjustSdkPath(homePath);
     }
 
     @Nullable
     @Override
-    public String getVersionString(@Nonnull String sdkHome) {
+    public String getVersionString(String sdkHome) {
         return GoSdkUtil.retrieveGoVersion(sdkHome);
     }
 
@@ -93,7 +89,7 @@ public class GoSdkType extends SdkType {
     }
 
     @Override
-    public void setupSdkPaths(@Nonnull Sdk sdk) {
+    public void setupSdkPaths(Sdk sdk) {
         String versionString = sdk.getVersionString();
         if (versionString == null) {
             throw new RuntimeException("SDK version is not defined");

@@ -27,8 +27,7 @@ import consulo.language.psi.stub.StubIndex;
 import consulo.language.psi.stub.StubIndexKey;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collection;
 
 @ExtensionImpl
@@ -40,22 +39,21 @@ public class GoMethodIndex extends StringStubIndexExtension<GoMethodDeclaration>
     return GoFileElementType.VERSION + 2;
   }
 
-  @Nonnull
   @Override
   public StubIndexKey<String, GoMethodDeclaration> getKey() {
     return KEY;
   }
 
-  public static Collection<GoMethodDeclaration> find(@Nonnull String name, @Nonnull Project project,
+  public static Collection<GoMethodDeclaration> find(String name, Project project,
                                                      @Nullable GlobalSearchScope scope, @Nullable IdFilter idFilter) {
     return StubIndex.getElements(KEY, name, project, scope, idFilter, GoMethodDeclaration.class);
   }
 
-  public static boolean process(@Nonnull String name,
-                                @Nonnull Project project,
+  public static boolean process(String name,
+                                Project project,
                                 @Nullable GlobalSearchScope scope,
                                 @Nullable IdFilter idFilter,
-                                @Nonnull Processor<GoMethodDeclaration> processor) {
+                                Processor<GoMethodDeclaration> processor) {
     return StubIndex.getInstance().processElements(KEY, name, project, scope, idFilter, GoMethodDeclaration.class, processor);
   }
 }

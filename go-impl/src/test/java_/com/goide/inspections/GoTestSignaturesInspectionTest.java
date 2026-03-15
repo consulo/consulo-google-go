@@ -18,7 +18,6 @@ package com.goide.inspections;
 
 import com.goide.SdkAware;
 import com.goide.quickfix.GoQuickFixTestBase;
-import jakarta.annotation.Nonnull;
 
 @SdkAware
 public abstract class GoTestSignaturesInspectionTest extends GoQuickFixTestBase {
@@ -28,7 +27,6 @@ public abstract class GoTestSignaturesInspectionTest extends GoQuickFixTestBase 
     myFixture.enableInspections(GoTestSignaturesInspection.class);
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "inspections/test-signatures";

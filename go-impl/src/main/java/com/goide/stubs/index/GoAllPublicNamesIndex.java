@@ -22,7 +22,6 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.stub.StringStubIndexExtension;
 import consulo.language.psi.stub.StubIndexKey;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoAllPublicNamesIndex extends StringStubIndexExtension<GoNamedElement> {
@@ -33,7 +32,6 @@ public class GoAllPublicNamesIndex extends StringStubIndexExtension<GoNamedEleme
     return GoFileElementType.VERSION;
   }
 
-  @Nonnull
   @Override
   public StubIndexKey<String, GoNamedElement> getKey() {
     return ALL_PUBLIC_NAMES;

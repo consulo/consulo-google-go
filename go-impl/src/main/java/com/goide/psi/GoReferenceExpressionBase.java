@@ -18,11 +18,9 @@ package com.goide.psi;
 
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public interface GoReferenceExpressionBase extends GoCompositeElement {
-  @Nonnull
   PsiElement getIdentifier();
 
   @Nullable

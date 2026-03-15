@@ -16,7 +16,6 @@
 
 package com.goide.inspections;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.quickfix.GoCreateWrapperTypeQuickFix;
 import com.goide.quickfix.GoQuickFixTestBase;
@@ -33,7 +32,6 @@ public abstract class GoAnonymousFieldDefinitionTypeInspectionTest extends GoQui
   private void doTest() {
     doTest(GoCreateWrapperTypeQuickFix.QUICKFIX_NAME, true);
   }
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "inspections/anon-field";

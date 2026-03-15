@@ -24,7 +24,6 @@ import consulo.language.codeStyle.setting.IndentOptionsEditor;
 import consulo.language.codeStyle.setting.LanguageCodeStyleSettingsProvider;
 import consulo.language.codeStyle.ui.setting.SmartIndentOptionsEditor;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider {
@@ -37,15 +36,13 @@ public class GoLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettin
     "\tfmt.Println(\"Hello\")\n" +
     "}";
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;
   }
 
-  @Nonnull
   @Override
-  public String getCodeSample(@Nonnull SettingsType settingsType) {
+  public String getCodeSample(SettingsType settingsType) {
     return DEFAULT_CODE_SAMPLE;
   }
 

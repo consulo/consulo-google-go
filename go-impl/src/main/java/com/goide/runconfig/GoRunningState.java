@@ -26,28 +26,23 @@ import consulo.process.ProcessHandler;
 import consulo.process.cmd.GeneralCommandLine;
 import consulo.process.local.ProcessHandlerFactory;
 
-import jakarta.annotation.Nonnull;
 
 public abstract class GoRunningState<T extends GoRunConfigurationBase<?>> extends CommandLineState {
-  @Nonnull
   protected final Module myModule;
 
-  @Nonnull
   public T getConfiguration() {
     return myConfiguration;
   }
 
-  @Nonnull
   protected final T myConfiguration;
 
-  public GoRunningState(@Nonnull ExecutionEnvironment env, @Nonnull Module module, @Nonnull T configuration) {
+  public GoRunningState(ExecutionEnvironment env, Module module, T configuration) {
     super(env);
     myModule = module;
     myConfiguration = configuration;
     addConsoleFilters(new GoConsoleFilter(myConfiguration.getProject(), myModule, myConfiguration.getWorkingDirectoryUrl()));
   }
 
-  @Nonnull
   @Override
   protected ProcessHandler startProcess() throws ExecutionException {
     GoExecutor executor = patchExecutor(createCommonExecutor());
@@ -57,14 +52,13 @@ public abstract class GoRunningState<T extends GoRunConfigurationBase<?>> extend
     return handler;
   }
 
-  @Nonnull
   public GoExecutor createCommonExecutor() {
     return GoExecutor.in(myModule).withWorkDirectory(myConfiguration.getWorkingDirectory())
       .withExtraEnvironment(myConfiguration.getCustomEnvironment())
       .withPassParentEnvironment(myConfiguration.isPassParentEnvironment());
   }
 
-  protected GoExecutor patchExecutor(@Nonnull GoExecutor executor) throws ExecutionException {
+  protected GoExecutor patchExecutor(GoExecutor executor) throws ExecutionException {
     return executor;
   }
 }

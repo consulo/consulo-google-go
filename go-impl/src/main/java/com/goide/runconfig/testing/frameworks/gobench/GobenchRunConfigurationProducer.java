@@ -19,7 +19,6 @@ package com.goide.runconfig.testing.frameworks.gobench;
 import com.goide.runconfig.testing.GoTestRunConfigurationProducerBase;
 import consulo.annotation.component.ExtensionImpl;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GobenchRunConfigurationProducer extends GoTestRunConfigurationProducerBase implements Cloneable {
@@ -27,15 +26,13 @@ public class GobenchRunConfigurationProducer extends GoTestRunConfigurationProdu
     super(GobenchFramework.INSTANCE);
   }
 
-  @Nonnull
   @Override
-  protected String getPackageConfigurationName(@Nonnull String packageName) {
+  protected String getPackageConfigurationName(String packageName) {
     return "gobench package '" + packageName + "'";
   }
 
-  @Nonnull
   @Override
-  protected String getFileConfigurationName(@Nonnull String fileName) {
+  protected String getFileConfigurationName(String fileName) {
     return "gobench " + super.getFileConfigurationName(fileName);
   }
 }

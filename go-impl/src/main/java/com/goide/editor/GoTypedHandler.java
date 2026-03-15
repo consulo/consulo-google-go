@@ -26,13 +26,11 @@ import consulo.language.psi.PsiDocumentManager;
 import consulo.language.psi.PsiFile;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoTypedHandler extends TypedHandlerDelegate {
-  @Nonnull
   @Override
-  public Result charTyped(char c, @Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
+  public Result charTyped(char c, Project project, Editor editor, PsiFile file) {
     if (c != 'e') return Result.CONTINUE;
     int offset = editor.getCaretModel().getOffset();
     if (offset < 4) return Result.CONTINUE;

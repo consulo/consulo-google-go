@@ -28,7 +28,6 @@ import consulo.language.psi.PsiLanguageInjectionHost;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.ObjectUtil;
 
-import jakarta.annotation.Nonnull;
 import java.util.Set;
 
 @ExtensionImpl
@@ -38,7 +37,7 @@ public class GoRegexInjector implements LanguageInjector {
   );
 
   @Override
-  public void injectLanguages(@Nonnull PsiLanguageInjectionHost host, @Nonnull InjectedLanguagePlaces injectionPlacesRegistrar) {
+  public void injectLanguages(PsiLanguageInjectionHost host, InjectedLanguagePlaces injectionPlacesRegistrar) {
     if (!(host instanceof GoStringLiteral)) return;
     PsiElement topMostExpression = host;
     PsiElement argumentList = host.getParent();

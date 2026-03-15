@@ -19,20 +19,19 @@ package com.goide.tree;
 import com.goide.psi.GoNamedElement;
 import consulo.language.psi.PsiElement;
 
-import jakarta.annotation.Nonnull;
 import java.util.Comparator;
 
 public class ExportabilityComparator implements Comparator {
   public static final Comparator INSTANCE = new ExportabilityComparator();
 
   @Override
-  public int compare(@Nonnull Object descriptor1, @Nonnull Object descriptor2) {
+  public int compare(Object descriptor1, Object descriptor2) {
     int accessLevel1 = getAccessLevel(descriptor1);
     int accessLevel2 = getAccessLevel(descriptor2);
     return accessLevel2 - accessLevel1;
   }
 
-  private static int getAccessLevel(@Nonnull Object element) {
+  private static int getAccessLevel(Object element) {
     if (element instanceof GoStructureViewFactory.Element) {
       PsiElement value = ((GoStructureViewFactory.Element)element).getValue();
       if (value instanceof GoNamedElement && ((GoNamedElement)value).isPublic()) return 1;

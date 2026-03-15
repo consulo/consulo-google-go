@@ -9,7 +9,6 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoBlockLiveTemplateContextType extends GoLiveTemplateContextType {
@@ -19,7 +18,7 @@ public class GoBlockLiveTemplateContextType extends GoLiveTemplateContextType {
   }
 
   @Override
-  protected boolean isInContext(@Nonnull PsiElement element) {
+  protected boolean isInContext(PsiElement element) {
     return (element instanceof GoLeftHandExprList || element instanceof GoSimpleStatement) &&
         PsiTreeUtil.getParentOfType(element, GoBlock.class) != null;
   }

@@ -25,7 +25,6 @@ import consulo.language.psi.PsiElement;
 import consulo.localize.LocalizeValue;
 import jakarta.inject.Inject;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoEverywhereContextType extends GoLiveTemplateContextType {
@@ -35,7 +34,7 @@ public class GoEverywhereContextType extends GoLiveTemplateContextType {
   }
 
   @Override
-  protected boolean isInContext(@Nonnull PsiElement element) {
+  protected boolean isInContext(PsiElement element) {
     return !(element instanceof PsiComment ||
              element instanceof LeafPsiElement && ((LeafPsiElement)element).getElementType() == GoTypes.STRING);
   }

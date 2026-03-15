@@ -24,20 +24,19 @@ import consulo.language.lexer.Lexer;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.search.IndexPatternBuilder;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoIndexPatternBuilder implements IndexPatternBuilder {
   @Nullable
   @Override
-  public Lexer getIndexingLexer(@Nonnull PsiFile file) {
+  public Lexer getIndexingLexer(PsiFile file) {
     return file instanceof GoFile ? ((GoFile)file).getParserDefinition().createLexer(file.getLanguageVersion()) : null;
   }
 
   @Nullable
   @Override
-  public TokenSet getCommentTokenSet(@Nonnull PsiFile file) {
+  public TokenSet getCommentTokenSet(PsiFile file) {
     return GoParserDefinition.COMMENTS;
   }
 

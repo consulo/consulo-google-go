@@ -44,8 +44,7 @@ import consulo.ui.ex.action.Shortcut;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -55,9 +54,8 @@ import java.util.List;
 public class GoStructureViewFactory implements PsiStructureViewFactory {
   @Nullable
   @Override
-  public StructureViewBuilder getStructureViewBuilder(@Nonnull PsiFile psiFile) {
+  public StructureViewBuilder getStructureViewBuilder(PsiFile psiFile) {
     return new TreeBasedStructureViewBuilder() {
-      @Nonnull
       @Override
       public StructureViewModel createStructureViewModel(@Nullable Editor editor) {
         return new Model(psiFile, editor);
@@ -70,7 +68,6 @@ public class GoStructureViewFactory implements PsiStructureViewFactory {
     };
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;
@@ -79,13 +76,12 @@ public class GoStructureViewFactory implements PsiStructureViewFactory {
   public static class Model extends StructureViewModelBase implements StructureViewModel.ElementInfoProvider {
     private static final List<NodeProvider> PROVIDERS = List.of(new TreeElementFileStructureNodeProvider());
 
-    Model(@Nonnull PsiFile file, @Nullable Editor editor) {
+    Model(PsiFile file, @Nullable Editor editor) {
       super(file, editor, new Element(file));
       withSuitableClasses(GoFile.class, GoNamedElement.class)
         .withSorters(ExportabilitySorter.INSTANCE, Sorter.ALPHA_SORTER);
     }
 
-    @Nonnull
     @Override
     public Filter[] getFilters() {
       return new Filter[]{new GoPrivateMembersFilter()};
@@ -101,7 +97,6 @@ public class GoStructureViewFactory implements PsiStructureViewFactory {
       return false;
     }
 
-    @Nonnull
     @Override
     public Collection<NodeProvider> getNodeProviders() {
       return PROVIDERS;
@@ -110,21 +105,18 @@ public class GoStructureViewFactory implements PsiStructureViewFactory {
     private static class TreeElementFileStructureNodeProvider implements FileStructureNodeProvider<TreeElement>, ActionShortcutProvider {
       public static final String ID = "Show package structure";
 
-      @Nonnull
       @Override
       public ActionPresentation getPresentation() {
         return new ActionPresentationData(ID, null, GoIcons.PACKAGE);
       }
 
-      @Nonnull
       @Override
       public String getName() {
         return ID;
       }
 
-      @Nonnull
       @Override
-      public Collection<TreeElement> provideNodes(@Nonnull TreeElement node) {
+      public Collection<TreeElement> provideNodes(TreeElement node) {
         PsiElement psi = node instanceof Element ? ((Element)node).getElement() : null;
         if (psi instanceof GoFile) {
           GoFile orig = (GoFile)psi;
@@ -139,19 +131,16 @@ public class GoStructureViewFactory implements PsiStructureViewFactory {
         return Collections.emptyList();
       }
 
-      @Nonnull
       @Override
       public String getCheckBoxText() {
         return ID;
       }
 
-      @Nonnull
       @Override
       public Shortcut[] getShortcut() {
         throw new IncorrectOperationException("see getActionIdForShortcut()");
       }
 
-      @Nonnull
       @Override
       public String getActionIdForShortcut() {
         return "FileStructurePopup";
@@ -160,11 +149,10 @@ public class GoStructureViewFactory implements PsiStructureViewFactory {
   }
 
   public static class Element extends PsiTreeElementBase<PsiElement> {
-    public Element(@Nonnull PsiElement e) {
+    public Element(PsiElement e) {
       super(e);
     }
 
-    @Nonnull
     @Override
     public Collection<StructureViewTreeElement> getChildrenBase() {
       List<StructureViewTreeElement> result = ContainerUtil.newArrayList();

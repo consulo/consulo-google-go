@@ -27,7 +27,6 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
 
 public class GoDeleteImportQuickFix extends LocalQuickFixBase {
   public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Delete import");
@@ -37,7 +36,7 @@ public class GoDeleteImportQuickFix extends LocalQuickFixBase {
   }
 
   @Override
-  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+  public void applyFix(Project project, ProblemDescriptor descriptor) {
     PsiElement element = PsiTreeUtil.getNonStrictParentOfType(descriptor.getPsiElement(), GoImportSpec.class);
     PsiFile file = element != null ? element.getContainingFile() : null;
     if (!(file instanceof GoFile)) return;

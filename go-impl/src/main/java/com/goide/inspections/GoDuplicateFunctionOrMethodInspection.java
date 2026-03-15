@@ -36,19 +36,17 @@ import consulo.localize.LocalizeValue;
 import consulo.module.Module;
 import consulo.util.lang.Comparing;
 
-import jakarta.annotation.Nonnull;
 
 import static com.goide.GoConstants.INIT;
 import static com.goide.GoConstants.MAIN;
 
 @ExtensionImpl
 public class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitMethodDeclaration(@Nonnull GoMethodDeclaration method) {
+      public void visitMethodDeclaration(GoMethodDeclaration method) {
         if (method.isBlank()) return;
 
         String methodName = method.getName();
@@ -77,7 +75,7 @@ public class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
       }
 
       @Override
-      public void visitFunctionDeclaration(@Nonnull GoFunctionDeclaration func) {
+      public void visitFunctionDeclaration(GoFunctionDeclaration func) {
         if (func.isBlank()) return;
 
         String funcName = func.getName();
@@ -104,24 +102,21 @@ public class GoDuplicateFunctionOrMethodInspection extends GoInspectionBase {
     };
   }
 
-  private static boolean zeroArity(@Nonnull GoFunctionDeclaration o) {
+  private static boolean zeroArity(GoFunctionDeclaration o) {
     GoSignature signature = o.getSignature();
     return signature == null || signature.getParameters().getParameterDeclarationList().isEmpty();
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getGroupDisplayName() {
     return LocalizeValue.localizeTODO("Redeclared symbols");
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Duplicate functions and methods inspection");
   }
 
-  @Nonnull
   @Override
   public HighlightDisplayLevel getDefaultLevel() {
     return HighlightDisplayLevel.ERROR;

@@ -23,24 +23,20 @@ import consulo.document.util.TextRange;
 import consulo.language.psi.AbstractElementManipulator;
 import consulo.language.util.IncorrectOperationException;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoImportStringManipulator extends AbstractElementManipulator<GoImportString> {
-  @Nonnull
   @Override
-  public GoImportString handleContentChange(@Nonnull GoImportString string, @Nonnull TextRange range, String s) throws IncorrectOperationException {
+  public GoImportString handleContentChange(GoImportString string, TextRange range, String s) throws IncorrectOperationException {
     String newPackage = range.replace(string.getText(), s);
     return (GoImportString)string.replace(GoElementFactory.createImportString(string.getProject(), newPackage));
   }
 
-  @Nonnull
   @Override
-  public TextRange getRangeInElement(@Nonnull GoImportString element) {
+  public TextRange getRangeInElement(GoImportString element) {
     return element.getPathTextRange();
   }
 
-  @Nonnull
   @Override
   public Class<GoImportString> getElementClass() {
     return GoImportString.class;

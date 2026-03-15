@@ -31,14 +31,12 @@ import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.IdeActions;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 @ActionImpl(id = "GoTestGenerateGroup", parents = @ActionParentRef(value = @ActionRef(id = IdeActions.GROUP_GENERATE), anchor = ActionRefAnchor.FIRST))
 public class GoGenerateTestMethodActionGroup extends ActionGroup {
-  @Nonnull
   @Override
   public AnAction[] getChildren(@Nullable AnActionEvent e) {
     if (e == null) {

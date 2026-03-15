@@ -26,8 +26,7 @@ import consulo.language.PairedBraceMatcher;
 import consulo.language.ast.IElementType;
 import consulo.language.psi.PsiFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoBraceMatcher implements PairedBraceMatcher {
@@ -37,14 +36,13 @@ public class GoBraceMatcher implements PairedBraceMatcher {
     new BracePair(GoTypes.LBRACK, GoTypes.RBRACK, false),
   };
 
-  @Nonnull
   @Override
   public BracePair[] getPairs() {
     return PAIRS;
   }
 
   @Override
-  public boolean isPairedBracesAllowedBeforeType(@Nonnull IElementType lbraceType, @Nullable IElementType type) {
+  public boolean isPairedBracesAllowedBeforeType(IElementType lbraceType, @Nullable IElementType type) {
     return GoParserDefinition.COMMENTS.contains(type)
            || GoParserDefinition.WHITESPACES.contains(type)
            || type == GoTypes.SEMICOLON
@@ -61,7 +59,6 @@ public class GoBraceMatcher implements PairedBraceMatcher {
     return openingBraceOffset;
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

@@ -24,13 +24,12 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.resolve.ResolveState;
 import consulo.language.psi.util.PsiTreeUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoVarReference extends GoCachedReference<GoVarDefinition> {
   private final GoBlock myPotentialStopBlock;
 
-  public GoVarReference(@Nonnull GoVarDefinition element) {
+  public GoVarReference(GoVarDefinition element) {
     super(element);
     myPotentialStopBlock = PsiTreeUtil.getParentOfType(element, GoBlock.class);
   }
@@ -40,7 +39,7 @@ public class GoVarReference extends GoCachedReference<GoVarDefinition> {
   public PsiElement resolveInner() {
     GoVarProcessor p = new GoVarProcessor(myElement, false) {
       @Override
-      protected boolean crossOff(@Nonnull PsiElement e) {
+      protected boolean crossOff(PsiElement e) {
         return e instanceof GoFieldDefinition || super.crossOff(e);
       }
     };
@@ -49,12 +48,12 @@ public class GoVarReference extends GoCachedReference<GoVarDefinition> {
   }
 
   @Override
-  public boolean processResolveVariants(@Nonnull GoScopeProcessor processor) {
+  public boolean processResolveVariants(GoScopeProcessor processor) {
     GoVarProcessor p = processor instanceof GoVarProcessor
                        ? (GoVarProcessor)processor
                        : new GoVarProcessor(myElement, processor.isCompletion()) {
                          @Override
-                         public boolean execute(@Nonnull PsiElement e, @Nonnull ResolveState state) {
+                         public boolean execute(PsiElement e, ResolveState state) {
                            return super.execute(e, state) && processor.execute(e, state);
                          }
                        };

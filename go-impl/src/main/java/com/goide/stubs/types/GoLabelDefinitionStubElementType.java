@@ -24,40 +24,36 @@ import consulo.language.psi.stub.StubElement;
 import consulo.language.psi.stub.StubInputStream;
 import consulo.language.psi.stub.StubOutputStream;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoLabelDefinitionStubElementType extends GoNamedStubElementType<GoLabelDefinitionStub, GoLabelDefinition> {
-  public GoLabelDefinitionStubElementType(@Nonnull String name) {
+  public GoLabelDefinitionStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoLabelDefinition createPsi(@Nonnull GoLabelDefinitionStub stub) {
+  public GoLabelDefinition createPsi(GoLabelDefinitionStub stub) {
     return new GoLabelDefinitionImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoLabelDefinitionStub createStub(@Nonnull GoLabelDefinition psi, StubElement parentStub) {
+  public GoLabelDefinitionStub createStub(GoLabelDefinition psi, StubElement parentStub) {
     return new GoLabelDefinitionStub(parentStub, this, psi.getName(), psi.isPublic());
   }
 
   @Override
-  public void serialize(@Nonnull GoLabelDefinitionStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoLabelDefinitionStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
   @Override
-  public boolean shouldCreateStub(@Nonnull ASTNode node) {
+  public boolean shouldCreateStub(ASTNode node) {
     return false; // todo
   }
 
-  @Nonnull
   @Override
-  public GoLabelDefinitionStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoLabelDefinitionStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoLabelDefinitionStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 }

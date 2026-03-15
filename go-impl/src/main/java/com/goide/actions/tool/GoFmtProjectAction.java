@@ -29,8 +29,7 @@ import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.DumbAwareAction;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ActionImpl(id = "GoFmtProjectAction")
 public class GoFmtProjectAction extends DumbAwareAction {
@@ -39,13 +38,13 @@ public class GoFmtProjectAction extends DumbAwareAction {
     }
 
     @Override
-    public void update(@Nonnull AnActionEvent e) {
+    public void update(AnActionEvent e) {
         Project project = e.getData(Project.KEY);
         e.getPresentation().setEnabled(project != null && ModuleExtensionHelper.getInstance(project).hasModuleExtension(GoModuleExtension.class));
     }
 
     @Override
-    public void actionPerformed(@Nonnull AnActionEvent e) {
+    public void actionPerformed(AnActionEvent e) {
         Project project = e.getData(Project.KEY);
         assert project != null;
 
@@ -57,7 +56,7 @@ public class GoFmtProjectAction extends DumbAwareAction {
         }
     }
 
-    private static void fmt(@Nonnull Project project, @Nullable Module module, @Nonnull String presentation, @Nonnull VirtualFile dir) {
+    private static void fmt(Project project, @Nullable Module module, String presentation, VirtualFile dir) {
         GoExecutor.in(project, module).withPresentableName(presentation).withWorkDirectory(dir.getPath())
             .withParameters("fmt", "./...").showOutputOnError().executeWithProgress(false,
                 result -> VirtualFileUtil.markDirtyAndRefresh(true, true, true, dir));

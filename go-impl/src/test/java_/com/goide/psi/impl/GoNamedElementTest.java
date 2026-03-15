@@ -16,7 +16,6 @@
 
 package com.goide.psi.impl;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.psi.GoVarDefinition;
@@ -26,7 +25,7 @@ import com.intellij.psi.search.LocalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 
 public abstract class GoNamedElementTest extends GoCodeInsightFixtureTestCase{
-  private <T> void doTestGetUseScope(@Nonnull String text, @Nonnull Class<T> scope) {
+  private <T> void doTestGetUseScope(String text, Class<T> scope) {
     myFixture.configureByText("a.go", text);
     PsiFile file = myFixture.getFile();
     GoVarDefinition var = PsiTreeUtil.findChildOfType(file, GoVarDefinition.class);

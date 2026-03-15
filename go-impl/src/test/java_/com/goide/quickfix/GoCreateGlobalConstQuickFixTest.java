@@ -16,7 +16,6 @@
 
 package com.goide.quickfix;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.inspections.unresolved.GoUnresolvedReferenceInspection;
 
@@ -27,7 +26,6 @@ public abstract class GoCreateGlobalConstQuickFixTest extends GoQuickFixTestBase
     myFixture.enableInspections(GoUnresolvedReferenceInspection.class);
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "quickfixes/global-constant";

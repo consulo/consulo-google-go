@@ -23,7 +23,6 @@ import consulo.google.go.module.extension.GoModuleExtension;
 import consulo.module.extension.ModuleExtensionHelper;
 import consulo.project.Project;
 import consulo.util.dataholder.Key;
-import jakarta.annotation.Nonnull;
 
 public abstract class GoConfigurationFactoryBase extends ConfigurationFactory {
     protected GoConfigurationFactoryBase(ConfigurationType type) {
@@ -36,7 +35,7 @@ public abstract class GoConfigurationFactoryBase extends ConfigurationFactory {
     }
 
     @Override
-    public boolean isApplicable(@Nonnull Project project) {
+    public boolean isApplicable(Project project) {
         return ModuleExtensionHelper.getInstance(project).hasModuleExtension(GoModuleExtension.class);
     }
 }

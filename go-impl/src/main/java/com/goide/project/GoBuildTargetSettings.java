@@ -20,7 +20,6 @@ import consulo.util.collection.ArrayUtil;
 import consulo.util.lang.ThreeState;
 import consulo.util.xml.serializer.annotation.Tag;
 
-import jakarta.annotation.Nonnull;
 import java.util.Arrays;
 
 @Tag("buildTags")
@@ -28,17 +27,11 @@ public class GoBuildTargetSettings implements Cloneable {
   public static final String ANY_COMPILER = "Any";
   public static final String DEFAULT = "default";
 
-  @Nonnull
   public String os = DEFAULT;
-  @Nonnull
   public String arch = DEFAULT;
-  @Nonnull
   public ThreeState cgo = ThreeState.UNSURE;
-  @Nonnull
   public String compiler = ANY_COMPILER;
-  @Nonnull
   public String goVersion = DEFAULT;
-  @Nonnull
   public String[] customFlags = ArrayUtil.EMPTY_STRING_ARRAY;
 
   @Override

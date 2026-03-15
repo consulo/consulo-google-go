@@ -16,7 +16,6 @@
 
 package com.goide.inspections.suppression;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.inspections.GoMultiplePackagesInspection;
 import com.goide.inspections.GoUnusedImportInspection;
@@ -154,14 +153,13 @@ public abstract class GoSuppressionFixTest extends GoQuickFixTestBase {
     myFixture.testHighlighting(getTestName(true) + ".go");
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "inspections/suppression/fix";
   }
 
   @Override
-  protected void doTest(@Nonnull String quickFixName) {
+  protected void doTest(String quickFixName) {
     super.doTest(quickFixName);
     myFixture.testHighlighting(String.format("%s-after-highlighting.go", getTestName(true)));
   }

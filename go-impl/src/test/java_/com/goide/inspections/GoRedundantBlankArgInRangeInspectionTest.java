@@ -17,7 +17,6 @@
 package com.goide.inspections;
 
 import com.goide.quickfix.GoQuickFixTestBase;
-import jakarta.annotation.Nonnull;
 
 public abstract class GoRedundantBlankArgInRangeInspectionTest extends GoQuickFixTestBase {
 
@@ -56,7 +55,6 @@ public abstract class GoRedundantBlankArgInRangeInspectionTest extends GoQuickFi
     doTest(GoRedundantBlankArgInRangeInspection.DELETE_BLANK_ARGUMENT_QUICK_FIX_NAME, true);
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "inspections/go-simplify";

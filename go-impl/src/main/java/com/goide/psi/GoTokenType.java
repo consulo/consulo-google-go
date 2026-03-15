@@ -19,10 +19,9 @@ package com.goide.psi;
 import com.goide.GoLanguage;
 import consulo.language.ast.IElementType;
 
-import jakarta.annotation.Nonnull;
 
 public class GoTokenType extends IElementType {
-  public GoTokenType(@Nonnull String debug) {
+  public GoTokenType(String debug) {
     super(debug, GoLanguage.INSTANCE);
   }
 }

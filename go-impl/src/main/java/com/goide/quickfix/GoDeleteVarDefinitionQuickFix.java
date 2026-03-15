@@ -24,8 +24,7 @@ import consulo.language.psi.PsiElement;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoDeleteVarDefinitionQuickFix extends LocalQuickFixBase {
   public GoDeleteVarDefinitionQuickFix(@Nullable String variableName) {
@@ -33,7 +32,7 @@ public class GoDeleteVarDefinitionQuickFix extends LocalQuickFixBase {
   }
 
   @Override
-  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+  public void applyFix(Project project, ProblemDescriptor descriptor) {
     PsiElement element = descriptor.getPsiElement();
     if (element.isValid() && element instanceof GoVarDefinition) {
       PsiElement parent = element.getParent();

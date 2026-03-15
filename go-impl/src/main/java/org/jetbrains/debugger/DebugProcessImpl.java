@@ -15,8 +15,7 @@ import consulo.util.concurrent.AsyncResult;
 import consulo.util.lang.lazy.LazyValue;
 import org.jetbrains.debugger.connection.VmConnection;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import javax.swing.event.HyperlinkListener;
 import java.util.function.Supplier;
 
@@ -34,7 +33,7 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
 
   private Supplier<XBreakpointHandler<?>[]> myBreakpointHandlerValue = LazyValue.atomicNotNull(() -> createBreakpointHandlers());
 
-  protected DebugProcessImpl(@Nonnull XDebugSession session,
+  protected DebugProcessImpl(XDebugSession session,
                              C connection,
                              XDebuggerEditorsProvider editorsProvider,
                              XSmartStepIntoHandler<?> smartStepIntoHandler,
@@ -127,7 +126,6 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
     return AsyncResult.done(null);
   }
 
-  @Nonnull
   @Override
   public XBreakpointHandler<?>[] getBreakpointHandlers() {
     switch (myConnection.getState().getStatus()) {
@@ -144,7 +142,6 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
     return true;
   }
 
-  @Nonnull
   protected abstract XBreakpointHandler<?>[] createBreakpointHandlers();
 
   public C getConnection() {
@@ -155,13 +152,11 @@ public abstract class DebugProcessImpl<C extends VmConnection<?>> extends XDebug
     return myExecutionResult;
   }
 
-  @Nonnull
   @Override
   public XDebuggerEditorsProvider getEditorsProvider() {
     return myEditorsProvider;
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getCurrentStateMessage() {
     return LocalizeValue.ofNullable(myConnection.getState().getMessage());

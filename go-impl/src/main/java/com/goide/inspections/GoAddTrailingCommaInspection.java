@@ -32,13 +32,11 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 
-import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
 public class GoAddTrailingCommaInspection extends GoGeneralInspectionBase {
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
       public void visitErrorElement(PsiErrorElement o) {
@@ -50,7 +48,6 @@ public class GoAddTrailingCommaInspection extends GoGeneralInspectionBase {
     };
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Need trailing comma before newline in composite literal");
@@ -60,7 +57,7 @@ public class GoAddTrailingCommaInspection extends GoGeneralInspectionBase {
     private MyAddCommaFix() {super(LocalizeValue.localizeTODO("Add comma"));}
 
     @Override
-    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
       PsiElement e = descriptor.getPsiElement();
       if (!(e instanceof GoElement)) return;
       PsiErrorElement error = PsiTreeUtil.getNextSiblingOfType(e, PsiErrorElement.class);

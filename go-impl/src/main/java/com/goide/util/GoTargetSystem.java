@@ -28,8 +28,7 @@ import consulo.util.collection.ArrayUtil;
 import consulo.util.lang.ThreeState;
 import org.jetbrains.annotations.Contract;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,25 +36,22 @@ import java.util.Set;
 public class GoTargetSystem {
   private static final String GAE_BUILD_FLAG = "appengine";
 
-  @Nonnull
   public final String os;
-  @Nonnull
   public final String arch;
   @Nullable
   public final String goVersion;
   @Nullable
   public final String compiler;
 
-  @Nonnull
   public final ThreeState cgoEnabled;
   private final Set<String> customFlags = new HashSet<>();
 
-  public GoTargetSystem(@Nonnull String os,
-                        @Nonnull String arch,
+  public GoTargetSystem(String os,
+                        String arch,
                         @Nullable String goVersion,
                         @Nullable String compiler,
-                        @Nonnull ThreeState cgoEnabled,
-                        @Nonnull String... customFlags) {
+                        ThreeState cgoEnabled,
+                        String... customFlags) {
     this.os = os;
     this.arch = arch;
     this.goVersion = goVersion;
@@ -64,12 +60,12 @@ public class GoTargetSystem {
     Collections.addAll(this.customFlags, customFlags);
   }
 
-  public boolean supportsFlag(@Nonnull String flag) {
+  public boolean supportsFlag(String flag) {
     return customFlags.contains(flag);
   }
 
   @Nullable
-  public static GoTargetSystem forModule(@Nonnull Module module) {
+  public static GoTargetSystem forModule(Module module) {
     return CachedValuesManager.getManager(module.getProject()).getCachedValue(module, () -> {
       GoModuleExtension goModuleExtension = ModuleUtilCore.getExtension(module, GoModuleExtension.class);
       if (goModuleExtension == null) {
@@ -90,7 +86,7 @@ public class GoTargetSystem {
   }
 
   @Contract("_,null->!null")
-  private static String realValue(@Nonnull String value, @Nullable String defaultValue) {
+  private static String realValue(String value, @Nullable String defaultValue) {
     return GoBuildTargetSettings.DEFAULT.equals(value) ? defaultValue : value;
   }
 }

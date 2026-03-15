@@ -16,7 +16,6 @@
 
 package com.goide.editor;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.codeInsight.hint.ParameterInfoComponent;
@@ -114,13 +113,13 @@ public abstract class GoParameterInfoHandlerTest extends GoCodeInsightFixtureTes
 		doTest(1, "<html>param1 string, <b>param2 string</b></html>");
 	}
 
-	private void doTest(@Nonnull String expectedPresentation)
+	private void doTest(String expectedPresentation)
 	{
 		doTest(0, expectedPresentation);
 	}
 	// @formatter:on
 
-	private void doTest(int expectedParamIdx, @Nonnull String expectedPresentation)
+	private void doTest(int expectedParamIdx, String expectedPresentation)
 	{
 		// Given
 		myFixture.configureByFile(getTestName(true) + ".go");
@@ -160,7 +159,6 @@ public abstract class GoParameterInfoHandlerTest extends GoCodeInsightFixtureTes
 		return GoParameterInfoHandler.updatePresentation(itemsToShow[0], uiCtx);
 	}
 
-	@Nonnull
 	@Override
 	protected String getBasePath()
 	{

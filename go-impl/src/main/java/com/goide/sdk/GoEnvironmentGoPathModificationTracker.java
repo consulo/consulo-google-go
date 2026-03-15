@@ -32,7 +32,6 @@ import consulo.virtualFileSystem.event.VirtualFileCopyEvent;
 import consulo.virtualFileSystem.event.VirtualFileEvent;
 import consulo.virtualFileSystem.event.VirtualFileMoveEvent;
 
-import jakarta.annotation.Nonnull;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashSet;
@@ -62,22 +61,22 @@ public class GoEnvironmentGoPathModificationTracker {
 
     VirtualFileManager.getInstance().addVirtualFileListener(new VirtualFileAdapter() {
       @Override
-      public void fileCreated(@Nonnull VirtualFileEvent event) {
+      public void fileCreated(VirtualFileEvent event) {
         handleEvent(event);
       }
 
       @Override
-      public void fileDeleted(@Nonnull VirtualFileEvent event) {
+      public void fileDeleted(VirtualFileEvent event) {
         handleEvent(event);
       }
 
       @Override
-      public void fileMoved(@Nonnull VirtualFileMoveEvent event) {
+      public void fileMoved(VirtualFileMoveEvent event) {
         handleEvent(event);
       }
 
       @Override
-      public void fileCopied(@Nonnull VirtualFileCopyEvent event) {
+      public void fileCopied(VirtualFileCopyEvent event) {
         handleEvent(event);
       }
 

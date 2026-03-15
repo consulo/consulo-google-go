@@ -19,9 +19,8 @@ package com.goide.runconfig.testing;
 import consulo.util.dataholder.Key;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
 
-import jakarta.annotation.Nonnull;
 import java.text.ParseException;
 
 public interface GoTestEventsConverterBase {
-  boolean processServiceMessages(@Nonnull String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException;
+  boolean processServiceMessages(String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException;
 }

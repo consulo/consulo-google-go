@@ -24,8 +24,7 @@ import consulo.language.editor.completion.lookup.ParenthesesInsertHandler;
 import consulo.language.psi.PsiElement;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class AddBracketsInsertHandler extends ParenthesesInsertHandler<LookupElement> {
   @Override
@@ -34,7 +33,7 @@ public class AddBracketsInsertHandler extends ParenthesesInsertHandler<LookupEle
   }
 
   @Override
-  public void handleInsert(@Nonnull InsertionContext context, LookupElement item) {
+  public void handleInsert(InsertionContext context, LookupElement item) {
     Editor editor = context.getEditor();
     Document document = editor.getDocument();
     context.commitDocument();
@@ -96,7 +95,7 @@ public class AddBracketsInsertHandler extends ParenthesesInsertHandler<LookupEle
     }
   }
 
-  private static boolean isToken(@Nullable PsiElement element, @Nonnull String text) {
+  private static boolean isToken(@Nullable PsiElement element, String text) {
     return element != null && element.textMatches(text);
   }
 }

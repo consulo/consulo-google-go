@@ -30,8 +30,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiWhiteSpace;
 import jakarta.inject.Inject;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoMethodSeparatorProvider implements LineMarkerProvider {
@@ -46,15 +45,14 @@ public class GoMethodSeparatorProvider implements LineMarkerProvider {
 
   @Nullable
   @Override
-  public LineMarkerInfo getLineMarkerInfo(@Nonnull PsiElement o) {
+  public LineMarkerInfo getLineMarkerInfo(PsiElement o) {
     if (myDaemonSettings.SHOW_METHOD_SEPARATORS && o instanceof GoTopLevelDeclaration && o.getParent() instanceof GoFile) {
       return LineMarkerInfo.createMethodSeparatorLineMarker(findAnchorElement((GoTopLevelDeclaration) o), myColorsManager);
     }
     return null;
   }
 
-  @Nonnull
-  private static PsiElement findAnchorElement(@Nonnull GoTopLevelDeclaration o) {
+  private static PsiElement findAnchorElement(GoTopLevelDeclaration o) {
     PsiElement result = o;
     PsiElement p = o;
     while ((p = p.getPrevSibling()) != null) {
@@ -69,7 +67,6 @@ public class GoMethodSeparatorProvider implements LineMarkerProvider {
     return result;
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

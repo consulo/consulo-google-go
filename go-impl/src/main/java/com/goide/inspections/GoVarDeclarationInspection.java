@@ -28,7 +28,6 @@ import consulo.language.psi.PsiElement;
 import consulo.localize.LocalizeValue;
 import consulo.util.lang.Pair;
 
-import jakarta.annotation.Nonnull;
 import java.util.List;
 
 import static com.goide.inspections.GoInspectionUtil.UNKNOWN_COUNT;
@@ -36,8 +35,7 @@ import static com.goide.inspections.GoInspectionUtil.getExpressionResultCount;
 
 @ExtensionImpl
 public class GoVarDeclarationInspection extends GoGeneralInspectionBase {
-  @Nonnull
-  private static Pair<List<? extends GoCompositeElement>, List<GoExpression>> getPair(@Nonnull GoVarSpec varDeclaration) {
+  private static Pair<List<? extends GoCompositeElement>, List<GoExpression>> getPair(GoVarSpec varDeclaration) {
     PsiElement assign = varDeclaration instanceof GoShortVarDeclaration ? ((GoShortVarDeclaration)varDeclaration).getVarAssign()
                                                                         : varDeclaration.getAssign();
     if (assign == null) {
@@ -52,21 +50,20 @@ public class GoVarDeclarationInspection extends GoGeneralInspectionBase {
     return Pair.create(varDeclaration.getVarDefinitionList(), varDeclaration.getRightExpressionsList());
   }
 
-  @Nonnull
   @Override
-  protected GoVisitor buildGoVisitor(@Nonnull ProblemsHolder holder, @Nonnull LocalInspectionToolSession session, Object inspectionState) {
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
     return new GoVisitor() {
       @Override
-      public void visitAssignmentStatement(@Nonnull GoAssignmentStatement o) {
+      public void visitAssignmentStatement(GoAssignmentStatement o) {
         validatePair(o, Pair.create(o.getLeftHandExprList().getExpressionList(), o.getExpressionList()));
       }
 
       @Override
-      public void visitVarSpec(@Nonnull GoVarSpec o) {
+      public void visitVarSpec(GoVarSpec o) {
         validatePair(o, getPair(o));
       }
 
-      private void validatePair(@Nonnull GoCompositeElement o, Pair<? extends List<? extends GoCompositeElement>, List<GoExpression>> p) {
+      private void validatePair(GoCompositeElement o, Pair<? extends List<? extends GoCompositeElement>, List<GoExpression>> p) {
         List<GoExpression> list = p.second;
         int idCount = p.first.size();
         for (GoCompositeElement idElement : p.first) {
@@ -117,7 +114,7 @@ public class GoVarDeclarationInspection extends GoGeneralInspectionBase {
     };
   }
 
-  private static void checkExpressionShouldReturnOneResult(@Nonnull List<GoExpression> expressions, @Nonnull ProblemsHolder result) {
+  private static void checkExpressionShouldReturnOneResult(List<GoExpression> expressions, ProblemsHolder result) {
     for (GoExpression expr : expressions) {
       int count = getExpressionResultCount(expr);
       if (count != UNKNOWN_COUNT && count != 1) {
@@ -132,7 +129,6 @@ public class GoVarDeclarationInspection extends GoGeneralInspectionBase {
     }
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getDisplayName() {
     return LocalizeValue.localizeTODO("Incorrect variable declaration");

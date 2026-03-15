@@ -23,15 +23,13 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.stub.IStubElementType;
 import consulo.util.lang.StringUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 public abstract class GoLightType<E extends GoCompositeElement> extends LightElement implements GoType {
-  @Nonnull
   protected final E myElement;
 
-  protected GoLightType(@Nonnull E e) {
+  protected GoLightType(E e) {
     super(e.getManager(), e.getLanguage());
     myElement = e;
     setNavigationElement(e);
@@ -63,14 +61,13 @@ public abstract class GoLightType<E extends GoCompositeElement> extends LightEle
     return null;
   }
 
-  @Nonnull
   @Override
   public GoType getUnderlyingType() {
     return GoPsiImplUtil.getUnderlyingType(this);
   }
 
   static class LightPointerType extends GoLightType<GoType> implements GoPointerType {
-    protected LightPointerType(@Nonnull GoType o) {
+    protected LightPointerType(GoType o) {
       super(o);
     }
 
@@ -85,7 +82,6 @@ public abstract class GoLightType<E extends GoCompositeElement> extends LightEle
       return myElement;
     }
 
-    @Nonnull
     @Override
     public PsiElement getMul() {
       return myElement; // todo: mock it?
@@ -98,15 +94,13 @@ public abstract class GoLightType<E extends GoCompositeElement> extends LightEle
   }
 
   static class LightTypeList extends GoLightType<GoCompositeElement> implements GoTypeList {
-    @Nonnull
     private final List<GoType> myTypes;
 
-    public LightTypeList(@Nonnull GoCompositeElement o, @Nonnull List<GoType> types) {
+    public LightTypeList(GoCompositeElement o, List<GoType> types) {
       super(o);
       myTypes = types;
     }
 
-    @Nonnull
     @Override
     public List<GoType> getTypeList() {
       return myTypes;
@@ -129,7 +123,7 @@ public abstract class GoLightType<E extends GoCompositeElement> extends LightEle
   }
 
   static class LightFunctionType extends GoLightType<GoSignatureOwner> implements GoFunctionType {
-    public LightFunctionType(@Nonnull GoSignatureOwner o) {
+    public LightFunctionType(GoSignatureOwner o) {
       super(o);
     }
 
@@ -139,7 +133,6 @@ public abstract class GoLightType<E extends GoCompositeElement> extends LightEle
       return myElement.getSignature();
     }
 
-    @Nonnull
     @Override
     public PsiElement getFunc() {
       return myElement instanceof GoFunctionOrMethodDeclaration ? ((GoFunctionOrMethodDeclaration)myElement).getFunc() : myElement;
@@ -184,7 +177,6 @@ public abstract class GoLightType<E extends GoCompositeElement> extends LightEle
       return myElement;
     }
 
-    @Nonnull
     @Override
     public PsiElement getLbrack() {
       //noinspection ConstantConditions

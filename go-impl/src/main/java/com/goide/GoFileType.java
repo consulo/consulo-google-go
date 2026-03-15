@@ -24,8 +24,7 @@ import consulo.project.Project;
 import consulo.ui.image.Image;
 import consulo.util.io.CharsetToolkit;
 import consulo.virtualFileSystem.VirtualFile;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -37,25 +36,21 @@ public class GoFileType extends LanguageFileType {
         super(GoLanguage.INSTANCE);
     }
 
-    @Nonnull
     @Override
     public String getId() {
         return GoConstants.GO;
     }
 
-    @Nonnull
     @Override
     public LocalizeValue getDisplayName() {
         return GoLocalize.goFileTypeDisplayName();
     }
 
-    @Nonnull
     @Override
     public LocalizeValue getDescription() {
         return GoLocalize.goFileDescription();
     }
 
-    @Nonnull
     @Override
     public String getDefaultExtension() {
         return "go";
@@ -68,12 +63,12 @@ public class GoFileType extends LanguageFileType {
     }
 
     @Override
-    public String getCharset(@Nonnull VirtualFile file, @Nonnull byte[] content) {
+    public String getCharset(VirtualFile file, byte[] content) {
         return CharsetToolkit.UTF8;
     }
 
     @Override
-    public Charset extractCharsetFromFileContent(@Nullable Project project, @Nullable VirtualFile file, @Nonnull CharSequence content) {
+    public Charset extractCharsetFromFileContent(@Nullable Project project, @Nullable VirtualFile file, CharSequence content) {
         return StandardCharsets.UTF_8;
     }
 }

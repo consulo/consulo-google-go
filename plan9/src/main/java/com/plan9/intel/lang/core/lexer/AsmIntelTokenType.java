@@ -18,12 +18,10 @@ package com.plan9.intel.lang.core.lexer;
 
 import com.plan9.intel.lang.AsmIntelLanguage;
 import consulo.language.ast.IElementType;
-import org.jetbrains.annotations.NonNls;
 
-import jakarta.annotation.Nonnull;
 
 public class AsmIntelTokenType extends IElementType {
-  public AsmIntelTokenType(@Nonnull @NonNls String debugName) {
+  public AsmIntelTokenType(String debugName) {
     super(debugName, AsmIntelLanguage.INSTANCE);
   }
 }

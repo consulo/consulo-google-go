@@ -24,7 +24,6 @@ import com.intellij.testFramework.PlatformTestUtil;
 import com.intellij.testFramework.UsefulTestCase;
 import consulo.disposer.Disposer;
 
-import jakarta.annotation.Nonnull;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,7 +75,7 @@ public abstract class GoSdkServiceTest extends UsefulTestCase {
     PlatformTestUtil.assertPathsEqual(sdkPath + "/bin/goapp.cmd", executable(sdkPath + "/platform/google_appengine/goroot"));
   }
 
-  private static String executable(@Nonnull String sdkPath) {
+  private static String executable(String sdkPath) {
     return GoSdkService.getGoExecutablePath(sdkPath);
   }
 
@@ -88,7 +87,7 @@ public abstract class GoSdkServiceTest extends UsefulTestCase {
     setIsWindows(value, SystemInfo.isLinux, "isLinux");
   }
 
-  private void setIsWindows(boolean value, boolean oldValue, @Nonnull String fieldName) {
+  private void setIsWindows(boolean value, boolean oldValue, String fieldName) {
     try {
       Field field = SystemInfo.class.getField(fieldName);
       field.setAccessible(true);

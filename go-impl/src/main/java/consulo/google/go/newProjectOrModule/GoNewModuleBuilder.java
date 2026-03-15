@@ -30,7 +30,6 @@ import consulo.module.content.layer.ModifiableRootModel;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.ex.wizard.WizardStep;
 
-import jakarta.annotation.Nonnull;
 
 import java.util.function.Consumer;
 
@@ -41,30 +40,29 @@ import java.util.function.Consumer;
 @ExtensionImpl
 public class GoNewModuleBuilder implements NewModuleBuilder {
     @Override
-    public void setupContext(@Nonnull NewModuleContext context) {
+    public void setupContext(NewModuleContext context) {
         NewModuleContext.Group group = context.createGroup("go", "Go");
 
         group.add(
             "Console Application",
             PlatformIconGroup.runconfigurationsApplication(),
             new UnzipNewModuleBuilderProcessor<GoNewModuleContext>("/moduleTemplates/GoHelloWorld.zip") {
-                @Nonnull
                 @Override
                 public GoNewModuleContext createContext(boolean isNewProject) {
                     return new GoNewModuleContext(isNewProject);
                 }
 
                 @Override
-                public void buildSteps(@Nonnull Consumer<WizardStep<GoNewModuleContext>> consumer, @Nonnull GoNewModuleContext context) {
+                public void buildSteps(Consumer<WizardStep<GoNewModuleContext>> consumer, GoNewModuleContext context) {
                     consumer.accept(new GoNewModuleSetupStep(context));
                 }
 
                 @Override
                 @RequiredReadAction
                 public void process(
-                    @Nonnull GoNewModuleContext context,
-                    @Nonnull ContentEntry contentEntry,
-                    @Nonnull ModifiableRootModel modifiableRootModel
+                    GoNewModuleContext context,
+                    ContentEntry contentEntry,
+                    ModifiableRootModel modifiableRootModel
                 ) {
                     unzip(modifiableRootModel);
 

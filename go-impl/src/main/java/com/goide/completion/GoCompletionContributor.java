@@ -39,7 +39,6 @@ import consulo.language.psi.PsiFile;
 import consulo.language.util.ProcessingContext;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.function.Predicates;
-import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 
@@ -65,7 +64,7 @@ public class GoCompletionContributor extends CompletionContributor {
   }
 
   @Override
-  public void fillCompletionVariants(@Nonnull CompletionParameters parameters, @Nonnull CompletionResultSet result) {
+  public void fillCompletionVariants(CompletionParameters parameters, CompletionResultSet result) {
     PsiElement position = parameters.getPosition();
     PsiFile file = parameters.getOriginalFile();
     ASTNode node = position.getNode();
@@ -94,8 +93,7 @@ public class GoCompletionContributor extends CompletionContributor {
     super.fillCompletionVariants(parameters, result);
   }
 
-  @Nonnull
-  private static LookupElement packageLookup(@Nonnull String packageName, int priority) {
+  private static LookupElement packageLookup(String packageName, int priority) {
     LookupElement element = withPriority(LookupElementBuilder.create(packageName), priority);
     return AutoCompletionPolicy.NEVER_AUTOCOMPLETE.applyPolicy(element);
   }
@@ -109,7 +107,6 @@ public class GoCompletionContributor extends CompletionContributor {
     return psiElement().withParent(GoReferenceExpressionBase.class);
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;
@@ -121,7 +118,7 @@ public class GoCompletionContributor extends CompletionContributor {
     }
 
     @Override
-    public boolean accepts(@Nonnull PsiElement element, ProcessingContext context) {
+    public boolean accepts(PsiElement element, ProcessingContext context) {
       return GoTestFinder.isTestFile(element.getContainingFile());
     }
   }

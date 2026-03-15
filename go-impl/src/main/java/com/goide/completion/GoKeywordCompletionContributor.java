@@ -36,7 +36,6 @@ import consulo.language.psi.PsiErrorElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.language.util.ProcessingContext;
 
-import jakarta.annotation.Nonnull;
 import java.util.Collection;
 
 import static com.goide.completion.GoCompletionUtil.CONTEXT_KEYWORD_PRIORITY;
@@ -85,7 +84,7 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
   }
 
   @Override
-  public void fillCompletionVariants(@Nonnull CompletionParameters parameters, @Nonnull CompletionResultSet result) {
+  public void fillCompletionVariants(CompletionParameters parameters, CompletionResultSet result) {
     super.fillCompletionVariants(parameters, result);
     PsiElement position = parameters.getPosition();
     if (insideGoOrDeferStatements().accepts(position) || anonymousFunction().accepts(position)) {
@@ -98,7 +97,7 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
     }
   }
 
-  private static ElementPattern<? extends PsiElement> afterIfBlock(@Nonnull IElementType tokenType) {
+  private static ElementPattern<? extends PsiElement> afterIfBlock(IElementType tokenType) {
     PsiElementPattern.Capture<GoStatement> statement =
       psiElement(GoStatement.class).afterSiblingSkipping(psiElement().whitespaceCommentEmptyOrError(), psiElement(GoIfStatement.class));
     PsiElementPattern.Capture<GoLeftHandExprList> lh = psiElement(GoLeftHandExprList.class).withParent(statement);
@@ -119,11 +118,11 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
     return psiElement(GoTypes.IDENTIFIER).afterLeafSkipping(psiElement().whitespaceCommentEmptyOrError(), psiElement(GoTypes.ELSE));
   }
 
-  private static ElementPattern<? extends PsiElement> insideForStatement(@Nonnull IElementType tokenType) {
+  private static ElementPattern<? extends PsiElement> insideForStatement(IElementType tokenType) {
     return insideBlockPattern(tokenType).inside(false, psiElement(GoForStatement.class), psiElement(GoFunctionLit.class));
   }
   
-  private static ElementPattern<? extends PsiElement> insideBreakStatementOwner(@Nonnull IElementType tokenType) {
+  private static ElementPattern<? extends PsiElement> insideBreakStatementOwner(IElementType tokenType) {
     return insideBlockPattern(tokenType).with(new InsideBreakStatementOwner());
   }
 
@@ -172,7 +171,7 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
                                          .withParent(or(psiElement(GoArgumentList.class), not(psiElement(GoLeftHandExprList.class))))));
   }
 
-  private static PsiElementPattern.Capture<PsiElement> insideBlockPattern(@Nonnull IElementType tokenType) {
+  private static PsiElementPattern.Capture<PsiElement> insideBlockPattern(IElementType tokenType) {
     return onStatementBeginning(tokenType)
       .withParent(psiElement(GoExpression.class).withParent(psiElement(GoLeftHandExprList.class).withParent(
         psiElement(GoStatement.class).inside(GoBlock.class))));
@@ -193,7 +192,7 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
       .withParent(psiElement(PsiErrorElement.class).withParent(goFileWithoutPackage()).isFirstAcceptedChild(psiElement()));
   }
 
-  private static PsiElementPattern.Capture<PsiElement> onStatementBeginning(@Nonnull IElementType... tokenTypes) {
+  private static PsiElementPattern.Capture<PsiElement> onStatementBeginning(IElementType... tokenTypes) {
     return psiElement().withElementType(TokenSet.create(tokenTypes)).with(new OnStatementBeginning());
   }
 
@@ -212,7 +211,6 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
                                                                 emptyOrPackageIsNotFirst));
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;
@@ -224,7 +222,7 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
     }
 
     @Override
-    public boolean accepts(@Nonnull GoReferenceExpressionBase element, ProcessingContext context) {
+    public boolean accepts(GoReferenceExpressionBase element, ProcessingContext context) {
       return element.getQualifier() == null;
     }
   }
@@ -235,7 +233,7 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
     }
 
     @Override
-    public boolean accepts(@Nonnull GoReferenceExpressionBase element, ProcessingContext context) {
+    public boolean accepts(GoReferenceExpressionBase element, ProcessingContext context) {
       return PsiTreeUtil.getParentOfType(element, GoReceiver.class) == null;
     }
   }
@@ -246,7 +244,7 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
     }
 
     @Override
-    public boolean accepts(@Nonnull GoReferenceExpression expression, ProcessingContext context) {
+    public boolean accepts(GoReferenceExpression expression, ProcessingContext context) {
       GoStructLiteralCompletion.Variants variants = GoStructLiteralCompletion.allowedVariants(expression);
       return variants == GoStructLiteralCompletion.Variants.FIELD_NAME_ONLY;
     }
@@ -258,7 +256,7 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
     }
 
     @Override
-    public boolean accepts(@Nonnull PsiElement psiElement, ProcessingContext context) {
+    public boolean accepts(PsiElement psiElement, ProcessingContext context) {
       return GoStatementLiveTemplateContextType.onStatementBeginning(psiElement);
     }
   }
@@ -267,7 +265,7 @@ public class GoKeywordCompletionContributor extends CompletionContributor implem
     public InsideBreakStatementOwner() {super("inside break statement owner");}
 
     @Override
-    public boolean accepts(@Nonnull PsiElement element, ProcessingContext context) {
+    public boolean accepts(PsiElement element, ProcessingContext context) {
       return GoPsiImplUtil.getBreakStatementOwner(element) != null;
     }
   }

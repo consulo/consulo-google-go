@@ -35,8 +35,7 @@ import consulo.util.lang.StringUtil;
 import consulo.util.lang.function.Condition;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.io.File;
 import java.util.Collections;
 import java.util.Date;
@@ -66,16 +65,15 @@ public class GoCoverageEngine extends CoverageEngine {
     return false;
   }
 
-  @Nonnull
   @Override
   public CoverageEnabledConfiguration createCoverageEnabledConfiguration(@Nullable RunConfigurationBase conf) {
     return new GoCoverageEnabledConfiguration((GoTestRunConfiguration)conf);
   }
 
   @Override
-  public CoverageSuite createCoverageSuite(@Nonnull CoverageRunner runner,
-                                           @Nonnull String name,
-                                           @Nonnull CoverageFileProvider coverageDataFileProvider,
+  public CoverageSuite createCoverageSuite(CoverageRunner runner,
+                                           String name,
+                                           CoverageFileProvider coverageDataFileProvider,
                                            @Nullable String[] filters,
                                            long lastCoverageTimeStamp,
                                            @Nullable String suiteToMerge,
@@ -87,10 +85,10 @@ public class GoCoverageEngine extends CoverageEngine {
   }
 
   @Override
-  public CoverageSuite createCoverageSuite(@Nonnull CoverageRunner runner,
-                                           @Nonnull String name,
-                                           @Nonnull CoverageFileProvider coverageDataFileProvider,
-                                           @Nonnull CoverageEnabledConfiguration config) {
+  public CoverageSuite createCoverageSuite(CoverageRunner runner,
+                                           String name,
+                                           CoverageFileProvider coverageDataFileProvider,
+                                           CoverageEnabledConfiguration config) {
     if (config instanceof GoCoverageEnabledConfiguration) {
       return new GoCoverageSuite(name, coverageDataFileProvider, new Date().getTime(), runner, config.getConfiguration().getProject());
     }
@@ -98,68 +96,66 @@ public class GoCoverageEngine extends CoverageEngine {
   }
 
   @Override
-  public CoverageSuite createEmptyCoverageSuite(@Nonnull CoverageRunner coverageRunner) {
+  public CoverageSuite createEmptyCoverageSuite(CoverageRunner coverageRunner) {
     return new GoCoverageSuite();
   }
 
-  @Nonnull
   @Override
   public CoverageAnnotator getCoverageAnnotator(Project project) {
     return GoCoverageAnnotator.getInstance(project);
   }
 
   @Override
-  public boolean coverageEditorHighlightingApplicableTo(@Nonnull PsiFile psiFile) {
+  public boolean coverageEditorHighlightingApplicableTo(PsiFile psiFile) {
     return isProductionGoFile(psiFile);
   }
 
   @Override
-  public boolean acceptedByFilters(@Nonnull PsiFile psiFile, @Nonnull CoverageSuitesBundle suite) {
+  public boolean acceptedByFilters(PsiFile psiFile, CoverageSuitesBundle suite) {
     return isProductionGoFile(psiFile);
   }
 
-  private static boolean isProductionGoFile(@Nonnull PsiFile psiFile) {
+  private static boolean isProductionGoFile(PsiFile psiFile) {
     return psiFile.getFileType() == GoFileType.INSTANCE && !GoTestFinder.isTestFile(psiFile);
   }
 
   @Override
-  public boolean recompileProjectAndRerunAction(@Nonnull Module module,
-                                                @Nonnull CoverageSuitesBundle suite,
-                                                @Nonnull Runnable chooseSuiteAction) {
+  public boolean recompileProjectAndRerunAction(Module module,
+                                                CoverageSuitesBundle suite,
+                                                Runnable chooseSuiteAction) {
     return false;
   }
 
   @Override
-  public String getQualifiedName(@Nonnull File outputFile, @Nonnull PsiFile sourceFile) {
+  public String getQualifiedName(File outputFile, PsiFile sourceFile) {
     return sourceFile.getVirtualFile().getPath();
   }
 
-  @Nonnull
   @Override
-  public Set<String> getQualifiedNames(@Nonnull PsiFile sourceFile) {
+  public Set<String> getQualifiedNames(PsiFile sourceFile) {
     return Collections.singleton(sourceFile.getVirtualFile().getPath());
   }
 
   @Override
-  public boolean includeUntouchedFileInCoverage(@Nonnull String qualifiedName,
-                                                @Nonnull File outputFile,
-                                                @Nonnull PsiFile sourceFile,
-                                                @Nonnull CoverageSuitesBundle suite) {
+  public boolean includeUntouchedFileInCoverage(String qualifiedName,
+                                                File outputFile,
+                                                PsiFile sourceFile,
+                                                CoverageSuitesBundle suite) {
     return false;
   }
 
   @Override
-  public List<Integer> collectSrcLinesForUntouchedFile(@Nonnull File classFile, @Nonnull CoverageSuitesBundle suite) {
+  public List<Integer> collectSrcLinesForUntouchedFile(File classFile, CoverageSuitesBundle suite) {
     return null;
   }
 
   @Override
-  public List<PsiElement> findTestsByNames(@Nonnull String[] testNames, @Nonnull Project project) {
+  public List<PsiElement> findTestsByNames(String[] testNames, Project project) {
     return Collections.emptyList();
   }
 
   @Override
-  public String getTestMethodName(@Nonnull PsiElement element, @Nonnull AbstractTestProxy testProxy) {
+  public String getTestMethodName(PsiElement element, AbstractTestProxy testProxy) {
     return null;
   }
 

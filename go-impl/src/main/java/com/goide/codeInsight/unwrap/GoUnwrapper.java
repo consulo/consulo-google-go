@@ -24,8 +24,7 @@ import consulo.language.impl.psi.CodeEditUtil;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiWhiteSpace;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class GoUnwrapper extends AbstractUnwrapper<GoUnwrapper.Context> {
   protected GoUnwrapper(String description) {
@@ -48,7 +47,7 @@ public abstract class GoUnwrapper extends AbstractUnwrapper<GoUnwrapper.Context>
       }
     }
 
-    public void extractFromBlock(@Nullable GoBlock block, @Nonnull PsiElement from) {
+    public void extractFromBlock(@Nullable GoBlock block, PsiElement from) {
       if (block != null) {
         for (GoStatement statement : block.getStatementList()) {
           extractElement(statement, from);

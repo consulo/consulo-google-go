@@ -27,7 +27,6 @@ import consulo.language.psi.stub.StubOutputStream;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.collection.ArrayFactory;
 
-import jakarta.annotation.Nonnull;
 import java.io.IOException;
 
 public class GoConstDefinitionStubElementType extends GoNamedStubElementType<GoConstDefinitionStub, GoConstDefinition> {
@@ -35,36 +34,33 @@ public class GoConstDefinitionStubElementType extends GoNamedStubElementType<GoC
 
   public static final ArrayFactory<GoConstDefinition> ARRAY_FACTORY = count -> count == 0 ? EMPTY_ARRAY : new GoConstDefinition[count];
   
-  public GoConstDefinitionStubElementType(@Nonnull String name) {
+  public GoConstDefinitionStubElementType(String name) {
     super(name);
   }
 
-  @Nonnull
   @Override
-  public GoConstDefinition createPsi(@Nonnull GoConstDefinitionStub stub) {
+  public GoConstDefinition createPsi(GoConstDefinitionStub stub) {
     return new GoConstDefinitionImpl(stub, this);
   }
 
-  @Nonnull
   @Override
-  public GoConstDefinitionStub createStub(@Nonnull GoConstDefinition psi, StubElement parentStub) {
+  public GoConstDefinitionStub createStub(GoConstDefinition psi, StubElement parentStub) {
     return new GoConstDefinitionStub(parentStub, this, psi.getName(), psi.isPublic());
   }
 
   @Override
-  public void serialize(@Nonnull GoConstDefinitionStub stub, @Nonnull StubOutputStream dataStream) throws IOException {
+  public void serialize(GoConstDefinitionStub stub, StubOutputStream dataStream) throws IOException {
     dataStream.writeName(stub.getName());
     dataStream.writeBoolean(stub.isPublic());
   }
 
-  @Nonnull
   @Override
-  public GoConstDefinitionStub deserialize(@Nonnull StubInputStream dataStream, StubElement parentStub) throws IOException {
+  public GoConstDefinitionStub deserialize(StubInputStream dataStream, StubElement parentStub) throws IOException {
     return new GoConstDefinitionStub(parentStub, this, dataStream.readName(), dataStream.readBoolean());
   }
 
   @Override
-  public boolean shouldCreateStub(@Nonnull ASTNode node) {
+  public boolean shouldCreateStub(ASTNode node) {
     return super.shouldCreateStub(node) && PsiTreeUtil.getParentOfType(node.getPsi(), GoFunctionOrMethodDeclaration.class) == null;
   }
 }

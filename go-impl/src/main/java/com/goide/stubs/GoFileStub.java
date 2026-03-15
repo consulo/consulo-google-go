@@ -25,13 +25,12 @@ import consulo.language.psi.stub.IStubFileElementType;
 import consulo.language.psi.stub.PsiFileStubImpl;
 import consulo.language.psi.stub.StubElement;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoFileStub extends PsiFileStubImpl<GoFile> {
   private final StringRef myBuildFlags;
 
-  public GoFileStub(@Nonnull GoFile file) {
+  public GoFileStub(GoFile file) {
     this(file, StringRef.fromNullableString(file.getBuildFlags()));
   }
 
@@ -40,7 +39,6 @@ public class GoFileStub extends PsiFileStubImpl<GoFile> {
     myBuildFlags = buildFlags;
   }
 
-  @Nonnull
   @Override
   public IStubFileElementType getType() {
     return GoFileElementType.INSTANCE;

@@ -19,10 +19,9 @@ package com.plan9.intel.lang.core.psi.impl;
 import consulo.language.ast.ASTNode;
 import consulo.language.impl.psi.ASTWrapperPsiElement;
 
-import jakarta.annotation.Nonnull;
 
 public class AsmIntelElementImpl extends ASTWrapperPsiElement {
-  public AsmIntelElementImpl(@Nonnull ASTNode node) {
+  public AsmIntelElementImpl(ASTNode node) {
     super(node);
   }
 }

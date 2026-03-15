@@ -30,8 +30,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class GoCreateWrapperTypeQuickFix extends LocalQuickFixAndIntentionActionOnPsiElement {
 
@@ -40,16 +39,16 @@ public class GoCreateWrapperTypeQuickFix extends LocalQuickFixAndIntentionAction
 
   public static final LocalizeValue QUICKFIX_NAME = LocalizeValue.localizeTODO("Create type");
 
-  public GoCreateWrapperTypeQuickFix(@Nonnull GoType type) {
+  public GoCreateWrapperTypeQuickFix(GoType type) {
     super(type);
   }
 
   @Override
-  public void invoke(@Nonnull Project project,
-                     @Nonnull PsiFile file,
+  public void invoke(Project project,
+                     PsiFile file,
                      @Nullable Editor editor,
-                     @Nonnull PsiElement startElement,
-                     @Nonnull PsiElement endElement) {
+                     PsiElement startElement,
+                     PsiElement endElement) {
     if (!(startElement instanceof GoType)) return;
     GoType type = (GoType)startElement;
 
@@ -73,7 +72,6 @@ public class GoCreateWrapperTypeQuickFix extends LocalQuickFixAndIntentionAction
     TemplateManager.getInstance(project).startTemplate(editor, template);
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getText() {
     return QUICKFIX_NAME;

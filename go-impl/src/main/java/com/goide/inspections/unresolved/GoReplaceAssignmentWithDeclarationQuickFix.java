@@ -27,25 +27,22 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-import org.jetbrains.annotations.Nls;
 
-import jakarta.annotation.Nonnull;
 
 public class GoReplaceAssignmentWithDeclarationQuickFix extends LocalQuickFixOnPsiElement {
   public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Replace with ':='");
 
-  public GoReplaceAssignmentWithDeclarationQuickFix(@Nonnull PsiElement element) {
+  public GoReplaceAssignmentWithDeclarationQuickFix(PsiElement element) {
     super(element);
   }
 
-  @Nonnull
   @Override
   public LocalizeValue getText() {
     return QUICK_FIX_NAME;
   }
 
   @Override
-  public void invoke(@Nonnull Project project, @Nonnull PsiFile file, @Nonnull PsiElement startElement, @Nonnull PsiElement endElement) {
+  public void invoke(Project project, PsiFile file, PsiElement startElement, PsiElement endElement) {
     if (startElement instanceof GoAssignmentStatement) {
       GoAssignmentStatement statement = (GoAssignmentStatement)startElement;
       String leftSide = statement.getLeftHandExprList().getText();

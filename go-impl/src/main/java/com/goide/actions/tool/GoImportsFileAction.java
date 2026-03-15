@@ -22,8 +22,7 @@ import consulo.module.Module;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @ActionImpl(id = "GoImportsFileAction")
 public class GoImportsFileAction extends GoDownloadableFileAction {
@@ -31,9 +30,8 @@ public class GoImportsFileAction extends GoDownloadableFileAction {
     super("Goimports file", "Optimizes imports for selected file with goimports util", "goimports", "golang.org/x/tools/cmd/goimports");
   }
 
-  @Nonnull
   @Override
-  protected GoExecutor createExecutor(@Nonnull Project project, @Nullable Module module, @Nonnull String title, @Nonnull String filePath) {
+  protected GoExecutor createExecutor(Project project, @Nullable Module module, String title, String filePath) {
     VirtualFile executable = getExecutable(project, module);
     assert executable != null;
     return GoExecutor.in(project, module).withExePath(executable.getPath()).withParameters("-w", filePath).showOutputOnError();

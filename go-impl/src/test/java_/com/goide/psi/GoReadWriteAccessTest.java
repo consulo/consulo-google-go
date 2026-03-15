@@ -20,7 +20,6 @@ import com.goide.GoCodeInsightFixtureTestCase;
 import com.intellij.codeInsight.highlighting.ReadWriteAccessDetector;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import jakarta.annotation.Nonnull;
 
 import static com.intellij.codeInsight.highlighting.ReadWriteAccessDetector.Access.*;
 
@@ -126,7 +125,7 @@ public abstract class GoReadWriteAccessTest extends GoCodeInsightFixtureTestCase
     assertEquals(Write, ReadWriteAccessDetector.findDetector(goFieldName.getReference().resolve()).getExpressionAccess(goFieldName));
   }
 
-  private void doTest(@Nonnull String expressionText, @Nonnull ReadWriteAccessDetector.Access expectedAccess) {
+  private void doTest(String expressionText, ReadWriteAccessDetector.Access expectedAccess) {
     myFixture.configureByText("a.go", "package main; func _() {\n" + expressionText + "\n}");
     PsiElement element = myFixture.getFile().findElementAt(myFixture.getCaretOffset());
     GoReferenceExpression expression = PsiTreeUtil.getNonStrictParentOfType(element, GoReferenceExpression.class);

@@ -37,8 +37,7 @@ import consulo.language.psi.PsiFile;
 import consulo.project.Project;
 import consulo.ui.image.Image;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.function.Function;
 
 @ExtensionImpl
@@ -76,13 +75,12 @@ public class GoTestRunLineMarkerProvider extends RunLineMarkerContributor {
     return null;
   }
 
-  @Nonnull
   private static Info getInfo(String url, Project project) {
     Image icon = getTestStateIcon(url, project);
     return new Info(icon, TOOLTIP_PROVIDER, ExecutorAction.getActions(0));
   }
 
-  private static Image getTestStateIcon(@Nonnull String url, @Nonnull Project project) {
+  private static Image getTestStateIcon(String url, Project project) {
     TestStateStorage.Record state = TestStateStorage.getInstance(project).getState(url);
     if (state != null) {
       TestStateInfo.Magnitude magnitude = TestIconMapper.getMagnitude(state.magnitude);
@@ -101,7 +99,6 @@ public class GoTestRunLineMarkerProvider extends RunLineMarkerContributor {
     return ExecutionIconGroup.gutterRun();
   }
 
-  @Nonnull
   @Override
   public Language getLanguage() {
     return GoLanguage.INSTANCE;

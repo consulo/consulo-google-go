@@ -16,7 +16,6 @@
 
 package com.goide.runconfig.testing;
 
-import jakarta.annotation.Nonnull;
 
 import com.goide.runconfig.testing.frameworks.gobench.GobenchFramework;
 
@@ -41,13 +40,11 @@ public abstract class GobenchEventsConverterTest extends GoEventsConverterTestCa
     doTest();
   }
 
-  @Nonnull
   @Override
   protected String getBasePath() {
     return "testing/gobench";
   }
   
-  @Nonnull
   @Override
   protected GoTestFramework getTestFramework() {
     return GobenchFramework.INSTANCE;

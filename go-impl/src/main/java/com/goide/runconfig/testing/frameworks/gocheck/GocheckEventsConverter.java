@@ -26,8 +26,7 @@ import consulo.util.dataholder.Key;
 import consulo.util.lang.StringUtil;
 import jetbrains.buildServer.messages.serviceMessages.ServiceMessageVisitor;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -90,33 +89,32 @@ public class GocheckEventsConverter extends OutputToGeneralTestEventsConverter i
     private final Status myStatus;
     private final Map<String, String> myAttributes = new HashMap<>();
 
-    TestResult(@Nonnull Status status) {
+    TestResult(Status status) {
       this(status, null);
     }
 
-    TestResult(@Nonnull Status status, @Nullable Map<String, String> attributes) {
+    TestResult(Status status, @Nullable Map<String, String> attributes) {
       myStatus = status;
       if (attributes != null) myAttributes.putAll(attributes);
     }
 
-    @Nonnull
     public Status getStatus() {
       return myStatus;
     }
 
-    public void addAttributesTo(@Nonnull ServiceMessageBuilder serviceMessageBuilder) {
+    public void addAttributesTo(ServiceMessageBuilder serviceMessageBuilder) {
       for (Map.Entry<String, String> entry : myAttributes.entrySet()) {
         serviceMessageBuilder.addAttribute(entry.getKey(), entry.getValue());
       }
     }
   }
 
-  public GocheckEventsConverter(@Nonnull TestConsoleProperties consoleProperties) {
+  public GocheckEventsConverter(TestConsoleProperties consoleProperties) {
     super(FRAMEWORK_NAME, consoleProperties);
   }
 
   @Override
-  public boolean processServiceMessages(@Nonnull String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  public boolean processServiceMessages(String text, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     Matcher matcher;
 
     switch (myScope) {
@@ -266,13 +264,13 @@ public class GocheckEventsConverter extends OutputToGeneralTestEventsConverter i
     return null;
   }
 
-  private boolean processTestStarted(@Nonnull String testName, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  private boolean processTestStarted(String testName, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     String testStartedMsg = ServiceMessageBuilder.testStarted(testName)
       .addAttribute("locationHint", testUrl(testName)).toString();
     return super.processServiceMessages(testStartedMsg, outputType, visitor);
   }
 
-  private void processTestResult(@Nonnull TestResult testResult, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  private void processTestResult(TestResult testResult, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     processStdOut(myTestName, outputType, visitor);
 
     switch (testResult.getStatus()) {
@@ -305,7 +303,7 @@ public class GocheckEventsConverter extends OutputToGeneralTestEventsConverter i
     super.processServiceMessages(testFinishedMsg, outputType, visitor);
   }
 
-  private void processStdOut(@Nonnull String testName, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  private void processStdOut(String testName, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     if (myStdOut == null) {
       return;
     }
@@ -317,7 +315,7 @@ public class GocheckEventsConverter extends OutputToGeneralTestEventsConverter i
     myStdOut = null;
   }
 
-  private void processTestSectionStart(@Nonnull String testName, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
+  private void processTestSectionStart(String testName, Key outputType, ServiceMessageVisitor visitor) throws ParseException {
     String suiteName = testName.substring(0, testName.indexOf("."));
     myTestName = testName;
     myCurrentTestStart = System.currentTimeMillis();
@@ -493,21 +491,18 @@ public class GocheckEventsConverter extends OutputToGeneralTestEventsConverter i
     return Map.ofEntries(pair("details", detailsMessage.toString()), pair("message", errorMessage));
   }
 
-  @Nonnull
-  private static List<String> safeSublist(@Nonnull List<String> list, int until) {
+  private static List<String> safeSublist(List<String> list, int until) {
     if (0 < until && until <= list.size() - 1) {
       return list.subList(0, until);
     }
     return ContainerUtil.newArrayList();
   }
 
-  @Nonnull
-  private static String suiteUrl(@Nonnull String suiteName) {
+  private static String suiteUrl(String suiteName) {
     return GoTestLocator.SUITE_PROTOCOL + "://" + suiteName;
   }
   
-  @Nonnull
-  private static String testUrl(@Nonnull String testName) {
+  private static String testUrl(String testName) {
     return GoTestLocator.PROTOCOL + "://" + testName;
   }
 }

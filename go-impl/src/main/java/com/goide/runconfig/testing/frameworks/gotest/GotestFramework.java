@@ -27,8 +27,7 @@ import consulo.module.Module;
 import consulo.ui.ex.action.AnAction;
 import consulo.util.collection.ContainerUtil;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -48,7 +47,6 @@ public class GotestFramework extends GoTestFramework {
     return GENERATE_ACTIONS;
   }
 
-  @Nonnull
   @Override
   public String getName() {
     return NAME;
@@ -70,17 +68,15 @@ public class GotestFramework extends GoTestFramework {
            GoTestFinder.isTestOrExampleFunction(functionOrMethodDeclaration);
   }
 
-  @Nonnull
   @Override
-  protected GoTestRunningState newRunningState(@Nonnull ExecutionEnvironment env,
-                                               @Nonnull Module module,
-                                               @Nonnull GoTestRunConfiguration runConfiguration) {
+  protected GoTestRunningState newRunningState(ExecutionEnvironment env,
+                                               Module module,
+                                               GoTestRunConfiguration runConfiguration) {
     return new GoTestRunningState(env, module, runConfiguration);
   }
 
-  @Nonnull
   @Override
-  public OutputToGeneralTestEventsConverter createTestEventsConverter(@Nonnull TestConsoleProperties consoleProperties) {
+  public OutputToGeneralTestEventsConverter createTestEventsConverter(TestConsoleProperties consoleProperties) {
     return new GotestEventsConverter(consoleProperties);
   }
 }
