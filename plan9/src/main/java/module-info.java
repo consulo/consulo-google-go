@@ -4,6 +4,9 @@
  */
 open module consulo.plan9 {
   requires consulo.ide.api;
+  requires consulo.language.editor.api;
+  requires consulo.language.impl;
+  requires consulo.execution.debug.api;
 
   exports com.plan9.intel;
   exports com.plan9.intel.ide.highlighting;

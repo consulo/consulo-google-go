@@ -24,7 +24,7 @@ import consulo.component.persist.PersistentStateComponent;
 import consulo.component.persist.State;
 import consulo.component.persist.Storage;
 import consulo.component.persist.StoragePathMacros;
-import consulo.ide.ServiceManager;
+import consulo.application.Application;
 import consulo.util.xml.serializer.XmlSerializerUtil;
 
 import org.jspecify.annotations.Nullable;
@@ -40,7 +40,7 @@ public class GoCodeInsightSettings implements PersistentStateComponent<GoCodeIns
   private boolean myAddUnambiguousImportsOnTheFly = true;
 
   public static GoCodeInsightSettings getInstance() {
-    return ServiceManager.getService(GoCodeInsightSettings.class);
+    return Application.get().getInstance(GoCodeInsightSettings.class);
   }
 
   @Nullable

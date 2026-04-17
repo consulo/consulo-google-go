@@ -4,6 +4,18 @@
  */
 open module consulo.google.go {
   requires consulo.ide.api;
+  requires consulo.build.ui.api;
+  requires consulo.compiler.api;
+  requires consulo.execution.coverage.api;
+  requires consulo.execution.test.api;
+  requires consulo.execution.test.sm.api;
+  requires consulo.external.service.api;
+  requires consulo.find.api;
+  requires consulo.language.code.style.ui.api;
+  requires consulo.language.editor.refactoring.api;
+  requires consulo.version.control.system.api;
+  requires consulo.xcoverage.rt;
+  requires consulo.module.ui.api;
 
   requires consulo.language.impl;
   requires consulo.language.editor.impl;

@@ -25,7 +25,7 @@ import consulo.execution.coverage.BaseCoverageAnnotator;
 import consulo.execution.coverage.CoverageDataManager;
 import consulo.execution.coverage.CoverageSuite;
 import consulo.execution.coverage.CoverageSuitesBundle;
-import consulo.ide.ServiceManager;
+import consulo.application.Application;
 import consulo.language.content.FileIndexFacade;
 import consulo.language.psi.PsiDirectory;
 import consulo.language.psi.PsiFile;
@@ -59,7 +59,7 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
   }
 
   public static GoCoverageAnnotator getInstance(Project project) {
-    return ServiceManager.getService(project, GoCoverageAnnotator.class);
+    return project.getInstance(GoCoverageAnnotator.class);
   }
 
   @Nullable

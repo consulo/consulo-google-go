@@ -20,7 +20,7 @@ import com.goide.GoEnvironmentUtil;
 import consulo.annotation.component.ComponentScope;
 import consulo.annotation.component.ServiceAPI;
 import consulo.annotation.component.ServiceImpl;
-import consulo.ide.ServiceManager;
+import consulo.application.Application;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 import consulo.util.lang.SystemProperties;
@@ -106,6 +106,6 @@ public class GoEnvironmentGoPathModificationTracker {
   }
 
   public static Collection<VirtualFile> getGoEnvironmentGoPathRoots() {
-    return ServiceManager.getService(GoEnvironmentGoPathModificationTracker.class).getGoPathRoots();
+    return Application.get().getInstance(GoEnvironmentGoPathModificationTracker.class).getGoPathRoots();
   }
 }

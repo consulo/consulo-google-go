@@ -23,7 +23,7 @@ import consulo.annotation.component.ServiceAPI;
 import consulo.application.util.SystemInfo;
 import consulo.disposer.Disposable;
 import consulo.disposer.Disposer;
-import consulo.ide.ServiceManager;
+import consulo.application.Application;
 import consulo.logging.Logger;
 import consulo.module.Module;
 import consulo.process.PathEnvironmentVariableUtil;
@@ -55,7 +55,7 @@ public abstract class GoSdkService {
   }
 
   public static GoSdkService getInstance(Project project) {
-    return ServiceManager.getService(project, GoSdkService.class);
+    return project.getInstance(GoSdkService.class);
   }
 
   @Nullable

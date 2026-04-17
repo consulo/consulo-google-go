@@ -24,7 +24,7 @@ import consulo.component.persist.State;
 import consulo.component.persist.Storage;
 import consulo.component.persist.StoragePathMacros;
 import consulo.component.util.SimpleModificationTracker;
-import consulo.ide.ServiceManager;
+import consulo.application.Application;
 import consulo.project.Project;
 import consulo.util.collection.ArrayUtil;
 import consulo.util.io.FileUtil;
@@ -44,7 +44,7 @@ public class GoExcludedPathsSettings extends SimpleModificationTracker implement
   private String[] myExcludedPackages = ArrayUtil.EMPTY_STRING_ARRAY;
 
   public static GoExcludedPathsSettings getInstance(Project project) {
-    return ServiceManager.getService(project, GoExcludedPathsSettings.class);
+    return project.getInstance(GoExcludedPathsSettings.class);
   }
 
   @Nullable

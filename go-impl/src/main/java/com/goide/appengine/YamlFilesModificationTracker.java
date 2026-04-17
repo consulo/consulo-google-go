@@ -25,7 +25,7 @@ import consulo.application.util.CachedValueProvider;
 import consulo.application.util.CachedValuesManager;
 import consulo.application.util.function.Computable;
 import consulo.component.util.SimpleModificationTracker;
-import consulo.ide.ServiceManager;
+import consulo.application.Application;
 import consulo.language.psi.search.FilenameIndex;
 import consulo.module.Module;
 import consulo.project.Project;
@@ -80,7 +80,7 @@ public class YamlFilesModificationTracker extends SimpleModificationTracker {
   }
 
   public static YamlFilesModificationTracker getInstance(Project project) {
-    return ServiceManager.getService(project, YamlFilesModificationTracker.class);
+    return project.getInstance(YamlFilesModificationTracker.class);
   }
 
   public static Collection<VirtualFile> getYamlFiles(Project project, @Nullable Module module) {
