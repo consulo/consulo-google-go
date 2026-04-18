@@ -13,22 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.psi.legacy;
 
 import java.io.File;
 
+import consulo.application.util.function.FilteringProcessor;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiReference;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 import org.jspecify.annotations.Nullable;
 
 import com.goide.GoCodeInsightFixtureTestCase;
 import com.goide.psi.GoFile;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.FilteringProcessor;
 
 public abstract class GoLegacyResolveTestBase extends GoCodeInsightFixtureTestCase {
   private static final String REF_MARK = "/*ref*/";
@@ -131,7 +129,7 @@ public abstract class GoLegacyResolveTestBase extends GoCodeInsightFixtureTestCa
   }
 
   private void doDirectoryTest(VirtualFile file) {
-    VfsUtilCore.processFilesRecursively(file, new FilteringProcessor<>(
+    VirtualFileUtil.processFilesRecursively(file, new FilteringProcessor<>(
                                           virtualFile -> !virtualFile.isDirectory() && virtualFile.getName().endsWith(".go"),
                                           virtualFile -> {
                                             PsiFile goFile = myFixture.getPsiManager().findFile(virtualFile);

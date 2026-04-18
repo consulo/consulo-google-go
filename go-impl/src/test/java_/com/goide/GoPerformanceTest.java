@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import consulo.util.io.FileUtil;
+import consulo.virtualFileSystem.LocalFileSystem;
+import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
+import consulo.virtualFileSystem.util.VirtualFileVisitor;
 import org.jspecify.annotations.Nullable;
 
 import org.junit.experimental.categories.Category;
@@ -39,11 +43,6 @@ import com.intellij.codeInspection.InspectionProfileEntry;
 import com.intellij.codeInspection.ex.InspectionManagerEx;
 import com.intellij.codeInspection.ex.InspectionToolRegistrar;
 import com.intellij.codeInspection.ex.InspectionToolWrapper;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VfsUtilCore;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileVisitor;
 import com.intellij.testFramework.PlatformTestUtil;
 
 @Category(Performance.class)
@@ -162,7 +161,7 @@ public abstract class GoPerformanceTest extends GoCodeInsightFixtureTestCase {
     PlatformTestUtil.startPerformanceTest(getTestName(true), (int)TimeUnit.MINUTES.toMillis(1), () -> {
       VirtualFile root = LocalFileSystem.getInstance().findFileByIoFile(go);
       assertNotNull(root);
-      VfsUtilCore.visitChildrenRecursively(root, new VirtualFileVisitor() {
+      VirtualFileUtil.visitChildrenRecursively(root, new VirtualFileVisitor() {
         @Override
         public Result visitFileEx(VirtualFile file) {
           if (file.isDirectory() && "testdata".equals(file.getName())) return SKIP_CHILDREN;
