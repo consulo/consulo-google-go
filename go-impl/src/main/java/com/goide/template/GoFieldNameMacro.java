@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.template;
 
 import com.goide.psi.GoFieldDeclaration;
@@ -29,10 +28,12 @@ import consulo.language.editor.template.macro.Macro;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiNamedElement;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeValue;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 
 import org.jspecify.annotations.Nullable;
+
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -40,40 +41,42 @@ import java.util.stream.Collectors;
 
 @ExtensionImpl
 public class GoFieldNameMacro extends Macro {
-  @Override
-  public String getName() {
-    return "fieldName";
-  }
-
-  @Override
-  public String getPresentableName() {
-    return "fieldName()";
-  }
-
-  @Nullable
-  @Override
-  public Result calculateResult(Expression[] params, ExpressionContext context) {
-    String name = ContainerUtil.getFirstItem(fieldNames(context));
-    return StringUtil.isNotEmpty(name) ? new TextResult(name) : null;
-  }
-
-  @Nullable
-  @Override
-  public LookupElement[] calculateLookupItems(Expression[] params, ExpressionContext context) {
-    return ContainerUtil.map2Array(fieldNames(context), LookupElement.class, LookupElementBuilder::create);
-  }
-
-  @Override
-  public boolean isAcceptableInContext(TemplateContextType context) {
-    return context instanceof GoTagLiveTemplateContextType || context instanceof GoTagLiteralLiveTemplateContextType;
-  }
-
-  private static Set<String> fieldNames(ExpressionContext context) {
-    PsiElement psiElement = context != null ? context.getPsiElementAtStartOffset() : null;
-    GoFieldDeclaration fieldDeclaration = PsiTreeUtil.getNonStrictParentOfType(psiElement, GoFieldDeclaration.class);
-    if (fieldDeclaration == null) {
-      return Collections.emptySet();
+    @Override
+    public String getName() {
+        return "fieldName";
     }
-    return fieldDeclaration.getFieldDefinitionList().stream().map(PsiNamedElement::getName).collect(Collectors.toCollection(LinkedHashSet::new));
-  }
+
+    @Override
+    public LocalizeValue getPresentableName() {
+        return LocalizeValue.of("fieldName()");
+    }
+
+    @Nullable
+    @Override
+    public Result calculateResult(Expression[] params, ExpressionContext context) {
+        String name = ContainerUtil.getFirstItem(fieldNames(context));
+        return StringUtil.isNotEmpty(name) ? new TextResult(name) : null;
+    }
+
+    @Nullable
+    @Override
+    public LookupElement[] calculateLookupItems(Expression[] params, ExpressionContext context) {
+        return ContainerUtil.map2Array(fieldNames(context), LookupElement.class, LookupElementBuilder::create);
+    }
+
+    @Override
+    public boolean isAcceptableInContext(TemplateContextType context) {
+        return context instanceof GoTagLiveTemplateContextType || context instanceof GoTagLiteralLiveTemplateContextType;
+    }
+
+    private static Set<String> fieldNames(ExpressionContext context) {
+        PsiElement psiElement = context != null ? context.getPsiElementAtStartOffset() : null;
+        GoFieldDeclaration fieldDeclaration = PsiTreeUtil.getNonStrictParentOfType(psiElement, GoFieldDeclaration.class);
+        if (fieldDeclaration == null) {
+            return Collections.emptySet();
+        }
+        return fieldDeclaration.getFieldDefinitionList().stream()
+            .map(PsiNamedElement::getName)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
 }
