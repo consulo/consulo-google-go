@@ -16,6 +16,7 @@ open module consulo.google.go {
   requires consulo.version.control.system.api;
   requires consulo.xcoverage.rt;
   requires consulo.module.ui.api;
+  requires consulo.module.creation.api;
 
   requires consulo.language.impl;
   requires consulo.language.editor.impl;

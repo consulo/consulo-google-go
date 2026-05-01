@@ -21,15 +21,14 @@ import consulo.content.bundle.Sdk;
 import consulo.google.go.module.extension.GoMutableModuleExtension;
 import consulo.google.go.module.orderEntry.GoPathOrderEntryModel;
 import consulo.google.go.module.orderEntry.GoPathOrderEntryType;
-import consulo.ide.newModule.NewModuleBuilder;
-import consulo.ide.newModule.NewModuleContext;
-import consulo.ide.newModule.UnzipNewModuleBuilderProcessor;
 import consulo.module.content.layer.ContentEntry;
 import consulo.module.content.layer.ModifiableModuleRootLayer;
 import consulo.module.content.layer.ModifiableRootModel;
+import consulo.module.creation.scratch.NewModuleBuilder;
+import consulo.module.creation.scratch.NewModuleContext;
+import consulo.module.creation.scratch.UnzipNewModuleBuilderProcessor;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.ex.wizard.WizardStep;
-
 
 import java.util.function.Consumer;
 
@@ -37,7 +36,7 @@ import java.util.function.Consumer;
  * @author VISTALL
  * @since 05-May-17
  */
-@ExtensionImpl
+@ExtensionImpl(id = "go")
 public class GoNewModuleBuilder implements NewModuleBuilder {
     @Override
     public void setupContext(NewModuleContext context) {
