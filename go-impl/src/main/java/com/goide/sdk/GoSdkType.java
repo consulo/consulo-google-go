@@ -32,12 +32,11 @@ import org.jspecify.annotations.Nullable;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Set;
 
 @ExtensionImpl
 public class GoSdkType extends SdkType {
-    public static GoSdkType getInstance() {
-        return Application.get().getExtensionPoint(SdkType.class).findExtensionOrFail(GoSdkType.class);
-    }
+    private static final Set<String> ourAcceptedRootTypeIds = Set.of(BinariesOrderRootType.ID, SourcesOrderRootType.ID);
 
     public GoSdkType() {
         super("GO_SDK", GoLocalize.goLanguageDisplayName(), GoogleGoIconGroup.go());
@@ -84,8 +83,8 @@ public class GoSdkType extends SdkType {
     }
 
     @Override
-    public boolean isRootTypeApplicable(OrderRootType type) {
-        return type == SourcesOrderRootType.getInstance() || type == BinariesOrderRootType.getInstance();
+    public boolean isRootTypeApplicable(String type) {
+        return ourAcceptedRootTypeIds.contains(type);
     }
 
     @Override
@@ -102,8 +101,8 @@ public class GoSdkType extends SdkType {
         modificator.setHomePath(path);
 
         for (VirtualFile file : GoSdkUtil.getSdkDirectoriesToAttach(path, versionString)) {
-            modificator.addRoot(file, BinariesOrderRootType.getInstance());
-            modificator.addRoot(file, SourcesOrderRootType.getInstance());
+            modificator.addRoot(file, BinariesOrderRootType.ID);
+            modificator.addRoot(file, SourcesOrderRootType.ID);
         }
         modificator.commitChanges();
     }

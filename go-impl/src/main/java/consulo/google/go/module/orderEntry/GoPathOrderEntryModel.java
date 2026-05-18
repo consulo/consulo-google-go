@@ -17,13 +17,14 @@ import java.util.Collection;
  */
 public class GoPathOrderEntryModel implements CustomOrderEntryModel {
   private final RootProvider myRootProvider = new RootProviderBase() {
-    public String[] getUrls(OrderRootType orderRootType) {
+    @Override
+    public String[] getUrls(String orderRootType) {
       Collection<VirtualFile> goEnvironmentGoPathRoots = GoEnvironmentGoPathModificationTracker.getGoEnvironmentGoPathRoots();
       return goEnvironmentGoPathRoots.stream().map(VirtualFile::getUrl).toArray(String[]::new);
     }
 
     @Override
-    public VirtualFile[] getFiles(OrderRootType orderRootType) {
+    public VirtualFile[] getFiles(String orderRootType) {
       return GoEnvironmentGoPathModificationTracker.getGoEnvironmentGoPathRoots().toArray(VirtualFile.EMPTY_ARRAY);
     }
   };
