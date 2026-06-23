@@ -73,12 +73,14 @@ public class GoCompilerRunner implements CompilerRunner {
     }
 
     @Override
-    public boolean build(CompileDriver compileDriver,
-                         CompileContextEx context,
-                         BuildProgress<BuildProgressDescriptor> buildProgress,
-                         boolean isRebuild,
-                         boolean forceCompile,
-                         boolean onlyCheckStatus) throws ExitException {
+    public boolean build(
+        CompileDriver compileDriver,
+        CompileContextEx context,
+        BuildProgress<BuildProgressDescriptor> buildProgress,
+        boolean isRebuild,
+        boolean forceCompile,
+        boolean onlyCheckStatus
+    ) throws ExitException {
         CompileScope compileScope = context.getCompileScope();
 
         RunConfiguration configuration = compileScope.getUserData(RunConfiguration.KEY);
@@ -93,13 +95,13 @@ public class GoCompilerRunner implements CompilerRunner {
             outputFile = getOutputFile(goRunConfiguration);
         }
         catch (ExecutionException e) {
-            context.addMessage(CompilerMessageCategory.ERROR, e.getMessage(), null, 0, 0);
+            context.newError(LocalizeValue.ofNullable(e.getMessage())).add();
             return false;
         }
 
         Module module = goRunConfiguration.getConfigurationModule().getModule();
         if (module == null) {
-            context.addMessage(CompilerMessageCategory.ERROR, "Module for " + goRunConfiguration.getName() + " is not set", null, 0, 0);
+            context.newError(LocalizeValue.localizeTODO("Module for " + goRunConfiguration.getName() + " is not set")).add();
             return false;
         }
 
@@ -253,7 +255,12 @@ public class GoCompilerRunner implements CompilerRunner {
 
         String message = line.substring(endOffset + 1, line.length()).trim();
 
-        buildProgress.fileMessage("Error", message, MessageEvent.Kind.ERROR, new FilePosition(virtualFile.toNioPath().toFile(), lineNumber, columnNumber));
+        buildProgress.fileMessage(
+            LocalizeValue.localizeTODO("Error"),
+            LocalizeValue.of(message),
+            MessageEvent.Kind.ERROR,
+            new FilePosition(virtualFile.toNioPath().toFile(), lineNumber, columnNumber)
+        );
 
         return true;
     }
