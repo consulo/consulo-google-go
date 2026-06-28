@@ -17,49 +17,50 @@ package com.goide.tree;
 
 import consulo.fileEditor.structureView.tree.ActionPresentation;
 import consulo.fileEditor.structureView.tree.Sorter;
+import consulo.localize.LocalizeValue;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.ui.image.Image;
 
 import java.util.Comparator;
 
 public class ExportabilitySorter implements Sorter {
-  public static final Sorter INSTANCE = new ExportabilitySorter();
+    public static final Sorter INSTANCE = new ExportabilitySorter();
 
-  private static final ActionPresentation PRESENTATION = new ActionPresentation() {
+    private static final ActionPresentation PRESENTATION = new ActionPresentation() {
+        @Override
+        public LocalizeValue getText() {
+            return LocalizeValue.localizeTODO("Sort by Exportability");
+        }
+
+        @Override
+        public LocalizeValue getDescription() {
+            return LocalizeValue.empty();
+        }
+
+        @Override
+        public Image getIcon() {
+            return PlatformIconGroup.objectbrowserVisibilitysort();
+        }
+    };
+    private static final String ID = "EXPORTABILITY_SORTER";
+
     @Override
-    public String getText() {
-      return "Sort by Exportability";
+    public Comparator getComparator() {
+        return ExportabilityComparator.INSTANCE;
     }
 
     @Override
-    public String getDescription() {
-      return null;
+    public boolean isVisible() {
+        return true;
     }
 
     @Override
-    public Image getIcon() {
-      return PlatformIconGroup.objectbrowserVisibilitysort();
+    public ActionPresentation getPresentation() {
+        return PRESENTATION;
     }
-  };
-  private static final String ID = "EXPORTABILITY_SORTER";
 
-  @Override
-  public Comparator getComparator() {
-    return ExportabilityComparator.INSTANCE;
-  }
-
-  @Override
-  public boolean isVisible() {
-    return true;
-  }
-
-  @Override
-  public ActionPresentation getPresentation() {
-    return PRESENTATION;
-  }
-
-  @Override
-  public String getName() {
-    return ID;
-  }
+    @Override
+    public String getName() {
+        return ID;
+    }
 }
