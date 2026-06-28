@@ -1,0 +1,15 @@
+{
+  "lockVersion" : 1,
+  "project" : "consulo-google-go",
+  "projectVersion" : "master",
+  "sourceLocale" : "en-US",
+  "generatedAt" : "2026-06-28T12:18:17.180937363Z",
+  "documents" : {
+    "consulo.google.go.GoLocalize" : {
+      "source" : {
+        "revision" : 2,
+        "sig" : "5fd0d0b24e7627d95d0fef089cf3be3b"
+      }
+    }
+  }
+}
