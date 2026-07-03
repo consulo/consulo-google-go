@@ -26,13 +26,14 @@ import consulo.module.content.ModuleRootManager;
 import consulo.module.extension.ModuleExtensionHelper;
 import consulo.project.Project;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithSyncUpdate;
 import consulo.ui.ex.action.DumbAwareAction;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
 import org.jspecify.annotations.Nullable;
 
 @ActionImpl(id = "GoFmtProjectAction")
-public class GoFmtProjectAction extends DumbAwareAction {
+public class GoFmtProjectAction extends DumbAwareAction implements AnActionWithSyncUpdate {
     public GoFmtProjectAction() {
         super("Go fmt projec", "Format project with go fmt util", null);
     }

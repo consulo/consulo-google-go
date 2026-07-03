@@ -33,6 +33,7 @@ import consulo.project.ui.notification.NotificationType;
 import consulo.project.ui.notification.Notifications;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithSyncUpdate;
 import consulo.ui.ex.action.DumbAwareAction;
 import consulo.util.lang.ExceptionUtil;
 import consulo.util.lang.StringUtil;
@@ -42,7 +43,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public abstract class GoExternalToolsAction extends DumbAwareAction {
+public abstract class GoExternalToolsAction extends DumbAwareAction implements AnActionWithSyncUpdate {
     private static final Logger LOG = Logger.getInstance(GoExternalToolsAction.class);
 
     private static void error(String title, Project project, @Nullable Exception ex) {
@@ -59,10 +60,8 @@ public abstract class GoExternalToolsAction extends DumbAwareAction {
         super(text, description, null);
     }
 
-    @RequiredUIAccess
     @Override
     public void update(AnActionEvent e) {
-        super.update(e);
         Project project = e.getData(Project.KEY);
         VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
         if (project == null || file == null || !file.isInLocalFileSystem() || !isAvailableOnFile(file)) {

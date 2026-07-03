@@ -11,6 +11,7 @@ import consulo.module.extension.ModuleExtensionHelper;
 import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithSyncUpdate;
 import consulo.ui.ex.action.DefaultActionGroup;
 import consulo.ui.ex.action.Presentation;
 
@@ -29,7 +30,7 @@ import consulo.ui.ex.action.Presentation;
     @ActionParentRef(@ActionRef(id = "ProjectViewPopupMenu")),
     @ActionParentRef(@ActionRef(id = "EditorLangPopupMenu"))
 })
-public class GoExternalToolsActionGroup extends DefaultActionGroup implements DumbAware {
+public class GoExternalToolsActionGroup extends DefaultActionGroup implements DumbAware, AnActionWithSyncUpdate {
     public GoExternalToolsActionGroup() {
         super(LocalizeValue.localizeTODO("Go Tools"), LocalizeValue.localizeTODO("Go External Tools"), GoogleGoIconGroup.go());
     }
@@ -39,7 +40,6 @@ public class GoExternalToolsActionGroup extends DefaultActionGroup implements Du
         return true;
     }
 
-    @RequiredUIAccess
     @Override
     public void update(AnActionEvent e) {
         Project project = e.getData(Project.KEY);
