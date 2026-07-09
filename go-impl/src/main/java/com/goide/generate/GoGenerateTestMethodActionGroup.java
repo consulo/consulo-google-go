@@ -22,37 +22,44 @@ import consulo.annotation.component.ActionParentRef;
 import consulo.annotation.component.ActionRef;
 import consulo.annotation.component.ActionRefAnchor;
 import consulo.codeEditor.Editor;
-import consulo.language.editor.CommonDataKeys;
+import consulo.codeEditor.EditorKeys;
 import consulo.language.editor.util.PsiUtilBase;
 import consulo.language.psi.PsiFile;
 import consulo.project.Project;
-import consulo.ui.ex.action.ActionGroup;
-import consulo.ui.ex.action.AnAction;
-import consulo.ui.ex.action.AnActionEvent;
-import consulo.ui.ex.action.IdeActions;
-
+import consulo.ui.ex.action.*;
+import consulo.ui.ex.action.coroutine.ActionSafeReadLock;
+import consulo.util.concurrent.coroutine.Coroutine;
+import consulo.util.concurrent.coroutine.step.CodeExecution;
 import org.jspecify.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @ActionImpl(id = "GoTestGenerateGroup", parents = @ActionParentRef(value = @ActionRef(id = IdeActions.GROUP_GENERATE), anchor = ActionRefAnchor.FIRST))
 public class GoGenerateTestMethodActionGroup extends ActionGroup {
-  @Override
-  public AnAction[] getChildren(@Nullable AnActionEvent e) {
-    if (e == null) {
-      return AnAction.EMPTY_ARRAY;
+    @Override
+    public AnAction[] getChildren(AnActionEvent anActionEvent) {
+        throw new UnsupportedOperationException();
     }
-    Project project = e.getData(Project.KEY);
-    Editor editor = e.getData(CommonDataKeys.EDITOR);
-    if (project == null || editor == null) return AnAction.EMPTY_ARRAY;
-    PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
 
-    List<AnAction> children = new ArrayList<>();
-    for (GoTestFramework framework : GoTestFramework.all()) {
-      if (framework.isAvailableOnFile(file)) {
-        children.addAll(framework.getGenerateMethodActions());
-      }
+    @Override
+    public Coroutine<?, List<AnAction>> getChildrenAsync(AnActionEvent e) {
+        return ActionSafeReadLock.<Presentation, List<AnAction>>apply(e, (in) -> {
+            Project project = e.getData(Project.KEY);
+            Editor editor = e.getData(EditorKeys.EDITOR_SNAPSHOT);
+            if (project == null || editor == null) {
+                return List.of();
+            }
+            PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
+
+            List<AnAction> children = new ArrayList<>();
+            for (GoTestFramework framework : GoTestFramework.all()) {
+                if (framework.isAvailableOnFile(file)) {
+                    children.addAll(framework.getGenerateMethodActions());
+                }
+            }
+
+            return children;
+        }).toCoroutine();
     }
-    return !children.isEmpty() ? children.toArray(new AnAction[children.size()]) : AnAction.EMPTY_ARRAY;
-  }
 }
