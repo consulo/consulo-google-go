@@ -167,13 +167,7 @@ public final class DlvDebugProcess extends DebugProcessImpl<VmConnection<?>> imp
   }
 
   private void doSetBreakpoints() {
-    AccessToken token = ReadAction.start();
-    try {
-      getSession().initBreakpoints();
-    }
-    finally {
-      token.finish();
-    }
+    ReadAction.run(() -> getSession().initBreakpoints());
   }
 
   private void command(@MagicConstant(stringValues = {NEXT, CONTINUE, HALT, SWITCH_THREAD, STEP, STEPOUT}) String name) {
