@@ -111,7 +111,7 @@ public class MessageManager<REQUEST, INCOMING, INCOMING_WITH_SEQ, SUCCESS> exten
   public void cancelWaitingRequests() {
     // we should call them in the order they have been submitted
     ConcurrentIntObjectMap<RequestCallback<SUCCESS>> map = callbackMap;
-    int[] keys = map.keys();
+    int[] keys = map.keySet().toIntArray();
     Arrays.sort(keys);
 
     for (int key : keys) {

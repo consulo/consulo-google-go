@@ -54,7 +54,7 @@ public class GoFileIgnoredByBuildToolNotificationProvider implements EditorNotif
                                                       FileEditorManager fileEditorManager) {
     myProject = project;
     MessageBusConnection connection = myProject.getMessageBus().connect(myProject);
-    connection.subscribe(BulkFileListener.class, new BulkFileListener.Adapter() {
+    connection.subscribe(BulkFileListener.class, new BulkFileListener() {
       @Override
       public void after(List<? extends VFileEvent> events) {
         if (!myProject.isDisposed()) {
