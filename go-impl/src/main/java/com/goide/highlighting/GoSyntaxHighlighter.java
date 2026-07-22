@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.highlighting;
 
 import com.goide.GoParserDefinition;
@@ -31,7 +30,7 @@ import java.util.Map;
 import static com.goide.highlighting.GoSyntaxHighlightingColors.*;
 
 public class GoSyntaxHighlighter extends SyntaxHighlighterBase {
-  private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<IElementType, TextAttributesKey>();
+  private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<>();
 
   static {
     fillMap(ATTRIBUTES, LINE_COMMENT, GoParserDefinition.LINE_COMMENT);
@@ -51,10 +50,12 @@ public class GoSyntaxHighlighter extends SyntaxHighlighterBase {
     fillMap(ATTRIBUTES, GoParserDefinition.STRING_LITERALS, STRING);
   }
 
+  @Override
   public Lexer getHighlightingLexer() {
     return new GoLexer();
   }
 
+  @Override
   public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
     return pack(ATTRIBUTES.get(tokenType));
   }
