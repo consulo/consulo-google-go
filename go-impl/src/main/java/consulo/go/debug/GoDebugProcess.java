@@ -3,7 +3,6 @@ package consulo.go.debug;
 import com.goide.GoFileType;
 import com.goide.GoLanguage;
 import consulo.application.ReadAction;
-import consulo.application.util.function.ThrowableComputable;
 import consulo.execution.debug.XBreakpointManager;
 import consulo.execution.debug.XDebugSession;
 import consulo.execution.debug.XDebuggerManager;
@@ -21,6 +20,7 @@ import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiFileFactory;
 import consulo.platform.Platform;
 import consulo.project.Project;
+import consulo.util.lang.function.ThrowableSupplier;
 import consulo.virtualFileSystem.fileType.FileType;
 import org.jspecify.annotations.Nullable;
 
@@ -40,6 +40,7 @@ public class GoDebugProcess extends DAPDebugProcess {
         myOutputFilePath = outputFilePath;
     }
 
+    @Override
     protected XLineBreakpointType<?> getLineBreakpointType() {
         return GoLineBreakpointType.getInstance();
     }
@@ -57,7 +58,7 @@ public class GoDebugProcess extends DAPDebugProcess {
     @Override
     protected Collection<? extends XLineBreakpoint<?>> getLineBreakpoints() {
         XBreakpointManager manager = XDebuggerManager.getInstance(getSession().getProject()).getBreakpointManager();
-        return ReadAction.compute((ThrowableComputable<Collection<? extends XLineBreakpoint<?>>, RuntimeException>) () -> manager.getBreakpoints(GoLineBreakpointType.class));
+        return ReadAction.compute((ThrowableSupplier<Collection<? extends XLineBreakpoint<?>>, RuntimeException>) () -> manager.getBreakpoints(GoLineBreakpointType.class));
     }
 
     @Override

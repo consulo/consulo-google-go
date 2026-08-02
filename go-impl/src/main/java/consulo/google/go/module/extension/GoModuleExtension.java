@@ -32,7 +32,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * @author VISTALL
- * @since 12:42/30.05.13
+ * @since 2013-05-30
  */
 public class GoModuleExtension extends ModuleExtensionWithSdkBase<GoModuleExtension> {
   public static ThreeState getVendoringEnabled(@Nullable Module module) {
@@ -58,6 +58,7 @@ public class GoModuleExtension extends ModuleExtensionWithSdkBase<GoModuleExtens
     return myBuildTargetSettings;
   }
 
+  @Override
   @RequiredReadAction
   public void commit(GoModuleExtension extension) {
     super.commit(extension);
@@ -66,8 +67,8 @@ public class GoModuleExtension extends ModuleExtensionWithSdkBase<GoModuleExtens
     myBuildTargetSettings = extension.myBuildTargetSettings.clone();
   }
 
-  @RequiredReadAction
   @Override
+  @RequiredReadAction
   protected void loadStateImpl(Element element) {
     super.loadStateImpl(element);
     myVendoringEnabled = ThreeState.valueOf(element.getAttributeValue("vendoring-enabled", ThreeState.UNSURE.name()));
