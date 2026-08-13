@@ -42,124 +42,133 @@ import consulo.util.lang.ref.Ref;
 import consulo.virtualFileSystem.VirtualFileManager;
 import org.jspecify.annotations.Nullable;
 
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+
 @ExtensionImpl
 public class GoBeforeRunTaskProvider extends BeforeRunTaskProvider<GoCommandBeforeRunTask> {
-  public static final Key<GoCommandBeforeRunTask> ID = Key.create("GoBeforeRunTask");
+    public static final Key<GoCommandBeforeRunTask> ID = Key.create("GoBeforeRunTask");
 
-  @Override
-  public Key<GoCommandBeforeRunTask> getId() {
-    return ID;
-  }
-
-  @Override
-  public LocalizeValue getName() {
-    return LocalizeValue.localizeTODO("Go Command");
-  }
-
-  @Override
-  public LocalizeValue getDescription(GoCommandBeforeRunTask task) {
-    return LocalizeValue.localizeTODO("Run '" + task.getCommand() + "'");
-  }
-
-  @Nullable
-  @Override
-  public Image getIcon(RunConfiguration runConfiguration) {
-    return GoogleGoIconGroup.goapp();
-  }
-
-  @Override
-  public boolean isConfigurable() {
-    return true;
-  }
-
-  @Nullable
-  @Override
-  public GoCommandBeforeRunTask createTask(RunConfiguration runConfiguration) {
-    return runConfiguration instanceof GoRunConfigurationBase ? new GoCommandBeforeRunTask() : null;
-  }
-
-  @RequiredUIAccess
-  @Override
-  public AsyncResult<Void> configureTask(RunConfiguration configuration, GoCommandBeforeRunTask task) {
-    Project project = configuration.getProject();
-    if (!(configuration instanceof GoRunConfigurationBase)) {
-      showAddingTaskErrorMessage(project, "Go Command task supports only Go Run Configurations");
-      return AsyncResult.rejected();
+    @Override
+    public Key<GoCommandBeforeRunTask> getId() {
+        return ID;
     }
 
-    Module module = ((GoRunConfigurationBase) configuration).getConfigurationModule().getModule();
-    if (!GoSdkService.getInstance(project).isGoModule(module)) {
-      showAddingTaskErrorMessage(project, "Go Command task supports only Go Modules");
-      return AsyncResult.rejected();
+    @Override
+    public LocalizeValue getName() {
+        return LocalizeValue.localizeTODO("Go Command");
     }
 
-    GoCommandConfigureDialog dialog = new GoCommandConfigureDialog(project);
-    AsyncResult<Void> result = dialog.showAsync();
-    result.doWhenDone(() -> task.setCommand(dialog.getCommand()));
-    return result;
-  }
-
-  @Override
-  public boolean canExecuteTask(RunConfiguration configuration, GoCommandBeforeRunTask task) {
-    if (configuration instanceof GoRunConfigurationBase) {
-      Module module = ((GoRunConfigurationBase) configuration).getConfigurationModule().getModule();
-      GoSdkService sdkService = GoSdkService.getInstance(configuration.getProject());
-      if (sdkService.isGoModule(module)) {
-        return StringUtil.isNotEmpty(sdkService.getSdkHomePath(module)) && StringUtil.isNotEmpty(task.getCommand());
-      }
+    @Override
+    public LocalizeValue getDescription(GoCommandBeforeRunTask task) {
+        return LocalizeValue.localizeTODO("Run '" + task.getCommand() + "'");
     }
-    return false;
-  }
 
-  @Override
-  public boolean executeTask(DataContext context,
-                             RunConfiguration configuration,
-                             ExecutionEnvironment env,
-                             GoCommandBeforeRunTask task) {
-    Semaphore done = new Semaphore();
-    Ref<Boolean> result = Ref.create(false);
+    @Nullable
+    @Override
+    public Image getIcon(RunConfiguration runConfiguration) {
+        return GoogleGoIconGroup.goapp();
+    }
 
-    GoRunConfigurationBase goRunConfiguration = (GoRunConfigurationBase) configuration;
-    Module module = goRunConfiguration.getConfigurationModule().getModule();
-    Project project = configuration.getProject();
-    String workingDirectory = goRunConfiguration.getWorkingDirectory();
+    @Override
+    public boolean isConfigurable() {
+        return true;
+    }
 
-    UIUtil.invokeAndWaitIfNeeded(new Runnable() {
-      @Override
-      public void run() {
-        if (StringUtil.isEmpty(task.getCommand())) {
-          return;
-        }
-        if (project == null || project.isDisposed()) {
-          return;
-        }
-        GoSdkService sdkService = GoSdkService.getInstance(project);
-        if (!sdkService.isGoModule(module)) {
-          return;
+    @Nullable
+    @Override
+    public GoCommandBeforeRunTask createTask(RunConfiguration runConfiguration) {
+        return runConfiguration instanceof GoRunConfigurationBase ? new GoCommandBeforeRunTask() : null;
+    }
+
+    @RequiredUIAccess
+    @Override
+    public CompletableFuture<Void> configureTask(RunConfiguration configuration, GoCommandBeforeRunTask task) {
+        Project project = configuration.getProject();
+        if (!(configuration instanceof GoRunConfigurationBase)) {
+            showAddingTaskErrorMessage(project, "Go Command task supports only Go Run Configurations");
+            return CompletableFuture.failedFuture(new CancellationException());
         }
 
-        done.down();
-        GoExecutor.in(module).withParameterString(task.getCommand())
-            .withWorkDirectory(workingDirectory)
-            .showOutputOnError()
-            .showNotifications(false, true)
-            .withPresentableName("Executing `" + task + "`")
-            .withProcessListener(new ProcessAdapter() {
-              @Override
-              public void processTerminated(ProcessEvent event) {
-                done.up();
-                result.set(event.getExitCode() == 0);
-              }
-            })
-            .executeWithProgress(false, result1 -> VirtualFileManager.getInstance().asyncRefresh(null));
-      }
-    });
+        Module module = ((GoRunConfigurationBase) configuration).getConfigurationModule().getModule();
+        if (!GoSdkService.getInstance(project).isGoModule(module)) {
+            showAddingTaskErrorMessage(project, "Go Command task supports only Go Modules");
+            return CompletableFuture.failedFuture(new CancellationException());
+        }
 
-    done.waitFor();
-    return result.get();
-  }
+        GoCommandConfigureDialog dialog = new GoCommandConfigureDialog(project);
+        CompletableFuture<Void> result = dialog.showAsync();
+        result.whenComplete((v, t) -> {
+            if (t != null) {
+                return;
+            }
+            
+            task.setCommand(dialog.getCommand());
+        });
+        return result;
+    }
 
-  private static void showAddingTaskErrorMessage(Project project, String message) {
-    Messages.showErrorDialog(project, message, "Go Command Task");
-  }
+    @Override
+    public boolean canExecuteTask(RunConfiguration configuration, GoCommandBeforeRunTask task) {
+        if (configuration instanceof GoRunConfigurationBase) {
+            Module module = ((GoRunConfigurationBase) configuration).getConfigurationModule().getModule();
+            GoSdkService sdkService = GoSdkService.getInstance(configuration.getProject());
+            if (sdkService.isGoModule(module)) {
+                return StringUtil.isNotEmpty(sdkService.getSdkHomePath(module)) && StringUtil.isNotEmpty(task.getCommand());
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean executeTask(DataContext context,
+                               RunConfiguration configuration,
+                               ExecutionEnvironment env,
+                               GoCommandBeforeRunTask task) {
+        Semaphore done = new Semaphore();
+        Ref<Boolean> result = Ref.create(false);
+
+        GoRunConfigurationBase goRunConfiguration = (GoRunConfigurationBase) configuration;
+        Module module = goRunConfiguration.getConfigurationModule().getModule();
+        Project project = configuration.getProject();
+        String workingDirectory = goRunConfiguration.getWorkingDirectory();
+
+        UIUtil.invokeAndWaitIfNeeded(new Runnable() {
+            @Override
+            public void run() {
+                if (StringUtil.isEmpty(task.getCommand())) {
+                    return;
+                }
+                if (project == null || project.isDisposed()) {
+                    return;
+                }
+                GoSdkService sdkService = GoSdkService.getInstance(project);
+                if (!sdkService.isGoModule(module)) {
+                    return;
+                }
+
+                done.down();
+                GoExecutor.in(module).withParameterString(task.getCommand())
+                    .withWorkDirectory(workingDirectory)
+                    .showOutputOnError()
+                    .showNotifications(false, true)
+                    .withPresentableName("Executing `" + task + "`")
+                    .withProcessListener(new ProcessAdapter() {
+                        @Override
+                        public void processTerminated(ProcessEvent event) {
+                            done.up();
+                            result.set(event.getExitCode() == 0);
+                        }
+                    })
+                    .executeWithProgress(false, result1 -> VirtualFileManager.getInstance().asyncRefresh(null));
+            }
+        });
+
+        done.waitFor();
+        return result.get();
+    }
+
+    private static void showAddingTaskErrorMessage(Project project, String message) {
+        Messages.showErrorDialog(project, message, "Go Command Task");
+    }
 }
