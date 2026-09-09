@@ -17,9 +17,9 @@ package com.goide.codeInsight.imports;
 
 import com.goide.project.GoExcludedPathsSettings;
 import com.goide.psi.GoFile;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
-import consulo.application.AllIcons;
-import consulo.application.ApplicationManager;
+import consulo.application.Application;
 import consulo.ide.setting.ShowSettingsUtil;
 import consulo.language.editor.completion.lookup.Lookup;
 import consulo.language.editor.completion.lookup.LookupActionProvider;
@@ -27,6 +27,7 @@ import consulo.language.editor.completion.lookup.LookupElement;
 import consulo.language.editor.completion.lookup.LookupElementAction;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
+import consulo.localize.LocalizeValue;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.project.Project;
 import consulo.util.collection.ContainerUtil;
@@ -36,61 +37,64 @@ import java.util.function.Consumer;
 
 @ExtensionImpl
 public class GoExcludePathLookupActionProvider implements LookupActionProvider {
-  @Override
-  public void fillActions(LookupElement element, Lookup lookup, Consumer<LookupElementAction> consumer) {
-    PsiElement psiElement = element.getPsiElement();
-    PsiFile file = psiElement != null && psiElement.isValid() ? psiElement.getContainingFile() : null;
-    String importPath = file instanceof GoFile ? ((GoFile) file).getImportPath(false) : null;
-    if (importPath != null) {
-      Project project = psiElement.getProject();
-      for (String path : getPaths(importPath)) {
-        consumer.accept(new ExcludePathAction(project, path));
-      }
-      consumer.accept(new EditExcludedAction(project));
-    }
-  }
-
-  private static List<String> getPaths(String importPath) {
-    List<String> result = ContainerUtil.newArrayList(importPath);
-    int i;
-    while ((i = importPath.lastIndexOf('/')) > 0) {
-      importPath = importPath.substring(0, i);
-      result.add(importPath);
-    }
-    return result;
-  }
-
-  private static class EditExcludedAction extends LookupElementAction {
-    Project myProject;
-
-    protected EditExcludedAction(Project project) {
-      super(PlatformIconGroup.actionsEdit(), "Edit auto import settings");
-      myProject = project;
-    }
-
     @Override
-    public Result performLookupAction() {
-      ApplicationManager.getApplication().invokeLater(() -> {
-        ShowSettingsUtil.getInstance().showAndSelect(myProject, GoAutoImportConfigurable.class, it -> it.focusList());
-      });
-      return Result.HIDE_LOOKUP;
-    }
-  }
-
-  private static class ExcludePathAction extends LookupElementAction {
-    private Project myProject;
-    private String myImportPath;
-
-    protected ExcludePathAction(Project project, String importPath) {
-      super(AllIcons.General.Remove, "Exclude '" + importPath + "'");
-      myProject = project;
-      myImportPath = importPath;
+    @RequiredReadAction
+    public void fillActions(LookupElement element, Lookup lookup, Consumer<LookupElementAction> consumer) {
+        PsiElement psiElement = element.getPsiElement();
+        PsiFile file = psiElement != null && psiElement.isValid() ? psiElement.getContainingFile() : null;
+        String importPath = file instanceof GoFile goFile ? goFile.getImportPath(false) : null;
+        if (importPath != null) {
+            Project project = psiElement.getProject();
+            for (String path : getPaths(importPath)) {
+                consumer.accept(new ExcludePathAction(project, path));
+            }
+            consumer.accept(new EditExcludedAction(project));
+        }
     }
 
-    @Override
-    public Result performLookupAction() {
-      GoExcludedPathsSettings.getInstance(myProject).excludePath(myImportPath);
-      return Result.HIDE_LOOKUP;
+    private static List<String> getPaths(String importPath) {
+        List<String> result = ContainerUtil.newArrayList(importPath);
+        int i;
+        while ((i = importPath.lastIndexOf('/')) > 0) {
+            importPath = importPath.substring(0, i);
+            result.add(importPath);
+        }
+        return result;
     }
-  }
+
+    private static class EditExcludedAction extends LookupElementAction {
+        Project myProject;
+
+        protected EditExcludedAction(Project project) {
+            super(PlatformIconGroup.actionsEdit(), LocalizeValue.localizeTODO("Edit auto import settings"));
+            myProject = project;
+        }
+
+        @Override
+        public Result performLookupAction() {
+            Application.get().invokeLater(() -> ShowSettingsUtil.getInstance().showAndSelect(
+                myProject,
+                GoAutoImportConfigurable.class,
+                GoAutoImportConfigurable::focusList
+            ));
+            return Result.HIDE_LOOKUP;
+        }
+    }
+
+    private static class ExcludePathAction extends LookupElementAction {
+        private Project myProject;
+        private String myImportPath;
+
+        protected ExcludePathAction(Project project, String importPath) {
+            super(PlatformIconGroup.generalRemove(), LocalizeValue.localizeTODO("Exclude '" + importPath + "'"));
+            myProject = project;
+            myImportPath = importPath;
+        }
+
+        @Override
+        public Result performLookupAction() {
+            GoExcludedPathsSettings.getInstance(myProject).excludePath(myImportPath);
+            return Result.HIDE_LOOKUP;
+        }
+    }
 }
