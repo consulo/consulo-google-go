@@ -16,15 +16,20 @@
 
 package com.goide.runconfig.testing.coverage;
 
-import com.intellij.rt.coverage.data.CoverageData;
-import com.intellij.rt.coverage.data.ProjectData;
+import consulo.execution.coverage.data.CoverageProjectData;
+import consulo.execution.coverage.data.CoverageUnit;
+import consulo.execution.coverage.data.CoverageUnitImpl;
+import org.jspecify.annotations.Nullable;
+
+import java.util.Collection;
 import consulo.application.util.function.Processor;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GoCoverageProjectData extends ProjectData {
+public class GoCoverageProjectData implements CoverageProjectData {
   private final Map<String, FileData> myFilesData = new HashMap<>();
+  private final Map<String, CoverageUnit> myUnits = new HashMap<>();
 
   public void processFiles(Processor<FileData> processor) {
     for (FileData fileData : myFilesData.values()) {
@@ -50,9 +55,24 @@ public class GoCoverageProjectData extends ProjectData {
     fileData.add(startLine, startColumn, endLine, endColumn, statements, hits);
   }
 
+  @Nullable
   @Override
-  public void merge(CoverageData data) {
-    super.merge(data);
+  public CoverageUnit getUnit(String name) {
+    return myUnits.get(name);
+  }
+
+  @Override
+  public CoverageUnit getOrCreateUnit(String name) {
+    return myUnits.computeIfAbsent(name, CoverageUnitImpl::new);
+  }
+
+  @Override
+  public Collection<CoverageUnit> getUnits() {
+    return myUnits.values();
+  }
+
+  @Override
+  public void merge(CoverageProjectData data) {
     if (data instanceof GoCoverageProjectData) {
       for (Map.Entry<String, FileData> entry : ((GoCoverageProjectData) data).myFilesData.entrySet()) {
         String filePath = entry.getKey();

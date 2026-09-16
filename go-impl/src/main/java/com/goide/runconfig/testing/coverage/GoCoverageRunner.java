@@ -18,9 +18,11 @@ package com.goide.runconfig.testing.coverage;
 
 import com.goide.GoConstants;
 import com.goide.sdk.GoPackageUtil;
-import com.intellij.rt.coverage.data.ClassData;
-import com.intellij.rt.coverage.data.LineData;
-import com.intellij.rt.coverage.data.ProjectData;
+import consulo.execution.coverage.data.CoverageLine;
+import consulo.execution.coverage.data.CoverageLineImpl;
+import consulo.execution.coverage.data.CoverageUnit;
+import consulo.execution.coverage.data.LineStatus;
+import consulo.execution.coverage.data.CoverageProjectData;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.execution.configuration.ModuleBasedConfiguration;
 import consulo.execution.configuration.RunConfigurationBase;
@@ -38,6 +40,8 @@ import consulo.virtualFileSystem.VirtualFile;
 
 import org.jspecify.annotations.Nullable;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @ExtensionImpl
@@ -49,7 +53,7 @@ public class GoCoverageRunner extends CoverageRunner {
   private static final String PRESENTABLE_NAME = GoConstants.GO;
 
   @Override
-  public ProjectData loadCoverageData(File sessionDataFile, @Nullable CoverageSuite baseCoverageSuite) {
+  public CoverageProjectData loadCoverageData(File sessionDataFile, @Nullable CoverageSuite baseCoverageSuite) {
     if (!(baseCoverageSuite instanceof BaseCoverageSuite)) {
       return null;
     }
@@ -121,33 +125,30 @@ public class GoCoverageRunner extends CoverageRunner {
     }
 
     result.processFiles(fileData -> {
-      ClassData classData = result.getOrCreateClassData(fileData.myFilePath);
+      CoverageUnit unit = result.getOrCreateUnit(fileData.myFilePath);
       int max = -1;
-      IntObjectMap<LineData> linesMap = IntMaps.newIntObjectHashMap();
+      IntObjectMap<CoverageLineImpl> linesMap = IntMaps.newIntObjectHashMap();
       for (GoCoverageProjectData.RangeData rangeData : fileData.myRangesData.values()) {
         for (int i = rangeData.startLine; i <= rangeData.endLine; i++) {
-          LineData existingData = linesMap.get(i);
+          CoverageLineImpl existingData = linesMap.get(i);
           if (existingData != null) {
             existingData.setHits(existingData.getHits() + rangeData.hits);
-            // emulate partial
-            existingData.setFalseHits(0, 0);
-            existingData.setTrueHits(0, 0);
+            // a line covered by several ranges is only partially covered
+            existingData.setStatus(LineStatus.PARTIALLY_COVERED);
           }
           else {
-            LineData newData = new LineData(i, null);
-            newData.setHits(newData.getHits() + rangeData.hits);
+            CoverageLineImpl newData = new CoverageLineImpl(i, null);
+            newData.setHits(rangeData.hits);
+            newData.setStatus(rangeData.hits > 0 ? LineStatus.COVERED : LineStatus.NOT_COVERED);
             linesMap.put(i, newData);
           }
         }
         max = Math.max(max, rangeData.endLine);
       }
 
-      LineData[] linesArray = new LineData[max + 1];
-      linesMap.forEach((k, data) -> {
-        data.fillArrays();
-        linesArray[data.getLineNumber()] = data;
-      });
-      classData.setLines(linesArray);
+      List<CoverageLine> linesArray = new ArrayList<>(Collections.nCopies(max + 1, (CoverageLine)null));
+      linesMap.forEach((k, data) -> linesArray.set(data.getLineNumber(), data));
+      unit.setLines(linesArray);
       return true;
     });
 

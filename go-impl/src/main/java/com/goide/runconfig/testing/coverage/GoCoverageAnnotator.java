@@ -16,7 +16,7 @@
 
 package com.goide.runconfig.testing.coverage;
 
-import com.intellij.rt.coverage.data.ProjectData;
+import consulo.execution.coverage.data.CoverageProjectData;
 import consulo.annotation.component.ComponentScope;
 import consulo.annotation.component.ServiceAPI;
 import consulo.annotation.component.ServiceImpl;
@@ -137,7 +137,7 @@ public class GoCoverageAnnotator extends BaseCoverageAnnotator {
   protected Runnable createRenewRequest(CoverageSuitesBundle bundle, CoverageDataManager manager) {
     GoCoverageProjectData data = new GoCoverageProjectData();
     for (CoverageSuite suite : bundle.getSuites()) {
-      ProjectData toMerge = suite.getCoverageData(manager);
+      CoverageProjectData toMerge = suite.getCoverageData(manager);
       if (toMerge != null) {
         data.merge(toMerge);
       }
