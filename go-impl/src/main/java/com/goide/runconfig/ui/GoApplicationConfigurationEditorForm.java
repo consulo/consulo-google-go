@@ -21,105 +21,137 @@ import com.goide.runconfig.application.GoApplicationConfiguration;
 import com.goide.runconfig.testing.ui.GoPackageFieldCompletionProvider;
 import consulo.configurable.ConfigurationException;
 import consulo.execution.configuration.ui.SettingsEditor;
-import consulo.language.editor.ui.awt.EditorTextField;
+import consulo.fileChooser.FileChooserTextBoxBuilder;
+import consulo.google.go.localize.GoLocalize;
+import consulo.language.editor.ui.EditorBox;
+import consulo.language.editor.ui.EditorBoxBuilderFactory;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
-import consulo.ui.ex.awt.*;
+import consulo.ui.ComboBox;
+import consulo.ui.Component;
+import consulo.ui.Label;
+import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.util.FormBuilder;
 import consulo.util.lang.StringUtil;
-
 import org.jspecify.annotations.Nullable;
-import javax.swing.*;
-import java.util.Locale;
 
 public class GoApplicationConfigurationEditorForm extends SettingsEditor<GoApplicationConfiguration> {
   private final Project myProject;
-  private TextFieldWithBrowseButton myFileField;
-  private GoCommonSettingsPanel myCommonSettingsPanel;
-  private EditorTextField myPackageField;
-  private JComboBox myRunKindComboBox;
-  private JLabel myPackageLabel;
-  private JLabel myFileLabel;
-  private TextFieldWithBrowseButton myOutputFilePathField;
+  private @Nullable Panel myPanel;
 
   public GoApplicationConfigurationEditorForm(Project project) {
-    super(null);
-    myCommonSettingsPanel = new GoCommonSettingsPanel() {
-      @Override
-      protected void addBefore(FormBuilder builder) {
-        builder.addLabeledComponent("&Run kind", myRunKindComboBox = new ComboBox());
-        myPackageField = new GoPackageFieldCompletionProvider(this::getSelectedModule).createEditor(project);
-        builder.addLabeledComponent(myPackageLabel = new JBLabel("Package"), myPackageField);
-        builder.addLabeledComponent(myFileLabel = new JBLabel("File"), myFileField = new TextFieldWithBrowseButton());
-        builder.addLabeledComponent("O&utput directory", myOutputFilePathField = new TextFieldWithBrowseButton());
-      }
-    };
     myProject = project;
-    myCommonSettingsPanel.init(project);
-
-    installRunKindComboBox();
-    GoRunUtil.installGoWithMainFileChooser(myProject, myFileField);
-    GoRunUtil.installFileChooser(myProject, myOutputFilePathField, true, true);
   }
 
-  private void onRunKindChanged() {
-    GoApplicationConfiguration.Kind selectedKind = (GoApplicationConfiguration.Kind) myRunKindComboBox.getSelectedItem();
-    if (selectedKind == null) {
-      selectedKind = GoApplicationConfiguration.Kind.PACKAGE;
-    }
-    boolean thePackage = selectedKind == GoApplicationConfiguration.Kind.PACKAGE;
-    boolean file = selectedKind == GoApplicationConfiguration.Kind.FILE;
-
-    myPackageField.setVisible(thePackage);
-    myPackageLabel.setVisible(thePackage);
-    myFileField.setVisible(file);
-    myFileLabel.setVisible(file);
+  @RequiredUIAccess
+  @Override
+  protected Component createUIComponent() {
+    Panel panel = new Panel();
+    myPanel = panel;
+    Component component = panel.build();
+    panel.onRunKindChanged();
+    return component;
   }
 
+  @RequiredUIAccess
   @Override
   protected void resetEditorFrom(GoApplicationConfiguration configuration) {
-    myFileField.setText(configuration.getFilePath());
-    myPackageField.setText(configuration.getPackage());
-    myRunKindComboBox.setSelectedItem(configuration.getKind());
-    myOutputFilePathField.setText(StringUtil.notNullize(configuration.getOutputFilePath()));
-    myCommonSettingsPanel.resetEditorFrom(configuration);
+    Panel panel = myPanel;
+    if (panel != null) {
+      panel.reset(configuration);
+    }
   }
 
+  @RequiredUIAccess
   @Override
   protected void applyEditorTo(GoApplicationConfiguration configuration) throws ConfigurationException {
-    configuration.setFilePath(myFileField.getText());
-    configuration.setPackage(myPackageField.getText());
-    configuration.setKind((GoApplicationConfiguration.Kind) myRunKindComboBox.getSelectedItem());
-    configuration.setFileOutputPath(StringUtil.nullize(myOutputFilePathField.getText()));
-    myCommonSettingsPanel.applyEditorTo(configuration);
+    Panel panel = myPanel;
+    if (panel != null) {
+      panel.apply(configuration);
+    }
   }
 
-  private void createUIComponents() {
-
-  }
-
-  @Nullable
-  private static ListCellRendererWrapper<GoApplicationConfiguration.Kind> getRunKindListCellRendererWrapper() {
-    return new ListCellRendererWrapper<GoApplicationConfiguration.Kind>() {
-      @Override
-      public void customize(JList list, GoApplicationConfiguration.@Nullable Kind kind, int index, boolean selected, boolean hasFocus) {
-        if (kind != null) {
-          String kindName = StringUtil.capitalize(kind.toString().toLowerCase(Locale.US));
-          setText(kindName);
-        }
-      }
+  private static LocalizeValue getKindName(GoApplicationConfiguration.Kind kind) {
+    return switch (kind) {
+      case PACKAGE -> GoLocalize.goRunConfigurationKindPackage();
+      case FILE -> GoLocalize.goRunConfigurationKindFile();
     };
   }
 
-  private void installRunKindComboBox() {
-    myRunKindComboBox.removeAllItems();
-    myRunKindComboBox.setRenderer(getRunKindListCellRendererWrapper());
-    for (GoApplicationConfiguration.Kind kind : GoApplicationConfiguration.Kind.values()) {
-      myRunKindComboBox.addItem(kind);
-    }
-    myRunKindComboBox.addActionListener(e -> onRunKindChanged());
-  }
+  private class Panel extends GoCommonSettingsPanel {
+    private final ComboBox<GoApplicationConfiguration.Kind> myRunKindComboBox;
+    private final Label myPackageLabel;
+    private final EditorBox myPackageField;
+    private final Label myFileLabel;
+    private final FileChooserTextBoxBuilder.Controller myFileField;
+    private final FileChooserTextBoxBuilder.Controller myOutputFilePathField;
 
-  @Override
-  protected JComponent createEditor() {
-    return myCommonSettingsPanel;
+    @RequiredUIAccess
+    private Panel() {
+      super(GoApplicationConfigurationEditorForm.this.myProject);
+
+      myRunKindComboBox = ComboBox.create(GoApplicationConfiguration.Kind.values());
+      myRunKindComboBox.setTextRenderer(kind -> kind == null ? LocalizeValue.empty() : getKindName(kind));
+      myRunKindComboBox.addValueListener(event -> onRunKindChanged());
+
+      myPackageLabel = Label.create(GoLocalize.goRunConfigurationPackageLabel());
+      myPackageField = myProject.getApplication()
+        .getInstance(EditorBoxBuilderFactory.class)
+        .create(myProject)
+        .completion(new GoPackageFieldCompletionProvider(this::getSelectedModule))
+        .build();
+
+      myFileLabel = Label.create(GoLocalize.goRunConfigurationFileLabel());
+      myFileField = FileChooserTextBoxBuilder.create(myProject)
+        .fileChooserDescriptor(GoRunUtil.createGoWithMainFileChooserDescriptor(myProject))
+        .build();
+
+      myOutputFilePathField = FileChooserTextBoxBuilder.create(myProject)
+        .fileChooserDescriptor(GoRunUtil.createFileChooserDescriptor(myProject, true, true, null))
+        .build();
+    }
+
+    @RequiredUIAccess
+    @Override
+    protected void addBefore(FormBuilder builder) {
+      builder.addLabeled(GoLocalize.goRunConfigurationRunKindLabel(), myRunKindComboBox);
+      builder.addLabeled(myPackageLabel, myPackageField);
+      builder.addLabeled(myFileLabel, myFileField.getComponent());
+      builder.addLabeled(GoLocalize.goRunConfigurationOutputDirectoryLabel(), myOutputFilePathField.getComponent());
+    }
+
+    @RequiredUIAccess
+    private void onRunKindChanged() {
+      GoApplicationConfiguration.Kind selectedKind = myRunKindComboBox.getValue();
+      if (selectedKind == null) {
+        selectedKind = GoApplicationConfiguration.Kind.PACKAGE;
+      }
+      boolean thePackage = selectedKind == GoApplicationConfiguration.Kind.PACKAGE;
+      boolean file = selectedKind == GoApplicationConfiguration.Kind.FILE;
+
+      myPackageLabel.setVisible(thePackage);
+      myPackageField.setVisible(thePackage);
+      myFileLabel.setVisible(file);
+      myFileField.getComponent().setVisible(file);
+    }
+
+    @RequiredUIAccess
+    private void reset(GoApplicationConfiguration configuration) {
+      myFileField.setValue(StringUtil.notNullize(configuration.getFilePath()));
+      myPackageField.setValue(StringUtil.notNullize(configuration.getPackage()));
+      myRunKindComboBox.setValue(configuration.getKind());
+      myOutputFilePathField.setValue(StringUtil.notNullize(configuration.getOutputFilePath()));
+      resetEditorFrom(configuration);
+      onRunKindChanged();
+    }
+
+    @RequiredUIAccess
+    private void apply(GoApplicationConfiguration configuration) {
+      configuration.setFilePath(StringUtil.notNullize(myFileField.getValue()));
+      configuration.setPackage(StringUtil.notNullize(myPackageField.getValue()));
+      configuration.setKind(myRunKindComboBox.getValue());
+      configuration.setFileOutputPath(StringUtil.nullize(myOutputFilePathField.getValue()));
+      applyEditorTo(configuration);
+    }
   }
 }

@@ -20,42 +20,77 @@ import com.goide.runconfig.GoRunUtil;
 import com.goide.runconfig.file.GoRunFileConfiguration;
 import consulo.configurable.ConfigurationException;
 import consulo.execution.configuration.ui.SettingsEditor;
+import consulo.fileChooser.FileChooserTextBoxBuilder;
+import consulo.google.go.localize.GoLocalize;
 import consulo.project.Project;
-import consulo.ui.ex.awt.FormBuilder;
-import consulo.ui.ex.awt.TextFieldWithBrowseButton;
-
-import javax.swing.*;
+import consulo.ui.Component;
+import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.util.FormBuilder;
+import consulo.util.lang.StringUtil;
+import org.jspecify.annotations.Nullable;
 
 public class GoRunFileConfigurationEditorForm extends SettingsEditor<GoRunFileConfiguration> {
-  private TextFieldWithBrowseButton myFileField;
-  private GoCommonSettingsPanel myCommonSettingsPanel;
+  private final Project myProject;
+  private @Nullable Panel myPanel;
 
   public GoRunFileConfigurationEditorForm(Project project) {
-    myCommonSettingsPanel = new GoCommonSettingsPanel() {
-      @Override
-      protected void addBefore(FormBuilder builder) {
-        myFileField = new TextFieldWithBrowseButton();
-        builder.addLabeledComponent("File", myFileField);
-      }
-    };
-    myCommonSettingsPanel.init(project);
-    GoRunUtil.installGoWithMainFileChooser(project, myFileField);
+    myProject = project;
   }
 
+  @RequiredUIAccess
+  @Override
+  protected Component createUIComponent() {
+    Panel panel = new Panel();
+    myPanel = panel;
+    return panel.build();
+  }
+
+  @RequiredUIAccess
   @Override
   protected void resetEditorFrom(GoRunFileConfiguration configuration) {
-    myFileField.setText(configuration.getFilePath());
-    myCommonSettingsPanel.resetEditorFrom(configuration);
+    Panel panel = myPanel;
+    if (panel != null) {
+      panel.reset(configuration);
+    }
   }
 
+  @RequiredUIAccess
   @Override
   protected void applyEditorTo(GoRunFileConfiguration configuration) throws ConfigurationException {
-    configuration.setFilePath(myFileField.getText());
-    myCommonSettingsPanel.applyEditorTo(configuration);
+    Panel panel = myPanel;
+    if (panel != null) {
+      panel.apply(configuration);
+    }
   }
 
-  @Override
-  protected JComponent createEditor() {
-    return myCommonSettingsPanel;
+  private class Panel extends GoCommonSettingsPanel {
+    private final FileChooserTextBoxBuilder.Controller myFileField;
+
+    @RequiredUIAccess
+    private Panel() {
+      super(GoRunFileConfigurationEditorForm.this.myProject);
+
+      myFileField = FileChooserTextBoxBuilder.create(myProject)
+        .fileChooserDescriptor(GoRunUtil.createGoWithMainFileChooserDescriptor(myProject))
+        .build();
+    }
+
+    @RequiredUIAccess
+    @Override
+    protected void addBefore(FormBuilder builder) {
+      builder.addLabeled(GoLocalize.goRunConfigurationFileLabel(), myFileField.getComponent());
+    }
+
+    @RequiredUIAccess
+    private void reset(GoRunFileConfiguration configuration) {
+      myFileField.setValue(StringUtil.notNullize(configuration.getFilePath()));
+      resetEditorFrom(configuration);
+    }
+
+    @RequiredUIAccess
+    private void apply(GoRunFileConfiguration configuration) {
+      configuration.setFilePath(StringUtil.notNullize(myFileField.getValue()));
+      applyEditorTo(configuration);
+    }
   }
 }

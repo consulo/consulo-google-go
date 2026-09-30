@@ -16,3 +16,33 @@ go.test.configuration.description:
     text: Go test run configuration
 go.test.configuration.name:
     text: Go Test
+go.run.configuration.directory.label:
+    text: 'Directory:'
+go.run.configuration.file.label:
+    text: 'File:'
+go.run.configuration.go.tool.arguments.label:
+    text: '&Go tool arguments:'
+go.run.configuration.go.tool.arguments.title:
+    text: Go tool arguments
+go.run.configuration.kind.directory:
+    text: Directory
+go.run.configuration.kind.file:
+    text: File
+go.run.configuration.kind.package:
+    text: Package
+go.run.configuration.module.label:
+    text: '&Module:'
+go.run.configuration.output.directory.label:
+    text: 'O&utput directory:'
+go.run.configuration.package.label:
+    text: 'Package:'
+go.run.configuration.pattern.label:
+    text: 'Pattern:'
+go.run.configuration.program.arguments.title:
+    text: Program arguments
+go.run.configuration.run.kind.label:
+    text: 'Run &kind:'
+go.run.configuration.test.framework.label:
+    text: 'Test framework:'
+go.run.configuration.test.kind.label:
+    text: 'Test kind:'

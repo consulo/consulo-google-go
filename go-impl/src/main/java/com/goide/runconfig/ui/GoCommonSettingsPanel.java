@@ -18,86 +18,127 @@ package com.goide.runconfig.ui;
 
 import com.goide.runconfig.GoRunConfigurationBase;
 import com.goide.runconfig.GoRunUtil;
+import consulo.execution.localize.ExecutionLocalize;
 import consulo.execution.ui.awt.EnvironmentVariablesTextFieldWithBrowseButton;
-import consulo.execution.ui.awt.RawCommandLineEditor;
+import consulo.fileChooser.FileChooserTextBoxBuilder;
+import consulo.google.go.localize.GoLocalize;
+import consulo.localize.LocalizeValue;
 import consulo.module.Module;
-import consulo.module.ui.awt.ModuleListCellRenderer;
+import consulo.platform.base.icon.PlatformIconGroup;
+import consulo.process.cmd.ParametersListUtil;
 import consulo.project.Project;
-import consulo.ui.ex.awt.ComboBox;
-import consulo.ui.ex.awt.FormBuilder;
-import consulo.ui.ex.awt.MutableCollectionComboBoxModel;
-import consulo.ui.ex.awt.TextFieldWithBrowseButton;
-import consulo.ui.ex.awtUnsafe.TargetAWT;
-
+import consulo.ui.ComboBox;
+import consulo.ui.Component;
+import consulo.ui.TextBoxWithExpandAction;
+import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.model.FlatDataModel;
+import consulo.ui.model.MutableFlatDataModel;
+import consulo.ui.util.FormBuilder;
+import consulo.util.lang.StringUtil;
 import org.jspecify.annotations.Nullable;
-import javax.swing.*;
-import java.awt.*;
+
 import java.util.ArrayList;
+import java.util.List;
 
-public class GoCommonSettingsPanel extends JPanel {
-  private RawCommandLineEditor myGoToolParamsField;
-  private RawCommandLineEditor myParamsField;
-  private TextFieldWithBrowseButton myWorkingDirectoryField;
-  private EnvironmentVariablesTextFieldWithBrowseButton myEnvironmentField;
-  private ComboBox<Module> myModulesComboBox;
+public class GoCommonSettingsPanel {
+  protected final Project myProject;
 
-  public GoCommonSettingsPanel() {
-    super(new BorderLayout());
+  private final MutableFlatDataModel<Module> myModules = FlatDataModel.of(new ArrayList<>());
 
-    FormBuilder builder = FormBuilder.createFormBuilder();
+  private final FileChooserTextBoxBuilder.Controller myWorkingDirectoryField;
+  private final EnvironmentVariablesTextFieldWithBrowseButton myEnvironmentField;
+  private final TextBoxWithExpandAction myGoToolParamsField;
+  private final TextBoxWithExpandAction myParamsField;
+  private final ComboBox<Module> myModulesComboBox;
+
+  @RequiredUIAccess
+  public GoCommonSettingsPanel(Project project) {
+    myProject = project;
+
+    myWorkingDirectoryField = FileChooserTextBoxBuilder.create(project)
+      .fileChooserDescriptor(GoRunUtil.createFileChooserDescriptor(project, true, false, null))
+      .build();
+
+    myEnvironmentField = new EnvironmentVariablesTextFieldWithBrowseButton();
+
+    myGoToolParamsField = createParametersField(GoLocalize.goRunConfigurationGoToolArgumentsTitle());
+    myParamsField = createParametersField(GoLocalize.goRunConfigurationProgramArgumentsTitle());
+
+    myModulesComboBox = ComboBox.create(myModules);
+    myModulesComboBox.setRender((presentation, item) -> {
+      Module module = item.getValue();
+      if (module != null) {
+        presentation.withIcon(PlatformIconGroup.nodesModule());
+        presentation.append(module.getName());
+      }
+    });
+  }
+
+  @RequiredUIAccess
+  private static TextBoxWithExpandAction createParametersField(LocalizeValue dialogTitle) {
+    return TextBoxWithExpandAction.create(
+      PlatformIconGroup.actionsShow(),
+      dialogTitle.get(),
+      ParametersListUtil.DEFAULT_LINE_PARSER,
+      ParametersListUtil.DEFAULT_LINE_JOINER
+    );
+  }
+
+  @RequiredUIAccess
+  public Component build() {
+    FormBuilder builder = FormBuilder.create();
 
     addBefore(builder);
 
-    myWorkingDirectoryField = new TextFieldWithBrowseButton();
-    builder.addLabeledComponent("&Working directory:", myWorkingDirectoryField);
-    myEnvironmentField = new EnvironmentVariablesTextFieldWithBrowseButton();
-    builder.addLabeledComponent("&Environment:", (JComponent) TargetAWT.to(myEnvironmentField.getComponent()));
-    myGoToolParamsField = new RawCommandLineEditor();
-    builder.addLabeledComponent("&Go tool arguments:", myGoToolParamsField);
-    myParamsField = new RawCommandLineEditor();
-    builder.addLabeledComponent("Pr&ogram arguments:", myParamsField);
-    myModulesComboBox = new ComboBox<>();
-    builder.addLabeledComponent("&Module:", myModulesComboBox);
+    builder.addLabeled(ExecutionLocalize.runConfigurationWorkingDirectoryLabel(), myWorkingDirectoryField.getComponent());
+    builder.addLabeled(
+      LocalizeValue.join(ExecutionLocalize.environmentVariablesComponentTitle(), LocalizeValue.colon()),
+      myEnvironmentField.getComponent()
+    );
+    builder.addLabeled(GoLocalize.goRunConfigurationGoToolArgumentsLabel(), myGoToolParamsField);
+    builder.addLabeled(ExecutionLocalize.runConfigurationProgramParameters(), myParamsField);
+    builder.addLabeled(GoLocalize.goRunConfigurationModuleLabel(), myModulesComboBox);
 
     addAfter(builder);
-    
-    add(builder.getPanel(), BorderLayout.CENTER);
+
+    return builder.build();
   }
 
+  @RequiredUIAccess
   protected void addBefore(FormBuilder builder) {
   }
 
+  @RequiredUIAccess
   protected void addAfter(FormBuilder builder) {
   }
 
-  public void init(Project project) {
-    GoRunUtil.installFileChooser(project, myWorkingDirectoryField, true);
-    myGoToolParamsField.setDialogCaption("Go tool arguments");
-    myParamsField.setDialogCaption("Program arguments");
-    myModulesComboBox.setRenderer(new ModuleListCellRenderer());
-  }
-
+  @RequiredUIAccess
   public void resetEditorFrom(GoRunConfigurationBase<?> configuration) {
-    myModulesComboBox.setModel(new MutableCollectionComboBoxModel<>(new ArrayList<>(configuration.getValidModules())));
-    myModulesComboBox.setSelectedItem(configuration.getConfigurationModule().getModule());
-    myGoToolParamsField.setText(configuration.getGoToolParams());
-    myParamsField.setText(configuration.getParams());
-    myWorkingDirectoryField.setText(configuration.getWorkingDirectory());
+    List<Module> modules = new ArrayList<>(configuration.getValidModules());
+    Module module = configuration.getConfigurationModule().getModule();
+    if (module != null && !modules.contains(module)) {
+      modules.add(module);
+    }
+    myModules.replaceAll(modules);
+    myModulesComboBox.setValue(module);
+    myGoToolParamsField.setValue(StringUtil.notNullize(configuration.getGoToolParams()));
+    myParamsField.setValue(StringUtil.notNullize(configuration.getParams()));
+    myWorkingDirectoryField.setValue(StringUtil.notNullize(configuration.getWorkingDirectory()));
     myEnvironmentField.setEnvs(configuration.getCustomEnvironment());
     myEnvironmentField.setPassParentEnvs(configuration.isPassParentEnvironment());
   }
 
+  @RequiredUIAccess
   public void applyEditorTo(GoRunConfigurationBase<?> configuration) {
-    configuration.setModule((Module) myModulesComboBox.getSelectedItem());
-    configuration.setGoParams(myGoToolParamsField.getText());
-    configuration.setParams(myParamsField.getText());
-    configuration.setWorkingDirectory(myWorkingDirectoryField.getText());
+    configuration.setModule(myModulesComboBox.getValue());
+    configuration.setGoParams(StringUtil.notNullize(myGoToolParamsField.getValue()));
+    configuration.setParams(StringUtil.notNullize(myParamsField.getValue()));
+    configuration.setWorkingDirectory(StringUtil.notNullize(myWorkingDirectoryField.getValue()));
     configuration.setCustomEnvironment(myEnvironmentField.getEnvs());
     configuration.setPassParentEnvironment(myEnvironmentField.isPassParentEnvs());
   }
 
-  @Nullable
-  public Module getSelectedModule() {
-    return (Module) myModulesComboBox.getSelectedItem();
+  public @Nullable Module getSelectedModule() {
+    return myModulesComboBox.getValue();
   }
 }

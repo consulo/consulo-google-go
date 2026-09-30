@@ -93,12 +93,20 @@ public class GoRunUtil {
   }
 
   public static void installGoWithMainFileChooser(Project project, TextFieldWithBrowseButton fileField) {
-    installFileChooser(project, fileField, false, false, file -> {
+    installFileChooser(project, fileField, false, false, goWithMainFileFilter(project));
+  }
+
+  public static FileChooserDescriptor createGoWithMainFileChooserDescriptor(Project project) {
+    return createFileChooserDescriptor(project, false, false, goWithMainFileFilter(project));
+  }
+
+  private static Condition<VirtualFile> goWithMainFileFilter(Project project) {
+    return file -> {
       if (file.getFileType() != GoFileType.INSTANCE) {
         return false;
       }
       return isMainGoFile(PsiManager.getInstance(project).findFile(file));
-    });
+    };
   }
 
   @Contract("null -> false")
@@ -125,12 +133,7 @@ public class GoRunUtil {
                                         boolean directory,
                                         boolean showFileSystemRoots,
                                         @Nullable Condition<VirtualFile> fileFilter) {
-    FileChooserDescriptor chooseDirectoryDescriptor = directory
-                                                      ? FileChooserDescriptorFactory.createSingleFolderDescriptor()
-                                                      : FileChooserDescriptorFactory.createSingleLocalFileDescriptor();
-    chooseDirectoryDescriptor.setRoots(project.getBaseDir());
-    chooseDirectoryDescriptor.setShowFileSystemRoots(showFileSystemRoots);
-    chooseDirectoryDescriptor.withFileFilter(fileFilter);
+    FileChooserDescriptor chooseDirectoryDescriptor = createFileChooserDescriptor(project, directory, showFileSystemRoots, fileFilter);
     if (field instanceof TextFieldWithBrowseButton) {
       ((TextFieldWithBrowseButton)field).addBrowseFolderListener(new TextBrowseFolderListener(chooseDirectoryDescriptor, project));
     }
@@ -143,6 +146,19 @@ public class GoRunUtil {
                                                                                        chooseDirectoryDescriptor,
                                                                                        TextComponentAccessor.TEXT_FIELD_WITH_HISTORY_WHOLE_TEXT));
     }
+  }
+
+  public static FileChooserDescriptor createFileChooserDescriptor(Project project,
+                                                                 boolean directory,
+                                                                 boolean showFileSystemRoots,
+                                                                 @Nullable Condition<VirtualFile> fileFilter) {
+    FileChooserDescriptor descriptor = directory
+                                       ? FileChooserDescriptorFactory.createSingleFolderDescriptor()
+                                       : FileChooserDescriptorFactory.createSingleLocalFileDescriptor();
+    descriptor.setRoots(project.getBaseDir());
+    descriptor.setShowFileSystemRoots(showFileSystemRoots);
+    descriptor.withFileFilter(fileFilter);
+    return descriptor;
   }
 
   public static void printGoEnvVariables(GeneralCommandLine commandLine, ProcessHandler handler) {
