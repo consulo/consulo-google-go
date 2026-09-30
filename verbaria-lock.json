@@ -3,12 +3,11 @@
   "project" : "consulo-google-go",
   "projectVersion" : "master",
   "sourceLocale" : "en-US",
-  "generatedAt" : "2026-06-28T12:18:17.180937363Z",
+  "generatedAt" : "2026-09-30T21:42:48.553714849Z",
   "documents" : {
     "consulo.google.go.GoLocalize" : {
       "source" : {
-        "revision" : 2,
-        "sig" : "5fd0d0b24e7627d95d0fef089cf3be3b"
+        "sig" : "5649af050cf115ae5fe296dcd3da7c1c"
       }
     }
   }
