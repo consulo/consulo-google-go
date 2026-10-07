@@ -16,18 +16,15 @@
 
 package com.goide.runconfig.application;
 
-import com.goide.GoConstants;
 import com.goide.compiler.GoCompilerRunner;
 import com.goide.runconfig.GoRunningState;
 import com.goide.util.GoExecutor;
 import com.goide.util.GoHistoryProcessListener;
-import consulo.container.plugin.PluginManager;
-import consulo.execution.debug.DefaultDebugExecutor;
 import consulo.execution.runner.ExecutionEnvironment;
 import consulo.module.Module;
-import consulo.platform.Platform;
 import consulo.process.ExecutionException;
 import consulo.process.ProcessHandler;
+import consulo.process.cmd.GeneralCommandLine;
 import consulo.process.event.ProcessEvent;
 import consulo.process.event.ProcessListener;
 import consulo.util.lang.StringUtil;
@@ -39,7 +36,6 @@ import java.util.Objects;
 public class GoApplicationRunningState extends GoRunningState<GoApplicationConfiguration> {
     @Nullable
     private GoHistoryProcessListener myHistoryProcessHandler;
-    private int myDebugPort = 59090;
 
     public GoApplicationRunningState(ExecutionEnvironment env, Module module, GoApplicationConfiguration configuration) {
         super(env, module, configuration);
@@ -53,14 +49,8 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
         return myConfiguration.getGoToolParams();
     }
 
-    public boolean isDebug() {
-        return DefaultDebugExecutor.EXECUTOR_ID.equals(getEnvironment().getExecutor().getId());
-    }
-
     @Override
     protected ProcessHandler startProcess() throws ExecutionException {
-        File outputFile = Objects.requireNonNull(getEnvironment().getUserData(GoCompilerRunner.OUTPUT_FILE), "Output File must be set");
-
         ProcessHandler processHandler = super.startProcess();
         processHandler.addProcessListener(new ProcessListener() {
             @Override
@@ -69,61 +59,45 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
                     myHistoryProcessHandler.apply(processHandler);
                 }
             }
+        });
+        deleteOutputFileOnExit(processHandler);
+        return processHandler;
+    }
 
+    /**
+     * The built program with its parameters, working directory and environment - as it is run, and as a debugger
+     * launches it.
+     */
+    public GeneralCommandLine createProgramCommandLine() throws ExecutionException {
+        return patchExecutor(createCommonExecutor()).withParameterString(myConfiguration.getParams()).createCommandLine();
+    }
+
+    /**
+     * A binary built to a temporary place is gone once the process which runs it - the program or its debugger - ends.
+     */
+    public void deleteOutputFileOnExit(ProcessHandler processHandler) {
+        File outputFile = getOutputFile();
+        processHandler.addProcessListener(new ProcessListener() {
             @Override
             public void processTerminated(ProcessEvent event) {
-                if (StringUtil.isEmpty(myConfiguration.getOutputFilePath())) {
-                    if (outputFile.exists()) {
-                        //noinspection ResultOfMethodCallIgnored
-                        outputFile.delete();
-                    }
+                if (StringUtil.isEmpty(myConfiguration.getOutputFilePath()) && outputFile.exists()) {
+                    //noinspection ResultOfMethodCallIgnored
+                    outputFile.delete();
                 }
             }
         });
-        return processHandler;
     }
 
     @Override
     protected GoExecutor patchExecutor(GoExecutor executor) throws ExecutionException {
-        File outputFile = Objects.requireNonNull(getEnvironment().getUserData(GoCompilerRunner.OUTPUT_FILE), "Output File must be set");
-
-        if (isDebug()) {
-            File dlv = dlv();
-            if (dlv.exists() && !dlv.canExecute()) {
-                //noinspection ResultOfMethodCallIgnored
-                dlv.setExecutable(true, false);
-            }
-            String wd = executor.getWorkDirectory();
-
-            return executor.withExePath(dlv.getAbsolutePath())
-                .withParameters("--listen=localhost:" + myDebugPort, "--log", wd != null ? "--wd=" + wd : "", "dap",
-                    outputFile.getAbsolutePath(), "--");
-        }
-        return executor.showGoEnvVariables(false).withExePath(outputFile.getAbsolutePath());
+        return executor.showGoEnvVariables(false).withExePath(getOutputFile().getAbsolutePath());
     }
 
-    private static File dlv() {
-        Platform platform = Platform.current();
-
-        String dlvPath = platform.jvm().getRuntimeProperty("dlv.path");
-        if (StringUtil.isNotEmpty(dlvPath)) {
-            return new File(dlvPath);
-        }
-
-        String prefix = platform.os().fileNamePrefix();
-        String suffix = platform.jvm().arch().fileNameSuffix();
-
-        String dirName = prefix + "-delve" + suffix;
-        File pluginPath = PluginManager.getPluginPath(GoApplicationRunningState.class);
-        return new File(new File(pluginPath, dirName),
-            platform.os().isWindows() ? GoConstants.DELVE_EXECUTABLE_NAME + ".exe" : GoConstants.DELVE_EXECUTABLE_NAME);
+    private File getOutputFile() {
+        return Objects.requireNonNull(getEnvironment().getUserData(GoCompilerRunner.OUTPUT_FILE), "Output File must be set");
     }
 
     public void setHistoryProcessHandler(@Nullable GoHistoryProcessListener historyProcessHandler) {
         myHistoryProcessHandler = historyProcessHandler;
-    }
-
-    public void setDebugPort(int debugPort) {
-        myDebugPort = debugPort;
     }
 }

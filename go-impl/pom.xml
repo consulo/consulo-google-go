@@ -52,6 +52,7 @@
                         <dependency>com.intellij.spellchecker</dependency>
                         <dependency>com.intellij.regexp</dependency>
                         <dependency>consulo.dap</dependency>
+                        <dependency>consulo.nativeDev</dependency>
                     </dependencies>
                     <packaging>
                         <skip>${dev.mode}</skip>
@@ -84,12 +85,6 @@
         <dependency>
             <groupId>consulo</groupId>
             <artifactId>consulo-module-ui-api</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>consulo</groupId>
-            <artifactId>consulo-xcoverage-data</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
@@ -173,6 +168,18 @@
         </dependency>
         <dependency>
             <groupId>consulo.plugin</groupId>
+            <artifactId>consulo.nativeDev.debugger.api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>consulo.plugin</groupId>
+            <artifactId>consulo.nativeDev.debugger.dap</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>consulo.plugin</groupId>
             <artifactId>com.intellij.regexp</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -190,60 +197,13 @@
         </dependency>
         <dependency>
             <groupId>consulo</groupId>
-            <artifactId>consulo-util-netty</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>consulo</groupId>
             <artifactId>consulo-language-editor-impl</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>consulo</groupId>
-            <artifactId>consulo-util-socket-connection</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>consulo.internal</groupId>
             <artifactId>build.serviceMessages</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-common</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-buffer</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-transport</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-handler</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-codec</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-codec-http</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>

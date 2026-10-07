@@ -1,25 +1,28 @@
 package com.goide.runconfig;
 
-import com.goide.compiler.GoCompilerRunner;
 import com.goide.runconfig.application.GoApplicationConfiguration;
 import com.goide.runconfig.application.GoApplicationRunningState;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.document.FileDocumentManager;
 import consulo.execution.configuration.RunProfile;
 import consulo.execution.configuration.RunProfileState;
-import consulo.execution.debug.*;
+import consulo.execution.debug.DefaultDebugExecutor;
 import consulo.execution.runner.DefaultProgramRunner;
 import consulo.execution.runner.ExecutionEnvironment;
 import consulo.execution.ui.RunContentDescriptor;
-import consulo.externalService.statistic.UsageTrigger;
-import consulo.go.debug.GoDebugProcess;
+import consulo.go.debug.GoDlvNativeDebuggerProvider;
+import consulo.nativeDev.debugger.NativeDebugSessionStarter;
+import consulo.nativeDev.debugger.driver.NativeDebugTarget;
 import consulo.process.ExecutionException;
-import consulo.util.io.NetUtil;
+import consulo.process.ProcessHandler;
+import consulo.process.cmd.GeneralCommandLine;
 
 import java.io.File;
-import java.io.IOException;
+import java.nio.file.Path;
 
 /**
+ * Debugs the built program with delve, through the native debugger.
+ *
  * @author VISTALL
  * @since 2026-02-24
  */
@@ -32,41 +35,29 @@ public class GoDebugRunner extends DefaultProgramRunner {
 
     @Override
     public boolean canRun(String executorId, RunProfile profile) {
-        if (profile instanceof GoApplicationConfiguration) {
-            return DefaultDebugExecutor.EXECUTOR_ID.equals(executorId);
-        }
-        return false;
+        return profile instanceof GoApplicationConfiguration && DefaultDebugExecutor.EXECUTOR_ID.equals(executorId);
     }
 
     @Override
     protected RunContentDescriptor doExecute(RunProfileState state, ExecutionEnvironment env) throws ExecutionException {
-        final int port;
-        try {
-            port = NetUtil.findAvailableSocketPort();
-        }
-        catch (IOException e) {
-            throw new ExecutionException(e);
-        }
-
         FileDocumentManager.getInstance().saveAllDocuments();
 
-        File outputFilePath = env.getUserData(GoCompilerRunner.OUTPUT_FILE);
+        GoApplicationRunningState goState = (GoApplicationRunningState) state;
+        GeneralCommandLine commandLine = goState.createProgramCommandLine();
+        File workDirectory = commandLine.getWorkDirectory();
+        NativeDebugTarget target = NativeDebugTarget.launch(
+            Path.of(commandLine.getExePath()),
+            commandLine.getParametersList().getList(),
+            workDirectory == null ? null : workDirectory.toPath(),
+            commandLine.getEnvironment(),
+            null
+        );
 
-        ((GoApplicationRunningState) state).setDebugPort(port);
-
-        state.execute(env.getExecutor(), this);
-
-        UsageTrigger.trigger("go.dlv.debugger");
-
-        XDebugSession session = XDebuggerManager.getInstance(env.getProject()).startSession(env, new XDebugProcessStarter() {
-            @Override
-            public XDebugProcess start(XDebugSession session) throws ExecutionException {
-                GoDebugProcess process = new GoDebugProcess(session, port, outputFilePath.getAbsolutePath());
-                process.start();
-                return process;
-            }
-        });
-
-        return session.getRunContentDescriptor();
+        RunContentDescriptor descriptor = NativeDebugSessionStarter.getInstance().startSession(env, target, GoDlvNativeDebuggerProvider.ID);
+        ProcessHandler processHandler = descriptor.getProcessHandler();
+        if (processHandler != null) {
+            goState.deleteOutputFileOnExit(processHandler);
+        }
+        return descriptor;
     }
 }

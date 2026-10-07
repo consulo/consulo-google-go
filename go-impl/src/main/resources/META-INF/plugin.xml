@@ -23,5 +23,6 @@
         <tag>custom.language</tag>
     </tags>
     <depends>consulo.dap</depends>
+    <depends>consulo.nativeDev</depends>
     <depends>com.intellij.regexp</depends>
 </consulo-plugin>

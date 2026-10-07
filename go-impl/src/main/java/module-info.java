@@ -14,7 +14,6 @@ open module consulo.google.go {
   requires consulo.language.code.style.ui.api;
   requires consulo.language.editor.refactoring.api;
   requires consulo.version.control.system.api;
-  requires consulo.xcoverage.rt;
   requires consulo.module.ui.api;
   requires consulo.module.creation.api;
 
@@ -22,20 +21,14 @@ open module consulo.google.go {
   requires consulo.language.editor.impl;
 
   requires consulo.execution.debugger.dap;
+  requires consulo.nativeDev.debugger.api;
+  requires consulo.nativeDev.debugger.dap;
 
   // TODO remove in future
   requires java.desktop;
   requires forms.rt;
 
-  requires com.google.gson;
   requires build.serviceMessages;
-
-  requires consulo.util.netty;
-  requires consulo.util.socket.connection;
-  
-  requires io.netty.buffer;
-  requires io.netty.transport;
-  requires io.netty.codec;
 
   requires com.intellij.regexp;
 
@@ -48,8 +41,6 @@ open module consulo.google.go {
   exports com.goide.codeInsight.unwrap;
   exports com.goide.completion;
   exports com.goide.configuration;
-  exports com.goide.dlv;
-  exports com.goide.dlv.protocol;
   exports com.goide.editor;
   exports com.goide.editor.marker;
   exports com.goide.editor.smart;
@@ -100,10 +91,4 @@ open module consulo.google.go {
   exports consulo.google.go.module.extension.ui;
   exports consulo.google.go.module.orderEntry;
   exports consulo.google.go.newProjectOrModule;
-  exports consulo.google.go.run.dlv.api;
-  exports org.jetbrains.debugger;
-  exports org.jetbrains.debugger.connection;
-  exports org.jetbrains.debugger.values;
-  exports org.jetbrains.jsonProtocol;
-  exports org.jetbrains.rpc;
 }

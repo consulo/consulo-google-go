@@ -229,7 +229,6 @@
         </codeStyleSettings>
         <codeStyleSettings language="Python">
           <option name="KEEP_LINE_BREAKS" value="false" />
-          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
         </codeStyleSettings>
       </value>
     </option>
