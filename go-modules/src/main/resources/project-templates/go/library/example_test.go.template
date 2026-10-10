@@ -1,0 +1,17 @@
+package ${PACKAGE}_test
+
+import (
+	"fmt"
+
+	"${MODULE_PATH}"
+)
+
+func ExampleReverse() {
+	fmt.Println(${PACKAGE}.Reverse("Hello"))
+	// Output: olleH
+}
+
+func ExampleIsPalindrome() {
+	fmt.Println(${PACKAGE}.IsPalindrome("Never odd or even"))
+	// Output: true
+}

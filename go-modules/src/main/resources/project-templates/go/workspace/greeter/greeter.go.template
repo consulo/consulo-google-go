@@ -1,0 +1,7 @@
+// Package greeter is a module of the ${NAME} workspace.
+package greeter
+
+// Greet returns a greeting for name.
+func Greet(name string) string {
+	return "Hello from the " + name + "!"
+}

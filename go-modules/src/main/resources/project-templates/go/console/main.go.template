@@ -1,0 +1,24 @@
+// Command ${COMMAND} prints a greeting.
+//
+// Run it with a name to greet:
+//
+//	go run . Gopher
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	name := "World"
+	if len(os.Args) > 1 {
+		name = os.Args[1]
+	}
+	fmt.Println(greeting(name))
+}
+
+// greeting returns the message printed for name.
+func greeting(name string) string {
+	return "Hello, " + name + "!"
+}

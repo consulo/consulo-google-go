@@ -1,0 +1,26 @@
+// Command ${COMMAND} counts the words of its input.
+//
+//	go run ./cmd/${COMMAND} -top 3 < README.md
+package main
+
+import (
+	"flag"
+	"fmt"
+	"os"
+
+	"${MODULE_PATH}/internal/app"
+)
+
+func main() {
+	top := flag.Int("top", 10, "how many of the most frequent words to print")
+	flag.Parse()
+
+	counts, err := app.CountWords(os.Stdin)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	for _, count := range app.Top(counts, *top) {
+		fmt.Printf("%6d %s\n", count.Count, count.Word)
+	}
+}

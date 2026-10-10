@@ -1,0 +1,122 @@
+/*
+ * Copyright 2013-2016 Sergey Ignatov, Alexander Zolotov, Florin Patan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.goide.inspections;
+
+import com.goide.psi.*;
+import com.goide.psi.impl.GoElementFactory;
+import com.goide.psi.impl.GoPsiImplUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.document.util.TextRange;
+import consulo.go.inspection.GoGeneralInspectionBase;
+import consulo.language.editor.inspection.LocalInspectionToolSession;
+import consulo.language.editor.inspection.LocalQuickFixBase;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.localize.LocalizeValue;
+import consulo.project.Project;
+import consulo.util.collection.ContainerUtil;
+
+import java.util.List;
+
+@ExtensionImpl
+public class GoNoNewVariablesInspection extends GoGeneralInspectionBase {
+  public static final LocalizeValue QUICK_FIX_NAME = LocalizeValue.localizeTODO("Replace with '='");
+
+  @Override
+  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
+    return new GoVisitor() {
+      @Override
+      public void visitShortVarDeclaration(GoShortVarDeclaration o) {
+        visitVarDefinitionList(o, o.getVarDefinitionList());
+      }
+
+      @Override
+      public void visitRecvStatement(GoRecvStatement o) {
+        visitVarDefinitionList(o, o.getVarDefinitionList());
+      }
+
+      @Override
+      public void visitRangeClause(GoRangeClause o) {
+        visitVarDefinitionList(o, o.getVarDefinitionList());
+      }
+
+      private void visitVarDefinitionList(PsiElement o, List<GoVarDefinition> list) {
+        GoVarDefinition first = ContainerUtil.getFirstItem(list);
+        GoVarDefinition last = ContainerUtil.getLastItem(list);
+        if (first == null || last == null) return;
+        if (hasNonNewVariables(list)) {
+          TextRange textRange = TextRange.create(first.getStartOffsetInParent(), last.getStartOffsetInParent() + last.getTextLength());
+          holder.registerProblem(o, textRange, "No new variables on left side of :=", new MyLocalQuickFixBase());
+        }
+      }
+    };
+  }
+
+  public static boolean hasNonNewVariables(List<GoVarDefinition> list) {
+    if (list.isEmpty()) return false;
+    for (GoVarDefinition def : list) {
+      if (def.isBlank()) continue;
+      PsiReference reference = def.getReference();
+      if (reference == null || reference.resolve() == null) return false;
+    }
+    return true;
+  }
+
+  public static void replaceWithAssignment(Project project, PsiElement element) {
+    if (element instanceof GoShortVarDeclaration) {
+      PsiElement parent = element.getParent();
+      if (parent instanceof GoSimpleStatement) {
+        String left = GoPsiImplUtil.joinPsiElementText(((GoShortVarDeclaration)element).getVarDefinitionList());
+        String right = GoPsiImplUtil.joinPsiElementText(((GoShortVarDeclaration)element).getRightExpressionsList());
+        parent.replace(GoElementFactory.createAssignmentStatement(project, left, right));
+      }
+    }
+    else if (element instanceof GoRangeClause) {
+      String left = GoPsiImplUtil.joinPsiElementText(((GoRangeClause)element).getVarDefinitionList());
+      GoExpression rangeExpression = ((GoRangeClause)element).getRangeExpression();
+      String right = rangeExpression != null ? rangeExpression.getText() : "";
+      element.replace(GoElementFactory.createRangeClauseAssignment(project, left, right));
+    }
+    else if (element instanceof GoRecvStatement) {
+      String left = GoPsiImplUtil.joinPsiElementText(((GoRecvStatement)element).getVarDefinitionList());
+      GoExpression recvExpression = ((GoRecvStatement)element).getRecvExpression();
+      String right = recvExpression != null ? recvExpression.getText() : "";
+      element.replace(GoElementFactory.createRecvStatementAssignment(project, left, right));
+    }
+  }
+
+  @Override
+  public LocalizeValue getDisplayName() {
+    return LocalizeValue.localizeTODO("No new variables on left side of :=");
+  }
+
+  private static class MyLocalQuickFixBase extends LocalQuickFixBase {
+    public MyLocalQuickFixBase() {
+      super(QUICK_FIX_NAME);
+    }
+
+    @Override
+    public void applyFix(Project project, ProblemDescriptor descriptor) {
+      PsiElement element = descriptor.getStartElement();
+      if (element.isValid()) {
+        replaceWithAssignment(project, element);
+      }
+    }
+  }
+}

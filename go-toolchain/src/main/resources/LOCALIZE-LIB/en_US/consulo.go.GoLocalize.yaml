@@ -1,0 +1,234 @@
+go.application.configuration.description:
+    text: Go application run configuration
+go.application.configuration.name:
+    text: Go Application
+go.file.description:
+    text: Go files
+go.file.type.display.name:
+    text: Go
+go.language.display.name:
+    text: Go
+go.single.file.configuration.description:
+    text: Go single run file configuration
+go.single.file.configuration.name:
+    text: Go Single File
+go.test.configuration.description:
+    text: Go test run configuration
+go.test.configuration.name:
+    text: Go Test
+go.run.configuration.directory.label:
+    text: 'Directory:'
+go.run.configuration.file.label:
+    text: 'File:'
+go.run.configuration.go.tool.arguments.label:
+    text: '&Go tool arguments:'
+go.run.configuration.go.tool.arguments.title:
+    text: Go tool arguments
+go.run.configuration.kind.directory:
+    text: Directory
+go.run.configuration.kind.file:
+    text: File
+go.run.configuration.kind.package:
+    text: Package
+go.run.configuration.module.label:
+    text: '&Module:'
+go.run.configuration.output.directory.label:
+    text: 'O&utput directory:'
+go.run.configuration.package.label:
+    text: 'Package:'
+go.run.configuration.pattern.label:
+    text: 'Pattern:'
+go.run.configuration.program.arguments.title:
+    text: Program arguments
+go.run.configuration.run.kind.label:
+    text: 'Run &kind:'
+go.run.configuration.test.framework.label:
+    text: 'Test framework:'
+go.run.configuration.test.kind.label:
+    text: 'Test kind:'
+go.compiler.name:
+    text: Go Build
+go.compiler.progress:
+    text: 'Running {0} in {1}'
+go.compiler.failed:
+    text: '{0} exited with code {1}: {2}'
+go.modules.system.name:
+    text: Go Modules
+go.modules.go.not.found:
+    text: 'The go command is not found: set up a Go SDK or put go on PATH'
+go.modules.no.module:
+    text: 'Neither a go.work nor a go.mod is in effect for {0}'
+go.modules.command.failed:
+    text: '{0} failed: {1}'
+go.modules.resolve.environment:
+    text: Reading the Go environment of {0}
+go.modules.resolve.main.modules:
+    text: Listing the main modules
+go.modules.resolve.build.list:
+    text: Listing the build list
+go.modules.resolve.download:
+    text: Downloading {0} modules
+go.modules.resolve.cancelled:
+    text: Reading the Go modules was cancelled
+go.modules.task.failed:
+    text: '{0} exited with code {1}'
+go.modules.task.group.build:
+    text: build
+go.modules.task.group.modules:
+    text: modules
+go.modules.task.group.workspace:
+    text: workspace
+go.modules.task.build.description:
+    text: Compile every package of the module
+go.modules.task.test.description:
+    text: Run the tests of every package of the module
+go.modules.task.vet.description:
+    text: Report suspicious constructs in every package of the module
+go.modules.task.generate.description:
+    text: Run the go:generate directives of the module
+go.modules.task.fmt.description:
+    text: Format every package of the module with gofmt
+go.modules.task.install.description:
+    text: Compile and install the commands of the module
+go.modules.task.mod.tidy.description:
+    text: Add missing and remove unused requirements of go.mod
+go.modules.task.mod.download.description:
+    text: Download the modules of the build list into the module cache
+go.modules.task.mod.vendor.description:
+    text: Copy the dependencies into the vendor directory
+go.modules.task.mod.verify.description:
+    text: Verify the dependencies in the module cache have not been modified
+go.modules.task.work.sync.description:
+    text: Sync the build list of the workspace back to the modules
+go.modules.dependency.indirect:
+    text: (indirect)
+go.modules.extension.module.path.label:
+    text: 'Module path:'
+go.modules.extension.go.mod.label:
+    text: 'go.mod:'
+go.modules.extension.go.work.label:
+    text: 'go.work:'
+go.modules.settings.sdk.label:
+    text: 'Go SDK:'
+go.modules.settings.sdk.auto:
+    text: <the SDK of the go command>
+go.modules.settings.download.dependencies:
+    text: Download missing modules while importing
+go.modules.view.dependencies.node:
+    text: Dependencies
+go.modules.notification.not.linked:
+    text: The Go module at {0} is not linked to the project
+go.modules.notification.link:
+    text: Link Go Project
+go.modules.action.group.text:
+    text: Go Modules
+go.modules.action.group.description:
+    text: Go modules and workspaces
+go.modules.action.reload.text:
+    text: Reload Go Project
+go.modules.action.reload.description:
+    text: Read the linked go.work and go.mod files again with the go command
+go.modules.action.link.text:
+    text: Link Go Project
+go.modules.action.link.description:
+    text: Import the go.work or go.mod of the selected file into the project
+go.modules.action.build.text:
+    text: go build ./...
+go.modules.action.build.description:
+    text: Compile every package of the module
+go.modules.action.test.text:
+    text: go test ./...
+go.modules.action.test.description:
+    text: Run the tests of every package of the module
+go.modules.action.vet.text:
+    text: go vet ./...
+go.modules.action.vet.description:
+    text: Report suspicious constructs in every package of the module
+go.modules.action.generate.text:
+    text: go generate ./...
+go.modules.action.generate.description:
+    text: Run the go:generate directives of the module
+go.modules.action.install.text:
+    text: go install ./...
+go.modules.action.install.description:
+    text: Compile and install the commands of the module
+go.modules.action.mod.tidy.text:
+    text: go mod tidy
+go.modules.action.mod.tidy.description:
+    text: Add missing and remove unused requirements, then reload the project
+go.modules.action.mod.download.text:
+    text: go mod download
+go.modules.action.mod.download.description:
+    text: Download the modules of the build list, then reload the project
+go.modules.action.mod.vendor.text:
+    text: go mod vendor
+go.modules.action.mod.vendor.description:
+    text: Copy the dependencies into the vendor directory, then reload the project
+go.modules.action.mod.verify.text:
+    text: go mod verify
+go.modules.action.mod.verify.description:
+    text: Verify the dependencies in the module cache have not been modified
+go.modules.action.work.sync.text:
+    text: go work sync
+go.modules.action.work.sync.description:
+    text: Sync the build list of the workspace back to its modules, then reload the project
+go.new.project.group:
+    text: Go
+go.new.project.console:
+    text: Console Application
+go.new.project.library:
+    text: Library
+go.new.project.web.server:
+    text: Web Server
+go.new.project.command.line.tool:
+    text: Command-Line Tool
+go.new.project.workspace:
+    text: Workspace (go.work)
+go.new.project.sdk.label:
+    text: 'SDK:'
+go.new.project.module.path.label:
+    text: 'Module path:'
+go.new.project.module.path.placeholder:
+    text: derived from the name, e.g. example.com/hello
+go.new.project.module.path.invalid:
+    text: 'Not a valid module path: {0}'
+go.new.project.progress:
+    text: Creating the Go modules
+go.mod.language.display.name:
+    text: Go Module
+go.mod.file.description:
+    text: Go module definition
+go.work.file.description:
+    text: Go workspace definition
+go.mod.color.keyword:
+    text: Keyword
+go.mod.color.comment:
+    text: Comment
+go.mod.color.string:
+    text: String
+go.mod.color.module.path:
+    text: Module path
+go.mod.color.version:
+    text: Version
+go.mod.color.file.path:
+    text: Directory path
+go.mod.color.godebug.key:
+    text: Godebug setting
+go.mod.color.operator:
+    text: Operator
+go.mod.color.parentheses:
+    text: Parentheses
+go.mod.color.brackets:
+    text: Brackets
+go.mod.color.comma:
+    text: Comma
+go.mod.color.bad.character:
+    text: Bad character
+go.mod.annotator.unknown.directive:
+    text: 'Unknown directive: {0}'
+go.mod.annotator.directive.not.in.work:
+    text: 'Not a go.work directive: {0}'
+go.mod.annotator.directive.only.in.work:
+    text: 'Only valid in go.work: {0}'
+go.mod.annotator.repeated.directive:
+    text: 'Repeated directive: {0}'

@@ -1,0 +1,136 @@
+// Grammar of go.mod and go.work, after https://go.dev/ref/mod#go-mod-file-grammar and #go-work-file-grammar.
+// Both files share one language: a directive is a keyword followed by its arguments, on one line or in a
+// parenthesized block of lines. The lexer only reports keywords at the start of a top level line, so a module
+// path like "example.com/tool" or "go" never becomes a keyword. Which directives a file may hold is checked by
+// GoModAnnotator.
+{
+  parserClass='consulo.go.gomod.parser.GoModParser'
+
+  extends='consulo.language.impl.psi.ASTWrapperPsiElement'
+
+  psiClassPrefix='GoMod'
+  psiImplClassSuffix='Impl'
+  psiPackage='consulo.go.gomod.psi'
+  psiImplPackage='consulo.go.gomod.psi.impl'
+
+  elementTypeHolderClass='consulo.go.gomod.psi.GoModTypes'
+  elementTypeClass='consulo.go.gomod.psi.GoModElementType'
+  tokenTypeClass='consulo.go.gomod.psi.GoModTokenType'
+
+  tokens=[
+    LPAREN='('
+    RPAREN=')'
+    LBRACK='['
+    RBRACK=']'
+    COMMA=','
+    ARROW='=>'
+    EQ='='
+
+    MODULE='module'
+    GO='go'
+    TOOLCHAIN='toolchain'
+    GODEBUG='godebug'
+    REQUIRE='require'
+    EXCLUDE='exclude'
+    REPLACE='replace'
+    RETRACT='retract'
+    TOOL='tool'
+    IGNORE='ignore'
+    USE='use'
+
+    LINE_COMMENT='regexp://.*'
+    STRING='regexp:"([^"\\\r\n]|\\.)*"'
+    IDENTIFIER='regexp:[^\s()\[\],"`=]+'
+    EOL='regexp:\n'
+  ]
+}
+
+root ::= item_*
+
+private item_ ::= EOL | directive_line
+
+// one directive per line: what does not parse is skipped up to the end of its line. Recovery lives here, on the
+// line, and not on the directives: a recovering rule eats tokens even when it does not match, which would let the
+// first alternative swallow the line of the next one
+private directive_line ::= !<<eof>> directive_ {pin=1 recoverWhile=directive_recover}
+
+private directive_ ::= module_directive
+  | go_directive
+  | toolchain_directive
+  | godebug_directive
+  | require_directive
+  | exclude_directive
+  | replace_directive
+  | retract_directive
+  | tool_directive
+  | ignore_directive
+  | use_directive
+  | unknown_directive
+
+// what follows a directive on its line, up to the end of line, is an error
+private directive_recover ::= !EOL
+// a bad line of a block is skipped up to its end, or the end of the block
+private block_line_recover ::= !(EOL | ')')
+
+module_directive ::= MODULE (module_block | module_path) {pin=1}
+private module_block ::= '(' EOL* module_path EOL* ')' {pin=1}
+
+go_directive ::= GO go_version {pin=1}
+go_version ::= IDENTIFIER | STRING
+
+toolchain_directive ::= TOOLCHAIN toolchain_name {pin=1}
+toolchain_name ::= IDENTIFIER | STRING
+
+godebug_directive ::= GODEBUG (godebug_block | godebug_spec) {pin=1}
+private godebug_block ::= '(' (EOL | godebug_line)* ')' {pin=1}
+private godebug_line ::= !(')' | <<eof>>) godebug_spec {pin=1 recoverWhile=block_line_recover}
+godebug_spec ::= godebug_key '=' godebug_value {pin=1}
+godebug_key ::= IDENTIFIER
+godebug_value ::= IDENTIFIER | STRING
+
+require_directive ::= REQUIRE (require_block | require_spec) {pin=1}
+private require_block ::= '(' (EOL | require_line)* ')' {pin=1}
+private require_line ::= !(')' | <<eof>>) require_spec {pin=1 recoverWhile=block_line_recover}
+require_spec ::= module_path version {pin=1}
+
+exclude_directive ::= EXCLUDE (exclude_block | exclude_spec) {pin=1}
+private exclude_block ::= '(' (EOL | exclude_line)* ')' {pin=1}
+private exclude_line ::= !(')' | <<eof>>) exclude_spec {pin=1 recoverWhile=block_line_recover}
+exclude_spec ::= module_path version {pin=1}
+
+replace_directive ::= REPLACE (replace_block | replace_spec) {pin=1}
+private replace_block ::= '(' (EOL | replace_line)* ')' {pin=1}
+private replace_line ::= !(')' | <<eof>>) replace_spec {pin=1 recoverWhile=block_line_recover}
+replace_spec ::= module_path version? '=>' replacement {pin=1}
+// a module path with a version replaces by a module, a single path by a directory
+private replacement ::= module_path version | file_path
+
+retract_directive ::= RETRACT (retract_block | retract_spec) {pin=1}
+private retract_block ::= '(' (EOL | retract_line)* ')' {pin=1}
+private retract_line ::= !(')' | <<eof>>) retract_spec {pin=1 recoverWhile=block_line_recover}
+retract_spec ::= version_interval | version
+version_interval ::= '[' version ',' version ']' {pin=1}
+
+tool_directive ::= TOOL (tool_block | tool_spec) {pin=1}
+private tool_block ::= '(' (EOL | tool_line)* ')' {pin=1}
+private tool_line ::= !(')' | <<eof>>) tool_spec {pin=1 recoverWhile=block_line_recover}
+tool_spec ::= module_path
+
+ignore_directive ::= IGNORE (ignore_block | ignore_spec) {pin=1}
+private ignore_block ::= '(' (EOL | ignore_line)* ')' {pin=1}
+private ignore_line ::= !(')' | <<eof>>) ignore_spec {pin=1 recoverWhile=block_line_recover}
+ignore_spec ::= file_path
+
+use_directive ::= USE (use_block | use_spec) {pin=1}
+private use_block ::= '(' (EOL | use_line)* ')' {pin=1}
+private use_line ::= !(')' | <<eof>>) use_spec {pin=1 recoverWhile=block_line_recover}
+use_spec ::= file_path
+
+// kept in the tree, reported by GoModAnnotator: go itself rejects unknown directives
+unknown_directive ::= IDENTIFIER (unknown_block | unknown_argument*) {pin=1}
+private unknown_block ::= '(' (EOL | unknown_argument)* ')' {pin=1}
+private unknown_argument ::= IDENTIFIER | STRING | '[' | ']' | ',' | '=>' | '='
+
+module_path ::= IDENTIFIER | STRING
+version ::= IDENTIFIER | STRING
+file_path ::= IDENTIFIER | STRING

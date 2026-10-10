@@ -3,4 +3,4 @@
 !/.consulo/runConfigurations
 /out
 target
-go-impl/sandbox
+plugin/sandbox

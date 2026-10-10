@@ -1,0 +1,25 @@
+// Command ${COMMAND} is an HTTP server.
+//
+// It listens on the port of the PORT environment variable, 8080 by default:
+//
+//	go run .
+//	curl localhost:8080/hello?name=Gopher
+package main
+
+import (
+	"log"
+	"net/http"
+	"os"
+)
+
+func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Printf("listening on :%s", port)
+	if err := http.ListenAndServe(":"+port, newMux()); err != nil {
+		log.Fatal(err)
+	}
+}

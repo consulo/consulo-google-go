@@ -1,0 +1,54 @@
+package com.goide.actions.tool;
+
+import consulo.annotation.component.ActionImpl;
+import consulo.annotation.component.ActionParentRef;
+import consulo.annotation.component.ActionRef;
+import consulo.application.dumb.DumbAware;
+import consulo.go.icon.GoIconGroup;
+import consulo.go.module.extension.GoModuleExtension;
+import consulo.localize.LocalizeValue;
+import consulo.module.extension.ModuleExtensionHelper;
+import consulo.project.Project;
+import consulo.ui.ex.action.AnActionEvent;
+import consulo.ui.ex.action.AnActionWithSyncUpdate;
+import consulo.ui.ex.action.DefaultActionGroup;
+import consulo.ui.ex.action.Presentation;
+
+/**
+ * @author VISTALL
+ * @since 2025-01-03
+ */
+@ActionImpl(id = "GoTools", children = {
+    @ActionRef(type = GoFmtFileAction.class),
+    @ActionRef(type = GoFmtProjectAction.class),
+    @ActionRef(type = GoImportsFileAction.class),
+    @ActionRef(type = GoTypeFileAction.class),
+    @ActionRef(type = GoVetFileAction.class),
+}, parents = {
+    @ActionParentRef(@ActionRef(id = "CodeMenu")),
+    @ActionParentRef(@ActionRef(id = "ProjectViewPopupMenu")),
+    @ActionParentRef(@ActionRef(id = "EditorLangPopupMenu"))
+})
+public class GoExternalToolsActionGroup extends DefaultActionGroup implements DumbAware, AnActionWithSyncUpdate {
+    public GoExternalToolsActionGroup() {
+        super(LocalizeValue.localizeTODO("Go Tools"), LocalizeValue.localizeTODO("Go External Tools"), GoIconGroup.go());
+    }
+
+    @Override
+    public boolean isPopup() {
+        return true;
+    }
+
+    @Override
+    public void update(AnActionEvent e) {
+        Project project = e.getData(Project.KEY);
+        Presentation presentation = e.getPresentation();
+
+        boolean enabled = false;
+        if (project != null) {
+            enabled = ModuleExtensionHelper.getInstance(project).hasModuleExtension(GoModuleExtension.class);
+        }
+
+        presentation.setEnabledAndVisible(enabled);
+    }
+}

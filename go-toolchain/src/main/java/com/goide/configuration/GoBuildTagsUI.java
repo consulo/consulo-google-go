@@ -1,0 +1,171 @@
+/*
+ * Copyright 2013-2016 Sergey Ignatov, Alexander Zolotov, Florin Patan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.goide.configuration;
+
+import com.goide.project.GoBuildTargetSettings;
+import consulo.content.bundle.Sdk;
+import consulo.execution.ui.awt.RawCommandLineEditor;
+import consulo.go.GoConstants;
+import consulo.go.GoEnvironmentUtil;
+import consulo.go.module.extension.GoMutableModuleExtension;
+import consulo.ui.ex.awt.ComboBox;
+import consulo.ui.ex.awt.IdeBorderFactory;
+import consulo.ui.ex.awt.MutableCollectionComboBoxModel;
+import consulo.util.collection.ArrayUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
+import consulo.util.lang.ThreeState;
+
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.util.Collection;
+import java.util.List;
+
+public class GoBuildTagsUI {
+  private static final String ENABLED = "Enabled";
+  private static final String DISABLED = "Disabled";
+
+  private JPanel myPanel;
+  private ComboBox myOSCombo;
+  private ComboBox myArchCombo;
+  private ComboBox myGoVersionCombo;
+  private ComboBox myCompilerCombo;
+  private ComboBox myCgoCombo;
+  private RawCommandLineEditor myCustomTagsField;
+  @SuppressWarnings("unused")
+  private JTextPane myDescriptionPane;
+
+  private final MutableCollectionComboBoxModel<String> myCgoComboModel;
+
+  private final String myDefaultOSValue;
+  private final String myDefaultArchValue;
+  private String myDefaultCgo;
+  private String myDefaultGoVersion = "";
+
+  private GoMutableModuleExtension myExtension;
+
+  @SuppressWarnings("unchecked")
+  public GoBuildTagsUI(GoMutableModuleExtension extension) {
+    myExtension = extension;
+    myPanel.setBorder(IdeBorderFactory.createTitledBorder("Build tags"));
+
+    myDefaultOSValue = "Default (" + GoEnvironmentUtil.systemOS() + ")";
+    myDefaultArchValue = "Default (" + GoEnvironmentUtil.systemArch() + ")";
+    myDefaultCgo = "Default (" + cgo(GoEnvironmentUtil.systemCgo(myDefaultOSValue, myDefaultArchValue)) + ")";
+    myCustomTagsField.setDialogCaption("Custom Build Tags");
+
+    myOSCombo.setModel(createModel(GoConstants.KNOWN_OS, myDefaultOSValue));
+    myArchCombo.setModel(createModel(GoConstants.KNOWN_ARCH, myDefaultArchValue));
+    myCgoComboModel = createModel(ContainerUtil.newArrayList(ENABLED, DISABLED), myDefaultCgo);
+    myCgoCombo.setModel(myCgoComboModel);
+    myCompilerCombo.setModel(createModel(GoConstants.KNOWN_COMPILERS, GoBuildTargetSettings.ANY_COMPILER));
+
+    ActionListener updateCgoListener = event -> {
+      String selected = StringUtil.notNullize(myCgoComboModel.getSelected(), myDefaultCgo);
+      String oldDefault = myDefaultCgo;
+      String os = expandDefault(selected(myOSCombo, myDefaultOSValue), GoEnvironmentUtil.systemOS());
+      String arch = expandDefault(selected(myArchCombo, myDefaultArchValue), GoEnvironmentUtil.systemArch());
+
+      myDefaultCgo = "Default (" + cgo(GoEnvironmentUtil.systemCgo(os, arch)) + ")";
+      myCgoComboModel.update(ContainerUtil.newArrayList(myDefaultCgo, ENABLED, DISABLED));
+      myCgoComboModel.setSelectedItem(oldDefault.equals(selected) ? myDefaultCgo : selected);
+    };
+    myOSCombo.addActionListener(updateCgoListener);
+    myArchCombo.addActionListener(updateCgoListener);
+
+    GoBuildTargetSettings buildTargetSettings = extension.getBuildTargetSettings();
+    myOSCombo.setSelectedItem(expandDefault(buildTargetSettings.os, myDefaultOSValue));
+    myArchCombo.setSelectedItem(expandDefault(buildTargetSettings.arch, myDefaultArchValue));
+    myGoVersionCombo.setSelectedItem(expandDefault(buildTargetSettings.goVersion, myDefaultGoVersion));
+    myCgoCombo.setSelectedItem(expandDefault(cgo(buildTargetSettings.cgo), myDefaultCgo));
+    myCompilerCombo.setSelectedItem(buildTargetSettings.compiler);
+    myCustomTagsField.setText(StringUtil.join(buildTargetSettings.customFlags, " "));
+
+    sdkChanged();
+
+    myOSCombo.addActionListener(e -> buildTargetSettings.os = selected(myOSCombo, myDefaultOSValue));
+    myArchCombo.addActionListener(e -> buildTargetSettings.arch = selected(myArchCombo, myDefaultArchValue));
+    myGoVersionCombo.addActionListener(e -> buildTargetSettings.goVersion = selected(myGoVersionCombo, myDefaultGoVersion));
+    myCompilerCombo.addActionListener(e -> buildTargetSettings.compiler = selectedCompiler());
+    myCgoCombo.addActionListener(e -> buildTargetSettings.cgo = selectedCgo());
+    myCustomTagsField.addValueListener(valueEvent -> buildTargetSettings.customFlags = selectedCustomTags());
+  }
+
+  public void sdkChanged() {
+    Sdk sdk = myExtension.getSdk();
+    String sdkVersion = sdk == null ? null : myExtension.getSdkName();
+    myDefaultGoVersion = "Module SDK (" + StringUtil.notNullize(sdkVersion, "any") + ")";
+    //noinspection unchecked
+    myGoVersionCombo.setModel(createModel(GoConstants.KNOWN_VERSIONS, myDefaultGoVersion));
+  }
+
+  private String selectedCompiler() {
+    Object item = myCompilerCombo.getSelectedItem();
+    return item instanceof String ? (String) item : GoBuildTargetSettings.ANY_COMPILER;
+  }
+
+  private String[] selectedCustomTags() {
+    return ArrayUtil.toStringArray(StringUtil.split(myCustomTagsField.getText(), " "));
+  }
+
+  private ThreeState selectedCgo() {
+    String string = myCgoComboModel.getSelected();
+    if (ENABLED.equals(string)) {
+      return ThreeState.YES;
+    }
+    if (DISABLED.equals(string)) {
+      return ThreeState.NO;
+    }
+    return ThreeState.UNSURE;
+  }
+
+  private static String selected(ComboBox comboBox, String defaultValue) {
+    Object item = comboBox.getSelectedItem();
+    if (item instanceof String) {
+      return defaultValue.equals(item) ? GoBuildTargetSettings.DEFAULT : (String) item;
+    }
+    return GoBuildTargetSettings.DEFAULT;
+  }
+
+  private static String expandDefault(String value, String defaultValue) {
+    return GoBuildTargetSettings.DEFAULT.equals(value) ? defaultValue : value;
+  }
+
+  private static MutableCollectionComboBoxModel<String> createModel(Collection<String> values, String defaultValue) {
+    List<String> items = ContainerUtil.newArrayList(defaultValue);
+    items.addAll(ContainerUtil.sorted(values));
+    return new MutableCollectionComboBoxModel<>(items, defaultValue);
+  }
+
+  public JPanel getPanel() {
+    return myPanel;
+  }
+
+  private static String cgo(ThreeState threeState) {
+    if (threeState == ThreeState.YES) {
+      return ENABLED;
+    }
+    if (threeState == ThreeState.NO) {
+      return DISABLED;
+    }
+    return GoBuildTargetSettings.DEFAULT;
+  }
+
+  private void createUIComponents() {
+    myDescriptionPane = GoUIUtil.createDescriptionPane();
+  }
+}

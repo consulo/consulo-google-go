@@ -1,0 +1,12 @@
+go 1.22
+
+use (
+	./app
+	./lib
+	./tools
+)
+
+replace (
+	example.com/lib v0.0.0 => ./lib
+	example.org/greeting v1.0.0 => ./third_party/greeting
+)

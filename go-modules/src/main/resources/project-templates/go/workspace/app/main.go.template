@@ -1,0 +1,12 @@
+// Command app uses the greeter module of the same workspace: go.work makes it visible without a require.
+package main
+
+import (
+	"fmt"
+
+	"${MODULE_PATH}/greeter"
+)
+
+func main() {
+	fmt.Println(greeter.Greet("workspace"))
+}

@@ -1,0 +1,27 @@
+package ${PACKAGE}
+
+import "testing"
+
+func TestReverse(t *testing.T) {
+	tests := []struct {
+		in, want string
+	}{
+		{"", ""},
+		{"Go", "oG"},
+		{"Hello, 世界", "界世 ,olleH"},
+	}
+	for _, test := range tests {
+		if got := Reverse(test.in); got != test.want {
+			t.Errorf("Reverse(%q) = %q, want %q", test.in, got, test.want)
+		}
+	}
+}
+
+func TestIsPalindrome(t *testing.T) {
+	if !IsPalindrome("Never odd or even") {
+		t.Error("expected a palindrome")
+	}
+	if IsPalindrome("Gopher") {
+		t.Error("expected no palindrome")
+	}
+}

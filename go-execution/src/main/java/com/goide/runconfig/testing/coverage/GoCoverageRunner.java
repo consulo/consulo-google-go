@@ -1,0 +1,177 @@
+/*
+ * Copyright 2013-2016 Sergey Ignatov, Alexander Zolotov, Florin Patan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.goide.runconfig.testing.coverage;
+
+import com.goide.util.GoPackageUtil;
+import consulo.execution.coverage.data.CoverageLine;
+import consulo.execution.coverage.data.CoverageLineImpl;
+import consulo.execution.coverage.data.CoverageUnit;
+import consulo.execution.coverage.data.LineStatus;
+import consulo.execution.coverage.data.CoverageProjectData;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.execution.configuration.ModuleBasedConfiguration;
+import consulo.execution.configuration.RunConfigurationBase;
+import consulo.execution.coverage.BaseCoverageSuite;
+import consulo.execution.coverage.CoverageEngine;
+import consulo.execution.coverage.CoverageRunner;
+import consulo.execution.coverage.CoverageSuite;
+import consulo.go.GoConstants;
+import consulo.logging.Logger;
+import consulo.module.Module;
+import consulo.project.Project;
+import consulo.util.collection.primitive.ints.IntMaps;
+import consulo.util.collection.primitive.ints.IntObjectMap;
+import consulo.util.lang.StringUtil;
+import consulo.virtualFileSystem.VirtualFile;
+
+import org.jspecify.annotations.Nullable;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+@ExtensionImpl
+public class GoCoverageRunner extends CoverageRunner {
+  private static final Logger LOG = Logger.getInstance(GoCoverageRunner.class);
+
+  private static final String ID = "GoCoverage";
+  private static final String DATA_FILE_EXTENSION = "out";
+  private static final String PRESENTABLE_NAME = GoConstants.GO;
+
+  @Override
+  public CoverageProjectData loadCoverageData(File sessionDataFile, @Nullable CoverageSuite baseCoverageSuite) {
+    if (!(baseCoverageSuite instanceof BaseCoverageSuite)) {
+      return null;
+    }
+    Project project = baseCoverageSuite.getProject();
+    if (project == null) {
+      return null;
+    }
+    RunConfigurationBase configuration = ((BaseCoverageSuite)baseCoverageSuite).getConfiguration();
+    Module module = configuration instanceof ModuleBasedConfiguration
+                    ? ((ModuleBasedConfiguration)configuration).getConfigurationModule().getModule()
+                    : null;
+
+    try {
+      BufferedReader reader = new BufferedReader(new FileReader(sessionDataFile.getAbsolutePath()));
+      try {
+        return parseCoverage(reader, project, module);
+      }
+      catch (IOException e) {
+        LOG.warn(e);
+      }
+      finally {
+        try {
+          reader.close();
+        }
+        catch (IOException e) {
+          LOG.warn(e);
+        }
+      }
+    }
+    catch (FileNotFoundException e) {
+      LOG.warn(e);
+    }
+
+    return null;
+  }
+
+  @Nullable
+  public static GoCoverageProjectData parseCoverage(BufferedReader dataReader,
+                                                    Project project,
+                                                    @Nullable Module module) throws IOException {
+    GoCoverageProjectData result = new GoCoverageProjectData();
+    String line;
+
+    while ((line = dataReader.readLine()) != null) {
+      if (line.isEmpty()) continue;
+      List<String> fileNameTail = StringUtil.split(line, ":");
+      VirtualFile file = GoPackageUtil.findByImportPath(fileNameTail.get(0), project, module);
+      if (file == null) continue;
+      String filePath = file.getPath();
+
+      List<String> tailParts = StringUtil.split(fileNameTail.get(1), " ");
+      if (tailParts.size() != 3) continue;
+
+      int statements = Integer.parseInt(tailParts.get(1));
+      int hit = Integer.parseInt(tailParts.get(2));
+
+      String offsets = tailParts.get(0);
+      int firstDot = offsets.indexOf('.');
+      int comma = offsets.indexOf(',', firstDot);
+      int secondDot = offsets.indexOf('.', comma);
+      if (firstDot == -1 || comma == -1 || secondDot == -1) continue;
+
+      int lineStart = Integer.parseInt(offsets.substring(0, firstDot));
+      int columnStart = Integer.parseInt(offsets.substring(firstDot + 1, comma));
+      int lineEnd = Integer.parseInt(offsets.substring(comma + 1, secondDot));
+      int columnEnd = Integer.parseInt(offsets.substring(secondDot + 1));
+
+      result.addData(filePath, lineStart, columnStart, lineEnd, columnEnd, statements, hit);
+    }
+
+    result.processFiles(fileData -> {
+      CoverageUnit unit = result.getOrCreateUnit(fileData.myFilePath);
+      int max = -1;
+      IntObjectMap<CoverageLineImpl> linesMap = IntMaps.newIntObjectHashMap();
+      for (GoCoverageProjectData.RangeData rangeData : fileData.myRangesData.values()) {
+        for (int i = rangeData.startLine; i <= rangeData.endLine; i++) {
+          CoverageLineImpl existingData = linesMap.get(i);
+          if (existingData != null) {
+            existingData.setHits(existingData.getHits() + rangeData.hits);
+            // a line covered by several ranges is only partially covered
+            existingData.setStatus(LineStatus.PARTIALLY_COVERED);
+          }
+          else {
+            CoverageLineImpl newData = new CoverageLineImpl(i, null);
+            newData.setHits(rangeData.hits);
+            newData.setStatus(rangeData.hits > 0 ? LineStatus.COVERED : LineStatus.NOT_COVERED);
+            linesMap.put(i, newData);
+          }
+        }
+        max = Math.max(max, rangeData.endLine);
+      }
+
+      List<CoverageLine> linesArray = new ArrayList<>(Collections.nCopies(max + 1, (CoverageLine)null));
+      linesMap.forEach((k, data) -> linesArray.set(data.getLineNumber(), data));
+      unit.setLines(linesArray);
+      return true;
+    });
+
+    return result;
+  }
+
+  @Override
+  public String getPresentableName() {
+    return PRESENTABLE_NAME;
+  }
+
+  @Override
+  public String getId() {
+    return ID;
+  }
+
+  @Override
+  public String getDataFileExtension() {
+    return DATA_FILE_EXTENSION;
+  }
+
+  @Override
+  public boolean acceptsCoverageEngine(CoverageEngine engine) {
+    return engine instanceof GoCoverageEngine;
+  }
+}

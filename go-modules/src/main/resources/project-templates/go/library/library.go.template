@@ -1,0 +1,19 @@
+// Package ${PACKAGE} provides string helpers.
+package ${PACKAGE}
+
+import "strings"
+
+// Reverse returns s with its runes in reverse order.
+func Reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
+// IsPalindrome reports whether s reads the same backwards, ignoring case and spaces.
+func IsPalindrome(s string) bool {
+	normalized := strings.ToLower(strings.ReplaceAll(s, " ", ""))
+	return normalized == Reverse(normalized)
+}

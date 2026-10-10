@@ -1,0 +1,87 @@
+/*
+ * Copyright 2013-2016 Sergey Ignatov, Alexander Zolotov, Florin Patan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.goide.project;
+
+import com.goide.sdk.GoSdkService;
+import com.goide.sdk.GoSdkUtil;
+import consulo.go.module.extension.GoModuleExtension;
+import consulo.module.Module;
+import consulo.util.lang.ThreeState;
+import org.jetbrains.annotations.Contract;
+
+import org.jspecify.annotations.Nullable;
+
+public class GoVendoringUtil {
+  /**
+   * Compares whole versions: "1.22.0" is newer than "1.7", which the former {@code substring(0, 3)} read as 1.2.
+   */
+  private static boolean isAtLeast(String sdkVersion, String minimum) {
+    return GoSdkUtil.compareVersions(sdkVersion, minimum) >= 0;
+  }
+
+  public static boolean supportsVendoringByDefault(@Nullable String sdkVersion) {
+    if (sdkVersion == null || sdkVersion.length() < 3) {
+      return false;
+    }
+    return isAtLeast(sdkVersion, "1.6");
+  }
+
+  public static boolean vendoringCanBeDisabled(@Nullable String sdkVersion) {
+    if (sdkVersion == null || sdkVersion.length() < 3) {
+      return true;
+    }
+    return !isAtLeast(sdkVersion, "1.7");
+  }
+
+  public static boolean supportsInternalPackages(@Nullable String sdkVersion) {
+    if (sdkVersion == null || sdkVersion.length() < 3) {
+      return false;
+    }
+    return isAtLeast(sdkVersion, "1.5");
+  }
+
+  public static boolean supportsSdkInternalPackages(@Nullable String sdkVersion) {
+    if (sdkVersion == null || sdkVersion.length() < 3) {
+      return false;
+    }
+    return isAtLeast(sdkVersion, "1.4");
+  }
+
+  public static boolean supportsVendoring(@Nullable String sdkVersion) {
+    if (sdkVersion == null || sdkVersion.length() < 3) {
+      return false;
+    }
+    return isAtLeast(sdkVersion, "1.4");
+  }
+
+  @Contract("null -> false")
+  public static boolean isVendoringEnabled(@Nullable Module module) {
+    if (module == null) {
+      return false;
+    }
+
+    String version = GoSdkService.getInstance(module.getProject()).getSdkVersion(module);
+    if (!vendoringCanBeDisabled(version)) {
+      return true;
+    }
+    ThreeState vendorSupportEnabled = GoModuleExtension.getVendoringEnabled(module);
+    if (vendorSupportEnabled == ThreeState.UNSURE) {
+      return supportsVendoring(version) && supportsVendoringByDefault(version);
+    }
+    return vendorSupportEnabled.toBoolean();
+  }
+}

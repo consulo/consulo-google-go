@@ -1,0 +1,44 @@
+// Package app holds the logic of the command; being internal, only this module can import it.
+package app
+
+import (
+	"bufio"
+	"io"
+	"sort"
+	"strings"
+)
+
+// WordCount is how often a word occurs.
+type WordCount struct {
+	Word  string
+	Count int
+}
+
+// CountWords counts the words of r, ignoring case.
+func CountWords(r io.Reader) (map[string]int, error) {
+	counts := make(map[string]int)
+	scanner := bufio.NewScanner(r)
+	scanner.Split(bufio.ScanWords)
+	for scanner.Scan() {
+		counts[strings.ToLower(scanner.Text())]++
+	}
+	return counts, scanner.Err()
+}
+
+// Top returns the n most frequent words, the most frequent first.
+func Top(counts map[string]int, n int) []WordCount {
+	words := make([]WordCount, 0, len(counts))
+	for word, count := range counts {
+		words = append(words, WordCount{word, count})
+	}
+	sort.Slice(words, func(i, j int) bool {
+		if words[i].Count != words[j].Count {
+			return words[i].Count > words[j].Count
+		}
+		return words[i].Word < words[j].Word
+	})
+	if n < len(words) {
+		words = words[:n]
+	}
+	return words
+}

@@ -1,0 +1,9 @@
+package main
+
+import "testing"
+
+func TestGreeting(t *testing.T) {
+	if got, want := greeting("Gopher"), "Hello, Gopher!"; got != want {
+		t.Errorf("greeting(%q) = %q, want %q", "Gopher", got, want)
+	}
+}
