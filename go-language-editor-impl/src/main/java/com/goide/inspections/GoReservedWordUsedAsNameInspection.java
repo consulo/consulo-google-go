@@ -13,105 +13,117 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.inspections;
 
 import com.goide.psi.*;
 import com.goide.psi.impl.GoTypeReference;
 import com.goide.quickfix.GoRenameQuickFix;
 import com.goide.util.GoPackageUtil;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.application.progress.ProgressManager;
 import consulo.language.editor.inspection.LocalInspectionToolSession;
-import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.ElementDescriptionUtil;
 import consulo.language.psi.PsiElement;
 import consulo.localize.LocalizeValue;
 import consulo.usage.UsageViewTypeLocation;
-import consulo.util.lang.StringUtil;
-
 
 @ExtensionImpl
 public class GoReservedWordUsedAsNameInspection extends GoInspectionBase {
-  @Override
-  protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
-    GoFile builtinFile = GoPackageUtil.findBuiltinFile(session.getFile());
-    if (builtinFile == null) return DUMMY_VISITOR;
+    @Override
+    protected GoVisitor buildGoVisitor(ProblemsHolder holder, LocalInspectionToolSession session, Object inspectionState) {
+        GoFile builtinFile = GoPackageUtil.findBuiltinFile(session.getFile());
+        if (builtinFile == null) {
+            return DUMMY_VISITOR;
+        }
 
-    return new GoVisitor() {
-      @Override
-      public void visitTypeSpec(GoTypeSpec o) {
-        super.visitTypeSpec(o);
-        check(o, builtinFile, holder);
-      }
+        return new GoVisitor() {
+            @Override
+            @RequiredReadAction
+            public void visitTypeSpec(GoTypeSpec o) {
+                super.visitTypeSpec(o);
+                check(o, builtinFile, holder);
+            }
 
-      @Override
-      public void visitConstDefinition(GoConstDefinition o) {
-        super.visitConstDefinition(o);
-        check(o, builtinFile, holder);
-      }
+            @Override
+            @RequiredReadAction
+            public void visitConstDefinition(GoConstDefinition o) {
+                super.visitConstDefinition(o);
+                check(o, builtinFile, holder);
+            }
 
-      @Override
-      public void visitFunctionOrMethodDeclaration(GoFunctionOrMethodDeclaration o) {
-        super.visitFunctionOrMethodDeclaration(o);
-        check(o, builtinFile, holder);
-      }
+            @Override
+            @RequiredReadAction
+            public void visitFunctionOrMethodDeclaration(GoFunctionOrMethodDeclaration o) {
+                super.visitFunctionOrMethodDeclaration(o);
+                check(o, builtinFile, holder);
+            }
 
-      @Override
-      public void visitVarDefinition(GoVarDefinition o) {
-        super.visitVarDefinition(o);
-        check(o, builtinFile, holder);
-      }
-    };
-  }
-
-  private static void check(GoNamedElement element, GoFile builtinFile, ProblemsHolder holder) {
-    String name = element.getName();
-    if (name == null || GoTypeReference.DOC_ONLY_TYPES.contains(name)) return;
-
-    for (GoTypeSpec builtinTypeDeclaration : builtinFile.getTypes()) {
-      if (name.equals(builtinTypeDeclaration.getName())) {
-        registerProblem(holder, element, builtinTypeDeclaration);
-        return;
-      }
+            @Override
+            @RequiredReadAction
+            public void visitVarDefinition(GoVarDefinition o) {
+                super.visitVarDefinition(o);
+                check(o, builtinFile, holder);
+            }
+        };
     }
 
-    ProgressManager.checkCanceled();
+    @RequiredReadAction
+    private static void check(GoNamedElement element, GoFile builtinFile, ProblemsHolder holder) {
+        String name = element.getName();
+        if (name == null || GoTypeReference.DOC_ONLY_TYPES.contains(name)) {
+            return;
+        }
 
-    for (GoFunctionDeclaration builtinFunctionsDeclaration : builtinFile.getFunctions()) {
-      if (name.equals(builtinFunctionsDeclaration.getName())) {
-        registerProblem(holder, element, builtinFunctionsDeclaration);
-        return;
-      }
+        for (GoTypeSpec builtinTypeDeclaration : builtinFile.getTypes()) {
+            if (name.equals(builtinTypeDeclaration.getName())) {
+                registerProblem(holder, element, builtinTypeDeclaration);
+                return;
+            }
+        }
+
+        ProgressManager.checkCanceled();
+
+        for (GoFunctionDeclaration builtinFunctionsDeclaration : builtinFile.getFunctions()) {
+            if (name.equals(builtinFunctionsDeclaration.getName())) {
+                registerProblem(holder, element, builtinFunctionsDeclaration);
+                return;
+            }
+        }
     }
-  }
 
-  private static void registerProblem(ProblemsHolder holder,
-                                      GoNamedElement element,
-                                      GoNamedElement builtinElement) {
-    PsiElement identifier = element.getIdentifier();
-    if (identifier == null) return;
+    private static void registerProblem(ProblemsHolder holder, GoNamedElement element, GoNamedElement builtinElement) {
+        PsiElement identifier = element.getIdentifier();
+        if (identifier == null) {
+            return;
+        }
 
-    String elementDescription = ElementDescriptionUtil.getElementDescription(element, UsageViewTypeLocation.INSTANCE);
-    String builtinElementDescription = ElementDescriptionUtil.getElementDescription(builtinElement, UsageViewTypeLocation.INSTANCE);
-    String message = StringUtil.capitalize(elementDescription) + " <code>#ref</code> collides with builtin " + builtinElementDescription;
-    holder.registerProblem(identifier, message, ProblemHighlightType.GENERIC_ERROR_OR_WARNING, new GoRenameQuickFix(element));
-  }
+        LocalizeValue elementDescription = ElementDescriptionUtil.getElementDescription(element, UsageViewTypeLocation.INSTANCE);
+        LocalizeValue builtinElementDescription = ElementDescriptionUtil.getElementDescription(
+            builtinElement,
+            UsageViewTypeLocation.INSTANCE
+        );
+        String message = elementDescription.capitalize() + " <code>#ref</code> collides with builtin " + builtinElementDescription;
+        holder.newProblem(LocalizeValue.localizeTODO(message))
+            .range(identifier)
+            .withFixes(new GoRenameQuickFix(element))
+            .create();
+    }
 
-  @Override
-  public LocalizeValue getGroupDisplayName() {
-    return LocalizeValue.localizeTODO("Probable bugs");
-  }
+    @Override
+    public LocalizeValue getGroupDisplayName() {
+        return LocalizeValue.localizeTODO("Probable bugs");
+    }
 
-  @Override
-  public LocalizeValue getDisplayName() {
-    return LocalizeValue.localizeTODO("Reserved word used as name");
-  }
+    @Override
+    public LocalizeValue getDisplayName() {
+        return LocalizeValue.localizeTODO("Reserved word used as name");
+    }
 
-  @Override
-  public HighlightDisplayLevel getDefaultLevel() {
-    return HighlightDisplayLevel.WARNING;
-  }
+    @Override
+    public HighlightDisplayLevel getDefaultLevel() {
+        return HighlightDisplayLevel.WARNING;
+    }
 }
