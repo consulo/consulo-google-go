@@ -232,3 +232,43 @@ go.mod.annotator.directive.only.in.work:
     text: 'Only valid in go.work: {0}'
 go.mod.annotator.repeated.directive:
     text: 'Repeated directive: {0}'
+go.module.extension.build.tags.group:
+    text: Build tags
+go.module.extension.build.tags.description:
+    text: Following options describe target system for the project. IDE will use these values to decide which files should be ignored during validation, resolving and suggesting symbols.
+go.module.extension.build.tags.documentation.link:
+    text: Go Constraint documentation
+go.module.extension.os.label:
+    text: 'OS:'
+go.module.extension.arch.label:
+    text: 'Arch:'
+go.module.extension.go.version.label:
+    text: 'Go version:'
+go.module.extension.compiler.label:
+    text: 'Compiler:'
+go.module.extension.cgo.label:
+    text: 'CGO support:'
+go.module.extension.custom.tags.label:
+    text: 'Custom tags:'
+go.module.extension.custom.tags.dialog.title:
+    text: Custom Build Tags
+go.module.extension.default.value:
+    text: Default ({0})
+go.module.extension.module.sdk.value:
+    text: Module SDK ({0})
+go.module.extension.any.sdk:
+    text: any
+go.module.extension.enabled:
+    text: Enabled
+go.module.extension.disabled:
+    text: Disabled
+go.module.extension.vendoring.group:
+    text: Vendor experiment
+go.module.extension.vendoring.label:
+    text: 'Enable vendoring:'
+go.module.extension.vendoring.default:
+    text: Default for SDK ({0})
+go.module.extension.vendoring.cannot.be.disabled:
+    text: Go {0} doesn''t support disabling vendor experiment
+go.module.extension.vendoring.not.supported:
+    text: Go {0} doesn''t support vendor experiment

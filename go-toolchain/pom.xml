@@ -69,10 +69,5 @@
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>consulo.internal</groupId>
-            <artifactId>forms_rt</artifactId>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 </project>

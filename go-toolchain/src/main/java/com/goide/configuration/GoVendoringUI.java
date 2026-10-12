@@ -13,100 +13,107 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.goide.configuration;
 
 import com.goide.project.GoVendoringUtil;
 import consulo.content.bundle.Sdk;
+import consulo.go.localize.GoLocalize;
 import consulo.go.module.extension.GoMutableModuleExtension;
+import consulo.localize.LocalizeValue;
 import consulo.platform.base.icon.PlatformIconGroup;
-import consulo.ui.ex.awt.ComboBox;
-import consulo.ui.ex.awt.IdeBorderFactory;
-import consulo.ui.ex.awt.JBLabel;
-import consulo.ui.ex.awt.MutableCollectionComboBoxModel;
-import consulo.util.collection.ContainerUtil;
+import consulo.ui.ComboBox;
+import consulo.ui.Component;
+import consulo.ui.Label;
+import consulo.ui.annotation.RequiredUIAccess;
+import consulo.ui.layout.LabeledLayout;
+import consulo.ui.layout.VerticalLayout;
+import consulo.ui.model.FlatDataModel;
+import consulo.ui.model.MutableFlatDataModel;
+import consulo.ui.util.FormBuilder;
 import consulo.util.lang.ThreeState;
 
-import javax.swing.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class GoVendoringUI {
-  private static final String ENABLED = "Enabled";
-  private static final String DISABLED = "Disabled";
+    private final GoMutableModuleExtension myModuleExtension;
 
-  private final MutableCollectionComboBoxModel myVendoringEnabledComboModel = new MutableCollectionComboBoxModel<String>(new ArrayList<>());
-  private String myDefaultComboText = "";
+    private final MutableFlatDataModel<ThreeState> myVendoringModel;
+    private final ComboBox<ThreeState> myVendoringBox;
+    private final Label myErrorMessageLabel;
 
-  private JPanel myPanel;
-  private JBLabel myErrorMessageLabel;
-  private ComboBox myVendoringEnabledCombo;
-  @SuppressWarnings("unused")
-  private JTextPane myDescriptionPane;
+    private final Component myComponent;
 
-  private GoMutableModuleExtension myModuleExtension;
+    private boolean myVendoringByDefault;
 
-  public GoVendoringUI(GoMutableModuleExtension moduleExtension) {
-    myModuleExtension = moduleExtension;
-    myPanel.setBorder(IdeBorderFactory.createTitledBorder("Vendor experiment"));
+    @RequiredUIAccess
+    public GoVendoringUI(GoMutableModuleExtension moduleExtension) {
+        myModuleExtension = moduleExtension;
 
-    sdkChanged();
-    myVendoringEnabledCombo.addActionListener(e -> moduleExtension.setVendoringEnabled(getValue()));
-  }
+        myVendoringModel = FlatDataModel.of(List.of(ThreeState.UNSURE, ThreeState.YES, ThreeState.NO));
+        myVendoringBox = ComboBox.create(myVendoringModel);
+        myVendoringBox.setTextRenderer(value -> {
+            if (value == null) {
+                return LocalizeValue.empty();
+            }
+            switch (value) {
+                case YES:
+                    return GoLocalize.goModuleExtensionEnabled();
+                case NO:
+                    return GoLocalize.goModuleExtensionDisabled();
+                default:
+                    return GoLocalize.goModuleExtensionVendoringDefault(
+                        myVendoringByDefault ? GoLocalize.goModuleExtensionEnabled() : GoLocalize.goModuleExtensionDisabled()
+                    );
+            }
+        });
 
-  public void sdkChanged() {
-    Sdk sdk = myModuleExtension.getSdk();
-    String sdkVersion = sdk == null ? null : sdk.getVersionString();
-    if (!GoVendoringUtil.vendoringCanBeDisabled(sdkVersion)) {
-      myErrorMessageLabel.setIcon(PlatformIconGroup.generalBalloonwarning());
-      myErrorMessageLabel.setText("Go " + sdkVersion + " doesn't support disabling vendor experiment");
-      myErrorMessageLabel.setVisible(true);
-      myVendoringEnabledCombo.setEnabled(false);
+        myErrorMessageLabel = Label.create(LocalizeValue.empty());
+        myErrorMessageLabel.setImage(PlatformIconGroup.generalBalloonwarning());
+
+        sdkChanged();
+
+        myVendoringBox.addValueListener(event -> {
+            ThreeState value = event.getValue();
+            myModuleExtension.setVendoringEnabled(value == null ? ThreeState.UNSURE : value);
+        });
+
+        FormBuilder formBuilder = FormBuilder.create();
+        formBuilder.addLabeled(GoLocalize.goModuleExtensionVendoringLabel(), myVendoringBox);
+
+        VerticalLayout layout = VerticalLayout.create();
+        layout.add(formBuilder.build());
+        layout.add(myErrorMessageLabel);
+
+        myComponent = LabeledLayout.create(GoLocalize.goModuleExtensionVendoringGroup(), layout);
     }
-    else if (!GoVendoringUtil.supportsVendoring(sdkVersion) && sdkVersion != null) {
-      myErrorMessageLabel.setIcon(PlatformIconGroup.generalBalloonwarning());
-      myErrorMessageLabel.setText("Go " + sdkVersion + " doesn't support vendor experiment");
-      myErrorMessageLabel.setVisible(true);
-      myVendoringEnabledCombo.setEnabled(true);
-    }
-    else {
-      myErrorMessageLabel.setVisible(false);
-      myVendoringEnabledCombo.setEnabled(true);
+
+    @RequiredUIAccess
+    public void sdkChanged() {
+        Sdk sdk = myModuleExtension.getSdk();
+        String sdkVersion = sdk == null ? null : sdk.getVersionString();
+        if (!GoVendoringUtil.vendoringCanBeDisabled(sdkVersion)) {
+            myErrorMessageLabel.setText(GoLocalize.goModuleExtensionVendoringCannotBeDisabled(String.valueOf(sdkVersion)));
+            myErrorMessageLabel.setVisible(true);
+            myVendoringBox.setEnabled(false);
+        }
+        else if (!GoVendoringUtil.supportsVendoring(sdkVersion) && sdkVersion != null) {
+            myErrorMessageLabel.setText(GoLocalize.goModuleExtensionVendoringNotSupported(sdkVersion));
+            myErrorMessageLabel.setVisible(true);
+            myVendoringBox.setEnabled(true);
+        }
+        else {
+            myErrorMessageLabel.setVisible(false);
+            myVendoringBox.setEnabled(true);
+        }
+
+        myVendoringByDefault = GoVendoringUtil.supportsVendoringByDefault(sdkVersion);
+        myVendoringModel.update(ThreeState.UNSURE);
+
+        myVendoringBox.setValue(myModuleExtension.getVendoringEnabled(), false);
     }
 
-    myDefaultComboText = "Default for SDK (" + (GoVendoringUtil.supportsVendoringByDefault(sdkVersion) ? ENABLED : DISABLED) + ")";
-    //noinspection unchecked
-    myVendoringEnabledComboModel.update(ContainerUtil.newArrayList(myDefaultComboText, ENABLED, DISABLED));
-
-    switch (myModuleExtension.getVendoringEnabled()) {
-      case YES:
-        myVendoringEnabledComboModel.setSelectedItem(ENABLED);
-        break;
-      case NO:
-        myVendoringEnabledComboModel.setSelectedItem(DISABLED);
-        break;
-      case UNSURE:
-        myVendoringEnabledComboModel.setSelectedItem(myDefaultComboText);
-        break;
+    public Component getComponent() {
+        return myComponent;
     }
-  }
-
-  public ThreeState getValue() {
-    Object item = myVendoringEnabledComboModel.getSelectedItem();
-    if (ENABLED.equals(item)) {
-      return ThreeState.YES;
-    }
-    else if (DISABLED.equals(item)) {
-      return ThreeState.NO;
-    }
-    else {
-      return ThreeState.UNSURE;
-    }
-  }
-
-  public JPanel getPanel() {
-    return myPanel;
-  }
-
-  private void createUIComponents() {
-    myDescriptionPane = GoUIUtil.createDescriptionPane();
-  }
 }

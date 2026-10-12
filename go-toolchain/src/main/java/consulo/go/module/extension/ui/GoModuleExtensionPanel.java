@@ -18,32 +18,36 @@ package consulo.go.module.extension.ui;
 
 import com.goide.configuration.GoBuildTagsUI;
 import com.goide.configuration.GoVendoringUI;
+import consulo.disposer.Disposable;
 import consulo.go.module.extension.GoMutableModuleExtension;
-import consulo.module.ui.extension.ModuleExtensionSdkBoxBuilder;
+import consulo.module.ui.extension.ModuleExtensionBundleBoxBuilder;
+import consulo.ui.Component;
 import consulo.ui.annotation.RequiredUIAccess;
-import consulo.ui.ex.awt.VerticalFlowLayout;
-
-import javax.swing.*;
+import consulo.ui.layout.VerticalLayout;
 
 /**
  * @author VISTALL
  * @since 05-May-17
  */
-public class GoModuleExtensionPanel extends JPanel {
-  @RequiredUIAccess
-  public GoModuleExtensionPanel(GoMutableModuleExtension extension, Runnable runnable) {
-    super(new VerticalFlowLayout(true, false));
+public final class GoModuleExtensionPanel {
+    private GoModuleExtensionPanel() {
+    }
 
-    GoBuildTagsUI buildTagsUI = new GoBuildTagsUI(extension);
-    GoVendoringUI vendoringUI = new GoVendoringUI(extension);
+    @RequiredUIAccess
+    public static Component create(GoMutableModuleExtension extension, Disposable uiDisposable, Runnable runnable) {
+        GoBuildTagsUI buildTagsUI = new GoBuildTagsUI(extension);
+        GoVendoringUI vendoringUI = new GoVendoringUI(extension);
 
-    ModuleExtensionSdkBoxBuilder builder = ModuleExtensionSdkBoxBuilder.createAndDefine(extension, runnable);
-    builder.postConsumer((oldSdk, newSdk) -> {
-      buildTagsUI.sdkChanged();
-      vendoringUI.sdkChanged();
-    });
-    add(builder.build());
-    add(buildTagsUI.getPanel());
-    add(vendoringUI.getPanel());
-  }
+        ModuleExtensionBundleBoxBuilder<?> builder = ModuleExtensionBundleBoxBuilder.createAndDefine(extension, uiDisposable, runnable);
+        builder.postConsumer((oldSdk, newSdk) -> {
+            buildTagsUI.sdkChanged();
+            vendoringUI.sdkChanged();
+        });
+
+        VerticalLayout layout = VerticalLayout.create();
+        layout.add(builder.build());
+        layout.add(buildTagsUI.getComponent());
+        layout.add(vendoringUI.getComponent());
+        return layout;
+    }
 }

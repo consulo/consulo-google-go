@@ -21,11 +21,14 @@ import consulo.application.localize.ApplicationLocalize;
 import consulo.configurable.ConfigurationException;
 import consulo.configurable.ProjectConfigurable;
 import consulo.configurable.SearchableConfigurable;
+import consulo.disposer.Disposable;
 import consulo.go.localize.GoLocalize;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
+import consulo.ui.Component;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.awt.*;
+import consulo.ui.ex.awtUnsafe.TargetAWT;
 import consulo.util.lang.StringUtil;
 import jakarta.inject.Inject;
 import org.jspecify.annotations.Nullable;
@@ -55,7 +58,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable, Project
     @RequiredUIAccess
     @Nullable
     @Override
-    public JComponent createComponent() {
+    public Component createUIComponent(Disposable disposable) {
         FormBuilder builder = FormBuilder.createFormBuilder();
         myCbShowImportPopup = new JCheckBox(ApplicationLocalize.checkboxShowImportPopup().get());
         myCbAddUnambiguousImports = new JCheckBox(ApplicationLocalize.checkboxAddUnambiguousImportsOnTheFly().get());
@@ -78,7 +81,7 @@ public class GoAutoImportConfigurable implements SearchableConfigurable, Project
 
         JPanel result = new JPanel(new BorderLayout());
         result.add(builder.getPanel(), BorderLayout.NORTH);
-        return result;
+        return TargetAWT.wrap(result);
     }
 
     public void focusList() {

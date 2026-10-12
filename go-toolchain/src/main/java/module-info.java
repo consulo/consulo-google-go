@@ -21,10 +21,6 @@ module consulo.go.toolchain {
     requires consulo.module.ui.api;
     requires consulo.execution.api;
 
-    // TODO remove in future;
-    requires java.desktop;
-    requires forms.rt;
-
     exports com.goide.configuration;
     exports com.goide.project;
     exports com.goide.sdk;
