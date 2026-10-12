@@ -13,30 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.refactor;
 
 import com.goide.psi.GoNamedElement;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.highlight.HighlightUsagesDescriptionLocation;
 import consulo.language.psi.ElementDescriptionLocation;
 import consulo.language.psi.ElementDescriptionProvider;
 import consulo.language.psi.PsiElement;
+import consulo.localize.LocalizeValue;
 import consulo.usage.UsageViewLongNameLocation;
 import consulo.usage.UsageViewShortNameLocation;
 
-import org.jspecify.annotations.Nullable;
-
 @ExtensionImpl
 public class GoDescriptionProvider implements ElementDescriptionProvider {
-  @Nullable
-  @Override
-  public String getElementDescription(PsiElement o, ElementDescriptionLocation location) {
-    if (location == UsageViewShortNameLocation.INSTANCE ||
-        location == UsageViewLongNameLocation.INSTANCE ||
-        location == HighlightUsagesDescriptionLocation.INSTANCE) {
-      return o instanceof GoNamedElement ? ((GoNamedElement)o).getName() : null;
+    @Override
+    @RequiredReadAction
+    public LocalizeValue getElementDescription(PsiElement o, ElementDescriptionLocation location) {
+        if (location == UsageViewShortNameLocation.INSTANCE
+            || location == UsageViewLongNameLocation.INSTANCE
+            || location == HighlightUsagesDescriptionLocation.INSTANCE) {
+            return o instanceof GoNamedElement namedElem ? LocalizeValue.ofNullable(namedElem.getName()) : LocalizeValue.empty();
+        }
+        return LocalizeValue.empty();
     }
-    return null;
-  }
 }

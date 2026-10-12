@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.usages;
 
 import com.goide.GoLanguage;
@@ -36,58 +35,93 @@ import org.jspecify.annotations.Nullable;
 
 @ExtensionImpl
 public class GoFindUsagesProvider implements FindUsagesProvider {
-  @Nullable
-  @Override
-  public WordsScanner getWordsScanner() {
-    return new DefaultWordsScanner(new GoLexer(), TokenSet.create(GoTypes.IDENTIFIER),
-                                   GoParserDefinition.COMMENTS, GoParserDefinition.STRING_LITERALS);
-  }
-
-  @Override
-  public boolean canFindUsagesFor(PsiElement element) {
-    if (element instanceof GoImportSpec) {
-      GoImportSpec importSpec = (GoImportSpec)element;
-      return importSpec.getAlias() != null && !importSpec.isDot() && !importSpec.isForSideEffects();
+    @Nullable
+    @Override
+    public WordsScanner getWordsScanner() {
+        return new DefaultWordsScanner(new GoLexer(), TokenSet.create(GoTypes.IDENTIFIER),
+            GoParserDefinition.COMMENTS, GoParserDefinition.STRING_LITERALS
+        );
     }
-    return element instanceof GoNamedElement;
-  }
 
-  @Override
-  public String getType(PsiElement element) {
-    if (element instanceof GoMethodDeclaration) return "method";
-    if (element instanceof GoFunctionDeclaration) return "function";
-    if (element instanceof GoConstDefinition || element instanceof GoConstDeclaration) return "constant";
-    if (element instanceof GoVarDefinition || element instanceof GoVarDeclaration) return "variable";
-    if (element instanceof GoParamDefinition) return "parameter";
-    if (element instanceof GoFieldDefinition) return "field";
-    if (element instanceof GoAnonymousFieldDefinition) return "anonymous field";
-    if (element instanceof GoTypeSpec || element instanceof GoTypeDeclaration) return "type";
-    if (element instanceof GoImportDeclaration) return "import";
-    if (element instanceof GoImportSpec) return "import alias";
-    if (element instanceof GoReceiver) return "receiver";
-    if (element instanceof GoMethodSpec) return "method specification";
-    if (element instanceof GoLabelDefinition) return "label";
-    if (element instanceof GoPackageClause) return "package statement";
+    @Override
+    public boolean canFindUsagesFor(PsiElement element) {
+        if (element instanceof GoImportSpec) {
+            GoImportSpec importSpec = (GoImportSpec) element;
+            return importSpec.getAlias() != null && !importSpec.isDot() && !importSpec.isForSideEffects();
+        }
+        return element instanceof GoNamedElement;
+    }
 
-    // should be last
-    if (element instanceof GoStatement) return "statement";
-    if (element instanceof GoTopLevelDeclaration) return "declaration";
-    if (element instanceof GoCommClause || element instanceof GoCaseClause) return "case";
-    return "";
-  }
+    @Override
+    public String getType(PsiElement element) {
+        if (element instanceof GoMethodDeclaration) {
+            return "method";
+        }
+        if (element instanceof GoFunctionDeclaration) {
+            return "function";
+        }
+        if (element instanceof GoConstDefinition || element instanceof GoConstDeclaration) {
+            return "constant";
+        }
+        if (element instanceof GoVarDefinition || element instanceof GoVarDeclaration) {
+            return "variable";
+        }
+        if (element instanceof GoParamDefinition) {
+            return "parameter";
+        }
+        if (element instanceof GoFieldDefinition) {
+            return "field";
+        }
+        if (element instanceof GoAnonymousFieldDefinition) {
+            return "anonymous field";
+        }
+        if (element instanceof GoTypeSpec || element instanceof GoTypeDeclaration) {
+            return "type";
+        }
+        if (element instanceof GoImportDeclaration) {
+            return "import";
+        }
+        if (element instanceof GoImportSpec) {
+            return "import alias";
+        }
+        if (element instanceof GoReceiver) {
+            return "receiver";
+        }
+        if (element instanceof GoMethodSpec) {
+            return "method specification";
+        }
+        if (element instanceof GoLabelDefinition) {
+            return "label";
+        }
+        if (element instanceof GoPackageClause) {
+            return "package statement";
+        }
 
-  @Override
-  public String getDescriptiveName(PsiElement element) {
-    return ElementDescriptionUtil.getElementDescription(element, UsageViewLongNameLocation.INSTANCE);
-  }
+        // should be last
+        if (element instanceof GoStatement) {
+            return "statement";
+        }
+        if (element instanceof GoTopLevelDeclaration) {
+            return "declaration";
+        }
+        if (element instanceof GoCommClause || element instanceof GoCaseClause) {
+            return "case";
+        }
+        return "";
+    }
 
-  @Override
-  public String getNodeText(PsiElement element, boolean useFullName) {
-    return ElementDescriptionUtil.getElementDescription(element, UsageViewShortNameLocation.INSTANCE);
-  }
+    @Override
+    public String getDescriptiveName(PsiElement element) {
+        return ElementDescriptionUtil.getElementDescription(element, UsageViewLongNameLocation.INSTANCE).get();
+    }
 
-  @Override
-  public Language getLanguage() {
-    return GoLanguage.INSTANCE;
-  }
+    @Override
+    public String getNodeText(PsiElement element, boolean useFullName) {
+        return ElementDescriptionUtil.getElementDescription(element, UsageViewShortNameLocation.INSTANCE).get();
+    }
+
+    @Override
+    public Language getLanguage() {
+        return GoLanguage.INSTANCE;
+    }
 }

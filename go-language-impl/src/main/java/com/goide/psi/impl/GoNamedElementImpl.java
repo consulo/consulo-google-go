@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.goide.psi.impl;
 
 import com.goide.project.GoVendoringUtil;
@@ -21,6 +20,8 @@ import com.goide.psi.*;
 import com.goide.stubs.GoNamedStub;
 import com.goide.util.GoPackageUtil;
 import com.goide.util.GoUtil;
+import consulo.annotation.access.RequiredReadAction;
+import consulo.annotation.access.RequiredWriteAction;
 import consulo.application.util.CachedValueProvider;
 import consulo.component.util.Iconable;
 import consulo.content.scope.SearchScope;
@@ -36,7 +37,7 @@ import consulo.language.psi.stub.IStubElementType;
 import consulo.language.psi.util.LanguageCachedValueUtil;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.language.util.IncorrectOperationException;
-import consulo.language.util.ModuleUtilCore;
+import consulo.localize.LocalizeValue;
 import consulo.navigation.ItemPresentation;
 import consulo.ui.image.Image;
 import consulo.usage.UsageViewUtil;
@@ -46,153 +47,166 @@ import consulo.util.lang.StringUtil;
 import org.jspecify.annotations.Nullable;
 
 public abstract class GoNamedElementImpl<T extends GoNamedStub<?>> extends GoStubbedElementImpl<T> implements GoCompositeElement, GoNamedElement {
-
-  public GoNamedElementImpl(T stub, IStubElementType nodeType) {
-    super(stub, nodeType);
-  }
-
-  public GoNamedElementImpl(ASTNode node) {
-    super(node);
-  }
-
-  @Override
-  public boolean isPublic() {
-    if (GoPsiImplUtil.builtin(this)) return true;
-    T stub = getStub();
-    return stub != null ? stub.isPublic() : StringUtil.isCapitalized(getName());
-  }
-
-  @Nullable
-  @Override
-  public PsiElement getNameIdentifier() {
-    return getIdentifier();
-  }
-
-  @Nullable
-  @Override
-  public String getName() {
-    T stub = getStub();
-    if (stub != null) {
-      return stub.getName();
+    public GoNamedElementImpl(T stub, IStubElementType nodeType) {
+        super(stub, nodeType);
     }
-    PsiElement identifier = getIdentifier();
-    return identifier != null ? identifier.getText() : null;
-  }
 
-  @Nullable
-  @Override
-  public String getQualifiedName() {
-    String name = getName();
-    if (name == null) return null;
-    String packageName = getContainingFile().getPackageName();
-    return GoPsiImplUtil.getFqn(packageName, name);
-  }
-
-  @Override
-  public int getTextOffset() {
-    PsiElement identifier = getIdentifier();
-    return identifier != null ? identifier.getTextOffset() : super.getTextOffset();
-  }
-
-  @Override
-  public PsiElement setName(String newName) throws IncorrectOperationException {
-    PsiElement identifier = getIdentifier();
-    if (identifier != null) {
-      identifier.replace(GoElementFactory.createIdentifierFromText(getProject(), newName));
+    public GoNamedElementImpl(ASTNode node) {
+        super(node);
     }
-    return this;
-  }
 
-  @Nullable
-  @Override
-  public GoType getGoType(@Nullable ResolveState context) {
-    if (context != null) return getGoTypeInner(context);
-    return LanguageCachedValueUtil.getCachedValue(this, () -> CachedValueProvider.Result
+    @Override
+    @RequiredReadAction
+    public boolean isPublic() {
+        if (GoPsiImplUtil.builtin(this)) {
+            return true;
+        }
+        T stub = getStub();
+        return stub != null ? stub.isPublic() : StringUtil.isCapitalized(getName());
+    }
+
+    @Override
+    public @Nullable PsiElement getNameIdentifier() {
+        return getIdentifier();
+    }
+
+    @Override
+    @RequiredReadAction
+    public @Nullable String getName() {
+        T stub = getStub();
+        if (stub != null) {
+            return stub.getName();
+        }
+        PsiElement identifier = getIdentifier();
+        return identifier != null ? identifier.getText() : null;
+    }
+
+    @Override
+    @RequiredReadAction
+    public @Nullable String getQualifiedName() {
+        String name = getName();
+        if (name == null) {
+            return null;
+        }
+        String packageName = getContainingFile().getPackageName();
+        return GoPsiImplUtil.getFqn(packageName, name);
+    }
+
+    @Override
+    @RequiredReadAction
+    public int getTextOffset() {
+        PsiElement identifier = getIdentifier();
+        return identifier != null ? identifier.getTextOffset() : super.getTextOffset();
+    }
+
+    @Override
+    @RequiredWriteAction
+    public PsiElement setName(String newName) throws IncorrectOperationException {
+        PsiElement identifier = getIdentifier();
+        if (identifier != null) {
+            identifier.replace(GoElementFactory.createIdentifierFromText(getProject(), newName));
+        }
+        return this;
+    }
+
+    @Override
+    @RequiredReadAction
+    public @Nullable GoType getGoType(@Nullable ResolveState context) {
+        if (context != null) {
+            return getGoTypeInner(context);
+        }
+        return LanguageCachedValueUtil.getCachedValue(this, () -> CachedValueProvider.Result
             .create(getGoTypeInner(GoPsiImplUtil.createContextOnElement(this)), PsiModificationTracker.MODIFICATION_COUNT));
-  }
-
-  @Nullable
-  protected GoType getGoTypeInner(@Nullable ResolveState context) {
-    return findSiblingType();
-  }
-
-  @Nullable
-  @Override
-  public GoType findSiblingType() {
-    T stub = getStub();
-    if (stub != null) {
-      return GoPsiTreeUtil.getStubChildOfType(getParentByStub(), GoType.class);
     }
-    return PsiTreeUtil.getNextSiblingOfType(this, GoType.class);
-  }
 
-  @Override
-  public boolean processDeclarations(PsiScopeProcessor processor, ResolveState state, PsiElement lastParent, PsiElement place) {
-    return GoCompositeElementImpl.processDeclarationsDefault(this, processor, state, lastParent, place);
-  }
+    @RequiredReadAction
+    protected @Nullable GoType getGoTypeInner(@Nullable ResolveState context) {
+        return findSiblingType();
+    }
 
-  @Override
-  public ItemPresentation getPresentation() {
-    String text = UsageViewUtil.createNodeText(this);
-    if (text != null) {
-      boolean vendoringEnabled = GoVendoringUtil.isVendoringEnabled(ModuleUtilCore.findModuleForPsiElement(getContainingFile()));
-      return new ItemPresentation() {
-        @Nullable
-        @Override
-        public String getPresentableText() {
-          return getName();
+    @Override
+    @RequiredReadAction
+    public @Nullable GoType findSiblingType() {
+        T stub = getStub();
+        if (stub != null) {
+            return GoPsiTreeUtil.getStubChildOfType(getParentByStub(), GoType.class);
         }
+        return PsiTreeUtil.getNextSiblingOfType(this, GoType.class);
+    }
 
-        @Nullable
-        @Override
-        public String getLocationString() {
-          GoFile file = getContainingFile();
-          String fileName = file.getName();
-          String importPath = ObjectUtil.chooseNotNull(file.getImportPath(vendoringEnabled), file.getPackageName());
-          return "in " + (importPath != null ? importPath + "/" + fileName : fileName);
+    @Override
+    public boolean processDeclarations(PsiScopeProcessor processor, ResolveState state, PsiElement lastParent, PsiElement place) {
+        return GoCompositeElementImpl.processDeclarationsDefault(this, processor, state, lastParent, place);
+    }
+
+    @Override
+    @RequiredReadAction
+    public ItemPresentation getPresentation() {
+        LocalizeValue text = UsageViewUtil.createNodeText(this);
+        if (text != null) {
+            boolean vendoringEnabled = GoVendoringUtil.isVendoringEnabled(getContainingFile().getModule());
+            return new ItemPresentation() {
+                @Override
+                @RequiredReadAction
+                public @Nullable LocalizeValue getPresentableText() {
+                    return LocalizeValue.ofNullable(getName());
+                }
+
+                @Override
+                @RequiredReadAction
+                public @Nullable String getLocationString() {
+                    GoFile file = getContainingFile();
+                    String fileName = file.getName();
+                    String importPath = ObjectUtil.chooseNotNull(file.getImportPath(vendoringEnabled), file.getPackageName());
+                    return "in " + (importPath != null ? importPath + "/" + fileName : fileName);
+                }
+
+                @Override
+                @RequiredReadAction
+                public @Nullable Image getIcon() {
+                    return IconDescriptorUpdaters.getIcon(GoNamedElementImpl.this, Iconable.ICON_FLAG_VISIBILITY);
+                }
+            };
         }
+        return super.getPresentation();
+    }
 
-        @Nullable
-        @Override
-        public Image getIcon() {
-          return IconDescriptorUpdaters.getIcon(GoNamedElementImpl.this, Iconable.ICON_FLAG_VISIBILITY);
+    @Override
+    @RequiredReadAction
+    public GlobalSearchScope getResolveScope() {
+        return isPublic() ? GoUtil.goPathResolveScope(this) : GoPackageUtil.packageScope(getContainingFile());
+    }
+
+    @Override
+    @RequiredReadAction
+    public SearchScope getUseScope() {
+        if (this instanceof GoVarDefinition || this instanceof GoConstDefinition || this instanceof GoLabelDefinition) {
+            GoBlock block = PsiTreeUtil.getParentOfType(this, GoBlock.class);
+            if (block != null) {
+                return new LocalSearchScope(block);
+            }
         }
-      };
+        if (!isPublic()) {
+            return GoPackageUtil.packageScope(getContainingFile());
+        }
+        GoSpecType parentType = PsiTreeUtil.getStubOrPsiParentOfType(this, GoSpecType.class);
+        if (parentType != null) {
+            GoTypeSpec typeSpec = GoPsiImplUtil.getTypeSpecSafe(parentType);
+            if (typeSpec != null && !StringUtil.isCapitalized(typeSpec.getName())) {
+                return GoPackageUtil.packageScope(getContainingFile());
+            }
+        }
+        return GoUtil.goPathUseScope(this, !(this instanceof GoMethodDeclaration));
     }
-    return super.getPresentation();
-  }
 
-  @Override
-  public GlobalSearchScope getResolveScope() {
-    return isPublic() ? GoUtil.goPathResolveScope(this) : GoPackageUtil.packageScope(getContainingFile());
-  }
-
-  @Override
-  public SearchScope getUseScope() {
-    if (this instanceof GoVarDefinition || this instanceof GoConstDefinition || this instanceof GoLabelDefinition) {
-      GoBlock block = PsiTreeUtil.getParentOfType(this, GoBlock.class);
-      if (block != null) return new LocalSearchScope(block);
+    @Override
+    @RequiredReadAction
+    public boolean isBlank() {
+        return StringUtil.equals(getName(), "_");
     }
-    if (!isPublic()) {
-      return GoPackageUtil.packageScope(getContainingFile());
-    }
-    GoSpecType parentType = PsiTreeUtil.getStubOrPsiParentOfType(this, GoSpecType.class);
-    if (parentType != null) {
-      GoTypeSpec typeSpec = GoPsiImplUtil.getTypeSpecSafe(parentType);
-      if (typeSpec != null && !StringUtil.isCapitalized(typeSpec.getName())) {
-        return GoPackageUtil.packageScope(getContainingFile());
-      }
-    }
-    return GoUtil.goPathUseScope(this, !(this instanceof GoMethodDeclaration));
-  }
 
-  @Override
-  public boolean isBlank() {
-    return StringUtil.equals(getName(), "_");
-  }
-
-  @Override
-  public boolean shouldGoDeeper() {
-    return true;
-  }
+    @Override
+    public boolean shouldGoDeeper() {
+        return true;
+    }
 }
