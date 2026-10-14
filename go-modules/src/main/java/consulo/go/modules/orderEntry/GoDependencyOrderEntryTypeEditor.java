@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package consulo.go.modules.orderEntry;
 
 import consulo.annotation.component.ExtensionImpl;
@@ -33,12 +32,13 @@ import java.util.function.Consumer;
 @ExtensionImpl
 public class GoDependencyOrderEntryTypeEditor implements CustomOrderEntryTypeEditor<GoDependencyOrderEntryModel> {
     @Override
-    public Consumer<ColoredTextContainer> getRender(CustomOrderEntry<GoDependencyOrderEntryModel> orderEntry, GoDependencyOrderEntryModel model) {
+    public Consumer<ColoredTextContainer> getRenderer(CustomOrderEntry<GoDependencyOrderEntryModel> orderEntry, GoDependencyOrderEntryModel model) {
         return container -> {
             container.setIcon(PlatformIconGroup.nodesPplib());
             container.append(model.getModulePath(), model.findDirectory() != null
                 ? SimpleTextAttributes.REGULAR_ATTRIBUTES
-                : SimpleTextAttributes.ERROR_ATTRIBUTES);
+                : SimpleTextAttributes.ERROR_ATTRIBUTES
+            );
             String version = model.getVersion();
             if (version != null) {
                 container.append(" " + version, SimpleTextAttributes.GRAY_ATTRIBUTES);
