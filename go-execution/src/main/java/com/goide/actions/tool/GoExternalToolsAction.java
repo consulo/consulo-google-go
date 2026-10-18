@@ -30,7 +30,6 @@ import consulo.module.Module;
 import consulo.process.ExecutionException;
 import consulo.project.Project;
 import consulo.project.ui.notification.NotificationType;
-import consulo.project.ui.notification.Notifications;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.AnActionWithSyncUpdate;
@@ -49,7 +48,7 @@ public abstract class GoExternalToolsAction extends DumbAwareAction implements A
     private static void error(String title, Project project, @Nullable Exception ex) {
         String message = ex == null ? "" : ExceptionUtil.getThrowableText(ex);
         NotificationType type = NotificationType.ERROR;
-        Notifications.Bus.notify(GoConstants.GO_EXECUTION_NOTIFICATION_GROUP.createNotification(title, message, type, null), project);
+        GoConstants.GO_EXECUTION_NOTIFICATION_GROUP.createNotification(title, message, type, null).notify(project);
     }
 
     protected GoExternalToolsAction(@Nullable String text, @Nullable String description) {

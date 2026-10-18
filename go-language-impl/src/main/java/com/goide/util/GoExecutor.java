@@ -45,7 +45,6 @@ import consulo.process.util.CapturingProcessAdapter;
 import consulo.process.util.ProcessOutput;
 import consulo.project.Project;
 import consulo.project.ui.notification.NotificationType;
-import consulo.project.ui.notification.Notifications;
 import consulo.undoRedo.CommandProcessor;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.io.CharsetToolkit;
@@ -312,10 +311,8 @@ public class GoExecutor {
   }
 
   private void showNotification(String message, NotificationType type) {
-    ApplicationManager.getApplication().invokeLater(() -> {
-      String title = getPresentableName();
-      Notifications.Bus.notify(GoConstants.GO_EXECUTION_NOTIFICATION_GROUP.createNotification(title, message, type, null), myProject);
-    });
+    String title = getPresentableName();
+    GoConstants.GO_EXECUTION_NOTIFICATION_GROUP.createNotification(title, message, type, null).notify(myProject);
   }
 
   private void showOutput(ProcessHandler originalHandler, GoHistoryProcessListener historyProcessListener) {

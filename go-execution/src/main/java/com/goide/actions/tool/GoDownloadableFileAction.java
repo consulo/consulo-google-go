@@ -24,12 +24,9 @@ import consulo.process.ExecutionException;
 import consulo.project.Project;
 import consulo.project.ui.notification.Notification;
 import consulo.project.ui.notification.NotificationType;
-import consulo.project.ui.notification.Notifications;
 import consulo.project.ui.notification.event.NotificationListener;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jspecify.annotations.Nullable;
-
-import javax.swing.event.HyperlinkEvent;
 
 public abstract class GoDownloadableFileAction extends GoExternalToolsAction {
     private static final String GO_GET_LINK = "goGetLink";
@@ -54,8 +51,7 @@ public abstract class GoDownloadableFileAction extends GoExternalToolsAction {
             String message = "Can't find `" + myExecutableName + "` in GOPATH. Try to invoke <a href=\"" + GO_GET_LINK + "\">go get " +
                 myExecutableName + "</a>";
             NotificationListener listener = new MyNotificationListener(project, module);
-            Notifications.Bus.notify(GoConstants.GO_NOTIFICATION_GROUP.createNotification(title, message, NotificationType.WARNING, listener),
-                project);
+            GoConstants.GO_NOTIFICATION_GROUP.createNotification(title, message, NotificationType.WARNING, listener).notify(project);
             return false;
         }
         return super.doSomething(virtualFile, module, project, title);
@@ -76,13 +72,11 @@ public abstract class GoDownloadableFileAction extends GoExternalToolsAction {
         }
 
         @Override
-        public void hyperlinkUpdate(Notification notification, HyperlinkEvent event) {
-            if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                String description = event.getDescription();
-                if (GO_GET_LINK.equals(description)) {
-                    GoExecutor.goGet(myProject, myModule, myGoGetImportPath, false);
-                    notification.expire();
-                }
+        public void hyperlinkActivated(Notification notification, consulo.ui.event.HyperlinkEvent event) {
+            String description = event.getDescription();
+            if (GO_GET_LINK.equals(description)) {
+                GoExecutor.goGet(myProject, myModule, myGoGetImportPath, false);
+                notification.expire();
             }
         }
     }

@@ -25,9 +25,12 @@ import consulo.localize.LocalizeValue;
 import consulo.module.extension.ModuleExtensionHelper;
 import consulo.platform.base.localize.CommonLocalize;
 import consulo.project.ProjectPropertiesComponent;
+import consulo.ui.CheckBox;
+import consulo.ui.Component;
 import consulo.ui.annotation.RequiredUIAccess;
 import consulo.ui.ex.awt.Messages;
 import consulo.ui.ex.awt.UIUtil;
+import consulo.ui.layout.DockLayout;
 import consulo.util.lang.StringUtil;
 import consulo.util.lang.ref.SimpleReference;
 import consulo.versionControlSystem.change.CommitContext;
@@ -59,13 +62,11 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
         return new CheckinHandler() {
             @Override
             public RefreshableOnComponent getBeforeCheckinConfigurationPanel() {
-                JCheckBox checkBox = new JCheckBox("Go fmt");
+                CheckBox checkBox = CheckBox.create(LocalizeValue.localizeTODO("Go fmt"));
                 return new RefreshableOnComponent() {
                     @Override
-                    public JComponent getComponent() {
-                        JPanel panel = new JPanel(new BorderLayout());
-                        panel.add(checkBox, BorderLayout.WEST);
-                        return panel;
+                    public Component getUIComponent() {
+                        return DockLayout.create().left(checkBox);
                     }
 
                     @Override
@@ -75,12 +76,12 @@ public class GoFmtCheckinFactory extends CheckinHandlerFactory {
                     @Override
                     public void saveState() {
                         ProjectPropertiesComponent.getInstance(panel.getProject())
-                            .setValue(GO_FMT, Boolean.toString(checkBox.isSelected()));
+                            .setValue(GO_FMT, Boolean.toString(checkBox.getValueOrError()));
                     }
 
                     @Override
                     public void restoreState() {
-                        checkBox.setSelected(enabled(panel));
+                        checkBox.setValue(enabled(panel));
                     }
                 };
             }
