@@ -24,5 +24,6 @@
     </tags>
     <depends>consulo.dap</depends>
     <depends>consulo.nativeDev</depends>
+    <depends>consulo.asm</depends>
     <depends>com.intellij.regexp</depends>
 </consulo-plugin>

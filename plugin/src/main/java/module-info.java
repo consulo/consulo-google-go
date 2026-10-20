@@ -10,4 +10,5 @@ module consulo.google.go {
     requires transitive consulo.go.language.impl;
     requires transitive consulo.go.language.editor.impl;
     requires transitive consulo.go.execution;
+    requires transitive consulo.go.asm;
 }

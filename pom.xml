@@ -24,12 +24,12 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>plan9</module>
 		<module>go-toolchain</module>
 		<module>go-modules</module>
 		<module>go-language-impl</module>
 		<module>go-language-editor-impl</module>
 		<module>go-execution</module>
+		<module>go-asm</module>
 		<module>plugin</module>
 		<module>go-it</module>
 	</modules>

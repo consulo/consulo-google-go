@@ -272,3 +272,7 @@ go.module.extension.vendoring.cannot.be.disabled:
     text: Go {0} doesn''t support disabling vendor experiment
 go.module.extension.vendoring.not.supported:
     text: Go {0} doesn''t support vendor experiment
+asm.implementation.tooltip:
+    text: Implemented in assembly
+asm.go.declaration.tooltip:
+    text: Go declaration
