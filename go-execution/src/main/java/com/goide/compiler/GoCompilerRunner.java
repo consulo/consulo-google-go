@@ -1,6 +1,5 @@
 package com.goide.compiler;
 
-import com.goide.runconfig.GoRunConfigurationBase;
 import com.goide.runconfig.application.GoApplicationConfiguration;
 import com.goide.util.GoConsoleFilter;
 import com.goide.util.GoExecutor;
@@ -279,9 +278,9 @@ public class GoCompilerRunner implements CompilerRunner {
             .add();
     }
 
-    private static File getOutputFile(GoRunConfigurationBase goRunConfiguration) throws ExecutionException {
+    private static File getOutputFile(GoApplicationConfiguration goRunConfiguration) throws ExecutionException {
         File outputFile;
-        String outputDirectoryPath = goRunConfiguration.getOutputFilePath();
+        String outputDirectoryPath = goRunConfiguration.getOutputDirectory();
         String configurationName = goRunConfiguration.getName();
         if (StringUtil.isEmpty(outputDirectoryPath)) {
             try {

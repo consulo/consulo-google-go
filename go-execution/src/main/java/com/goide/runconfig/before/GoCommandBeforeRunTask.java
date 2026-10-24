@@ -16,42 +16,26 @@
 
 package com.goide.runconfig.before;
 
+import com.dslplatform.json.CompiledJson;
 import consulo.execution.BeforeRunTask;
 import consulo.util.lang.StringUtil;
-import org.jdom.Element;
+import consulo.util.xml.serializer.annotation.Attribute;
+import org.jspecify.annotations.Nullable;
 
-public class GoCommandBeforeRunTask extends BeforeRunTask<GoCommandBeforeRunTask> {
-  private static final String COMMAND_ATTRIBUTE = "command";
-
-  private String myCommand;
+@CompiledJson
+public class GoCommandBeforeRunTask extends BeforeRunTask {
+  private @Nullable String myCommand;
 
   public GoCommandBeforeRunTask() {
-    super(GoBeforeRunTaskProvider.ID);
   }
 
-  public String getCommand() {
+  @Attribute("command")
+  public @Nullable String getCommand() {
     return myCommand;
   }
 
-  public void setCommand(String command) {
-    myCommand = command;
-  }
-  
-  @Override
-  public void writeExternal(Element element) {
-    super.writeExternal(element);
-    if (myCommand != null) {
-      element.setAttribute(COMMAND_ATTRIBUTE, myCommand);
-    }
-  }
-
-  @Override
-  public void readExternal(Element element) {
-    super.readExternal(element);
-    String command = element.getAttributeValue(COMMAND_ATTRIBUTE);
-    if (command != null) {
-      myCommand = command;
-    }
+  public void setCommand(@Nullable String command) {
+    myCommand = StringUtil.nullize(command, true);
   }
 
   @Override

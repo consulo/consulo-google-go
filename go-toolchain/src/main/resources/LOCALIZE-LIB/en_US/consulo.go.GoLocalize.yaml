@@ -46,6 +46,24 @@ go.run.configuration.test.framework.label:
     text: 'Test framework:'
 go.run.configuration.test.kind.label:
     text: 'Test kind:'
+run.configuration.fragment.file:
+    text: Main file
+run.configuration.fragment.output.directory:
+    text: Output directory
+run.configuration.fragment.run.target:
+    text: Run target
+run.configuration.fragment.test.target:
+    text: Test target
+before.run.go.command.name:
+    text: Go command
+before.run.go.command.description:
+    text: Run ''go {0}''
+before.run.go.command.label:
+    text: 'Command:'
+before.run.go.command.error.empty:
+    text: Empty Go command is not allowed
+before.run.go.command.error.go.prefix:
+    text: Go command should not start with `go`
 go.compiler.name:
     text: Go Build
 go.compiler.progress:

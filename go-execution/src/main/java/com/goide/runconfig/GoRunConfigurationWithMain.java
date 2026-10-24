@@ -19,37 +19,33 @@ package com.goide.runconfig;
 import com.goide.psi.GoFile;
 import consulo.execution.RuntimeConfigurationException;
 import consulo.execution.configuration.ConfigurationFactory;
+import consulo.execution.configuration.LegacyRunConfigurationConverter;
 import consulo.execution.configuration.RuntimeConfigurationError;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.PsiManager;
 import consulo.util.lang.StringUtil;
-import consulo.util.xml.serializer.InvalidDataException;
-import consulo.util.xml.serializer.JDOMExternalizerUtil;
-import consulo.util.xml.serializer.WriteExternalException;
 import consulo.virtualFileSystem.VirtualFile;
-import org.jdom.Element;
-
+import org.jspecify.annotations.Nullable;
 
 public abstract class GoRunConfigurationWithMain<T extends GoRunningState> extends GoRunConfigurationBase<T> {
   private static final String FILE_PATH_ATTRIBUTE_NAME = "filePath";
 
-  private String myFilePath = "";
-
   public GoRunConfigurationWithMain(String name, GoModuleBasedConfiguration configurationModule, ConfigurationFactory factory) {
     super(name, configurationModule, factory);
-    myFilePath = getWorkingDirectory();
+    setFilePath(getWorkingDirectory());
   }
 
   @Override
-  public void readExternal(Element element) throws InvalidDataException {
-    super.readExternal(element);
-    myFilePath = StringUtil.notNullize(JDOMExternalizerUtil.getFirstChildValueAttribute(element, FILE_PATH_ATTRIBUTE_NAME));
+  public GoRunConfigurationWithMainOptions getOptions() {
+    return (GoRunConfigurationWithMainOptions) super.getOptions();
   }
 
-  @Override
-  public void writeExternal(Element element) throws WriteExternalException {
-    super.writeExternal(element);
-    addNonEmptyElement(element, FILE_PATH_ATTRIBUTE_NAME, myFilePath);
+  /**
+   * Converts the common settings and the main file of an old configuration element.
+   */
+  protected void convertLegacyMainState(LegacyRunConfigurationConverter converter, GoRunConfigurationWithMainOptions options) {
+    convertLegacyCommonState(converter, options);
+    options.setFilePath(readLegacyValue(converter.getElement(), FILE_PATH_ATTRIBUTE_NAME));
   }
 
   protected void checkFileConfiguration() throws RuntimeConfigurationError {
@@ -71,10 +67,10 @@ public abstract class GoRunConfigurationWithMain<T extends GoRunningState> exten
   }
 
   public String getFilePath() {
-    return myFilePath;
+    return StringUtil.notNullize(getOptions().getFilePath());
   }
 
-  public void setFilePath(String filePath) {
-    myFilePath = filePath;
+  public void setFilePath(@Nullable String filePath) {
+    getOptions().setFilePath(filePath);
   }
 }

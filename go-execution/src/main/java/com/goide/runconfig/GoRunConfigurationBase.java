@@ -18,46 +18,46 @@ package com.goide.runconfig;
 
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
+import consulo.execution.CommonProgramRunConfigurationParameters;
 import consulo.execution.ExecutionBundle;
 import consulo.execution.RuntimeConfigurationException;
 import consulo.execution.RuntimeConfigurationWarning;
 import consulo.execution.configuration.ConfigurationFactory;
+import consulo.execution.configuration.LegacyRunConfigurationConverter;
 import consulo.execution.configuration.ModuleBasedConfiguration;
 import consulo.execution.configuration.RunProfileState;
 import consulo.execution.configuration.RuntimeConfigurationError;
+import consulo.execution.configuration.fragment.EnvironmentFragmentState;
+import consulo.execution.configuration.fragment.ProgramParametersFragmentState;
+import consulo.execution.configuration.fragment.RunConfigurationFragment;
+import consulo.execution.configuration.fragment.WorkingDirectoryFragmentState;
 import consulo.execution.executor.Executor;
 import consulo.execution.runner.ExecutionEnvironment;
-import consulo.execution.ui.awt.EnvironmentVariablesComponent;
 import consulo.module.Module;
 import consulo.process.ExecutionException;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.io.FileUtil;
 import consulo.util.lang.StringUtil;
-import consulo.util.xml.serializer.InvalidDataException;
 import consulo.util.xml.serializer.JDOMExternalizerUtil;
-import consulo.util.xml.serializer.WriteExternalException;
 import consulo.virtualFileSystem.VirtualFile;
 import consulo.virtualFileSystem.VirtualFileManager;
 import consulo.virtualFileSystem.util.VirtualFileUtil;
-import org.jspecify.annotations.Nullable;
 import org.jdom.Element;
+import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public abstract class GoRunConfigurationBase<RunningState extends GoRunningState> extends ModuleBasedConfiguration<GoModuleBasedConfiguration> {
+public abstract class GoRunConfigurationBase<RunningState extends GoRunningState> extends ModuleBasedConfiguration<GoModuleBasedConfiguration>
+    implements CommonProgramRunConfigurationParameters {
 
     private static final String WORKING_DIRECTORY_NAME = "working_directory";
     private static final String GO_PARAMETERS_NAME = "go_parameters";
     private static final String PARAMETERS_NAME = "parameters";
     private static final String PASS_PARENT_ENV = "pass_parent_env";
-
-    private String myWorkingDirectory = "";
-    private String myGoParams = "";
-    private String myParams = "";
-    private final Map<String, String> myCustomEnvironment = new HashMap<>();
-    private boolean myPassParentEnvironment = true;
 
     public GoRunConfigurationBase(String name, GoModuleBasedConfiguration configurationModule, ConfigurationFactory factory) {
         super(name, configurationModule, factory);
@@ -72,11 +72,42 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
         }
 
         if (module != null) {
-            myWorkingDirectory = StringUtil.notNullize(module.getModuleDirPath());
+            setWorkingDirectory(StringUtil.notNullize(module.getModuleDirPath()));
         }
         else {
-            myWorkingDirectory = StringUtil.notNullize(configurationModule.getProject().getBasePath());
+            setWorkingDirectory(StringUtil.notNullize(configurationModule.getProject().getBasePath()));
         }
+    }
+
+    @Override
+    public GoRunConfigurationOptions getOptions() {
+        return (GoRunConfigurationOptions) super.getOptions();
+    }
+
+    /**
+     * Converts the working directory, parameters and environment of an old configuration element.
+     */
+    protected void convertLegacyCommonState(LegacyRunConfigurationConverter converter, GoRunConfigurationOptions options) {
+        Element element = converter.getElement();
+        options.setGoToolParams(readLegacyValue(element, GO_PARAMETERS_NAME));
+
+        String workingDirectory = readLegacyValue(element, WORKING_DIRECTORY_NAME);
+        converter.addFragment(new WorkingDirectoryFragmentState(workingDirectory != null ? workingDirectory : getWorkingDirectory()));
+        converter.addFragment(new ProgramParametersFragmentState(readLegacyValue(element, PARAMETERS_NAME)));
+
+        String passParentEnvs = readLegacyValue(element, PASS_PARENT_ENV);
+        converter.addFragment(new EnvironmentFragmentState(converter.readEnvs(), passParentEnvs == null || Boolean.parseBoolean(passParentEnvs)));
+    }
+
+    protected static @Nullable String readLegacyValue(Element element, String name) {
+        return JDOMExternalizerUtil.getFirstChildValueAttribute(element, name);
+    }
+
+    @Override
+    public List<RunConfigurationFragment<?>> createFragments() {
+        List<RunConfigurationFragment<?>> fragments = new ArrayList<>();
+        fragments.add(new GoToolArgumentsFragment<>());
+        return fragments;
     }
 
     @Nullable
@@ -106,47 +137,9 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
             }
             throw new RuntimeConfigurationError(ExecutionBundle.message("module.not.specified.error.text"));
         }
-        if (myWorkingDirectory.isEmpty()) {
+        if (getWorkingDirectory().isEmpty()) {
             throw new RuntimeConfigurationError("Working directory is not specified");
         }
-    }
-
-    @Override
-    public void writeExternal(Element element) throws WriteExternalException {
-        super.writeExternal(element);
-        writeModule(element);
-        addNonEmptyElement(element, WORKING_DIRECTORY_NAME, myWorkingDirectory);
-        addNonEmptyElement(element, GO_PARAMETERS_NAME, myGoParams);
-        addNonEmptyElement(element, PARAMETERS_NAME, myParams);
-        if (!myCustomEnvironment.isEmpty()) {
-            EnvironmentVariablesComponent.writeExternal(element, myCustomEnvironment);
-        }
-        if (!myPassParentEnvironment) {
-            JDOMExternalizerUtil.addElementWithValueAttribute(element, PASS_PARENT_ENV, "false");
-        }
-    }
-
-    protected void addNonEmptyElement(Element element, String attributeName, @Nullable String value) {
-        if (StringUtil.isNotEmpty(value)) {
-            JDOMExternalizerUtil.addElementWithValueAttribute(element, attributeName, value);
-        }
-    }
-
-    @Override
-    public void readExternal(Element element) throws InvalidDataException {
-        super.readExternal(element);
-        readModule(element);
-        myGoParams = StringUtil.notNullize(JDOMExternalizerUtil.getFirstChildValueAttribute(element, GO_PARAMETERS_NAME));
-        myParams = StringUtil.notNullize(JDOMExternalizerUtil.getFirstChildValueAttribute(element, PARAMETERS_NAME));
-
-        String workingDirectoryValue = JDOMExternalizerUtil.getFirstChildValueAttribute(element, WORKING_DIRECTORY_NAME);
-        if (workingDirectoryValue != null) {
-            myWorkingDirectory = workingDirectoryValue;
-        }
-        EnvironmentVariablesComponent.readExternal(element, myCustomEnvironment);
-
-        String passEnvValue = JDOMExternalizerUtil.getFirstChildValueAttribute(element, PASS_PARENT_ENV);
-        myPassParentEnvironment = passEnvValue == null || Boolean.valueOf(passEnvValue);
     }
 
     private RunningState createRunningState(ExecutionEnvironment env) throws ExecutionException {
@@ -171,47 +164,48 @@ public abstract class GoRunConfigurationBase<RunningState extends GoRunningState
     protected abstract RunningState newRunningState(ExecutionEnvironment env, Module module);
 
     public String getGoToolParams() {
-        return myGoParams;
+        return StringUtil.notNullize(getOptions().getGoToolParams());
     }
 
     public String getParams() {
-        return myParams;
+        return StringUtil.notNullize(getProgramParameters());
     }
 
-    public void setGoParams(String params) {
-        myGoParams = params;
+    public void setGoParams(@Nullable String params) {
+        getOptions().setGoToolParams(params);
     }
 
-    public void setParams(String params) {
-        myParams = params;
+    public void setParams(@Nullable String params) {
+        setProgramParameters(params);
     }
 
     public Map<String, String> getCustomEnvironment() {
-        return myCustomEnvironment;
+        return getEnvs();
     }
 
     public void setCustomEnvironment(Map<String, String> customEnvironment) {
-        myCustomEnvironment.clear();
-        myCustomEnvironment.putAll(customEnvironment);
+        setEnvs(new HashMap<>(customEnvironment));
     }
 
     public void setPassParentEnvironment(boolean passParentEnvironment) {
-        myPassParentEnvironment = passParentEnvironment;
+        setPassParentEnvs(passParentEnvironment);
     }
 
     public boolean isPassParentEnvironment() {
-        return myPassParentEnvironment;
+        return isPassParentEnvs();
     }
 
+    @Override
     public String getWorkingDirectory() {
-        return myWorkingDirectory;
+        return StringUtil.notNullize(CommonProgramRunConfigurationParameters.super.getWorkingDirectory());
     }
 
     public String getWorkingDirectoryUrl() {
-        return VirtualFileUtil.pathToUrl(myWorkingDirectory);
+        return VirtualFileUtil.pathToUrl(getWorkingDirectory());
     }
 
-    public void setWorkingDirectory(String workingDirectory) {
-        myWorkingDirectory = workingDirectory;
+    @Override
+    public void setWorkingDirectory(@Nullable String workingDirectory) {
+        CommonProgramRunConfigurationParameters.super.setWorkingDirectory(workingDirectory);
     }
 }

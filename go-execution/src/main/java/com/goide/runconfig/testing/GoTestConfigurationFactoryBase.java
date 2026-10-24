@@ -17,11 +17,9 @@
 package com.goide.runconfig.testing;
 
 import com.goide.runconfig.GoConfigurationFactoryBase;
-import com.goide.runconfig.before.GoBeforeRunTaskProvider;
 import com.goide.runconfig.before.GoCommandBeforeRunTask;
 import consulo.execution.BeforeRunTask;
 import consulo.execution.configuration.ConfigurationTypeBase;
-import consulo.util.dataholder.Key;
 
 
 public abstract class GoTestConfigurationFactoryBase extends GoConfigurationFactoryBase {
@@ -30,12 +28,11 @@ public abstract class GoTestConfigurationFactoryBase extends GoConfigurationFact
   }
 
   @Override
-  public void configureBeforeRunTaskDefaults(Key<? extends BeforeRunTask> providerID, BeforeRunTask task) {
-    super.configureBeforeRunTaskDefaults(providerID, task);
-    if (providerID == GoBeforeRunTaskProvider.ID && task instanceof GoCommandBeforeRunTask 
-        && ((GoCommandBeforeRunTask)task).getCommand() == null) {
+  public void configureBeforeRunTaskDefaults(BeforeRunTask task) {
+    super.configureBeforeRunTaskDefaults(task);
+    if (task instanceof GoCommandBeforeRunTask commandTask && commandTask.getCommand() == null) {
       task.setEnabled(true);
-      ((GoCommandBeforeRunTask)task).setCommand("test -i");
+      commandTask.setCommand("test -i");
     }
   }
 }

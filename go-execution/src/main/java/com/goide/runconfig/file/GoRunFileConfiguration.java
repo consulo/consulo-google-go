@@ -18,13 +18,14 @@ package com.goide.runconfig.file;
 
 import com.goide.runconfig.GoModuleBasedConfiguration;
 import com.goide.runconfig.GoRunConfigurationWithMain;
-import com.goide.runconfig.ui.GoRunFileConfigurationEditorForm;
+import com.goide.runconfig.GoRunConfigurationWithMainOptions;
 import consulo.application.ApplicationManager;
 import consulo.execution.RuntimeConfigurationException;
 import consulo.execution.configuration.ConfigurationType;
+import consulo.execution.configuration.LegacyRunConfigurationConverter;
 import consulo.execution.configuration.ModuleBasedConfiguration;
-import consulo.execution.configuration.RunConfiguration;
-import consulo.execution.configuration.ui.SettingsEditor;
+import consulo.execution.configuration.RunConfigurationOptions;
+import consulo.execution.configuration.fragment.RunConfigurationFragment;
 import consulo.execution.runner.ExecutionEnvironment;
 import consulo.language.editor.scratch.ScratchUtil;
 import consulo.module.Module;
@@ -35,6 +36,7 @@ import consulo.virtualFileSystem.LocalFileSystem;
 import consulo.virtualFileSystem.VirtualFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 public class GoRunFileConfiguration extends GoRunConfigurationWithMain<GoRunFileRunningState> {
@@ -43,13 +45,29 @@ public class GoRunFileConfiguration extends GoRunConfigurationWithMain<GoRunFile
   }
 
   @Override
-  protected ModuleBasedConfiguration createInstance() {
-    return new GoRunFileConfiguration(getProject(), getName(), GoRunFileConfigurationType.getInstance());
+  protected Class<? extends RunConfigurationOptions> getOptionsClass() {
+    return GoRunConfigurationWithMainOptions.class;
   }
 
   @Override
-  public SettingsEditor<? extends RunConfiguration> getConfigurationEditor() {
-    return new GoRunFileConfigurationEditorForm(getProject());
+  protected void convertLegacyState(LegacyRunConfigurationConverter converter) {
+    super.convertLegacyState(converter);
+
+    GoRunConfigurationWithMainOptions options = new GoRunConfigurationWithMainOptions();
+    convertLegacyMainState(converter, options);
+    converter.setOptions(options);
+  }
+
+  @Override
+  public List<RunConfigurationFragment<?>> createFragments() {
+    List<RunConfigurationFragment<?>> fragments = super.createFragments();
+    fragments.add(0, new GoRunFileFragment());
+    return fragments;
+  }
+
+  @Override
+  protected ModuleBasedConfiguration createInstance() {
+    return new GoRunFileConfiguration(getProject(), getName(), GoRunFileConfigurationType.getInstance());
   }
 
   @Override

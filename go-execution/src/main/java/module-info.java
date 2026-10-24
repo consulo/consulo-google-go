@@ -54,6 +54,10 @@ module consulo.go.execution {
     exports com.goide.runconfig.testing.frameworks.gocheck;
     exports com.goide.runconfig.testing.frameworks.gotest;
     exports com.goide.runconfig.testing.ui;
-    exports com.goide.runconfig.ui;
     exports consulo.go.debug;
+
+    opens com.goide.runconfig to consulo.util.xml.serializer, consulo.execution.api;
+    opens com.goide.runconfig.application to consulo.util.xml.serializer, consulo.execution.api;
+    opens com.goide.runconfig.before to consulo.util.xml.serializer, consulo.execution.api;
+    opens com.goide.runconfig.testing to consulo.util.xml.serializer, consulo.execution.api;
 }

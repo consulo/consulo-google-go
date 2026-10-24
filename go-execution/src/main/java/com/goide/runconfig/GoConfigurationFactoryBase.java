@@ -16,22 +16,15 @@
 
 package com.goide.runconfig;
 
-import consulo.execution.BeforeRunTask;
 import consulo.execution.configuration.ConfigurationFactory;
 import consulo.execution.configuration.ConfigurationType;
 import consulo.go.module.extension.GoModuleExtension;
 import consulo.module.extension.ModuleExtensionHelper;
 import consulo.project.Project;
-import consulo.util.dataholder.Key;
 
 public abstract class GoConfigurationFactoryBase extends ConfigurationFactory {
     protected GoConfigurationFactoryBase(ConfigurationType type) {
         super(type);
-    }
-
-    @Override
-    public void configureBeforeRunTaskDefaults(Key<? extends BeforeRunTask> providerID, BeforeRunTask task) {
-        super.configureBeforeRunTaskDefaults(providerID, task);
     }
 
     @Override

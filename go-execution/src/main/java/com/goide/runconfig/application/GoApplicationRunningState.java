@@ -80,7 +80,7 @@ public class GoApplicationRunningState extends GoRunningState<GoApplicationConfi
         processHandler.addProcessListener(new ProcessListener() {
             @Override
             public void processTerminated(ProcessEvent event) {
-                if (StringUtil.isEmpty(myConfiguration.getOutputFilePath()) && outputFile.exists()) {
+                if (myConfiguration.getOutputDirectory().isEmpty() && outputFile.exists()) {
                     //noinspection ResultOfMethodCallIgnored
                     outputFile.delete();
                 }
