@@ -29,6 +29,8 @@ import consulo.ui.image.Image;
 import jakarta.inject.Inject;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * Opens a directory holding a {@code go.work} or a {@code go.mod} as a project.
@@ -49,11 +51,12 @@ public class GoModulesModuleImportProvider extends AbstractExternalModuleImportP
     }
 
     @Override
-    public boolean canImport(File fileOrDirectory) {
-        if (fileOrDirectory.isDirectory()) {
-            return new File(fileOrDirectory, GoModulesConstants.GO_WORK).isFile() || new File(fileOrDirectory, GoModulesConstants.GO_MOD).isFile();
+    public boolean canImport(Path fileOrDirectory) {
+        if (Files.isDirectory(fileOrDirectory)) {
+            return Files.isRegularFile(fileOrDirectory.resolve(GoModulesConstants.GO_WORK)) || Files.isRegularFile(fileOrDirectory.resolve(GoModulesConstants.GO_MOD));
         }
-        String name = fileOrDirectory.getName();
+        Path fileName = fileOrDirectory.getFileName();
+        String name = fileName == null ? null : fileName.toString();
         return GoModulesConstants.GO_WORK.equals(name) || GoModulesConstants.GO_MOD.equals(name);
     }
 
