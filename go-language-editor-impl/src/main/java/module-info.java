@@ -22,6 +22,7 @@ module consulo.go.language.editor.impl {
     requires transitive consulo.go.language.impl;
 
     requires consulo.ide.api;
+    requires consulo.language.spellchecker.api;
     requires consulo.language.impl;
     requires consulo.language.editor.impl;
     requires consulo.language.editor.refactoring.api;
