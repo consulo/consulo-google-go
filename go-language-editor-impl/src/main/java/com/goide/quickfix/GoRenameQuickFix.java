@@ -24,7 +24,6 @@ import consulo.language.editor.FileModificationService;
 import consulo.language.editor.inspection.LocalQuickFixOnPsiElement;
 import consulo.language.editor.refactoring.action.RefactoringActionHandler;
 import consulo.language.editor.refactoring.action.RefactoringActionHandlerFactory;
-import consulo.language.editor.refactoring.rename.RenameHandler;
 import consulo.language.editor.refactoring.rename.RenameHandlerRegistry;
 import consulo.language.psi.ElementDescriptionUtil;
 import consulo.language.psi.PsiElement;
@@ -56,14 +55,15 @@ public class GoRenameQuickFix extends LocalQuickFixOnPsiElement {
       dataContextContainer.doWhenDone(new Consumer<DataContext>() {
         @Override
         public void accept(DataContext dataContext) {
-          RenameHandler renameHandler = RenameHandlerRegistry.getInstance().getRenameHandler(dataContext);
-          if (renameHandler != null) {
-            renameHandler.invoke(project, new PsiElement[]{startElement}, dataContext);
-          }
-          else {
-            RefactoringActionHandler renameRefactoringHandler = RefactoringActionHandlerFactory.getInstance().createRenameHandler();
-            renameRefactoringHandler.invoke(project, new PsiElement[]{startElement}, dataContext);
-          }
+          RenameHandlerRegistry.getInstance().getRenameHandlerAsync(dataContext).thenAccept(renameHandler -> {
+            if (renameHandler != null) {
+              renameHandler.invoke(project, new PsiElement[]{startElement}, dataContext);
+            }
+            else {
+              RefactoringActionHandler renameRefactoringHandler = RefactoringActionHandlerFactory.getInstance().createRenameHandler();
+              renameRefactoringHandler.invoke(project, new PsiElement[]{startElement}, dataContext);
+            }
+          });
         }
       });
     };
