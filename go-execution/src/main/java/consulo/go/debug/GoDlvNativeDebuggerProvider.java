@@ -15,6 +15,7 @@
  */
 package consulo.go.debug;
 
+import consulo.platform.Platform;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.execution.debug.XDebugProcess;
 import consulo.execution.debug.XDebugSession;
@@ -50,7 +51,7 @@ public class GoDlvNativeDebuggerProvider extends NativeDapDebuggerProvider {
     }
 
     @Override
-    public int getPriority() {
+    public int getPriority(Platform platform) {
         // Go debugging asks for it by id - it must never win the automatic pick for other languages
         return -1000;
     }
@@ -61,8 +62,8 @@ public class GoDlvNativeDebuggerProvider extends NativeDapDebuggerProvider {
     }
 
     @Override
-    public List<NativeDebuggerInstallation> findInstallations() {
-        return findInstallations("dlv.path", "delve");
+    public List<NativeDebuggerInstallation> findInstallations(Platform platform) {
+        return findInstallations(platform, "dlv.path", "delve");
     }
 
     /**
@@ -74,7 +75,7 @@ public class GoDlvNativeDebuggerProvider extends NativeDapDebuggerProvider {
     }
 
     @Override
-    public Map<String, Object> createLaunchArguments(NativeDebugTarget target) {
+    public Map<String, Object> createLaunchArguments(NativeDebugTarget target, Platform platform) {
         Map<String, Object> arguments = new LinkedHashMap<>();
         // the binary is built already - delve does not build it
         arguments.put("mode", "exec");
