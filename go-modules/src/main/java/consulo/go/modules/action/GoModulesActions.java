@@ -123,13 +123,17 @@ public final class GoModulesActions {
     }
 
     /**
-     * Evaluates {@code visible} under a read lock, as it looks at the module model. Action updates must not wait for the
-     * lock: when it is taken, the platform leaves the action disabled for this round.
+     * Hides the action without a project, or with a disposed one, before the read lock is tried; then evaluates
+     * {@code visible} under the read lock, as it looks at the module model and at the files of the context. Action updates
+     * must not wait for the lock: when it is taken, the platform leaves the action disabled for this round.
      */
     public static Coroutine<?, ?> updateVisibility(AnActionEvent e, Predicate<Project> visible) {
         return ActionSafeReadLock.<Object, Object>apply(e, presentation -> {
             Project project = e.getData(Project.KEY);
-            presentation.setEnabledAndVisible(project != null && !project.isDisposed() && visible.test(project));
+            presentation.setEnabledAndVisible(project != null && !project.isDisposed());
+        }, presentation -> {
+            Project project = e.getRequiredData(Project.KEY);
+            presentation.setEnabledAndVisible(!project.isDisposed() && visible.test(project));
             return null;
         }).toCoroutine();
     }

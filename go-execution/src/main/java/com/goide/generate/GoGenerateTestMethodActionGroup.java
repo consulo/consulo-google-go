@@ -42,10 +42,15 @@ public class GoGenerateTestMethodActionGroup extends ActionGroup {
 
     @Override
     public Coroutine<?, List<AnAction>> getChildrenAsync(AnActionEvent e) {
-        return ActionSafeReadLock.<Presentation, List<AnAction>>apply(e, (in) -> {
-            Project project = e.getData(Project.KEY);
+        // the presentation is the group's own update result - it is hidden without a project or an editor, else kept as it is
+        return ActionSafeReadLock.<Presentation, List<AnAction>>apply(e, presentation -> {
+            if (e.getData(Project.KEY) == null || e.getData(Editor.KEY) == null) {
+                presentation.setEnabledAndVisible(false);
+            }
+        }, presentation -> {
+            Project project = e.getRequiredData(Project.KEY);
             Editor editor = e.getData(EditorKeys.EDITOR_SNAPSHOT);
-            if (project == null || editor == null) {
+            if (editor == null) {
                 return List.of();
             }
             PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
