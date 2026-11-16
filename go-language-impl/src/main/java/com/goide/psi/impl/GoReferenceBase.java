@@ -18,6 +18,7 @@ package com.goide.psi.impl;
 
 import com.goide.psi.*;
 import com.goide.util.GoPackageUtil;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.document.util.TextRange;
 import consulo.language.psi.*;
 import consulo.language.psi.resolve.ResolveState;
@@ -78,6 +79,80 @@ public abstract class GoReferenceBase<T extends GoReferenceExpressionBase> exten
     return true;
   }
 
+  /**
+   * Processes the files of the packages, with the same filters as {@link #processDirectory}.
+   */
+  @RequiredReadAction
+  protected boolean processPackages(Collection<? extends GoPackage> packages,
+                                    @Nullable GoFile file,
+                                    @Nullable String packageName,
+                                    GoScopeProcessor processor,
+                                    ResolveState state,
+                                    boolean localProcessing) {
+    if (packages.isEmpty()) {
+      return true;
+    }
+    String filePath = getPath(file);
+    Module module = file != null ? ModuleUtilCore.findModuleForPsiElement(file) : null;
+    for (GoPackage goPackage : packages) {
+      boolean result = goPackage.processFiles(f -> {
+        if (!(f instanceof GoFile) || Comparing.equal(getPath(f), filePath)) {
+          return true;
+        }
+        if (packageName != null && !packageName.equals(((GoFile)f).getPackageName())) {
+          return true;
+        }
+        if (!allowed(f, file, module)) {
+          return true;
+        }
+        return processFileEntities((GoFile)f, processor, state, localProcessing);
+      });
+      if (!result) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Processes the package of the file (its directory, or the package a {@link GoPackageFactory} defines), excluding the file.
+   */
+  @RequiredReadAction
+  protected boolean processSamePackage(GoFile file, GoScopeProcessor processor, ResolveState state) {
+    GoPackage goPackage = GoPackage.of(file);
+    if (goPackage == null) {
+      return processDirectory(file.getOriginalFile().getParent(), file, file.getPackageName(), processor, state, true);
+    }
+    return processPackages(List.of(goPackage), file, file.getPackageName(), processor, state, true);
+  }
+
+  /**
+   * Processes the package a qualifier resolved to: an import spec, or the directory of an import without alias.
+   */
+  @RequiredReadAction
+  protected boolean processImportedPackage(PsiElement target,
+                                           GoFile file,
+                                           String qualifierName,
+                                           GoScopeProcessor processor,
+                                           ResolveState state) {
+    if (target instanceof GoImportSpec) {
+      return processPackages(GoPsiImplUtil.resolvePackages(((GoImportSpec)target).getImportString()), file, null, processor, state, false);
+    }
+    if (target instanceof PsiDirectory) {
+      for (GoImportSpec spec : file.getImportMap().get(qualifierName)) {
+        if (spec.getAlias() != null || spec.isDot() || spec.isForSideEffects()) {
+          continue;
+        }
+        GoImportString importString = spec.getImportString();
+        if (target.equals(importString.resolve())) {
+          return processPackages(GoPsiImplUtil.resolvePackages(importString), file, null, processor, state, false);
+        }
+      }
+      return processDirectory((PsiDirectory)target, file, null, processor, state, false);
+    }
+    return true;
+  }
+
   protected boolean processBuiltin(GoScopeProcessor processor, ResolveState state, GoCompositeElement element) {
     GoFile builtin = GoPackageUtil.findBuiltinFile(element);
     return builtin == null || processFileEntities(builtin, processor, state, true);
@@ -93,8 +168,7 @@ public abstract class GoReferenceBase<T extends GoReferenceExpressionBase> exten
 
         GoImportString importString = o.getImportString();
         if (o.isDot()) {
-          PsiDirectory implicitDir = importString.resolve();
-          boolean resolved = !processDirectory(implicitDir, file, null, processor, state, false);
+          boolean resolved = !processPackages(GoPsiImplUtil.resolvePackages(importString), file, null, processor, state, false);
           if (resolved && !processor.isCompletion()) {
             putIfAbsent(o, element);
           }

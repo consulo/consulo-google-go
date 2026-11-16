@@ -97,11 +97,13 @@ public class GoReference extends GoReferenceBase<GoReferenceExpressionBase> {
     PsiElement target = reference != null ? reference.resolve() : null;
     if (target == null) return false;
     if (target == qualifier) return processor.execute(myElement, state);
-    if (target instanceof GoImportSpec) {
-      if (((GoImportSpec)target).isCImport()) return processor.execute(myElement, state);
-      target = ((GoImportSpec)target).getImportString().resolve();
+    if (target instanceof GoImportSpec && ((GoImportSpec)target).isCImport()) {
+      return processor.execute(myElement, state);
     }
-    if (target instanceof PsiDirectory && !processDirectory((PsiDirectory)target, file, null, processor, state, false)) return false;
+    if ((target instanceof GoImportSpec || target instanceof PsiDirectory)
+        && !processImportedPackage(target, file, qualifier.getIdentifier().getText(), processor, state)) {
+      return false;
+    }
     if (target instanceof GoTypeOwner) {
       GoType type = typeOrParameterType((GoTypeOwner)target, createContextOnElement(myElement));
       if (type instanceof GoCType) return processor.execute(myElement, state);
@@ -246,7 +248,7 @@ public class GoReference extends GoReferenceBase<GoReferenceExpressionBase> {
     if (!processReceiver(processor, state, true)) return false;
     if (!processImports(file, processor, state, myElement)) return false;
     if (!processFileEntities(file, processor, state, true)) return false;
-    if (!processDirectory(file.getOriginalFile().getParent(), file, file.getPackageName(), processor, state, true)) return false;
+    if (!processSamePackage(file, processor, state)) return false;
     return processBuiltin(processor, state, myElement);
   }
 

@@ -19,7 +19,9 @@ package com.goide.inspections;
 import com.goide.project.GoVendoringUtil;
 import com.goide.psi.GoFile;
 import com.goide.psi.GoImportSpec;
+import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.psi.impl.imports.GoImportReference;
+import com.goide.psi.impl.imports.GoImportResolver;
 import com.goide.quickfix.GoDeleteImportQuickFix;
 import com.goide.quickfix.GoDisableVendoringInModuleQuickFix;
 import com.goide.sdk.GoSdkService;
@@ -59,9 +61,13 @@ public class GoInvalidPackageImportInspection extends GoGeneralInspectionBase {
     Module module = ModuleUtilCore.findModuleForPsiElement(file);
     VirtualFile sdkHome = GoSdkUtil.getSdkSrcDir(file.getProject(), module);
     boolean supportsVendoring = GoVendoringUtil.isVendoringEnabled(module);
-    String sdkVersion = GoSdkService.getInstance(file.getProject()).getSdkVersion(module);
-    boolean supportsInternalPackages = GoVendoringUtil.supportsInternalPackages(sdkVersion);
-    boolean supportsInternalPackagesInSdk = sdkHome != null && GoVendoringUtil.supportsSdkInternalPackages(sdkVersion);
+    Project project = file.getProject();
+    String sdkVersion = GoSdkService.getInstance(project).getSdkVersion(module);
+    boolean supportsInternalPackages =
+      GoImportResolver.isInternalPackagesSupported(project, module, GoVendoringUtil.supportsInternalPackages(sdkVersion));
+    boolean supportsInternalPackagesInSdk = sdkHome != null
+                                            && GoImportResolver.isSdkInternalPackagesSupported(project, module,
+                                                                                               GoVendoringUtil.supportsSdkInternalPackages(sdkVersion));
 
     for (GoImportSpec importSpec : file.getImports()) {
       if (importSpec.isCImport()) {
@@ -83,7 +89,8 @@ public class GoInvalidPackageImportInspection extends GoGeneralInspectionBase {
         if (GoPackageUtil.isBuiltinPackage(resolve)) {
           problemsHolder.registerProblem(importSpec, "Cannot import 'builtin' package", new GoDeleteImportQuickFix());
         }
-        Collection<String> packagesInDirectory = GoPackageUtil.getAllPackagesInDirectory(resolve, module, true);
+        Collection<String> packagesInDirectory =
+          GoPackageUtil.getAllPackageNames(GoPsiImplUtil.resolvePackages(importSpec.getImportString()), module, true);
         if (packagesInDirectory.isEmpty()) {
           problemsHolder.registerProblem(importSpec, "'" + resolve.getVirtualFile().getPath() + "' has no buildable Go source files",
                                          new GoDeleteImportQuickFix());

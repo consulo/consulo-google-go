@@ -18,6 +18,7 @@ package com.goide.util;
 
 import com.goide.project.GoVendoringUtil;
 import com.goide.psi.impl.GoPsiImplUtil;
+import com.goide.psi.impl.imports.GoImportResolver;
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
 import consulo.application.ApplicationManager;
@@ -47,8 +48,10 @@ public class GoPathScopeHelper {
                                                     @Nullable VirtualFile referenceFile) {
     VirtualFile sdkHome = GoSdkUtil.getSdkSrcDir(project, module);
     String sdkVersion = GoSdkService.getInstance(project).getSdkVersion(module);
-    boolean supportsInternalPackages = GoVendoringUtil.supportsInternalPackages(sdkVersion);
-    boolean supportsSdkInternalPackages = GoVendoringUtil.supportsSdkInternalPackages(sdkVersion);
+    boolean supportsInternalPackages =
+      GoImportResolver.isInternalPackagesSupported(project, module, GoVendoringUtil.supportsInternalPackages(sdkVersion));
+    boolean supportsSdkInternalPackages =
+      GoImportResolver.isSdkInternalPackagesSupported(project, module, GoVendoringUtil.supportsSdkInternalPackages(sdkVersion));
     boolean vendoringEnabled = GoVendoringUtil.isVendoringEnabled(module);
     Set<VirtualFile> sourceRoots = vendoringEnabled ? GoSdkUtil.getVendoringAwareSourcesPathsToLookup(project, module, referenceFile)
                                                     : GoSdkUtil.getSourcesPathsToLookup(project, module);

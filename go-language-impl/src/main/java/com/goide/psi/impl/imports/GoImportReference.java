@@ -51,6 +51,18 @@ public class GoImportReference extends FileReference {
 
   @Override
   protected ResolveResult[] innerResolve(boolean caseSensitive, PsiFile file) {
+    ResolveResult[] extensionResults = GoImportResolver.resolveByExtensions(this);
+    if (extensionResults != null) {
+      return extensionResults;
+    }
+
+    FileReferenceSet referenceSet = getFileReferenceSet();
+    if (referenceSet instanceof GoImportReferenceSet && ((GoImportReferenceSet)referenceSet).isRelativeImport()
+        && !GoImportResolver.isRelativeImportPathsSupported(file.getProject(),
+                                                            ModuleUtilCore.findModuleForPsiElement(file.getOriginalFile()), true)) {
+      return ResolveResult.EMPTY_ARRAY;
+    }
+
     if (isFirst()) {
       if (".".equals(getCanonicalText())) {
         PsiDirectory directory = getDirectory();

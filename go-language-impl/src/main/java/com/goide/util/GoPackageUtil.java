@@ -18,9 +18,11 @@ package com.goide.util;
 
 import com.goide.project.GoBuildTargetSettings;
 import com.goide.psi.GoFile;
+import com.goide.psi.impl.GoPackage;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.sdk.GoSdkService;
 import com.goide.sdk.GoSdkUtil;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.application.util.CachedValue;
 import consulo.application.util.CachedValueProvider;
 import consulo.application.util.CachedValuesManager;
@@ -128,6 +130,28 @@ public class GoPackageUtil {
           set.add(name);
         }
       }
+    }
+    return set;
+  }
+
+  /**
+   * @return the package names of the files of the packages that are buildable in the context module
+   */
+  @RequiredReadAction
+  public static Collection<String> getAllPackageNames(Collection<? extends GoPackage> packages,
+                                                      @Nullable Module contextModule,
+                                                      boolean trimTestSuffices) {
+    Collection<String> set = new LinkedHashSet<>();
+    for (GoPackage goPackage : packages) {
+      goPackage.processFiles(file -> {
+        if (file instanceof GoFile && GoPsiImplUtil.allowed(file, null, contextModule)) {
+          String name = trimTestSuffices ? ((GoFile)file).getCanonicalPackageName() : ((GoFile)file).getPackageName();
+          if (StringUtil.isNotEmpty(name)) {
+            set.add(name);
+          }
+        }
+        return true;
+      });
     }
     return set;
   }

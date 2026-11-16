@@ -19,12 +19,14 @@ package com.goide.psi.impl;
 import com.goide.GoTypes;
 import com.goide.psi.*;
 import com.goide.psi.impl.imports.GoImportReferenceSet;
+import com.goide.psi.impl.imports.GoImportResolver;
 import com.goide.stubs.*;
 import com.goide.stubs.index.GoIdFilter;
 import com.goide.stubs.index.GoMethodIndex;
 import com.goide.util.GoPackageUtil;
 import com.goide.util.GoStringLiteralEscaper;
 import com.goide.util.GoUtil;
+import consulo.annotation.access.RequiredReadAction;
 import consulo.application.util.CachedValueProvider;
 import consulo.application.util.RecursionManager;
 import consulo.document.util.TextRange;
@@ -157,6 +159,25 @@ public class GoPsiImplUtil {
       }
     }
     return null;
+  }
+
+  /**
+   * Resolves an import to its packages: through the {@link GoImportResolver}s first, otherwise the packages of the directory
+   * the import resolves to (one per package name).
+   */
+  @RequiredReadAction
+  public static Collection<GoPackage> resolvePackages(GoImportString importString) {
+    PsiFile file = importString.getContainingFile();
+    if (file != null) {
+      PsiFile originalFile = file.getOriginalFile();
+      Module module = ModuleUtilCore.findModuleForPsiElement(originalFile);
+      Collection<? extends GoPackage> packages =
+        GoImportResolver.resolveByExtensions(importString.getPath(), importString.getProject(), module, null);
+      if (packages != null) {
+        return Collections.unmodifiableCollection(packages);
+      }
+    }
+    return GoPackage.allIn(resolve(importString));
   }
 
   public static PsiReference getReference(GoTypeReferenceExpression o) {

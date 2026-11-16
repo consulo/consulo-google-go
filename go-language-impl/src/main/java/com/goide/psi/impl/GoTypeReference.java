@@ -93,13 +93,10 @@ public class GoTypeReference extends GoReferenceBase<GoTypeReferenceExpression> 
                                              ResolveState state) {
     PsiElement target = qualifier.resolve();
     if (target == null || target == qualifier) return false;
-    if (target instanceof GoImportSpec) {
-      if (((GoImportSpec)target).isCImport()) return processor.execute(myElement, state);
-      target = ((GoImportSpec)target).getImportString().resolve();
+    if (target instanceof GoImportSpec && ((GoImportSpec)target).isCImport()) {
+      return processor.execute(myElement, state);
     }
-    if (target instanceof PsiDirectory) {
-      processDirectory((PsiDirectory)target, file, null, processor, state, false);
-    }
+    processImportedPackage(target, file, qualifier.getIdentifier().getText(), processor, state);
     return false;
   }
 
@@ -112,8 +109,7 @@ public class GoTypeReference extends GoReferenceBase<GoTypeReferenceExpression> 
     Collection<? extends GoNamedElement> result = delegate.getVariants();
     if (!processNamedElements(processor, state, result, localResolve)) return false;
     if (!processFileEntities(file, processor, state, localResolve)) return false;
-    PsiDirectory dir = file.getOriginalFile().getParent();
-    if (!processDirectory(dir, file, file.getPackageName(), processor, state, true)) return false;
+    if (!processSamePackage(file, processor, state)) return false;
     if (PsiTreeUtil.getParentOfType(getElement(), GoReceiver.class) != null) return true;
     if (!processImports(file, processor, state, myElement)) return false;
     if (!processBuiltin(processor, state, myElement)) return false;

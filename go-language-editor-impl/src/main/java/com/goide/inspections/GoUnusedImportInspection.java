@@ -21,6 +21,7 @@ import com.goide.psi.GoFile;
 import com.goide.psi.GoImportSpec;
 import com.goide.psi.GoRecursiveVisitor;
 import com.goide.psi.impl.GoElementFactory;
+import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.quickfix.GoRenameQuickFix;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.application.ApplicationManager;
@@ -127,7 +128,8 @@ public class GoUnusedImportInspection extends GoInspectionBase {
     Set<GoImportSpec> unusedImportSpecs = new HashSet<>(unusedImportsMap.values());
     for (PsiElement importEntry : unusedImportSpecs) {
       GoImportSpec spec = GoImportOptimizer.getImportSpec(importEntry);
-      if (spec != null && spec.getImportString().resolve() != null) {
+      if (spec != null
+          && (spec.getImportString().resolve() != null || !GoPsiImplUtil.resolvePackages(spec.getImportString()).isEmpty())) {
         problemsHolder.registerProblem(spec, "Unused import", ProblemHighlightType.GENERIC_ERROR, OPTIMIZE_QUICK_FIX,
                                        IMPORT_FOR_SIDE_EFFECTS_QUICK_FIX);
       }

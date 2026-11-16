@@ -19,6 +19,7 @@ package com.goide.psi;
 import com.goide.GoFileType;
 import com.goide.GoLanguage;
 import com.goide.GoTypes;
+import com.goide.psi.impl.GoPackage;
 import com.goide.psi.impl.GoPsiImplUtil;
 import com.goide.stubs.GoConstSpecStub;
 import com.goide.stubs.GoFileStub;
@@ -34,7 +35,6 @@ import consulo.language.ast.IElementType;
 import consulo.language.file.FileViewProvider;
 import consulo.language.impl.psi.PsiFileBase;
 import consulo.language.psi.PsiComment;
-import consulo.language.psi.PsiDirectory;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiWhiteSpace;
 import consulo.language.psi.scope.GlobalSearchScope;
@@ -195,10 +195,12 @@ public class GoFile extends PsiFileBase {
           continue;
         }
         GoImportString string = spec.getImportString();
-        PsiDirectory dir = string.resolve();
+        Collection<GoPackage> packages = GoPsiImplUtil.resolvePackages(string);
         // todo[zolotov]: implement package modification tracker
-        ContainerUtil.addIfNotNull(dependencies, dir);
-        Collection<String> packagesInDirectory = GoPackageUtil.getAllPackagesInDirectory(dir, module, true);
+        for (GoPackage goPackage : packages) {
+          ContainerUtil.addAll(dependencies, goPackage.getDirectories());
+        }
+        Collection<String> packagesInDirectory = GoPackageUtil.getAllPackageNames(packages, module, true);
         if (!packagesInDirectory.isEmpty()) {
           for (String packageNames : packagesInDirectory) {
             if (!StringUtil.isEmpty(packageNames)) {
